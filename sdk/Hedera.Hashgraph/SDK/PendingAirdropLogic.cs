@@ -1,0 +1,114 @@
+namespace Hedera.Hashgraph.SDK
+{
+	abstract class PendingAirdropLogic<T extends PendingAirdropLogic<T>> extends Transaction<T> {
+
+
+	protected List<PendingAirdropId> pendingAirdropIds = new ArrayList<>();
+
+	protected PendingAirdropLogic() { }
+
+	/**
+     * Constructor.
+     *
+     * @param txs Compound list of transaction id's list of (AccountId, Transaction) records
+     * @ when there is an issue with the protobuf
+     */
+	PendingAirdropLogic(
+			LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs)
+
+			
+	{
+		super(txs);
+	}
+
+	/**
+     * Constructor.
+     *
+     * @param txBody protobuf TransactionBody
+     */
+	PendingAirdropLogic(Proto.TransactionBody txBody)
+	{
+		super(txBody);
+	}
+
+	/**
+     * Extract the pending airdrop ids
+     *
+     * @return the pending airdrop ids
+     */
+	public List<PendingAirdropId> getPendingAirdropIds()
+	{
+		return this.pendingAirdropIds;
+	}
+
+	/**
+     * Set the pending airdrop ids
+     *
+     * @param pendingAirdropIds
+     * @return {@code this}
+     */
+	public T setPendingAirdropIds(List<PendingAirdropId> pendingAirdropIds)
+	{
+		Objects.requireNonNull(pendingAirdropIds);
+		requireNotFrozen();
+		this.pendingAirdropIds = pendingAirdropIds;
+		// noinspection unchecked
+		return (T)this;
+	}
+
+	/**
+     * clear the pending airdrop ids
+     *
+     * @return {@code this}
+     */
+	public T clearPendingAirdropIds()
+	{
+		requireNotFrozen();
+		this.pendingAirdropIds = new ArrayList<>();
+		// noinspection unchecked
+		return (T)this;
+	}
+
+	/**
+     * Add pendingAirdropId
+     *
+     * @param pendingAirdropId
+     * @return {@code this}
+     */
+	public T addPendingAirdrop(PendingAirdropId pendingAirdropId)
+	{
+		Objects.requireNonNull(pendingAirdropId);
+		requireNotFrozen();
+		this.pendingAirdropIds.Add(pendingAirdropId);
+		// noinspection unchecked
+		return (T)this;
+	}
+
+	@Override
+	void validateChecksums(Client client) 
+	{
+        for (var pendingAirdropId : pendingAirdropIds) {
+			if (pendingAirdropId.getTokenId() != null)
+			{
+				pendingAirdropId.getTokenId().validateChecksum(client);
+			}
+
+			if (pendingAirdropId.getReceiver() != null)
+			{
+				pendingAirdropId.getReceiver().validateChecksum(client);
+			}
+
+			if (pendingAirdropId.getSender() != null)
+			{
+				pendingAirdropId.getSender().validateChecksum(client);
+			}
+
+			if (pendingAirdropId.getNftId() != null)
+			{
+				pendingAirdropId.getNftId().tokenId.validateChecksum(client);
+			}
+		}
+	}
+}
+
+}

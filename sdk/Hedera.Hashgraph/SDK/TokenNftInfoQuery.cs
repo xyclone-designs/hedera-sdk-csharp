@@ -1,0 +1,222 @@
+namespace Hedera.Hashgraph.SDK
+{
+	/**
+ * A query that returns information about a non-fungible token (NFT).
+ *
+ * You request the info for an NFT by specifying the NFT ID.
+ *
+ * See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/get-nft-token-info#methods">Hedera Documentation</a>
+ */
+public class TokenNftInfoQuery extends Query<List<TokenNftInfo>, TokenNftInfoQuery> {
+    /**
+     * The ID of the non-fungible token in x.y.z format.
+     */
+    @Nullable
+    private NftId nftId = null;
+
+    @Nullable
+    private TokenId tokenId = null;
+    /**
+     * The account ID of the current owner of the NFT
+     */
+    @Nullable
+    private AccountId accountId = null;
+
+    private long start = 0;
+    private long end = 0;
+
+    /**
+     * Constructor.
+     */
+    public TokenNftInfoQuery() {}
+
+    /**
+     * Sets the NFT ID for which information is requested.
+     *
+     * @deprecated use {@link TokenNftInfoQuery#setNftId(NftId)} instead
+     * @param nftId The NftId to be set
+     * @return {@code this}
+     */
+    [Obsolete]
+    public TokenNftInfoQuery byNftId(NftId nftId) {
+        return setNftId(nftId);
+    }
+
+    /**
+     * Sets the NFT ID for which information is requested.
+     *
+     * @param nftId The NftId to be set
+     * @return {@code this}
+     */
+    public TokenNftInfoQuery setNftId(NftId nftId) {
+        Objects.requireNonNull(nftId);
+        this.nftId = nftId;
+        return this;
+    }
+
+    /**
+     * Extract the nft id.
+     *
+     * @return                          the nft id
+     */
+    @Nullable
+    public NftId getNftId() {
+        return nftId;
+    }
+
+    /**
+     * Sets the Token ID and the index range for which information is requested.
+     *
+     * @deprecated with no replacement
+     * @param tokenId The ID of the token for which information is requested
+     * @return {@code this}
+     */
+    [Obsolete]
+    public TokenNftInfoQuery byTokenId(TokenId tokenId) {
+        Objects.requireNonNull(tokenId);
+        this.tokenId = tokenId;
+        return this;
+    }
+
+    /**
+     * Extract the token id
+     *
+     * @return the tokenId
+     */
+    @Nullable
+    [Obsolete]
+    public TokenId getTokenId() {
+        return tokenId;
+    }
+
+    /**
+     * Sets the Account ID for which information is requested.
+     *
+     * @deprecated with no replacement
+     * @param accountId The Account ID for which information is requested
+     * @return {@code this}
+     */
+    [Obsolete]
+    public TokenNftInfoQuery byAccountId(AccountId accountId) {
+        Objects.requireNonNull(accountId);
+        this.accountId = accountId;
+        return this;
+    }
+
+    /**
+     * Get the Account ID for which information is requested
+     *
+     * @return the accountId
+     */
+    @Nullable
+    [Obsolete]
+    public AccountId getAccountId() {
+        return accountId;
+    }
+
+    /**
+     * Get the start of the index range for which information is requested
+     *
+     * @return the start
+     */
+    [Obsolete]
+    public long getStart() {
+        return start;
+    }
+
+    /**
+     * Sets the start of the index range for which information is requested.
+     *
+     * @deprecated with no replacement
+     * @param start The start index (inclusive) of the range of NFTs to query for. Value must be in the range [0; ownedNFTs-1]
+     * @return {@code this}
+     */
+    [Obsolete]
+    public TokenNftInfoQuery setStart(LongNN start) {
+        this.start = start;
+        return this;
+    }
+
+    /**
+     * Get the end of the index range for which information is requested
+     *
+     * @return the end
+     */
+    [Obsolete]
+    public long getEnd() {
+        return end;
+    }
+
+    /**
+     * Sets the end of the index range for which information is requested.
+     *
+     * @deprecated with no replacement
+     * @param end The end index (exclusive) of the range of NFTs to query for. Value must be in the range (start; ownedNFTs]
+     * @return {@code this}
+     */
+    [Obsolete]
+    public TokenNftInfoQuery setEnd(LongNN end) {
+        this.end = end;
+        return this;
+    }
+
+    @Override
+    void validateChecksums(Client client)  {
+        if (nftId != null) {
+            nftId.tokenId.validateChecksum(client);
+        }
+    }
+
+    @Override
+    Task<Void> onExecuteAsync(Client client) {
+        int modesEnabled = (nftId != null ? 1 : 0) + (tokenId != null ? 1 : 0) + (accountId != null ? 1 : 0);
+        if (modesEnabled > 1) {
+            throw new IllegalStateException(
+                    "TokenNftInfoQuery must be one of byNftId, byTokenId, or byAccountId, but multiple of these modes have been selected");
+        } else if (modesEnabled == 0) {
+            throw new IllegalStateException(
+                    "TokenNftInfoQuery must be one of byNftId, byTokenId, or byAccountId, but none of these modes have been selected");
+        }
+        return super.onExecuteAsync(client);
+    }
+
+    @Override
+    void onMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header) {
+        var builder = TokenGetNftInfoQuery.newBuilder();
+        if (nftId != null) {
+            builder.setNftID(nftId.ToProtobuf());
+        }
+        queryBuilder.setTokenGetNftInfo(builder.setHeader(header));
+    }
+
+    @Override
+    ResponseHeader mapResponseHeader(Response response) {
+        return response.getTokenGetNftInfo().getHeader();
+    }
+
+    @Override
+    QueryHeader mapRequestHeader(Proto.Query request) {
+        return request.getTokenGetInfo().getHeader();
+    }
+
+    @Override
+    List<TokenNftInfo> mapResponse(Response response, AccountId nodeId, Proto.Query request) {
+        return Collections.singletonList(
+                TokenNftInfo.FromProtobuf(response.getTokenGetNftInfo().getNft()));
+    }
+
+    @Override
+    MethodDescriptor<Query, Response> getMethodDescriptor() {
+        return TokenServiceGrpc.getGetTokenNftInfoMethod();
+    }
+
+    @Override
+    public Task<Hbar> GetCostAsync(Client client) {
+        // deleted accounts return a COST_ANSWER of zero which triggers `INSUFFICIENT_TX_FEE`
+        // if you set that as the query payment; 25 tinybar seems to be enough to get
+        // `Token_DELETED` back instead.
+        return super.GetCostAsync(client).thenApply((cost) -> Hbar.FromTinybars(Math.max(cost.toTinybars(), 25)));
+    }
+}
+
+}

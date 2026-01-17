@@ -1,0 +1,405 @@
+namespace Hedera.Hashgraph.SDK
+{
+	/**
+ * Internal utility class.
+ *
+ * @param <N>                           the n type
+ * @param <KeyT>                        the key t type
+ */
+	abstract class BaseNode<N, KeyT> where N : BaseNode<N, KeyT>
+	{
+		private static readonly int GET_STATE_INTERVAL_MILLIS = 50;
+		private static readonly int GET_STATE_TIMEOUT_MILLIS = 10000;
+		private static readonly int GET_STATE_MAX_ATTEMPTS = GET_STATE_TIMEOUT_MILLIS / GET_STATE_INTERVAL_MILLIS;
+		private bool hasConnected = false;
+
+		protected readonly ExecutorService executor;
+
+		/**
+		 * Address of this node
+		 */
+		protected readonly BaseNodeAddress address;
+
+		/**
+		 * Timestamp of when this node will be considered healthy again
+		 */
+		protected DateTimeOffset readmitTime;
+
+		/**
+		 * The current backoff duration. Uses exponential backoff so think 1s, 2s, 4s, 8s, etc until maxBackoff is hit
+		 */
+		protected Duration currentBackoff;
+
+		/**
+		 * Minimum backoff used by node when receiving a bad gRPC status
+		 */
+		protected Duration minBackoff;
+
+		/**
+		 * Maximum backoff used by node when receiving a bad gRPC status
+		 */
+		protected Duration maxBackoff;
+
+		/**
+		 * Number of times this node has received a bad gRPC status
+		 */
+		protected long badGrpcStatusCount;
+
+		@Nullable
+		protected ManagedChannel channel = null;
+
+		/**
+		 * Constructor.
+		 *
+		 * @param address                   the node address
+		 * @param executor                  the client
+		 */
+		protected BaseNode(BaseNodeAddress address, ExecutorService executor)
+		{
+			this.executor = executor;
+			this.Address = address;
+			this.currentBackoff = Client.DEFAULT_MIN_NODE_BACKOFF;
+			this.minBackoff = Client.DEFAULT_MIN_NODE_BACKOFF;
+			this.maxBackoff = Client.DEFAULT_MAX_NODE_BACKOFF;
+			this.readmitTime = DateTimeOffset.EPOCH;
+		}
+
+		/**
+		 * Constructor.
+		 *
+		 * @param node                      the node object
+		 * @param address                   the address to assign
+		 */
+		protected BaseNode(N node, BaseNodeAddress address)
+		{
+			this.Address = address;
+
+			this.executor = node.executor;
+			this.minBackoff = node.minBackoff;
+			this.maxBackoff = node.maxBackoff;
+			this.readmitTime = node.readmitTime;
+			this.currentBackoff = node.currentBackoff;
+			this.badGrpcStatusCount = node.badGrpcStatusCount;
+		}
+
+		/**
+		 * Return the local host ip address
+		 *
+		 * @return                          the authority address
+		 */
+		protected string getAuthority()
+		{
+			return "127.0.0.1";
+		}
+
+		/**
+		 * Extract the key list
+		 *
+		 * @return                          the key list
+		 */
+		abstract KeyT getKey();
+
+		/**
+		 * Get the address of this node
+		 *
+		 * @return                          the address for the node
+		 */
+		BaseNodeAddress getAddress()
+		{
+			return address;
+		}
+
+		/**
+		 * Get the minimum backoff time
+		 *
+		 * @return                          the minimum backoff time
+		 */
+		synchronized Duration getMinBackoff()
+		{
+			return minBackoff;
+		}
+
+		/**
+		 * Set the minimum backoff tim
+		 *
+		 * @param minBackoff                the minimum backoff time
+		 * @return {@code this}
+		 */
+		synchronized N setMinBackoff(Duration minBackoff)
+		{
+			if (currentBackoff == this.minBackoff)
+			{
+				currentBackoff = minBackoff;
+			}
+			this.minBackoff = minBackoff;
+
+			// noinspection unchecked
+			return (N)this;
+		}
+
+		/**
+		 * Get the maximum backoff time
+		 *
+		 * @return                          the maximum backoff time
+		 */
+		Duration getMaxBackoff()
+		{
+			return maxBackoff;
+		}
+
+		/**
+		 * Set the maximum backoff time
+		 *
+		 * @param maxBackoff                the max backoff time
+		 * @return {@code this}
+		 */
+		N setMaxBackoff(Duration maxBackoff)
+		{
+			this.maxBackoff = maxBackoff;
+
+			// noinspection unchecked
+			return (N)this;
+		}
+
+		/**
+		 * Get the number of times this node has received a bad gRPC status
+		 *
+		 * @return                          the count of bad grpc status
+		 */
+		long getBadGrpcStatusCount()
+		{
+			return badGrpcStatusCount;
+		}
+
+		/**
+		 * Extract the unhealthy backoff time remaining.
+		 *
+		 * @return                          the unhealthy backoff time remaining
+		 */
+		long unhealthyBackoffRemaining()
+		{
+			return Math.max(0, readmitTime.toEpochMilli() - System.currentTimeMillis());
+		}
+
+		/**
+		 * Determines if this is node is healthy.
+		 * Healthy means the node has either not received any bad gRPC statuses, or if it has received bad gRPC status then
+		 * the node backed off for a period of time.
+		 *
+		 * @return                          is the node healthy
+		 */
+		bool isHealthy()
+		{
+			return readmitTime.toEpochMilli() < DateTimeOffset.now().toEpochMilli();
+		}
+
+		/**
+		 * Used when a node has received a bad gRPC status
+		 */
+		synchronized void increaseBackoff()
+		{
+			this.badGrpcStatusCount++;
+			this.readmitTime = DateTimeOffset.now().plus(this.currentBackoff);
+			this.currentBackoff = currentBackoff.multipliedBy(2);
+			this.currentBackoff = currentBackoff.compareTo(maxBackoff) < 0 ? currentBackoff : maxBackoff;
+		}
+
+		/**
+		 * Used when a node has not received a bad gRPC status.
+		 * This means on each request that doesn't get a bad gRPC status the current backoff will be lowered. The point of
+		 * this is to allow a node which has been performing poorly (receiving several bad gRPC status) to become used again
+		 * once it stops receiving bad gRPC statuses.
+		 */
+		synchronized void decreaseBackoff()
+		{
+			this.currentBackoff = currentBackoff.dividedBy(2);
+			this.currentBackoff = currentBackoff.compareTo(minBackoff) > 0 ? currentBackoff : minBackoff;
+		}
+
+		/**
+		 * Get the amount of time the node has to wait until it's healthy again
+		 *
+		 * @return                          remaining back off time
+		 */
+		long getRemainingTimeForBackoff()
+		{
+			return readmitTime.toEpochMilli() - System.currentTimeMillis();
+		}
+
+		/**
+		 * Create TLS credentials when transport security is enabled
+		 *
+		 * @return                          the channel credentials
+		 */
+		ChannelCredentials getChannelCredentials()
+		{
+			return TlsChannelCredentials.create();
+		}
+
+		/**
+		 * Get the gRPC channel for this node
+		 *
+		 * @return                          the channel
+		 */
+		synchronized ManagedChannel getChannel()
+		{
+			if (channel != null)
+			{
+				return channel;
+			}
+
+			ManagedChannelBuilder <?> channelBuilder;
+
+			if (address.isInProcess())
+			{
+				channelBuilder = InProcessChannelBuilder.forName(Objects.requireNonNull(address.getName()));
+			}
+			else if (address.isTransportSecurity())
+			{
+				channelBuilder = Grpc.newChannelBuilder(address.toString(), getChannelCredentials());
+
+				string authority = getAuthority();
+				if (authority != null)
+				{
+					channelBuilder = channelBuilder.overrideAuthority(authority);
+				}
+			}
+			else
+			{
+				channelBuilder = ManagedChannelBuilder.forTarget(address.toString()).usePlaintext();
+			}
+
+			channel = channelBuilder
+					.keepAliveTimeout(10, TimeUnit.SECONDS)
+					.keepAliveWithoutCalls(true)
+					.intercept(new MetadataInterceptor())
+					.enableRetry()
+					.executor(executor)
+					.build();
+
+			return channel;
+		}
+
+		/**
+		 * Did we fail to connect?
+		 *
+		 * @return                          did we fail to connect
+		 */
+		bool channelFailedToConnect()
+		{
+			return channelFailedToConnect(DateTimeOffset.MAX);
+		}
+
+		bool channelFailedToConnect(DateTimeOffset timeoutTime)
+		{
+			if (hasConnected)
+			{
+				return false;
+			}
+			hasConnected = (getChannel().getState(true) == ConnectivityState.READY);
+			try
+			{
+				for (int i = 0; i < GET_STATE_MAX_ATTEMPTS && !hasConnected; i++)
+				{
+					Duration currentTimeout = Duration.between(DateTimeOffset.now(), timeoutTime);
+					if (currentTimeout.isNegative() || currentTimeout.isZero())
+					{
+						return false;
+					}
+					TimeUnit.MILLISECONDS.sleep(GET_STATE_INTERVAL_MILLIS);
+					hasConnected = (getChannel().getState(true) == ConnectivityState.READY);
+				}
+			}
+			catch (InterruptedException e)
+			{
+				throw new RuntimeException(e);
+			}
+			return !hasConnected;
+		}
+
+		private Task<Boolean> channelFailedToConnectAsync(int i, ConnectivityState state)
+		{
+			hasConnected = (state == ConnectivityState.READY);
+			if (i >= GET_STATE_MAX_ATTEMPTS || hasConnected)
+			{
+				return Task.completedFuture(!hasConnected);
+			}
+			return Delayer.delayFor(GET_STATE_INTERVAL_MILLIS, executor).thenCompose(ignored-> {
+				return channelFailedToConnectAsync(i + 1, getChannel().getState(true));
+			});
+		}
+
+		/**
+		 * Asynchronously determine if the channel failed to connect.
+		 *
+		 * @return                          did we fail to connect
+		 */
+		Task<Boolean> channelFailedToConnectAsync()
+		{
+			if (hasConnected)
+			{
+				return Task.completedFuture(false);
+			}
+			return channelFailedToConnectAsync(0, getChannel().getState(true));
+		}
+
+		/**
+		 * Close the current nodes channel
+		 *
+		 * @param timeout                   the timeout value
+		 * @     thrown when a thread is interrupted while it's waiting, sleeping, or otherwise occupied
+		 */
+		synchronized void close(Duration timeout) 
+		{
+			if (channel != null) {
+				channel.shutdown();
+				channel.awaitTermination(timeout.getSeconds(), TimeUnit.SECONDS);
+				channel = null;
+			}
+		}
+
+		/**
+		 * Metadata interceptor for the client.
+		 * This interceptor adds the user agent header to the request.
+		 */
+		class MetadataInterceptor : ClientInterceptor
+		{
+
+			private readonly Metadata metadata;
+
+			public MetadataInterceptor()
+		{
+			metadata = new Metadata();
+			Metadata.Key<string> authKey = Metadata.Key.of("x-user-agent", Metadata.ASCII_STRING_MARSHALLER);
+			metadata.put(authKey, getUserAgent());
+		}
+
+			public override ClientCall<ReqT, RespT> InterceptCall<ReqT, RespT>(MethodDescriptor<ReqT, RespT> method, CallOptions callOptions, Channel next)
+			{
+				ClientCall<ReqT, RespT> call = next.newCall(method, callOptions);
+				return new ForwardingClientCall.SimpleForwardingClientCall<>(call) 
+				{
+					@Override
+
+					public override void start(Listener<RespT> responseListener, Metadata headers)
+					{
+						headers.merge(metadata);
+						super.start(responseListener, headers);
+					}
+				};
+			}
+
+			/**
+			 * Extract the user agent. This information is used to gather usage metrics.
+			 * If the version is not available, the user agent will be set to "hiero-sdk-java/DEV".
+			 */
+			private string getUserAgent()
+			{
+				var thePackage = GetType().Assembly;
+				var implementationVersion = thePackage != null ? thePackage.getImplementationVersion() : null;
+				return "hiero-sdk-java/" + ((implementationVersion != null) ? (implementationVersion) : "DEV");
+			}
+		}
+	}
+
+}

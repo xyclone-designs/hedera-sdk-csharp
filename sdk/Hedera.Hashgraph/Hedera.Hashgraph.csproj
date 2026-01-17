@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.33.4" />
+    <PackageReference Include="Grpc" Version="2.46.6" />
+    <PackageReference Include="Grpc.Tools" Version="2.76.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos/*.proto" ProtoRoot="Protos" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SDK\Copy\**" />
+    <EmbeddedResource Remove="SDK\Copy\**" />
+    <None Remove="SDK\Copy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="SDK\HookCreationDetails.cs~RF32835255.TMP" />
+  </ItemGroup>
+
+</Project>

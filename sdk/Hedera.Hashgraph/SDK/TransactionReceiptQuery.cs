@@ -1,0 +1,221 @@
+using System.Net.NetworkInformation;
+using System.Transactions;
+
+namespace Hedera.Hashgraph.SDK
+{
+	/**
+ * Get the receipt of a transaction, given its transaction ID.
+ *
+ * <p>Once a transaction reaches consensus, then information about whether it succeeded or failed
+ * will be available until the end of the receipt period.
+ *
+ * <p>This query is free.
+ */
+	public sealed class TransactionReceiptQuery extends Query<TransactionReceipt, TransactionReceiptQuery> {
+
+		@Nullable
+
+	private TransactionId transactionId = null;
+
+	private bool includeChildren = false;
+	private bool includeDuplicates = false;
+
+	/**
+     * Constructor.
+     */
+	public TransactionReceiptQuery() { }
+
+	/**
+     * Extract the transaction id.
+     *
+     * @return                          the transaction id
+     */
+	@Override
+	@Nullable
+
+	public TransactionId getTransactionIdInternal()
+	{
+		return transactionId;
+	}
+
+	/**
+     * Set the ID of the transaction for which the receipt is being requested.
+     *
+     * @param transactionId The TransactionId to be set
+     * @return {@code this}
+     */
+	public TransactionReceiptQuery setTransactionId(TransactionId transactionId)
+	{
+		Objects.requireNonNull(transactionId);
+		this.transactionId = transactionId;
+		return this;
+	}
+
+	/**
+     * Should the children be included?
+     *
+     * @return                          should children be included
+     */
+	public bool getIncludeChildren()
+	{
+		return includeChildren;
+	}
+
+	/**
+     * Whether the response should include the records of any child transactions spawned by the
+     * top-level transaction with the given transactionID.
+     *
+     * @param value The value that includeChildren should be set to; true to include children, false to exclude
+     * @return {@code this}
+     */
+	public TransactionReceiptQuery setIncludeChildren(bool value)
+	{
+		includeChildren = value;
+		return this;
+	}
+
+	/**
+     * Should duplicates be included?
+     *
+     * @return                          should duplicates be included
+     */
+	public bool getIncludeDuplicates()
+	{
+		return includeDuplicates;
+	}
+
+	/**
+     * Whether records of processing duplicate transactions should be returned along with the record
+     * of processing the first consensus transaction with the given id whose status was neither
+     * INVALID_NODE_ACCOUNT nor INVALID_PAYER_SIGNATURE or, if no such
+     * record exists, the record of processing the first transaction to reach consensus with the
+     * given transaction id.
+     *
+     * @param value The value that includeDuplicates should be set to; true to include duplicates, false to exclude
+     * @return {@code this}
+     */
+	public TransactionReceiptQuery setIncludeDuplicates(bool value)
+	{
+		includeDuplicates = value;
+		return this;
+	}
+
+	@Override
+	bool isPaymentRequired()
+	{
+		return false;
+	}
+
+	@Override
+	void validateChecksums(Client client) 
+	{
+        if (transactionId != null) {
+			Objects.requireNonNull(transactionId.accountId).validateChecksum(client);
+		}
+	}
+
+	@Override
+	void onMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+	{
+		var builder = TransactionGetReceiptQuery.newBuilder()
+				.setIncludeChildReceipts(includeChildren)
+				.setIncludeDuplicates(includeDuplicates);
+		if (transactionId != null)
+		{
+			builder.setTransactionID(transactionId.ToProtobuf());
+		}
+
+		queryBuilder.setTransactionGetReceipt(builder.setHeader(header));
+	}
+
+	@Override
+	Status mapResponseStatus(Response response)
+	{
+		var preCheckCode = response.getTransactionGetReceipt().getHeader().getNodeTransactionPrecheckCode();
+
+		return Status.valueOf(preCheckCode);
+	}
+
+	@Override
+	TransactionReceipt mapResponse(Response response, AccountId nodeId, Proto.Query request)
+	{
+		var receiptResponse = response.getTransactionGetReceipt();
+		var duplicates = mapReceiptList(receiptResponse.getDuplicateTransactionReceiptsList());
+		var children = mapReceiptList(receiptResponse.getChildTransactionReceiptsList());
+		return TransactionReceipt.FromProtobuf(
+				response.getTransactionGetReceipt().getReceipt(), duplicates, children, transactionId);
+	}
+
+	/**
+     * Create a list of transaction receipts from a protobuf.
+     *
+     * @param protoReceiptList          the protobuf
+     * @return                          the list of transaction receipts
+     */
+	private static List<TransactionReceipt> mapReceiptList(
+			List<Proto.TransactionReceipt> protoReceiptList)
+	{
+		List<TransactionReceipt> outList = new ArrayList<>(protoReceiptList.size());
+		for (var protoReceipt : protoReceiptList)
+		{
+			outList.Add(TransactionReceipt.FromProtobuf(protoReceipt));
+		}
+		return outList;
+	}
+
+	@Override
+	QueryHeader mapRequestHeader(Proto.Query request)
+	{
+		return request.getTransactionGetReceipt().getHeader();
+	}
+
+	@Override
+	ResponseHeader mapResponseHeader(Response response)
+	{
+		return response.getTransactionGetReceipt().getHeader();
+	}
+
+	@Override
+	MethodDescriptor<Proto.Query, Response> getMethodDescriptor() {
+		return CryptoServiceGrpc.getGetTransactionReceiptsMethod();
+	}
+
+	@Override
+	ExecutionState getExecutionState(Status status, Response response)
+	{
+		switch (status)
+		{
+			case BUSY:
+			case UNKNOWN:
+			case RECEIPT_NOT_FOUND:
+			case RECORD_NOT_FOUND:
+			case PLATFORM_NOT_ACTIVE:
+				return ExecutionState.RETRY;
+
+			case OK:
+				break;
+
+			default:
+				return ExecutionState.REQUEST_ERROR;
+		}
+
+		var receiptStatus =
+				Status.valueOf(response.getTransactionGetReceipt().getReceipt().getStatus());
+
+		switch (receiptStatus)
+		{
+			case BUSY:
+			case UNKNOWN:
+			case OK:
+			case RECEIPT_NOT_FOUND:
+			case RECORD_NOT_FOUND:
+			case PLATFORM_NOT_ACTIVE:
+				return ExecutionState.RETRY;
+
+			default:
+				return ExecutionState.SUCCESS;
+		}
+	}
+}
+
+}
