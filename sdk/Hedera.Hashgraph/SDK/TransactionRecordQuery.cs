@@ -258,7 +258,7 @@ namespace Hedera.Hashgraph.SDK
 			return true;
 		}
 
-		if (!(o instanceof TopicId)) {
+		if (!(o is TopicId)) {
 			return false;
 		}
 

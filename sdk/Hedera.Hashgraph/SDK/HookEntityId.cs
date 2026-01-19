@@ -1,3 +1,5 @@
+using System;
+
 namespace Hedera.Hashgraph.SDK
 {
 	/**
@@ -41,16 +43,13 @@ namespace Hedera.Hashgraph.SDK
          *
          * @return the protobuf HookEntityId
          */
-        Proto.HookEntityId ToProtobuf() {
-            var builder = Proto.HookEntityId.newBuilder();
+        public Proto.HookEntityId ToProtobuf() {
+			Proto.HookEntityId protobuf = new ();
 
-            if (accountId != null) {
-                builder.setAccountId(accountId.ToProtobuf());
-            } else {
-                builder.setContractId(contractId.ToProtobuf());
-            }
+            if (AccountId != null) protobuf.AccountId = AccountId.ToProtobuf();
+			if (ContractId != null) protobuf.ContractId = ContractId.ToProtobuf();
 
-            return builder.build();
+			return protobuf;
         }
 
         /**
@@ -59,14 +58,14 @@ namespace Hedera.Hashgraph.SDK
          * @param proto the protobuf HookEntityId
          * @return a new HookEntityId instance
          */
-        static HookEntityId FromProtobuf(Proto.HookEntityId proto) 
+        public static HookEntityId FromProtobuf(Proto.HookEntityId proto) 
         {
-            return proto.HasAccountId()
-                ? new HookEntityId(AccountId.FromProtobuf(proto.getAccountId())
-                : new HookEntityId(ContractId.FromProtobuf(proto.getContractId()));
+            return proto.AccountId is not null
+                ? new HookEntityId(AccountId.FromProtobuf(proto.AccountId))
+                : new HookEntityId(ContractId.FromProtobuf(proto.ContractId));
         }
 
-        public override bool Equals(object obj) 
+        public override bool Equals(object? obj) 
         {
             if (this == obj) return true;
             if (obj == null || GetType() != obj.GetType()) return false;
@@ -81,13 +80,5 @@ namespace Hedera.Hashgraph.SDK
         {
 			return HashCode.Combine(AccountId, ContractId);
 		}
-        public override string ToString() {
-            return MoreObjects
-                .ToStringHelper(this)
-                    .Add("accountId", AccountId)
-                    .Add("contractId", ContractId)
-                    .ToString();
-        }
     }
-
 }

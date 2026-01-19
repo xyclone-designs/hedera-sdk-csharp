@@ -21,7 +21,7 @@ public class AccountInfoFlow {
     }
 
     private static PublicKey requirePublicKey(AccountId accountId, Key key) {
-        if (key instanceof PublicKey k) {
+        if (key is PublicKey k) {
             return k;
         }
         throw new UnsupportedOperationException("Account " + accountId + " has a KeyList key, which is not supported");

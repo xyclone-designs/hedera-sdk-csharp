@@ -1,22 +1,26 @@
+using System;
+using System.Threading.Tasks;
+
 namespace Hedera.Hashgraph.SDK
 {
-	class ConsumerHelper
+	internal class ConsumerHelper
 	{
-		static <T> void biConsumer(Task<T> future, BiConsumer<T, Throwable> consumer)
+		internal static void BiConsumer<T>(Task<T> future, Action<T, Exception?> consumer)
 		{
-			future.whenComplete(consumer);
+			future.ContinueWith(async _ => consumer.Invoke(await _, _.Exception));
 		}
 
-		static <T> void twoConsumers(Task<T> future, Consumer<T> onSuccess, Consumer<Throwable> onFailure)
+		internal static void TwoConsumers<T>(Task<T> future, Action<T> onSuccess, Action<Exception> onFailure)
 		{
-			future.whenComplete((output, error)-> {
-				if (error != null)
+			future.ContinueWith(async _ => 
+			{
+				if (_.Exception != null)
 				{
-					onFailure.accept(error);
+					onFailure.Invoke(_.Exception);
 				}
 				else
 				{
-					onSuccess.accept(output);
+					onSuccess.Invoke(await _);
 				}
 			});
 		}

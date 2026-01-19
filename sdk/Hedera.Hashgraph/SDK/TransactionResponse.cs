@@ -236,7 +236,7 @@ public Task<TransactionReceipt> getReceiptAsync(Client client, Duration timeout)
  * @param client   The client with which this will be executed.
  * @param callback a BiConsumer which handles the result or error.
  */
-public void getReceiptAsync(Client client, BiConsumer<TransactionReceipt, Throwable> callback)
+public void getReceiptAsync(Client client, Action<TransactionReceipt, Exception> callback)
 {
 	ConsumerHelper.biConsumer(getReceiptAsync(client), callback);
 }
@@ -248,7 +248,7 @@ public void getReceiptAsync(Client client, BiConsumer<TransactionReceipt, Throwa
  * @param timeout  The timeout after which the execution attempt will be cancelled.
  * @param callback a BiConsumer which handles the result or error.
  */
-public void getReceiptAsync(Client client, Duration timeout, BiConsumer<TransactionReceipt, Throwable> callback)
+public void getReceiptAsync(Client client, Duration timeout, Action<TransactionReceipt, Exception> callback)
 {
 	ConsumerHelper.biConsumer(getReceiptAsync(client, timeout), callback);
 }
@@ -260,7 +260,7 @@ public void getReceiptAsync(Client client, Duration timeout, BiConsumer<Transact
  * @param onSuccess a Consumer which consumes the result on success.
  * @param onFailure a Consumer which consumes the error on failure.
  */
-public void getReceiptAsync(Client client, Consumer<TransactionReceipt> onSuccess, Consumer<Throwable> onFailure)
+public void getReceiptAsync(Client client, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
 {
 	ConsumerHelper.twoConsumers(getReceiptAsync(client), onSuccess, onFailure);
 }
@@ -274,7 +274,7 @@ public void getReceiptAsync(Client client, Consumer<TransactionReceipt> onSucces
  * @param onFailure a Consumer which consumes the error on failure.
  */
 public void getReceiptAsync(
-		Client client, Duration timeout, Consumer<TransactionReceipt> onSuccess, Consumer<Throwable> onFailure)
+		Client client, Duration timeout, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
 {
 	ConsumerHelper.twoConsumers(getReceiptAsync(client, timeout), onSuccess, onFailure);
 }
@@ -353,7 +353,7 @@ public Task<TransactionRecord> getRecordAsync(Client client, Duration timeout)
  * @param client   The client with which this will be executed.
  * @param callback a BiConsumer which handles the result or error.
  */
-public void getRecordAsync(Client client, BiConsumer<TransactionRecord, Throwable> callback)
+public void getRecordAsync(Client client, Action<TransactionRecord, Exception> callback)
 {
 	ConsumerHelper.biConsumer(getRecordAsync(client), callback);
 }
@@ -365,7 +365,7 @@ public void getRecordAsync(Client client, BiConsumer<TransactionRecord, Throwabl
  * @param timeout  The timeout after which the execution attempt will be cancelled.
  * @param callback a BiConsumer which handles the result or error.
  */
-public void getRecordAsync(Client client, Duration timeout, BiConsumer<TransactionRecord, Throwable> callback)
+public void getRecordAsync(Client client, Duration timeout, Action<TransactionRecord, Exception> callback)
 {
 	ConsumerHelper.biConsumer(getRecordAsync(client, timeout), callback);
 }
@@ -377,7 +377,7 @@ public void getRecordAsync(Client client, Duration timeout, BiConsumer<Transacti
  * @param onSuccess a Consumer which consumes the result on success.
  * @param onFailure a Consumer which consumes the error on failure.
  */
-public void getRecordAsync(Client client, Consumer<TransactionRecord> onSuccess, Consumer<Throwable> onFailure)
+public void getRecordAsync(Client client, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
 {
 	ConsumerHelper.twoConsumers(getRecordAsync(client), onSuccess, onFailure);
 }
@@ -391,7 +391,7 @@ public void getRecordAsync(Client client, Consumer<TransactionRecord> onSuccess,
  * @param onFailure a Consumer which consumes the error on failure.
  */
 public void getRecordAsync(
-		Client client, Duration timeout, Consumer<TransactionRecord> onSuccess, Consumer<Throwable> onFailure)
+		Client client, Duration timeout, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
 {
 	ConsumerHelper.twoConsumers(getRecordAsync(client, timeout), onSuccess, onFailure);
 }

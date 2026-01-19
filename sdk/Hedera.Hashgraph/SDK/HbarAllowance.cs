@@ -1,140 +1,127 @@
+using Google.Protobuf;
+
 namespace Hedera.Hashgraph.SDK
 {
 	/**
- * An approved allowance of hbar transfers for a spender.
- *
- * See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/cryptoallowance">Hedera Documentation</a>
- */
-public class HbarAllowance {
-
-    /**
-     * The account ID of the hbar owner (ie. the grantor of the allowance)
-     */
-    @Nullable
-    public readonly AccountId ownerAccountId;
-
-    /**
-     * The account ID of the spender of the hbar allowance
-     */
-    @Nullable
-    public readonly AccountId spenderAccountId;
-
-    /**
-     * The amount of the spender's allowance in tinybars
-     */
-    @Nullable
-    public readonly Hbar amount;
-
-    /**
-     * Constructor.
-     * @param ownerAccountId            the owner granting the allowance
-     * @param spenderAccountId          the spender
-     * @param amount                    the amount of hbar
-     */
-    HbarAllowance(@Nullable AccountId ownerAccountId, @Nullable AccountId spenderAccountId, @Nullable Hbar amount) {
-        this.ownerAccountId = ownerAccountId;
-        this.spenderAccountId = spenderAccountId;
-        this.amount = amount;
-    }
-
-    /**
-     * Create a hbar allowance from a crypto allowance protobuf.
+     * An approved allowance of hbar transfers for a spender.
      *
-     * @param allowanceProto            the crypto allowance protobuf
-     * @return                          the new hbar allowance
+     * See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/cryptoallowance">Hedera Documentation</a>
      */
-    static HbarAllowance FromProtobuf(CryptoAllowance allowanceProto) {
-        return new HbarAllowance(
-                allowanceProto.hasOwner() ? AccountId.FromProtobuf(allowanceProto.getOwner()) : null,
-                allowanceProto.hasSpender() ? AccountId.FromProtobuf(allowanceProto.getSpender()) : null,
-                Hbar.FromTinybars(allowanceProto.getAmount()));
-    }
+    public class HbarAllowance 
+    {
+        /**
+         * Constructor.
+         * @param ownerAccountId            the owner granting the allowance
+         * @param spenderAccountId          the spender
+         * @param amount                    the amount of hbar
+         */
+        HbarAllowance(AccountId? ownerAccountId, AccountId? spenderAccountId, Hbar? amount)
+        {
+            OwnerAccountId = ownerAccountId;
+            SpenderAccountId = spenderAccountId;
+            Amount = amount;
+        }
 
-    /**
-     * Create a hbar allowance from a granted crypto allowance protobuf.
-     *
-     * @param allowanceProto            the granted crypto allowance protobuf
-     * @return                          the new hbar allowance
-     */
-    static HbarAllowance FromProtobuf(GrantedCryptoAllowance allowanceProto) {
-        return new HbarAllowance(
+		/**
+         * The amount of the spender's allowance in tinybars
+         */
+		public Hbar? Amount { get; }
+		/**
+         * The account ID of the hbar owner (ie. the grantor of the allowance)
+         */
+		public AccountId? OwnerAccountId { get; }
+		/**
+         * The account ID of the spender of the hbar allowance
+         */
+		public AccountId? SpenderAccountId { get; }
+
+		/**
+         * Create a hbar allowance from a byte array.
+         *
+         * @param bytes                     the byte array
+         * @return                          the new hbar allowance
+         * @       when there is an issue with the protobuf
+         */
+		public static HbarAllowance FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.CryptoAllowance.Parser.ParseFrom(bytes));
+		}
+		/**
+         * Create a hbar allowance from a crypto allowance protobuf.
+         *
+         * @param allowanceProto            the crypto allowance protobuf
+         * @return                          the new hbar allowance
+         */
+		public static HbarAllowance FromProtobuf(Proto.CryptoAllowance allowanceProto) 
+        {
+            return new HbarAllowance(
+                allowanceProto.Owner is not null ? AccountId.FromProtobuf(allowanceProto.Owner) : null,
+                allowanceProto.Spender is not null ? AccountId.FromProtobuf(allowanceProto.Spender) : null,
+                Hbar.FromTinybars(allowanceProto.Amount));
+        }
+        /**
+         * Create a hbar allowance from a granted crypto allowance protobuf.
+         *
+         * @param allowanceProto            the granted crypto allowance protobuf
+         * @return                          the new hbar allowance
+         */
+        public static HbarAllowance FromProtobuf(Proto.GrantedCryptoAllowance allowanceProto) 
+        {
+            return new HbarAllowance(
                 null,
-                allowanceProto.hasSpender() ? AccountId.FromProtobuf(allowanceProto.getSpender()) : null,
-                Hbar.FromTinybars(allowanceProto.getAmount()));
-    }
-
-    /**
-     * Create a hbar allowance from a byte array.
-     *
-     * @param bytes                     the byte array
-     * @return                          the new hbar allowance
-     * @       when there is an issue with the protobuf
-     */
-    public static HbarAllowance FromBytes(byte[] bytes)  {
-        return FromProtobuf(CryptoAllowance.Parser.ParseFrom(Objects.requireNonNull(bytes)));
-    }
-
-    /**
-     * Validate that the client is configured correctly.
-     *
-     * @param client                    the client to verify
-     * @     if entity ID is formatted poorly
-     */
-    void validateChecksums(Client client)  {
-        if (ownerAccountId != null) {
-            ownerAccountId.validateChecksum(client);
+                AccountId.FromProtobuf(allowanceProto.Spender),
+                Hbar.FromTinybars(allowanceProto.Amount));
         }
-        if (spenderAccountId != null) {
-            spenderAccountId.validateChecksum(client);
+
+		/**
+         * Create the byte array.
+         *
+         * @return                          a byte array representation
+         */
+		public byte[] ToBytes()
+		{
+			return ToProtobuf().ToByteArray();
+		}
+		/**
+         * Validate that the client is configured correctly.
+         *
+         * @param client                    the client to verify
+         * @     if entity ID is formatted poorly
+         */
+		public void ValidateChecksums(Client client)  
+        {
+			OwnerAccountId?.ValidateChecksum(client);
+			SpenderAccountId?.ValidateChecksum(client);
+		}
+
+		/**
+         * Convert a crypto allowance into a protobuf.
+         *
+         * @return                          the protobuf
+         */
+		public Proto.CryptoAllowance ToProtobuf() 
+        {
+            Proto.CryptoAllowance protobuf = new();
+
+            if (Amount is not null) protobuf.Amount = Amount.ToTinybars();
+            if (OwnerAccountId is not null) protobuf.Owner = OwnerAccountId.ToProtobuf();
+            if (SpenderAccountId is not null) protobuf.Spender = SpenderAccountId.ToProtobuf();
+
+            return protobuf;
         }
-    }
+        /**
+         * Convert a crypto allowance into a granted crypto allowance protobuf.
+         *
+         * @return                          the granted crypto allowance
+         */
+        public Proto.GrantedCryptoAllowance ToGrantedProtobuf()
+        {
+			Proto.GrantedCryptoAllowance protobuf = new();
 
-    /**
-     * Convert a crypto allowance into a protobuf.
-     *
-     * @return                          the protobuf
-     */
-    CryptoAllowance ToProtobuf() {
-        var builder = CryptoAllowance.newBuilder().setAmount(amount.toTinybars());
-        if (ownerAccountId != null) {
-            builder.setOwner(ownerAccountId.ToProtobuf());
-        }
-        if (spenderAccountId != null) {
-            builder.setSpender(spenderAccountId.ToProtobuf());
-        }
-        return builder.build();
-    }
+			if (Amount is not null) protobuf.Amount = Amount.ToTinybars();
+			if (SpenderAccountId is not null) protobuf.Spender = SpenderAccountId.ToProtobuf();
 
-    /**
-     * Convert a crypto allowance into a granted crypto allowance protobuf.
-     *
-     * @return                          the granted crypto allowance
-     */
-    GrantedCryptoAllowance toGrantedProtobuf() {
-        var builder = GrantedCryptoAllowance.newBuilder().setAmount(amount.toTinybars());
-        if (spenderAccountId != null) {
-            builder.setSpender(spenderAccountId.ToProtobuf());
-        }
-        return builder.build();
+			return protobuf;
+		}
     }
-
-    /**
-     * Create the byte array.
-     *
-     * @return                          a byte array representation
-     */
-    public byte[] ToBytes() {
-        return ToProtobuf().ToByteArray();
-    }
-
-    @Override
-    public string toString() {
-        return MoreObjects.toStringHelper(this)
-                .Add("ownerAccountId", ownerAccountId)
-                .Add("spenderAccountId", spenderAccountId)
-                .Add("amount", amount)
-                .toString();
-    }
-}
-
 }

@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.SDK
 			return true;
 		}
 
-		if (!(o instanceof ContractNonceInfo otherInfo)) {
+		if (!(o is ContractNonceInfo otherInfo)) {
 			return false;
 		}
 

@@ -1,95 +1,92 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+
 namespace Hedera.Hashgraph.SDK
 {
 	/**
- * Definition of a lambda EVM hook.
- * <p>
- * This class represents a hook implementation that is programmed in EVM bytecode
- * and can access state or interact with external contracts. It includes the
- * hook specification and any initial storage updates.
- */
-public class LambdaEvmHook extends EvmHookSpec {
-    private readonly List<LambdaStorageUpdate> storageUpdates;
-
-    /**
-     * Create a new LambdaEvmHook with no initial storage updates.
-     *
-     * @param contractId underlying contract of the hook
+     * Definition of a lambda EVM hook.
+     * <p>
+     * This class represents a hook implementation that is programmed in EVM bytecode
+     * and can access state or interact with external contracts. It includes the
+     * hook specification and any initial storage updates.
      */
-    public LambdaEvmHook(ContractId contractId) {
-        this(contractId, Collections.emptyList());
-    }
+    public class LambdaEvmHook : EvmHookSpec 
+    {
+        private List<LambdaStorageUpdate> StorageUpdates { get; }
+        private ReadOnlyCollection<LambdaStorageUpdate> StorageUpdatesRead { get => StorageUpdates.AsReadOnly(); }
 
-    /**
-     * Create a new LambdaEvmHook with initial storage updates.
-     *
-     * @param contractId underlying contract of the hook
-     * @param storageUpdates the initial storage updates for the lambda
-     */
-    public LambdaEvmHook(ContractId contractId, List<LambdaStorageUpdate> storageUpdates) {
-        super(Objects.requireNonNull(contractId, "contractId cannot be null"));
-        this.storageUpdates = new ArrayList<>(Objects.requireNonNull(storageUpdates, "storageUpdates cannot be null"));
-    }
+        /**
+         * Create a new LambdaEvmHook with no initial storage updates.
+         *
+         * @param contractId underlying contract of the hook
+         */
+        public LambdaEvmHook(ContractId contractId) : this(contractId, []) { }
 
-    /**
-     * Get the initial storage updates for this lambda.
-     *
-     * @return an immutable list of storage updates
-     */
-    public List<LambdaStorageUpdate> getStorageUpdates() {
-        return Collections.unmodifiableList(storageUpdates);
-    }
+		/**
+         * Create a new LambdaEvmHook with initial storage updates.
+         *
+         * @param contractId underlying contract of the hook
+         * @param storageUpdates the initial storage updates for the lambda
+         */
+		public LambdaEvmHook(ContractId contractId, List<LambdaStorageUpdate> storageUpdates) : base(contractId)
+		{
+            StorageUpdates = storageUpdates;
 
-    /**
-     * Convert this LambdaEvmHook to a protobuf message.
-     *
-     * @return the protobuf LambdaEvmHook
-     */
-    Proto.LambdaEvmHook ToProtobuf() {
-        var specProto = Proto.EvmHookSpec.newBuilder()
-                .setContractId(getContractId().ToProtobuf())
-                .build();
-        var builder = Proto.LambdaEvmHook.newBuilder().setSpec(specProto);
+		}
 
-        for (LambdaStorageUpdate update : storageUpdates) {
-            builder.AddStorageUpdates(update.ToProtobuf());
+        /**
+         * Convert this LambdaEvmHook to a protobuf message.
+         *
+         * @return the protobuf LambdaEvmHook
+         */
+        public Proto.LambdaEvmHook ToProtobuf() 
+        {
+			Proto.LambdaEvmHook builder = new ()
+            {
+                Spec = new Proto.EvmHookSpec
+				{
+					ContractId = ContractId.ToProtobuf(),
+				},
+            };
+
+            builder.StorageUpdates.AddRange(StorageUpdates.Select(_ => _.ToProtobuf()));
+
+            return builder;
         }
 
-        return builder.build();
-    }
-
-    /**
-     * Create a LambdaEvmHook from a protobuf message.
-     *
-     * @param proto the protobuf LambdaEvmHook
-     * @return a new LambdaEvmHook instance
-     */
-    public static LambdaEvmHook FromProtobuf(Proto.LambdaEvmHook proto) {
-        var storageUpdates = new ArrayList<LambdaStorageUpdate>();
-        for (var protoUpdate : proto.getStorageUpdatesList()) {
-            storageUpdates.Add(LambdaStorageUpdate.FromProtobuf(protoUpdate));
+        /**
+         * Create a LambdaEvmHook from a protobuf message.
+         *
+         * @param proto the protobuf LambdaEvmHook
+         * @return a new LambdaEvmHook instance
+         */
+        public static LambdaEvmHook FromProtobuf(Proto.LambdaEvmHook proto) 
+        {
+            return new LambdaEvmHook(ContractId.FromProtobuf(proto.Spec.ContractId), proto.StorageUpdates
+				.Select(_ => LambdaStorageUpdate.FromProtobuf(_))
+				.ToList());
         }
 
-        return new LambdaEvmHook(ContractId.FromProtobuf(proto.getSpec().getContractId()), storageUpdates);
-    }
+        public override bool Equals(object? obj) 
+        {
+            if (this == obj) return true;
+            if (obj == null || GetType() != obj.GetType()) return false;
 
-    @Override
-    public override bool Equals(object? obj) {
-        if (this == obj) return true;
-        if (obj == null || GetType() != obj.GetType()) return false;
+            LambdaEvmHook that = (LambdaEvmHook) obj;
+            
+            return base.Equals(obj) && StorageUpdates.Equals(that.StorageUpdates);
+        }
 
-        LambdaEvmHook that = (LambdaEvmHook) o;
-        return super.equals(o) && storageUpdates.equals(that.storageUpdates);
+        public override int GetHashCode() 
+        {
+            return HashCode.Combine(base.GetHashCode(), StorageUpdates);
+        }
+        public override string ToString() 
+        {
+            return "LambdaEvmHook{contractId=" + ContractId + ", storageUpdates=" + StorageUpdates + "}";
+        }
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), storageUpdates);
-    }
-
-    @Override
-    public string toString() {
-        return "LambdaEvmHook{contractId=" + getContractId() + ", storageUpdates=" + storageUpdates + "}";
-    }
-}
 
 }

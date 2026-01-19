@@ -1,7 +1,9 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -13,38 +15,35 @@ namespace Hedera.Hashgraph.SDK
      * @param <ResponseT>     the response
      * @param <O>             the O type
      */
-	abstract class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> where ProtoRequestT : IMessage where ResponseT : IMessage
+	internal abstract class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> where ProtoRequestT : IMessage where ResponseT : IMessage
 	{
-        protected static readonly Random random = new Random();
+        protected static readonly Random random = new ();
 
         static readonly Regex RST_STREAM = new (".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /**
          * The maximum times execution will be attempted
          */
-        @Nullable
-        protected Integer maxAttempts = null;
+        protected int? maxAttempts = null;
 
         /**
          * The maximum amount of time to wait between retries
          */
-        protected Duration maxBackoff = null;
-
+        protected Duration? maxBackoff = null;
         /**
          * The minimum amount of time to wait between retries
          */
-        @Nullable
-        protected Duration minBackoff = null;
-
-        /**
-         * List of account IDs for nodes with which execution will be attempted.
-         */
-        protected LockableList<AccountId> nodeAccountIds = [];
-
-        /**
+        protected Duration? minBackoff = null;
+		/**
          * List of healthy and unhealthy nodes with which execution will be attempted.
          */
-        protected LockableList<Node> nodes = [];
+		protected LockableList<Node> nodes = [];
+		/**
+         * List of account IDs for nodes with which execution will be attempted.
+         */
+		protected LockableList<AccountId> nodeAccountIds = [];
+
+        
 
         /**
          * Indicates if the request has been attempted to be sent to all nodes
@@ -56,7 +55,7 @@ namespace Hedera.Hashgraph.SDK
         protected Duration grpcDeadline;
 
         protected Logger logger;
-        private java.util.function.Function<ProtoRequestT, ProtoRequestT> requestListener;
+        private Func<ProtoRequestT, ProtoRequestT> requestListener;
         // Lambda responsible for executing synchronous gRPC requests. Pluggable for unit testing.
         @VisibleForTesting
         Function<GrpcRequest, ResponseT> blockingUnaryCall =
@@ -135,7 +134,8 @@ namespace Hedera.Hashgraph.SDK
          *
          * @return minBackoff
          */
-        public readonly Duration getMinBackoff() {
+        public readonly Duration getMinBackoff() 
+        {
             return minBackoff != null ? minBackoff : Client.DEFAULT_MIN_BACKOFF;
         }
 
@@ -274,7 +274,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        abstract void onExecute(Client client) , PrecheckStatusException;
+        abstract void onExecute(Client client);
 
         abstract Task<Void> onExecuteAsync(Client client);
 
@@ -341,7 +341,8 @@ namespace Hedera.Hashgraph.SDK
          * @        when the transaction times out
          * @ when the precheck fails
          */
-        public O execute(Client client) , PrecheckStatusException {
+        public O execute(Client client) 
+        {
             return execute(client, client.getRequestTimeout());
         }
 
@@ -354,8 +355,9 @@ namespace Hedera.Hashgraph.SDK
          * @        when the transaction times out
          * @ when the precheck fails
          */
-        public O execute(Client client, Duration timeout) , PrecheckStatusException {
-            Throwable lastException = null;
+        public O execute(Client client, Duration timeout) 
+        {
+            Exception lastException = null;
             if (isBatchedAndNotBatchTransaction()) {
                 throw new ArgumentException("Cannot execute batchified transaction outside of BatchTransaction");
             }
@@ -365,12 +367,12 @@ namespace Hedera.Hashgraph.SDK
                 this.logger = client.getLogger();
             }
 
-            mergeFromClient(client);
-            onExecute(client);
-            checkNodeAccountIds();
-            setNodesFromNodeAccountIds(client);
+            MergeFromClient(client);
+            OnExecute(client);
+            CheckNodeAccountIds();
+            SetNodesFromNodeAccountIds(client);
 
-            var timeoutTime = DateTimeOffset.now().plus(timeout);
+            var timeoutTime = DateTimeOffset.UtcNow.Add(timeout.ToTimeSpan());
 
             for (int attempt = 1; /* condition is done within loop */ ; attempt++) {
                 if (attempt > maxAttempts) {
@@ -405,8 +407,8 @@ namespace Hedera.Hashgraph.SDK
                 try {
                     response = blockingUnaryCall.apply(grpcRequest);
                     logTransaction(this.getTransactionIdInternal(), client, node, false, attempt, response, null);
-                } catch (Throwable e) {
-                    if (e instanceof StatusRuntimeException) {
+                } catch (Exception e) {
+                    if (e is StatusRuntimeException) {
                         StatusRuntimeException statusRuntimeException = (StatusRuntimeException) e;
                         if (statusRuntimeException.getStatus().getCode().equals(Code.DEADLINE_EXCEEDED)) {
                             throw new TimeoutException();
@@ -491,13 +493,14 @@ namespace Hedera.Hashgraph.SDK
          * @param timeout The timeout after which the execution attempt will be cancelled.
          * @return Future result of execution
          */
-        public Task<O> executeAsync(Client client, Duration timeout) {
+        public Task<O> executeAsync(Client client, Duration timeout) 
+        {
             var retval = new Task<O>().orTimeout(timeout.toMillis(), TimeUnit.MILLISECONDS);
 
             mergeFromClient(client);
 
             onExecuteAsync(client)
-                    .thenRun(() -> {
+                .ContinueWith(() -> {
                         checkNodeAccountIds();
                         setNodesFromNodeAccountIds(client);
 
@@ -509,17 +512,16 @@ namespace Hedera.Hashgraph.SDK
                     });
             return retval;
         }
-
         /**
          * Execute this transaction or query asynchronously.
          *
          * @param client   The client with which this will be executed.
          * @param callback a BiConsumer which handles the result or error.
          */
-        public void executeAsync(Client client, BiConsumer<O, Throwable> callback) {
-            ConsumerHelper.biConsumer(executeAsync(client), callback);
+        public void ExecuteAsync(Client client, Action<O, Exception> callback) 
+        {
+            ConsumerHelper.BiConsumer(executeAsync(client), callback);
         }
-
         /**
          * Execute this transaction or query asynchronously.
          *
@@ -527,10 +529,10 @@ namespace Hedera.Hashgraph.SDK
          * @param timeout  The timeout after which the execution attempt will be cancelled.
          * @param callback a BiConsumer which handles the result or error.
          */
-        public void executeAsync(Client client, Duration timeout, BiConsumer<O, Throwable> callback) {
-            ConsumerHelper.biConsumer(executeAsync(client, timeout), callback);
+        public void ExecuteAsync(Client client, Duration timeout, Action<O, Exception> callback) 
+        {
+            ConsumerHelper.BiConsumer(executeAsync(client, timeout), callback);
         }
-
         /**
          * Execute this transaction or query asynchronously.
          *
@@ -538,10 +540,10 @@ namespace Hedera.Hashgraph.SDK
          * @param onSuccess a Consumer which consumes the result on success.
          * @param onFailure a Consumer which consumes the error on failure.
          */
-        public void executeAsync(Client client, Consumer<O> onSuccess, Consumer<Throwable> onFailure) {
-            ConsumerHelper.twoConsumers(executeAsync(client), onSuccess, onFailure);
+        public void ExecuteAsync(Client client, Action<O> onSuccess, Action<Exception> onFailure) 
+        {
+            ConsumerHelper.TwoConsumers(executeAsync(client), onSuccess, onFailure);
         }
-
         /**
          * Execute this transaction or query asynchronously.
          *
@@ -550,8 +552,9 @@ namespace Hedera.Hashgraph.SDK
          * @param onSuccess a Consumer which consumes the result on success.
          * @param onFailure a Consumer which consumes the error on failure.
          */
-        public void executeAsync(Client client, Duration timeout, Consumer<O> onSuccess, Consumer<Throwable> onFailure) {
-            ConsumerHelper.twoConsumers(executeAsync(client, timeout), onSuccess, onFailure);
+        public void ExecuteAsync(Client client, Duration timeout, Action<O> onSuccess, Action<Exception> onFailure) 
+        {
+            ConsumerHelper.TwoConsumers(executeAsync(client, timeout), onSuccess, onFailure);
         }
 
         /**
@@ -565,14 +568,14 @@ namespace Hedera.Hashgraph.SDK
          * @param response      the transaction response if the transaction was successful
          * @param error         the error if the transaction was not successful
          */
-        protected void logTransaction(
+        protected void LogTransaction(
                 TransactionId transactionId,
                 Client client,
                 Node node,
                 bool isAsync,
                 int attempt,
-                @Nullable ResponseT response,
-                @Nullable Throwable error) {
+                ResponseT? response,
+                Exception? error) {
 
             if (!logger.isEnabledForLevel(LogLevel.TRACE)) {
                 return;
@@ -595,9 +598,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        @SuppressWarnings("java:S2245")
-        @VisibleForTesting
-        void setNodesFromNodeAccountIds(Client client) {
+		private void SetNodesFromNodeAccountIds(Client client) {
             nodes.clear();
 
             // When a single node is explicitly set we get all of its proxies so in case of
@@ -639,8 +640,8 @@ namespace Hedera.Hashgraph.SDK
          * remaining delay. All delays MUST be executed in calling layer as this method will be called for sync + async
          * scenarios.
          */
-        @VisibleForTesting
-        Node getNodeForExecute(int attempt) {
+        private Node GetNodeForExecute(int attempt) 
+        {
             Node node = null;
             Node candidate = null;
             long smallestDelay = long.MAX_VALUE;
@@ -692,7 +693,7 @@ namespace Hedera.Hashgraph.SDK
         private void executeAsyncInternal(
                 Client client,
                 int attempt,
-                @Nullable Throwable lastException,
+                Exception? lastException,
                 Task<O> returnFuture,
                 Duration timeout) {
             // If the logger on the request is not set, use the logger in client
@@ -852,9 +853,9 @@ namespace Hedera.Hashgraph.SDK
         /**
          * Called after receiving the query response from Hedera. The derived class should map into its output type.
          */
-        abstract O mapResponse(ResponseT response, AccountId nodeId, ProtoRequestT request);
+        abstract O MapResponse(ResponseT response, AccountId nodeId, ProtoRequestT request);
 
-        abstract Status mapResponseStatus(ResponseT response);
+        abstract Status MapResponseStatus(ResponseT response);
 
         /**
          * Called to direct the invocation of the query to the appropriate gRPC service.
@@ -864,12 +865,13 @@ namespace Hedera.Hashgraph.SDK
         @Nullable
         abstract TransactionId getTransactionIdInternal();
 
-        bool shouldRetryExceptionally(@Nullable Throwable error) {
-            if (error instanceof StatusRuntimeException statusException) {
+        bool ShouldRetryExceptionally(Exception? error) 
+        {
+            if (error is StatusRuntimeException statusException) {
                 var status = statusException.getStatus().getCode();
                 var description = statusException.getStatus().getDescription();
 
-                return (status == Code.UNAVAILABLE)
+                return (status ==  Code.UNAVAILABLE)
                         || (status == Code.RESOURCE_EXHAUSTED)
                         || (status == Code.INTERNAL
                                 && description != null
@@ -883,39 +885,41 @@ namespace Hedera.Hashgraph.SDK
          * Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
          * the query response from Hedera. By default it triggers a retry when the pre-check status is {@code BUSY}.
          */
-        ExecutionState getExecutionState(Status status, ResponseT response) {
+        ExecutionState getExecutionState(Status status, ResponseT response) 
+        {
             switch (status) {
-                case PLATFORM_TRANSACTION_NOT_CREATED:
-                case PLATFORM_NOT_ACTIVE:
-                    return ExecutionState.SERVER_ERROR;
-                case BUSY:
-                case INVALID_NODE_ACCOUNT:
-                    return ExecutionState
-                            .RETRY; // INVALID_NODE_ACCOUNT retries with special handling for node account update
-                case OK:
-                    return ExecutionState.SUCCESS;
+                case Status.PlatformTransactionNotCreated:
+                case Status.PlatformNotActive:
+                    return ExecutionState.ServerError;
+                case Status.Busy:
+                case Status.InvalidNodeAccount:
+                    return ExecutionState.Retry; // INVALID_NODE_ACCOUNT retries with special handling for node account update
+                case Status.Ok:
+                    return ExecutionState.Success;
                 default:
-                    return ExecutionState.REQUEST_ERROR; // user error
+                    return ExecutionState.RequestError; // user error
             }
         }
 
-        @VisibleForTesting
-        class GrpcRequest {
-            @Nullable
-            private readonly Network network;
+        class GrpcRequest 
+        {
+            private Network? Network { get; }
+            private Executable Parent { get; }
+            private Node Node { get; }
+			private long Delay { get; }
+			private Duration SrpcDeadline { get; set; }
 
-            private readonly Node node;
-            private readonly int attempt;
+			private readonly int attempt;
             // private readonly ClientCall<ProtoRequestT, ResponseT> call;
             private readonly ProtoRequestT request;
             private readonly long startAt;
-            private readonly long delay;
-            private Duration grpcDeadline;
+            
+            
             private ResponseT response;
             private double latency;
             private Status responseStatus;
 
-            GrpcRequest(@Nullable Network network, int attempt, Duration grpcDeadline) {
+            GrpcRequest(Executable parent, Network? network, int attempt, Duration grpcDeadline) {
                 this.network = network;
                 this.attempt = attempt;
                 this.grpcDeadline = grpcDeadline;
@@ -929,34 +933,23 @@ namespace Hedera.Hashgraph.SDK
                         Objects.requireNonNull(maxBackoff).toMillis());
             }
 
-            public CallOptions getCallOptions() {
+            public CallOptions GetCallOptions() {
                 long deadline = Math.min(this.grpcDeadline.toMillis(), Executable.this.grpcDeadline.toMillis());
 
                 return CallOptions.DEFAULT.withDeadlineAfter(deadline, TimeUnit.MILLISECONDS);
             }
 
-            public void setGrpcDeadline(Duration grpcDeadline) {
-                this.grpcDeadline = grpcDeadline;
-            }
-
-            public Node getNode() {
-                return node;
-            }
-
-            public ClientCall<ProtoRequestT, ResponseT> createCall() {
+            public ClientCall<ProtoRequestT, ResponseT> CreateCall() {
                 verboseLog(node);
                 return this.node.getChannel().newCall(Executable.this.getMethodDescriptor(), getCallOptions());
             }
 
-            public ProtoRequestT getRequest() {
+            public ProtoRequestT GetRequest() {
                 return Executable.this.requestListener.apply(request);
             }
 
-            public long getDelay() {
-                return delay;
-            }
-
-            Throwable reactToConnectionFailure() {
+            Exception ReactToConnectionFailure() 
+            {
                 Objects.requireNonNull(network).increaseBackoff(node);
                 logger.warn(
                         "Retrying in {} ms after channel connection failure with node {} during attempt #{}",
@@ -967,7 +960,8 @@ namespace Hedera.Hashgraph.SDK
                 return new IllegalStateException("Failed to connect to node " + node.getAccountId());
             }
 
-            bool shouldRetryExceptionally(@Nullable Throwable e) {
+            bool ShouldRetryExceptionally(Exception? e) 
+            {
                 latency = (double) (System.nanoTime() - startAt) / 1000000000.0;
 
                 var retry = Executable.this.shouldRetryExceptionally(e);
@@ -986,17 +980,19 @@ namespace Hedera.Hashgraph.SDK
                 return retry;
             }
 
-            PrecheckStatusException mapStatusException() {
+            PrecheckStatusException MapStatusException() {
                 // request to hedera failed in a non-recoverable way
                 return new PrecheckStatusException(responseStatus, Executable.this.getTransactionIdInternal());
             }
 
-            O mapResponse() {
+            O MapResponse() 
+            {
                 // successful response from Hedera
                 return Executable.this.mapResponse(response, node.getAccountId(), request);
             }
 
-            void handleResponse(ResponseT response, Status status, ExecutionState executionState, @Nullable Client client) {
+            void HandleResponse(ResponseT response, Status status, ExecutionState executionState, Client? client) 
+            {
                 // Note: For INVALID_NODE_ACCOUNT, we don't mark the node as unhealthy here
                 // because we need to do it AFTER advancing the request, to match Go SDK behavior
                 if (status != Status.INVALID_NODE_ACCOUNT) {
@@ -1043,8 +1039,7 @@ namespace Hedera.Hashgraph.SDK
                     default -> {}
                 }
             }
-
-            void verboseLog(Node node) {
+            void VerboseLog(Node node) {
                 string ipAddress;
                 if (node.Address == null) {
                     ipAddress = "NULL";

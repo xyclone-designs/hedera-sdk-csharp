@@ -108,8 +108,9 @@ namespace Hedera.Hashgraph.SDK
             return new MirrorNode(entry.Key, executor);
         }
 
-        synchronized MirrorNode getNextMirrorNode()  {
-            return getNumberOfMostHealthyNodes(1).get(0);
+        MirrorNode GetNextMirrorNode()  
+        {
+            lock (this) { return GetNumberOfMostHealthyNodes(1).get(0); }
         }
 
         /**

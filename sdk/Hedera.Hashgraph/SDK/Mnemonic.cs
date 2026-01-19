@@ -168,7 +168,7 @@ public sealed class Mnemonic {
     private static synchronized List<string> getSpecificWordList(
             Supplier<SoftReference<List<string>>> getCurrentWordList,
             Supplier<List<string>> getNewWordList,
-            Consumer<SoftReference<List<string>>> setCurrentWordList) {
+            Action<SoftReference<List<string>>> setCurrentWordList) {
         var localWordList = getCurrentWordList.get();
         if (localWordList == null || localWordList.get() == null) {
             List<string> words = getNewWordList.get();

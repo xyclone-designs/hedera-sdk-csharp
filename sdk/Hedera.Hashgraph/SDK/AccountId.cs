@@ -1,9 +1,9 @@
-using Google.Protobuf.WellKnownTypes;
+using Google.Protobuf;
 
-using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,30 +16,27 @@ namespace Hedera.Hashgraph.SDK
     {
         private static readonly Regex ALIAS_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.((?:[0-9a-fA-F][0-9a-fA-F])+)$");
 
-        /**
-     * The Shard number
-     */
-        public ulong Shard { get; }
-        /**
-         * The Realm number
-         */
-        public ulong Realm { get; }
-        /**
+		public string? Checksum { get; }
+		/**
          * The id number
          */
-        public ulong Num { get; }
-		public string? Checksum { get; }
-
+		public LongNN Num { get; }
+		/**
+         * The Realm number
+         */
+		public LongNN Realm { get; }
+		/**
+     * The Shard number
+     */
+		public LongNN Shard { get; }
 		/**
          * The public key bytes to be used as the account's alias
          */
 		public PublicKey? AliasKey { get; }
-
 		/**
          * The ethereum account 20-byte EVM address to be used initially in place of the public key bytes
          */
 		public EvmAddress? EvmAddress { get; }
-
 
         /**
          * Assign the Num part of the account id.
@@ -50,7 +47,7 @@ namespace Hedera.Hashgraph.SDK
          * as Shard and Realm should not assume 0 value
          */
         [Obsolete]
-        public AccountId(ulong Num) : this(0, 0, Num) { }
+        public AccountId(LongNN Num) : this(0, 0, Num) { }
         /**
          * Assign all parts of the account id.
          *
@@ -58,7 +55,7 @@ namespace Hedera.Hashgraph.SDK
          * @param Realm                     the Realm part of the account id
          * @param Num                       the Num part of the account id
          */
-        public AccountId(ulong Shard, ulong Realm, ulong Num) : this(shard, realm, num, null) { }
+        public AccountId(LongNN shard, LongNN realm, LongNN num) : this(shard, realm, num, null) { }
 		/**
          * Assign all parts of the account id.
          *
@@ -66,11 +63,11 @@ namespace Hedera.Hashgraph.SDK
          * @param Realm                     the Realm part of the account id
          * @param Num                       the Num part of the account id
          */
-		AccountId(ulong Shard, ulong Realm, ulong Num, string? Checksum) {
-            Shard = Shard;
-            Realm = Realm;
-            Num = Num;
-            Checksum = Checksum;
+		AccountId(LongNN shard, LongNN realm, LongNN num, string? checksum) {
+            Shard = shard;
+            Realm = realm;
+            Num = num;
+            Checksum = checksum;
             AliasKey = null;
             EvmAddress = null;
         }
@@ -81,11 +78,11 @@ namespace Hedera.Hashgraph.SDK
          * @param Realm                     the Realm part of the account id
          * @param Num                       the Num part of the account id
          */
-        AccountId(ulong Shard, ulong Realm, ulong Num, string? Checksum, PublicKey? aliasKey, EvmAddress? evmAddress) {
-            Shard = Shard;
-            Realm = Realm;
-            Num = Num;
-            Checksum = Checksum;
+        AccountId(LongNN shard, LongNN realm, LongNN num, string? checksum, PublicKey? aliasKey, EvmAddress? evmAddress) {
+            Shard = shard;
+            Realm = realm;
+            Num = num;
+            Checksum = checksum;
             AliasKey = aliasKey;
             EvmAddress = evmAddress;
         }
@@ -99,7 +96,7 @@ namespace Hedera.Hashgraph.SDK
          */
 		public static AccountId FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(AccountID.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.AccountID.Parser.ParseFrom(bytes));
 		}
 		/**
          * Retrieve the account id From a string.
@@ -110,28 +107,30 @@ namespace Hedera.Hashgraph.SDK
          */
 		public static AccountId FromString(string id) 
         {
-            if ((id.startsWith("0x") && id.Length() == 42) || id.Length() == 40) return FromEvmAddress(id, 0, 0);
+            if ((id.StartsWith("0x") && id.Length == 42) || id.Length == 40) 
+                return FromEvmAddress(id, 0, 0);
 
-            try {
-                return EntityIdHelper.FromString(id, AccountId::new);
-            } catch (ArgumentException error) {
-                var match = ALIAS_ID_REGEX.matcher(id);
-                if (!match.find()) {
-                    throw new ArgumentException(
-                            "Invalid Account ID \"" + id
-                                    + "\": format should look like 0.0.123 or 0.0.123-vfmkw or 0.0.1337BEEF (where 1337BEEF is a hex-encoded, DER-format public key)");
-                } else {
-                    byte[] aliasBytes = Hex.decode(match.group(3));
-                    bool isEvmAddress = aliasBytes.Length == 20;
-                    return new AccountId(
-                            long.parseLong(match.group(1)),
-                            long.parseLong(match.group(2)),
-                            0,
-                            null,
-                            isEvmAddress ? null : PublicKey.FromBytesDER(aliasBytes),
-                            isEvmAddress ? EvmAddress.FromBytes(aliasBytes) : null);
-                }
-            }
+            try { return EntityIdHelper.FromString(id, (a, b, c, d) => new AccountId(a, b, c, d)); } 
+            catch (ArgumentException) 
+            {
+                var match = ALIAS_ID_REGEX.Matches(id);
+
+                if (match.Count == 0)
+					throw new ArgumentException(
+						"Invalid Account ID \"" + id
+						+ "\": format should look like 0.0.123 or 0.0.123-vfmkw or 0.0.1337BEEF (where 1337BEEF is a hex-encoded, DER-format public key)");
+
+				byte[] aliasBytes = Hex.Decode(match.ElementAt(3).Value);
+				bool isEvmAddress = aliasBytes.Length == 20;
+
+				return new AccountId(
+					long.Parse(match.ElementAt(1).Value),
+					long.Parse(match.ElementAt(2).Value),
+					0,
+					null,
+					isEvmAddress ? null : PublicKey.FromBytesDER(aliasBytes),
+					isEvmAddress ? EvmAddress.FromBytes(aliasBytes) : null);
+			}
         }
 
         /**
@@ -158,7 +157,7 @@ namespace Hedera.Hashgraph.SDK
          *
          * In case Shard and Realm are unknown, they should be set to zero
          */
-        public static AccountId FromEvmAddress(string evmAddress, ulong Shard, ulong Realm) 
+        public static AccountId FromEvmAddress(string evmAddress, LongNN Shard, LongNN Realm) 
         {
             return FromEvmAddress(EvmAddress.FromString(evmAddress), Shard, Realm);
         }
@@ -187,9 +186,10 @@ namespace Hedera.Hashgraph.SDK
          *
          * In case Shard and Realm are unknown, they should be set to zero
          */
-        public static AccountId FromEvmAddress(EvmAddress evmAddress, ulong Shard, ulong Realm) 
+        public static AccountId FromEvmAddress(EvmAddress evmAddress, LongNN Shard, LongNN Realm) 
         {
             EntityIdHelper.DecodeEvmAddress(evmAddress.ToString());
+
             return new AccountId(Shard, Realm, 0, null, null, evmAddress);
         }
 
@@ -203,12 +203,10 @@ namespace Hedera.Hashgraph.SDK
         [Obsolete]
         public static AccountId FromSolidityAddress(string address) 
         {
-            if (EntityIdHelper.IsLongZeroAddress(EntityIdHelper.DecodeEvmAddress(address))) {
-                return EntityIdHelper.FromSolidityAddress(address, AccountId::new);
-            } else {
-                return FromEvmAddress(address, 0, 0);
-            }
-        }
+			return EntityIdHelper.IsLongZeroAddress(EntityIdHelper.DecodeEvmAddress(address))
+				? EntityIdHelper.FromSolidityAddress(address, (a, b, c, d) => new AccountId(a, b, c, d))
+				: FromEvmAddress(address, 0, 0);
+		}
         /**
          * Retrieve the account id From a protobuf.
          *
@@ -217,21 +215,20 @@ namespace Hedera.Hashgraph.SDK
          */
         public static AccountId FromProtobuf(Proto.AccountID accountId) 
         {
-            PublicKey aliasKey = null;
-            EvmAddress evmAddress = null;
+            PublicKey? aliasKey = null;
+            EvmAddress? evmAddress = null;
 
-            if (accountId.hasAlias()) {
-                if (accountId.getAlias().size() == 20) {
-                    evmAddress = EvmAddress.FromAliasBytes(accountId.getAlias());
-                } else {
-                    aliasKey = PublicKey.FromAliasBytes(accountId.getAlias());
-                }
-            }
-            Objects.requireNonNull(accountId);
+            if (accountId.HasAlias) 
+            {
+                if (accountId.Alias.Length == 20)
+					evmAddress = EvmAddress.FromAliasBytes(accountId.Alias);
+                else aliasKey = PublicKey.FromAliasBytes(accountId.Alias);
+			}
+
             return new AccountId(
-                    accountId.getShardNum(),
-                    accountId.getRealmNum(),
-                    accountId.getAccountNum(),
+                    accountId.ShardNum,
+                    accountId.RealmNum,
+                    accountId.AccountNum,
                     null,
                     aliasKey,
                     evmAddress);
@@ -256,7 +253,7 @@ namespace Hedera.Hashgraph.SDK
 		[Obsolete]
         public string ToSolidityAddress() 
         {
-            return EntityIdHelper.ToSolidityAddress(shard, realm, num);
+            return EntityIdHelper.ToSolidityAddress(Shard, Realm, Num);
         }
 
         /**
@@ -266,15 +263,17 @@ namespace Hedera.Hashgraph.SDK
          */
         public Proto.AccountID ToProtobuf()
         {
-            var accountIdBuilder = AccountID.newBuilder().setShardNum(Shard).setRealmNum(Realm);
-            if (aliasKey != null) {
-                accountIdBuilder.setAlias(aliasKey.ToProtobufKey().toByteString());
-            } else if (evmAddress != null) {
-                accountIdBuilder.setAlias(ByteString.copyFrom(evmAddress.toBytes()));
-            } else {
-                accountIdBuilder.setAccountNum(Num);
-            }
-            return accountIdBuilder.build();
+			Proto.AccountID protobuf = new()
+            {
+				ShardNum = Shard,
+				RealmNum = Realm,
+			};
+
+            if (AliasKey is not null) protobuf.Alias = AliasKey.ToProtobufKey().ToByteString();
+            else if (EvmAddress is not null) protobuf.Alias = ByteString.CopyFrom(EvmAddress.ToBytes());
+            else protobuf.AccountNum = Num;
+
+            return protobuf;
         }
 
         /**
@@ -288,7 +287,9 @@ namespace Hedera.Hashgraph.SDK
          */
         public AccountId PopulateAccountNum(Client client) 
         {
-            return PopulateAccountNumAsync(client).get();
+            return PopulateAccountNumAsync(client)
+                .GetAwaiter()
+                .GetResult();
         }
 
 		/**
@@ -300,7 +301,9 @@ namespace Hedera.Hashgraph.SDK
          */
 		public AccountId PopulateAccountEvmAddress(Client client)
 		{
-			return PopulateAccountEvmAddressAsync(client).Get();
+			return PopulateAccountEvmAddressAsync(client)
+				.GetAwaiter()
+				.GetResult();
 		}
 		/**
          * Gets the actual `Num` field of the `AccountId` From the Mirror Node.
@@ -322,7 +325,7 @@ namespace Hedera.Hashgraph.SDK
                     return new AccountId(
                         Shard,
                         Realm,
-						(ulong)accountnum.Result,
+						(LongNN)accountnum.Result,
                         Checksum,
                         AliasKey,
                         EvmAddress);
@@ -371,10 +374,9 @@ namespace Hedera.Hashgraph.SDK
          */
         public void ValidateChecksum(Client client)  
         {
-            if (aliasKey == null && evmAddress == null) {
-                EntityIdHelper.Validate(shard, realm, num, client, Checksum);
-            }
-        }
+            if (AliasKey == null && EvmAddress == null)
+				EntityIdHelper.Validate(Shard, Realm, Num, client, Checksum);
+		}
 
 
         /**
@@ -387,107 +389,84 @@ namespace Hedera.Hashgraph.SDK
             return ToProtobuf().ToByteArray();
         }
 
-        
-
         /**
          * Extract a string representation with the Checksum.
          *
          * @param client                    the client
          * @return                          the account id with Checksum
          */
-        public string ToStringWithChecksum(Client client) {
-            if (aliasKey != null || evmAddress != null) {
-                throw new IllegalStateException(
-                        "toStringWithChecksum cannot be applied to AccountId with aliasKey or evmAddress");
-            } else {
-                return EntityIdHelper.toStringWithChecksum(shard, realm, num, client, Checksum);
-            }
+        public string ToStringWithChecksum(Client client) 
+        {
+            if (AliasKey != null || EvmAddress != null)
+				throw new InvalidOperationException("toStringWithChecksum cannot be applied to AccountId with aliasKey or evmAddress");
+
+			return EntityIdHelper.ToStringWithChecksum(Shard, Realm, Num, client, Checksum);
         }
 
 		public int CompareTo(AccountId? o)
 		{
-			Objects.requireNonNull(o);
-			int shardComparison = long.compare(Shard, o.Shard);
-			if (shardComparison != 0)
-			{
-				return shardComparison;
-			}
-			int realmComparison = long.compare(Realm, o.Realm);
-			if (realmComparison != 0)
-			{
+            if (o is null) return 1;
+
+            if (Shard.CompareTo(o.Shard) is int shardComparison && shardComparison != 0)
+                return shardComparison;
+
+			if (Realm.CompareTo(o.Realm) is int realmComparison && realmComparison != 0)
 				return realmComparison;
-			}
-			int numComparison = long.compare(Num, o.Num);
-			if (numComparison != 0)
-			{
+
+			if (Num.CompareTo(o.Num) is int numComparison && numComparison != 0)
 				return numComparison;
-			}
-			if ((aliasKey == null) != (o.aliasKey == null))
-			{
-				return aliasKey != null ? 1 : -1;
-			}
-			if (aliasKey != null)
-			{
-				return aliasKey.toStringDER().compareTo(o.aliasKey.toStringDER());
-			}
-			if ((evmAddress == null) != (o.evmAddress == null))
-			{
-				return evmAddress != null ? 1 : -1;
-			}
-			if (evmAddress == null)
-			{
-				return 0;
-			}
-			return evmAddress.toString().compareTo(o.evmAddress.toString());
+
+			if (AliasKey == null != (o.AliasKey == null))
+				return AliasKey != null ? 1 : -1;
+
+			if (AliasKey != null)
+				return AliasKey.ToStringDER().CompareTo(o.AliasKey?.ToStringDER());
+
+			if (EvmAddress == null != (o.EvmAddress == null))
+				return EvmAddress != null ? 1 : -1;
+
+			if (EvmAddress == null) 
+                return 0;
+
+			return EvmAddress.ToString().CompareTo(o.EvmAddress?.ToString());
 		}
 
 		public override string ToString()
 		{
-			if (aliasKey != null)
-			{
-				return "" + Shard + "." + Realm + "." + aliasKey.toStringDER();
-			}
-			else if (evmAddress != null)
-			{
-				return "" + Shard + "." + Realm + "." + evmAddress.toString();
-			}
-			else
-			{
-				return EntityIdHelper.toString(shard, realm, num);
-			}
+			if (AliasKey != null)
+				return "" + Shard + "." + Realm + "." + AliasKey.ToStringDER();
+
+			else if (EvmAddress != null)
+				return "" + Shard + "." + Realm + "." + EvmAddress.ToString();
+
+			else 
+                return EntityIdHelper.ToString(Shard, Realm, Num);
 		}
-		public override int GetHashCode() {
+		public override int GetHashCode()
+        {
             byte[] aliasBytes = null;
 
-            if (aliasKey != null) {
-                aliasBytes = aliasKey.toBytes();
-            } else if (evmAddress != null) {
-                aliasBytes = evmAddress.toBytes();
+            if (AliasKey != null) {
+                aliasBytes = AliasKey.ToBytes();
+            } else if (EvmAddress != null) {
+                aliasBytes = EvmAddress.ToBytes();
             }
 
-            return Objects.hash(shard, realm, num, Arrays.hashCode(aliasBytes));
+            return HashCode.Combine(Shard, Realm, Num, HashCode.Combine(aliasBytes));
         }
-        public override bool Equals(object? obj) {
-            if (this == o) {
-                return true;
-            }
+        public override bool Equals(object? o) 
+        {
+            if (this == o) return true;
+            if (o is not AccountId accountid) return false;
 
-            if (!(o instanceof AccountId)) {
-                return false;
-            }
+            if (AliasKey == null != (accountid.AliasKey == null)) return false;
+            if (EvmAddress == null != (accountid.EvmAddress == null)) return false;
 
-            AccountId otherId = (AccountId) o;
-            if ((aliasKey == null) != (otherId.aliasKey == null)) {
-                return false;
-            }
-            if ((evmAddress == null) != (otherId.evmAddress == null)) {
-                return false;
-            }
-            return Shard == otherId.Shard
-                    && Realm == otherId.Realm
-                    && Num == otherId.Num
-                    && (aliasKey == null || aliasKey.equals(otherId.aliasKey))
-                    && (evmAddress == null || evmAddress.equals(otherId.evmAddress));
+            return Shard == accountid.Shard
+                && Realm == accountid.Realm
+                && Num == accountid.Num
+                && (AliasKey == null || AliasKey.Equals(accountid.AliasKey))
+                && (EvmAddress == null || EvmAddress.Equals(accountid.EvmAddress));
         }
     }
 }

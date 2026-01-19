@@ -45,7 +45,6 @@ namespace Hedera.Hashgraph.SDK
             return proto;
         }
 
-
         public override int GetHashCode()
         {
 			int result = HashCode.Combine(HookId);
@@ -62,5 +61,4 @@ namespace Hedera.Hashgraph.SDK
 			return Equals(HookId, hookCall.HookId) && EvmHookCall.Equals(hookCall.EvmHookCall);
 		}
     }
-
 }

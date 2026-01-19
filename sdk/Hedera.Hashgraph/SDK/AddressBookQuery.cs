@@ -20,8 +20,8 @@ public class AddressBookQuery {
      */
     public AddressBookQuery() {}
 
-    private static bool shouldRetry(Throwable throwable) {
-        if (throwable instanceof StatusRuntimeException statusRuntimeException) {
+    private static bool shouldRetry(Exception throwable) {
+        if (throwable is StatusRuntimeException statusRuntimeException) {
             var code = statusRuntimeException.getStatus().getCode();
             var description = statusRuntimeException.getStatus().getDescription();
 
@@ -140,7 +140,7 @@ public class AddressBookQuery {
                     addresses.Add(NodeAddress.FromProtobuf(addressProtoIter.next()));
                 }
                 return new NodeAddressBook().setNodeAddresses(addresses);
-            } catch (Throwable error) {
+            } catch (Exception error) {
                 if (!shouldRetry(error) || attempt >= maxAttempts) {
                     LOGGER.error("Error attempting to get address book at FileId {}", fileId, error);
                     throw error;
@@ -194,7 +194,7 @@ public class AddressBookQuery {
                     }
 
                     @Override
-                    public void onError(Throwable error) {
+                    public void onError(Exception error) {
                         if (attempt >= maxAttempts || !shouldRetry(error)) {
                             LOGGER.error("Error attempting to get address book at FileId {}", fileId, error);
                             returnFuture.completeExceptionally(error);
@@ -241,7 +241,7 @@ public class AddressBookQuery {
         }
     }
 
-    private void warnAndDelay(int attempt, Throwable error) {
+    private void warnAndDelay(int attempt, Exception error) {
         var delay = Math.min(500 * (long) Math.pow(2, attempt), maxBackoff.toMillis());
         LOGGER.warn(
                 "Error fetching address book at FileId {} during attempt #{}. Waiting {} ms before next attempt: {}",

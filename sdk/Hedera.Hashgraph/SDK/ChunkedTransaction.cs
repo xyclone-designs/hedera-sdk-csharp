@@ -359,7 +359,7 @@ abstract class ChunkedTransaction<T extends ChunkedTransaction<T>> extends Trans
      * @param client The client with which this will be executed.
      * @param callback a BiConsumer which handles the result or error.
      */
-    public void executeAllAsync(Client client, BiConsumer<List<TransactionResponse>, Throwable> callback) {
+    public void executeAllAsync(Client client, Action<List<TransactionResponse>, Exception> callback) {
         ConsumerHelper.biConsumer(executeAllAsync(client), callback);
     }
 
@@ -371,7 +371,7 @@ abstract class ChunkedTransaction<T extends ChunkedTransaction<T>> extends Trans
      * @param callback a BiConsumer which handles the result or error.
      */
     public void executeAllAsync(
-            Client client, Duration timeout, BiConsumer<List<TransactionResponse>, Throwable> callback) {
+            Client client, Duration timeout, Action<List<TransactionResponse>, Exception> callback) {
         ConsumerHelper.biConsumer(executeAllAsync(client, timeout), callback);
     }
 
@@ -383,7 +383,7 @@ abstract class ChunkedTransaction<T extends ChunkedTransaction<T>> extends Trans
      * @param onFailure a Consumer which consumes the error on failure.
      */
     public void executeAllAsync(
-            Client client, Consumer<List<TransactionResponse>> onSuccess, Consumer<Throwable> onFailure) {
+            Client client, Action<List<TransactionResponse>> onSuccess, Action<Exception> onFailure) {
         ConsumerHelper.twoConsumers(executeAllAsync(client), onSuccess, onFailure);
     }
 
@@ -398,8 +398,8 @@ abstract class ChunkedTransaction<T extends ChunkedTransaction<T>> extends Trans
     public void executeAllAsync(
             Client client,
             Duration timeout,
-            Consumer<List<TransactionResponse>> onSuccess,
-            Consumer<Throwable> onFailure) {
+            Action<List<TransactionResponse>> onSuccess,
+            Action<Exception> onFailure) {
         ConsumerHelper.twoConsumers(executeAllAsync(client, timeout), onSuccess, onFailure);
     }
 

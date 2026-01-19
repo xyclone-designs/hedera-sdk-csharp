@@ -300,7 +300,7 @@ namespace Hedera.Hashgraph.SDK
                 return true;
             }
 
-            if (!(o instanceof ContractId)) {
+            if (!(o is ContractId)) {
                 return false;
             }
 

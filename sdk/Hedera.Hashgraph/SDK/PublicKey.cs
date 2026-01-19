@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.SDK
 				try
 				{
 					var key = Key.FromProtobufKey(Proto.Key.Parser.ParseFrom(aliasBytes));
-					return (key instanceof PublicKey) ? ((PublicKey)key) : null;
+					return (key is PublicKey) ? ((PublicKey)key) : null;
 				}
 				catch (InvalidProtocolBufferException ignored)
 				{

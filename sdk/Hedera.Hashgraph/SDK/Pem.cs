@@ -82,21 +82,21 @@ namespace Hedera.Hashgraph.SDK
 				var password = (passphrase != null) ? passphrase.toCharArray() : "".toCharArray();
 					if (parsedObject == null) {
 						throw new BadKeyException("PEM file did not contain a private key");
-		} else if (parsedObject instanceof PKCS8EncryptedPrivateKeyInfo) {
+		} else if (parsedObject is PKCS8EncryptedPrivateKeyInfo) {
 			var decryptProvider = new JceOpenSSLPKCS8DecryptorProviderBuilder()
 					.setProvider(new BouncyCastleProvider())
 					.build(password);
 			var encryptedPrivateKeyInfo = (PKCS8EncryptedPrivateKeyInfo)parsedObject;
 			return encryptedPrivateKeyInfo.decryptPrivateKeyInfo(decryptProvider);
-		} else if (parsedObject instanceof PrivateKeyInfo) {
+		} else if (parsedObject is PrivateKeyInfo) {
 			return (PrivateKeyInfo)parsedObject;
-		} else if (parsedObject instanceof PEMEncryptedKeyPair) {
+		} else if (parsedObject is PEMEncryptedKeyPair) {
 			var decryptProvider = new JcePEMDecryptorProviderBuilder()
 					.setProvider(new BouncyCastleProvider())
 					.build(password);
 			var encryptedKeyPair = (PEMEncryptedKeyPair)parsedObject;
 			return encryptedKeyPair.decryptKeyPair(decryptProvider).getPrivateKeyInfo();
-		} else if (parsedObject instanceof PEMKeyPair) {
+		} else if (parsedObject is PEMKeyPair) {
 			var keyPair = (PEMKeyPair)parsedObject;
 			return keyPair.getPrivateKeyInfo();
 		} else

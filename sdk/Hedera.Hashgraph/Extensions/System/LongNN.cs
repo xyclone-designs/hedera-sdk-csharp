@@ -1,6 +1,6 @@
 namespace System
 {
-	public readonly struct LongNN 
+	public readonly struct LongNN : IEquatable<LongNN>, IComparable<LongNN>
 	{
 		public LongNN(long val)
 		{
@@ -10,7 +10,16 @@ namespace System
 		}
 
 		public long Value { get; }
-		
+
+		public bool Equals(LongNN other)
+		{
+			return Value.Equals(other.Value);
+		}
+		public int CompareTo(LongNN other)
+		{
+			return Value.CompareTo(other.Value);
+		}
+
 		public override int GetHashCode()
         {
 			return Value.GetHashCode();
@@ -31,5 +40,5 @@ namespace System
 		{
 			return Compare(a?.Value, b?.Value);
 		}
-	}
+    }
 }

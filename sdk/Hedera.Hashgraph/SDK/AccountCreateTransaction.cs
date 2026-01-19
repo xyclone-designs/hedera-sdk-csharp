@@ -567,8 +567,8 @@ public sealed class AccountCreateTransaction extends Transaction<AccountCreateTr
     }
 
     private EvmAddress extractAlias(Key key) {
-        var isPrivateEcdsaKey = key instanceof PrivateKeyECDSA;
-        var isPublicEcdsaKey = key instanceof PublicKeyECDSA;
+        var isPrivateEcdsaKey = key is PrivateKeyECDSA;
+        var isPublicEcdsaKey = key is PublicKeyECDSA;
         if (isPrivateEcdsaKey) {
             return ((PrivateKeyECDSA) key).getPublicKey().toEvmAddress();
         } else if (isPublicEcdsaKey) {

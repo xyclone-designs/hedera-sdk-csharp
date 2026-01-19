@@ -710,7 +710,7 @@ public class ContractCreateFlow {
      * @param client   the client with the transaction to execute
      * @param callback a BiConsumer which handles the result or error.
      */
-    public void executeAsync(Client client, BiConsumer<TransactionResponse, Throwable> callback) {
+    public void executeAsync(Client client, Action<TransactionResponse, Exception> callback) {
         ConsumerHelper.biConsumer(executeAsync(client), callback);
     }
 
@@ -722,7 +722,7 @@ public class ContractCreateFlow {
      * @param callback              a BiConsumer which handles the result or error.
      */
     public void executeAsync(
-            Client client, Duration timeoutPerTransaction, BiConsumer<TransactionResponse, Throwable> callback) {
+            Client client, Duration timeoutPerTransaction, Action<TransactionResponse, Exception> callback) {
         ConsumerHelper.biConsumer(executeAsync(client, timeoutPerTransaction), callback);
     }
 
@@ -733,7 +733,7 @@ public class ContractCreateFlow {
      * @param onSuccess a Consumer which consumes the result on success.
      * @param onFailure a Consumer which consumes the error on failure.
      */
-    public void executeAsync(Client client, Consumer<TransactionResponse> onSuccess, Consumer<Throwable> onFailure) {
+    public void executeAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure) {
         ConsumerHelper.twoConsumers(executeAsync(client), onSuccess, onFailure);
     }
 
@@ -748,8 +748,8 @@ public class ContractCreateFlow {
     public void executeAsync(
             Client client,
             Duration timeoutPerTransaction,
-            Consumer<TransactionResponse> onSuccess,
-            Consumer<Throwable> onFailure) {
+            Action<TransactionResponse> onSuccess,
+            Action<Exception> onFailure) {
         ConsumerHelper.twoConsumers(executeAsync(client, timeoutPerTransaction), onSuccess, onFailure);
     }
 }

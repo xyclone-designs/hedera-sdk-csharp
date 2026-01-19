@@ -1,8 +1,8 @@
 namespace Hedera.Hashgraph.SDK
 {
 	/**
- * Enum for the freeze types.
- */
+	 * Enum for the freeze types.
+	 */
 	public enum FreezeType
 	{
 		/**
@@ -11,7 +11,7 @@ namespace Hedera.Hashgraph.SDK
 		 * The first value in a protobuf enum is a default value. This default
 		 * is RECOMMENDED to be an invalid value to aid in detecting unset fields.
 		 */
-		UNKNOWN_FREEZE_TYPE(Proto.FreezeType.UNKNOWN_FREEZE_TYPE),
+		UnknownFreezeType = Proto.FreezeType.UnknownFreezeType,
 
 		/**
 		 * Freeze the network, and take no further action.
@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.SDK
 		 * After this freeze is processed manual intervention is REQUIRED
 		 * to restart the network.
 		 */
-		FREEZE_ONLY(Proto.FreezeType.FREEZE_ONLY),
+		FreezeOnly = Proto.FreezeType.FreezeOnly,
 
 		/**
 		 * This freeze type does not freeze the network, but begins
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.SDK
 		 * of the upgrade file), the network SHALL be prepared to complete
 		 * a software upgrade of all nodes.
 		 */
-		PREPARE_UPGRADE(Proto.FreezeType.PREPARE_UPGRADE),
+		PrepareUpgrade = Proto.FreezeType.PrepareUpgrade,
 
 		/**
 		 * Freeze the network to perform a software upgrade.
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK
 		 * After this transaction completes, the network SHALL initiate an
 		 * upgrade and restart of all nodes at the start time specified.
 		 */
-		FREEZE_UPGRADE(Proto.FreezeType.FREEZE_UPGRADE),
+		FreezeUpgrade = Proto.FreezeType.FreezeUpgrade,
 
 		/**
 		 * Abort a pending network freeze operation.
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK
 		 * and pending freeze start time stored in the network SHALL
 		 * be reset to default (empty) values.
 		 */
-		FREEZE_ABORT(Proto.FreezeType.FREEZE_ABORT),
+		FreezeAbort = Proto.FreezeType.FreezeAbort,
 
 		/**
 		 * Prepare an upgrade of auxiliary services and containers
@@ -96,37 +96,6 @@ namespace Hedera.Hashgraph.SDK
 		 * <blockquote> The condition that `start_time` is REQUIRED is an
 		 * historical anomaly and SHOULD change in a future release.</blockquote>
 		 */
-		TELEMETRY_UPGRADE(Proto.FreezeType.TELEMETRY_UPGRADE);
-
-		readonly Proto.FreezeType code;
-
-		FreezeType(Proto.FreezeType code) {
-        this.code = code;
+		TelemetryUpgrade = Proto.FreezeType.TelemetryUpgrade
 	}
-
-	static FreezeType valueOf(Proto.FreezeType code)
-	{
-		return switch (code)
-		{
-			case UNKNOWN_FREEZE_TYPE->UNKNOWN_FREEZE_TYPE;
-			case FREEZE_ONLY->FREEZE_ONLY;
-			case PREPARE_UPGRADE->PREPARE_UPGRADE;
-			case FREEZE_UPGRADE->FREEZE_UPGRADE;
-			case FREEZE_ABORT->FREEZE_ABORT;
-			case TELEMETRY_UPGRADE->TELEMETRY_UPGRADE;
-			case UNRECOGNIZED->
-				// NOTE: Protobuf deserialization will not give us the code on the wire
-				throw new ArgumentException(
-						"network returned unrecognized response code; your SDK may be out of date");
-		}
-		;
-	}
-
-	@Override
-	public string toString()
-	{
-		return code.name();
-	}
-}
-
 }

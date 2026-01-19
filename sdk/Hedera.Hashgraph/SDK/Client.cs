@@ -9,7 +9,7 @@ namespace Hedera.Hashgraph.SDK
 	/**
  * Managed client for use on the Hedera Hashgraph network.
  */
-    public sealed class Client : AutoCloseable 
+    public sealed class Client : IDisposable 
     {
 		internal static readonly int DEFAULT_MAX_ATTEMPTS = 10;
         internal static readonly Duration DEFAULT_MAX_BACKOFF = Duration.FromTimeSpan(TimeSpan.FromSeconds(8L));
@@ -87,311 +87,7 @@ namespace Hedera.Hashgraph.SDK
             scheduleNetworkUpdate(networkUpdateInitialDelay);
         }
 
-        /**
-         * Extract the executor.
-         *
-         * @return the executor service
-         */
-        static ExecutorService createExecutor() {
-            var threadFactory = new ThreadFactoryBuilder()
-                    .setNameFormat("hedera-sdk-%d")
-                    .setDaemon(true)
-                    .build();
-
-            int nThreads = Runtime.getRuntime().availableProcessors();
-            return new ThreadPoolExecutor(
-                    nThreads,
-                    nThreads,
-                    0L,
-                    TimeUnit.MILLISECONDS,
-                    new LinkedBlockingQueue<>(),
-                    threadFactory,
-                    new ThreadPoolExecutor.CallerRunsPolicy());
-        }
-
-		/**
-         * Set up the client for the selected network.
-         *
-         * @param name the selected network
-         * @return the configured client
-         */
-		public static Client ForName(string name)
-		{
-			return switch (name)
-			{
-				case MAINNET->Client.forMainnet();
-				case TESTNET->Client.forTestnet();
-				case PREVIEWNET->Client.forPreviewnet();
-				default -> throw new ArgumentException("Name must be one-of `mainnet`, `testnet`, or `previewnet`");
-			}
-			;
-		}
-		/**
-         *
-         * Construct a client given a set of nodes.
-         * It is the responsibility of the caller to ensure that all nodes in the map are part of the
-         * same Hedera network. Failure to do so will result in undefined behavior.
-         * The client will load balance all requests to Hedera using a simple round-robin scheme to
-         * chose nodes to send transactions to. For one transaction, at most 1/3 of the nodes will be tried.
-         *
-         * @param networkMap the map of node IDs to node addresses that make up the network.
-         * @param executor runs the grpc requests asynchronously.
-         * @return {@link Client}
-         */
-		public static Client ForNetwork(Dictionary<string, AccountId> networkMap, ExecutorService executor) {
-            var network = Network.forNetwork(executor, networkMap);
-            var mirrorNetwork = MirrorNetwork.forNetwork(executor, new ArrayList<>());
-
-            return new Client(executor, network, mirrorNetwork, null, false, null, 0, 0);
-        }
-        /**
-         * Construct a client given a set of nodes.
-         *
-         * <p>It is the responsibility of the caller to ensure that all nodes in the map are part of the
-         * same Hedera network. Failure to do so will result in undefined behavior.
-         *
-         * <p>The client will load balance all requests to Hedera using a simple round-robin scheme to
-         * chose nodes to send transactions to. For one transaction, at most 1/3 of the nodes will be tried.
-         *
-         * @param networkMap the map of node IDs to node addresses that make up the network.
-         * @return {@link Client}
-         */
-        public static Client ForNetwork(Dictionary<string, AccountId> networkMap) {
-            var executor = createExecutor();
-            var isValidNetwork = true;
-            var Shard = 0L;
-            var Realm = 0L;
-
-            foreach (AccountId accountId in networkMap.values())
-            {
-                if (Shard == 0) Shard = accountId.Shard;
-                if (Realm == 0) Realm = accountId.Realm;
-				if (Shard != accountId.Shard || Realm != accountId.Realm) {
-                    isValidNetwork = false;
-                    break;
-                }
-            }
-
-            if (!isValidNetwork) throw new ArgumentException("Network is not valid, all nodes must be in the same Shard and Realm");
-
-			var network = Network.ForNetwork(executor, networkMap);
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, new []);
-
-            return new Client(executor, network, mirrorNetwork, null, true, null, Shard, Realm);
-        }
-        /**
-         * Set up the client from selected mirror network.
-         * Using default `0` values for Realm and Shard for retrieving addressBookFileId
-         *
-         * @param mirrorNetworkList
-         * @return
-         */
-        public static Client ForMirrorNetwork(List<string> mirrorNetworkList)
-        {
-            return forMirrorNetwork(mirrorNetworkList, 0, 0);
-        }
-        /**
-         * Set up the client from selected mirror network and given Realm and Shard
-         *
-         * @param mirrorNetworkList
-         * @param Realm
-         * @param Shard
-         * @return
-         */
-        public static Client ForMirrorNetwork(List<string> mirrorNetworkList, long Shard, long Realm)
-        {
-            var executor = createExecutor();
-            var network = Network.forNetwork(executor, new HashMap<>());
-            var mirrorNetwork = MirrorNetwork.forNetwork(executor, mirrorNetworkList);
-            var client = new Client(executor, network, mirrorNetwork, null, true, null, Shard, Realm);
-            var addressBook = new AddressBookQuery()
-                    .setFileId(FileId.getAddressBookFileIdFor(Shard, Realm))
-                    .execute(client);
-            client.setNetworkFromAddressBook(addressBook);
-            return client;
-        }
-        /**
-         * Construct a Hedera client pre-configured for <a
-         * href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
-         *
-         * @param executor runs the grpc requests asynchronously.
-         * @return {@link Client}
-         */
-        public static Client ForMainnet(ExecutorService executor) {
-            var network = Network.forMainnet(executor);
-            var mirrorNetwork = MirrorNetwork.forMainnet(executor);
-
-            return new Client(
-                    executor,
-                    network,
-                    mirrorNetwork,
-                    NETWORK_UPDATE_INITIAL_DELAY,
-                    false,
-                    DEFAULT_NETWORK_UPDATE_PERIOD,
-                    0,
-                    0);
-        }
-        /**
-         * Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
-         * access</a>.
-         *
-         * @param executor runs the grpc requests asynchronously.
-         * @return {@link Client}
-         */
-        public static Client ForTestnet(ExecutorService executor) {
-            var network = Network.forTestnet(executor);
-            var mirrorNetwork = MirrorNetwork.forTestnet(executor);
-
-            return new Client(
-                    executor,
-                    network,
-                    mirrorNetwork,
-                    NETWORK_UPDATE_INITIAL_DELAY,
-                    false,
-                    DEFAULT_NETWORK_UPDATE_PERIOD,
-                    0,
-                    0);
-        }
-        /**
-         * Construct a Hedera client pre-configured for <a
-         * href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
-         * nodes</a>.
-         *
-         * @param executor runs the grpc requests asynchronously.
-         * @return {@link Client}
-         */
-        public static Client ForPreviewnet(ExecutorService executor) {
-            var network = Network.forPreviewnet(executor);
-            var mirrorNetwork = MirrorNetwork.forPreviewnet(executor);
-
-            return new Client(
-                    executor,
-                    network,
-                    mirrorNetwork,
-                    NETWORK_UPDATE_INITIAL_DELAY,
-                    false,
-                    DEFAULT_NETWORK_UPDATE_PERIOD,
-                    0,
-                    0);
-        }
-        /**
-         * Construct a Hedera client pre-configured for <a
-         * href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
-         *
-         * @return {@link Client}
-         */
-        public static Client ForMainnet() {
-            var executor = createExecutor();
-            var network = Network.forMainnet(executor);
-            var mirrorNetwork = MirrorNetwork.forMainnet(executor);
-
-            return new Client(
-                    executor,
-                    network,
-                    mirrorNetwork,
-                    NETWORK_UPDATE_INITIAL_DELAY,
-                    true,
-                    DEFAULT_NETWORK_UPDATE_PERIOD,
-                    0,
-                    0);
-        }
-        /**
-         * Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
-         * access</a>.
-         *
-         * @return {@link Client}
-         */
-        public static Client ForTestnet() {
-            var executor = createExecutor();
-            var network = Network.forTestnet(executor);
-            var mirrorNetwork = MirrorNetwork.forTestnet(executor);
-
-            return new Client(
-                    executor,
-                    network,
-                    mirrorNetwork,
-                    NETWORK_UPDATE_INITIAL_DELAY,
-                    true,
-                    DEFAULT_NETWORK_UPDATE_PERIOD,
-                    0,
-                    0);
-        }
-        /**
-         * Construct a Hedera client pre-configured for <a
-         * href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
-         * nodes</a>.
-         *
-         * @return {@link Client}
-         */
-        public static Client ForPreviewnet() {
-            var executor = createExecutor();
-            var network = Network.forPreviewnet(executor);
-            var mirrorNetwork = MirrorNetwork.forPreviewnet(executor);
-
-            return new Client(
-                    executor,
-                    network,
-                    mirrorNetwork,
-                    NETWORK_UPDATE_INITIAL_DELAY,
-                    true,
-                    DEFAULT_NETWORK_UPDATE_PERIOD,
-                    0,
-                    0);
-        }
-        /**
-         * Configure a client based off the given JSON string.
-         *
-         * @param json The json string containing the client configuration
-         * @return {@link Client}
-         * @ if the config is incorrect
-         */
-        public static Client FromConfig(string json)  
-        {
-            return Config.FromString(json).toClient();
-        }
-        /**
-         * Configure a client based off the given JSON reader.
-         *
-         * @param json The Reader containing the client configuration
-         * @return {@link Client}
-         * @ if the config is incorrect
-         */
-        public static Client FromConfig(Reader json)  {
-            return Config.FromJson(json).toClient();
-        }
-
-        private static Dictionary<string, AccountId> getNetworkNodes(JsonObject networks) {
-            Dictionary<string, AccountId> nodes = new HashMap<>(networks.size());
-            for (Map.Entry<string, JsonElement> entry : networks.entrySet()) {
-                nodes.put(
-                        entry.getValue().toString().replace("\"", ""),
-                        AccountId.FromString(entry.getKey().replace("\"", "")));
-            }
-            return nodes;
-        }
-
-        /**
-         * Configure a client based on a JSON file at the given path.
-         *
-         * @param fileName The string containing the file path
-         * @return {@link Client}
-         * @ if IO operations fail
-         */
-        public static Client FromConfigFile(string fileName)  
-        {
-            return fromConfigFile(new File(fileName));
-        }
-
-        /**
-         * Configure a client based on a JSON file.
-         *
-         * @param file The file containing the client configuration
-         * @return {@link Client}
-         * @ if IO operations fail
-         */
-        public static Client FromConfigFile(File file)  {
-            return fromConfig(Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8));
-        }
+        
 
         /**
          * Extract the mirror network node list.
@@ -466,7 +162,7 @@ namespace Hedera.Hashgraph.SDK
 							{
 								this.setNetworkFromAddressBook(addressBook);
 							}
-							catch (Throwable error)
+							catch (Exception error)
 							{
 								return Task.failedFuture(error);
 							}
@@ -695,7 +391,7 @@ namespace Hedera.Hashgraph.SDK
          * @param nodeAccountId Account ID of the node to ping
          * @param callback      a BiConsumer which handles the result or error.
          */
-        public void pingAsync(AccountId nodeAccountId, BiConsumer<Void, Throwable> callback) {
+        public void pingAsync(AccountId nodeAccountId, Action<Void, Exception> callback) {
             ConsumerHelper.biConsumer(pingAsync(nodeAccountId), callback);
         }
 
@@ -706,7 +402,7 @@ namespace Hedera.Hashgraph.SDK
          * @param timeout       The timeout after which the execution attempt will be cancelled.
          * @param callback      a BiConsumer which handles the result or error.
          */
-        public void pingAsync(AccountId nodeAccountId, Duration timeout, BiConsumer<Void, Throwable> callback) {
+        public void pingAsync(AccountId nodeAccountId, Duration timeout, Action<Void, Exception> callback) {
             ConsumerHelper.biConsumer(pingAsync(nodeAccountId, timeout), callback);
         }
 
@@ -717,7 +413,7 @@ namespace Hedera.Hashgraph.SDK
          * @param onSuccess     a Consumer which consumes the result on success.
          * @param onFailure     a Consumer which consumes the error on failure.
          */
-        public void pingAsync(AccountId nodeAccountId, Consumer<Void> onSuccess, Consumer<Throwable> onFailure) {
+        public void pingAsync(AccountId nodeAccountId, Action<Void> onSuccess, Action<Exception> onFailure) {
             ConsumerHelper.twoConsumers(pingAsync(nodeAccountId), onSuccess, onFailure);
         }
 
@@ -729,7 +425,7 @@ namespace Hedera.Hashgraph.SDK
          * @param onSuccess     a Consumer which consumes the result on success.
          * @param onFailure     a Consumer which consumes the error on failure.
          */
-        public void pingAsync(AccountId nodeAccountId, Duration timeout, Consumer<Void> onSuccess, Consumer<Throwable> onFailure) {
+        public void pingAsync(AccountId nodeAccountId, Duration timeout, Action<Void> onSuccess, Action<Exception> onFailure) {
             ConsumerHelper.twoConsumers(pingAsync(nodeAccountId, timeout), onSuccess, onFailure);
         }
 
@@ -800,7 +496,7 @@ namespace Hedera.Hashgraph.SDK
          *
          * @param callback a BiConsumer which handles the result or error.
          */
-        public void pingAllAsync(BiConsumer<Void, Throwable> callback) {
+        public void pingAllAsync(Action<Void, Exception> callback) {
             ConsumerHelper.biConsumer(pingAllAsync(), callback);
         }
 
@@ -811,7 +507,7 @@ namespace Hedera.Hashgraph.SDK
          * @param timeoutPerPing The timeout after which each execution attempt will be cancelled.
          * @param callback       a BiConsumer which handles the result or error.
          */
-        public void pingAllAsync(Duration timeoutPerPing, BiConsumer<Void, Throwable> callback) {
+        public void pingAllAsync(Duration timeoutPerPing, Action<Void, Exception> callback) {
             ConsumerHelper.biConsumer(pingAllAsync(timeoutPerPing), callback);
         }
 
@@ -822,7 +518,7 @@ namespace Hedera.Hashgraph.SDK
          * @param onSuccess a Consumer which consumes the result on success.
          * @param onFailure a Consumer which consumes the error on failure.
          */
-        public void pingAllAsync(Consumer<Void> onSuccess, Consumer<Throwable> onFailure) {
+        public void pingAllAsync(Action<Void> onSuccess, Action<Exception> onFailure) {
             ConsumerHelper.twoConsumers(pingAllAsync(), onSuccess, onFailure);
         }
 
@@ -834,7 +530,7 @@ namespace Hedera.Hashgraph.SDK
          * @param onSuccess      a Consumer which consumes the result on success.
          * @param onFailure      a Consumer which consumes the error on failure.
          */
-        public void pingAllAsync(Duration timeoutPerPing, Consumer<Void> onSuccess, Consumer<Throwable> onFailure) {
+        public void pingAllAsync(Duration timeoutPerPing, Action<Void> onSuccess, Action<Exception> onFailure) {
             ConsumerHelper.twoConsumers(pingAllAsync(timeoutPerPing), onSuccess, onFailure);
         }
 
@@ -1521,7 +1217,7 @@ namespace Hedera.Hashgraph.SDK
             }
 
             if (mirrorNetworkError != null) {
-                if (mirrorNetworkError instanceof TimeoutException ex) {
+                if (mirrorNetworkError is TimeoutException ex) {
                     throw ex;
                 } else {
                     throw new RuntimeException(mirrorNetworkError);
@@ -1541,143 +1237,6 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        private static class Config {
-            @Nullable
-            private JsonElement network;
-
-            @Nullable
-            private JsonElement networkName;
-
-            @Nullable
-            private ConfigOperator operator;
-
-            @Nullable
-            private JsonElement mirrorNetwork;
-
-            @Nullable
-            private JsonElement Shard;
-
-            @Nullable
-            private JsonElement Realm;
-
-            private static class ConfigOperator {
-                @Nullable
-                private string accountId;
-
-                @Nullable
-                private string privateKey;
-            }
-
-            private static Config fromString(string json) {
-                return new Gson().FromJson((Reader) new StringReader(json), Config.class);
-            }
-
-            private static Config fromJson(Reader json) {
-                return new Gson().FromJson(json, Config.class);
-            }
-
-            private Client toClient() , InterruptedException {
-                Client client = initializeWithNetwork();
-                setOperatorOn(client);
-                setMirrorNetworkOn(client);
-                return client;
-            }
-
-            private Client initializeWithNetwork()  {
-                if (network == null) {
-                    throw new Exception("Network is not set in provided json object");
-                }
-
-                Client client;
-                if (network.isJsonObject()) {
-                    client = clientFromNetworkJson();
-                } else {
-                    client = clientFromNetworkString();
-                }
-                return client;
-            }
-
-            private Client clientFromNetworkJson() {
-                Client client;
-                var networkJson = network.getAsJsonObject();
-                Dictionary<string, AccountId> nodes = Client.getNetworkNodes(networkJson);
-                var executor = createExecutor();
-                var network = Network.forNetwork(executor, nodes);
-                var mirrorNetwork = MirrorNetwork.forNetwork(executor, new ArrayList<>());
-                var shardValue = Shard != null ? Shard.getAsLong() : 0;
-                var realmValue = Realm != null ? Realm.getAsLong() : 0;
-                client = new Client(executor, network, mirrorNetwork, null, true, null, shardValue, realmValue);
-                setNetworkNameOn(client);
-                return client;
-            }
-
-            private void setNetworkNameOn(Client client) {
-                if (networkName != null) {
-                    var networkNameString = networkName.getAsString();
-                    try {
-                        client.setNetworkName(NetworkName.FromString(networkNameString));
-                    } catch (Exception ignored) {
-                        throw new ArgumentException("networkName in config was \"" + networkNameString
-                                + "\", expected either \"mainnet\", \"testnet\" or \"previewnet\"");
-                    }
-                }
-            }
-
-            private Client clientFromNetworkString() {
-                return switch (network.getAsString()) {
-                    case MAINNET -> Client.forMainnet();
-                    case TESTNET -> Client.forTestnet();
-                    case PREVIEWNET -> Client.forPreviewnet();
-                    default -> throw new JsonParseException("Illegal argument for network.");
-                };
-            }
-
-            private void setMirrorNetworkOn(Client client)  {
-                if (mirrorNetwork != null) {
-                    setMirrorNetwork(client);
-                }
-            }
-
-            private void setMirrorNetwork(Client client)  {
-                if (mirrorNetwork.isJsonArray()) {
-                    setMirrorNetworksFromJsonArray(client);
-                } else {
-                    setMirrorNetworkFromString(client);
-                }
-            }
-
-            private void setMirrorNetworkFromString(Client client) {
-                string mirror = mirrorNetwork.getAsString();
-                switch (mirror) {
-                    case Client.MAINNET -> client.mirrorNetwork = MirrorNetwork.forMainnet(client.executor);
-                    case Client.TESTNET -> client.mirrorNetwork = MirrorNetwork.forTestnet(client.executor);
-                    case Client.PREVIEWNET -> client.mirrorNetwork = MirrorNetwork.forPreviewnet(client.executor);
-                    default -> throw new JsonParseException("Illegal argument for mirrorNetwork.");
-                }
-            }
-
-            private void setMirrorNetworksFromJsonArray(Client client)  {
-                var mirrors = mirrorNetwork.getAsJsonArray();
-                List<string> listMirrors = getListMirrors(mirrors);
-                client.setMirrorNetwork(listMirrors);
-            }
-
-            private List<string> getListMirrors(JsonArray mirrors) {
-                List<string> listMirrors = new ArrayList<>(mirrors.size());
-                for (var i = 0; i < mirrors.size(); i++) {
-                    listMirrors.Add(mirrors.get(i).getAsString().replace("\"", ""));
-                }
-                return listMirrors;
-            }
-
-            private void setOperatorOn(Client client) {
-                if (operator != null) {
-                    AccountId operatorAccount = AccountId.FromString(operator.accountId);
-                    PrivateKey privateKey = PrivateKey.FromString(operator.privateKey);
-                    client.setOperator(operatorAccount, privateKey);
-                }
-            }
-        }
+        
     }
-
 }

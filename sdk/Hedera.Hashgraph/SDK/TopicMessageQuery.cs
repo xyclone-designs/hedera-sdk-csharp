@@ -10,10 +10,10 @@ public sealed class TopicMessageQuery {
 
     private readonly ConsensusTopicQuery.Builder builder;
     private Runnable completionHandler = this::onComplete;
-    private BiConsumer<Throwable, TopicMessage> errorHandler = this::onError;
+    private Action<Exception, TopicMessage> errorHandler = this::onError;
     private int maxAttempts = 10;
     private Duration maxBackoff = Duration.ofSeconds(8L);
-    private Predicate<Throwable> retryHandler = this::shouldRetry;
+    private Predicate<Exception> retryHandler = this::shouldRetry;
 
     /**
      * Constructor.
@@ -87,7 +87,7 @@ public sealed class TopicMessageQuery {
      * @param errorHandler the error handler
      * @return {@code this}
      */
-    public TopicMessageQuery setErrorHandler(BiConsumer<Throwable, TopicMessage> errorHandler) {
+    public TopicMessageQuery setErrorHandler(Action<Exception, TopicMessage> errorHandler) {
         Objects.requireNonNull(errorHandler, "errorHandler must not be null");
         this.errorHandler = errorHandler;
         return this;
@@ -127,7 +127,7 @@ public sealed class TopicMessageQuery {
      * @param retryHandler the retry handler
      * @return {@code this}
      */
-    public TopicMessageQuery setRetryHandler(Predicate<Throwable> retryHandler) {
+    public TopicMessageQuery setRetryHandler(Predicate<Exception> retryHandler) {
         Objects.requireNonNull(retryHandler, "retryHandler must not be null");
         this.retryHandler = retryHandler;
         return this;
@@ -138,10 +138,10 @@ public sealed class TopicMessageQuery {
         LOGGER.info("Subscription to topic {} complete", topicId);
     }
 
-    private void onError(Throwable throwable, TopicMessage topicMessage) {
+    private void onError(Exception throwable, TopicMessage topicMessage) {
         var topicId = TopicId.FromProtobuf(builder.getTopicID());
 
-        if (throwable instanceof StatusRuntimeException sre
+        if (throwable is StatusRuntimeException sre
                 && sre.getStatus().getCode().equals(Status.Code.CANCELLED)) {
             LOGGER.warn("Call is cancelled for topic {}.", topicId);
         } else {
@@ -167,8 +167,8 @@ public sealed class TopicMessageQuery {
      * @return if the request should be retried or not
      */
     @SuppressWarnings("MethodCanBeStatic")
-    private bool shouldRetry(Throwable throwable) {
-        if (throwable instanceof StatusRuntimeException statusRuntimeException) {
+    private bool shouldRetry(Exception throwable) {
+        if (throwable is StatusRuntimeException statusRuntimeException) {
             var code = statusRuntimeException.getStatus().getCode();
             var description = statusRuntimeException.getStatus().getDescription();
 
@@ -191,7 +191,7 @@ public sealed class TopicMessageQuery {
      * @return the subscription handle
      */
     // TODO: Refactor into a base class when we add more mirror query types
-    public SubscriptionHandle subscribe(Client client, Consumer<TopicMessage> onNext) {
+    public SubscriptionHandle subscribe(Client client, Action<TopicMessage> onNext) {
         SubscriptionHandle subscriptionHandle = new SubscriptionHandle();
         HashMap<TransactionID, ArrayList<ConsensusTopicResponse>> pendingMessages = new HashMap<>();
 
@@ -208,7 +208,7 @@ public sealed class TopicMessageQuery {
     private void makeStreamingCall(
             Client client,
             SubscriptionHandle subscriptionHandle,
-            Consumer<TopicMessage> onNext,
+            Action<TopicMessage> onNext,
             int attempt,
             AtomicLong counter,
             AtomicReference<ConsensusTopicResponse> lastMessage,
@@ -259,7 +259,7 @@ public sealed class TopicMessageQuery {
 
                     try {
                         onNext.accept(message);
-                    } catch (Throwable t) {
+                    } catch (Exception t) {
                         errorHandler.accept(t, message);
                     }
 
@@ -286,14 +286,14 @@ public sealed class TopicMessageQuery {
 
                     try {
                         onNext.accept(message);
-                    } catch (Throwable t) {
+                    } catch (Exception t) {
                         errorHandler.accept(t, message);
                     }
                 }
             }
 
             @Override
-            public void onError(Throwable t) {
+            public void onError(Exception t) {
                 if (cancelledByClient.get()) {
                     return;
                 }

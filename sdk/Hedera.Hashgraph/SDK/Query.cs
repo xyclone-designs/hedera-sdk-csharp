@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK
 		 * @param timeout The timeout after which the execution attempt will be cancelled.
 		 * @param callback a BiConsumer which handles the result or error.
 		 */
-		public void GetCostAsync(Client client, Duration timeout, BiConsumer<Hbar, Throwable> callback)
+		public void GetCostAsync(Client client, Duration timeout, Action<Hbar, Exception> callback)
 		{
 			ConsumerHelper.biConsumer(GetCostAsync(client, timeout), callback);
 		}
@@ -177,7 +177,7 @@ namespace Hedera.Hashgraph.SDK
 		 * @param client                    the client
 		 * @param callback a BiConsumer which handles the result or error.
 		 */
-		public void GetCostAsync(Client client, BiConsumer<Hbar, Throwable> callback)
+		public void GetCostAsync(Client client, Action<Hbar, Exception> callback)
 		{
 			ConsumerHelper.biConsumer(GetCostAsync(client), callback);
 		}
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.SDK
 		 * @param onSuccess a Consumer which consumes the result on success.
 		 * @param onFailure a Consumer which consumes the error on failure.
 		 */
-		public void GetCostAsync(Client client, Duration timeout, Consumer<Hbar> onSuccess, Consumer<Throwable> onFailure)
+		public void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
 			ConsumerHelper.twoConsumers(GetCostAsync(client, timeout), onSuccess, onFailure);
 		}
@@ -200,7 +200,7 @@ namespace Hedera.Hashgraph.SDK
 		 * @param onSuccess a Consumer which consumes the result on success.
 		 * @param onFailure a Consumer which consumes the error on failure.
 		 */
-		public void GetCostAsync(Client client, Consumer<Hbar> onSuccess, Consumer<Throwable> onFailure)
+		public void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
 			ConsumerHelper.twoConsumers(GetCostAsync(client), onSuccess, onFailure);
 		}
@@ -422,7 +422,7 @@ namespace Hedera.Hashgraph.SDK
 	return Status.valueOf(preCheckCode);
 		}
 
-		public override TransactionId? getTransactionIdInternal() {
+		public override TransactionId? GetTransactionIdInternal() {
 			// this is only called on an error about either the payment transaction or missing a payment transaction
 			// as we make sure the latter can't happen, this will never be null
 			return paymentTransactionId;
@@ -485,7 +485,7 @@ namespace Hedera.Hashgraph.SDK
 			private readonly Hbar maxCost;
 			private readonly bool notRequired;
 
-			private Client.Operator operator;
+			private Client.Operator Operator;
 
 			private Hbar cost;
 
@@ -501,11 +501,6 @@ namespace Hedera.Hashgraph.SDK
 				{
 						operator = Query.this.getOperatorFromClient(client);
 				}
-			}
-
-			public Client.Operator getOperator()
-			{
-				return operator;
 			}
 
 			public Hbar GetCost()

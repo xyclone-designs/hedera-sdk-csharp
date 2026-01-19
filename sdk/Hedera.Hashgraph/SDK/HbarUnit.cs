@@ -1,78 +1,58 @@
-﻿namespace Hedera.Hashgraph.SDK
+﻿using System;
+
+namespace Hedera.Hashgraph.SDK
 {
-	/**
-     * Common units of hbar; for the most part they follow SI prefix conventions.
-     *
-     * See <a href="https://docs.hedera.com/guides/docs/sdks/hbars#hbar-units">Hedera Documentation</a>
-     */
-    public enum HbarUnit {
-        /**
-         * The atomic (smallest) unit of hbar, used natively by the Hedera network.
-         * <p>
-         * It is equivalent to <sup>1</sup>&frasl;<sub>100,000,000</sub> hbar.
-         */
-        TINYBAR("tℏ", 1),
+	/// <summary>
+	/// Common units of hbar; for the most part they follow SI prefix conventions.
+	/// See <a href="https://docs.hedera.com/guides/docs/sdks/hbars#hbar-units">Hedera Documentation</a>
+	/// </summary>
+	public readonly struct HbarUnit : IEquatable<HbarUnit>
+	{
+		public static readonly HbarUnit Tinybar = new ("tℏ", 1, "tinybar");
+		public static readonly HbarUnit Microbar = new ("μℏ", 100, "microbar");
+		public static readonly HbarUnit Millibar = new ("mℏ", 100_000, "millibar");
+		public static readonly HbarUnit Hbar = new ("ℏ", 100_000_000, "hbar");
+		public static readonly HbarUnit Kilobar = new ("kℏ", 1000 * 100_000_000L, "kilobar");
+		public static readonly HbarUnit Megabar = new ("Mℏ", 1_000_000 * 100_000_000L, "megabar");
+		public static readonly HbarUnit Gigabar = new ("Gℏ", 1_000_000_000 * 100_000_000L, "gigabar");
 
-        /**
-         * Equivalent to 100 tinybar or <sup>1</sup>&frasl;<sub>1,000,000</sub> hbar.
-         */
-        MICROBAR("μℏ", 100),
+		private readonly string _symbol;
+		private readonly string _name;
 
-        /**
-         * Equivalent to 100,000 tinybar or <sup>1</sup>&frasl;<sub>1,000</sub> hbar.
-         */
-        MILLIBAR("mℏ", 100_000),
+		/// <summary>
+		/// The atomic (smallest) unit of hbar.
+		/// </summary>
+		public long TinybarValue { get; }
 
-        /**
-         * The base unit of hbar, equivalent to 100 million tinybar.
-         */
-        HBAR("ℏ", 100_000_000),
+		private HbarUnit(string symbol, long tinybar, string name)
+		{
+			TinybarValue = tinybar;
 
-        /**
-         * Equivalent to 1 thousand hbar or 100 billion tinybar.
-         */
-        KILOBAR("kℏ", 1000 * 100_000_000L),
+			_symbol = symbol;
+			_name = name;
+		}
 
-        /**
-         * Equivalent to 1 million hbar or 100 trillion tinybar.
-         */
-        MEGABAR("Mℏ", 1_000_000 * 100_000_000L),
-
-        /**
-         * Equivalent to 1 billion hbar or 100 quadillion tinybar.
-         * <p>
-         * The maximum hbar amount supported by Hedera in any context is ~92 gigabar
-         * (2<sup>63</sup> tinybar); use this unit sparingly.
-         */
-        GIGABAR("Gℏ", 1_000_000_000 * 100_000_000L);
-
-        readonly long tinybar;
-
-        private readonly string symbol;
-
-        HbarUnit(string symbol, long tinybar) {
-            this.symbol = symbol;
-            this.tinybar = tinybar;
-        }
-
-        /**
-         * Get the preferred symbol of the current unit.
-         * <p>
-         * E.g. {@link #TINYBAR}.getSymbol() returns "tℏ".
-         *
-         * @return the symbol
-         */
-        public string getSymbol() {
-            return symbol;
-        }
-
-        /**
-         * Get the name of this unit.
-         */
-        @Override
-        public string toString() {
-            return name().toLowerCase();
-        }
-    }
-
+		public string GetSymbol()
+		{
+			return _symbol; 
+		}
+		public bool Equals(HbarUnit other)
+		{
+			return TinybarValue == other.TinybarValue;
+		}
+		public override string ToString()
+		{
+			return _na;
+		}
+		public override int GetHashCode()
+		{
+			return TinybarValue.GetHashCode();
+		}
+		public override bool Equals(object? obj)
+		{
+			return obj is HbarUnit other && Equals(other);
+		}
+		public static bool operator ==(HbarUnit left, HbarUnit right) => left.Equals(right);
+		public static bool operator !=(HbarUnit left, HbarUnit right) => !left.Equals(right);
+	}
 }

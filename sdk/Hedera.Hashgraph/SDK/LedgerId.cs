@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK
          * @param byteString                the string
          * @return                          the ledger id
          */
-        private static LedgerId FromByteString(ByteString byteString) 
+        public static LedgerId FromByteString(ByteString byteString) 
         {
             return FromBytes(byteString.ToByteArray());
         }

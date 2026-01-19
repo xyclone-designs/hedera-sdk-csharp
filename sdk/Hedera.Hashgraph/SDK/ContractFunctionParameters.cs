@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.SDK
 				{
 					output.close();
 				}
-				catch (Throwable ignored)
+				catch (Exception ignored)
 				{
 					// do nothing
 				}
@@ -2707,7 +2707,7 @@ namespace Hedera.Hashgraph.SDK
 				{
 					output.close();
 				}
-				catch (Throwable ignored)
+				catch (Exception ignored)
 				{
 					// do nothing
 				}

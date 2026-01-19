@@ -518,9 +518,9 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        // returns null if successful, or Throwable if error occurred
+        // returns null if successful, or Exception if error occurred
         @Nullable
-        synchronized Throwable awaitClose(DateTimeOffset deadline, @Nullable Throwable previousError) {
+        synchronized Exception awaitClose(DateTimeOffset deadline, Exception? previousError) {
             try {
                 if (previousError != null) {
                     throw previousError;
@@ -539,7 +539,7 @@ namespace Hedera.Hashgraph.SDK
                 }
 
                 return null;
-            } catch (Throwable error) {
+            } catch (Exception error) {
                 for (var node : nodes) {
                     if (node.channel != null) {
                         node.channel.shutdownNow();

@@ -1,157 +1,101 @@
+using Google.Protobuf;
+using System;
+
 namespace Hedera.Hashgraph.SDK
 {
 	/**
- * Represents an entry in a Solidity mapping.
- * <p>
- * This class is used to specify updates to Solidity mapping entries in a
- * lambda EVM hook's storage. It supports both explicit key bytes and
- * preimage-based keys for variable-length mapping keys.
- */
-public class LambdaMappingEntry {
-    private readonly byte[] key;
-    private readonly byte[] preimage;
-    private readonly byte[] value;
-
-    /**
-     * Create a new mapping entry with an explicit key.
-     *
-     * @param key the explicit mapping key (max 32 bytes, minimal representation)
-     * @param value the mapping value (max 32 bytes, minimal representation)
+     * Represents an entry in a Solidity mapping.
+     * <p>
+     * This class is used to specify updates to Solidity mapping entries in a
+     * lambda EVM hook's storage. It supports both explicit Key bytes and
+     * PreImage-based Keys for variable-length mapping Keys.
      */
-    public static LambdaMappingEntry ofKey(byte[] key, byte[] value) {
-        Objects.requireNonNull(key, "key cannot be null");
-        return new LambdaMappingEntry(key, null, value);
-    }
+    public class LambdaMappingEntry 
+    {
+        private byte[]? _Key;
+		private byte[]? _PreImage;
+		private byte[] _Value = [];
 
-    /**
-     * Create a new mapping entry with a preimage key.
-     *
-     * @param preimage the preimage bytes for the mapping key
-     * @param value the mapping value (max 32 bytes, minimal representation)
-     */
-    public static LambdaMappingEntry withPreimage(byte[] preimage, byte[] value) {
-        Objects.requireNonNull(preimage, "preimage cannot be null");
-        return new LambdaMappingEntry(null, preimage, value);
-    }
+		private LambdaMappingEntry(byte[]? key, byte[]? preimage, byte[] value)
+		{
+			key?.CopyTo(_Key = []);
+			value.CopyTo(_Value = []);
+			preimage?.CopyTo(_PreImage = []);
+		}
 
-    private LambdaMappingEntry(byte[] key, byte[] preimage, byte[] value) {
-        Objects.requireNonNull(value, "value cannot be null");
-        this.key = key != null ? key.clone() : null;
-        this.preimage = preimage != null ? preimage.clone() : null;
-        this.value = value.clone();
-    }
+		public byte[]? Key { get => (byte[]?)_Key?.Clone(); }
+        public byte[]? PreImage { get => (byte[]?)_PreImage?.Clone(); }
+        public byte[] Value { get => (byte[])_Value.Clone(); }
+		public bool HasKey { get => Key is not null; }
+		public bool HasPreImage { get => PreImage is not null; }
 
-    /**
-     * Check if this entry uses an explicit key.
-     *
-     * @return true if using explicit key, false if using preimage
-     */
-    public bool hasExplicitKey() {
-        return key != null;
-    }
-
-    /**
-     * Check if this entry uses a preimage key.
-     *
-     * @return true if using preimage, false if using explicit key
-     */
-    public bool hasPreimageKey() {
-        return preimage != null;
-    }
-
-    /**
-     * Get the explicit key if this entry uses one.
-     *
-     * @return a copy of the key bytes, or null if using preimage
-     */
-    public byte[] getKey() {
-        return key != null ? key.clone() : null;
-    }
-
-    /**
-     * Get the preimage if this entry uses one.
-     *
-     * @return a copy of the preimage bytes, or null if using explicit key
-     */
-    public byte[] getPreimage() {
-        return preimage != null ? preimage.clone() : null;
-    }
-
-    /**
-     * Get the mapping value.
-     *
-     * @return a copy of the value bytes
-     */
-    public byte[] getValue() {
-        return value.clone();
-    }
-
-    /**
-     * Convert this mapping entry to a protobuf message.
-     *
-     * @return the protobuf LambdaMappingEntry
-     */
-    Proto.LambdaMappingEntry ToProtobuf() {
-        var builder = Proto.LambdaMappingEntry.newBuilder();
-
-        if (key != null) {
-            builder.setKey(ByteString.copyFrom(key));
-        } else if (preimage != null) {
-            builder.setPreimage(ByteString.copyFrom(preimage));
+		/**
+         * Create a new mapping entry with an explicit Key.
+         *
+         * @param Key the explicit mapping Key (max 32 bytes, minimal representation)
+         * @param Value the mapping Value (max 32 bytes, minimal representation)
+         */
+		public static LambdaMappingEntry OfKey(byte[] key, byte[] value) 
+        {
+            return new LambdaMappingEntry(key, null, value);
+        }
+        /**
+         * Create a new mapping entry with a PreImage Key.
+         *
+         * @param PreImage the PreImage bytes for the mapping Key
+         * @param Value the mapping Value (max 32 bytes, minimal representation)
+         */
+        public static LambdaMappingEntry WithPreimage(byte[] preimage, byte[] value) 
+        {
+            return new LambdaMappingEntry(null, preimage, value);
         }
 
-        if (value.Length > 0) {
-            builder.setValue(ByteString.copyFrom(value));
+        /**
+         * Convert this mapping entry to a protobuf message.
+         *
+         * @return the protobuf LambdaMappingEntry
+         */
+        public Proto.LambdaMappingEntry ToProtobuf() 
+        {
+            return new Proto.LambdaMappingEntry
+            {
+                Key = ByteString.CopyFrom(_Key),
+                Preimage = ByteString.CopyFrom(_PreImage),
+                Value = ByteString.CopyFrom(_Value),
+            };
         }
 
-        return builder.build();
-    }
+        /**
+         * Create a LambdaMappingEntry from a protobuf message.
+         *
+         * @param proto the protobuf LambdaMappingEntry
+         * @return a new LambdaMappingEntry instance
+         */
+        public static LambdaMappingEntry FromProtobuf(Proto.LambdaMappingEntry proto) 
+        {
+            return proto.EntryKeyCase switch 
+            {
+                Proto.LambdaMappingEntry.EntryKeyOneofCase.Key => OfKey(proto.Key.ToByteArray(), proto.Value.ToByteArray()),
+                Proto.LambdaMappingEntry.EntryKeyOneofCase.Preimage => OfKey(proto.Preimage.ToByteArray(), proto.Value.ToByteArray()),
+				Proto.LambdaMappingEntry.EntryKeyOneofCase.None or _ => throw new ArgumentException("LambdaMappingEntry must have either Key or PreImage set"),
+            };
+        }
 
-    /**
-     * Create a LambdaMappingEntry from a protobuf message.
-     *
-     * @param proto the protobuf LambdaMappingEntry
-     * @return a new LambdaMappingEntry instance
-     */
-    public static LambdaMappingEntry FromProtobuf(Proto.LambdaMappingEntry proto) {
-        return switch (proto.getEntryKeyCase()) {
-            case KEY ->
-                LambdaMappingEntry.ofKey(
-                        proto.getKey().ToByteArray(), proto.getValue().ToByteArray());
-            case PREIMAGE ->
-                LambdaMappingEntry.withPreimage(
-                        proto.getPreimage().ToByteArray(), proto.getValue().ToByteArray());
-            case ENTRYKEY_NOT_SET ->
-                throw new ArgumentException("LambdaMappingEntry must have either key or preimage set");
-        };
-    }
+        public override bool Equals(object? obj) 
+        {
+            if (this == obj) return true;
+            if (obj == null || GetType() != obj.GetType()) return false;
 
-    @Override
-    public override bool Equals(object? obj) {
-        if (this == obj) return true;
-        if (obj == null || GetType() != obj.GetType()) return false;
+            LambdaMappingEntry that = (LambdaMappingEntry) obj;
 
-        LambdaMappingEntry that = (LambdaMappingEntry) o;
-        return Arrays.equals(key, that.key)
-                && Arrays.equals(preimage, that.preimage)
-                && Arrays.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(Arrays.hashCode(key), Arrays.hashCode(preimage), Arrays.hashCode(value));
-    }
-
-    @Override
-    public string toString() {
-        if (key != null) {
-            return "LambdaMappingEntry{key=" + java.util.Arrays.toString(key) + ", value="
-                    + java.util.Arrays.toString(value) + "}";
-        } else {
-            return "LambdaMappingEntry{preimage=" + java.util.Arrays.toString(preimage) + ", value="
-                    + java.util.Arrays.toString(value) + "}";
+            return 
+                Equals(Key, that.Key) &&
+                Equals(PreImage, that.PreImage) && 
+                Equals(Value, that.Value);
+        }
+        public override int GetHashCode() 
+        {
+            return HashCode.Combine(Key, PreImage, Value);
         }
     }
-}
-
 }

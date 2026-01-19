@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -23,8 +25,7 @@ namespace Hedera.Hashgraph.SDK
          */
         public static readonly Hbar MIN = Hbar.From(-50_000_000_000L);
 
-        private static readonly Pattern FROM_STRING_PATTERN =
-                Pattern.compile("^((?:\\+|\\-)?\\d+(?:\\.\\d+)?)(\\ (tℏ|μℏ|mℏ|ℏ|kℏ|Mℏ|Gℏ))?$");
+        private static readonly Regex FROM_STRING_PATTERN = new ("^((?:\\+|\\-)?\\d+(?:\\.\\d+)?)(\\ (tℏ|μℏ|mℏ|ℏ|kℏ|Mℏ|Gℏ))?$");
         private readonly long valueInTinybar;
 
         /**
@@ -32,19 +33,18 @@ namespace Hedera.Hashgraph.SDK
          *
          * @param amount The amount of Hbar
          */
-        public Hbar(long amount) {
-            this(amount, HbarUnit.HBAR);
-        }
+        public Hbar(long amount) : this(amount, HbarUnit.Hbar) { }
 
-        /**
+		/**
          * Constructs a new hbar of the specified value in the specified unit.
          * {@link HbarUnit}
          *
          * @param amount                            the amount
          * @param unit                              the unit for amount
          */
-        Hbar(long amount, HbarUnit unit) {
-            valueInTinybar = amount * unit.tinybar;
+		Hbar(long amount, HbarUnit unit) 
+        {
+            valueInTinybar = amount * unit.TinybarValue;
         }
 
         /**
@@ -56,26 +56,24 @@ namespace Hedera.Hashgraph.SDK
          *
          * @param amount The amount of Hbar
          */
-        public Hbar(BigDecimal amount) {
-            this(amount, HbarUnit.HBAR);
-        }
+        public Hbar(decimal amount) : this(amount, HbarUnit.Hbar) { }
 
-        /**
+		/**
          * Constructs a new hbar of the specified value in the specified unit.
          * {@link HbarUnit}
          *
          * @param amount                            the amount
          * @param unit                              the unit for amount
          */
-        Hbar(BigDecimal amount, HbarUnit unit) {
-            var tinybars = amount.multiply(BigDecimal.valueOf(unit.tinybar));
+		Hbar(decimal amount, HbarUnit unit) {
+            var tinybars = decimal.Multiply(amount, unit.TinybarValue);
 
-            if (tinybars.doubleValue() % 1 != 0) {
+            if (tinybars % 1 != 0) {
                 throw new ArgumentException(
                         "Amount and Unit combination results in a fractional value for tinybar.  Ensure tinybar value is a whole number.");
             }
 
-            valueInTinybar = tinybars.longValue();
+            valueInTinybar = (long)tinybars;
         }
 
         private static HbarUnit GetUnit(string symbolString) {
@@ -84,8 +82,7 @@ namespace Hedera.Hashgraph.SDK
                     return unit;
                 }
             }
-            throw new ArgumentException(
-                    "Attempted to convert string to Hbar, but unit symbol \"" + symbolString + "\" was not recognized");
+            throw new ArgumentException("Attempted to convert string to Hbar, but unit symbol \"" + symbolString + "\" was not recognized");
         }
 
         /**
@@ -94,14 +91,15 @@ namespace Hedera.Hashgraph.SDK
          * @param text The string representing the amount of Hbar
          * @return {@link Hbar}
          */
-        public static Hbar FromString(CharSequence text) {
-            var matcher = FROM_STRING_PATTERN.matcher(text);
-            if (!matcher.matches()) {
+        public static Hbar FromString(string text)
+        {
+            var matcher = FROM_STRING_PATTERN.Matches(text);
+            if (matcher.Count == 0) 
                 throw new ArgumentException(
                         "Attempted to convert string to Hbar, but \"" + text + "\" was not correctly formatted");
-            }
-            var parts = Splitter.on(' ').splitToList(text.toString());
-            return new Hbar(new BigDecimal(parts.get(0)), parts.size() == 2 ? getUnit(parts.get(1)) : HbarUnit.HBAR);
+            
+            var parts = Splitter.on(' ').splitToList(text);
+            return new Hbar(new decimal(parts.get(0)), parts.size() == 2 ? GetUnit(parts.get(1)) : HbarUnit.Hbar);
         }
         /**
          * Converts the provided string into an amount of hbars.
@@ -110,8 +108,8 @@ namespace Hedera.Hashgraph.SDK
          * @param unit The unit to convert from to Hbar
          * @return {@link Hbar}
          */
-        public static Hbar FromString(CharSequence text, HbarUnit unit) {
-            return new Hbar(new BigDecimal(text.toString()), unit);
+        public static Hbar FromString(string text, HbarUnit unit) {
+            return new Hbar(decimal.Parse(text), unit);
         }
         /**
          * Returns an Hbar whose value is equal to the specified long.
@@ -121,7 +119,7 @@ namespace Hedera.Hashgraph.SDK
          */
         public static Hbar From(long hbars) 
         {
-            return new Hbar(hbars, HbarUnit.HBAR);
+            return new Hbar(hbars, HbarUnit.Hbar);
         }
         /**
          * Returns an Hbar representing the value in the given units.
@@ -137,21 +135,21 @@ namespace Hedera.Hashgraph.SDK
         /**
          * Returns an Hbar whose value is equal to the specified long.
          *
-         * @param hbars The BigDecimal representing the amount of Hbar
+         * @param hbars The decimal representing the amount of Hbar
          * @return {@link Hbar}
          */
-        public static Hbar From(BigDecimal hbars) 
+        public static Hbar From(decimal hbars) 
         {
-            return new Hbar(hbars, HbarUnit.HBAR);
+            return new Hbar(hbars, HbarUnit.Hbar);
         }
         /**
          * Returns an Hbar representing the value in the given units.
          *
-         * @param amount The BigDecimal representing the amount of set units
+         * @param amount The decimal representing the amount of set units
          * @param unit   The unit to convert from to Hbar
          * @return {@link Hbar}
          */
-        public static Hbar From(BigDecimal amount, HbarUnit unit) 
+        public static Hbar From(decimal amount, HbarUnit unit) 
         {
             return new Hbar(amount, unit);
         }
@@ -163,17 +161,18 @@ namespace Hedera.Hashgraph.SDK
          */
         public static Hbar FromTinybars(long tinybars) 
         {
-            return new Hbar(tinybars, HbarUnit.TINYBAR);
+            return new Hbar(tinybars, HbarUnit.Tinybar);
         }
 
         /**
          * Convert this hbar value to a different unit.
          *
          * @param unit The unit to convert to from Hbar
-         * @return BigDecimal
+         * @return decimal
          */
-        public BigDecimal To(HbarUnit unit) {
-            return BigDecimal.valueOf(valueInTinybar).divide(BigDecimal.valueOf(unit.tinybar), MathContext.UNLIMITED);
+        public decimal To(HbarUnit unit) 
+        {
+            return decimal.Divide(valueInTinybar, unit.TinybarValue);
         }
 
         /**
@@ -181,17 +180,19 @@ namespace Hedera.Hashgraph.SDK
          *
          * @return long
          */
-        public long ToTinybars() {
+        public long ToTinybars() 
+        {
             return valueInTinybar;
         }
 
         /**
          * Returns the number of Hbars.
          *
-         * @return BigDecimal
+         * @return decimal
          */
-        public BigDecimal GetValue() {
-            return to(HbarUnit.HBAR);
+        public decimal GetValue()
+        {
+            return To(HbarUnit.Hbar);
         }
 
         /**
@@ -199,14 +200,12 @@ namespace Hedera.Hashgraph.SDK
          *
          * @return Hbar
          */
-        public Hbar Negated() {
-            return Hbar.FromTinybars(-valueInTinybar);
+        public Hbar Negated() 
+        {
+            return FromTinybars(-valueInTinybar);
         }
 
-        @Override
-        public string ToString() {
-            
-        }
+        
 
         /**
          * Convert hbar to string representation in specified units.
@@ -215,41 +214,37 @@ namespace Hedera.Hashgraph.SDK
          * @return                          the string representation
          */
         public string ToString(HbarUnit unit) {
-            return to(unit).toString();
+            return To(unit).ToString();
         }
 
-        @Override
-        public override bool Equals(object? obj) {
-            if (this == o) {
-                return true;
-            }
+        public override bool Equals(object? obj) 
+        {
+            if (this == obj) return true;
+            if (obj is not Hbar hbar) return false;
 
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            Hbar hbar = (Hbar) o;
             return valueInTinybar == hbar.valueInTinybar;
         }
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(valueInTinybar);
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(valueInTinybar);
         }
 
-        @Override
-        public int compareTo(Hbar o) {
-            return long.compare(valueInTinybar, o.valueInTinybar);
-        }
+
 
         public override string ToString()
         {
 			if (valueInTinybar < 10_000 && valueInTinybar > -10_000)
 			{
-				return long.toString(this.valueInTinybar) + " " + HbarUnit.TINYBAR.getSymbol();
+				return valueInTinybar + " " + HbarUnit.Tinybar.GetSymbol();
 			}
 
-			return To(HbarUnit.HBAR).ToString() + " " + HbarUnit.HBAR.getSymbol();
+			return To(HbarUnit.Hbar).ToString() + " " + HbarUnit.Hbar.GetSymbol();
+		}
+
+        public int CompareTo(Hbar? other)
+        {
+			return valueInTinybar.CompareTo(other?.valueInTinybar);
 		}
     }
 

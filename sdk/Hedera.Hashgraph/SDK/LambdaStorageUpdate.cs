@@ -1,195 +1,157 @@
+using Google.Protobuf;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Hedera.Hashgraph.SDK
 {
 	/**
- * Abstract base class for lambda storage updates.
- * <p>
- * Storage updates define how to modify the storage of a lambda EVM hook.
- * This can be done either by directly specifying storage slots or by
- * updating Solidity mapping entries.
- */
-public abstract class LambdaStorageUpdate {
-
-    /**
-     * Convert this storage update to a protobuf message.
-     *
-     * @return the protobuf LambdaStorageUpdate
-     */
-    abstract Proto.LambdaStorageUpdate ToProtobuf();
-
-    /**
-     * Create a LambdaStorageUpdate from a protobuf message.
-     *
-     * @param proto the protobuf LambdaStorageUpdate
-     * @return a new LambdaStorageUpdate instance
-     */
-    static LambdaStorageUpdate FromProtobuf(Proto.LambdaStorageUpdate proto) {
-        return switch (proto.getUpdateCase()) {
-            case STORAGE_SLOT -> LambdaStorageSlot.FromProtobuf(proto.getStorageSlot());
-            case MAPPING_ENTRIES -> LambdaMappingEntries.FromProtobuf(proto.getMappingEntries());
-            case UPDATE_NOT_SET ->
-                throw new ArgumentException(
-                        "LambdaStorageUpdate must have either storage_slot or mapping_entries set");
-        };
-    }
-
-    /**
-     * Represents a direct storage slot update.
+     * Abstract base class for lambda storage updates.
      * <p>
-     * This class allows direct manipulation of storage slots in the lambda's storage.
+     * Storage updates define how to modify the storage of a lambda EVM hook.
+     * This can be done either by directly specifying storage slots or by
+     * updating Solidity mapping entries.
      */
-    public static class LambdaStorageSlot extends LambdaStorageUpdate {
-        private readonly byte[] key;
-        private readonly byte[] value;
+    public abstract class LambdaStorageUpdate 
+    {
+        /**
+         * Convert this storage update to a protobuf message.
+         *
+         * @return the protobuf LambdaStorageUpdate
+         */
+        public abstract Proto.LambdaStorageUpdate ToProtobuf();
 
         /**
-         * Create a new storage slot update.
+         * Create a LambdaStorageUpdate from a protobuf message.
          *
-         * @param key the storage slot key (max 32 bytes, minimal representation)
-         * @param value the storage slot value (max 32 bytes, minimal representation)
+         * @param proto the protobuf LambdaStorageUpdate
+         * @return a new LambdaStorageUpdate instance
          */
-        public LambdaStorageSlot(byte[] key, byte[] value) {
-            this.key = Objects.requireNonNull(key, "key cannot be null").clone();
-            this.value = value != null ? value.clone() : new byte[0];
-        }
+        public static LambdaStorageUpdate FromProtobuf(Proto.LambdaStorageUpdate proto) 
+        {
+            return proto.UpdateCase switch
+            {
+                Proto.LambdaStorageUpdate.UpdateOneofCase.StorageSlot => LambdaStorageSlot.FromProtobuf(proto.StorageSlot),
+                Proto.LambdaStorageUpdate.UpdateOneofCase.MappingEntries => LambdaMappingEntries.FromProtobuf(proto.MappingEntries),
 
-        /**
-         * Get the storage slot key.
-         *
-         * @return a copy of the key bytes
-         */
-        public byte[] getKey() {
-            return key.clone();
-        }
-
-        /**
-         * Get the storage slot value.
-         *
-         * @return a copy of the value bytes
-         */
-        public byte[] getValue() {
-            return value.clone();
-        }
-
-        @Override
-        Proto.LambdaStorageUpdate ToProtobuf() {
-            return Proto.LambdaStorageUpdate.newBuilder()
-                    .setStorageSlot(Proto.LambdaStorageSlot.newBuilder()
-                            .setKey(ByteString.copyFrom(key))
-                            .setValue(ByteString.copyFrom(value))
-                            .build())
-                    .build();
-        }
-
-        public static LambdaStorageSlot FromProtobuf(Proto.LambdaStorageSlot proto) {
-            return new LambdaStorageSlot(
-                    proto.getKey().ToByteArray(), proto.getValue().ToByteArray());
-        }
-
-        @Override
-        public override bool Equals(object? obj) {
-            if (this == obj) return true;
-            if (obj == null || GetType() != obj.GetType()) return false;
-
-            LambdaStorageSlot that = (LambdaStorageSlot) o;
-            return Arrays.equals(key, that.key) && Arrays.equals(value, that.value);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(Arrays.hashCode(key), Arrays.hashCode(value));
-        }
-
-        @Override
-        public string toString() {
-            return "LambdaStorageSlot{key=" + java.util.Arrays.toString(key) + ", value="
-                    + java.util.Arrays.toString(value) + "}";
-        }
-    }
-
-    /**
-     * Represents storage updates via Solidity mapping entries.
-     * <p>
-     * This class allows updates to be specified in terms of Solidity mapping
-     * entries rather than raw storage slots, making it easier to work with
-     * high-level data structures.
-     */
-    public static class LambdaMappingEntries extends LambdaStorageUpdate {
-        private readonly byte[] mappingSlot;
-        private readonly java.util.List<LambdaMappingEntry> entries;
-
-        /**
-         * Create a new mapping entries update.
-         *
-         * @param mappingSlot the slot that corresponds to the Solidity mapping (minimal representation)
-         * @param entries the entries to update in the mapping
-         */
-        public LambdaMappingEntries(byte[] mappingSlot, java.util.List<LambdaMappingEntry> entries) {
-            this.mappingSlot = Objects.requireNonNull(mappingSlot, "mappingSlot cannot be null")
-                    .clone();
-            this.entries = new java.util.ArrayList<>(Objects.requireNonNull(entries, "entries cannot be null"));
+				_ => throw new ArgumentException("LambdaStorageUpdate must have either storage_slot or mapping_entries set")
+            };
         }
 
         /**
-         * Get the mapping slot.
-         *
-         * @return a copy of the mapping slot bytes
+         * Represents a direct storage slot update.
+         * <p>
+         * This class allows direct manipulation of storage slots in the lambda's storage.
          */
-        public byte[] getMappingSlot() {
-            return mappingSlot.clone();
-        }
+        public class LambdaStorageSlot : LambdaStorageUpdate
+        {
+            private readonly byte[] key;
+            private readonly byte[] value;
 
-        /**
-         * Get the mapping entries.
-         *
-         * @return a copy of the entries list
-         */
-        public java.util.List<LambdaMappingEntry> getEntries() {
-            return new java.util.ArrayList<>(entries);
-        }
-
-        @Override
-        Proto.LambdaStorageUpdate ToProtobuf() {
-            var builder = Proto.LambdaMappingEntries.newBuilder()
-                    .setMappingSlot(ByteString.copyFrom(mappingSlot));
-
-            for (LambdaMappingEntry entry : entries) {
-                builder.AddEntries(entry.ToProtobuf());
+            /**
+             * Create a new storage slot update.
+             *
+             * @param key the storage slot key (max 32 bytes, minimal representation)
+             * @param value the storage slot value (max 32 bytes, minimal representation)
+             */
+            public LambdaStorageSlot(byte[] key, byte[]? value)
+            {
+                this.key = (byte[])key.Clone();
+                this.value = (byte[]?)value?.Clone() ?? [];
             }
 
-            return Proto.LambdaStorageUpdate.newBuilder()
-                    .setMappingEntries(builder.build())
-                    .build();
-        }
+            public byte[] Key { get => (byte[])key.Clone(); }
+			public byte[] Value { get => (byte[])value.Clone(); }
 
-        static LambdaMappingEntries FromProtobuf(Proto.LambdaMappingEntries proto) {
-            var entries = new java.util.ArrayList<LambdaMappingEntry>();
-            for (var protoEntry : proto.getEntriesList()) {
-                entries.Add(LambdaMappingEntry.FromProtobuf(protoEntry));
+			public override Proto.LambdaStorageUpdate ToProtobuf() {
+                return new Proto.LambdaStorageUpdate
+                {
+                    StorageSlot = new Proto.LambdaStorageSlot
+					{
+						Key = ByteString.CopyFrom(key),
+						Value = ByteString.CopyFrom(value),
+					}
+				};
             }
 
-            return new LambdaMappingEntries(proto.getMappingSlot().ToByteArray(), entries);
+            public static LambdaStorageSlot FromProtobuf(Proto.LambdaStorageSlot proto) 
+            {
+                return new LambdaStorageSlot(proto.Key.ToByteArray(), proto.Value.ToByteArray());
+            }
+
+			public override int GetHashCode()
+			{
+				return HashCode.Combine(key, value);
+			}
+			public override bool Equals(object? obj) 
+            {
+                if (this == obj) return true;
+                if (obj == null || GetType() != obj.GetType()) return false;
+
+                LambdaStorageSlot that = (LambdaStorageSlot) obj;
+
+                return Equals(key, that.key) && Equals(value, that.value);
+            }
         }
 
-        @Override
-        public override bool Equals(object? obj) {
-            if (this == obj) return true;
-            if (obj == null || GetType() != obj.GetType()) return false;
+        /**
+         * Represents storage updates via Solidity mapping entries.
+         * <p>
+         * This class allows updates to be specified in terms of Solidity mapping
+         * entries rather than raw storage slots, making it easier to work with
+         * high-level data structures.
+         */
+        public class LambdaMappingEntries : LambdaStorageUpdate 
+        {
+            /**
+             * Create a new mapping entries update.
+             *
+             * @param mappingSlot the slot that corresponds to the Solidity mapping (minimal representation)
+             * @param entries the entries to update in the mapping
+             */
+            public LambdaMappingEntries(byte[] mappingSlot, List<LambdaMappingEntry> entries) 
+            {
+				Entries = entries;
+				MappingSlot = (byte[])mappingSlot.Clone();
+            }
+			public static LambdaMappingEntries FromProtobuf(Proto.LambdaMappingEntries proto)
+			{
+				return new LambdaMappingEntries(
+                    proto.MappingSlot.ToByteArray(),
+					proto.Entries.Select(_ => LambdaMappingEntry.FromProtobuf(_)).ToList());
+			}
 
-            LambdaMappingEntries that = (LambdaMappingEntries) o;
-            return Arrays.equals(mappingSlot, that.mappingSlot) && entries.equals(that.entries);
-        }
+			public byte[] MappingSlot { get; }
+			public List<LambdaMappingEntry> Entries { get; }
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(Arrays.hashCode(mappingSlot), entries);
-        }
+            public override int GetHashCode() 
+            {
+                return HashCode.Combine(MappingSlot, Entries);
+            }
+			public override bool Equals(object? obj)
+			{
+				if (this == obj) return true;
+				if (obj == null || GetType() != obj.GetType()) return false;
 
-        @Override
-        public string toString() {
-            return "LambdaMappingEntries{mappingSlot=" + java.util.Arrays.toString(mappingSlot) + ", entries=" + entries
-                    + "}";
-        }
+				LambdaMappingEntries that = (LambdaMappingEntries)obj;
+
+				return Equals(MappingSlot, that.MappingSlot) && Entries.Equals(that.Entries);
+			}
+			public override Proto.LambdaStorageUpdate ToProtobuf()
+			{
+                Proto.LambdaMappingEntries protobuf = new()
+                {
+                    MappingSlot = ByteString.CopyFrom(MappingSlot),
+				};
+
+                protobuf.Entries.AddRange(Entries.Select(_ => _.ToProtobuf()));
+
+                return new Proto.LambdaStorageUpdate
+                { 
+                    MappingEntries = protobuf
+                };
+			}
+		}
     }
-}
-
 }
