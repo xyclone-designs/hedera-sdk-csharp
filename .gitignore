@@ -1,4 +1,5 @@
 sdk/.vs
 sdk/Hedera.Hashgraph/bin
 sdk/Hedera.Hashgraph/obj
-*.lnk
+sdk/Hedera.Hashgraph.Tests/bin
+sdk/Hedera.Hashgraph.Tests/obj
