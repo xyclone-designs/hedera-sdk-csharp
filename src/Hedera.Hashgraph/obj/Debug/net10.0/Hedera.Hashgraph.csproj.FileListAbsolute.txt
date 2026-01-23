@@ -1,0 +1,16 @@
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.csproj.AssemblyReference.cache
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\bin\Debug\net10.0\Hedera.Hashgraph.deps.json
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\bin\Debug\net10.0\Hedera.Hashgraph.dll
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\bin\Debug\net10.0\Hedera.Hashgraph.pdb
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\bin\Debug\net10.0\Hedera.Hashgraph.Extensions.dll
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\bin\Debug\net10.0\Hedera.Hashgraph.Extensions.pdb
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.AssemblyInfoInputs.cache
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.AssemblyInfo.cs
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.csproj.CoreCompileInputs.cache
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.sourcelink.json
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.H.34DE152B.Up2Date
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.dll
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\refint\Hedera.Hashgraph.dll
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\Hedera.Hashgraph.pdb
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph\obj\Debug\net10.0\ref\Hedera.Hashgraph.dll

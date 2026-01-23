@@ -1,0 +1,10 @@
+obj\Debug\net10.0/Recordcache.cs: Protos/timestamp.proto\
+ C:/Users/Thando Ndlovu/.nuget/packages/grpc.tools/2.76.0/build/native/include/google/protobuf/wrappers.proto\
+ Protos/basic_types.proto\
+ Protos/custom_fees.proto\
+ Protos/response_code.proto\
+ Protos/exchange_rate.proto\
+ Protos/transaction_receipt.proto\
+ Protos/contract_types.proto\
+ Protos/transaction_record.proto\
+ Protos/recordcache.proto

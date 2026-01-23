@@ -1,0 +1,227 @@
+// SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.TransferTransaction;
+using Com.Google.Common.Base;
+using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Proto;
+using Java.Util;
+using Javax.Annotation;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using static Hedera.Hashgraph.SDK.ExecutionState;
+using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
+using static Hedera.Hashgraph.SDK.FeeDataType;
+using static Hedera.Hashgraph.SDK.FreezeType;
+using static Hedera.Hashgraph.SDK.FungibleHookType;
+using static Hedera.Hashgraph.SDK.HbarUnit;
+using static Hedera.Hashgraph.SDK.HookExtensionPoint;
+using static Hedera.Hashgraph.SDK.NetworkName;
+using static Hedera.Hashgraph.SDK.NftHookType;
+using static Hedera.Hashgraph.SDK.RequestType;
+using static Hedera.Hashgraph.SDK.Status;
+using static Hedera.Hashgraph.SDK.TokenKeyValidation;
+
+namespace Hedera.Hashgraph.SDK.Token
+{
+    /// <summary>
+    /// Internal utility class.
+    /// </summary>
+    public class TokenNftTransfer : IComparable<TokenNftTransfer>
+    {
+        /// <summary>
+        /// The ID of the token
+        /// </summary>
+        public readonly TokenId tokenId;
+        /// <summary>
+        /// The accountID of the sender
+        /// </summary>
+        public readonly AccountId sender;
+        /// <summary>
+        /// The accountID of the receiver
+        /// </summary>
+        public readonly AccountId receiver;
+        /// <summary>
+        /// The serial number of the NFT
+        /// </summary>
+        public readonly long serial;
+        /// <summary>
+        /// If true then the transfer is expected to be an approved allowance and the sender is expected to be the owner. The
+        /// default is false.
+        /// </summary>
+        public bool isApproved;
+        // Optional typed hook calls for sender/receiver
+        NftHookCall senderHookCall;
+        NftHookCall receiverHookCall;
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokenId">the token id</param>
+        /// <param name="sender">the sender account id</param>
+        /// <param name="receiver">the receiver account id</param>
+        /// <param name="serial">the serial number</param>
+        /// <param name="isApproved">is it approved</param>
+        TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved)
+        {
+            tokenId = tokenId;
+            sender = sender;
+            receiver = receiver;
+            serial = serial;
+            isApproved = isApproved;
+            senderHookCall = null;
+            receiverHookCall = null;
+        }
+
+        TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved, NftHookCall senderHookCall, NftHookCall receiverHookCall)
+        {
+            tokenId = tokenId;
+            sender = sender;
+            receiver = receiver;
+            serial = serial;
+            isApproved = isApproved;
+            senderHookCall = senderHookCall;
+            receiverHookCall = receiverHookCall;
+        }
+
+        static IList<TokenNftTransfer> FromProtobuf(TokenTransferList tokenTransferList)
+        {
+            var token = TokenId.FromProtobuf(tokenTransferList.GetToken());
+            var nftTransfers = new List<TokenNftTransfer>();
+            foreach (var transfer in tokenTransferList.GetNftTransfersList())
+            {
+                NftHookCall senderHookCall = null;
+                NftHookCall receiverHookCall = null;
+                if (transfer.HasPreTxSenderAllowanceHook())
+                {
+                    senderHookCall = ToNftHook(transfer.GetPreTxSenderAllowanceHook(), NftHookType.PRE_HOOK_SENDER);
+                }
+                else if (transfer.HasPrePostTxSenderAllowanceHook())
+                {
+                    senderHookCall = ToNftHook(transfer.GetPrePostTxSenderAllowanceHook(), NftHookType.PRE_POST_HOOK_SENDER);
+                }
+
+                if (transfer.HasPreTxReceiverAllowanceHook())
+                {
+                    receiverHookCall = ToNftHook(transfer.GetPreTxReceiverAllowanceHook(), NftHookType.PRE_HOOK_RECEIVER);
+                }
+                else if (transfer.HasPrePostTxReceiverAllowanceHook())
+                {
+                    receiverHookCall = ToNftHook(transfer.GetPrePostTxReceiverAllowanceHook(), NftHookType.PRE_POST_HOOK_RECEIVER);
+                }
+
+                var sender = AccountId.FromProtobuf(transfer.GetSenderAccountID());
+                var receiver = AccountId.FromProtobuf(transfer.GetReceiverAccountID());
+                nftTransfers.Add(new TokenNftTransfer(token, sender, receiver, transfer.GetSerialNumber(), transfer.GetIsApproval(), senderHookCall, receiverHookCall));
+            }
+
+            return nftTransfers;
+        }
+
+        /// <summary>
+        /// Convert a byte array to a token NFT transfer object.
+        /// </summary>
+        /// <param name="bytes">the byte array</param>
+        /// <returns>the converted token nft transfer object</returns>
+        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        public static TokenNftTransfer FromBytes(byte[] bytes)
+        {
+            return FromProtobuf(TokenTransferList.NewBuilder().SetToken(TokenID.NewBuilder().Build()).AddNftTransfers(NftTransfer.Parser.ParseFrom(bytes)).Build())[0];
+        }
+
+        /// <summary>
+        /// Create the protobuf.
+        /// </summary>
+        /// <returns>the protobuf representation</returns>
+        virtual NftTransfer ToProtobuf()
+        {
+            var builder = NftTransfer.NewBuilder().SetSenderAccountID(sender.ToProtobuf()).SetReceiverAccountID(receiver.ToProtobuf()).SetSerialNumber(serial).SetIsApproval(isApproved);
+            if (senderHookCall != null)
+            {
+                switch (senderHookCall.GetType())
+                {
+                    case PRE_HOOK_SENDER:
+                        builder.SetPreTxSenderAllowanceHook(senderHookCall.ToProtobuf());
+                    case PRE_POST_HOOK_SENDER:
+                        builder.SetPrePostTxSenderAllowanceHook(senderHookCall.ToProtobuf());
+                    default:
+                    {
+                    }
+
+                        break;
+                }
+            }
+
+            if (receiverHookCall != null)
+            {
+                switch (receiverHookCall.GetType())
+                {
+                    case PRE_HOOK_RECEIVER:
+                        builder.SetPreTxReceiverAllowanceHook(receiverHookCall.ToProtobuf());
+                    case PRE_POST_HOOK_RECEIVER:
+                        builder.SetPrePostTxReceiverAllowanceHook(receiverHookCall.ToProtobuf());
+                    default:
+                    {
+                    }
+
+                        break;
+                }
+            }
+
+            return proto;
+        }
+
+        public override string ToString()
+        {
+            return MoreObjects.ToStringHelper(this).Add("tokenId", tokenId).Add("sender", sender).Add("receiver", receiver).Add("serial", serial).Add("isApproved", isApproved).ToString();
+        }
+
+        /// <summary>
+        /// Convert the token NFT transfer object to a byte array.
+        /// </summary>
+        /// <returns>the converted token NFT transfer object</returns>
+        public virtual byte[] ToBytes()
+        {
+            return ToProtobuf().ToByteArray();
+        }
+
+        public virtual int CompareTo(TokenNftTransfer o)
+        {
+            int senderComparison = sender.CompareTo(o.sender);
+            if (senderComparison != 0)
+            {
+                return senderComparison;
+            }
+
+            int receiverComparison = receiver.CompareTo(o.receiver);
+            if (receiverComparison != 0)
+            {
+                return receiverComparison;
+            }
+
+            return Long.Compare(serial, o.serial);
+        }
+
+        public override bool Equals(object? o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+
+            if (o == null || GetType() != o.GetType())
+            {
+                return false;
+            }
+
+            TokenNftTransfer that = (TokenNftTransfer)o;
+            return serial == that.serial && isApproved == that.isApproved && tokenId.Equals(that.tokenId) && sender.Equals(that.sender) && receiver.Equals(that.receiver);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(tokenId, sender, receiver, serial, isApproved);
+        }
+    }
+}

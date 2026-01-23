@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11312.151
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph", "Hedera.Hashgraph\Hedera.Hashgraph.csproj", "{72614977-63FD-CF38-3BB3-F6628DFCE599}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Tests", "Hedera.Hashgraph.Tests\Hedera.Hashgraph.Tests.csproj", "{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4171E15-C47D-492A-9AE4-64B64EA7A0A8}
+	EndGlobalSection
+EndGlobal

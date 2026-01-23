@@ -1,0 +1,2 @@
+obj\Debug\net10.0/BlockInfo.cs: Protos/timestamp.proto\
+ Protos/block_info.proto

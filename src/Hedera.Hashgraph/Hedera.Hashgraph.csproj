@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <LangVersion>14</LangVersion>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.33.4" />
+    <PackageReference Include="Grpc" Version="2.46.6" />
+    <PackageReference Include="Grpc.Tools" Version="2.76.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos/**/*.proto" ProtoRoot="Protos" GrpcServices="Both" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SDK - Copy - Copy\**" />
+    <EmbeddedResource Remove="SDK - Copy - Copy\**" />
+    <None Remove="SDK - Copy - Copy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SDK\Fees\" />
+    <Folder Include="SDK\Keys\" />
+    <Folder Include="SDK\Queries\" />
+    <Folder Include="SDK\Token\" />
+    <Folder Include="SDK\Topic\" />
+    <Folder Include="SDK\Transactions\Account\" />
+    <Folder Include="SDK\Transactions\Contract\" />
+    <Folder Include="SDK\Transactions\Ethereum\" />
+    <Folder Include="SDK\Transactions\File\" />
+    <Folder Include="SDK\Transactions\LiveHash\" />
+    <Folder Include="SDK\Transactions\Node\" />
+    <Folder Include="SDK\Transactions\System\" />
+    <Folder Include="SDK\Transactions\Token\" />
+    <Folder Include="SDK\Transactions\Topic\" />
+  </ItemGroup>
+
+</Project>

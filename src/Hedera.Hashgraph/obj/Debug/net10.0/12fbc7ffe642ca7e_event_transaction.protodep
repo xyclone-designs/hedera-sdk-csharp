@@ -1,0 +1,2 @@
+obj\Debug\net10.0/EventTransaction.cs: Protos/state_signature_transaction.proto\
+ Protos/event_transaction.proto
