@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.SDK
         /// <summary>
         /// Map of node identifiers to nodes. Used to quickly fetch node for identifier.
         /// </summary>
-        protected Dictionary<KeyT, IList<BaseNodeT>> network = new ConcurrentHashMap();
+        protected Dictionary<KeyT, IList<BaseNodeT>> network = new ConcurrentDictionary();
         /// <summary>
         /// The list of all nodes.
         /// </summary>
@@ -343,7 +343,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 var newNodes = new List<BaseNodeT>();
                 var newHealthyNodes = new List<BaseNodeT>();
-                var newNetwork = new HashMap<KeyT, IList<BaseNodeT>>();
+                var newNetwork = new Dictionary<KeyT, IList<BaseNodeT>>();
                 var newNodeKeys = new HashSet<KeyT>();
                 var newNodeAddresses = new HashSet<string>();
 
@@ -579,7 +579,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 ReadmitNodes();
                 RemoveDeadNodes();
-                var returnNodes = new HashMap<KeyT, BaseNodeT>(count);
+                var returnNodes = new Dictionary<KeyT, BaseNodeT>(count);
                 for (var i = 0; i < count; i++)
                 {
                     var node = GetRandomNode();
@@ -609,8 +609,8 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        // returns null if successful, or Throwable if error occurred
-        virtual Throwable AwaitClose(Timestamp deadline, Throwable previousError)
+        // returns null if successful, or Exception if error occurred
+        virtual Exception AwaitClose(Timestamp deadline, Exception previousError)
         {
             lock (this)
             {
@@ -639,7 +639,7 @@ namespace Hedera.Hashgraph.SDK
 
                     return null;
                 }
-                catch (Throwable error)
+                catch (Exception error)
                 {
                     foreach (var node in nodes)
                     {

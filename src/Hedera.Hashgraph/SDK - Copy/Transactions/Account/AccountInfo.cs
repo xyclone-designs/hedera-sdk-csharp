@@ -184,7 +184,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             var accountId = AccountId.FromProtobuf(accountInfo.GetAccountID());
             var proxyAccountId = accountInfo.GetProxyAccountID().GetAccountNum() > 0 ? AccountId.FromProtobuf(accountInfo.GetProxyAccountID()) : null;
             var liveHashes = Array.Stream(accountInfo.GetLiveHashesList().ToArray()).Map((liveHash) => LiveHash.FromProtobuf((Proto.LiveHash)liveHash)).Collect(ToList());
-            Dictionary<TokenId, TokenRelationship> relationships = new HashMap();
+            Dictionary<TokenId, TokenRelationship> relationships = [];
             foreach (Proto.TokenRelationship relationship in accountInfo.GetTokenRelationshipsList())
             {
                 TokenId tokenId = TokenId.FromProtobuf(relationship.GetTokenId());

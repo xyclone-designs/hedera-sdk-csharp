@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
         ///            records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        TokenAirdropTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        TokenAirdropTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }

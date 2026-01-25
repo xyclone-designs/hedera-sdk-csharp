@@ -178,7 +178,7 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        override CompletableFuture<Void> OnExecuteAsync(Client client)
+        override Task OnExecuteAsync(Client client)
         {
             int modesEnabled = (nftId != null ? 1 : 0) + (tokenId != null ? 1 : 0) + (accountId != null ? 1 : 0);
             if (modesEnabled > 1)
@@ -224,7 +224,7 @@ namespace Hedera.Hashgraph.SDK.Token
             return TokenServiceGrpc.GetGetTokenNftInfoMethod();
         }
 
-        public override CompletableFuture<Hbar> GetCostAsync(Client client)
+        public override Task<Hbar> GetCostAsync(Client client)
         {
 
             // deleted accounts return a COST_ANSWER of zero which triggers `INSUFFICIENT_TX_FEE`

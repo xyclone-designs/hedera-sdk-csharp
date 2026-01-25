@@ -1,5 +1,5 @@
-sdk/.vs
-sdk/Hedera.Hashgraph/bin
-sdk/Hedera.Hashgraph/obj
-sdk/Hedera.Hashgraph.Tests/bin
-sdk/Hedera.Hashgraph.Tests/obj
+src/.vs
+src/Hedera.Hashgraph/bin
+src/Hedera.Hashgraph/obj
+src/Hedera.Hashgraph.Tests/bin
+src/Hedera.Hashgraph.Tests/obj

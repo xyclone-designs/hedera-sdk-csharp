@@ -42,12 +42,12 @@ namespace Hedera.Hashgraph.SDK
         // so that this doesn't happen in unit tests.
         static readonly Duration NETWORK_UPDATE_INITIAL_DELAY = Duration.FromTimeSpan(TimeSpan.FromSeconds(10));
 		private static readonly Hbar DEFAULT_MAX_QUERY_PAYMENT = new (1);
-        private static readonly string MAINNET = "mainnet";
-        private static readonly string TESTNET = "testnet";
-        private static readonly string PREVIEWNET = "previewnet";
+        private const string MAINNET = "mainnet";
+        private const string TESTNET = "testnet";
+        private const string PREVIEWNET = "previewnet";
         readonly ExecutorService executor;
         private readonly AtomicReference<Duration> grpcDeadline = new AtomicReference(DEFAULT_GRPC_DEADLINE);
-        private readonly HashSet<SubscriptionHandle> subscriptions = ConcurrentHashMap.NewKeySet();
+        private readonly HashSet<SubscriptionHandle> subscriptions = ConcurrentDictionary.NewKeySet();
         Hbar? defaultMaxTransactionFee = null;
         Hbar defaultMaxQueryPayment = DEFAULT_MAX_QUERY_PAYMENT;
         Network network;
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK
         private readonly long realm;
         // If networkUpdatePeriod is null, any network updates in progress will not complete
         private Duration networkUpdatePeriod;
-        private CompletableFuture<Void> networkUpdateFuture;
+        private Task networkUpdateFuture;
         private Logger logger = new Logger(LogLevel.SILENT);
         /// <summary>
         /// Constructor.
@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.SDK
         public static Client ForNetwork(Dictionary<string, AccountId> networkMap, ExecutorService executor)
         {
             var network = Network.ForNetwork(executor, networkMap);
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, new ());
+            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             return new Client(executor, network, mirrorNetwork, null, false, null, 0, 0);
         }
 
@@ -132,7 +132,7 @@ namespace Hedera.Hashgraph.SDK
             var isValidNetwork = true;
             long shard = 0;
             long realm = 0;
-            foreach (AccountId accountId in networkMap.Values())
+            foreach (AccountId accountId in networkMap.Values)
             {
                 if (shard == 0)
                 {
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.SDK
         public static Client ForMirrorNetwork(IList<string> mirrorNetworkList, long shard, long realm)
         {
             var executor = CreateExecutor();
-            var network = Network.ForNetwork(executor, new HashMap());
+            var network = Network.ForNetwork(executor, []);
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, mirrorNetworkList);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, shard, realm);
             var addressBook = new AddressBookQuery().SetFileId(FileId.GetAddressBookFileIdFor(shard, realm)).Execute(client);
@@ -202,7 +202,8 @@ namespace Hedera.Hashgraph.SDK
                 MAINNET => Client.ForMainnet(),
                 TESTNET => Client.ForTestnet(),
                 PREVIEWNET => Client.ForPreviewnet(),
-                _ => new ArgumentException("Name must be one-of `mainnet`, `testnet`, or `previewnet`")};
+
+                _ => throw new ArgumentException("Name must be one-of `mainnet`, `testnet`, or `previewnet`")};
         }
 
         /// <summary>
@@ -386,7 +387,7 @@ namespace Hedera.Hashgraph.SDK
                 }
                 catch (TimeoutException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(string.Empty, e);
                 }
 
                 return this;
@@ -417,12 +418,12 @@ namespace Hedera.Hashgraph.SDK
                             {
                                 SetNetworkFromAddressBook(addressBook);
                             }
-                            catch (Throwable error)
+                            catch (Exception error)
                             {
-                                return CompletableFuture.FailedFuture(error);
+                                return Task.FailedFuture(error);
                             }
 
-                            return CompletableFuture.CompletedFuture(null);
+                            return Task.FromResult(null);
                         })).Exceptionally((error) =>
                         {
                             logger.Warn("Failed to update address book via mirror node query ", error);
@@ -439,7 +440,7 @@ namespace Hedera.Hashgraph.SDK
         {
             lock (this)
             {
-                return networkUpdatePeriod != null ? task.Get() : CompletableFuture.CompletedFuture(null);
+                return networkUpdatePeriod != null ? task.Get() : Task.FromResult(null);
             }
         }
 
@@ -476,7 +477,7 @@ namespace Hedera.Hashgraph.SDK
         {
             lock (this)
             {
-                network.SetNetwork(Network.AddressBookToNetwork(addressBook.nodeAddresses));
+                network.SetNetwork(Network.AddressBookToNetwork(addressBook.NodeAddresses));
                 network.SetAddressBook(addressBook);
                 return this;
             }
@@ -608,7 +609,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <returns>an empty future that throws exception if there was an error</returns>
-        public CompletableFuture<Void> PingAsync(AccountId nodeAccountId)
+        public Task PingAsync(AccountId nodeAccountId)
         {
             return PingAsync(nodeAccountId, GetRequestTimeout());
         }
@@ -619,9 +620,9 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>an empty future that throws exception if there was an error</returns>
-        public CompletableFuture<Void> PingAsync(AccountId nodeAccountId, Duration timeout)
+        public Task PingAsync(AccountId nodeAccountId, Duration timeout)
         {
-            var result = new CompletableFuture<Void>();
+            var result = new Task();
             new AccountBalanceQuery().SetAccountId(nodeAccountId).SetNodeAccountIds(Collections.SingletonList(nodeAccountId)).ExecuteAsync(this, timeout).WhenComplete((balance, error) =>
             {
                 if (error == null)
@@ -640,10 +641,10 @@ namespace Hedera.Hashgraph.SDK
         /// Send a ping to the given node asynchronously.
         /// </summary>
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public void PingAsync(AccountId nodeAccountId, BiConsumer<Void, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public void PingAsync(AccountId nodeAccountId, Action<Void, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(PingAsync(nodeAccountId), callback);
+            ActionHelper.Action(PingAsync(nodeAccountId), callback);
         }
 
         /// <summary>
@@ -651,21 +652,21 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public void PingAsync(AccountId nodeAccountId, Duration timeout, BiConsumer<Void, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action<Void, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(PingAsync(nodeAccountId, timeout), callback);
+            ActionHelper.Action(PingAsync(nodeAccountId, timeout), callback);
         }
 
         /// <summary>
         /// Send a ping to the given node asynchronously.
         /// </summary>
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public void PingAsync(AccountId nodeAccountId, Consumer<Void> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public void PingAsync(AccountId nodeAccountId, Action<Void> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(PingAsync(nodeAccountId), onSuccess, onFailure);
+            ActionHelper.TwoActions(PingAsync(nodeAccountId), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -673,11 +674,11 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public void PingAsync(AccountId nodeAccountId, Duration timeout, Consumer<Void> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action<Void> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(PingAsync(nodeAccountId, timeout), onSuccess, onFailure);
+            ActionHelper.TwoActions(PingAsync(nodeAccountId, timeout), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -719,7 +720,7 @@ namespace Hedera.Hashgraph.SDK
         /// all dead nodes from the network.
         /// </summary>
         /// <returns>an empty future that throws exception if there was an error</returns>
-        public CompletableFuture<Void> PingAllAsync()
+        public Task PingAllAsync()
         {
             lock (this)
             {
@@ -733,18 +734,18 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
         /// <returns>an empty future that throws exception if there was an error</returns>
-        public CompletableFuture<Void> PingAllAsync(Duration timeoutPerPing)
+        public Task PingAllAsync(Duration timeoutPerPing)
         {
             lock (this)
             {
                 var network = network.GetNetwork();
-                var list = new List<CompletableFuture<Void>>(network.Count);
+                var list = new List<Task>(network.Count);
                 foreach (var nodeAccountId in network.Values())
                 {
                     list.Add(PingAsync(nodeAccountId, timeoutPerPing));
                 }
 
-                return CompletableFuture.AllOf(list.ToArray(new CompletableFuture<TWildcardTodo>[0])).ThenApply((v) => null);
+                return Task.AllOf(list.ToArray(new Task<TWildcardTodo>[0])).ThenApply((v) => null);
             }
         }
 
@@ -752,10 +753,10 @@ namespace Hedera.Hashgraph.SDK
         /// Sends pings to all nodes in the client's network asynchronously. Combines well with setMaxAttempts(1) to remove
         /// all dead nodes from the network.
         /// </summary>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public void PingAllAsync(BiConsumer<Void, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public void PingAllAsync(Action<Void, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(PingAllAsync(), callback);
+            ActionHelper.Action(PingAllAsync(), callback);
         }
 
         /// <summary>
@@ -763,21 +764,21 @@ namespace Hedera.Hashgraph.SDK
         /// all dead nodes from the network.
         /// </summary>
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public void PingAllAsync(Duration timeoutPerPing, BiConsumer<Void, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public void PingAllAsync(Duration timeoutPerPing, Action<Void, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(PingAllAsync(timeoutPerPing), callback);
+            ActionHelper.Action(PingAllAsync(timeoutPerPing), callback);
         }
 
         /// <summary>
         /// Sends pings to all nodes in the client's network asynchronously. Combines well with setMaxAttempts(1) to remove
         /// all dead nodes from the network.
         /// </summary>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public void PingAllAsync(Consumer<Void> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public void PingAllAsync(Action<Void> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(PingAllAsync(), onSuccess, onFailure);
+            ActionHelper.TwoActions(PingAllAsync(), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -785,11 +786,11 @@ namespace Hedera.Hashgraph.SDK
         /// all dead nodes from the network.
         /// </summary>
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public void PingAllAsync(Duration timeoutPerPing, Consumer<Void> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public void PingAllAsync(Duration timeoutPerPing, Action<Void> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(PingAllAsync(timeoutPerPing), onSuccess, onFailure);
+            ActionHelper.TwoActions(PingAllAsync(timeoutPerPing), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -823,7 +824,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="publicKey">The PrivateKey of the oper8r</param>
         /// <param name="transactionSigner">The signer for the oper8r</param>
         /// <returns>{@code this}</returns>
-        public Client SetOperatorWith(AccountId accountId, PublicKey publicKey, UnaryOperator<byte[]> transactionSigner)
+        public Client SetOperatorWith(AccountId accountId, PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
         {
             lock (this)
             {
@@ -1288,7 +1289,7 @@ namespace Hedera.Hashgraph.SDK
         /// <p>
         /// If the returned value is greater than this value, a {@link MaxQueryPaymentExceededException} will be thrown from
         /// {@link Query#execute(Client)} or returned in the second callback of
-        /// {@link Query#executeAsync(Client, Consumer, Consumer)}.
+        /// {@link Query#executeAsync(Client, Action, Action)}.
         /// <p>
         /// Set to 0 to disable automatic implicit payments.
         /// </summary>
@@ -1594,178 +1595,6 @@ namespace Hedera.Hashgraph.SDK
                     {
                         throw new Exception(mirrorNetworkError);
                     }
-                }
-            }
-        }
-
-        class Operator
-        {
-            readonly AccountId accountId;
-            readonly PublicKey publicKey;
-            readonly UnaryOperator<byte[]> transactionSigner;
-            Operator(AccountId accountId, PublicKey publicKey, UnaryOperator<byte[]> transactionSigner)
-            {
-                accountId = accountId;
-                publicKey = publicKey;
-                transactionSigner = transactionSigner;
-            }
-        }
-
-        private class Config
-        {
-            private JsonElement network;
-            private JsonElement networkName;
-            private ConfigOperator oper8r;
-            private JsonElement mirrorNetwork;
-            private JsonElement shard;
-            private JsonElement realm;
-            private class ConfigOperator
-            {
-                private string accountId;
-                private string privateKey;
-            }
-
-            private static Config FromString(string json)
-            {
-                return new Gson().FromJson((Reader)new StringReader(json), typeof(Config));
-            }
-
-            private static Config FromJson(Reader json)
-            {
-                return new Gson().FromJson(json, typeof(Config));
-            }
-
-            private Client ToClient()
-            {
-                Client client = InitializeWithNetwork();
-                SetOperatorOn(client);
-                SetMirrorNetworkOn(client);
-                return client;
-            }
-
-            private Client InitializeWithNetwork()
-            {
-                if (network == null)
-                {
-                    throw new Exception("Network is not set in provided json object");
-                }
-
-                Client client;
-                if (network.IsJsonObject())
-                {
-                    client = ClientFromNetworkJson();
-                }
-                else
-                {
-                    client = ClientFromNetworkString();
-                }
-
-                return client;
-            }
-
-            private Client ClientFromNetworkJson()
-            {
-                Client client;
-                var networkJson = network.GetAsJsonObject();
-                Dictionary<string, AccountId> nodes = Client.GetNetworkNodes(networkJson);
-                var executor = CreateExecutor();
-                var network = Network.ForNetwork(executor, nodes);
-                var mirrorNetwork = MirrorNetwork.ForNetwork(executor, new ());
-                var shardValue = shard != null ? shard.GetAsLong() : 0;
-                var realmValue = realm != null ? realm.GetAsLong() : 0;
-                client = new Client(executor, network, mirrorNetwork, null, true, null, shardValue, realmValue);
-                SetNetworkNameOn(client);
-                return client;
-            }
-
-            private void SetNetworkNameOn(Client client)
-            {
-                if (networkName != null)
-                {
-                    var networkNameString = networkName.GetAsString();
-                    try
-                    {
-                        client.SetNetworkName(NetworkName.FromString(networkNameString));
-                    }
-                    catch (Exception ignored)
-                    {
-                        throw new ArgumentException("networkName in config was \"" + networkNameString + "\", expected either \"mainnet\", \"testnet\" or \"previewnet\"");
-                    }
-                }
-            }
-
-            private Client ClientFromNetworkString()
-            {
-                return network.GetAsString() switch
-                {
-                    MAINNET => Client.ForMainnet(),
-                    TESTNET => Client.ForTestnet(),
-                    PREVIEWNET => Client.ForPreviewnet(),
-                    _ => new JsonParseException("Illegal argument for network.")};
-            }
-
-            private void SetMirrorNetworkOn(Client client)
-            {
-                if (mirrorNetwork != null)
-                {
-                    SetMirrorNetwork(client);
-                }
-            }
-
-            private void SetMirrorNetwork(Client client)
-            {
-                if (mirrorNetwork.IsJsonArray())
-                {
-                    SetMirrorNetworksFromJsonArray(client);
-                }
-                else
-                {
-                    SetMirrorNetworkFromString(client);
-                }
-            }
-
-            private void SetMirrorNetworkFromString(Client client)
-            {
-                string mirror = mirrorNetwork.GetAsString();
-                switch (mirror)
-                {
-                    case Client.MAINNET:
-                        client.mirrorNetwork = MirrorNetwork.ForMainnet(client.executor);
-                    case Client.TESTNET:
-                        client.mirrorNetwork = MirrorNetwork.ForTestnet(client.executor);
-                    case Client.PREVIEWNET:
-                        client.mirrorNetwork = MirrorNetwork.ForPreviewnet(client.executor);
-                    default:
-                        throw new JsonParseException("Illegal argument for mirrorNetwork.");
-                        break;
-                }
-            }
-
-            private void SetMirrorNetworksFromJsonArray(Client client)
-            {
-                var mirrors = mirrorNetwork.GetAsJsonArray();
-                IList<string> listMirrors = GetListMirrors(mirrors);
-                client.SetMirrorNetwork(listMirrors);
-            }
-
-            private IList<string> GetListMirrors(JsonArray mirrors)
-            {
-                IList<string> listMirrors = new List(mirrors.Count);
-                for (var i = 0; i < mirrors.Count; i++)
-                {
-                    listMirrors.Add(mirrors[i].GetAsString().Replace("\"", ""));
-                }
-
-                return listMirrors;
-            }
-
-            private void SetOperatorOn(Client client)
-            {
-                if (oper8r != null)
-                {
-                    AccountId operatorAccount = AccountId.FromString(oper8r.accountId);
-                    PrivateKey privateKey = PrivateKey.FromString(oper8r.privateKey);
-                    client.SetOperator(operatorAccount, privateKey);
                 }
             }
         }

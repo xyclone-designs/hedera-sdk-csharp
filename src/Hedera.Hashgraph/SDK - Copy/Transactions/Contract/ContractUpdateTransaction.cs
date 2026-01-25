@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// </summary>
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) record</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        ContractUpdateTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        ContractUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }

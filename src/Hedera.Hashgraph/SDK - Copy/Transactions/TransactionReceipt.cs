@@ -217,7 +217,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>                         the protobuf representation</returns>
         Proto.TransactionReceipt ToProtobuf()
         {
-            var transactionReceiptBuilder = Proto.TransactionReceipt.NewBuilder().SetStatus(status.code).SetExchangeRate(ExchangeRateSet.NewBuilder().SetCurrentRate(Proto.ExchangeRate.NewBuilder().SetHbarEquiv(exchangeRate.hbars).SetCentEquiv(exchangeRate.cents).SetExpirationTime(TimestampSeconds.NewBuilder().SetSeconds(exchangeRate.expirationTime.GetEpochSecond()))).SetNextRate(Proto.ExchangeRate.NewBuilder().SetHbarEquiv(nextExchangeRate.hbars).SetCentEquiv(nextExchangeRate.cents).SetExpirationTime(TimestampSeconds.NewBuilder().SetSeconds(nextExchangeRate.expirationTime.GetEpochSecond())))).SetNewTotalSupply(totalSupply);
+            var transactionReceiptBuilder = Proto.TransactionReceipt.NewBuilder().SetStatus(status.code).SetExchangeRate(ExchangeRateSet.NewBuilder().SetCurrentRate(Proto.ExchangeRate.NewBuilder().SetHbarEquiv(exchangeRate.Hbars).SetCentEquiv(exchangeRate.Cents).SetExpirationTime(TimestampSeconds.NewBuilder().SetSeconds(exchangeRate.ExpirationTime.GetEpochSecond()))).SetNextRate(Proto.ExchangeRate.NewBuilder().SetHbarEquiv(nextExchangeRate.Hbars).SetCentEquiv(nextExchangeRate.Cents).SetExpirationTime(TimestampSeconds.NewBuilder().SetSeconds(nextExchangeRate.ExpirationTime.GetEpochSecond())))).SetNewTotalSupply(totalSupply);
             if (accountId != null)
             {
                 transactionReceiptBuilder.SetAccountID(accountId.ToProtobuf());

@@ -125,9 +125,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Constructor.
         /// </summary>
         /// <param name="txBody">protobuf TransactionBody</param>
-        protected Transaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs)
+        protected Transaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
         {
-            LinkedHashMap<AccountId, Proto.Transaction> transactionMap = txs.Values().Iterator().Next();
+            LinkedDictionary<AccountId, Proto.Transaction> transactionMap = txs.Values().Iterator().Next();
             if (!transactionMap.IsEmpty() && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && batchKey != null)
             {
 
@@ -223,9 +223,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        protected Transaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs)
+        protected Transaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
         {
-            LinkedHashMap<AccountId, Proto.Transaction> transactionMap = txs.Values().Iterator().Next();
+            LinkedDictionary<AccountId, Proto.Transaction> transactionMap = txs.Values().Iterator().Next();
             if (!transactionMap.IsEmpty() && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && batchKey != null)
             {
 
@@ -317,7 +317,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public static Transaction<TWildcardTodo> FromBytes(byte[] bytes)
         {
             var list = TransactionList.Parser.ParseFrom(bytes);
-            var txsMap = new LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>>();
+            var txsMap = new LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>>();
             TransactionBody.DataCase dataCase;
             if (!list.GetTransactionListList().IsEmpty())
             {
@@ -334,7 +334,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// Process a single transaction
         /// </summary>
-        private static TransactionBody.DataCase ProcessSingleTransaction(byte[] bytes, LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txsMap)
+        private static TransactionBody.DataCase ProcessSingleTransaction(byte[] bytes, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
         {
             var transaction = Proto.Transaction.Parser.ParseFrom(bytes);
             var builtTransaction = PrepareSingleTransaction(transaction);
@@ -364,7 +364,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// Process a list of transactions with integrity verification
         /// </summary>
-        private static TransactionBody.DataCase ProcessTransactionList(List<Proto.Transaction> transactionList, LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txsMap)
+        private static TransactionBody.DataCase ProcessTransactionList(List<Proto.Transaction> transactionList, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
         {
             if (transactionList.IsEmpty())
             {
@@ -388,11 +388,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// Add a transaction to the transaction map
         /// </summary>
-        private static void AddTransactionToMap(Proto.Transaction transaction, TransactionBody txBody, LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txsMap)
+        private static void AddTransactionToMap(Proto.Transaction transaction, TransactionBody txBody, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
         {
             var account = txBody.HasNodeAccountID() ? AccountId.FromProtobuf(txBody.GetNodeAccountID()) : DUMMY_ACCOUNT_ID;
             var transactionId = txBody.HasTransactionID() ? TransactionId.FromProtobuf(txBody.GetTransactionID()) : DUMMY_TRANSACTION_ID;
-            var linked = txsMap.ContainsKey(transactionId) ? Objects.RequireNonNull(txsMap[transactionId]) : new LinkedHashMap<AccountId, Proto.Transaction>();
+            var linked = txsMap.ContainsKey(transactionId) ? Objects.RequireNonNull(txsMap[transactionId]) : new LinkedDictionary<AccountId, Proto.Transaction>();
             linked.Put(account, transaction);
             txsMap.Put(transactionId, linked);
         }
@@ -400,7 +400,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// Creates the appropriate transaction type based on the data case.
         /// </summary>
-        private static Transaction<TWildcardTodo> CreateTransactionFromDataCase(TransactionBody.DataCase dataCase, LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs)
+        private static Transaction<TWildcardTodo> CreateTransactionFromDataCase(TransactionBody.DataCase dataCase, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
         {
             return dataCase switch
             {
@@ -603,7 +603,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                     {
                         throw error;
                     }
-                    catch (Throwable error)
+                    catch (Exception error)
                     {
                         throw new ArgumentException("fromBytes() failed due to error", error);
                     }
@@ -640,7 +640,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 {
                     throw error;
                 }
-                catch (Throwable error)
+                catch (Exception error)
                 {
                     throw new ArgumentException("fromBytes() failed due to error", error);
                 }
@@ -922,7 +922,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             transactionIds.SetLocked(true);
             nodeAccountIds.SetLocked(true);
-            var index = transactionIds.GetIndex() * nodeAccountIds.Count + nodeAccountIds.GetIndex();
+            var index = transactionIds.Index() * nodeAccountIds.Count + nodeAccountIds.Index();
             BuildTransaction(index);
             return Hash(outerTransactions[index].GetSignedTransactionBytes().ToByteArray());
         }
@@ -939,7 +939,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
 
             BuildAllTransactions();
-            var hashes = new HashMap<AccountId, byte[]>();
+            var hashes = new Dictionary<AccountId, byte[]>();
             for (var i = 0; i < outerTransactions.Count; i++)
             {
                 hashes.Put(nodeAccountIds[i], Hash(outerTransactions[i].GetSignedTransactionBytes().ToByteArray()));
@@ -1027,7 +1027,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="publicKey">the public key</param>
         /// <param name="transactionSigner">the key list</param>
         /// <returns>{@code this}</returns>
-        public virtual T SignWith(PublicKey publicKey, UnaryOperator<byte[]> transactionSigner)
+        public virtual T SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
         {
             if (!IsFrozen())
             {
@@ -1122,12 +1122,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         protected virtual Map<AccountId, Map<PublicKey, byte[]>> GetSignaturesAtOffset(int offset)
         {
-            var map = new HashMap<AccountId, Map<PublicKey, byte[]>>(nodeAccountIds.Count);
+            var map = new Dictionary<AccountId, Map<PublicKey, byte[]>>(nodeAccountIds.Count);
             for (int i = 0; i < nodeAccountIds.Count; i++)
             {
                 var sigMap = sigPairLists[i + offset];
                 var nodeAccountId = nodeAccountIds[i];
-                var keyMap = map.ContainsKey(nodeAccountId) ? Objects.RequireNonNull(map[nodeAccountId]) : new HashMap<PublicKey, byte[]>(sigMap.GetSigPairCount());
+                var keyMap = map.ContainsKey(nodeAccountId) ? Objects.RequireNonNull(map[nodeAccountId]) : new Dictionary<PublicKey, byte[]>(sigMap.GetSigPairCount());
                 map.Put(nodeAccountId, keyMap);
                 foreach (var sigPair in sigMap.GetSigPairList())
                 {
@@ -1273,7 +1273,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 }
                 catch (InterruptedException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(string.Empty, e);
                 }
             }
 
@@ -1420,7 +1420,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         abstract void OnScheduled(SchedulableTransactionBody.Builder scheduled);
         override Proto.Transaction MakeRequest()
         {
-            var index = nodeAccountIds.GetIndex() + (transactionIds.GetIndex() * nodeAccountIds.Count);
+            var index = nodeAccountIds.Index() + (transactionIds.Index() * nodeAccountIds.Count);
             BuildTransaction(index);
             return outerTransactions[index];
         }
@@ -1476,10 +1476,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
         }
 
-        override CompletableFuture<Void> OnExecuteAsync(Client client)
+        override Task OnExecuteAsync(Client client)
         {
             OnExecute(client);
-            return CompletableFuture.CompletedFuture(null);
+            return Task.FromResult(null);
         }
 
         override ExecutionState GetExecutionState(Status status, Proto.TransactionResponse response)
@@ -1508,7 +1508,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Objects.RequireNonNull(client.GetOperatorAccountId());
             transactionIds.SetLocked(false);
             var newTransactionID = TransactionId.Generate(client.GetOperatorAccountId());
-            transactionIds[transactionIds.GetIndex()] = newTransactionID;
+            transactionIds[transactionIds.Index()] = newTransactionID;
             transactionIds.SetLocked(true);
             return this;
         }

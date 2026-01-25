@@ -23,6 +23,7 @@ using static Hedera.Hashgraph.SDK.RequestType;
 using static Hedera.Hashgraph.SDK.Status;
 using static Hedera.Hashgraph.SDK.TokenKeyValidation;
 using static Hedera.Hashgraph.SDK.TokenSupplyType;
+using Hedera.Hashgraph.SDK.Transactions.Account;
 
 namespace Hedera.Hashgraph.SDK.Token
 {

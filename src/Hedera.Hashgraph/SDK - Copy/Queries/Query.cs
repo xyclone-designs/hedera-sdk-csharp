@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Google.Common.Base;
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Proto;
 using Io.Grpc;
 using Java.Time;
@@ -31,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Queries
     /// </summary>
     /// <param name="<O>">The output type of the query.</param>
     /// <param name="<T>">The type of the query itself. Used to enable chaining.</param>
-    public abstract class Query<O, T> : Executable<T, Proto.Query, Response, O> where T : Query<O, T>
+    public abstract class Query<O, T> : Executable<T, Proto.Query, Proto.Response, O> where T : Query<O, T>
     {
         private readonly Proto.Query.Builder builder;
         private readonly QueryHeader.Builder headerBuilder;
@@ -96,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// If the returned value is greater than this value, a
         /// {@link MaxQueryPaymentExceededException} will be thrown from
         /// {@link Query#execute(Client)} or returned in the second callback of
-        /// {@link Query#executeAsync(Client, Consumer, Consumer)}.
+        /// {@link Query#executeAsync(Client, Action, Action)}.
         /// <p>
         /// Set to 0 to disable automatic implicit payments.
         /// </summary>
@@ -141,7 +142,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// </summary>
         /// <param name="client">the client</param>
         /// <returns>                         Future result of the cost in hbar</returns>
-        public virtual CompletableFuture<Hbar> GetCostAsync(Client client)
+        public virtual Task<Hbar> GetCostAsync(Client client)
         {
             return GetCostAsync(client, client.GetRequestTimeout());
         }
@@ -152,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <param name="client">the client</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>                         Future result of the cost in hbar</returns>
-        public virtual CompletableFuture<Hbar> GetCostAsync(Client client, Duration timeout)
+        public virtual Task<Hbar> GetCostAsync(Client client, Duration timeout)
         {
             InitWithNodeIds(client);
             return GetCostExecutable().SetNodeAccountIds(Objects.RequireNonNull(GetNodeAccountIds())).ExecuteAsync(client, timeout);
@@ -163,20 +164,20 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// </summary>
         /// <param name="client">the client</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void GetCostAsync(Client client, Duration timeout, BiConsumer<Hbar, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(GetCostAsync(client, timeout), callback);
+            ActionHelper.Action(GetCostAsync(client, timeout), callback);
         }
 
         /// <summary>
         /// Fetch the expected cost asynchronously.
         /// </summary>
         /// <param name="client">the client</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void GetCostAsync(Client client, BiConsumer<Hbar, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void GetCostAsync(Client client, Action<Hbar, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(GetCostAsync(client), callback);
+            ActionHelper.Action(GetCostAsync(client), callback);
         }
 
         /// <summary>
@@ -184,22 +185,22 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// </summary>
         /// <param name="client">the client</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void GetCostAsync(Client client, Duration timeout, Consumer<Hbar> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(GetCostAsync(client, timeout), onSuccess, onFailure);
+            ActionHelper.TwoActions(GetCostAsync(client, timeout), onSuccess, onFailure);
         }
 
         /// <summary>
         /// Fetch the expected cost asynchronously.
         /// </summary>
         /// <param name="client">the client</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void GetCostAsync(Client client, Consumer<Hbar> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(GetCostAsync(client), onSuccess, onFailure);
+            ActionHelper.TwoActions(GetCostAsync(client), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -279,15 +280,15 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <p>Note: This method requires API level 33 or higher. It will not work on devices running API versions below 31
         /// because it uses features introduced in API level 31 (Android 12).</p>*
         /// </summary>
-        override CompletableFuture<Void> OnExecuteAsync(Client client)
+        override Task OnExecuteAsync(Client client)
         {
             var grpcCostQuery = new GrpcCostQuery(client);
             if (grpcCostQuery.IsNotRequired())
             {
-                return CompletableFuture.CompletedFuture(null);
+                return Task.FromResult(null);
             }
 
-            return CompletableFuture.SupplyAsync(() =>
+            return Task.SupplyAsync(() =>
             {
                 if (grpcCostQuery.GetCost() == null)
                 {
@@ -299,14 +300,14 @@ namespace Hedera.Hashgraph.SDK.Queries
                         grpcCostQuery.SetCost(cost);
                         if (grpcCostQuery.ShouldError())
                         {
-                            return CompletableFuture.FailedFuture(grpcCostQuery.MapError());
+                            return Task.FailedFuture(grpcCostQuery.MapError());
                         }
 
-                        return CompletableFuture.CompletedFuture(null);
+                        return Task.FromResult(null);
                     });
                 }
 
-                return CompletableFuture.CompletedFuture(null);
+                return Task.FromResult(null);
             }, client.executor).ThenCompose((x) => x).ThenAccept((paymentAmount) =>
             {
                 grpcCostQuery.Finish();
@@ -337,7 +338,7 @@ namespace Hedera.Hashgraph.SDK.Queries
                 }
                 catch (InterruptedException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(string.Empty, e);
                 }
             }
         }
@@ -361,7 +362,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             // If payment is required, set the next payment transaction on the query
             if (IsPaymentRequired() && paymentTransactions != null)
             {
-                headerBuilder.SetPayment(GetPaymentTransaction(nodeAccountIds.GetIndex()));
+                headerBuilder.SetPayment(GetPaymentTransaction(nodeAccountIds.Index()));
             }
 
 
@@ -423,7 +424,7 @@ namespace Hedera.Hashgraph.SDK.Queries
                 }
                 catch (InvalidProtocolBufferException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(string.Empty, e);
                 }
             }
 

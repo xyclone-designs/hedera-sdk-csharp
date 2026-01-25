@@ -2,6 +2,7 @@
 using Google.Protobuf;
 
 using System;
+using System.IO;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
@@ -22,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// The id number
         /// </summary>
         public readonly long Num;
-        private readonly string checksum;
+        private readonly string Checksum;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -53,10 +54,10 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// <param name="checksum">the checksum</param>
         TopicId(long shard, long realm, long num, string checksum)
         {
-            shard = shard;
-            realm = realm;
-            num = num;
-            checksum = checksum;
+            Shard = shard;
+            Realm = realm;
+            Num = num;
+            Checksum = checksum;
         }
 
         /// <summary>
@@ -128,12 +129,16 @@ namespace Hedera.Hashgraph.SDK.Topic
                 throw new ArgumentException("EVM address is not a correct long zero address");
             }
 
-            ByteBuffer buf = ByteBuffer.Wrap(addressBytes);
-            buf.GetInt();
-            buf.GetLong();
-            long tokenNum = buf.GetLong();
-            return new TopicId(shard, realm, tokenNum);
-        }
+			using MemoryStream ms = new(addressBytes);
+			using BinaryReader reader = new(ms);
+
+			reader.ReadInt32();
+			reader.ReadInt64();
+
+			long tokenNum = reader.ReadInt64();
+
+			return new TopicId(shard, realm, tokenNum);
+		}
 
         /// <summary>
         /// Converts this TopicId to an EVM address string.

@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             return RequirePublicKey(accountId, new AccountInfoQuery().SetAccountId(accountId).Execute(client).key);
         }
 
-        private static CompletableFuture<PublicKey> GetAccountPublicKeyAsync(Client client, AccountId accountId)
+        private static Task<PublicKey> GetAccountPublicKeyAsync(Client client, AccountId accountId)
         {
             return new AccountInfoQuery().SetAccountId(accountId).ExecuteAsync(client).ThenApply((accountInfo) =>
             {
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <param name="message">the message</param>
         /// <param name="signature">the signature</param>
         /// <returns>is the signature valid</returns>
-        public static CompletableFuture<bool> VerifySignatureAsync(Client client, AccountId accountId, byte[] message, byte[] signature)
+        public static Task<bool> VerifySignatureAsync(Client client, AccountId accountId, byte[] message, byte[] signature)
         {
             return GetAccountPublicKeyAsync(client, accountId).ThenApply((pubKey) => pubKey.Verify(message, signature));
         }
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <param name="accountId">the account id</param>
         /// <param name="transaction">the signed transaction</param>
         /// <returns>is the signature valid</returns>
-        public static CompletableFuture<bool> VerifyTransactionSignatureAsync(Client client, AccountId accountId, Transaction<TWildcardTodo> transaction)
+        public static Task<bool> VerifyTransactionSignatureAsync(Client client, AccountId accountId, Transaction<TWildcardTodo> transaction)
         {
             return GetAccountPublicKeyAsync(client, accountId).ThenApply((pubKey) => pubKey.VerifyTransaction(transaction));
         }

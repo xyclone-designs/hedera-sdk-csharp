@@ -1,20 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // Using fully qualified names to avoid conflicts with generated classes
 using Google.Protobuf;
-using Java.Util;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -53,45 +42,38 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         public class LambdaStorageSlot : LambdaStorageUpdate
         {
-            private readonly byte[] key;
-            private readonly byte[] value;
             /// <summary>
             /// Create a new storage slot update.
             /// </summary>
             /// <param name="key">the storage slot key (max 32 bytes, minimal representation)</param>
             /// <param name="value">the storage slot value (max 32 bytes, minimal representation)</param>
-            public LambdaStorageSlot(byte[] key, byte[] value)
+            public LambdaStorageSlot(byte[] key, byte[]? value)
             {
-                key = Objects.RequireNonNull(key, "key cannot be null").Clone();
-                value = value != null ? value.Clone() : new byte[0];
+                Key = (byte[])key.Clone();
+                Value = (byte[]?)value?.Clone() ?? [];
             }
 
-            /// <summary>
-            /// Get the storage slot key.
-            /// </summary>
-            /// <returns>a copy of the key bytes</returns>
-            public virtual byte[] GetKey()
-            {
-                return key.Clone();
-            }
+			/// <summary>
+			/// Get the storage slot key.
+			/// </summary>
+			/// <returns>a copy of the key bytes</returns>
+			public byte[] Key { get => (byte[])field.Clone(); }
 
-            /// <summary>
-            /// Get the storage slot value.
-            /// </summary>
-            /// <returns>a copy of the value bytes</returns>
-            public virtual byte[] GetValue()
-            {
-                return value.Clone();
-            }
+			/// <summary>
+			/// Get the storage slot value.
+			/// </summary>
+			/// <returns>a copy of the value bytes</returns>
+			private byte[] Value { get => (byte[])field.Clone(); }
 
-            public override Proto.LambdaStorageUpdate ToProtobuf()
+
+			public override Proto.LambdaStorageUpdate ToProtobuf()
             {
                 return new Proto.LambdaStorageUpdate
                 {
                     StorageSlot = new Proto.LambdaStorageSlot
                     {
-						Key = ByteString.CopyFrom(key),
-						Value = ByteString.CopyFrom(value),
+						Key = ByteString.CopyFrom(Key),
+						Value = ByteString.CopyFrom(Value),
 					}
                 };
             }
@@ -107,13 +89,15 @@ namespace Hedera.Hashgraph.SDK
                     return true;
                 if (o == null || GetType() != o.GetType())
                     return false;
+
                 LambdaStorageSlot that = (LambdaStorageSlot)o;
-                return Equals(key, that.key) && Equals(value, that.value);
+
+                return Equals(Key, that.Key) && Equals(Value, that.Value);
             }
 
             public override int GetHashCode()
             {
-                return HashCode.Combine(HashCode.Combine(key), HashCode.Combine(value));
+                return HashCode.Combine(HashCode.Combine(Key), HashCode.Combine(Value));
             }
         }
 

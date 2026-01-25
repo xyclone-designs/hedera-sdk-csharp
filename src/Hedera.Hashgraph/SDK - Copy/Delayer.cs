@@ -1,13 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Java.Time;
-using Java.Util.Concurrent;
-using Org.Slf4j;
+using Google.Protobuf.WellKnownTypes;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -21,15 +16,14 @@ namespace Hedera.Hashgraph.SDK
         {
             Thread t = new Thread(r);
             t.SetDaemon(true);
+
             return t;
         });
-        private static readonly Duration MIN_DELAY = Duration.OfMillis(500);
+        private static readonly Duration MIN_DELAY = Duration.FromTimeSpan(TimeSpan.FromMilliseconds(500));
         /// <summary>
         /// Constructor.
         /// </summary>
-        private Delayer()
-        {
-        }
+        private Delayer() { }
 
         /// <summary>
         /// Set the delay backoff attempts.
@@ -37,7 +31,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="attempt">the attempts</param>
         /// <param name="executor">the executor</param>
         /// <returns>                         the updated future</returns>
-        static CompletableFuture<Void> DelayBackOff(int attempt, Executor executor)
+        static Task DelayBackOff(int attempt, Executor executor)
         {
             var interval = MIN_DELAY.MultipliedBy(ThreadLocalRandom.Current().NextLong(1 << attempt));
             return DelayFor(interval.ToMillis(), executor);
@@ -49,10 +43,10 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="milliseconds">the milliseconds</param>
         /// <param name="executor">the executor</param>
         /// <returns>                         the updated future</returns>
-        static CompletableFuture<Void> DelayFor(long milliseconds, Executor executor)
+        static Task DelayFor(long milliseconds, Executor executor)
         {
             logger.Trace("waiting for {} seconds before trying again", (double)milliseconds / 1000);
-            return CompletableFuture.RunAsync(() =>
+            return Task.Run(() =>
             {
             }, DelayedExecutor(milliseconds, TimeUnit.MILLISECONDS, executor));
         }

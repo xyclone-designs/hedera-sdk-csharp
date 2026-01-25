@@ -1,26 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Javax.Annotation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -34,11 +13,11 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// A unique token id
         /// </summary>
-        public readonly TokenId tokenId;
+        public TokenId TokenId { get; }
         /// <summary>
         /// The Symbol of the token
         /// </summary>
-        public readonly string symbol;
+        public string Symbol { get; }
         /// <summary>
         /// For token of type FUNGIBLE_COMMON - the balance that the Account holds
         /// in the smallest denomination.
@@ -46,113 +25,121 @@ namespace Hedera.Hashgraph.SDK.Token
         /// For token of type NON_FUNGIBLE_UNIQUE - the number of NFTs held by the
         /// account
         /// </summary>
-        public readonly long balance;
+        public ulong Balance { get; }
         /// <summary>
         /// The KYC status of the account (KycNotApplicable, Granted or Revoked).
         /// 
         /// If the token does not have KYC key, KycNotApplicable is returned
         /// </summary>
-        public readonly bool kycStatus;
+        public bool KycStatus { get; }
         /// <summary>
         /// The Freeze status of the account (FreezeNotApplicable, Frozen or
         /// Unfrozen). If the token does not have Freeze key,
         /// FreezeNotApplicable is returned
         /// </summary>
-        public readonly bool freezeStatus;
+        public bool FreezeStatus { get; }
         /// <summary>
         /// The amount of decimal places that this token supports.
         /// </summary>
-        public readonly int decimals;
+        public uint Decimals { get; }
         /// <summary>
         /// Specifies if the relationship is created implicitly.
         /// False : explicitly associated,
         /// True : implicitly associated.
         /// </summary>
-        public readonly bool automaticAssociation;
-        TokenRelationship(TokenId tokenId, string symbol, long balance, bool kycStatus, bool freezeStatus, int decimals, bool automaticAssociation)
+        public bool AutomaticAssociation { get; }
+
+        TokenRelationship(TokenId tokenId, string symbol, ulong balance, bool kycStatus, bool freezeStatus, uint decimals, bool automaticAssociation)
         {
-            tokenId = tokenId;
-            symbol = symbol;
-            balance = balance;
-            kycStatus = kycStatus;
-            freezeStatus = freezeStatus;
-            decimals = decimals;
-            automaticAssociation = automaticAssociation;
+            TokenId = tokenId;
+            Symbol = symbol;
+            Balance = balance;
+            KycStatus = kycStatus;
+            FreezeStatus = freezeStatus;
+            Decimals = decimals;
+            AutomaticAssociation = automaticAssociation;
         }
 
-        /// <summary>
-        /// Retrieve freeze status from a protobuf.
-        /// </summary>
-        /// <param name="freezeStatus">the protobuf</param>
-        /// <returns>                         the freeze status</returns>
-        static bool FreezeStatusFromProtobuf(TokenFreezeStatus freezeStatus)
+		/// <summary>
+		/// Retrieve the kyc status from a protobuf.
+		/// </summary>
+		/// <param name="kycStatus">the protobuf</param>
+		/// <returns>                         the kyc status</returns>
+		public static bool KycStatusFromProtobuf(Proto.TokenKycStatus kycStatus)
+		{
+			return kycStatus == Proto.TokenKycStatus.Granted;
+		}
+		/// <summary>
+		/// Retrieve freeze status from a protobuf.
+		/// </summary>
+		/// <param name="freezeStatus">the protobuf</param>
+		/// <returns>                         the freeze status</returns>
+		public static bool FreezeStatusFromProtobuf(Proto.TokenFreezeStatus freezeStatus)
         {
-            return freezeStatus == TokenFreezeStatus.FreezeNotApplicable ? null : freezeStatus == TokenFreezeStatus.Frozen;
+            return freezeStatus == Proto.TokenFreezeStatus.Frozen;
         }
 
-        /// <summary>
-        /// Retrieve the kyc status from a protobuf.
-        /// </summary>
-        /// <param name="kycStatus">the protobuf</param>
-        /// <returns>                         the kyc status</returns>
-        static bool KycStatusFromProtobuf(TokenKycStatus kycStatus)
+		/// <summary>
+		/// Create a token relationship from a byte array.
+		/// </summary>
+		/// <param name="bytes">the byte array</param>
+		/// <returns>                         the new token relationship</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static TokenRelationship FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.TokenRelationship.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Create a token relationship object from a protobuf.
+		/// </summary>
+		/// <param name="tokenRelationship">the protobuf</param>
+		/// <returns>                         the new token relationship</returns>
+		public static TokenRelationship FromProtobuf(Proto.TokenRelationship tokenRelationship)
         {
-            return kycStatus == TokenKycStatus.KycNotApplicable ? null : kycStatus == TokenKycStatus.Granted;
+            return new TokenRelationship(
+                TokenId.FromProtobuf(tokenRelationship.TokenId), 
+                tokenRelationship.Symbol, 
+                tokenRelationship.Balance, 
+                KycStatusFromProtobuf(tokenRelationship.KycStatus), 
+                FreezeStatusFromProtobuf(tokenRelationship.FreezeStatus), 
+                tokenRelationship.Decimals, 
+                tokenRelationship.AutomaticAssociation);
         }
 
-        /// <summary>
-        /// Create a token relationship object from a protobuf.
-        /// </summary>
-        /// <param name="tokenRelationship">the protobuf</param>
-        /// <returns>                         the new token relationship</returns>
-        static TokenRelationship FromProtobuf(Proto.TokenRelationship tokenRelationship)
+		/// <summary>
+		/// Create the protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf representation</returns>
+		public virtual Proto.TokenRelationship ToProtobuf()
+		{
+            return new Proto.TokenRelationship
+            {
+				TokenId = TokenId.ToProtobuf(),
+				Symbol = Symbol,
+				Balance = Balance,
+				KycStatus = KycStatusToProtobuf(KycStatus),
+				FreezeStatus = FreezeStatusToProtobuf(FreezeStatus),
+				Decimals = Decimals,
+				AutomaticAssociation = AutomaticAssociation,
+			};
+		}
+		/// <summary>
+		/// Retrieve the kyc status from a protobuf.
+		/// </summary>
+		/// <param name="kycStatus">the protobuf</param>
+		/// <returns>                         the kyc status</returns>
+		public static Proto.TokenKycStatus KycStatusToProtobuf(bool? kycStatus)
+		{
+			return kycStatus == null ? Proto.TokenKycStatus.KycNotApplicable : kycStatus.Value ? Proto.TokenKycStatus.Granted : Proto.TokenKycStatus.Revoked;
+		}
+		/// <summary>
+		/// Retrieve the freeze status from a protobuf.
+		/// </summary>
+		/// <param name="freezeStatus">the protobuf</param>
+		/// <returns>                         the freeze status</returns>
+		public static Proto.TokenFreezeStatus FreezeStatusToProtobuf(bool? freezeStatus)
         {
-            return new TokenRelationship(TokenId.FromProtobuf(tokenRelationship.GetTokenId()), tokenRelationship.GetSymbol(), tokenRelationship.GetBalance(), KycStatusFromProtobuf(tokenRelationship.GetKycStatus()), FreezeStatusFromProtobuf(tokenRelationship.GetFreezeStatus()), tokenRelationship.GetDecimals(), tokenRelationship.GetAutomaticAssociation());
-        }
-
-        /// <summary>
-        /// Create a token relationship from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new token relationship</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static TokenRelationship FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(Proto.TokenRelationship.Parser.ParseFrom(bytes));
-        }
-
-        /// <summary>
-        /// Retrieve the freeze status from a protobuf.
-        /// </summary>
-        /// <param name="freezeStatus">the protobuf</param>
-        /// <returns>                         the freeze status</returns>
-        static TokenFreezeStatus FreezeStatusToProtobuf(bool freezeStatus)
-        {
-            return freezeStatus == null ? TokenFreezeStatus.FreezeNotApplicable : freezeStatus ? TokenFreezeStatus.Frozen : TokenFreezeStatus.Unfrozen;
-        }
-
-        /// <summary>
-        /// Retrieve the kyc status from a protobuf.
-        /// </summary>
-        /// <param name="kycStatus">the protobuf</param>
-        /// <returns>                         the kyc status</returns>
-        static TokenKycStatus KycStatusToProtobuf(bool kycStatus)
-        {
-            return kycStatus == null ? TokenKycStatus.KycNotApplicable : kycStatus ? TokenKycStatus.Granted : TokenKycStatus.Revoked;
-        }
-
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
-        virtual Proto.TokenRelationship ToProtobuf()
-        {
-            return Proto.TokenRelationship.NewBuilder().SetTokenId(tokenId.ToProtobuf()).SetSymbol(symbol).SetBalance(balance).SetKycStatus(KycStatusToProtobuf(kycStatus)).SetFreezeStatus(FreezeStatusToProtobuf(freezeStatus)).SetDecimals(decimals).SetAutomaticAssociation(automaticAssociation).Build();
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("tokenId", tokenId).Add("symbol", symbol).Add("balance", balance).Add("kycStatus", kycStatus).Add("freezeStatus", freezeStatus).Add("decimals", decimals).Add("automaticAssociation", automaticAssociation).ToString();
+            return freezeStatus == null ? Proto.TokenFreezeStatus.FreezeNotApplicable : freezeStatus.Value ? Proto.TokenFreezeStatus.Frozen : Proto.TokenFreezeStatus.Unfrozen;
         }
 
         /// <summary>

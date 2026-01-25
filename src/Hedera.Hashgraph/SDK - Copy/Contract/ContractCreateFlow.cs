@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.SDK
         private Client freezeWithClient = null;
         private PrivateKey signPrivateKey = null;
         private PublicKey signPublicKey = null;
-        private UnaryOperator<byte[]> transactionSigner = null;
+        private Func<byte[], byte[]> transactionSigner = null;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -492,7 +492,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="publicKey">the public key</param>
         /// <param name="transactionSigner">the key list</param>
         /// <returns>{@code this}</returns>
-        public virtual ContractCreateFlow SignWith(PublicKey publicKey, UnaryOperator<byte[]> transactionSigner)
+        public virtual ContractCreateFlow SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
         {
             signPublicKey = publicKey;
             transactionSigner = transactionSigner;
@@ -663,7 +663,7 @@ namespace Hedera.Hashgraph.SDK
             }
             catch (ReceiptStatusException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
 
@@ -672,7 +672,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <returns>the response</returns>
-        public virtual CompletableFuture<TransactionResponse> ExecuteAsync(Client client)
+        public virtual Task<TransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.GetRequestTimeout());
         }
@@ -683,12 +683,12 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <returns>the response</returns>
-        public virtual CompletableFuture<TransactionResponse> ExecuteAsync(Client client, Duration timeoutPerTransaction)
+        public virtual Task<TransactionResponse> ExecuteAsync(Client client, Duration timeoutPerTransaction)
         {
             SplitBytecode();
             return CreateFileCreateTransaction(client).ExecuteAsync(client, timeoutPerTransaction).ThenCompose((fileCreateResponse) => CreateTransactionReceiptQuery(fileCreateResponse).ExecuteAsync(client, timeoutPerTransaction).ThenApply((receipt) => receipt.fileId)).ThenCompose((fileId) =>
             {
-                CompletableFuture<Void> appendFuture = appendBytecode.IsEmpty() ? CompletableFuture.CompletedFuture(null) : CreateFileAppendTransaction(fileId).ExecuteAsync(client, timeoutPerTransaction).ThenApply((ignored) => null);
+                Task appendFuture = appendBytecode.IsEmpty() ? Task.FromResult(null) : CreateFileAppendTransaction(fileId).ExecuteAsync(client, timeoutPerTransaction).ThenApply((ignored) => null);
                 return appendFuture.ThenCompose((ignored) => CreateContractCreateTransaction(fileId).ExecuteAsync(client, timeoutPerTransaction).ThenApply((contractCreateResponse) =>
                 {
                     CreateTransactionReceiptQuery(contractCreateResponse).ExecuteAsync(client, timeoutPerTransaction).ThenRun(() =>
@@ -704,10 +704,10 @@ namespace Hedera.Hashgraph.SDK
         /// Execute the transactions in the flow with the passed in client asynchronously.
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, BiConsumer<TransactionResponse, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void ExecuteAsync(Client client, Action<TransactionResponse, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(ExecuteAsync(client), callback);
+            ActionHelper.Action(ExecuteAsync(client), callback);
         }
 
         /// <summary>
@@ -715,21 +715,21 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, BiConsumer<TransactionResponse, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(ExecuteAsync(client, timeoutPerTransaction), callback);
+            ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
 
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Consumer<TransactionResponse> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(ExecuteAsync(client), onSuccess, onFailure);
+            ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -737,11 +737,11 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Consumer<TransactionResponse> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
+            ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
         }
     }
 }

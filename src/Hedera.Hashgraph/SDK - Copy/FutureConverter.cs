@@ -16,7 +16,7 @@ using static Hedera.Hashgraph.SDK.FungibleHookType;
 
 namespace Hedera.Hashgraph.SDK
 {
-    // Converts between ListenableFuture (Guava) and CompletableFuture (StreamSupport).
+    // Converts between ListenableFuture (Guava) and Task (StreamSupport).
     // https://github.com/lukas-krecan/future-converter/blob/master/java8-guava/src/main/java/net/javacrumbs/futureconverter/java8guava/FutureConverter.java#L28
     sealed class FutureConverter
     {
@@ -29,15 +29,15 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="listenableFuture">the T object generator</param>
         /// <returns>                         the T type object</returns>
-        static CompletableFuture<T> ToCompletableFuture<T>(ListenableFuture<T> listenableFuture)
+        static Task<T> ToTask<T>(ListenableFuture<T> listenableFuture)
         {
-            return Java8FutureUtils.CreateCompletableFuture(GuavaFutureUtils.CreateValueSourceFuture(listenableFuture));
+            return Java8FutureUtils.CreateTask(GuavaFutureUtils.CreateValueSourceFuture(listenableFuture));
         }
 
         // https://github.com/lukas-krecan/future-converter/blob/master/common/src/main/java/net/javacrumbs/futureconverter/common/internal/ValueSource.java
         private interface ValueSource<T>
         {
-            void AddCallbacks(Consumer<T> successCallback, Consumer<Throwable> failureCallback);
+            void AddCallbacks(Action<T> successCallback, Action<Exception> failureCallback);
             bool Cancel(bool mayInterruptIfRunning);
         }
 
@@ -127,7 +127,7 @@ namespace Hedera.Hashgraph.SDK
                 {
                 }
 
-                public override void AddCallbacks(Consumer<T> successCallback, Consumer<Throwable> failureCallback)
+                public override void AddCallbacks(Action<T> successCallback, Action<Exception> failureCallback)
                 {
                     Futures.AddCallback(GetWrappedFuture(), new AnonymousFutureCallback(this), MoreExecutors.DirectExecutor());
                 }
@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.SDK
                         successCallback.Accept(result);
                     }
 
-                    public void OnFailure(Throwable t)
+                    public void OnFailure(Exception t)
                     {
                         failureCallback.Accept(t);
                     }
@@ -161,22 +161,22 @@ namespace Hedera.Hashgraph.SDK
         // https://github.com/lukas-krecan/future-converter/blob/master/java8-common/src/main/java/net/javacrumbs/futureconverter/java8common/Java8FutureUtils.java
         private class Java8FutureUtils
         {
-            public static CompletableFuture<T> CreateCompletableFuture<T>(ValueSource<T> valueSource)
+            public static Task<T> CreateTask<T>(ValueSource<T> valueSource)
             {
-                if (valueSource is CompletableFutureBackedValueSource)
+                if (valueSource is TaskBackedValueSource)
                 {
-                    return ((CompletableFutureBackedValueSource<T>)valueSource).GetWrappedFuture();
+                    return ((TaskBackedValueSource<T>)valueSource).GetWrappedFuture();
                 }
                 else
                 {
-                    return new ValueSourceBackedCompletableFuture<T>(valueSource);
+                    return new ValueSourceBackedTask<T>(valueSource);
                 }
             }
 
-            private sealed class ValueSourceBackedCompletableFuture<T> : CompletableFuture<T>
+            private sealed class ValueSourceBackedTask<T> : Task<T>
             {
                 private readonly ValueSource<T> valueSource;
-                private ValueSourceBackedCompletableFuture(ValueSource<T> valueSource)
+                private ValueSourceBackedTask(ValueSource<T> valueSource)
                 {
                     valueSource = valueSource;
                     valueSource.AddCallbacks(Complete(), CompleteExceptionally());
@@ -195,13 +195,13 @@ namespace Hedera.Hashgraph.SDK
                 }
             }
 
-            private sealed class CompletableFutureBackedValueSource<T> : ValueSourceFuture<T>
+            private sealed class TaskBackedValueSource<T> : ValueSourceFuture<T>
             {
-                private CompletableFutureBackedValueSource(CompletableFuture<T> completableFuture) : base(completableFuture)
+                private TaskBackedValueSource(Task<T> Task) : base(Task)
                 {
                 }
 
-                public override void AddCallbacks(Consumer<T> successCallback, Consumer<Throwable> failureCallback)
+                public override void AddCallbacks(Action<T> successCallback, Action<Exception> failureCallback)
                 {
                     GetWrappedFuture().WhenComplete((v, t) =>
                     {
@@ -216,9 +216,9 @@ namespace Hedera.Hashgraph.SDK
                     });
                 }
 
-                override CompletableFuture<T> GetWrappedFuture()
+                override Task<T> GetWrappedFuture()
                 {
-                    return (CompletableFuture<T>)base.GetWrappedFuture();
+                    return (Task<T>)base.GetWrappedFuture();
                 }
             }
         }

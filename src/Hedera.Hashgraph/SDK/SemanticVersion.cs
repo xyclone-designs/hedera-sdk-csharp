@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		/// <param name="version">the protobuf</param>
 		/// <returns>                         the new semantic version</returns>
-		protected static SemanticVersion FromProtobuf(Proto.SemanticVersion version)
+		public static SemanticVersion FromProtobuf(Proto.SemanticVersion version)
         {
             return new SemanticVersion(version.Major, version.Minor, version.Patch);
         }
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK
         /// Create the protobuf.
         /// </summary>
         /// <returns>                         the protobuf representation</returns>
-        protected virtual Proto.SemanticVersion ToProtobuf()
+        public virtual Proto.SemanticVersion ToProtobuf()
         {
             return new Proto.SemanticVersion
             {

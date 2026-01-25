@@ -8,6 +8,7 @@ using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
@@ -214,7 +215,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>populated ContractId instance</returns>
         public virtual ContractId PopulateContractNum(Client client)
         {
-            return PopulateContractNumAsync(client).Get();
+            return PopulateContractNumAsync(client).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -226,7 +227,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="client"></param>
         /// <returns>populated ContractId instance</returns>
         /// <remarks>@deprecatedUse 'populateContractNum' instead due to its nearly identical operation.</remarks>
-        public virtual CompletableFuture<ContractId> PopulateContractNumAsync(Client client)
+        public virtual Task<ContractId> PopulateContractNumAsync(Client client)
         {
             EvmAddress address = new (EvmAddress);
             return Utils.EntityIdHelper.GetContractNumFromMirrorNodeAsync(client, address.ToString()).ThenApply((contractNumFromMirrorNode) => new ContractId(Shard, Realm, contractNumFromMirrorNode, Checksum));

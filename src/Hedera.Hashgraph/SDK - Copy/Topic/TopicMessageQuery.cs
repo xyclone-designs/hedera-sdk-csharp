@@ -40,10 +40,10 @@ namespace Hedera.Hashgraph.SDK.Topic
         private static readonly Logger LOGGER = LoggerFactory.GetLogger(typeof(TopicMessageQuery));
         private readonly ConsensusTopicQuery.Builder builder;
         private Runnable completionHandler = OnComplete();
-        private BiConsumer<Throwable, TopicMessage> errorHandler = OnError();
+        private Action<Exception, TopicMessage> errorHandler = OnError();
         private int maxAttempts = 10;
         private Duration maxBackoff = Duration.OfSeconds(8);
-        private Predicate<Throwable> retryHandler = ShouldRetry();
+        private Predicate<Exception> retryHandler = ShouldRetry();
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -116,7 +116,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// </summary>
         /// <param name="errorHandler">the error handler</param>
         /// <returns>{@code this}</returns>
-        public TopicMessageQuery SetErrorHandler(BiConsumer<Throwable, TopicMessage> errorHandler)
+        public TopicMessageQuery SetErrorHandler(Action<Exception, TopicMessage> errorHandler)
         {
             Objects.RequireNonNull(errorHandler, "errorHandler must not be null");
             errorHandler = errorHandler;
@@ -160,7 +160,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// </summary>
         /// <param name="retryHandler">the retry handler</param>
         /// <returns>{@code this}</returns>
-        public TopicMessageQuery SetRetryHandler(Predicate<Throwable> retryHandler)
+        public TopicMessageQuery SetRetryHandler(Predicate<Exception> retryHandler)
         {
             Objects.RequireNonNull(retryHandler, "retryHandler must not be null");
             retryHandler = retryHandler;
@@ -173,16 +173,16 @@ namespace Hedera.Hashgraph.SDK.Topic
             LOGGER.Info("Subscription to topic {} complete", topicId);
         }
 
-        private void OnError(Throwable throwable, TopicMessage topicMessage)
+        private void OnError(Exception Exception, TopicMessage topicMessage)
         {
             var topicId = TopicId.FromProtobuf(builder.GetTopicID());
-            if (throwable is StatusRuntimeException && sre.GetStatus().GetCode().Equals(Status.Code.CANCELLED))
+            if (Exception is StatusRuntimeException && sre.GetStatus().GetCode().Equals(Status.Code.CANCELLED))
             {
                 LOGGER.Warn("Call is cancelled for topic {}.", topicId);
             }
             else
             {
-                LOGGER.Error("Error attempting to subscribe to topic {}:", topicId, throwable);
+                LOGGER.Error("Error attempting to subscribe to topic {}:", topicId, Exception);
             }
         }
 
@@ -200,11 +200,11 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// INTERNAL: With a gRPC error status description that indicates the stream was reset. Stream resets can sometimes
         /// occur when a proxy or load balancer disconnects the client.
         /// </summary>
-        /// <param name="throwable">the potentially retryable exception</param>
+        /// <param name="Exception">the potentially retryable exception</param>
         /// <returns>if the request should be retried or not</returns>
-        private bool ShouldRetry(Throwable throwable)
+        private bool ShouldRetry(Exception Exception)
         {
-            if (throwable is StatusRuntimeException)
+            if (Exception is StatusRuntimeException)
             {
                 var code = statusRuntimeException.GetStatus().GetCode();
                 var description = statusRuntimeException.GetStatus().GetDescription();
@@ -218,26 +218,26 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// Subscribe to the topic.
         /// </summary>
         /// <param name="client">the configured client</param>
-        /// <param name="onNext">the consumer</param>
+        /// <param name="onNext">the Action</param>
         /// <returns>the subscription handle</returns>
         // TODO: Refactor into a base class when we add more mirror query types
-        public SubscriptionHandle Subscribe(Client client, Consumer<TopicMessage> onNext)
+        public SubscriptionHandle Subscribe(Client client, Action<TopicMessage> onNext)
         {
             SubscriptionHandle subscriptionHandle = new SubscriptionHandle();
-            HashMap<TransactionID, List<ConsensusTopicResponse>> pendingMessages = new HashMap();
+            Dictionary<TransactionID, List<ConsensusTopicResponse>> pendingMessages = [];
             try
             {
                 MakeStreamingCall(client, subscriptionHandle, onNext, 0, new AtomicLong(), new AtomicReference(), pendingMessages);
             }
             catch (InterruptedException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
 
             return subscriptionHandle;
         }
 
-        private void MakeStreamingCall(Client client, SubscriptionHandle subscriptionHandle, Consumer<TopicMessage> onNext, int attempt, AtomicLong counter, AtomicReference<ConsensusTopicResponse> lastMessage, HashMap<TransactionID, List<ConsensusTopicResponse>> pendingMessages)
+        private void MakeStreamingCall(Client client, SubscriptionHandle subscriptionHandle, Action<TopicMessage> onNext, int attempt, AtomicLong counter, AtomicReference<ConsensusTopicResponse> lastMessage, Dictionary<TransactionID, List<ConsensusTopicResponse>> pendingMessages)
         {
 
             // TODO: check status of channel before using it?
@@ -290,7 +290,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                     {
                         onNext.Accept(message);
                     }
-                    catch (Throwable t)
+                    catch (Exception t)
                     {
                         errorHandler.Accept(t, message);
                     }
@@ -302,7 +302,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 // get the list of chunks for this pending message
                 var initialTransactionID = consensusTopicResponse.GetChunkInfo().GetInitialTransactionID();
 
-                // Can't use `HashMap.putIfAbsent()` since that method is not available on Android
+                // Can't use `Dictionary.putIfAbsent()` since that method is not available on Android
                 if (!pendingMessages.ContainsKey(initialTransactionID))
                 {
                     pendingMessages.Put(initialTransactionID, new ());
@@ -322,14 +322,14 @@ namespace Hedera.Hashgraph.SDK.Topic
                     {
                         onNext.Accept(message);
                     }
-                    catch (Throwable t)
+                    catch (Exception t)
                     {
                         errorHandler.Accept(t, message);
                     }
                 }
             }
 
-            public void OnError(Throwable t)
+            public void OnError(Exception t)
             {
                 if (cancelledByClient.Get())
                 {
@@ -347,7 +347,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 LOGGER.Warn("Error subscribing to topic {} during attempt #{}. Waiting {} ms before next attempt: {}", topicId, attempt, delay, t.GetMessage());
                 call.Cancel("unsubscribed", null);
 
-                // Cannot use `CompletableFuture<U>` here since this future is never polled
+                // Cannot use `Task<U>` here since this future is never polled
                 try
                 {
                     Thread.Sleep(delay);
@@ -363,7 +363,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 }
                 catch (InterruptedException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(string.Empty, e);
                 }
             }
 

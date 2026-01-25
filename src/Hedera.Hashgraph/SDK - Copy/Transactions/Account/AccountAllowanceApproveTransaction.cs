@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         private readonly IList<TokenNftAllowance> nftAllowances = new ();
         // key is "{ownerId}:{spenderId}".  OwnerId may be "FEE_PAYER"
         // <ownerId:spenderId, <tokenId, index>>
-        private readonly Dictionary<string, Dictionary<TokenId, int>> nftMap = new HashMap();
+        private readonly Dictionary<string, Dictionary<TokenId, int>> nftMap = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// Constructor.
         /// </summary>
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-        AccountAllowanceApproveTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        AccountAllowanceApproveTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -204,7 +204,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             }
             else
             {
-                Dictionary<TokenId, int> innerMap = new HashMap();
+                Dictionary<TokenId, int> innerMap = [];
                 nftMap.Put(key, innerMap);
                 return NewNftSerials(ownerAccountId, spenderAccountId, delegatingSpender, tokenId, innerMap);
             }

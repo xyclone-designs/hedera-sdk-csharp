@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             return this;
         }
 
-        public override CompletableFuture<Hbar> GetCostAsync(Client client)
+        public override Task<Hbar> GetCostAsync(Client client)
         {
 
             // network bug: ContractCallLocal cost estimate is too low

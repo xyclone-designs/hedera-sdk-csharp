@@ -212,7 +212,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        private static IList<string> GetSpecificWordList(Supplier<SoftReference<IList<string>>> getCurrentWordList, Supplier<IList<string>> getNewWordList, Consumer<SoftReference<IList<string>>> setCurrentWordList)
+        private static IList<string> GetSpecificWordList(Supplier<SoftReference<IList<string>>> getCurrentWordList, Supplier<IList<string>> getNewWordList, Action<SoftReference<IList<string>>> setCurrentWordList)
         {
             lock (typeof(Mnemonic))
             {
@@ -250,7 +250,7 @@ namespace Hedera.Hashgraph.SDK
                 }
                 catch (IOException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(string.Empty, e);
                 }
             }
             else
@@ -271,7 +271,7 @@ namespace Hedera.Hashgraph.SDK
                 }
                 catch (IOException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(string.Empty, e);
                 }
             }
         }

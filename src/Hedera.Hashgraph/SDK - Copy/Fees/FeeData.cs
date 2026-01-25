@@ -80,9 +80,9 @@ namespace Hedera.Hashgraph.SDK.Fees
         {
             return new FeeData
             {
-                NodeData = NodeData?.Clone(),
-                NetworkData = NetworkData?.Clone(),
-                ServiceData = ServiceData?.Clone(),
+                NodeData = NodeData?.Clone() as FeeComponents,
+                NetworkData = NetworkData?.Clone() as FeeComponents,
+                ServiceData = ServiceData?.Clone() as FeeComponents,
             };
         }
     }

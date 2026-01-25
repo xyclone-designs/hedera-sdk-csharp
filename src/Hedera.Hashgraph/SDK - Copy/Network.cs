@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK
         static Network ForMainnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.MAINNET);
-            HashMap<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
+            Dictionary<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.MAINNET, addressBook);
         }
 
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK
         static Network ForTestnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.TESTNET);
-            HashMap<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
+            Dictionary<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.TESTNET, addressBook);
         }
 
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.SDK
         static Network ForPreviewnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.PREVIEWNET);
-            HashMap<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
+            Dictionary<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.PREVIEWNET, addressBook);
         }
 
@@ -184,9 +184,9 @@ namespace Hedera.Hashgraph.SDK
             return (ledgerId == null || !ledgerId.IsKnownNetwork()) ? null : ReadAddressBookResource("addressbook/" + ledgerId + ".pb");
         }
 
-        static HashMap<string, AccountId> AddressBookToNetwork(Collection<NodeAddress> addressBook)
+        static Dictionary<string, AccountId> AddressBookToNetwork(Collection<NodeAddress> addressBook)
         {
-            var network = new HashMap<string, AccountId>();
+            var network = new Dictionary<string, AccountId>();
             foreach (var nodeAddress in addressBook)
             {
                 foreach (var endpoint in nodeAddress.addresses)
@@ -211,8 +211,8 @@ namespace Hedera.Hashgraph.SDK
                 {
                     var contents = ByteStreams.ToByteArray(inputStream);
                     var nodeAddressBook = NodeAddressBook.FromBytes(ByteString.CopyFrom(contents));
-                    var map = new HashMap<AccountId, NodeAddress>();
-                    foreach (var nodeAddress in nodeAddressBook.nodeAddresses)
+                    var map = new Dictionary<AccountId, NodeAddress>();
+                    foreach (var nodeAddress in nodeAddressBook.NodeAddresses)
                     {
                         if (nodeAddress.accountId == null)
                         {
@@ -227,7 +227,7 @@ namespace Hedera.Hashgraph.SDK
             }
             catch (IOException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
 
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.SDK
         {
             lock (this)
             {
-                Dictionary<string, AccountId> returnMap = new HashMap();
+                Dictionary<string, AccountId> returnMap = [];
                 foreach (var node in nodes)
                 {
                     returnMap.Put(node.address.ToString(), node.GetAccountId());

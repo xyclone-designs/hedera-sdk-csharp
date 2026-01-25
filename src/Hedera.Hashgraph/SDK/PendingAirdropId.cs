@@ -17,17 +17,17 @@ namespace Hedera.Hashgraph.SDK
     {
         public PendingAirdropId(AccountId sender, AccountId receiver, TokenId tokenId)
         {
-            this.Sender = sender;
-            this.Receiver = receiver;
-            this.TokenId = tokenId;
-            this.NftId = null;
+            Sender = sender;
+            Receiver = receiver;
+            TokenId = tokenId;
+            NftId = null;
         }
         public PendingAirdropId(AccountId sender, AccountId receiver, NftId nftId)
         {
-            this.Sender = sender;
-            this.Receiver = receiver;
-            this.NftId = nftId;
-            this.TokenId = null;
+            Sender = sender;
+            Receiver = receiver;
+            NftId = nftId;
+            TokenId = null;
         }
 
 		public static PendingAirdropId FromProtobuf(Proto.PendingAirdropId pendingAirdropId)

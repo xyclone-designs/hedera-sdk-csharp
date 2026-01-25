@@ -8,6 +8,7 @@ using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math.EC.Rfc8032;
 using Org.BouncyCastle.Util.Encoders;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -188,11 +189,11 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <returns>                         the private key</returns>
         public static PrivateKey FromBytes(byte[] privateKey)
         {
-            if ((privateKey.Length == Ed25519.SECRET_KEY_SIZE) || (privateKey.Length == Ed25519.SECRET_KEY_SIZE + Ed25519.PUBLIC_KEY_SIZE))
+            if ((privateKey.Length == Ed25519.SecretKeySize) || (privateKey.Length == Ed25519.SecretKeySize + Ed25519.PublicKeySize))
             {
 
                 // If this is a 32 or 64 byte string, assume an Ed25519 private key
-                return new PrivateKeyED25519(Array.CopyOfRange(privateKey, 0, Ed25519.SECRET_KEY_SIZE), null);
+                return new PrivateKeyED25519(privateKey.CopyArray()[0 .. Ed25519.SecretKeySize], null);
             }
 
 
@@ -231,11 +232,11 @@ namespace Hedera.Hashgraph.SDK.Keys
             {
                 return FromPrivateKeyInfo(PrivateKeyInfo.GetInstance(privateKey));
             }
-            catch (ClassCastException e)
+            catch (InvalidCastException)
             {
                 return PrivateKeyECDSA.FromECPrivateKeyInternal(ECPrivateKey.GetInstance(privateKey));
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 return PrivateKeyECDSA.FromECPrivateKeyInternal(ECPrivateKey.GetInstance(privateKey));
             }

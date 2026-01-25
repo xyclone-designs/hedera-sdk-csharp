@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
         ///            records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        SystemDeleteTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        SystemDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -231,7 +231,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
             }
         }
 
-        override CompletableFuture<Void> OnExecuteAsync(Client client)
+        override Task OnExecuteAsync(Client client)
         {
             int modesEnabled = (fileId != null ? 1 : 0) + (contractId != null ? 1 : 0);
             if (modesEnabled != 1)

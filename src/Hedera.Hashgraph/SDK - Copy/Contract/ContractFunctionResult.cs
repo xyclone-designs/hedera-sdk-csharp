@@ -2,17 +2,23 @@
 using Com.Esaulpaugh.Headlong.Abi;
 using Com.Google.Common.Base;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Proto;
+using Hedera.Hashgraph.SDK.Transactions.Account;
 using Java.Math;
 using Java.Nio;
 using Java.Util;
 using Java.Util.Stream;
 using Javax.Annotation;
 using Org.Bouncycastle.Util.Encoders;
+using Org.BouncyCastle.Utilities.Encoders;
+using Proto;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
@@ -121,8 +127,8 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             bloom = inner.GetBloom();
             gasUsed = inner.GetGasUsed();
-            logs = inner.GetLogInfoList().Stream().Map(ContractLogInfo.FromProtobuf()).Collect(Collectors.ToList());
-            createdContractIds = inner.GetCreatedContractIDsList().Stream().Map(ContractId.FromProtobuf()).Collect(Collectors.ToList());
+            logs = inner.LogInfoList.Select(_ => ContractLogInfo.FromProtobuf(_)).ToList();
+            createdContractIds = inner.CreatedContractIDs.Select(_ => ContractId.FromProtobuf(_)).ToList();
             stateChanges = new List<ContractStateChange>();
 
             // for (var stateChangeProto : inner.getStateChangesList()) {
@@ -132,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             hbarAmount = Hbar.FromTinybars(inner.GetAmount());
             contractFunctionParametersBytes = inner.GetFunctionParameters().ToByteArray();
             senderAccountId = inner.HasSenderId() ? AccountId.FromProtobuf(inner.GetSenderId()) : null;
-            contractNonces = inner.GetContractNoncesList().Stream().Map(ContractNonceInfo.FromProtobuf()).Collect(Collectors.ToList());
+            contractNonces = inner.ContractNonces.Select(_ => ContractNonceInfo.FromProtobuf(_)).ToList();
             signerNonce = inner.GetSignerNonce().GetValue();
         }
 
@@ -381,7 +387,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         private ByteString GetByteString(int startIndex, int endIndex)
         {
-            return rawResult.Substring(startIndex, endIndex);
+            return rawResult[startIndex .. endIndex];
         }
 
         /// <summary>
@@ -390,47 +396,38 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>{@link Proto.ContractFunctionResult}</returns>
         Proto.ContractFunctionResult ToProtobuf()
         {
-            var contractFunctionResult = Proto.ContractFunctionResult.SetContractID(contractId.ToProtobuf()).SetContractCallResult(rawResult).SetBloom(bloom).SetGasUsed(gasUsed).SetSignerNonce(Int64Value.Of(signerNonce));
+			Proto.ContractFunctionResult proto = new()
+            {
+				ContractID = contractId.ToProtobuf(),
+				ContractCallResult = rawResult,
+				Bloom = bloom,
+				GasUsed = gasUsed,
+				SignerNonce = Int64Value.Parser.ParseFrom(signerNonce),
+			};
+
             if (evmAddress != null)
-            {
-                contractFunctionResult.SetEvmAddress(BytesValue.SetValue(ByteString.CopyFrom(Objects.RequireNonNull(evmAddress.EvmAddress))).Build());
-            }
+				proto.EvmAddress = ByteString.CopyFrom(evmAddress.EvmAddress); // BytesValue.Parser.Par SetValue(.Build());
 
-            if (errorMessage != null)
-            {
-                contractFunctionResult.SetErrorMessage(errorMessage);
-            }
+			if (errorMessage != null)
+				proto.ErrorMessage = errorMessage;
 
-            foreach (ContractLogInfo log in logs)
-            {
-                contractFunctionResult.AddLogInfo(log.ToProtobuf());
-            }
+			foreach (ContractLogInfo log in logs)
+				proto.LogInfo.Add(log.ToProtobuf());
 
-            foreach (var contractId in createdContractIds)
-            {
-                contractFunctionResult.AddCreatedContractIDs(contractId.ToProtobuf());
-            }
+			foreach (var contractId in createdContractIds)
+				proto.CreatedContractIDs.Add(contractId.ToProtobuf());
 
             if (senderAccountId != null)
-            {
-                contractFunctionResult.SetSenderId(senderAccountId.ToProtobuf());
-            }
+				proto.SenderId = senderAccountId.ToProtobuf();
 
 
             // for (var stateChange : stateChanges) {
             //     contractFunctionResult.addStateChanges(stateChange.toProtobuf());
             // }
             foreach (var contractNonce in contractNonces)
-            {
-                contractFunctionResult.AddContractNonces(contractNonce.ToProtobuf());
-            }
+                proto.ContractNonces.Add(contractNonce.ToProtobuf());
 
-            return contractFunctionResult.Build();
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("contractId", contractId).Add("evmAddress", evmAddress).Add("errorMessage", errorMessage).Add("bloom", Hex.ToHexString(bloom.ToByteArray())).Add("gasUsed", gasUsed).Add("logs", logs).Add("createdContractIds", createdContractIds).Add("stateChanges", stateChanges).Add("gas", gas).Add("hbarAmount", hbarAmount).Add("contractFunctionparametersBytes", Hex.ToHexString(contractFunctionParametersBytes)).Add("rawResult", Hex.ToHexString(rawResult.ToByteArray())).Add("senderAccountId", senderAccountId).Add("contractNonces", contractNonces).Add("signerNonce", signerNonce).ToString();
+            return proto;
         }
 
         public Tuple GetResult(string types)

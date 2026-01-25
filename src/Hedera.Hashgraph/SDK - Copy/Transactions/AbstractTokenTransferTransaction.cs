@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        AbstractTokenTransferTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        AbstractTokenTransferTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
         }
 
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>the list of token id decimals</returns>
         public virtual Dictionary<TokenId, int> GetTokenIdDecimals()
         {
-            Dictionary<TokenId, int> decimalsMap = new HashMap();
+            Dictionary<TokenId, int> decimalsMap = [];
             foreach (var transfer in tokenTransfers)
             {
                 decimalsMap.Put(transfer.tokenId, transfer.expectedDecimals);
@@ -56,10 +56,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>the list of token transfer records</returns>
         public virtual Dictionary<TokenId, Dictionary<AccountId, long>> GetTokenTransfers()
         {
-            Dictionary<TokenId, Dictionary<AccountId, long>> transfers = new HashMap();
+            Dictionary<TokenId, Dictionary<AccountId, long>> transfers = [];
             foreach (var transfer in tokenTransfers)
             {
-                var current = transfers[transfer.tokenId] != null ? transfers[transfer.tokenId] : new HashMap<AccountId, long>();
+                var current = transfers[transfer.tokenId] != null ? transfers[transfer.tokenId] : new Dictionary<AccountId, long>();
                 current.Put(transfer.accountId, transfer.amount);
                 transfers.Put(transfer.tokenId, current);
             }
@@ -186,7 +186,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>list of token nft transfers</returns>
         public virtual Dictionary<TokenId, IList<TokenNftTransfer>> GetTokenNftTransfers()
         {
-            Dictionary<TokenId, IList<TokenNftTransfer>> transfers = new HashMap();
+            Dictionary<TokenId, IList<TokenNftTransfer>> transfers = [];
             foreach (var transfer in nftTransfers)
             {
                 var current = transfers[transfer.tokenId] != null ? transfers[transfer.tokenId] : new List<TokenNftTransfer>();

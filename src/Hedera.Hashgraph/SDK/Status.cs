@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
+using System;
+
 namespace Hedera.Hashgraph.SDK
 {
     /// <summary>
@@ -371,11 +373,13 @@ namespace Hedera.Hashgraph.SDK
         /// <summary>
         /// Attempt to set negative receive record threshold
         /// </summary>
+        [Obsolete]
         InvalidReceiveRecordThreshold = Proto.ResponseCodeEnum.InvalidReceiveRecordThreshold,
-        /// <summary>
-        /// Attempt to set negative send record threshold
-        /// </summary>
-        InvalidSendRecordThreshold = Proto.ResponseCodeEnum.InvalidSendRecordThreshold,
+		/// <summary>
+		/// Attempt to set negative send record threshold
+		/// </summary>
+		[Obsolete]
+		InvalidSendRecordThreshold = Proto.ResponseCodeEnum.InvalidSendRecordThreshold,
         /// <summary>
         /// Special Account Operations should be performed by only Genesis Account = Proto.ResponseCodeEnum.Account, return this code if it
         /// is not Genesis Account
@@ -784,10 +788,11 @@ namespace Hedera.Hashgraph.SDK
         /// A custom fractional fee set a denominator of zero
         /// </summary>
         FractionDividesByZero = Proto.ResponseCodeEnum.FractionDividesByZero,
-        /// <summary>
-        /// The transaction payer could not afford a custom fee
-        /// </summary>
-        InsufficientPayerBalanceForCustomFee = Proto.ResponseCodeEnum.InsufficientPayerBalanceForCustomFee,
+		/// <summary>
+		/// The transaction payer could not afford a custom fee
+		/// </summary>
+		[Obsolete]
+		InsufficientPayerBalanceForCustomFee = Proto.ResponseCodeEnum.InsufficientPayerBalanceForCustomFee,
         /// <summary>
         /// More than 10 custom fees were specified
         /// </summary>
@@ -1007,10 +1012,11 @@ namespace Hedera.Hashgraph.SDK
         /// type actually has.
         /// </summary>
         UnexpectedTokenDecimals = Proto.ResponseCodeEnum.UnexpectedTokenDecimals,
-        /// <summary>
-        /// The proxy account id is invalid or does not exist.
-        /// </summary>
-        InvalidProxyAccountId = Proto.ResponseCodeEnum.InvalidProxyAccountId,
+		/// <summary>
+		/// The proxy account id is invalid or does not exist.
+		/// </summary>
+		[Obsolete]
+		InvalidProxyAccountId = Proto.ResponseCodeEnum.InvalidProxyAccountId,
         /// <summary>
         /// The transfer account id in CryptoDelete transaction is invalid or does not exist.
         /// </summary>
@@ -1037,10 +1043,11 @@ namespace Hedera.Hashgraph.SDK
         /// The specified amount for an approved allowance cannot be negative.
         /// </summary>
         NegativeAllowanceAmount = Proto.ResponseCodeEnum.NegativeAllowanceAmount,
-        /// <summary>
-        /// The approveForAll flag cannot be set for a fungible token.
-        /// </summary>
-        CannotApproveForAllFungibleCommon = Proto.ResponseCodeEnum.CannotApproveForAllFungibleCommon,
+		/// <summary>
+		/// The approveForAll flag cannot be set for a fungible token.
+		/// </summary>
+		[Obsolete]
+		CannotApproveForAllFungibleCommon = Proto.ResponseCodeEnum.CannotApproveForAllFungibleCommon,
         /// <summary>
         /// The spender does not have an existing approved allowance with the hbar/token owner.
         /// </summary>
@@ -1058,15 +1065,17 @@ namespace Hedera.Hashgraph.SDK
         /// No allowances have been specified in the approval transaction.
         /// </summary>
         EmptyAllowances = Proto.ResponseCodeEnum.EmptyAllowances,
-        /// <summary>
-        /// Spender is repeated more than once in Crypto or Token or NFT allowance lists in a single
-        /// CryptoApproveAllowance transaction.
-        /// </summary>
-        SpenderAccountRepeatedInAllowances = Proto.ResponseCodeEnum.SpenderAccountRepeatedInAllowances,
-        /// <summary>
-        /// Serial numbers are repeated in nft allowance for a single spender account
-        /// </summary>
-        RepeatedSerialNumsInNftAllowances = Proto.ResponseCodeEnum.RepeatedSerialNumsInNftAllowances,
+		/// <summary>
+		/// Spender is repeated more than once in Crypto or Token or NFT allowance lists in a single
+		/// CryptoApproveAllowance transaction.
+		/// </summary>
+		[Obsolete]
+		SpenderAccountRepeatedInAllowances = Proto.ResponseCodeEnum.SpenderAccountRepeatedInAllowances,
+		/// <summary>
+		/// Serial numbers are repeated in nft allowance for a single spender account
+		/// </summary>
+		[Obsolete]
+		RepeatedSerialNumsInNftAllowances = Proto.ResponseCodeEnum.RepeatedSerialNumsInNftAllowances,
         /// <summary>
         /// Fungible common token used in NFT allowances
         /// </summary>
@@ -1083,10 +1092,11 @@ namespace Hedera.Hashgraph.SDK
         /// The account id specified as the spender is invalid or does not exist.
         /// </summary>
         InvalidAllowanceSpenderId = Proto.ResponseCodeEnum.InvalidAllowanceSpenderId,
-        /// <summary>
-        /// [Deprecated] If the CryptoDeleteAllowance transaction has repeated crypto or token or Nft allowances to delete.
-        /// </summary>
-        RepeatedAllowancesToDelete = Proto.ResponseCodeEnum.RepeatedAllowancesToDelete,
+		/// <summary>
+		/// [Deprecated] If the CryptoDeleteAllowance transaction has repeated crypto or token or Nft allowances to delete.
+		/// </summary>
+		[Obsolete]
+		RepeatedAllowancesToDelete = Proto.ResponseCodeEnum.RepeatedAllowancesToDelete,
         /// <summary>
         /// If the account Id specified as the delegating spender is invalid or does not exist.
         /// </summary>

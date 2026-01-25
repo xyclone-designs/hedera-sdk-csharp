@@ -13,20 +13,6 @@ namespace Hedera.Hashgraph.SDK
     public sealed class ScheduleId : IComparable<ScheduleId>
     {
         /// <summary>
-        /// The shard number
-        /// </summary>
-        public readonly long Shard;
-        /// <summary>
-        /// The realm number
-        /// </summary>
-        public readonly long Realm;
-        /// <summary>
-        /// The id number
-        /// </summary>
-        public readonly long Num;
-        private readonly string? Checksum;
-
-        /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="num">the num part
@@ -34,7 +20,6 @@ namespace Hedera.Hashgraph.SDK
         /// Constructor that uses shard, realm and num should be used instead
         /// as shard and realm should not assume 0 value</param>
         public ScheduleId(long num) : this(0, 0, num) { }
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -42,7 +27,6 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="realm">the realm part</param>
         /// <param name="num">the num part</param>
         public ScheduleId(long shard, long realm, long num) : this(shard, realm, num, null) { }
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -87,11 +71,25 @@ namespace Hedera.Hashgraph.SDK
             return new ScheduleId(scheduleId.ShardNum, scheduleId.RealmNum, scheduleId.ScheduleNum);
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representing the schedule id</returns>
-        public Proto.ScheduleID ToProtobuf()
+		/// <summary>
+		/// The shard number
+		/// </summary>
+		public long Shard { get; }
+		/// <summary>
+		/// The realm number
+		/// </summary>
+		public long Realm { get; }
+		/// <summary>
+		/// The id number
+		/// </summary>
+		public long Num { get; }
+		public string? Checksum { get; }
+
+		/// <summary>
+		/// Create the protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf representing the schedule id</returns>
+		public Proto.ScheduleID ToProtobuf()
         {
             return new Proto.ScheduleID
             {

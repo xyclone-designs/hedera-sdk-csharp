@@ -141,7 +141,7 @@ namespace Hedera.Hashgraph.SDK
             }
             catch (InvalidAlgorithmParameterException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
 
             return aesCipher;
@@ -168,7 +168,7 @@ namespace Hedera.Hashgraph.SDK
             }
             catch (InvalidAlgorithmParameterException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
 
             return aesCipher;
@@ -215,15 +215,15 @@ namespace Hedera.Hashgraph.SDK
             }
             catch (ShortBufferException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
             catch (IllegalBlockSizeException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
             catch (BadPaddingException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
 
             return output;

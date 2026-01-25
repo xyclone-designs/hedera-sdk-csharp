@@ -18,11 +18,11 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <summary>
         /// The contract to which the storage changes apply to
         /// </summary>
-        public readonly ContractId contractId;
+        public readonly ContractId ContractId;
         /// <summary>
         /// The list of storage changes
         /// </summary>
-        public readonly IList<StorageChange> storageChanges;
+        public readonly IList<StorageChange> StorageChanges;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -30,8 +30,8 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="storageChanges">the list of storage change objects</param>
         ContractStateChange(ContractId contractId, IList<StorageChange> storageChanges)
         {
-            contractId = contractId;
-            storageChanges = storageChanges;
+            ContractId = contractId;
+            StorageChanges = storageChanges;
         } // /**
         //  * Create contract stage change object from protobuf.
         //  *

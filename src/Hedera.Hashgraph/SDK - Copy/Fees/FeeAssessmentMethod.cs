@@ -15,13 +15,6 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <p>
         /// In other words, Bob receives the amount that Alice intended to send, minus the fee.
         /// </summary>
-        // /**
-        //  * If Alice is paying Bob, and an <b>inclusive</b> fractional fee is collected to be sent to Charlie,
-        //  * the amount Alice declares she will pay in the transfer transaction <b>includes</b> the fee amount.
-        //  * <p>
-        //  * In other words, Bob receives the amount that Alice intended to send, minus the fee.
-        //  */
-        // INCLUSIVE(false)
         Inclusive = 0,
         /// <summary>
         /// If Alice is paying Bob, and an <b>exclusive</b> fractional fee is collected to be sent to Charlie,
@@ -29,12 +22,13 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <p>
         /// In other words, Alice is charged the fee <b>in addition to</b> the amount she intended to send to Bob.
         /// </summary>
-        // /**
-        //  * If Alice is paying Bob, and an <b>exclusive</b> fractional fee is collected to be sent to Charlie,
-        //  * the amount Alice declares she will pay in the transfer transaction <b>does not</b> include the fee amount.
-        //  * <p>
-        //  * In other words, Alice is charged the fee <b>in addition to</b> the amount she intended to send to Bob.
-        //  */
         Exclusive = 1,
     }
+
+	public static class FeeAssessmentMethodExtensions
+	{
+        public static bool ToBool(this FeeAssessmentMethod _feeassessmentmethod) => _feeassessmentmethod == FeeAssessmentMethod.Exclusive;
+        public static FeeAssessmentMethod ToFeeAssessmentMethod(this bool _bool) => _bool ? FeeAssessmentMethod.Exclusive : FeeAssessmentMethod.Exclusive;
+	}
 }
+

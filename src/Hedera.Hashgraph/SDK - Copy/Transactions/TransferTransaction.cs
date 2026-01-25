@@ -115,7 +115,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        TransferTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        TransferTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -135,7 +135,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>list of hbar transfers</returns>
         public virtual Dictionary<AccountId, Hbar> GetHbarTransfers()
         {
-            Dictionary<AccountId, Hbar> transfers = new HashMap();
+            Dictionary<AccountId, Hbar> transfers = [];
             foreach (var transfer in hbarTransfers)
             {
                 transfers.Put(transfer.accountId, transfer.amount);

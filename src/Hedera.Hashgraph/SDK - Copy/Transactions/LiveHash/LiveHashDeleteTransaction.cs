@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
         ///            records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        LiveHashDeleteTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        LiveHashDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }

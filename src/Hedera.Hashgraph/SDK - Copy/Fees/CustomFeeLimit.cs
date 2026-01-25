@@ -14,9 +14,8 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// </summary>
     public class CustomFeeLimit
     {
-        public virtual AccountId PayerId { get; set; } 
+        public virtual AccountId? PayerId { get; set; } 
         public virtual IList<CustomFixedFee> CustomFees { get; set; } = [];
-
 
         public static CustomFeeLimit FromProtobuf(Proto.CustomFeeLimit customFeeLimit)
         {
@@ -32,7 +31,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         {
 			Proto.CustomFeeLimit protobuf = new ()
             {
-                AccountId = PayerId.ToProtobuf(),
+                AccountId = PayerId?.ToProtobuf(),
 			};
 
             protobuf.Fees.AddRange(CustomFees.Select(_ => _.ToFixedFeeProtobuf()));

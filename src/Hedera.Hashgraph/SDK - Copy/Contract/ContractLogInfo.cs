@@ -1,15 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using System;
+
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
@@ -22,19 +14,19 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <summary>
         /// Address of a contract that emitted the event.
         /// </summary>
-        public readonly ContractId contractId;
+        public readonly ContractId ContractId;
         /// <summary>
         /// Bloom filter for a particular log.
         /// </summary>
-        public readonly ByteString bloom;
+        public readonly ByteString Bloom;
         /// <summary>
         /// Topics of a particular event.
         /// </summary>
-        public readonly IList<ByteString> topics;
+        public readonly IList<ByteString> Topics;
         /// <summary>
         /// The event data.
         /// </summary>
-        public readonly ByteString data;
+        public readonly ByteString Data;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -44,10 +36,10 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="data">the event data</param>
         private ContractLogInfo(ContractId contractId, ByteString bloom, IList<ByteString> topics, ByteString data)
         {
-            contractId = contractId;
-            bloom = bloom;
-            topics = topics;
-            data = data;
+            ContractId = contractId;
+            Bloom = bloom;
+            Topics = topics;
+            Data = data;
         }
 
         /// <summary>
@@ -55,9 +47,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// </summary>
         /// <param name="logInfo">the log info object</param>
         /// <returns>                         the protobuf</returns>
-        static ContractLogInfo FromProtobuf(Proto.ContractLoginfo logInfo)
+        public static ContractLogInfo FromProtobuf(Proto.ContractLoginfo logInfo)
         {
-            return new ContractLogInfo(ContractId.FromProtobuf(logInfo.GetContractID()), logInfo.GetBloom(), logInfo.GetTopicList(), logInfo.GetData());
+            return new ContractLogInfo(ContractId.FromProtobuf(logInfo.ContractID), logInfo.Bloom, logInfo.Topic, logInfo.Data);
         }
 
         /// <summary>
@@ -68,22 +60,25 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
         public static ContractLogInfo FromBytes(byte[] bytes)
         {
-            return FromProtobuf(ContractLoginfo.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.ContractLoginfo.Parser.ParseFrom(bytes));
         }
 
         /// <summary>
         /// Create the protobuf.
         /// </summary>
         /// <returns>                         the protobuf representation</returns>
-        Proto.ContractLoginfo ToProtobuf()
+        public Proto.ContractLoginfo ToProtobuf()
         {
-            var contractLogInfo = Proto.ContractLoginfo.SetContractID(contractId.ToProtobuf()).SetBloom(bloom);
-            foreach (ByteString topic in topics)
+            Proto.ContractLoginfo proto = new()
             {
-                contractLogInfo.AddTopic(topic);
-            }
+				ContractID = ContractId.ToProtobuf(),
+				Bloom = Bloom,
+			};
 
-            return contractLogInfo.Build();
+            foreach (ByteString topic in Topics)
+                proto.Topic.Add(topic);
+
+            return proto;
         }
 
         /// <summary>
@@ -93,18 +88,6 @@ namespace Hedera.Hashgraph.SDK.Contract
         public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
-        }
-
-        public override string ToString()
-        {
-            var stringHelper = MoreObjects.ToStringHelper(this).Add("contractId", contractId).Add("bloom", Hex.ToHexString(bloom.ToByteArray()));
-            var topicList = new ();
-            foreach (var topic in topics)
-            {
-                topicList.Add(Hex.ToHexString(topic.ToByteArray()));
-            }
-
-            return stringHelper.Add("topics", topicList).ToString();
         }
     }
 }

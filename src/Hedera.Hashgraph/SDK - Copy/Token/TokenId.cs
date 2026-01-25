@@ -1,26 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Nio;
-using Java.Util;
-using Javax.Annotation;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
+using System.IO;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -51,9 +33,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// 
         /// Constructor that uses shard, realm and num should be used instead
         /// as shard and realm should not assume 0 value</param>
-        public TokenId(long num) : this(0, 0, num)
-        {
-        }
+        public TokenId(long num) : this(0, 0, num) { }
 
         /// <summary>
         /// Constructor.
@@ -61,9 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="shard">the shard part</param>
         /// <param name="realm">the realm part</param>
         /// <param name="num">the num part</param>
-        public TokenId(long shard, long realm, long num) : this(shard, realm, num, null)
-        {
-        }
+        public TokenId(long shard, long realm, long num) : this(shard, realm, num, null) { }
 
         /// <summary>
         /// Constructor.
@@ -87,31 +65,27 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <returns>                         the new token id</returns>
         public static TokenId FromString(string id)
         {
-            return Utils.EntityIdHelper.FromString(id, TokenId.New());
+            return Utils.EntityIdHelper.FromString(id, (a, b, c, d) => new TokenId(a, b, c, d));
         }
-
-        /// <summary>
-        /// Create a token id from a protobuf.
-        /// </summary>
-        /// <param name="tokenId">the protobuf</param>
-        /// <returns>                         the new token id</returns>
-        static TokenId FromProtobuf(TokenID tokenId)
+		/// <summary>
+		/// Create a token id from a byte array.
+		/// </summary>
+		/// <param name="bytes">the byte array</param>
+		/// <returns>                         the new token id</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static TokenId FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.TokenID.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Create a token id from a protobuf.
+		/// </summary>
+		/// <param name="tokenId">the protobuf</param>
+		/// <returns>                         the new token id</returns>
+		public static TokenId FromProtobuf(Proto.TokenID tokenId)
         {
-            Objects.RequireNonNull(tokenId);
-            return new TokenId(tokenId.ShardNum, tokenId.RealmNum, tokenId.GetTokenNum());
+            return new TokenId(tokenId.ShardNum, tokenId.RealmNum, tokenId.TokenNum);
         }
-
-        /// <summary>
-        /// Create a token id from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new token id</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static TokenId FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(TokenID.Parser.ParseFrom(bytes));
-        }
-
         /// <summary>
         /// Retrieve the token id from a solidity address.
         /// </summary>
@@ -120,9 +94,8 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(long, long, String)} instead.</remarks>
         public static TokenId FromSolidityAddress(string address)
         {
-            return Utils.EntityIdHelper.FromSolidityAddress(address, TokenId.New());
+            return Utils.EntityIdHelper.FromSolidityAddress(address, (a, b, c, d) => new TokenId(a, b, c, d));
         }
-
         /// <summary>
         /// Constructs a TokenID from shard, realm, and EVM address.
         /// The EVM address must be a "long zero address" (first 12 bytes are zero).
@@ -135,27 +108,20 @@ namespace Hedera.Hashgraph.SDK.Token
         public static TokenId FromEvmAddress(long shard, long realm, string evmAddress)
         {
             byte[] addressBytes = Utils.EntityIdHelper.DecodeEvmAddress(evmAddress);
+
             if (!Utils.EntityIdHelper.IsLongZeroAddress(addressBytes))
-            {
-                throw new ArgumentException("EVM address is not a correct long zero address");
-            }
+				throw new ArgumentException("EVM address is not a correct long zero address");
 
-            ByteBuffer buf = ByteBuffer.Wrap(addressBytes);
-            buf.GetInt();
-            buf.GetLong();
-            long tokenNum = buf.GetLong();
-            return new TokenId(shard, realm, tokenNum);
-        }
+			using MemoryStream ms = new(addressBytes);
+			using BinaryReader reader = new(ms);
 
-        /// <summary>
-        /// Converts this TokenId to an EVM address string.
-        /// Creates a solidity address using shard=0, realm=0, and the file number.
-        /// </summary>
-        /// <returns>the EVM address as a hex string</returns>
-        public virtual string ToEvmAddress()
-        {
-            return Utils.EntityIdHelper.ToSolidityAddress(0, 0, num);
-        }
+			reader.ReadInt32();
+			reader.ReadInt64();
+
+			long tokenNum = reader.ReadInt64();
+
+			return new TokenId(shard, realm, tokenNum);
+		}        
 
         /// <summary>
         /// Create an nft id.
@@ -167,35 +133,55 @@ namespace Hedera.Hashgraph.SDK.Token
             return new NftId(this, serial);
         }
 
-        /// <summary>
-        /// Extract the solidity address.
-        /// </summary>
-        /// <returns>                         the solidity address as a string</returns>
-        /// <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
-        public virtual string ToSolidityAddress()
+		/// <summary>
+		/// Converts this TokenId to an EVM address string.
+		/// Creates a solidity address using shard=0, realm=0, and the file number.
+		/// </summary>
+		/// <returns>the EVM address as a hex string</returns>
+		public virtual string ToEvmAddress()
+		{
+			return Utils.EntityIdHelper.ToSolidityAddress(0, 0, num);
+		}
+		/// <summary>
+		/// Extract the solidity address.
+		/// </summary>
+		/// <returns>                         the solidity address as a string</returns>
+		/// <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
+		public virtual string ToSolidityAddress()
         {
             return Utils.EntityIdHelper.ToSolidityAddress(shard, realm, num);
         }
-
         /// <summary>
         /// Create the protobuf.
         /// </summary>
         /// <returns>                         a protobuf representation</returns>
-        virtual TokenID ToProtobuf()
+        public virtual Proto.TokenID ToProtobuf()
         {
-            return TokenID.NewBuilder().SetShardNum(shard).SetRealmNum(realm).SetTokenNum(num).Build();
+            return new Proto.TokenID
+            {
+				ShardNum = shard,
+				RealmNum = realm,
+				TokenNum = num,
+			};
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="client">to validate against</param>
-        /// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
-        /// <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
-        public virtual void Validate(Client client)
+		/// <summary>
+		/// Extract the checksum.
+		/// </summary>
+		/// <returns>                         the checksum</returns>
+		public virtual string GetChecksum()
+		{
+			return checksum;
+		}
+		/// <summary>
+		/// </summary>
+		/// <param name="client">to validate against</param>
+		/// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+		/// <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
+		public virtual void Validate(Client client)
         {
             ValidateChecksum(client);
         }
-
         /// <summary>
         /// Validate the configured client.
         /// </summary>
@@ -204,15 +190,6 @@ namespace Hedera.Hashgraph.SDK.Token
         public virtual void ValidateChecksum(Client client)
         {
             Utils.EntityIdHelper.Validate(shard, realm, num, client, checksum);
-        }
-
-        /// <summary>
-        /// Extract the checksum.
-        /// </summary>
-        /// <returns>                         the checksum</returns>
-        public virtual string GetChecksum()
-        {
-            return checksum;
         }
 
         /// <summary>
@@ -243,39 +220,30 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             return HashCode.Combine(shard, realm, num);
         }
-
         public override bool Equals(object? o)
         {
             if (this == o)
-            {
-                return true;
-            }
+				return true;
 
-            if (!(o is TokenId))
-            {
-                return false;
-            }
+			if (o is not TokenId otherId)
+				return false;
 
-            TokenId otherId = (TokenId)o;
             return shard == otherId.shard && realm == otherId.realm && num == otherId.num;
         }
 
-        public virtual int CompareTo(TokenId o)
+        public virtual int CompareTo(TokenId? o)
         {
-            Objects.RequireNonNull(o);
-            int shardComparison = Long.Compare(shard, o.shard);
+            int shardComparison = shard.CompareTo(o?.shard);
+            
             if (shardComparison != 0)
-            {
                 return shardComparison;
-            }
 
-            int realmComparison = Long.Compare(realm, o.realm);
+            int realmComparison = realm.CompareTo(o?.realm);
+            
             if (realmComparison != 0)
-            {
-                return realmComparison;
-            }
+				return realmComparison;
 
-            return Long.Compare(num, o.num);
+			return num.CompareTo(o?.num);
         }
     }
 }

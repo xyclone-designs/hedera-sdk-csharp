@@ -56,7 +56,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
-
         /// <summary>
         /// Create a public key from a byte array.
         /// </summary>
@@ -66,7 +65,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PublicKeyED25519.FromBytesInternal(publicKey);
         }
-
         /// <summary>
         /// Create a public key from a byte array.
         /// </summary>
@@ -76,7 +74,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PublicKeyECDSA.FromBytesInternal(publicKey);
         }
-
         /// <summary>
         /// Create a public key from a string.
         /// </summary>
@@ -86,7 +83,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PublicKey.FromBytes(Hex.Decode(publicKey));
         }
-
         /// <summary>
         /// Create a public key from a string.
         /// </summary>
@@ -96,7 +92,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromBytesED25519(Hex.Decode(publicKey));
         }
-
         /// <summary>
         /// Create a public key from a string.
         /// </summary>
@@ -106,7 +101,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromBytesECDSA(Hex.Decode(publicKey));
         }
-
         /// <summary>
         /// Create a public key from a string.
         /// </summary>
@@ -116,13 +110,41 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromBytesDER(Hex.Decode(publicKey));
         }
+		/// <summary>
+		/// The public key from an immutable byte string.
+		/// </summary>
+		/// <param name="aliasBytes">the immutable byte string</param>
+		/// <returns>                         the key</returns>
+		public static PublicKey? FromAliasBytes(ByteString aliasBytes)
+		{
+			if (!aliasBytes.IsEmpty)
+			{
+				try
+				{
+					return Key.FromProtobufKey(Proto.Key.Parser.ParseFrom(aliasBytes)) as PublicKey;
+				}
+				catch (InvalidProtocolBufferException) { }
+			}
 
-        /// <summary>
-        /// Create a public key from a subject public key info object.
-        /// </summary>
-        /// <param name="subjectPublicKeyInfo">the subject public key info object</param>
-        /// <returns>                         the new key</returns>
-        private static PublicKey FromSubjectKeyInfo(SubjectPublicKeyInfo subjectPublicKeyInfo)
+			return null;
+		}
+		/// <summary>
+		/// Returns an "unusable" public key.
+		/// “Unusable” refers to a key such as an Ed25519 0x00000... public key,
+		/// since it is (presumably) impossible to find the 32-byte string whose SHA-512 hash begins with 32 bytes of zeros.
+		/// </summary>
+		/// <returns>The "unusable" key</returns>
+		public static PublicKey UnusableKey()
+		{
+			return PublicKey.FromStringED25519("0000000000000000000000000000000000000000000000000000000000000000");
+		}
+
+		/// <summary>
+		/// Create a public key from a subject public key info object.
+		/// </summary>
+		/// <param name="subjectPublicKeyInfo">the subject public key info object</param>
+		/// <returns>                         the new key</returns>
+		private static PublicKey FromSubjectKeyInfo(SubjectPublicKeyInfo subjectPublicKeyInfo)
         {
             if (subjectPublicKeyInfo.Algorithm.Equals(new AlgorithmIdentifier(ID_ED25519)))
             {
@@ -136,51 +158,89 @@ namespace Hedera.Hashgraph.SDK.Keys
             }
         }
 
-        /// <summary>
-        /// The public key from an immutable byte string.
-        /// </summary>
-        /// <param name="aliasBytes">the immutable byte string</param>
-        /// <returns>                         the key</returns>
-        static PublicKey? FromAliasBytes(ByteString aliasBytes)
-        {
-            if (!aliasBytes.IsEmpty)
-            {
-                try
-                {
-                    return Key.FromProtobufKey(Proto.Key.Parser.ParseFrom(aliasBytes)) as PublicKey;
-                }
-                catch (InvalidProtocolBufferException) { }
-            }
 
-            return null;
-        }
+		/// <summary>
+		/// Is this an ECDSA key?
+		/// </summary>
+		/// <returns>                         is this an ECDSA key</returns>
+		public abstract bool IsECDSA();
+		/// <summary>
+		/// Is this an ED25519 key?
+		/// </summary>
+		/// <returns>                         is this an ED25519 key</returns>
+		public abstract bool IsED25519();
+		/// <summary>
+		/// Extract the DER represented as a byte array.
+		/// </summary>
+		/// <returns>                         the DER represented as a byte array</returns>
+		public abstract byte[] ToBytesDER();
+		/// <summary>
+		/// Extract the raw byte representation.
+		/// </summary>
+		/// <returns>                         the raw byte representation</returns>
+		public abstract byte[] ToBytesRaw();
+		/// <summary>
+		/// Converts the key to EVM address
+		/// </summary>
+		/// <returns>                         the EVM address</returns>
+		public abstract EvmAddress ToEvmAddress();
+		/// <summary>
+		/// Verify a signature on a message with this public key.
+		/// </summary>
+		/// <param name="message">The array of bytes representing the message</param>
+		/// <param name="signature">The array of bytes representing the signature</param>
+		/// <returns>bool</returns>
+		public abstract bool Verify(byte[] message, byte[] signature);
+		/// <summary>
+		/// Serialize this key as a Proto.SignaturePair protobuf object
+		/// </summary>
+		public abstract Proto.SignaturePair ToSignaturePairProtobuf(byte[] signature);
+		/// <summary>
+		/// Get the signature from a signature pair protobuf.
+		/// </summary>
+		/// <param name="pair">the protobuf</param>
+		/// <returns>                         the signature</returns>
+		public abstract ByteString ExtractSignatureFromProtobuf(Proto.SignaturePair pair);
 
-        /// <summary>
-        /// Verify a signature on a message with this public key.
-        /// </summary>
-        /// <param name="message">The array of bytes representing the message</param>
-        /// <param name="signature">The array of bytes representing the signature</param>
-        /// <returns>bool</returns>
-        public abstract bool Verify(byte[] message, byte[] signature);
-        /// <summary>
-        /// Get the signature from a signature pair protobuf.
-        /// </summary>
-        /// <param name="pair">the protobuf</param>
-        /// <returns>                         the signature</returns>
-        abstract ByteString ExtractSignatureFromProtobuf(Proto.SignaturePair pair);
-        /// <summary>
-        /// Is the given transaction valid?
-        /// </summary>
-        /// <param name="transaction">the transaction</param>
-        /// <returns>                         is it valid</returns>
-        public virtual bool VerifyTransaction<TWildcardTodo>(Transaction<TWildcardTodo> transaction) where TWildcardTodo : Transaction<TWildcardTodo>
+		/// <summary>
+		/// Extract the DER encoded string.
+		/// </summary>
+		/// <returns>                         the DER encoded string</returns>
+		public virtual string ToStringDER()
+		{
+			return Hex.ToHexString(ToBytesDER());
+		}
+		/// <summary>
+		/// Extract the raw string.
+		/// </summary>
+		/// <returns>                         the raw string</returns>
+		public virtual string ToStringRaw()
+		{
+			return Hex.ToHexString(ToBytesRaw());
+		}
+		/// <summary>
+		/// Create a new account id.
+		/// </summary>
+		/// <param name="shard">the shard part</param>
+		/// <param name="realm">the realm part</param>
+		/// <returns>                         the new account id</returns>
+		public virtual AccountId ToAccountId(long shard, long realm)
+		{
+			return new AccountId(shard, realm, 0, null, this, null);
+		}
+		/// <summary>
+		/// Is the given transaction valid?
+		/// </summary>
+		/// <param name="transaction">the transaction</param>
+		/// <returns>                         is it valid</returns>
+		public virtual bool VerifyTransaction<TWildcardTodo>(Transaction<TWildcardTodo> transaction) where TWildcardTodo : Transaction<TWildcardTodo>
 		{
             if (!transaction.IsFrozen())
             {
                 transaction.Freeze();
             }
 
-            foreach (var publicKey in transaction.publicKeys)
+            foreach (var publicKey in transaction.PublicKeys)
             {
                 if (publicKey.Equals(this))
                 {
@@ -188,7 +248,7 @@ namespace Hedera.Hashgraph.SDK.Keys
                 }
             }
 
-            foreach (var signedTransaction in transaction.innerSignedTransactions)
+            foreach (var signedTransaction in transaction.InnerSignedTransactions)
             {
                 var found = false;
                 foreach (var sigPair in signedTransaction.SigMap().SigPairList())
@@ -212,79 +272,9 @@ namespace Hedera.Hashgraph.SDK.Keys
             return true;
         }
 
-        /// <summary>
-        /// Serialize this key as a Proto.SignaturePair protobuf object
-        /// </summary>
-        abstract Proto.SignaturePair ToSignaturePairProtobuf(byte[] signature);
-        public abstract override byte[] ToBytes();
-        /// <summary>
-        /// Extract the DER represented as a byte array.
-        /// </summary>
-        /// <returns>                         the DER represented as a byte array</returns>
-        public abstract byte[] ToBytesDER();
-        /// <summary>
-        /// Extract the raw byte representation.
-        /// </summary>
-        /// <returns>                         the raw byte representation</returns>
-        public abstract byte[] ToBytesRaw();
-        public override string ToString()
+		public override string ToString()
         {
             return ToStringDER();
-        }
-
-        /// <summary>
-        /// Extract the DER encoded string.
-        /// </summary>
-        /// <returns>                         the DER encoded string</returns>
-        public virtual string ToStringDER()
-        {
-            return Hex.ToHexString(ToBytesDER());
-        }
-
-        /// <summary>
-        /// Extract the raw string.
-        /// </summary>
-        /// <returns>                         the raw string</returns>
-        public virtual string ToStringRaw()
-        {
-            return Hex.ToHexString(ToBytesRaw());
-        }
-
-        /// <summary>
-        /// Create a new account id.
-        /// </summary>
-        /// <param name="shard">the shard part</param>
-        /// <param name="realm">the realm part</param>
-        /// <returns>                         the new account id</returns>
-        public virtual AccountId ToAccountId(long shard, long realm)
-        {
-            return new AccountId(shard, realm, 0, null, this, null);
-        }
-
-        /// <summary>
-        /// Is this an ED25519 key?
-        /// </summary>
-        /// <returns>                         is this an ED25519 key</returns>
-        public abstract bool IsED25519();
-        /// <summary>
-        /// Is this an ECDSA key?
-        /// </summary>
-        /// <returns>                         is this an ECDSA key</returns>
-        public abstract bool IsECDSA();
-        /// <summary>
-        /// Converts the key to EVM address
-        /// </summary>
-        /// <returns>                         the EVM address</returns>
-        public abstract EvmAddress ToEvmAddress();
-        /// <summary>
-        /// Returns an "unusable" public key.
-        /// “Unusable” refers to a key such as an Ed25519 0x00000... public key,
-        /// since it is (presumably) impossible to find the 32-byte string whose SHA-512 hash begins with 32 bytes of zeros.
-        /// </summary>
-        /// <returns>The "unusable" key</returns>
-        public static PublicKey UnusableKey()
-        {
-            return PublicKey.FromStringED25519("0000000000000000000000000000000000000000000000000000000000000000");
-        }
+        }        
     }
 }

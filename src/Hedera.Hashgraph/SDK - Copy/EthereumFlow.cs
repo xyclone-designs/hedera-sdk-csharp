@@ -1,15 +1,23 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Transactions.Ethereum;
+using Hedera.Hashgraph.SDK.Transactions.File;
 using Java.Time;
 using Java.Util;
 using Java.Util.Concurrent;
 using Java.Util.Function;
 using Javax.Annotation;
 using Org.Bouncycastle.Util.Encoders;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK
@@ -25,16 +33,8 @@ namespace Hedera.Hashgraph.SDK
         /// Indicates when we should splice out the call data from an ethereum transaction data
         /// </summary>
         static int MAX_ETHEREUM_DATA_SIZE = 128000;
-        private EthereumTransactionData ethereumData;
         private FileId callDataFileId;
-        private Hbar maxGasAllowance;
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public EthereumFlow()
-        {
-        }
-
+        
         private static FileId CreateFile(byte[] callData, Client client, Duration timeoutPerTransaction, Transaction<TWildcardTodo> ethereumTransaction)
         {
             try
@@ -42,7 +42,14 @@ namespace Hedera.Hashgraph.SDK
 
                 // Hex encode the call data
                 byte[] callDataHex = Hex.Encode(callData);
-                var transaction = new FileCreateTransaction().SetKeys(Objects.RequireNonNull(client.GetOperatorPublicKey())).SetContents(Array.CopyOfRange(callDataHex, 0, Math.Min(FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length))).Execute(client, timeoutPerTransaction);
+                FileCreateTransaction transaction = new()
+                {
+					Keys = client.GetOperatorPublicKey(),
+				};
+
+				var transaction = new FileCreateTransaction()
+                    .SetContents(Array.CopyOfRange(callDataHex, 0, Math.Min(FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length)))
+                    .Execute(client, timeoutPerTransaction);
                 var fileId = transaction.GetReceipt(client, timeoutPerTransaction).fileId;
                 var nodeId = transaction.nodeId;
                 if (callDataHex.Length > FileAppendTransaction.DEFAULT_CHUNK_SIZE)
@@ -50,16 +57,16 @@ namespace Hedera.Hashgraph.SDK
                     new FileAppendTransaction().SetFileId(fileId).SetMaxChunks(1000).SetNodeAccountIds(Collections.SingletonList(nodeId)).SetContents(Array.CopyOfRange(callDataHex, FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length)).Execute(client, timeoutPerTransaction).GetReceipt(client);
                 }
 
-                ethereumTransaction.SetNodeAccountIds(Collections.SingletonList(nodeId));
+                ethereumTransaction.SetNodeAccountIds([nodeId]);
                 return fileId;
             }
             catch (ReceiptStatusException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
 
-        private static CompletableFuture<FileId> CreateFileAsync(byte[] callData, Client client, Duration timeoutPerTransaction, Transaction<TWildcardTodo> ethereumTransaction)
+        private static Task<FileId> CreateFileAsync(byte[] callData, Client client, Duration timeoutPerTransaction, Transaction<TWildcardTodo> ethereumTransaction)
         {
 
             // Hex encode the call data
@@ -76,43 +83,22 @@ namespace Hedera.Hashgraph.SDK
                     }
                     else
                     {
-                        return CompletableFuture.CompletedFuture(receipt.fileId);
+                        return Task.FromResult(receipt.fileId);
                     }
                 });
             });
         }
 
         /// <summary>
-        /// Gets the data of the Ethereum transaction
-        /// </summary>
-        /// <returns>the data of the Ethereum transaction</returns>
-        public virtual EthereumTransactionData GetEthereumData()
-        {
-            return ethereumData;
-        }
-
-        /// <summary>
         /// Sets the raw Ethereum transaction (RLP encoded type 0, 1, and 2). Complete
         /// unless the callDataFileId is set.
         /// </summary>
-        /// <param name="ethereumData">raw ethereum transaction bytes</param>
-        /// <returns>{@code this}</returns>
-        public virtual EthereumFlow SetEthereumData(byte[] ethereumData)
+        public virtual byte[] EthereumData
         {
-            ethereumData = EthereumTransactionData.FromBytes(ethereumData);
-            return this;
-        }
-
-        /// <summary>
-        /// Gets the maximum amount that the payer of the hedera transaction
-        /// is willing to pay to complete the transaction.
-        /// </summary>
-        /// <returns>the max gas allowance</returns>
-        public virtual Hbar GetMaxGasAllowance()
-        {
-            return maxGasAllowance;
-        }
-
+            get;
+            set => field = EthereumTransactionData.FromBytes(value);
+		}
+        
         /// <summary>
         /// Sets the maximum amount that the payer of the hedera transaction
         /// is willing to pay to complete the transaction.
@@ -127,13 +113,8 @@ namespace Hedera.Hashgraph.SDK
         /// price in the transaction was set to zero then the payer will be assessed
         /// the entire fee.
         /// </summary>
-        /// <param name="maxGasAllowance">the maximum gas allowance</param>
-        /// <returns>{@code this}</returns>
-        public virtual EthereumFlow SetMaxGasAllowance(Hbar maxGasAllowance)
-        {
-            maxGasAllowance = maxGasAllowance;
-            return this;
-        }
+        public virtual Hbar MaxGasAllowance { get; set; }
+
 
         /// <summary>
         /// Execute the transactions in the flow with the passed in client.
@@ -166,7 +147,7 @@ namespace Hedera.Hashgraph.SDK
             var ethereumDataBytes = ethereumData.ToBytes();
             if (maxGasAllowance != null)
             {
-                ethereumTransaction.SetMaxGasAllowanceHbar(maxGasAllowance);
+                ethereumTransaction.SetMaxGasAllowanceHbar(MaxGasAllowance);
             }
 
             if (ethereumDataBytes.Length <= MAX_ETHEREUM_DATA_SIZE)
@@ -175,14 +156,14 @@ namespace Hedera.Hashgraph.SDK
             }
             else
             {
-                var callDataFileId = CreateFile(ethereumData.callData, client, timeoutPerTransaction, ethereumTransaction);
+                var callDataFileId = CreateFile(ethereumData.callData, client, timeoutPerTransaction, EthereumTransaction);
                 ethereumData.callData = new byte[]
                 {
                 };
                 ethereumTransaction.SetEthereumData(ethereumData.ToBytes()).SetCallDataFileId(callDataFileId);
             }
 
-            return ethereumTransaction.Execute(client, timeoutPerTransaction);
+            return ethereumTransaction.Execute(client, EthereumTransaction);
         }
 
         /// <summary>
@@ -193,7 +174,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <returns>the response</returns>
-        public virtual CompletableFuture<TransactionResponse> ExecuteAsync(Client client)
+        public virtual Task<TransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.GetRequestTimeout());
         }
@@ -207,18 +188,18 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <returns>the response</returns>
-        public virtual CompletableFuture<TransactionResponse> ExecuteAsync(Client client, Duration timeoutPerTransaction)
+        public virtual Task<TransactionResponse> ExecuteAsync(Client client, Duration timeoutPerTransaction)
         {
             if (ethereumData == null)
             {
-                return CompletableFuture.FailedFuture(new InvalidOperationException("Cannot execute a ethereum flow when ethereum data was not provided"));
+                return Task.FromException<TransactionResponse>(new InvalidOperationException("Cannot execute a ethereum flow when ethereum data was not provided"));
             }
 
             var ethereumTransaction = new EthereumTransaction();
             var ethereumDataBytes = ethereumData.ToBytes();
             if (maxGasAllowance != null)
             {
-                ethereumTransaction.SetMaxGasAllowanceHbar(maxGasAllowance);
+                ethereumTransaction.SetMaxGasAllowanceHbar(MaxGasAllowance);
             }
 
             if (ethereumDataBytes.Length <= MAX_ETHEREUM_DATA_SIZE)
@@ -227,7 +208,10 @@ namespace Hedera.Hashgraph.SDK
             }
             else
             {
-                return CreateFileAsync(ethereumData.callData, client, timeoutPerTransaction, ethereumTransaction).ThenCompose((callDataFileId) => ethereumTransaction.SetEthereumData(ethereumData.ToBytes()).SetCallDataFileId(callDataFileId).ExecuteAsync(client, timeoutPerTransaction));
+                return CreateFileAsync(ethereumData.callData, client, timeoutPerTransaction, EthereumTransaction)
+                    .ThenCompose((callDataFileId) => ethereumTransaction.SetEthereumData(ethereumData.ToBytes())
+                    .SetCallDataFileId(callDataFileId)
+                    .ExecuteAsync(client, timeoutPerTransaction));
             }
         }
 
@@ -235,10 +219,10 @@ namespace Hedera.Hashgraph.SDK
         /// Execute the transactions in the flow with the passed in client asynchronously.
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, BiConsumer<TransactionResponse, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void ExecuteAsync(Client client, Action<TransactionResponse, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(ExecuteAsync(client), callback);
+            ActionHelper.Action(ExecuteAsync(client), callback);
         }
 
         /// <summary>
@@ -246,21 +230,21 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, BiConsumer<TransactionResponse, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(ExecuteAsync(client, timeoutPerTransaction), callback);
+            ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
 
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Consumer<TransactionResponse> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(ExecuteAsync(client), onSuccess, onFailure);
+            ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -268,11 +252,11 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Consumer<TransactionResponse> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
+            ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
         }
     }
 }

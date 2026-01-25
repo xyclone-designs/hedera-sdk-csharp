@@ -7,12 +7,14 @@ using Java.Util.Concurrent;
 using Java.Util.Regex;
 using Javax.Annotation;
 using Org.Bouncycastle.Util.Encoders;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Account
 {
@@ -42,7 +44,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// The ethereum account 20-byte EVM address to be used initially in place of the public key bytes
         /// </summary>
         public readonly EvmAddress EvmAddress;
-        private readonly string checksum;
+        private readonly string Checksum;
+
         /// <summary>
         /// Assign the num part of the account id.
         /// </summary>
@@ -53,7 +56,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountId(long num) : this(0, 0, num)
         {
         }
-
         /// <summary>
         /// Assign all parts of the account id.
         /// </summary>
@@ -63,35 +65,33 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountId(long shard, long realm, long num) : this(shard, realm, num, null)
         {
         }
-
-        /// <summary>
-        /// Assign all parts of the account id.
-        /// </summary>
-        /// <param name="shard">the shard part of the account id</param>
-        /// <param name="realm">the realm part of the account id</param>
-        /// <param name="num">the num part of the account id</param>
-        AccountId(long shard, long realm, long num, string checksum)
+		/// <summary>
+		/// Assign all parts of the account id.
+		/// </summary>
+		/// <param name="shard">the shard part of the account id</param>
+		/// <param name="realm">the realm part of the account id</param>
+		/// <param name="num">the num part of the account id</param>
+		public AccountId(long shard, long realm, long num, string checksum)
         {
             Shard = shard;
             Realm = realm;
             Num = num;
-            checksum = checksum;
+			Checksum = checksum;
             AliasKey = null;
             EvmAddress = null;
         }
-
         /// <summary>
         /// Assign all parts of the account id.
         /// </summary>
         /// <param name="shard">the shard part of the account id</param>
         /// <param name="realm">the realm part of the account id</param>
         /// <param name="num">the num part of the account id</param>
-        AccountId(long shard, long realm, long num, string checksum, PublicKey aliasKey, EvmAddress evmAddress)
+        public AccountId(long shard, long realm, long num, string checksum, PublicKey aliasKey, EvmAddress evmAddress)
         {
             Shard = shard;
             Realm = realm;
             Num = num;
-            checksum = checksum;
+            Checksum = checksum;
             AliasKey = aliasKey;
             EvmAddress = evmAddress;
         }
@@ -306,7 +306,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <param name="client"></param>
         /// <returns>populated AccountId instance</returns>
         /// <remarks>@deprecatedUse 'populateAccountNum' instead due to its nearly identical operation.</remarks>
-        public CompletableFuture<AccountId> PopulateAccountNumAsync(Client client)
+        public Task<AccountId> PopulateAccountNumAsync(Client client)
         {
             return Utils.EntityIdHelper.GetAccountNumFromMirrorNodeAsync(client, EvmAddress.ToString()).ThenApply((accountNumFromMirrorNode) => new AccountId(Shard, Realm, accountNumFromMirrorNode, checksum, AliasKey, EvmAddress));
         }
@@ -329,7 +329,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <param name="client"></param>
         /// <returns>populated AccountId instance</returns>
         /// <remarks>@deprecatedUse 'populateAccountEvmAddress' instead due to its nearly identical operation.</remarks>
-        public CompletableFuture<AccountId> PopulateAccountEvmAddressAsync(Client client)
+        public Task<AccountId> PopulateAccountEvmAddressAsync(Client client)
         {
             return Utils.EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(client, Num).ThenApply((evmAddressFromMirrorNode) => new AccountId(Shard, Realm, Num, checksum, AliasKey, evmAddressFromMirrorNode));
         }
@@ -422,7 +422,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 
             return HashCode.Combine(Shard, Realm, Num, HashCode.Combine(aliasBytes));
         }
-
         public override bool Equals(object? o)
         {
             if (this == o)
@@ -449,48 +448,48 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             return Shard == otherId.Shard && Realm == otherId.Realm && Num == otherId.Num && (AliasKey == null || AliasKey.Equals(otherId.AliasKey)) && (EvmAddress == null || EvmAddress.Equals(otherId.EvmAddress));
         }
 
-        public override int CompareTo(AccountId o)
-        {
-            Objects.RequireNonNull(o);
-            int shardComparison = Long.Compare(Shard, o.Shard);
-            if (shardComparison != 0)
-            {
-                return shardComparison;
-            }
+		public int CompareTo(AccountId? o)
+		{
+			Objects.RequireNonNull(o);
+			int shardComparison = Long.Compare(Shard, o.Shard);
+			if (shardComparison != 0)
+			{
+				return shardComparison;
+			}
 
-            int realmComparison = Long.Compare(Realm, o.Realm);
-            if (realmComparison != 0)
-            {
-                return realmComparison;
-            }
+			int realmComparison = Long.Compare(Realm, o.Realm);
+			if (realmComparison != 0)
+			{
+				return realmComparison;
+			}
 
-            int numComparison = Long.Compare(Num, o.Num);
-            if (numComparison != 0)
-            {
-                return numComparison;
-            }
+			int numComparison = Long.Compare(Num, o.Num);
+			if (numComparison != 0)
+			{
+				return numComparison;
+			}
 
-            if ((AliasKey == null) != (o.AliasKey == null))
-            {
-                return AliasKey != null ? 1 : -1;
-            }
+			if ((AliasKey == null) != (o.AliasKey == null))
+			{
+				return AliasKey != null ? 1 : -1;
+			}
 
-            if (AliasKey != null)
-            {
-                return AliasKey.ToStringDER().CompareTo(o.AliasKey.ToStringDER());
-            }
+			if (AliasKey != null)
+			{
+				return AliasKey.ToStringDER().CompareTo(o.AliasKey.ToStringDER());
+			}
 
-            if ((EvmAddress == null) != (o.EvmAddress == null))
-            {
-                return EvmAddress != null ? 1 : -1;
-            }
+			if ((EvmAddress == null) != (o.EvmAddress == null))
+			{
+				return EvmAddress != null ? 1 : -1;
+			}
 
-            if (EvmAddress == null)
-            {
-                return 0;
-            }
+			if (EvmAddress == null)
+			{
+				return 0;
+			}
 
-            return EvmAddress.ToString().CompareTo(o.EvmAddress.ToString());
-        }
-    }
+			return EvmAddress.ToString().CompareTo(o.EvmAddress.ToString());
+		}
+	}
 }

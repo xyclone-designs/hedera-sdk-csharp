@@ -125,11 +125,11 @@ namespace Hedera.Hashgraph.SDK
                     throw new BadKeyException("PEM file contained an encrypted private key but no passphrase was given");
                 }
 
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
             catch (OperatorCreationException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
     }

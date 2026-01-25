@@ -1,27 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
-using System;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions.Account;
+using Hedera.Hashgraph.SDK.Utils;
+
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -47,11 +33,11 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The amount of decimal places that this token supports.
         /// </summary>
-        public readonly int decimals;
+        public readonly uint decimals;
         /// <summary>
         /// Total Supply of token.
         /// </summary>
-        public readonly long totalSupply;
+        public readonly ulong totalSupply;
         /// <summary>
         /// The ID of the account which is set as Treasury
         /// </summary>
@@ -137,9 +123,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// Represents the metadata of the token definition.
         /// </summary>
-        public byte[] metadata = new[]
-        {
-        };
+        public byte[] metadata = [];
         /// <summary>
         /// The key which can change the metadata of a token
         /// (token definition and individual NFTs).
@@ -149,89 +133,114 @@ namespace Hedera.Hashgraph.SDK.Token
         /// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
         /// </summary>
         public readonly LedgerId ledgerId;
-        TokenInfo(TokenId tokenId, string name, string symbol, int decimals, long totalSupply, AccountId treasuryAccountId, Key adminKey, Key kycKey, Key freezeKey, Key wipeKey, Key supplyKey, Key feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, Duration autoRenewPeriod, Timestamp expirationTime, string tokenMemo, IList<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key pauseKey, bool pauseStatus, byte[] metadata, Key metadataKey, LedgerId ledgerId)
+        
+        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key adminKey, Key kycKey, Key freezeKey, Key wipeKey, Key supplyKey, Key feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, Duration autoRenewPeriod, Timestamp expirationTime, string tokenMemo, IList<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key pauseKey, bool pauseStatus, byte[] metadata, Key metadataKey, LedgerId ledgerId)
         {
-            tokenId = tokenId;
-            name = name;
-            symbol = symbol;
-            decimals = decimals;
-            totalSupply = totalSupply;
-            treasuryAccountId = treasuryAccountId;
-            adminKey = adminKey;
-            kycKey = kycKey;
-            freezeKey = freezeKey;
-            wipeKey = wipeKey;
-            supplyKey = supplyKey;
-            feeScheduleKey = feeScheduleKey;
-            defaultFreezeStatus = defaultFreezeStatus;
-            defaultKycStatus = defaultKycStatus;
-            isDeleted = isDeleted;
-            autoRenewAccount = autoRenewAccount;
-            autoRenewPeriod = autoRenewPeriod;
-            expirationTime = expirationTime;
-            tokenMemo = tokenMemo;
-            customFees = customFees;
-            tokenType = tokenType;
-            supplyType = supplyType;
-            maxSupply = maxSupply;
-            pauseKey = pauseKey;
-            pauseStatus = pauseStatus;
-            metadata = metadata;
-            metadataKey = metadataKey;
-            ledgerId = ledgerId;
+            this.tokenId = tokenId;
+            this.name = name;
+            this.symbol = symbol;
+            this.decimals = decimals;
+            this.totalSupply = totalSupply;
+            this.treasuryAccountId = treasuryAccountId;
+            this.adminKey = adminKey;
+            this.kycKey = kycKey;
+            this.freezeKey = freezeKey;
+            this.wipeKey = wipeKey;
+            this.supplyKey = supplyKey;
+            this.feeScheduleKey = feeScheduleKey;
+            this.defaultFreezeStatus = defaultFreezeStatus;
+            this.defaultKycStatus = defaultKycStatus;
+            this.isDeleted = isDeleted;
+            this.autoRenewAccount = autoRenewAccount;
+            this.autoRenewPeriod = autoRenewPeriod;
+            this.expirationTime = expirationTime;
+            this.tokenMemo = tokenMemo;
+            this.customFees = customFees;
+            this.tokenType = tokenType;
+            this.supplyType = supplyType;
+            this.maxSupply = maxSupply;
+            this.pauseKey = pauseKey;
+            this.pauseStatus = pauseStatus;
+            this.metadata = metadata;
+            this.metadataKey = metadataKey;
+            this.ledgerId = ledgerId;
         }
 
-        /// <summary>
-        /// Are we frozen?
-        /// </summary>
-        /// <param name="freezeStatus">the freeze status</param>
-        /// <returns>                         true / false / null</returns>
-        static bool FreezeStatusFromProtobuf(TokenFreezeStatus freezeStatus)
+		/// <summary>
+		/// Is kyc required?
+		/// </summary>
+		/// <param name="kycStatus">the kyc status</param>
+		/// <returns>                         true / false / null</returns>
+		public static bool KycStatusFromProtobuf(Proto.TokenKycStatus kycStatus)
         {
-            return freezeStatus == TokenFreezeStatus.FreezeNotApplicable ? null : freezeStatus == TokenFreezeStatus.Frozen;
+            return kycStatus == Proto.TokenKycStatus.Granted;
         }
+		/// <summary>
+		/// Are we paused?
+		/// </summary>
+		/// <param name="pauseStatus">the paused status</param>
+		/// <returns>                         true / false / null</returns>
+		public static bool PauseStatusFromProtobuf(Proto.TokenPauseStatus pauseStatus)
+		{
+			return pauseStatus == Proto.TokenPauseStatus.Paused;
+		}
+		/// <summary>
+		/// Are we frozen?
+		/// </summary>
+		/// <param name="freezeStatus">the freeze status</param>
+		/// <returns>                         true / false / null</returns>
+		public static bool FreezeStatusFromProtobuf(Proto.TokenFreezeStatus freezeStatus)
+		{
+			return freezeStatus == Proto.TokenFreezeStatus.Frozen;
+		}
 
-        /// <summary>
-        /// Is kyc required?
-        /// </summary>
-        /// <param name="kycStatus">the kyc status</param>
-        /// <returns>                         true / false / null</returns>
-        static bool KycStatusFromProtobuf(TokenKycStatus kycStatus)
+		/// <summary>
+		/// Create a token info object from a byte array.
+		/// </summary>
+		/// <param name="bytes">the byte array</param>
+		/// <returns>                         the new token info object</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static TokenInfo FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.TokenGetInfoResponse.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Create a token info object from a protobuf.
+		/// </summary>
+		/// <param name="response">the protobuf</param>
+		/// <returns>                         new token info object</returns>
+		public static TokenInfo FromProtobuf(Proto.TokenGetInfoResponse response)
         {
-            return kycStatus == TokenKycStatus.KycNotApplicable ? null : kycStatus == TokenKycStatus.Granted;
-        }
-
-        /// <summary>
-        /// Are we paused?
-        /// </summary>
-        /// <param name="pauseStatus">the paused status</param>
-        /// <returns>                         true / false / null</returns>
-        static bool PauseStatusFromProtobuf(TokenPauseStatus pauseStatus)
-        {
-            return pauseStatus == TokenPauseStatus.PauseNotApplicable ? null : pauseStatus == TokenPauseStatus.Paused;
-        }
-
-        /// <summary>
-        /// Create a token info object from a protobuf.
-        /// </summary>
-        /// <param name="response">the protobuf</param>
-        /// <returns>                         new token info object</returns>
-        static TokenInfo FromProtobuf(TokenGetInfoResponse response)
-        {
-            var info = response.GetTokenInfo();
-            return new TokenInfo(TokenId.FromProtobuf(info.GetTokenId()), info.GetName(), info.GetSymbol(), info.GetDecimals(), info.GetTotalSupply(), AccountId.FromProtobuf(info.GetTreasury()), info.HasAdminKey() ? Key.FromProtobufKey(info.GetAdminKey()) : null, info.HasKycKey() ? Key.FromProtobufKey(info.GetKycKey()) : null, info.HasFreezeKey() ? Key.FromProtobufKey(info.GetFreezeKey()) : null, info.HasWipeKey() ? Key.FromProtobufKey(info.GetWipeKey()) : null, info.HasSupplyKey() ? Key.FromProtobufKey(info.GetSupplyKey()) : null, info.HasFeeScheduleKey() ? Key.FromProtobufKey(info.GetFeeScheduleKey()) : null, FreezeStatusFromProtobuf(info.GetDefaultFreezeStatus()), KycStatusFromProtobuf(info.GetDefaultKycStatus()), info.GetDeleted(), info.HasAutoRenewAccount() ? AccountId.FromProtobuf(info.GetAutoRenewAccount()) : null, info.HasAutoRenewPeriod() ? Utils.DurationConverter.FromProtobuf(info.GetAutoRenewPeriod()) : null, info.HasExpiry() ? TimestampConverter.FromProtobuf(info.GetExpiry()) : null, info.GetMemo(), CustomFeesFromProto(info), TokenType.ValueOf(info.GetTokenType()), TokenSupplyType.ValueOf(info.GetSupplyType()), info.GetMaxSupply(), info.HasPauseKey() ? Key.FromProtobufKey(info.GetPauseKey()) : null, PauseStatusFromProtobuf(info.GetPauseStatus()), info.GetMetadata().ToByteArray(), info.HasMetadataKey() ? Key.FromProtobufKey(info.GetMetadataKey()) : null, LedgerId.FromByteString(info.GetLedgerId()));
-        }
-
-        /// <summary>
-        /// Create a token info object from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new token info object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static TokenInfo FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(TokenGetInfoResponse.Parser.ParseFrom(bytes));
-        }
+			return new TokenInfo(
+                TokenId.FromProtobuf(response.TokenInfo.TokenId),
+				response.TokenInfo.Name,
+				response.TokenInfo.Symbol,
+				response.TokenInfo.Decimals,
+				response.TokenInfo.TotalSupply, 
+                AccountId.FromProtobuf(response.TokenInfo.Treasury),
+				Key.FromProtobufKey(response.TokenInfo.AdminKey),
+				Key.FromProtobufKey(response.TokenInfo.KycKey),
+				Key.FromProtobufKey(response.TokenInfo.FreezeKey),
+				Key.FromProtobufKey(response.TokenInfo.WipeKey),
+				Key.FromProtobufKey(response.TokenInfo.SupplyKey),
+				Key.FromProtobufKey(response.TokenInfo.FeeScheduleKey), 
+                FreezeStatusFromProtobuf(response.TokenInfo.DefaultFreezeStatus), 
+                KycStatusFromProtobuf(response.TokenInfo.DefaultKycStatus),
+				response.TokenInfo.Deleted,
+				AccountId.FromProtobuf(response.TokenInfo.AutoRenewAccount),
+				DurationConverter.FromProtobuf(response.TokenInfo.AutoRenewPeriod),
+				TimestampConverter.FromProtobuf(response.TokenInfo.Expiry),
+				response.TokenInfo.Memo, 
+                CustomFeesFromProto(response.TokenInfo), 
+                (TokenType)response.TokenInfo.TokenType, 
+                (TokenSupplyType)response.TokenInfo.SupplyType,
+				response.TokenInfo.MaxSupply,
+				Key.FromProtobufKey(response.TokenInfo.PauseKey), 
+                PauseStatusFromProtobuf(response.TokenInfo.PauseStatus),
+				response.TokenInfo.Metadata.ToByteArray(),
+				Key.FromProtobufKey(response.TokenInfo.MetadataKey), 
+                LedgerId.FromByteString(response.TokenInfo.LedgerId));
+		}
 
         /// <summary>
         /// Create custom fee list from protobuf.
@@ -240,8 +249,8 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <returns>                         the list of custom fee's</returns>
         private static IList<CustomFee> CustomFeesFromProto(Proto.TokenInfo info)
         {
-            var returnCustomFees = new List<CustomFee>(info.GetCustomFeesCount());
-            foreach (var feeProto in info.GetCustomFeesList())
+            var returnCustomFees = new List<CustomFee>(info.CustomFees.Count);
+            foreach (var feeProto in info.CustomFees)
             {
                 returnCustomFees.Add(CustomFee.FromProtobuf(feeProto));
             }
@@ -249,123 +258,109 @@ namespace Hedera.Hashgraph.SDK.Token
             return returnCustomFees;
         }
 
-        /// <summary>
-        /// Create a token freeze status protobuf.
-        /// </summary>
-        /// <param name="freezeStatus">the freeze status</param>
-        /// <returns>                         the protobuf</returns>
-        static TokenFreezeStatus FreezeStatusToProtobuf(bool freezeStatus)
-        {
-            return freezeStatus == null ? TokenFreezeStatus.FreezeNotApplicable : freezeStatus ? TokenFreezeStatus.Frozen : TokenFreezeStatus.Unfrozen;
-        }
+		/// <summary>
+		/// Create the byte array.
+		/// </summary>
+		/// <returns>                         the byte array representation</returns>
+		public virtual byte[] ToBytes()
+		{
+			return ToProtobuf().ToByteArray();
+		}
+		/// <summary>
+		/// Create the protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf representation</returns>
+		public virtual Proto.TokenGetInfoResponse ToProtobuf()
+		{
+            Proto.TokenInfo proto = new()
+            {
+                TokenId = tokenId.ToProtobuf(),
+                Name = name,
+                Symbol = symbol,
+                Decimals = decimals,
+                TotalSupply = totalSupply,
+                Treasury = treasuryAccountId.ToProtobuf(),
+                DefaultFreezeStatus = FreezeStatusToProtobuf(defaultFreezeStatus),
+                DefaultKycStatus = KycStatusToProtobuf(defaultKycStatus),
+                Deleted = isDeleted,
+                Memo = tokenMemo,
+                TokenType = (Proto.TokenType)tokenType,
+                SupplyType = (Proto.TokenSupplyType)supplyType,
+                MaxSupply = maxSupply,
+                PauseStatus = PauseStatusToProtobuf(pauseStatus),
+                LedgerId = ledgerId.ToByteString(),
+            };
+			
+            if (adminKey != null)
+                proto.AdminKey = adminKey.ToProtobufKey();
 
-        /// <summary>
-        /// Create a kyc status protobuf.
-        /// </summary>
-        /// <param name="kycStatus">the kyc status</param>
-        /// <returns>                         the protobuf</returns>
-        static TokenKycStatus KycStatusToProtobuf(bool kycStatus)
-        {
-            return kycStatus == null ? TokenKycStatus.KycNotApplicable : kycStatus ? TokenKycStatus.Granted : TokenKycStatus.Revoked;
-        }
+			if (kycKey != null)
+                proto.KycKey = kycKey.ToProtobufKey();
 
+			if (freezeKey != null)
+                proto.FreezeKey = freezeKey.ToProtobufKey();
+
+			if (wipeKey != null)
+                proto.WipeKey = wipeKey.ToProtobufKey();
+
+            if (supplyKey != null)
+                proto.SupplyKey = supplyKey.ToProtobufKey();
+
+			if (feeScheduleKey != null)
+                proto.FeeScheduleKey = feeScheduleKey.ToProtobufKey();
+
+			if (pauseKey != null)
+                proto.PauseKey = pauseKey.ToProtobufKey();
+
+			if (metadata != null)
+                proto.Metadata = ByteString.CopyFrom(metadata);
+
+			if (metadataKey != null)
+                proto.MetadataKey = metadataKey.ToProtobufKey();
+
+			if (autoRenewAccount != null)
+                proto.AutoRenewAccount = autoRenewAccount.ToProtobuf();
+
+			if (autoRenewPeriod != null)
+                proto.AutoRenewPeriod = DurationConverter.ToProtobuf(autoRenewPeriod);
+
+			if (expirationTime != null)
+                proto.Expiry = TimestampConverter.ToProtobuf(expirationTime);
+
+            foreach (var fee in customFees)
+                proto.CustomFees.Add(fee.ToProtobuf());
+
+			return new Proto.TokenGetInfoResponse
+            {
+                TokenInfo = proto
+            };
+		}
+		/// <summary>
+		/// Create a kyc status protobuf.
+		/// </summary>
+		/// <param name="kycStatus">the kyc status</param>
+		/// <returns>                         the protobuf</returns>
+		public static Proto.TokenKycStatus KycStatusToProtobuf(bool kycStatus)
+        {
+            return kycStatus ? Proto.TokenKycStatus.Granted : Proto.TokenKycStatus.Revoked;
+        }
         /// <summary>
         /// Create a pause status protobuf.
         /// </summary>
         /// <param name="pauseStatus">the pause status</param>
         /// <returns>                         the protobuf</returns>
-        static TokenPauseStatus PauseStatusToProtobuf(bool pauseStatus)
+        public static Proto.TokenPauseStatus PauseStatusToProtobuf(bool pauseStatus)
         {
-            return pauseStatus == null ? TokenPauseStatus.PauseNotApplicable : pauseStatus ? TokenPauseStatus.Paused : TokenPauseStatus.Unpaused;
+            return pauseStatus ? Proto.TokenPauseStatus.Paused : Proto.TokenPauseStatus.Unpaused;
         }
-
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
-        virtual TokenGetInfoResponse ToProtobuf()
-        {
-            var tokenInfoBuilder = Proto.TokenInfo.NewBuilder().SetTokenId(tokenId.ToProtobuf()).SetName(name).SetSymbol(symbol).SetDecimals(decimals).SetTotalSupply(totalSupply).SetTreasury(treasuryAccountId.ToProtobuf()).SetDefaultFreezeStatus(FreezeStatusToProtobuf(defaultFreezeStatus)).SetDefaultKycStatus(KycStatusToProtobuf(defaultKycStatus)).SetDeleted(isDeleted).SetMemo(tokenMemo).SetTokenType(tokenType.code).SetSupplyType(supplyType.code).SetMaxSupply(maxSupply).SetPauseStatus(PauseStatusToProtobuf(pauseStatus)).SetLedgerId(ledgerId.ToByteString());
-            if (adminKey != null)
-            {
-                tokenInfoBuilder.SetAdminKey(adminKey.ToProtobufKey());
-            }
-
-            if (kycKey != null)
-            {
-                tokenInfoBuilder.SetKycKey(kycKey.ToProtobufKey());
-            }
-
-            if (freezeKey != null)
-            {
-                tokenInfoBuilder.SetFreezeKey(freezeKey.ToProtobufKey());
-            }
-
-            if (wipeKey != null)
-            {
-                tokenInfoBuilder.SetWipeKey(wipeKey.ToProtobufKey());
-            }
-
-            if (supplyKey != null)
-            {
-                tokenInfoBuilder.SetSupplyKey(supplyKey.ToProtobufKey());
-            }
-
-            if (feeScheduleKey != null)
-            {
-                tokenInfoBuilder.SetFeeScheduleKey(feeScheduleKey.ToProtobufKey());
-            }
-
-            if (pauseKey != null)
-            {
-                tokenInfoBuilder.SetPauseKey(pauseKey.ToProtobufKey());
-            }
-
-            if (metadata != null)
-            {
-                tokenInfoBuilder.SetMetadata(ByteString.CopyFrom(metadata));
-            }
-
-            if (metadataKey != null)
-            {
-                tokenInfoBuilder.SetMetadataKey(metadataKey.ToProtobufKey());
-            }
-
-            if (autoRenewAccount != null)
-            {
-                tokenInfoBuilder.SetAutoRenewAccount(autoRenewAccount.ToProtobuf());
-            }
-
-            if (autoRenewPeriod != null)
-            {
-                tokenInfoBuilder.SetAutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
-            }
-
-            if (expirationTime != null)
-            {
-                tokenInfoBuilder.SetExpiry(TimestampConverter.ToProtobuf(expirationTime));
-            }
-
-            foreach (var fee in customFees)
-            {
-                tokenInfoBuilder.AddCustomFees(fee.ToProtobuf());
-            }
-
-            return TokenGetInfoResponse.NewBuilder().SetTokenInfo(tokenInfoBuilder).Build();
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("tokenId", tokenId).Add("name", name).Add("symbol", symbol).Add("decimals", decimals).Add("totalSupply", totalSupply).Add("treasuryAccountId", treasuryAccountId).Add("adminKey", adminKey).Add("kycKey", kycKey).Add("freezeKey", freezeKey).Add("wipeKey", wipeKey).Add("supplyKey", supplyKey).Add("feeScheduleKey", feeScheduleKey).Add("defaultFreezeStatus", defaultFreezeStatus).Add("defaultKycStatus", defaultKycStatus).Add("isDeleted", isDeleted).Add("autoRenewAccount", autoRenewAccount).Add("autoRenewPeriod", autoRenewPeriod).Add("expirationTime", expirationTime).Add("tokenMemo", tokenMemo).Add("customFees", customFees).Add("tokenType", tokenType).Add("supplyType", supplyType).Add("maxSupply", maxSupply).Add("pauseKey", pauseKey).Add("pauseStatus", pauseStatus).Add("metadata", metadata).Add("metadataKey", metadataKey).Add("ledgerId", ledgerId).ToString();
-        }
-
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
-        public virtual byte[] ToBytes()
-        {
-            return ToProtobuf().ToByteArray();
-        }
+		/// <summary>
+		/// Create a token freeze status protobuf.
+		/// </summary>
+		/// <param name="freezeStatus">the freeze status</param>
+		/// <returns>                         the protobuf</returns>
+		public static Proto.TokenFreezeStatus FreezeStatusToProtobuf(bool freezeStatus)
+		{
+			return freezeStatus ? Proto.TokenFreezeStatus.Frozen : Proto.TokenFreezeStatus.Unfrozen;
+		}
     }
 }

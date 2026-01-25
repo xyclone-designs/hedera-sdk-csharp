@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             return FileServiceGrpc.GetGetFileInfoMethod();
         }
 
-        public override CompletableFuture<Hbar> GetCostAsync(Client client)
+        public override Task<Hbar> GetCostAsync(Client client)
         {
 
             // deleted accounts return a COST_ANSWER of zero which triggers `INSUFFICIENT_TX_FEE`

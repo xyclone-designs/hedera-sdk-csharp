@@ -89,23 +89,23 @@ namespace Hedera.Hashgraph.SDK.Topic
             foreach (ConsensusTopicResponse r in responses)
             {
                 if (transactionId == null && r.ChunkInfo.InitialTransactionID is not null)
-                {
-                    transactionId = TransactionId.FromProtobuf(r.ChunkInfo.InitialTransactionID);
-                }
+					transactionId = TransactionId.FromProtobuf(r.ChunkInfo.InitialTransactionID);
 
-                int index = r.ChunkInfo.Number - 1;
+				int index = r.ChunkInfo.Number - 1;
                 chunks[index] = new TopicMessageChunk(r);
                 contents[index] = r.Message;
                 totalSize += r.Message.Length;
             }
 
             var wholeMessage = ByteBuffer.Allocate((int)totalSize);
+
             foreach (var content in contents)
             {
                 wholeMessage.Put(content.AsReadOnlyByteBuffer());
             }
 
             var lastReceived = responses[responses.Count - 1];
+
             return new TopicMessage(
                 Utils.TimestampConverter.FromProtobuf(lastReceived.ConsensusTimestamp), 
                 wholeMessage.Array(), 

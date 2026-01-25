@@ -1,3 +1,7 @@
+using Google.Protobuf;
+using System;
+using System.Numerics;
+
 namespace Hedera.Hashgraph.SDK
 {
 	// an implementation of function selector and parameter encoding as specified here:
@@ -32,27 +36,27 @@ namespace Hedera.Hashgraph.SDK
 		public static readonly int SELECTOR_LEN_HEX = 8;
 
 		// padding that we can substring without new allocations
-		private static readonly ByteString padding = ByteString.copyFrom(new byte[31]);
-    private static readonly ByteString negativePadding;
+		private static readonly ByteString padding = ByteString.CopyFrom(new byte[31]);
+		private static readonly ByteString negativePadding;
 
-    static {
-        byte[] fill = new byte[31];
-		Array.fill(fill, (byte) 0xFF);
-        negativePadding = ByteString.copyFrom(fill);
-    }
+  //  static {
+  //      byte[] fill = new byte[31];
+		//Array.fill(fill, (byte) 0xFF);
+  //      negativePadding = ByteString.CopyFrom(fill);
+  //  }
 
-    private readonly List<Argument> args = [];
+		private readonly List<Argument> args = [];
 
-		private static ByteString encodeString(string string)
+		private static ByteString encodeString(string str)
 		{
-			ByteString strBytes = ByteString.copyFromUtf8(string);
+			ByteString strBytes = ByteString.CopyFromUtf8(str);
 			// prepend the size of the string in UTF-8 bytes
-			return int256(strBytes.Count, 32).concat(rightPad32(strBytes));
+			return int256(strBytes.Length, 32).concat(rightPad32(strBytes));
 		}
 
 		private static ByteString encodeBytes(byte[] bytes)
 		{
-			return int256(bytes.Length, 32).concat(rightPad32(ByteString.copyFrom(bytes)));
+			return int256(bytes.Length, 32).Concat(rightPad32(ByteString.CopyFrom(bytes)));
 		}
 
 		private static ByteString encodeBytes4(byte[] bytes)
@@ -61,7 +65,7 @@ namespace Hedera.Hashgraph.SDK
 			{
 				throw new ArgumentException("bytes4 encoding forbids byte array length greater than 4");
 			}
-			return rightPad32(ByteString.copyFrom(bytes));
+			return rightPad32(ByteString.CopyFrom(bytes));
 		}
 
 		private static ByteString encodeBytes32(byte[] bytes)
@@ -71,7 +75,7 @@ namespace Hedera.Hashgraph.SDK
 				throw new ArgumentException("byte32 encoding forbids byte array length greater than 32");
 			}
 
-			return rightPad32(ByteString.copyFrom(bytes));
+			return rightPad32(ByteString.CopyFrom(bytes));
 		}
 
 		private static ByteString encodeBool(bool bool)
@@ -83,7 +87,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			List<ByteString> list = elements.collect(Collectors.toList());
 
-			return int256(list.Count, 32).concat(ByteString.copyFrom(list));
+			return int256(list.Count, 32).concat(ByteString.CopyFrom(list));
 		}
 
 		private static ByteString encodeDynArr(List<ByteString> elements)
@@ -104,7 +108,7 @@ namespace Hedera.Hashgraph.SDK
 				currOffset += elem.Count;
 			}
 
-			return ByteString.copyFrom(head).concat(ByteString.copyFrom(elements));
+			return ByteString.CopyFrom(head).concat(ByteString.CopyFrom(elements));
 		}
 
 		static ByteString int256(long val, int bitWidth)
@@ -116,7 +120,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			// don't try to Get wider than a `long` as it should just be filled with padding
 			bitWidth = Math.min(bitWidth, 64);
-			ByteString.Output output = ByteString.newOutput(bitWidth / 8);
+			ByteString.Output output = ByteString.NewOutput(bitWidth / 8);
 
 			try
 			{
@@ -190,7 +194,7 @@ namespace Hedera.Hashgraph.SDK
 
 		static ByteString leftPad32(byte[] input, bool negative)
 		{
-			return leftPad32(ByteString.copyFrom(input), negative);
+			return leftPad32(ByteString.CopyFrom(input), negative);
 		}
 
 		static ByteString rightPad32(ByteString input)
@@ -813,7 +817,7 @@ namespace Hedera.Hashgraph.SDK
 			IntStream intStream = IntStream.range(0, intArray.Length).map(idx=>intArray[idx]);
 
 			ByteString arrayBytes =
-					ByteString.copyFrom(intStream.mapToObj(i=>int256(i, 8)).collect(Collectors.toList()));
+					ByteString.CopyFrom(intStream.mapToObj(i=>int256(i, 8)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
 
@@ -830,7 +834,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt16Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>int256(i, 16)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -848,7 +852,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt24Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>int256(i, 24)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -866,7 +870,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt32Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>int256(i, 32)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -884,7 +888,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt40Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>int256(i, 40)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -902,7 +906,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt48Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>int256(i, 48)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -920,7 +924,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt56Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>int256(i, 56)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -938,7 +942,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt64Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>int256(i, 64)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -956,7 +960,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt72Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 72)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -974,7 +978,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt80Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 80)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -992,7 +996,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt88Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 88)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1010,7 +1014,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt96Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 96)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1028,7 +1032,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt104Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 104)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1046,7 +1050,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt112Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 112)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1064,7 +1068,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt120Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 120)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1082,7 +1086,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt128Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 128)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1100,7 +1104,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt136Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 136)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1118,7 +1122,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt144Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 144)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1136,7 +1140,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt152Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 152)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1154,7 +1158,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt160Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 160)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1172,7 +1176,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt168Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 168)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1190,7 +1194,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt176Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 176)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1208,7 +1212,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt184Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 184)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1226,7 +1230,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt192Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 192)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1244,7 +1248,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt200Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 200)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1262,7 +1266,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt208Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 208)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1280,7 +1284,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt216Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 216)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1298,7 +1302,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt224Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 224)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1316,7 +1320,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt232Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 232)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1334,7 +1338,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt240Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 240)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1352,7 +1356,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt248Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 248)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1370,7 +1374,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addInt256Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>int256(i, 256)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1928,7 +1932,7 @@ namespace Hedera.Hashgraph.SDK
 			IntStream intStream = IntStream.range(0, intArray.Length).map(idx=>intArray[idx]);
 
 			ByteString arrayBytes =
-					ByteString.copyFrom(intStream.mapToObj(i=>uint256(i, 8)).collect(Collectors.toList()));
+					ByteString.CopyFrom(intStream.mapToObj(i=>uint256(i, 8)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
 
@@ -1948,7 +1952,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint16Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>uint256(i, 16)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1969,7 +1973,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint24Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>uint256(i, 24)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -1990,7 +1994,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint32Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>uint256(i, 32)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2011,7 +2015,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint40Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>uint256(i, 40)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2032,7 +2036,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint48Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>uint256(i, 48)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2053,7 +2057,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint56Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>uint256(i, 56)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2074,7 +2078,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint64Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).mapToObj(i=>uint256(i, 64)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2096,7 +2100,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint72Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 72)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2118,7 +2122,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint80Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 80)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2140,7 +2144,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint88Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 88)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2162,7 +2166,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint96Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 96)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2184,7 +2188,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint104Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 104)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2206,7 +2210,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint112Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 112)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2228,7 +2232,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint120Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 120)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2250,7 +2254,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint128Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 128)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2272,7 +2276,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint136Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 136)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2294,7 +2298,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint144Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 144)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2316,7 +2320,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint152Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 152)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2338,7 +2342,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint160Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 160)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2360,7 +2364,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint168Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 168)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2382,7 +2386,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint176Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 176)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2404,7 +2408,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint184Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 184)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2426,7 +2430,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint192Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 192)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2448,7 +2452,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint200Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 200)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2470,7 +2474,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint208Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 208)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2492,7 +2496,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint216Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 216)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2514,7 +2518,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint224Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 224)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2536,7 +2540,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint232Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 232)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2558,7 +2562,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint240Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 240)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2580,7 +2584,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint248Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 248)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2602,7 +2606,7 @@ namespace Hedera.Hashgraph.SDK
 		 */
 		public ContractFunctionParameters addUint256Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.copyFrom(
+			ByteString arrayBytes = ByteString.CopyFrom(
 					Array.stream(intArray).map(i=>uint256(i, 256)).collect(Collectors.toList()));
 
 			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
@@ -2627,7 +2631,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			byte[] addressBytes = decodeAddress(address);
 
-			args.Add(new Argument("address", leftPad32(ByteString.copyFrom(addressBytes)), false));
+			args.Add(new Argument("address", leftPad32(ByteString.CopyFrom(addressBytes)), false));
 
 			return this;
 		}
@@ -2645,7 +2649,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			ByteString addressArray = encodeArray(Array.stream(addresses).map(a=> {
 				byte[] address = decodeAddress(a);
-				return leftPad32(ByteString.copyFrom(address));
+				return leftPad32(ByteString.CopyFrom(address));
 			}));
 
 			args.Add(new Argument("address[]", addressArray, true));
@@ -2757,12 +2761,12 @@ namespace Hedera.Hashgraph.SDK
 
 			if (functionSelector != null)
 			{
-				paramsBytes.Add(0, ByteString.copyFrom(functionSelector.finish()));
+				paramsBytes.Add(0, ByteString.CopyFrom(functionSelector.finish()));
 			}
 
 			paramsBytes.AddAll(dynamicArgs);
 
-			return ByteString.copyFrom(paramsBytes);
+			return ByteString.CopyFrom(paramsBytes);
 		}
 
 

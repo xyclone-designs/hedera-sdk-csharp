@@ -12,13 +12,13 @@ namespace Hedera.Hashgraph.SDK.Fees
     {
         public virtual FeeSchedule? Current 
         {
-            get => field?.Clone();
-            set => field = value?.Clone();
+            get => field?.Clone() as FeeSchedule;
+            set => field = value?.Clone() as FeeSchedule;
 		}
 		public virtual FeeSchedule? Next
 		{
-			get => field?.Clone();
-			set => field = value?.Clone();
+			get => field?.Clone() as FeeSchedule;
+			set => field = value?.Clone() as FeeSchedule;
 		}
 
         /// <summary>

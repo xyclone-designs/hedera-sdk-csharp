@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.SDK
         {
             lock (this)
             {
-                var map = new HashMap<string, BaseNodeAddress>(network.Count);
+                var map = new Dictionary<string, BaseNodeAddress>(network.Count);
                 foreach (var address in network)
                 {
                     map.Put(address, BaseNodeAddress.FromString(address));

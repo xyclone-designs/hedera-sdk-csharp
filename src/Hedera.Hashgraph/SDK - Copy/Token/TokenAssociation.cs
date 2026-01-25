@@ -1,23 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
+
+using Hedera.Hashgraph.SDK.Transactions.Account;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -48,43 +32,34 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="accountId">the account id</param>
         TokenAssociation(TokenId tokenId, AccountId accountId)
         {
-            tokenId = tokenId;
-            accountId = accountId;
+            this.tokenId = tokenId;
+            this.accountId = accountId;
         }
 
-        /// <summary>
-        /// Create a token association from a protobuf.
-        /// </summary>
-        /// <param name="tokenAssociation">the protobuf</param>
-        /// <returns>                         the new token association</returns>
-        static TokenAssociation FromProtobuf(Proto.TokenAssociation tokenAssociation)
+		/// <summary>
+		/// Create a token association from a byte array.
+		/// </summary>
+		/// <param name="bytes">the byte array</param>
+		/// <returns>                         the new token association</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static TokenAssociation FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.TokenAssociation.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Create a token association from a protobuf.
+		/// </summary>
+		/// <param name="tokenAssociation">the protobuf</param>
+		/// <returns>                         the new token association</returns>
+		public static TokenAssociation FromProtobuf(Proto.TokenAssociation tokenAssociation)
         {
-            return new TokenAssociation(tokenAssociation.HasTokenId() ? TokenId.FromProtobuf(tokenAssociation.GetTokenId()) : new TokenId(0, 0, 0), tokenAssociation.HasAccountId() ? AccountId.FromProtobuf(tokenAssociation.GetAccountId()) : new AccountId(0, 0, 0));
-        }
-
-        /// <summary>
-        /// Create a token association from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new token association</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static TokenAssociation FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(Proto.TokenAssociation.Parser.ParseFrom(bytes));
-        }
-
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
-        virtual Proto.TokenAssociation ToProtobuf()
-        {
-            return Proto.TokenAssociation.NewBuilder().SetTokenId(tokenId.ToProtobuf()).SetAccountId(accountId.ToProtobuf()).Build();
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("tokenId", tokenId).Add("accountId", accountId).ToString();
+            return new TokenAssociation(
+				tokenAssociation.TokenId is not null 
+                    ? TokenId.FromProtobuf(tokenAssociation.TokenId) 
+                    : new TokenId(0, 0, 0), 
+                tokenAssociation.AccountId is not null 
+                    ? AccountId.FromProtobuf(tokenAssociation.AccountId) 
+                    : new AccountId(0, 0, 0));
         }
 
         /// <summary>
@@ -95,5 +70,17 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             return ToProtobuf().ToByteArray();
         }
-    }
+		/// <summary>
+		/// Create the protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf representation</returns>
+		public virtual Proto.TokenAssociation ToProtobuf()
+		{
+			return new Proto.TokenAssociation
+			{
+				TokenId = tokenId.ToProtobuf(),
+				AccountId = accountId.ToProtobuf(),
+			};
+		}
+	}
 }

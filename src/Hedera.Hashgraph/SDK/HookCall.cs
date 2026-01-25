@@ -55,6 +55,7 @@ namespace Hedera.Hashgraph.SDK
                 return true;
             if (o == null || GetType() != o.GetType())
                 return false;
+
             HookCall hookCall = (HookCall)o;
 
             return Equals(HookId, hookCall.HookId) && EvmHookCall.Equals(hookCall.EvmHookCall);

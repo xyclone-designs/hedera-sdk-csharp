@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <summary>
         /// The minimum number of keys that must sign.
         /// </summary>
-        public int threshold;
+        public uint threshold;
         /// <summary>
         /// Create a new key list where all keys that are added will be required to sign.
         /// </summary>
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <param name="keyList">the key list</param>
         /// <param name="threshold">the minimum number of keys that must sign</param>
         /// <returns>                         the key list</returns>
-        static KeyList FromProtobuf(Proto.KeyList keyList, int threshold)
+        public static KeyList FromProtobuf(Proto.KeyList keyList, uint? threshold)
         {
             var keys = (threshold != null ? new KeyList(threshold) : new KeyList());
             for (var i = 0; i < keyList.KeysCount(); ++i)
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// Get the threshold for the KeyList.
         /// </summary>
         /// <returns>int</returns>
-        public int GetThreshold()
+        public uint GetThreshold()
         {
             return threshold;
         }

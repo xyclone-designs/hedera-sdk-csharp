@@ -201,7 +201,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// <param name="client">the configured client</param>
         /// <param name="checksum">the checksum</param>
         /// <exception cref="BadEntityIdException"></exception>
-        public static void Validate(long shard, long realm, long num, Client client, string checksum)
+        public static void Validate(long shard, long realm, long num, Client client, string? checksum)
         {
             if (client.GetNetworkName() == null)
             {
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// <param name="client">the configured client</param>
         /// <param name="checksum">the checksum</param>
         /// <returns>the string representation with checksum</returns>
-        public static string ToStringWithChecksum(long shard, long realm, long num, Client client, string checksum)
+        public static string ToStringWithChecksum(long shard, long realm, long num, Client client, string? checksum)
         {
             if (client.GetLedgerId() != null)
             {
@@ -277,7 +277,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         /// <param name="client"></param>
         /// <param name="evmAddress"></param>
-        public static CompletableFuture<long> GetAccountNumFromMirrorNodeAsync(Client client, string evmAddress)
+        public static Task<long> GetAccountNumFromMirrorNodeAsync(Client client, string evmAddress)
         {
             string apiEndpoint = "/accounts/" + evmAddress;
             return PerformQueryToMirrorNodeAsync(client, apiEndpoint, null).ThenApply((response) => ParseNumFromMirrorNodeResponse(response, "account"));
@@ -291,7 +291,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         /// <param name="client"></param>
         /// <param name="num"></param>
-        public static CompletableFuture<EvmAddress> GetEvmAddressFromMirrorNodeAsync(Client client, long num)
+        public static Task<EvmAddress> GetEvmAddressFromMirrorNodeAsync(Client client, long num)
         {
             string apiEndpoint = "/accounts/" + num;
             return PerformQueryToMirrorNodeAsync(client, apiEndpoint, null).ThenApply((response) => EvmAddress.FromString(ParseStringMirrorNodeResponse(response, "evm_address")));
@@ -305,19 +305,19 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         /// <param name="client"></param>
         /// <param name="evmAddress"></param>
-        public static CompletableFuture<long> GetContractNumFromMirrorNodeAsync(Client client, string evmAddress)
+        public static Task<long> GetContractNumFromMirrorNodeAsync(Client client, string evmAddress)
         {
             string apiEndpoint = "/contracts/" + evmAddress;
-            CompletableFuture<string> responseFuture = PerformQueryToMirrorNodeAsync(client, apiEndpoint, null);
+            Task<string> responseFuture = PerformQueryToMirrorNodeAsync(client, apiEndpoint, null);
             return responseFuture.ThenApply((response) => ParseNumFromMirrorNodeResponse(response, "contract_id"));
         }
 
-        public static CompletableFuture<string> PerformQueryToMirrorNodeAsync(Client client, string apiEndpoint, string jsonBody)
+        public static Task<string> PerformQueryToMirrorNodeAsync(Client client, string apiEndpoint, string jsonBody)
         {
             return PerformQueryToMirrorNodeAsync(client.GetMirrorRestBaseUrl(), apiEndpoint, jsonBody);
         }
 
-        public static CompletableFuture<string> PerformQueryToMirrorNodeAsync(string baseUrl, string apiEndpoint, string jsonBody)
+        public static Task<string> PerformQueryToMirrorNodeAsync(string baseUrl, string apiEndpoint, string jsonBody)
         {
             string apiUrl = baseUrl + apiEndpoint;
             HttpClient httpClient = HttpClient.NewHttpClient();

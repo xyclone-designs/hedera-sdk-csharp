@@ -18,20 +18,20 @@ namespace Hedera.Hashgraph.SDK
         /// <summary>
         /// The storage slot changed. Up to 32 bytes, big-endian, zero bytes left trimmed
         /// </summary>
-        public readonly BigInteger slot;
+        public readonly BigInteger Slot;
         /// <summary>
         /// The value read from the storage slot. Up to 32 bytes, big-endian, zero
         /// bytes left trimmed. Because of the way SSTORE operations are charged
         /// the slot is always read before being written to
         /// </summary>
-        public readonly BigInteger valueRead;
+        public readonly BigInteger ValueRead;
         /// <summary>
         /// The new value written to the slot. Up to 32 bytes, big-endian, zero
         /// bytes left trimmed. If a value of zero is written the valueWritten
         /// will be present but the inner value will be absent. If a value was
         /// read and not written this value will not be present.
         /// </summary>
-        public readonly BigInteger valueWritten;
+        public readonly BigInteger ValueWritten;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -40,10 +40,11 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="valueWritten">the value written</param>
         StorageChange(BigInteger slot, BigInteger valueRead, BigInteger valueWritten)
         {
-            this.slot = slot;
-            this.valueRead = valueRead;
-            this.valueWritten = valueWritten;
+            Slot = slot;
+            ValueRead = valueRead;
+            ValueWritten = valueWritten;
         } // /**
+
         //  * Create a storage charge from a protobuf.
         //  *
         //  * @param storageChangeProto        the protobuf

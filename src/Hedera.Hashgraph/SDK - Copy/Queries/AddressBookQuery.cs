@@ -32,9 +32,9 @@ namespace Hedera.Hashgraph.SDK.Queries
         {
         }
 
-        private static bool ShouldRetry(Throwable throwable)
+        private static bool ShouldRetry(Exception Exception)
         {
-            if (throwable is StatusRuntimeException)
+            if (Exception is StatusRuntimeException)
             {
                 var code = statusRuntimeException.GetStatus().GetCode();
                 var description = statusRuntimeException.GetStatus().GetDescription();
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 
                     return new NodeAddressBook().SetNodeAddresses(addresses);
                 }
-                catch (Throwable error)
+                catch (Exception error)
                 {
                     if (!ShouldRetry(error) || attempt >= maxAttempts)
                     {
@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// </summary>
         /// <param name="client">the client object</param>
         /// <returns>the node address book</returns>
-        public virtual CompletableFuture<NodeAddressBook> ExecuteAsync(Client client)
+        public virtual Task<NodeAddressBook> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.GetRequestTimeout());
         }
@@ -182,10 +182,10 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <param name="client">the client object</param>
         /// <param name="timeout">the user supplied timeout</param>
         /// <returns>the node address book</returns>
-        public virtual CompletableFuture<NodeAddressBook> ExecuteAsync(Client client, Duration timeout)
+        public virtual Task<NodeAddressBook> ExecuteAsync(Client client, Duration timeout)
         {
             var deadline = Deadline.After(timeout.ToMillis(), TimeUnit.MILLISECONDS);
-            CompletableFuture<NodeAddressBook> returnFuture = new CompletableFuture();
+            Task<NodeAddressBook> returnFuture = new Task();
             ExecuteAsync(client, deadline, returnFuture, 1);
             return returnFuture;
         }
@@ -197,7 +197,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <param name="deadline">the user supplied timeout</param>
         /// <param name="returnFuture">returned promise callback</param>
         /// <param name="attempt">maximum number of attempts</param>
-        virtual void ExecuteAsync(Client client, Deadline deadline, CompletableFuture<NodeAddressBook> returnFuture, int attempt)
+        virtual void ExecuteAsync(Client client, Deadline deadline, Task<NodeAddressBook> returnFuture, int attempt)
         {
             IList<NodeAddress> addresses = new ();
             ClientCalls.AsyncServerStreamingCall(BuildCall(client, deadline), BuildQuery(), new AnonymousStreamObserver(this));
@@ -216,7 +216,7 @@ namespace Hedera.Hashgraph.SDK.Queries
                 addresses.Add(NodeAddress.FromProtobuf(addressProto));
             }
 
-            public void OnError(Throwable error)
+            public void OnError(Exception error)
             {
                 if (attempt >= maxAttempts || !ShouldRetry(error))
                 {
@@ -264,11 +264,11 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
             catch (InterruptedException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
 
-        private void WarnAndDelay(int attempt, Throwable error)
+        private void WarnAndDelay(int attempt, Exception error)
         {
             var delay = Math.Min(500 * (long)Math.Pow(2, attempt), maxBackoff.ToMillis());
             LOGGER.Warn("Error fetching address book at FileId {} during attempt #{}. Waiting {} ms before next attempt: {}", fileId, attempt, delay, error.GetMessage());

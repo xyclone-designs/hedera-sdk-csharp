@@ -1,23 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
-using static Hedera.Hashgraph.SDK.TokenSupplyType;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -30,22 +11,21 @@ namespace Hedera.Hashgraph.SDK.Token
     /// </summary>
     public enum TokenSupplyType
     {
-        /// <summary>
-        /// Indicates that tokens of that type have an upper bound of Long.MAX_VALUE.
-        /// </summary>
-        // /**
-        //  * Indicates that tokens of that type have an upper bound of Long.MAX_VALUE.
-        //  */
-        // INFINITE(Proto.TokenSupplyType.INFINITE)
-        INFINITE,
+		/// <summary>
+		/// Indicates that tokens of that type have an upper bound of Long.MAX_VALUE.
+		/// </summary>
+		// /**
+		//  * Indicates that tokens of that type have an upper bound of Long.MAX_VALUE.
+		//  */
+		Infinite = Proto.TokenSupplyType.Infinite,
+
         /// <summary>
         /// Indicates that tokens of that type have an upper bound of maxSupply, provided on token creation.
         /// </summary>
         // /**
         //  * Indicates that tokens of that type have an upper bound of maxSupply, provided on token creation.
         //  */
-        // FINITE(Proto.TokenSupplyType.FINITE)
-        FINITE 
+        Finite = Proto.TokenSupplyType.Finite, 
 
         // --------------------
         // TODO enum body members

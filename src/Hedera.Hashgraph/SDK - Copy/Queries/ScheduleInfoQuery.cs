@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Proto;
+using Hedera.Hashgraph.SDK.Transactions.Account;
 using Io.Grpc;
 using Java.Util;
 using Java.Util.Concurrent;
@@ -9,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 using static Hedera.Hashgraph.SDK.ExecutionState;
 using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
@@ -60,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             return this;
         }
 
-        override void ValidateChecksums(Client client)
+        public override void ValidateChecksums(Client client)
         {
             if (scheduleId != null)
             {
@@ -68,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
             var builder = ScheduleGetInfoQuery.NewBuilder();
             if (scheduleId != null)
@@ -79,27 +82,27 @@ namespace Hedera.Hashgraph.SDK.Queries
             queryBuilder.SetScheduleGetInfo(builder.SetHeader(header));
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetScheduleGetInfo().GetHeader();
+            return response.ScheduleGetInfo.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetScheduleGetInfo().GetHeader();
+            return request.ScheduleGetInfo.Header;
         }
 
-        override ScheduleInfo MapResponse(Response response, AccountId nodeId, Query request)
+        public override ScheduleInfo MapResponse(Proto.Response response, AccountId nodeId, Query request)
         {
-            return ScheduleInfo.FromProtobuf(response.GetScheduleGetInfo().GetScheduleInfo());
+            return ScheduleInfo.FromProtobuf(response.ScheduleGetInfo.ScheduleInfo);
         }
 
-        override MethodDescriptor<Query, Response> GetMethodDescriptor()
+        public override MethodDescriptor<Query, Proto.Response> GetMethodDescriptor()
         {
             return ScheduleServiceGrpc.GetGetScheduleInfoMethod();
         }
 
-        public override CompletableFuture<Hbar> GetCostAsync(Client client)
+        public override Task<Hbar> GetCostAsync(Client client)
         {
 
             // deleted accounts return a COST_ANSWER of zero which triggers `INSUFFICIENT_TX_FEE`

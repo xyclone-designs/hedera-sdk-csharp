@@ -30,12 +30,22 @@ namespace Hedera.Hashgraph.SDK
             Serial = serial;
         }
 
-        /// <summary>
-        /// Create a new nft id from a string.
-        /// </summary>
-        /// <param name="id">the string representation</param>
-        /// <returns>                         the new nft id</returns>
-        public static NftId FromString(string id)
+		/// <summary>
+		/// Create a new nft id from a byte array.
+		/// </summary>
+		/// <param name="bytes">the byte array</param>
+		/// <returns>                         the new nft id</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static NftId FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.NftID.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Create a new nft id from a string.
+		/// </summary>
+		/// <param name="id">the string representation</param>
+		/// <returns>                         the new nft id</returns>
+		public static NftId FromString(string id)
         {
             var parts = id.Split("[/@]");
             if (parts.Length != 2)
@@ -53,16 +63,6 @@ namespace Hedera.Hashgraph.SDK
 		public static NftId FromProtobuf(Proto.NftID nftId)
         {
             return new NftId(TokenId.FromProtobuf(nftId.TokenID), nftId.SerialNumber);
-        }
-        /// <summary>
-        /// Create a new nft id from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new nft id</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static NftId FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(Proto.NftID.Parser.ParseFrom(bytes));
         }
 
         /// <summary>

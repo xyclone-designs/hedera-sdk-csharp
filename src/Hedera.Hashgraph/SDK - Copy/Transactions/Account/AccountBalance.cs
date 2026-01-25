@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <summary>
         /// </summary>
         /// <remarks>@deprecated- Use `tokens` instead</remarks>
-        public readonly Dictionary<TokenId, long> token = new HashMap();
+        public readonly Dictionary<TokenId, long> token = [];
         public readonly Dictionary<TokenId, long> tokens;
         public readonly Dictionary<TokenId, int> tokenDecimals;
         AccountBalance(Hbar hbars, Dictionary<TokenId, long> token, Dictionary<TokenId, int> @decimal)
@@ -42,8 +42,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         static AccountBalance FromProtobuf(CryptoGetAccountBalanceResponse protobuf)
         {
             var balanceList = protobuf.GetTokenBalancesList();
-            Dictionary<TokenId, long> map = new HashMap();
-            Dictionary<TokenId, int> decimalMap = new HashMap();
+            Dictionary<TokenId, long> map = [];
+            Dictionary<TokenId, int> decimalMap = [];
             for (int i = 0; i < protobuf.GetTokenBalancesCount(); i++)
             {
                 map.Put(TokenId.FromProtobuf(balanceList[i].GetTokenId()), balanceList[i].GetBalance());

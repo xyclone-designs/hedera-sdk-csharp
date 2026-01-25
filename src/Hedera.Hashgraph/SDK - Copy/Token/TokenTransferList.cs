@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Proto;
 using Java.Util;
 using Javax.Annotation;
@@ -27,14 +28,16 @@ namespace Hedera.Hashgraph.SDK.Token
 {
     class TokenTransferList
     {
-        readonly TokenId tokenId;
-        readonly int expectDecimals;
-        IList<TokenTransfer> transfers = new ();
-        IList<TokenNftTransfer> nftTransfers = new ();
-        TokenTransferList(TokenId tokenId, int expectDecimals, TokenTransfer transfer, TokenNftTransfer nftTransfer)
+        readonly TokenId TokenId;
+        readonly uint ExpectDecimals;
+        IList<TokenTransfer> Transfers = [];
+        IList<TokenNftTransfer> NftTransfers = [];
+
+        TokenTransferList(TokenId tokenId, uint expectDecimals, TokenTransfer transfer, TokenNftTransfer nftTransfer)
         {
-            tokenId = tokenId;
-            expectDecimals = expectDecimals;
+            TokenId = tokenId;
+            ExpectDecimals = expectDecimals;
+
             if (transfer != null)
             {
                 transfers.Add(transfer);
@@ -46,24 +49,36 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        virtual Proto.TokenTransferList ToProtobuf()
+        public virtual Proto.TokenTransferList ToProtobuf()
         {
-            var transfers = new List<AccountAmount>();
-            var nftTransfers = new List<NftTransfer>();
+            var transfers = new List<Proto.AccountAmount>();
+            var nftTransfers = new List<Proto.NftTransfer>();
             foreach (var transfer in transfers)
             {
                 transfers.Add(transfer.ToProtobuf());
             }
 
-            foreach (var transfer in nftTransfers)
+            foreach (var transfer in NftTransfers.Select(_ => _.ToProtobuf()))
             {
                 nftTransfers.Add(transfer.ToProtobuf());
             }
 
-            var builder = Proto.TokenTransferList.NewBuilder().SetToken(tokenId.ToProtobuf()).AddAllTransfers(transfers).AddAllNftTransfers(nftTransfers);
+            Proto.TokenTransferList proto = new()
+            {
+                Token = TokenId.ToProtobuf(),
+				ExpectedDecimals = new UInt32Value
+				{
+					Value = ExpectDecimals
+				}
+			};
+
+            proto.Transfers.AddRange(transfers);
+            proto.NftTransfers.AddRange(nftTransfers);
+
+			var builder = Proto.TokenTransferList.NewBuilder().SetToken(tokenId.ToProtobuf()).AddAllTransfers(transfers).AddAllNftTransfers(nftTransfers);
             if (expectDecimals != null)
             {
-                builder.SetExpectedDecimals(UInt32Value.NewBuilder().SetValue(expectDecimals).Build());
+                builder. );
             }
 
             return proto;

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.SDK.Fees
@@ -47,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         {
             Proto.FixedCustomFee proto = new()
             {
-                FeeCollectorAccountId = FeeCollectorAccountId.ToProtobuf(),
+                FeeCollectorAccountId = FeeCollectorAccountId?.ToProtobuf(),
                 FixedFee = new Proto.FixedFee { },
             };
 
@@ -94,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 			return new Proto.FixedFee
 			{
 				Amount = Amount,
-				DenominatingTokenId = DenominatingTokenId.ToProtobuf()
+				DenominatingTokenId = DenominatingTokenId?.ToProtobuf()
 			};
         }
 

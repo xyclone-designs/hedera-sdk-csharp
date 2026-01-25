@@ -1595,7 +1595,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
   /// &lt;p>
   /// This message lets a metaprotocol be specified in terms of changes to a
   /// Solidity mapping's entries. If only raw slots could be updated, then a block
-  /// stream consumer following the metaprotocol would have to invert the Keccak256
+  /// stream Action following the metaprotocol would have to invert the Keccak256
   /// hash to determine which mapping entry was being updated, which is not possible.
   /// </summary>
   [global::System.Diagnostics.DebuggerDisplayAttribute("{ToString(),nq}")]

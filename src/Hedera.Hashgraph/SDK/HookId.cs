@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="proto">the protobuf HookId</param>
         /// <returns>a new HookId instance</returns>
-        static HookId FromProtobuf(Proto.HookId proto)
+        public static HookId FromProtobuf(Proto.HookId proto)
         {
             return new HookId(HookEntityId.FromProtobuf(proto.EntityId), proto.HookId_);
         }
@@ -58,7 +58,6 @@ namespace Hedera.Hashgraph.SDK
 
             return HookId_ == hookId1.HookId_ && EntityId.Equals(hookId1.EntityId);
         }
-
         public override int GetHashCode()
         {
             int result = EntityId.GetHashCode();

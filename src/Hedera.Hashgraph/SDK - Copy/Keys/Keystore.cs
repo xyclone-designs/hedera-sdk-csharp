@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Google.Gson;
 using Com.Google.Gson.Stream;
+using Hedera.Hashgraph.SDK.Exceptions;
 using Java.Io;
 using Java.Nio.Charset;
 using Java.Security;
 using Java.Util;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Util.Encoders;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// </summary>
     public class FeeSchedule : ICloneable
     {
-        private Timestamp ExpirationTime = new Timestamp();
+        private Timestamp ExpirationTime = new ();
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 
         static IList<TransactionFeeSchedule> CloneTransactionFeeSchedules(IList<TransactionFeeSchedule> schedules)
         {
-            return schedules.CloneList();
+            return schedules.CloneToList();
 		}
 
         public void AddTransactionFeeSchedules(params TransactionFeeSchedule[] transactionFeeSchedules)

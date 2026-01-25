@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Java.Util;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
@@ -20,15 +14,15 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <summary>
         /// Id of the contract
         /// </summary>
-        public readonly ContractId contractId;
+        public readonly ContractId ContractId;
         /// <summary>
         /// The current value of the contract account's nonce property
         /// </summary>
-        public readonly long nonce;
+        public readonly long Nonce;
         public ContractNonceInfo(ContractId contractId, long nonce)
         {
-            contractId = contractId;
-            nonce = nonce;
+            ContractId = contractId;
+            Nonce = nonce;
         }
 
         /// <summary>
@@ -36,9 +30,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// </summary>
         /// <param name="contractNonceInfo">the protobuf</param>
         /// <returns>the contract object</returns>
-        static ContractNonceInfo FromProtobuf(Proto.ContractNonceInfo contractNonceInfo)
+        public static ContractNonceInfo FromProtobuf(Proto.ContractNonceInfo contractNonceInfo)
         {
-            return new ContractNonceInfo(ContractId.FromProtobuf(contractNonceInfo.GetContractId()), contractNonceInfo.GetNonce());
+            return new ContractNonceInfo(ContractId.FromProtobuf(contractNonceInfo.ContractId), contractNonceInfo.Nonce);
         }
 
         /// <summary>
@@ -56,16 +50,19 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// Build the protobuf.
         /// </summary>
         /// <returns>the protobuf representation</returns>
-        Proto.ContractNonceInfo ToProtobuf()
+        public Proto.ContractNonceInfo ToProtobuf()
         {
-            return Proto.ContractNonceInfo.SetContractId(contractId.ToProtobuf()).SetNonce(nonce).Build();
+            return new Proto.ContractNonceInfo
+            {
+				Nonce = Nonce,
+				ContractId = ContractId.ToProtobuf()
+			};
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(contractId, nonce);
+            return HashCode.Combine(ContractId, Nonce);
         }
-
         public override bool Equals(object? o)
         {
             if (this == o)
@@ -73,12 +70,12 @@ namespace Hedera.Hashgraph.SDK.Contract
                 return true;
             }
 
-            if (!(o is ContractNonceInfo))
+            if (o is not ContractNonceInfo otherInfo)
             {
                 return false;
             }
 
-            return contractId.Equals(otherInfo.contractId) && nonce.Equals(otherInfo.nonce);
+            return ContractId.Equals(otherInfo.ContractId) && Nonce.Equals(otherInfo.Nonce);
         }
 
         /// <summary>

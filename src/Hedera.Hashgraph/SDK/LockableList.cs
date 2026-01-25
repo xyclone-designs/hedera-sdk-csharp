@@ -16,11 +16,10 @@ namespace Hedera.Hashgraph.SDK
 
 		public LockableList()
 		{
-			_list = new List<T>();
+			_list = [];
 			_index = 0;
 			_locked = false;
 		}
-
 		public LockableList(List<T> list, int index = 0, bool locked = false)
 		{
 			_list = list ?? throw new ArgumentNullException(nameof(list));
@@ -33,34 +32,34 @@ namespace Hedera.Hashgraph.SDK
 			if (_locked) throw new InvalidOperationException("Cannot modify a locked list");
 		}
 
+		public bool IsEmpty => _list.Count == 0;
+		public bool IsLocked => _locked;
+		public int Size => _list.Count;
+		public int Index { get; private set; }
+
+		public List<T> GetList() => _list;
 		public LockableList<T> EnsureCapacity(int capacity)
 		{
 			_list.EnsureCapacity(capacity);
 			return this;
 		}
-
 		public LockableList<T> SetList(IEnumerable<T> newList)
 		{
 			RequireNotLocked();
 			return new LockableList<T>(new List<T>(newList), 0, _locked);
 		}
-
-		public List<T> GetList() => _list;
-
 		public LockableList<T> Add(params T[] elements)
 		{
 			RequireNotLocked();
 			_list.AddRange(elements);
 			return this;
 		}
-
 		public LockableList<T> AddAll(IEnumerable<T> elements)
 		{
 			RequireNotLocked();
 			_list.AddRange(elements);
 			return this;
 		}
-
 		public LockableList<T> Shuffle()
 		{
 			RequireNotLocked();
@@ -76,7 +75,6 @@ namespace Hedera.Hashgraph.SDK
 			}
 			return this;
 		}
-
 		public LockableList<T> Remove(T element)
 		{
 			RequireNotLocked();
@@ -85,14 +83,12 @@ namespace Hedera.Hashgraph.SDK
 		}
 
 		public T GetCurrent() => Get(_index);
-
 		public T GetNext()
 		{
 			// Note: Structs are value types; to persist the index change 
 			// across calls, you would need to return the new struct state.
 			return Get(_index);
 		}
-
 		public T Get(int index) => _list[index];
 
 		public LockableList<T> Set(int index, T item)
@@ -102,19 +98,8 @@ namespace Hedera.Hashgraph.SDK
 			else _list[index] = item;
 			return this;
 		}
-
-		public bool IsEmpty() => _list.Count == 0;
-
-		public bool IsLocked() => _locked;
-
 		public LockableList<T> SetLocked(bool locked) => new(_list, _index, locked);
-
-		public int Size() => _list.Count;
-
 		public LockableList<T> SetIndex(int index) => new(_list, index, _locked);
-
-		public int GetIndex() => _index;
-
 		public LockableList<T> Clear()
 		{
 			RequireNotLocked();
@@ -122,7 +107,6 @@ namespace Hedera.Hashgraph.SDK
 			return this;
 		}
 
-		// --- IEnumerable Implementation ---
 		public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 	}

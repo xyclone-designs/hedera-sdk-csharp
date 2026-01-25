@@ -16,9 +16,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <summary>
         /// Constructor.
         /// </summary>
-        public CustomFee()
-        {
-        }
+        public CustomFee() { }
 
 		/// <summary>
 		/// The account to receive the custom fee

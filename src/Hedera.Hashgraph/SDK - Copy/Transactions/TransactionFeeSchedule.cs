@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="transactionFeeSchedule">the protobuf</param>
         /// <returns>                         the new transaction fee schedule</returns>
-        static TransactionFeeSchedule FromProtobuf(Proto.TransactionFeeSchedule transactionFeeSchedule)
+        public static TransactionFeeSchedule FromProtobuf(Proto.TransactionFeeSchedule transactionFeeSchedule)
         {
             var returnFeeSchedule = new TransactionFeeSchedule().SetRequestType(RequestType.ValueOf(transactionFeeSchedule.GetHederaFunctionality())).SetFeeData(transactionFeeSchedule.HasFeeData() ? FeeData.FromProtobuf(transactionFeeSchedule.GetFeeData()) : null);
             foreach (var feeData in transactionFeeSchedule.GetFeesList())
@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <returns>{@link
         ///         Proto.TransactionFeeSchedule}</returns>
-        virtual Proto.TransactionFeeSchedule ToProtobuf()
+        public virtual Proto.TransactionFeeSchedule ToProtobuf()
         {
             var returnBuilder = Proto.TransactionFeeSchedule.NewBuilder().SetHederaFunctionality(GetRequestType().code);
             if (feeData != null)

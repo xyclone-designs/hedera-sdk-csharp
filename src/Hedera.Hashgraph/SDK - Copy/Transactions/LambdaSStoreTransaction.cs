@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
         }
 
-        LambdaSStoreTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        LambdaSStoreTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Proto;
 using Io.Grpc;
 using Java.Nio.Charset;
@@ -67,6 +68,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         private byte[] contents = new[]
         {
         };
+
         private string fileMemo = "";
         /// <summary>
         /// Constructor.
@@ -83,7 +85,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
         ///            records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        FileCreateTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        FileCreateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -249,7 +251,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
             return FileServiceGrpc.GetCreateFileMethod();
         }
 
-        override void ValidateChecksums(Client client)
+        public override void ValidateChecksums(Client client)
         {
         }
 
@@ -300,12 +302,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
             return builder;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetFileCreate(Build());
         }
-
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.SetFileCreate(Build());
         }

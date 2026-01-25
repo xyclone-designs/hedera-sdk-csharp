@@ -19,6 +19,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using Google.Protobuf.WellKnownTypes;
+using System.Text.RegularExpressions;
+using Hedera.Hashgraph.SDK.Transactions.Account;
+using System.Threading.Tasks;
+using System.Threading;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -32,7 +39,7 @@ namespace Hedera.Hashgraph.SDK
     abstract class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> where ProtoRequestT : MessageLite where ResponseT : MessageLite
     {
         protected static readonly Random random = new Random();
-        static readonly Pattern RST_STREAM = Pattern.Compile(".*\\brst[^0-9a-zA-Z]stream\\b.*", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        static readonly Regex RST_STREAM = new (".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.DOTALL);
         /// <summary>
         /// The maximum times execution will be attempted
         /// </summary>
@@ -62,10 +69,10 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         protected Duration grpcDeadline;
         protected Logger logger;
-        private java.util.function.Function<ProtoRequestT, ProtoRequestT> requestListener;
+        private Func<ProtoRequestT, ProtoRequestT> requestListener;
         // Lambda responsible for executing synchronous gRPC requests. Pluggable for unit testing.
         Function<GrpcRequest, ResponseT> blockingUnaryCall = (grpcRequest) => ClientCalls.BlockingUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest());
-        private java.util.function.Function<ResponseT, ResponseT> responseListener;
+        private Func<ResponseT, ResponseT> responseListener;
         Executable()
         {
             requestListener = (request) =>
@@ -88,139 +95,76 @@ namespace Hedera.Hashgraph.SDK
             };
         }
 
-        /// <summary>
-        /// When execution is attempted, a single attempt will time out when this deadline is reached. (The SDK may
-        /// subsequently retry the execution.)
-        /// </summary>
-        /// <returns>The timeout for each execution attempt</returns>
-        public Duration GrpcDeadline()
-        {
-            return grpcDeadline;
-        }
 
         /// <summary>
         /// When execution is attempted, a single attempt will timeout when this deadline is reached. (The SDK may
         /// subsequently retry the execution.)
         /// </summary>
-        /// <param name="grpcDeadline">The timeout for each execution attempt</param>
-        /// <returns>{@code this}</returns>
-        public SdkRequestT SetGrpcDeadline(Duration grpcDeadline)
-        {
-            grpcDeadline = Objects.RequireNonNull(grpcDeadline);
-
-            // noinspection unchecked
-            return (SdkRequestT)this;
-        }
-
-        /// <summary>
-        /// The maximum amount of time to wait between retries
-        /// </summary>
-        /// <returns>maxBackoff</returns>
-        public Duration GetMaxBackoff()
-        {
-            return maxBackoff != null ? maxBackoff : Client.DEFAULT_MAX_BACKOFF;
-        }
+        public Duration GrpcDeadline { get; set; }
 
         /// <summary>
         /// The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
         /// until it reaches this time.
         /// </summary>
-        /// <param name="maxBackoff">The maximum amount of time to wait between retries</param>
-        /// <returns>{@code this}</returns>
-        public SdkRequestT SetMaxBackoff(Duration maxBackoff)
+        public Duration MaxBackoff
         {
-            if (maxBackoff == null || maxBackoff.ToNanos() < 0)
-            {
-                throw new ArgumentException("maxBackoff must be a positive duration");
-            }
-            else if (maxBackoff.CompareTo(GetMinBackoff()) < 0)
-            {
-                throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
-            }
+            get => field ?? Client.DEFAULT_MAX_BACKOFF;
+			set
+			{
+				if (field == null || field.Nanos < 0)
+				{
+					throw new ArgumentException("maxBackoff must be a positive duration");
+				}
+				else if (field.CompareTo(MinBackoff) < 0)
+				{
+					throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
+				}
 
-            maxBackoff = maxBackoff;
-
-            // noinspection unchecked
-            return (SdkRequestT)this;
-        }
-
-        /// <summary>
-        /// The minimum amount of time to wait between retries
-        /// </summary>
-        /// <returns>minBackoff</returns>
-        public Duration GetMinBackoff()
-        {
-            return minBackoff != null ? minBackoff : Client.DEFAULT_MIN_BACKOFF;
-        }
-
+				field = value;
+			}
+		}
+        
         /// <summary>
         /// The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
         /// exponentially until it reaches the maxBackoff.
         /// </summary>
-        /// <param name="minBackoff">The minimum amount of time to wait between retries</param>
-        /// <returns>{@code this}</returns>
-        public SdkRequestT SetMinBackoff(Duration minBackoff)
+        public Duration MinBackoff
         {
-            if (minBackoff == null || minBackoff.ToNanos() < 0)
+            get => field ?? Client.DEFAULT_MIN_BACKOFF;
+			set 
             {
-                throw new ArgumentException("minBackoff must be a positive duration");
-            }
-            else if (minBackoff.CompareTo(GetMaxBackoff()) > 0)
+				if (value == null || value.Nanos < 0)
+				{
+					throw new ArgumentException("minBackoff must be a positive duration");
+				}
+				else if (value.CompareTo(MaxBackoff) > 0)
+				{
+					throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
+				}
+
+				field = value;
+			}
+        }
+
+        public int MaxRetry
+        {
+            get => MaxAttempts;
+            set => MaxAttempts = value;
+		}
+
+        public int MaxAttempts
+        {
+            get;
+            set
             {
-                throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
+                if (maxAttempts <= 0)
+                {
+                    throw new ArgumentException("maxAttempts must be greater than zero");
+                }
+
+                field = value;
             }
-
-            minBackoff = minBackoff;
-
-            // noinspection unchecked
-            return (SdkRequestT)this;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>Number of errors before execution will fail.</returns>
-        /// <remarks>@deprecatedUse {@link #getMaxAttempts()} instead.</remarks>
-        public int GetMaxRetry()
-        {
-            return GetMaxAttempts();
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="count">Number of errors before execution will fail</param>
-        /// <returns>{@code this}</returns>
-        /// <remarks>@deprecatedUse {@link #setMaxAttempts(int)} instead.</remarks>
-        public SdkRequestT SetMaxRetry(int count)
-        {
-            return SetMaxAttempts(count);
-        }
-
-        /// <summary>
-        /// Get the maximum times execution will be attempted.
-        /// </summary>
-        /// <returns>Number of errors before execution will fail.</returns>
-        public int GetMaxAttempts()
-        {
-            return maxAttempts != null ? maxAttempts : Client.DEFAULT_MAX_ATTEMPTS;
-        }
-
-        /// <summary>
-        /// Set the maximum times execution will be attempted.
-        /// </summary>
-        /// <param name="maxAttempts">Execution will fail after this many errors.</param>
-        /// <returns>{@code this}</returns>
-        public SdkRequestT SetMaxAttempts(int maxAttempts)
-        {
-            if (maxAttempts <= 0)
-            {
-                throw new ArgumentException("maxAttempts must be greater than zero");
-            }
-
-            maxAttempts = maxAttempts;
-
-            // noinspection unchecked
-            return (SdkRequestT)this;
-        }
+        } = Client.DEFAULT_MAX_ATTEMPTS;
 
         /// <summary>
         /// Get the list of account IDs for nodes with which execution will be attempted.
@@ -236,22 +180,6 @@ namespace Hedera.Hashgraph.SDK
             return null;
         }
 
-        /// <summary>
-        /// Set the account IDs of the nodes that this transaction will be submitted to.
-        /// <p>
-        /// Providing an explicit node account ID interferes with client-side load balancing of the network. By default, the
-        /// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
-        /// reports a fatal error, the SDK will try again with a different node.
-        /// </summary>
-        /// <param name="nodeAccountIds">The list of node AccountIds to be set</param>
-        /// <returns>{@code this}</returns>
-        public virtual SdkRequestT SetNodeAccountIds(IList<AccountId> nodeAccountIds)
-        {
-            nodeAccountIds.SetList(nodeAccountIds).SetLocked(true);
-
-            // noinspection unchecked
-            return (SdkRequestT)this;
-        }
 
         /// <summary>
         /// Set a callback that will be called right before the request is sent. As input, the callback will receive the
@@ -260,12 +188,11 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="requestListener">The callback to use</param>
         /// <returns>{@code this}</returns>
-        public SdkRequestT SetRequestListener(UnaryOperator<ProtoRequestT> requestListener)
+        public SdkRequestT SetRequestListener(Func<ProtoRequestT, ProtoRequestT> requestListener)
         {
             requestListener = Objects.RequireNonNull(requestListener);
             return (SdkRequestT)this;
         }
-
         /// <summary>
         /// Set a callback that will be called right before the response is returned. As input, the callback will receive the
         /// protobuf of the response, and the callback should return the response protobuf.  This means the callback has an
@@ -273,7 +200,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="responseListener">The callback to use</param>
         /// <returns>{@code this}</returns>
-        public SdkRequestT SetResponseListener(UnaryOperator<ResponseT> responseListener)
+        public SdkRequestT SetResponseListener(Func<ResponseT, ResponseT> responseListener)
         {
             responseListener = Objects.RequireNonNull(responseListener);
             return (SdkRequestT)this;
@@ -289,18 +216,37 @@ namespace Hedera.Hashgraph.SDK
             logger = logger;
             return (SdkRequestT)this;
         }
+		/// <summary>
+		/// Set the account IDs of the nodes that this transaction will be submitted to.
+		/// <p>
+		/// Providing an explicit node account ID interferes with client-side load balancing of the network. By default, the
+		/// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
+		/// reports a fatal error, the SDK will try again with a different node.
+		/// </summary>
+		/// <param name="nodeAccountIds">The list of node AccountIds to be set</param>
+		/// <returns>{@code this}</returns>
+		public virtual SdkRequestT SetNodeAccountIds(IList<AccountId> nodeAccountIds)
+		{
+			nodeAccountIds.SetList(nodeAccountIds).SetLocked(true);
 
-        virtual void CheckNodeAccountIds()
-        {
-            if (nodeAccountIds.IsEmpty())
-            {
-                throw new InvalidOperationException("Request node account IDs were not set before executing");
-            }
-        }
+			// noinspection unchecked
+			return (SdkRequestT)this;
+		}
 
-        abstract void OnExecute(Client client);
-        abstract CompletableFuture<Void> OnExecuteAsync(Client client);
-        virtual void MergeFromClient(Client client)
+		
+
+		public abstract void OnExecute(Client client);
+		public abstract Task OnExecuteAsync(Client client);
+		public abstract ProtoRequestT MakeRequest();
+		public abstract Status MapResponseStatus(ResponseT response);
+		/// <summary>
+		/// Called after receiving the query response from Hedera. The derived class should map into its output type.
+		/// </summary>
+		public abstract O MapResponse(ResponseT response, AccountId nodeId, ProtoRequestT request);
+
+		
+
+        public virtual void MergeFromClient(Client client)
         {
             if (maxAttempts == null)
             {
@@ -322,8 +268,19 @@ namespace Hedera.Hashgraph.SDK
                 grpcDeadline = client.GetGrpcDeadline();
             }
         }
+		protected virtual void CheckNodeAccountIds()
+		{
+			if (nodeAccountIds.IsEmpty())
+			{
+				throw new InvalidOperationException("Request node account IDs were not set before executing");
+			}
+		}
+		protected virtual bool IsBatchedAndNotBatchTransaction()
+		{
+			return false;
+		}
 
-        private void Delay(long delay)
+		private void Delay(long delay)
         {
             if (delay <= 0)
             {
@@ -336,15 +293,15 @@ namespace Hedera.Hashgraph.SDK
                 {
                     if (logger.IsEnabledForLevel(LogLevel.DEBUG))
                     {
-                        logger.Debug("Sleeping for: " + delay + " | Thread name: " + Thread.CurrentThread().GetName());
+                        logger.Debug("Sleeping for: " + delay + " | Thread name: " + Thread.CurrentThread.Name);
                     }
 
-                    Thread.Sleep(delay);
+                    Thread.Sleep((int)delay);
                 }
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
 
@@ -357,7 +314,7 @@ namespace Hedera.Hashgraph.SDK
         {
             try
             {
-                if (client.GetMirrorNetwork() != null && !client.GetMirrorNetwork().IsEmpty())
+                if (client.GetMirrorNetwork() != null && client.GetMirrorNetwork().Count > 0)
                 {
                     client.UpdateNetworkFromAddressBook();
                 }
@@ -366,7 +323,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 if (logger.IsEnabledForLevel(LogLevel.TRACE))
                 {
-                    logger.Trace("failed to update client address book after INVALID_NODE_ACCOUNT_ID: {}", updateError.GetMessage());
+                    logger.Trace("failed to update client address book after INVALID_NODE_ACCOUNT_ID: {}", updateError.Message);
                 }
             }
         }
@@ -382,7 +339,6 @@ namespace Hedera.Hashgraph.SDK
         {
             return Execute(client, client.GetRequestTimeout());
         }
-
         /// <summary>
         /// Execute this transaction or query with a timeout
         /// </summary>
@@ -393,7 +349,7 @@ namespace Hedera.Hashgraph.SDK
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
         public virtual O Execute(Client client, Duration timeout)
         {
-            Throwable lastException = null;
+            Exception lastException = null;
             if (IsBatchedAndNotBatchTransaction())
             {
                 throw new ArgumentException("Cannot execute batchified transaction outside of BatchTransaction");
@@ -451,7 +407,7 @@ namespace Hedera.Hashgraph.SDK
                     response = blockingUnaryCall.Apply(grpcRequest);
                     LogTransaction(GetTransactionIdInternal(), client, node, false, attempt, response, null);
                 }
-                catch (Throwable e)
+                catch (Exception e)
                 {
                     if (e is StatusRuntimeException)
                     {
@@ -524,12 +480,6 @@ namespace Hedera.Hashgraph.SDK
                 }
             }
         }
-
-        protected virtual bool IsBatchedAndNotBatchTransaction()
-        {
-            return false;
-        }
-
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// 
@@ -538,11 +488,10 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <returns>Future result of execution</returns>
-        public virtual CompletableFuture<O> ExecuteAsync(Client client)
+        public virtual Task<O> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.GetRequestTimeout());
         }
-
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// 
@@ -552,9 +501,9 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>Future result of execution</returns>
-        public virtual CompletableFuture<O> ExecuteAsync(Client client, Duration timeout)
+        public virtual Task<O> ExecuteAsync(Client client, Duration timeout)
         {
-            var retval = new CompletableFuture<O>().OrTimeout(timeout.ToMillis(), TimeUnit.MILLISECONDS);
+            var retval = new Task<O>().OrTimeout(timeout.ToMillis(), TimeUnit.MILLISECONDS);
             MergeFromClient(client);
             OnExecuteAsync(client).ThenRun(() =>
             {
@@ -568,49 +517,45 @@ namespace Hedera.Hashgraph.SDK
             });
             return retval;
         }
-
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, BiConsumer<O, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void ExecuteAsync(Client client, Action<O, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(ExecuteAsync(client), callback);
+            ActionHelper.Action(ExecuteAsync(client), callback);
         }
-
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a BiConsumer which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeout, BiConsumer<O, Throwable> callback)
+        /// <param name="callback">a Action which handles the result or error.</param>
+        public virtual void ExecuteAsync(Client client, Duration timeout, Action<O, Exception> callback)
         {
-            ConsumerHelper.BiConsumer(ExecuteAsync(client, timeout), callback);
+            ActionHelper.Action(ExecuteAsync(client, timeout), callback);
         }
-
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Consumer<O> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void ExecuteAsync(Client client, Action<O> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(ExecuteAsync(client), onSuccess, onFailure);
+            ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
-
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Consumer which consumes the result on success.</param>
-        /// <param name="onFailure">a Consumer which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeout, Consumer<O> onSuccess, Consumer<Throwable> onFailure)
+        /// <param name="onSuccess">a Action which consumes the result on success.</param>
+        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        public virtual void ExecuteAsync(Client client, Duration timeout, Action<O> onSuccess, Action<Exception> onFailure)
         {
-            ConsumerHelper.TwoConsumers(ExecuteAsync(client, timeout), onSuccess, onFailure);
+            ActionHelper.TwoActions(ExecuteAsync(client, timeout), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -623,7 +568,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="attempt">the attempt number</param>
         /// <param name="response">the transaction response if the transaction was successful</param>
         /// <param name="error">the error if the transaction was not successful</param>
-        protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, ResponseT response, Throwable error)
+        protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, ResponseT response, Exception error)
         {
             if (!logger.IsEnabledForLevel(LogLevel.TRACE))
             {
@@ -727,7 +672,7 @@ namespace Hedera.Hashgraph.SDK
 
                 // If we've tried all nodes, index will be +1 too far. Index increment happens outside
                 // this method so try to be consistent with happy path.
-                nodeAccountIds.SetIndex(Math.Max(0, nodeAccountIds.GetIndex()));
+                nodeAccountIds.SetIndex(Math.Max(0, nodeAccountIds.Index()));
             }
 
 
@@ -735,7 +680,7 @@ namespace Hedera.Hashgraph.SDK
             // Add null check here to work around sonar NPE detection.
             if (node != null && logger != null)
             {
-                logger.Trace("Using node {} for request #{}: {}", node.GetAccountId(), attempt, this);
+                logger.Trace("Using node {} for request #{}: {}", node.AccountId, attempt, this);
             }
 
             return node;
@@ -747,7 +692,7 @@ namespace Hedera.Hashgraph.SDK
             return request;
         }
 
-        private void ExecuteAsyncInternal(Client client, int attempt, Throwable lastException, CompletableFuture<O> returnFuture, Duration timeout)
+        private void ExecuteAsyncInternal(Client client, int attempt, Exception lastException, Task<O> returnFuture, Duration timeout)
         {
 
             // If the logger on the request is not set, use the logger in client
@@ -770,9 +715,9 @@ namespace Hedera.Hashgraph.SDK
 
             var timeoutTime = Instant.Now().Plus(timeout);
             GrpcRequest grpcRequest = new GrpcRequest(client.network, attempt, Duration.Between(Instant.Now(), timeoutTime));
-            Supplier<CompletableFuture<Void>> afterUnhealthyDelay = () =>
+            Supplier<Task> afterUnhealthyDelay = () =>
             {
-                return grpcRequest.GetNode().IsHealthy() ? CompletableFuture.CompletedFuture((Void)null) : Delayer.DelayFor(grpcRequest.GetNode().GetRemainingTimeForBackoff(), client.executor);
+                return grpcRequest.GetNode().IsHealthy() ? Task.FromResult((Void)null) : Delayer.DelayFor(grpcRequest.GetNode().GetRemainingTimeForBackoff(), client.executor);
             };
             afterUnhealthyDelay.Get().ThenRun(() =>
             {
@@ -786,7 +731,7 @@ namespace Hedera.Hashgraph.SDK
                         return;
                     }
 
-                    ToCompletableFuture(ClientCalls.FutureUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest())).Handle((response, error) =>
+                    ToTask(ClientCalls.FutureUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest())).Handle((response, error) =>
                     {
                         LogTransaction(GetTransactionIdInternal(), client, grpcRequest.GetNode(), true, attempt, response, error);
                         if (grpcRequest.ShouldRetryExceptionally(error))
@@ -859,15 +804,15 @@ namespace Hedera.Hashgraph.SDK
             });
         }
 
-        abstract ProtoRequestT MakeRequest();
-        virtual GrpcRequest GetGrpcRequest(int attempt)
+        
+		virtual GrpcRequest GetGrpcRequest(int attempt)
         {
             return new GrpcRequest(null, attempt, grpcDeadline);
         }
 
         virtual void AdvanceRequest()
         {
-            if (nodeAccountIds.GetIndex() + 1 == nodes.Count - 1)
+            if (nodeAccountIds.Index() + 1 == nodes.Count - 1)
             {
                 attemptedAllNodes = true;
             }
@@ -879,17 +824,13 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        /// <summary>
-        /// Called after receiving the query response from Hedera. The derived class should map into its output type.
-        /// </summary>
-        abstract O MapResponse(ResponseT response, AccountId nodeId, ProtoRequestT request);
-        abstract Status MapResponseStatus(ResponseT response);
-        /// <summary>
-        /// Called to direct the invocation of the query to the appropriate gRPC service.
-        /// </summary>
-        abstract MethodDescriptor<ProtoRequestT, ResponseT> GetMethodDescriptor();
-        abstract TransactionId GetTransactionIdInternal();
-        virtual bool ShouldRetryExceptionally(Throwable error)
+		
+		/// <summary>
+		/// Called to direct the invocation of the query to the appropriate gRPC service.
+		/// </summary>
+		public abstract MethodDescriptor<ProtoRequestT, ResponseT> GetMethodDescriptor();
+        public abstract TransactionId GetTransactionIdInternal();
+        virtual bool ShouldRetryExceptionally(Exception error)
         {
             if (error is StatusRuntimeException)
             {
@@ -920,167 +861,6 @@ namespace Hedera.Hashgraph.SDK
                 default:
                     return ExecutionState.REQUEST_ERROR; // user error
                     break;
-            }
-        }
-
-        class GrpcRequest
-        {
-            private readonly Network network;
-            private readonly Node node;
-            private readonly int attempt;
-            // private final ClientCall<ProtoRequestT, ResponseT> call;
-            private readonly ProtoRequestT request;
-            private readonly long startAt;
-            private readonly long delay;
-            private Duration grpcDeadline;
-            private ResponseT response;
-            private double latency;
-            private Status responseStatus;
-            GrpcRequest(Network network, int attempt, Duration grpcDeadline)
-            {
-                network = network;
-                attempt = attempt;
-                grpcDeadline = grpcDeadline;
-                node = GetNodeForExecute(attempt);
-                request = GetRequestForExecute(); // node index gets incremented here
-                startAt = System.NanoTime();
-
-                // Exponential back-off for Delayer: 250ms, 500ms, 1s, 2s, 4s, 8s, ... 8s
-                delay = (long)Math.Min(Objects.RequireNonNull(minBackoff).ToMillis() * Math.Pow(2, attempt - 1), Objects.RequireNonNull(maxBackoff).ToMillis());
-            }
-
-            public virtual CallOptions GetCallOptions()
-            {
-                long deadline = Math.Min(grpcDeadline.ToMillis(), grpcDeadline.ToMillis());
-                return CallOptions.DEFAULT.WithDeadlineAfter(deadline, TimeUnit.MILLISECONDS);
-            }
-
-            public virtual void SetGrpcDeadline(Duration grpcDeadline)
-            {
-                grpcDeadline = grpcDeadline;
-            }
-
-            public virtual Node GetNode()
-            {
-                return node;
-            }
-
-            public virtual ClientCall<ProtoRequestT, ResponseT> CreateCall()
-            {
-                VerboseLog(node);
-                return node.GetChannel().NewCall(GetMethodDescriptor(), GetCallOptions());
-            }
-
-            public virtual ProtoRequestT GetRequest()
-            {
-                return requestListener.Apply(request);
-            }
-
-            public virtual long GetDelay()
-            {
-                return delay;
-            }
-
-            virtual Throwable ReactToConnectionFailure()
-            {
-                Objects.RequireNonNull(network).IncreaseBackoff(node);
-                logger.Warn("Retrying in {} ms after channel connection failure with node {} during attempt #{}", node.GetRemainingTimeForBackoff(), node.GetAccountId(), attempt);
-                VerboseLog(node);
-                return new InvalidOperationException("Failed to connect to node " + node.GetAccountId());
-            }
-
-            virtual bool ShouldRetryExceptionally(Throwable e)
-            {
-                latency = (double)(System.NanoTime() - startAt) / 1000000000;
-                var retry = ShouldRetryExceptionally(e);
-                if (retry)
-                {
-                    Objects.RequireNonNull(network).IncreaseBackoff(node);
-                    logger.Warn("Retrying in {} ms after failure with node {} during attempt #{}: {}", node.GetRemainingTimeForBackoff(), node.GetAccountId(), attempt, e != null ? e.GetMessage() : "NULL");
-                    VerboseLog(node);
-                }
-
-                return retry;
-            }
-
-            virtual PrecheckStatusException MapStatusException()
-            {
-
-                // request to hedera failed in a non-recoverable way
-                return new PrecheckStatusException(responseStatus, GetTransactionIdInternal());
-            }
-
-            virtual O MapResponse()
-            {
-
-                // successful response from Hedera
-                return MapResponse(response, node.GetAccountId(), request);
-            }
-
-            virtual void HandleResponse(ResponseT response, Status status, ExecutionState executionState, Client client)
-            {
-
-                // Note: For INVALID_NODE_ACCOUNT, we don't mark the node as unhealthy here
-                // because we need to do it AFTER advancing the request, to match Go SDK behavior
-                if (status != Status.INVALID_NODE_ACCOUNT)
-                {
-                    node.DecreaseBackoff();
-                }
-
-                response = responseListener.Apply(response);
-                responseStatus = status;
-                logger.Trace("Received {} response in {} s from node {} during attempt #{}: {}", responseStatus, latency, node.GetAccountId(), attempt, response);
-                if (executionState == ExecutionState.SERVER_ERROR && attemptedAllNodes)
-                {
-                    executionState = ExecutionState.RETRY;
-                    attemptedAllNodes = false;
-                }
-
-                switch (executionState)
-                {
-                    case RETRY:
-                    {
-                        logger.Warn("Retrying in {} ms after failure with node {} during attempt #{}: {}", delay, node.GetAccountId(), attempt, responseStatus);
-                        VerboseLog(node);
-                    }
-
-                    case SERVER_ERROR:
-                    {
-
-                        // Note: INVALID_NODE_ACCOUNT is handled after advanceRequest() in execute methods
-                        // to match Go SDK's executionStateRetryWithAnotherNode behavior
-                        if (status != Status.INVALID_NODE_ACCOUNT)
-                        {
-                            logger.Warn("Problem submitting request to node {} for attempt #{}, retry with new node: {}", node.GetAccountId(), attempt, responseStatus);
-                            VerboseLog(node);
-                        }
-                    }
-
-                    default:
-                    {
-                    }
-
-                        break;
-                }
-            }
-
-            virtual void VerboseLog(Node node)
-            {
-                string ipAddress;
-                if (node.address == null)
-                {
-                    ipAddress = "NULL";
-                }
-                else if (node.address.GetAddress() == null)
-                {
-                    ipAddress = "NULL";
-                }
-                else
-                {
-                    ipAddress = node.address.GetAddress();
-                }
-
-                logger.Trace("Node IP {} Timestamp {} Transaction Type {}", ipAddress, System.CurrentTimeMillis(), GetType().GetSimpleName());
             }
         }
     }

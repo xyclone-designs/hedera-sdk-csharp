@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
-using System;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions.Account;
+using Hedera.Hashgraph.SDK.Utils;
+
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
@@ -105,20 +104,20 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="ledgerId">the ledger id</param>
         private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key adminKey, Timestamp expirationTime, Duration autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
         {
-            contractId = contractId;
-            accountId = accountId;
-            contractAccountId = contractAccountId;
-            adminKey = adminKey;
-            expirationTime = expirationTime;
-            autoRenewPeriod = autoRenewPeriod;
-            autoRenewAccountId = autoRenewAccountId;
-            storage = storage;
-            contractMemo = contractMemo;
-            balance = balance;
-            isDeleted = isDeleted;
-            tokenRelationships = tokenRelationships;
-            ledgerId = ledgerId;
-            stakingInfo = stakingInfo;
+            this.contractId = contractId;
+            this.accountId = accountId;
+            this.contractAccountId = contractAccountId;
+            this.adminKey = adminKey;
+            this.expirationTime = expirationTime;
+            this.autoRenewPeriod = autoRenewPeriod;
+            this.autoRenewAccountId = autoRenewAccountId;
+            this.storage = storage;
+            this.contractMemo = contractMemo;
+            this.balance = balance;
+            this.isDeleted = isDeleted;
+            this.tokenRelationships = tokenRelationships;
+            this.ledgerId = ledgerId;
+            this.stakingInfo = stakingInfo;
         }
 
         /// <summary>
@@ -126,16 +125,25 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// </summary>
         /// <param name="contractInfo">the protobuf</param>
         /// <returns>                         the contract object</returns>
-        static ContractInfo FromProtobuf(ContractGetInfoResponse.ContractInfo contractInfo)
+        public static ContractInfo FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo contractInfo)
         {
-            var adminKey = contractInfo.HasAdminKey() ? Key.FromProtobufKey(contractInfo.GetAdminKey()) : null;
-            var tokenRelationships = new HashMap<TokenId, TokenRelationship>(contractInfo.GetTokenRelationshipsCount());
-            foreach (var relationship in contractInfo.GetTokenRelationshipsList())
-            {
-                tokenRelationships.Put(TokenId.FromProtobuf(relationship.GetTokenId()), TokenRelationship.FromProtobuf(relationship));
-            }
-
-            return new ContractInfo(ContractId.FromProtobuf(contractInfo.GetContractID()), AccountId.FromProtobuf(contractInfo.GetAccountID()), contractInfo.GetContractAccountID(), adminKey, TimestampConverter.FromProtobuf(contractInfo.GetExpirationTime()), Utils.DurationConverter.FromProtobuf(contractInfo.GetAutoRenewPeriod()), contractInfo.HasAutoRenewAccountId() ? AccountId.FromProtobuf(contractInfo.GetAutoRenewAccountId()) : null, contractInfo.GetStorage(), contractInfo.GetMemo(), Hbar.FromTinybars(contractInfo.GetBalance()), contractInfo.GetDeleted(), tokenRelationships, LedgerId.FromByteString(contractInfo.GetLedgerId()), contractInfo.HasStakingInfo() ? StakingInfo.FromProtobuf(contractInfo.GetStakingInfo()) : null);
+            return new ContractInfo(
+                ContractId.FromProtobuf(contractInfo.ContractID), 
+                AccountId.FromProtobuf(contractInfo.AccountID), 
+                contractInfo.ContractAccountID,
+				contractInfo.AdminKey is not null ? Key.FromProtobufKey(contractInfo.AdminKey) : null, 
+                TimestampConverter.FromProtobuf(contractInfo.ExpirationTime), 
+                DurationConverter.FromProtobuf(contractInfo.AutoRenewPeriod), 
+                contractInfo.AutoRenewAccountId is not null ? AccountId.FromProtobuf(contractInfo.AutoRenewAccountId) : null, 
+                contractInfo.Storage, 
+                contractInfo.Memo, 
+                Hbar.FromTinybars((long)contractInfo.Balance), 
+                contractInfo.Deleted,
+				contractInfo.TokenRelationships.ToDictionary(
+				    _ => TokenId.FromProtobuf(_.TokenId),
+				    _ => TokenRelationship.FromProtobuf(_)), 
+                LedgerId.FromByteString(contractInfo.LedgerId), 
+                contractInfo.StakingInfo is not null ? StakingInfo.FromProtobuf(contractInfo.StakingInfo) : null);
         }
 
         /// <summary>
@@ -146,37 +154,38 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
         public static ContractInfo FromBytes(byte[] bytes)
         {
-            return FromProtobuf(ContractGetInfoResponse.ContractInfo.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo.Parser.ParseFrom(bytes));
         }
 
         /// <summary>
         /// Build the protobuf.
         /// </summary>
         /// <returns>                         the protobuf representation</returns>
-        ContractGetInfoResponse.ContractInfo ToProtobuf()
+        public Proto.ContractGetInfoResponse.Types.ContractInfo ToProtobuf()
         {
-            var contractInfoBuilder = ContractGetInfoResponse.ContractInfo.SetContractID(contractId.ToProtobuf()).SetAccountID(accountId.ToProtobuf()).SetContractAccountID(contractAccountId).SetExpirationTime(TimestampConverter.ToProtobuf(expirationTime)).SetAutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod)).SetStorage(storage).SetMemo(contractMemo).SetBalance(balance.ToTinybars()).SetLedgerId(ledgerId.ToByteString());
-            if (adminKey != null)
+            Proto.ContractGetInfoResponse.Types.ContractInfo proto = new()
             {
-                contractInfoBuilder.SetAdminKey(adminKey.ToProtobufKey());
-            }
+				ContractID = contractId.ToProtobuf(),
+				AccountID = accountId.ToProtobuf(),
+				ContractAccountID = contractAccountId,
+				ExpirationTime = TimestampConverter.ToProtobuf(expirationTime),
+				AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(autoRenewPeriod),
+				Storage = storage,
+				Memo = contractMemo,
+				Balance = (ulong)balance.ToTinybars(),
+				LedgerId = ledgerId.ToByteString(),
+			};
+            
+            if (adminKey != null)
+                proto.AdminKey = adminKey.ToProtobufKey();
 
             if (stakingInfo != null)
-            {
-                contractInfoBuilder.SetStakingInfo(stakingInfo.ToProtobuf());
-            }
+                proto.StakingInfo = stakingInfo.ToProtobuf();
 
             if (autoRenewAccountId != null)
-            {
-                contractInfoBuilder.SetAutoRenewAccountId(autoRenewAccountId.ToProtobuf());
-            }
+                proto.AutoRenewAccountId = autoRenewAccountId.ToProtobuf();
 
-            return contractInfoBuilder.Build();
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("contractId", contractId).Add("accountId", accountId).Add("contractAccountId", contractAccountId).Add("adminKey", adminKey).Add("expirationTime", expirationTime).Add("autoRenewPeriod", autoRenewPeriod).Add("autoRenewAccountId", autoRenewAccountId).Add("storage", storage).Add("contractMemo", contractMemo).Add("balance", balance).Add("isDeleted", isDeleted).Add("tokenRelationships", tokenRelationships).Add("ledgerId", ledgerId).Add("stakingInfo", stakingInfo).ToString();
+            return proto;
         }
 
         /// <summary>

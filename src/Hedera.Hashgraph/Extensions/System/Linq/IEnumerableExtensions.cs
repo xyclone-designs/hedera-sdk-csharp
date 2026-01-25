@@ -8,7 +8,7 @@ namespace System.Linq
         {
             return ts.Select(_ => (T)_.Clone());
         }
-		public static List<T> CloneList<T>(this IEnumerable<T> ts) where T : ICloneable
+		public static List<T> CloneToList<T>(this IEnumerable<T> ts) where T : ICloneable
 		{
 			return [.. ts.Clone()];
 		}

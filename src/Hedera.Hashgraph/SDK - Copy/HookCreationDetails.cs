@@ -1,20 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // Using fully qualified names to avoid conflicts with generated classes
 using Hedera.Hashgraph.SDK.Keys;
-using Java.Util;
-using Javax.Annotation;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -60,7 +48,13 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>the protobuf HookCreationDetails</returns>
         public virtual HookCreationDetails ToProtobuf()
         {
-            var builder = Proto.HookCreationDetails.NewBuilder().SetExtensionPoint(extensionPoint.GetProtoValue()).SetHookId(hookId).SetLambdaEvmHook(hook.ToProtobuf());
+            Proto.HookCreationDetails proto = new()
+            {
+				ExtensionPoint = extensionPoint.GetProtoValue(),
+				HookId = hookId,
+				LambdaEvmHook = hook.ToProtobuf(),
+			};
+
             if (adminKey != null)
             {
                 builder.SetAdminKey(adminKey.ToProtobufKey());
@@ -78,7 +72,7 @@ namespace Hedera.Hashgraph.SDK
         {
             var adminKey = proto.HasAdminKey() ? Key.FromProtobufKey(proto.GetAdminKey()) : null;
 
-            return new HookCreationDetails(HookExtensionPoint.FromProtobuf(proto.GetExtensionPoint()), proto.GetHookId(), LambdaEvmHook.FromProtobuf(proto.GetLambdaEvmHook()), adminKey);
+            return new HookCreationDetails((HookExtensionPoint)proto.ExtensionPoint, proto.GetHookId(), LambdaEvmHook.FromProtobuf(proto.GetLambdaEvmHook()), adminKey);
         }
 
         public override bool Equals(object? o)

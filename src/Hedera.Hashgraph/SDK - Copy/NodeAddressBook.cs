@@ -27,43 +27,29 @@ namespace Hedera.Hashgraph.SDK
     /// </summary>
     public class NodeAddressBook
     {
-        IList<NodeAddress> nodeAddresses = Collections.EmptyList();
         /// <summary>
         /// Constructor.
         /// </summary>
-        NodeAddressBook()
-        {
-        }
-
+        NodeAddressBook() { }
+        
         /// <summary>
         /// Extract the of node addresses.
         /// </summary>
         /// <returns>                         list of node addresses</returns>
-        public virtual IList<NodeAddress> GetNodeAddresses()
+        public virtual IList<NodeAddress> NodeAddresses
         {
-            return CloneNodeAddresses(nodeAddresses);
+            get => CloneNodeAddresses(field);
+            set => field = CloneNodeAddresses(value);
         }
 
-        /// <summary>
-        /// Assign the list of node addresses.
-        /// </summary>
-        /// <param name="nodeAddresses">list of node addresses</param>
-        /// <returns>{@code this}</returns>
-        public virtual NodeAddressBook SetNodeAddresses(IList<NodeAddress> nodeAddresses)
+        public static IList<NodeAddress> CloneNodeAddresses(IList<NodeAddress> addresses)
         {
-            nodeAddresses = CloneNodeAddresses(nodeAddresses);
-            return this;
-        }
+            List<NodeAddress> cloneAddresses = new (addresses.Count);
 
-        static IList<NodeAddress> CloneNodeAddresses(IList<NodeAddress> addresses)
-        {
-            IList<NodeAddress> cloneAddresses = new List(addresses.Count);
             foreach (var address in addresses)
-            {
-                cloneAddresses.Add(address.Clone());
-            }
+				cloneAddresses.Add(address.Clone());
 
-            return cloneAddresses;
+			return cloneAddresses;
         }
 
         /// <summary>
@@ -71,11 +57,10 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="book">the protobuf</param>
         /// <returns>                         the new node address book</returns>
-        static NodeAddressBook FromProtobuf(Proto.NodeAddressBook book)
+        public static NodeAddressBook FromProtobuf(Proto.NodeAddressBook book)
         {
-			book.NodeAddress
-			var addresses = new List<NodeAddress>(book.NodeAddress.COu);
-            foreach (var address in book.NodeAddressList)
+			var addresses = new List<NodeAddress>(book.NodeAddress.Count);
+            foreach (var address in book.book.NodeAddress)
             {
                 addresses.Add(NodeAddress.FromProtobuf(address));
             }
@@ -101,7 +86,7 @@ namespace Hedera.Hashgraph.SDK
         virtual Proto.NodeAddressBook ToProtobuf()
         {
             var builder = Proto.NodeAddressBook.NewBuilder();
-            foreach (var nodeAdress in nodeAddresses)
+            foreach (var nodeAdress in NodeAddresses)
             {
                 builder.AddNodeAddress(nodeAdress.ToProtobuf());
             }

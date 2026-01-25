@@ -25,6 +25,7 @@ namespace Hedera.Hashgraph.SDK
         /// The previewnet ledger id
         /// </summary>
         public static readonly LedgerId PREVIEWNET = new ([ 2 ]);
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -72,7 +73,6 @@ namespace Hedera.Hashgraph.SDK
         {
             return FromBytes(byteString.ToByteArray());
         }
-
         /// <summary>
         /// Create a ledger id from a network name.
         /// </summary>
@@ -95,40 +95,21 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <returns>                         is it mainnet</returns>
         public virtual bool IsMainnet { get => Equals(MAINNET); }
-
         /// <summary>
         /// Are we on Testnet?
         /// </summary>
         /// <returns>                         is it testnet</returns>
         public virtual bool IsTestnet { get => Equals(TESTNET); }
-
         /// <summary>
         /// Are we on Previewnet?
         /// </summary>
         /// <returns>                         is it previewnet</returns>
         public virtual bool IsPreviewnet { get => Equals(PREVIEWNET); }
-
         /// <summary>
         /// Are we one of the three standard networks?
         /// </summary>
         /// <returns>                         is it one of the three standard networks</returns>
         public virtual bool IsKnownNetwork { get => IsMainnet || IsTestnet || IsPreviewnet; }
-
-        /// <summary>
-        /// Extract the string representation.
-        /// </summary>
-        /// <returns>                         the string representation</returns>
-        public override string ToString()
-        {
-            return true switch
-            {
-				true when IsMainnet => "mainnet",
-				true when IsTestnet => "testnet",
-				true when IsPreviewnet => "previewnet",
-
-				_ => Hex.ToHexString(IdBytes)
-            };
-        }
 
         /// <summary>
         /// Create the byte array.
@@ -138,7 +119,6 @@ namespace Hedera.Hashgraph.SDK
         {
             return IdBytes.CopyArray(IdBytes.Length);
         }
-
         /// <summary>
         /// Extract the byte string representation.
         /// </summary>
@@ -147,7 +127,6 @@ namespace Hedera.Hashgraph.SDK
         {
             return ByteString.CopyFrom(IdBytes);
         }
-
         /// <summary>
         /// Extract the network name.
         /// </summary>
@@ -164,26 +143,34 @@ namespace Hedera.Hashgraph.SDK
 			};
         }
 
-        public override bool Equals(object? o)
-        {
-            if (this == o)
-            {
-                return true;
-            }
-
-            if (!(o is LedgerId))
-            {
-                return false;
-            }
-
-            LedgerId otherId = (LedgerId)o;
-
-            return Equals(IdBytes, otherId.IdBytes);
-        }
-
         public override int GetHashCode()
         {
             return HashCode.Combine(IdBytes);
         }
-    }
+		/// <summary>
+		/// Extract the string representation.
+		/// </summary>
+		/// <returns>                         the string representation</returns>
+		public override string ToString()
+		{
+			return true switch
+			{
+				true when IsMainnet => "mainnet",
+				true when IsTestnet => "testnet",
+				true when IsPreviewnet => "previewnet",
+
+				_ => Hex.ToHexString(IdBytes)
+			};
+		}
+		public override bool Equals(object? o)
+		{
+			if (this == o)
+				return true;
+
+			if (o is not LedgerId otherId)
+				return false;
+
+			return Equals(IdBytes, otherId.IdBytes);
+		}
+	}
 }

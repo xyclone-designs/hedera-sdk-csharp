@@ -168,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 			Pkcs5S2ParametersGenerator pbkdf2 = new (new Sha512Digest());
             pbkdf2.Init(seed, salt, 2048);
             KeyParameter key = (KeyParameter)pbkdf2.GenerateDerivedParameters(256);
-            return key.Key();
+            return key.Key;
         }
 
         public override PrivateKey LegacyDerive(long index)
@@ -251,11 +251,11 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             try
             {
-                return new PrivateKeyInfo(new AlgorithmIdentifier(ID_ED25519), new DerOctetString(keyData)).Encoded("DER");
+                return new PrivateKeyInfo(new AlgorithmIdentifier(ID_ED25519), new DerOctetString(keyData)).GetEncoded("DER");
             }
             catch (IOException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
 

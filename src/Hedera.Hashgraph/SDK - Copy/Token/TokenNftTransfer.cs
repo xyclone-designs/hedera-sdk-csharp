@@ -1,28 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.TransferTransaction;
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Transactions.Account;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -127,54 +109,55 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
         public static TokenNftTransfer FromBytes(byte[] bytes)
         {
-            return FromProtobuf(TokenTransferList.NewBuilder().SetToken(TokenID.NewBuilder().Build()).AddNftTransfers(NftTransfer.Parser.ParseFrom(bytes)).Build())[0];
+            TokenTransferList proto = new()
+            {
+				Token = new Proto.TokenID { },
+			};
+
+            proto.NftTransfers.Add(Proto.NftTransfer.Parser.ParseFrom(bytes));
+            
+            return FromProtobuf(proto)[0];
         }
 
         /// <summary>
         /// Create the protobuf.
         /// </summary>
         /// <returns>the protobuf representation</returns>
-        virtual NftTransfer ToProtobuf()
+        public virtual Proto.NftTransfer ToProtobuf()
         {
-            var builder = NftTransfer.NewBuilder().SetSenderAccountID(sender.ToProtobuf()).SetReceiverAccountID(receiver.ToProtobuf()).SetSerialNumber(serial).SetIsApproval(isApproved);
-            if (senderHookCall != null)
+            Proto.NftTransfer proto = new()
             {
-                switch (senderHookCall.GetType())
-                {
-                    case PRE_HOOK_SENDER:
-                        builder.SetPreTxSenderAllowanceHook(senderHookCall.ToProtobuf());
-                    case PRE_POST_HOOK_SENDER:
-                        builder.SetPrePostTxSenderAllowanceHook(senderHookCall.ToProtobuf());
-                    default:
-                    {
-                    }
+                SenderAccountID = sender.ToProtobuf(),
+                ReceiverAccountID = receiver.ToProtobuf(),
+                SerialNumber = serial,
+                IsApproval = isApproved,
+            };
 
-                        break;
-                }
-            }
+			switch (senderHookCall?.Type)
+			{
+				case NftHookType.PreHookSender:
+					proto.PreTxReceiverAllowanceHook = senderHookCall.ToProtobuf();
+					break;
+				case NftHookType.PrePostHookSender:
+					proto.PrePostTxReceiverAllowanceHook = senderHookCall.ToProtobuf();
+					break;
 
-            if (receiverHookCall != null)
-            {
-                switch (receiverHookCall.GetType())
-                {
-                    case PRE_HOOK_RECEIVER:
-                        builder.SetPreTxReceiverAllowanceHook(receiverHookCall.ToProtobuf());
-                    case PRE_POST_HOOK_RECEIVER:
-                        builder.SetPrePostTxReceiverAllowanceHook(receiverHookCall.ToProtobuf());
-                    default:
-                    {
-                    }
+				default: break;
+			}
 
-                        break;
-                }
-            }
+			switch (receiverHookCall?.Type)
+			{
+				case NftHookType.PreHookReceiver:
+					proto.PreTxReceiverAllowanceHook = receiverHookCall.ToProtobuf();
+					break;
+				case NftHookType.PrePostHookReceiver:
+					proto.PrePostTxReceiverAllowanceHook = receiverHookCall.ToProtobuf();
+					break;
+
+				default: break;
+			}
 
             return proto;
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("tokenId", tokenId).Add("sender", sender).Add("receiver", receiver).Add("serial", serial).Add("isApproved", isApproved).ToString();
         }
 
         /// <summary>
@@ -185,25 +168,27 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             return ToProtobuf().ToByteArray();
         }
+		public virtual int CompareTo(TokenNftTransfer? o)
+		{
+			int senderComparison = sender.CompareTo(o.sender);
+			if (senderComparison != 0)
+			{
+				return senderComparison;
+			}
 
-        public virtual int CompareTo(TokenNftTransfer o)
-        {
-            int senderComparison = sender.CompareTo(o.sender);
-            if (senderComparison != 0)
-            {
-                return senderComparison;
-            }
+			int receiverComparison = receiver.CompareTo(o.receiver);
+			if (receiverComparison != 0)
+			{
+				return receiverComparison;
+			}
 
-            int receiverComparison = receiver.CompareTo(o.receiver);
-            if (receiverComparison != 0)
-            {
-                return receiverComparison;
-            }
-
-            return Long.Compare(serial, o.serial);
-        }
-
-        public override bool Equals(object? o)
+			return serial.CompareTo(o.serial);
+		}
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(tokenId, sender, receiver, serial, isApproved);
+		}
+		public override bool Equals(object? o)
         {
             if (this == o)
             {
@@ -216,12 +201,8 @@ namespace Hedera.Hashgraph.SDK.Token
             }
 
             TokenNftTransfer that = (TokenNftTransfer)o;
-            return serial == that.serial && isApproved == that.isApproved && tokenId.Equals(that.tokenId) && sender.Equals(that.sender) && receiver.Equals(that.receiver);
-        }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(tokenId, sender, receiver, serial, isApproved);
+            return serial == that.serial && isApproved == that.isApproved && tokenId.Equals(that.tokenId) && sender.Equals(that.sender) && receiver.Equals(that.receiver);
         }
     }
 }

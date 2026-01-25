@@ -215,8 +215,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 transfers.Add(Transfer.FromProtobuf(accountAmount));
             }
 
-            var tokenTransfers = new HashMap<TokenId, Dictionary<AccountId, long>>();
-            var tokenNftTransfers = new HashMap<TokenId, IList<TokenNftTransfer>>();
+            var tokenTransfers = new Dictionary<TokenId, Dictionary<AccountId, long>>();
+            var tokenNftTransfers = new Dictionary<TokenId, IList<TokenNftTransfer>>();
             var allTokenTransfers = new List<TokenTransfer>();
             foreach (var transferList in transactionRecord.GetTokenTransferListsList())
             {
@@ -224,7 +224,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 var nftTransfersList = TokenNftTransfer.FromProtobuf(transferList);
                 foreach (var transfer in tokenTransfersList)
                 {
-                    var current = tokenTransfers.ContainsKey(transfer.tokenId) ? tokenTransfers[transfer.tokenId] : new HashMap<AccountId, long>();
+                    var current = tokenTransfers.ContainsKey(transfer.tokenId) ? tokenTransfers[transfer.tokenId] : new Dictionary<AccountId, long>();
                     current.Put(transfer.accountId, transfer.amount);
                     tokenTransfers.Put(transfer.tokenId, current);
                 }

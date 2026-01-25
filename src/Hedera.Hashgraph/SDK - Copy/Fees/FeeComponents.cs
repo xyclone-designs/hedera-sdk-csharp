@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// </summary>
         /// <param name="feeComponents">the protobuf</param>
         /// <returns>                         the fee component object</returns>
-        static FeeComponents FromProtobuf(Proto.FeeComponents feeComponents)
+        public static FeeComponents FromProtobuf(Proto.FeeComponents feeComponents)
         {
             return new FeeComponents
             {

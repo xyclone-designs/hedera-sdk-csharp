@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Utils;
 using Java.Io;
 using Java.Math;
@@ -6,6 +7,7 @@ using Java.Nio;
 using Java.Nio.Charset;
 using Javax.Annotation;
 using Org.BouncyCastle;
+using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Pkcs;
 using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X9;
@@ -14,10 +16,12 @@ using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Signers;
+using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Util;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
@@ -60,8 +64,8 @@ namespace Hedera.Hashgraph.SDK.Keys
             var keygenParams = new ECKeyGenerationParameters(ECDSA_SECP256K1_DOMAIN, ThreadLocalSecureRandom.Current());
             generator.Init(keygenParams);
             var keypair = generator.GenerateKeyPair();
-            var privParams = (ECPrivateKeyParameters)keypair.Private();
-            return new PrivateKeyECDSA(privParams.D(), null);
+            var privParams = (ECPrivateKeyParameters)keypair.Private;
+            return new PrivateKeyECDSA(privParams.D, null);
         }
 
         /// <summary>
@@ -82,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Keys
                 // Try legacy import
                 try
                 {
-                    var privateKey = (ASN1OctetString)privateKeyInfo.ParsePrivateKey();
+                    var privateKey = (Asn1OctetString)privateKeyInfo.ParsePrivateKey();
                     return new PrivateKeyECDSA(new BigInteger(1, privateKey.Octets()), null);
                 }
                 catch (IOException ex)
@@ -167,8 +171,8 @@ namespace Hedera.Hashgraph.SDK.Keys
 
             data.PutInt(index);
             byte[] dataArray = data.Array();
-            HMac hmacSha512 = new HMac(new SHA512Digest());
-            hmacSha512.Init(new KeyParameter(chainCode.Key()));
+            HMac hmacSha512 = new (new Sha512Digest());
+            hmacSha512.Init(new KeyParameter(chainCode.Key));
             hmacSha512.Update(dataArray, 0, dataArray.Length);
             byte[] i = new byte[64];
             hmacSha512.DoFinal(i, 0);
@@ -196,7 +200,7 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// </remarks>
         public static PrivateKey FromSeed(byte[] seed)
         {
-            var hmacSha512 = new HMac(new SHA512Digest());
+            var hmacSha512 = new HMac(new Sha512Digest());
             hmacSha512.Init(new KeyParameter("Bitcoin seed".Bytes(StandardCharsets.UTF_8)));
             hmacSha512.Update(seed, 0, seed.Length);
             var derivedState = new byte[hmacSha512.MacSize()];
@@ -251,7 +255,7 @@ namespace Hedera.Hashgraph.SDK.Keys
         public override byte[] Sign(byte[] message)
         {
             var hash = Crypto.CalcKeccak256(message);
-            var signer = new ECDSASigner(new HMacDSAKCalculator(new SHA256Digest()));
+            var signer = new ECDsaSigner(new HMacDsaKCalculator(new Sha256Digest()));
             signer.Init(true, new ECPrivateKeyParameters(keyData, ECDSA_SECP256K1_DOMAIN));
             BigInteger[] bigSig = signer.GenerateSignature(hash);
             byte[] sigBytes = Array.CopyOf(BigIntTo32Bytes(bigSig[0]), 64);
@@ -269,7 +273,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             for (int i = 0; i < 2; i++)
             {
                 byte[] k = Crypto.RecoverPublicKeyECDSAFromSignature(i, new BigInteger(1, r), new BigInteger(1, s), hash);
-                if (k != null && java.util.Equals(k, publicKey))
+                if (k != null && Equals(k, publicKey))
                 {
                     recId = i;
                     break;
@@ -313,11 +317,11 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             try
             {
-                return new ECPrivateKey(256, keyData, new DERBitString(GetPublicKey().ToBytesRaw()), new X962Parameters(ID_ECDSA_SECP256K1)).Encoded("DER");
+                return new ECPrivateKey(256, keyData, new DerBitString(GetPublicKey().ToBytesRaw()), new X962Parameters(ID_ECDSA_SECP256K1)).GetEncoded("DER");
             }
             catch (IOException e)
             {
-                throw new Exception(e);
+                throw new Exception(string.Empty, e);
             }
         }
 

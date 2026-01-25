@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onUnsubscribe">the callback method</param>
         public void SetOnUnsubscribe(Action onUnsubscribe)
         {
-            this.OnUnsubscribe = onUnsubscribe;
+            OnUnsubscribe = onUnsubscribe;
         }
 
         /// <summary>
@@ -32,10 +32,10 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         public void Unsubscribe()
         {
-            var unsubscribe = this.OnUnsubscribe;
+            var unsubscribe = OnUnsubscribe;
 
             // Set onUnsubscribe back to null to make sure it is run just once.
-            this.OnUnsubscribe = null;
+            OnUnsubscribe = null;
 
 			unsubscribe?.Invoke();
 		}

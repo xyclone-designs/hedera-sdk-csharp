@@ -1,13 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Util;
-using Javax.Annotation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
@@ -17,16 +8,6 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// </summary>
     public class CustomRoyaltyFee : CustomFeeBase<CustomRoyaltyFee>
     {
-        private long numerator = 0;
-        private long denominator = 1;
-        private CustomFixedFee fallbackFee = null;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public CustomRoyaltyFee()
-        {
-        }
-
 		/// <summary>
 		/// Create a custom royalty fee from a royalty fee protobuf.
 		/// </summary>
@@ -34,23 +15,25 @@ namespace Hedera.Hashgraph.SDK.Fees
 		/// <returns>                         the new royalty fee object</returns>
 		public static CustomRoyaltyFee FromProtobuf(Proto.RoyaltyFee royaltyFee)
         {
-            var fraction = royaltyFee.GetExchangeValueFraction();
-            var returnFee = new CustomRoyaltyFee().SetNumerator(fraction.GetNumerator()).SetDenominator(fraction.GetDenominator());
-            if (royaltyFee.HasFallbackFee())
+            CustomRoyaltyFee customroyaltyfee = new ()
             {
-                returnFee.fallbackFee = CustomFixedFee.FromProtobuf(royaltyFee.GetFallbackFee());
-            }
+				Numerator = royaltyFee.ExchangeValueFraction.Numerator,
+				Denominator = royaltyFee.ExchangeValueFraction.Denominator
+			};
+            
+            if (royaltyFee.FallbackFee is not null)
+				customroyaltyfee.FallbackFee = CustomFixedFee.FromProtobuf(royaltyFee.FallbackFee);
 
-            return returnFee;
+			return customroyaltyfee;
         }
 
 		public override CustomRoyaltyFee DeepCloneSubclass()
         {
             return new CustomRoyaltyFee
             {
-				numerator = numerator,
-				denominator = denominator,
-				fallbackFee = fallbackFee?.DeepCloneSubclass(),
+				Numerator = Numerator,
+				Denominator = Denominator,
+				FallbackFee = FallbackFee?.DeepCloneSubclass(),
 				FeeCollectorAccountId = FeeCollectorAccountId,
 				AllCollectorsAreExempt = AllCollectorsAreExempt,
 			};
@@ -59,86 +42,48 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <summary>
         /// Extract the numerator.
         /// </summary>
-        /// <returns>                         the numerator</returns>
-        public virtual long GetNumerator()
-        {
-            return numerator;
-        }
-
-        /// <summary>
-        /// Assign the numerator.
-        /// </summary>
-        /// <param name="numerator">the numerator</param>
-        /// <returns>{@code this}</returns>
-        public virtual CustomRoyaltyFee SetNumerator(long numerator)
-        {
-            numerator = numerator;
-            return this;
-        }
-
+        public virtual long Numerator { get; set; } = 0;
         /// <summary>
         /// Extract the denominator.
         /// </summary>
-        /// <returns>                         the denominator</returns>
-        public virtual long GetDenominator()
-        {
-            return denominator;
-        }
-
-        /// <summary>
-        /// Assign the denominator can not be zero (0).
-        /// </summary>
-        /// <param name="denominator">the denominator</param>
-        /// <returns>{@code this}</returns>
-        public virtual CustomRoyaltyFee SetDenominator(long denominator)
-        {
-            denominator = denominator;
-            return this;
-        }
+        public virtual long Denominator { get; set; } = 1;
 
         /// <summary>
         /// The fallback fee is a fixed fee that is charged to the NFT receiver
         /// when there is no fungible value exchanged with the sender of the NFT.
         /// </summary>
-        /// <param name="fallbackFee">the fallback fee amount</param>
-        /// <returns>{@code this}</returns>
-        public virtual CustomRoyaltyFee SetFallbackFee(CustomFixedFee fallbackFee)
+        public virtual CustomFixedFee? FallbackFee
         {
-            Objects.RequireNonNull(fallbackFee);
-            fallbackFee = fallbackFee.DeepCloneSubclass();
-            return this;
+			get => field?.DeepCloneSubclass();
+			set => field = value?.DeepCloneSubclass();
         }
 
-        /// <summary>
-        /// Get the fallback fixed fee.
-        /// </summary>
-        /// <returns>the fallback fixed fee</returns>
-        public virtual CustomFixedFee GetFallbackFee()
-        {
-            return fallbackFee != null ? fallbackFee.DeepCloneSubclass() : null;
-        }
-
-        /// <summary>
-        /// Convert the royalty fee object to a protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf object</returns>
-        public virtual RoyaltyFee ToRoyaltyFeeProtobuf()
-        {
-            var royaltyFeeBuilder = RoyaltyFee.NewBuilder().SetExchangeValueFraction(Fraction.NewBuilder().SetNumerator(numerator).SetDenominator(denominator));
-            if (fallbackFee != null)
-            {
-                royaltyFeeBuilder.FallbackFee = fallbackFee.ToFixedFeeProtobuf();
-            }
-
-            return royaltyFeeBuilder.Build();
-        }
-
-        public override Proto.CustomFee ToProtobuf()
-        {
-            return FinishToProtobuf(new Proto.CustomFee
-            {
+		public override Proto.CustomFee ToProtobuf()
+		{
+			return FinishToProtobuf(new Proto.CustomFee
+			{
 				RoyaltyFee = ToRoyaltyFeeProtobuf()
 			});
+		}
+		/// <summary>
+		/// Convert the royalty fee object to a protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf object</returns>
+		public virtual Proto.RoyaltyFee ToRoyaltyFeeProtobuf()
+        {
+            Proto.RoyaltyFee proto = new()
+            { 
+                ExchangeValueFraction = new Proto.Fraction
+                {
+					Numerator = Numerator,
+					Denominator = Denominator,
+				}
+			};
+
+            if (FallbackFee != null)
+				proto.FallbackFee = FallbackFee.ToFixedFeeProtobuf();
+
+			return proto;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         private readonly IList<TokenAllowance> tokenAllowances = new ();
         private readonly IList<TokenNftAllowance> nftAllowances = new ();
         // <ownerId, <tokenId, index>>
-        private readonly Dictionary<AccountId, Dictionary<TokenId, int>> nftMap = new HashMap();
+        private readonly Dictionary<AccountId, Dictionary<TokenId, int>> nftMap = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// </summary>
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        AccountAllowanceDeleteTransaction(LinkedHashMap<TransactionId, LinkedHashMap<AccountId, Proto.Transaction>> txs) : base(txs)
+        AccountAllowanceDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -166,7 +166,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             }
             else
             {
-                Dictionary<TokenId, int> innerMap = new HashMap();
+                Dictionary<TokenId, int> innerMap = [];
                 nftMap.Put(key, innerMap);
                 return NewNftSerials(ownerAccountId, tokenId, innerMap);
             }

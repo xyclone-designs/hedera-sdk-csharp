@@ -10,14 +10,14 @@ using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK
 {
-    class ConsumerHelper
+    class ActionHelper
     {
-        static void BiConsumer<T>(CompletableFuture<T> future, BiConsumer<T, Throwable> consumer)
+        static void Action<T>(Task<T> future, Action<T, Exception> Action)
         {
-            future.WhenComplete(consumer);
+            future.WhenComplete(Action);
         }
 
-        static void TwoConsumers<T>(CompletableFuture<T> future, Consumer<T> onSuccess, Consumer<Throwable> onFailure)
+        static void TwoActions<T>(Task<T> future, Action<T> onSuccess, Action<Exception> onFailure)
         {
             future.WhenComplete((output, error) =>
             {

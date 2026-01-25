@@ -276,17 +276,17 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        private CompletableFuture<string> GetContractCallResultFromMirrorNodeAsync(Client client, string blockNumber)
+        private Task<string> GetContractCallResultFromMirrorNodeAsync(Client client, string blockNumber)
         {
             return ExecuteMirrorNodeRequest(client, blockNumber, false).ThenApply(MirrorNodeContractQuery.ParseContractCallResult());
         }
 
-        private CompletableFuture<long> GetEstimateGasFromMirrorNodeAsync(Client client)
+        private Task<long> GetEstimateGasFromMirrorNodeAsync(Client client)
         {
             return ExecuteMirrorNodeRequest(client, "latest", true).ThenApply(MirrorNodeContractQuery.ParseHexEstimateToLong());
         }
 
-        private CompletableFuture<string> ExecuteMirrorNodeRequest(Client client, string blockNumber, bool estimate)
+        private Task<string> ExecuteMirrorNodeRequest(Client client, string blockNumber, bool estimate)
         {
             string apiEndpoint = "/contracts/call";
             string jsonPayload = CreateJsonPayload(callData, senderEvmAddress, contractEvmAddress, gasLimit, gasPrice, value, blockNumber, estimate);

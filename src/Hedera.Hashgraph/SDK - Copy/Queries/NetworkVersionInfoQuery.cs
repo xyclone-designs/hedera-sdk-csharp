@@ -1,20 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
+using Hedera.Hashgraph.SDK.Transactions.Account;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -26,35 +11,36 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <summary>
         /// Constructor.
         /// </summary>
-        public NetworkVersionInfoQuery()
+        public NetworkVersionInfoQuery(){}
+
+		public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        {
+            queryBuilder.NetworkGetVersionInfo = new Proto.NetworkGetVersionInfoQuery
+            {
+				Header = header
+			};
+        }
+
+		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+        {
+            return response.NetworkGetVersionInfo.Header;
+        }
+
+		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+        {
+            return request.NetworkGetVersionInfo.Header;
+        }
+
+        public override void ValidateChecksums(Client client)
         {
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+		public override NetworkVersionInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            queryBuilder.SetNetworkGetVersionInfo(NetworkGetVersionInfoQuery.NewBuilder().SetHeader(header));
+            return NetworkVersionInfo.FromProtobuf(response.NetworkGetVersionInfo);
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
-        {
-            return response.GetNetworkGetVersionInfo().GetHeader();
-        }
-
-        override QueryHeader MapRequestHeader(Proto.Query request)
-        {
-            return request.GetNetworkGetVersionInfo().GetHeader();
-        }
-
-        override void ValidateChecksums(Client client)
-        {
-        }
-
-        override NetworkVersionInfo MapResponse(Response response, AccountId nodeId, Proto.Query request)
-        {
-            return NetworkVersionInfo.FromProtobuf(response.GetNetworkGetVersionInfo());
-        }
-
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+		public override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
         {
             return NetworkServiceGrpc.GetGetVersionInfoMethod();
         }

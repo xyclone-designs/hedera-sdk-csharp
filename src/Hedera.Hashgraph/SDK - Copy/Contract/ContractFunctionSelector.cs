@@ -1,14 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Java.Nio.Charset.StandardCharsets;
-using Java.Util;
-using Javax.Annotation;
-using Org.Bouncycastle.Jcajce.Provider.Digest;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -26,7 +19,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="funcName">The name of the function</param>
         public ContractFunctionSelector(string funcName)
         {
-            digest = new Digest256();
+            digest = new Keccak.Digest256();
             digest.Update(funcName.GetBytes(US_ASCII));
             digest.Update((byte)'(');
         }
@@ -279,7 +272,6 @@ namespace Hedera.Hashgraph.SDK
                 throw new InvalidOperationException("FunctionSelector already finished");
             }
 
-            Objects.RequireNonNull(digest);
             if (needsComma)
             {
                 digest.Update((byte)',');
@@ -303,7 +295,6 @@ namespace Hedera.Hashgraph.SDK
         {
             if (finished == null)
             {
-                Objects.RequireNonNull(digest);
                 digest.Update((byte)')');
                 finished = Array.CopyOf(digest.Digest(), 4);
 
