@@ -1,27 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -99,7 +80,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenMintTransaction SetTokenId(TokenId tokenId)
         {
-            Objects.RequireNonNull(tokenId);
+            ArgumentNullException.ThrowIfNull(tokenId);
             RequireNotFrozen();
             tokenId = tokenId;
             return this;
@@ -142,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenMintTransaction AddMetadata(byte[] metadata)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(metadata);
+            ArgumentNullException.ThrowIfNull(metadata);
             metadataList.Add(metadata);
             return this;
         }
@@ -153,7 +134,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>                         the metadata list</returns>
         public virtual List<byte[]> GetMetadata()
         {
-            return new List(metadataList);
+            return [.. metadataList];
         }
 
         /// <summary>
@@ -174,23 +155,25 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenMintTransaction SetMetadata(List<byte[]> metadataList)
         {
             RequireNotFrozen();
-            metadataList = new List(metadataList);
+            metadataList = [.. metadataList];
             return this;
         }
 
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenMint();
-            if (body.HasToken())
+            var body = sourceTransactionBody.TokenMint;
+
+            if (body.Token is not null)
             {
-                tokenId = TokenId.FromProtobuf(body.GetToken());
+                tokenId = TokenId.FromProtobuf(body.Token);
             }
 
-            amount = body.GetAmount();
-            foreach (var metadata in body.GetMetadataList())
+            amount = (long)body.Amount;
+
+            foreach (var metadata in body.Metadata)
             {
                 metadataList.Add(metadata.ToByteArray());
             }
@@ -201,18 +184,20 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenMintTransactionBody}</returns>
-        virtual TokenMintTransactionBody.Builder Build()
+        public virtual Proto.TokenMintTransactionBody Build()
         {
-            var builder = TokenMintTransactionBody.NewBuilder();
+            var builder = new Proto.TokenMintTransactionBody();
+
             if (tokenId != null)
             {
-                builder.SetToken(tokenId.ToProtobuf());
+                builder.Token = tokenId.ToProtobuf();
             }
 
-            builder.SetAmount(amount);
+            builder.Amount = (ulong)amount;
+
             foreach (var metadata in metadataList)
             {
-                builder.AddMetadata(ByteString.CopyFrom(metadata));
+                builder.Metadata.Add(ByteString.CopyFrom(metadata));
             }
 
             return builder;
@@ -231,14 +216,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetMintTokenMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenMint(Build());
+            bodyBuilder.TokenMint = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenMint(Build());
+            scheduled.TokenMint = Build();
         }
     }
 }

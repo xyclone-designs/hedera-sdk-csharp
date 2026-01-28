@@ -20,8 +20,8 @@ namespace Hedera.Hashgraph.SDK
         public ContractFunctionSelector(string funcName)
         {
             digest = new Keccak.Digest256();
-            digest.Update(funcName.GetBytes(US_ASCII));
-            digest.Update((byte)'(');
+			digest.Update(Encoding.ASCII.GetBytes(funcName));
+			digest.Update((byte)'(');
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="typeName">the name of the Solidity type for a parameter.</param>
         /// <returns>{@code this}</returns>
         /// <exception cref="IllegalStateException">if {@link #finish()} has already been called.</exception>
-        ContractFunctionSelector AddParamType(string typeName)
+        public ContractFunctionSelector AddParamType(string typeName)
         {
             if (finished != null)
             {
@@ -277,8 +277,8 @@ namespace Hedera.Hashgraph.SDK
                 digest.Update((byte)',');
             }
 
-            digest.Update(typeName.GetBytes(US_ASCII));
-            needsComma = true;
+			digest.Update(Encoding.ASCII.GetBytes(typeName));
+			needsComma = true;
             return this;
         }
 
@@ -291,12 +291,12 @@ namespace Hedera.Hashgraph.SDK
         /// However, this can be called multiple times; it will always return the same result.
         /// </summary>
         /// <returns>the computed selector bytes.</returns>
-        byte[] Finish()
+        public byte[] Finish()
         {
             if (finished == null)
             {
                 digest.Update((byte)')');
-                finished = Array.CopyOf(digest.Digest(), 4);
+                finished = digest.Digest().CopyArray(4);
 
                 // release digest state
                 digest = null;

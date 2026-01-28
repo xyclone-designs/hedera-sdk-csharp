@@ -1,22 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
 
 namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
 {
@@ -37,9 +25,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
     public sealed class LiveHashDeleteTransaction : Transaction<LiveHashDeleteTransaction>
     {
         private AccountId accountId = null;
-        private byte[] hash = new[]
-        {
-        };
+        private byte[] hash = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -74,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// <returns>{@code this}</returns>
         public LiveHashDeleteTransaction SetAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             accountId = accountId;
             return this;
@@ -97,8 +83,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         public LiveHashDeleteTransaction SetHash(byte[] hash)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hash);
-            hash = Array.CopyOf(hash, hash.Length);
+            ArgumentNullException.ThrowIfNull(hash);
+            hash = hash.CopyArray();
             return this;
         }
 
@@ -109,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// <returns>{@code this}</returns>
         public LiveHashDeleteTransaction SetHash(ByteString hash)
         {
-            Objects.RequireNonNull(hash);
+            ArgumentNullException.ThrowIfNull(hash);
             return SetHash(hash.ToByteArray());
         }
 
@@ -118,28 +104,30 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetCryptoDeleteLiveHash();
-            if (body.HasAccountOfLiveHash())
+            var body = sourceTransactionBody.CryptoDeleteLiveHash;
+            if (body.AccountOfLiveHash is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetAccountOfLiveHash());
+                accountId = AccountId.FromProtobuf(body.AccountOfLiveHash);
             }
 
-            hash = body.GetLiveHashToDelete().ToByteArray();
+            hash = body.LiveHashToDelete.ToByteArray();
         }
 
         /// <summary>
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.CryptoAddLiveHashTransactionBody}</returns>
-        CryptoDeleteLiveHashTransactionBody.Builder Build()
+        Proto.CryptoDeleteLiveHashTransactionBody Build()
         {
-            var builder = CryptoDeleteLiveHashTransactionBody.NewBuilder();
+            var builder = new Proto.CryptoDeleteLiveHashTransactionBody();
+
             if (accountId != null)
             {
-                builder.SetAccountOfLiveHash(accountId.ToProtobuf());
+                builder.AccountOfLiveHash = accountId.ToProtobuf();
             }
 
-            builder.SetLiveHashToDelete(ByteString.CopyFrom(hash));
+            builder.LiveHashToDelete = ByteString.CopyFrom(hash);
+
             return builder;
         }
 
@@ -153,15 +141,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return CryptoServiceGrpc.GetDeleteLiveHashMethod();
+            return CryptoServiceGrpc.DeleteLiveHashMethod;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetCryptoDeleteLiveHash(Build());
+            bodyBuilder.CryptoDeleteLiveHash = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule LiveHashDeleteTransaction");
         }

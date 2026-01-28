@@ -1,544 +1,385 @@
-// SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Function;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
-    /// <summary>
-    /// Base class for all queries that can be submitted to Hedera.
-    /// </summary>
-    /// <param name="<O>">The output type of the query.</param>
-    /// <param name="<T>">The type of the query itself. Used to enable chaining.</param>
-    public abstract class Query<O, T> : Executable<T, Proto.Query, Proto.Response, O> where T : Query<O, T>
-    {
-        private readonly Proto.Query.Builder builder;
-        private readonly QueryHeader.Builder headerBuilder;
-        /// <summary>
-        /// The transaction ID
-        /// </summary>
-        protected TransactionId paymentTransactionId = null;
-        /// <summary>
-        /// List of payment transactions
-        /// </summary>
-        protected IList<Transaction> paymentTransactions = null;
-        private Client.Operator paymentOperator = null;
-        private Hbar queryPayment = null;
-        private Hbar maxQueryPayment = null;
-        private Hbar chosenQueryPayment = null;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        Query()
-        {
-            builder = Proto.Query.NewBuilder();
-            headerBuilder = QueryHeader.NewBuilder();
-        }
+	/**
+	 * Base class for all queries that can be submitted to Hedera.
+	 *
+	 * @param <O> The output type of the query.
+	 * @param <T> The type of the query itself. Used to enable chaining.
+	 */
+	public abstract partial class Query<O, T> where T : Query<O, T>
+	{
+		private readonly Proto.Query _ProtoQuery = new ();
+		private readonly Proto.QueryHeader _ProtoQueryHeader = new ();
 
-        /// <summary>
-        /// Create a payment transaction.
-        /// </summary>
-        /// <param name="paymentTransactionId">the transaction id</param>
-        /// <param name="nodeId">the node id</param>
-        /// <param name="operator">the operator</param>
-        /// <param name="paymentAmount">the amount</param>
-        /// <returns>                         the new payment transaction</returns>
-        private static Transaction MakePaymentTransaction(TransactionId paymentTransactionId, AccountId nodeId, Client.Operator @operator, Hbar paymentAmount)
-        {
-            return new TransferTransaction().SetTransactionId(paymentTransactionId).SetNodeAccountIds(Collections.SingletonList(nodeId)).SetMaxTransactionFee(new Hbar(1)).AddHbarTransfer(@operator.accountId, paymentAmount.Negated()).AddHbarTransfer(nodeId, paymentAmount).Freeze().SignWith(@operator.publicKey, @operator.transactionSigner).MakeRequest();
-        }
+		/**
+		 * The transaction ID
+		 */
+		public TransactionId? PaymentTransactionId { get; set; }
+		/**
+		 * List of payment transactions
+		 */
+		protected List<Transaction>? PaymentTransactions  { get; private set; }
+		protected LockableList<Transaction>? NodeAccountIds { get; private set; }
+		private Client.Operator? PaymentOperator { get; set; }
 
-        /// <summary>
-        /// Set an explicit payment amount for this query.
-        /// <p>
-        /// The client will submit exactly this amount for the payment of this query. Hedera
-        /// will not return any remainder.
-        /// </summary>
-        /// <param name="queryPayment">The explicit payment amount to set</param>
-        /// <returns>{@code this}</returns>
-        public virtual T SetQueryPayment(Hbar queryPayment)
-        {
-            this.queryPayment = queryPayment;
+		/**
+		 * Set an explicit payment amount for this query.
+		 * <p>
+		 * The client will submit exactly this amount for the payment of this query. Hedera
+		 * will not return any remainder.
+		 *
+		 * @param queryPayment The explicit payment amount to set
+		 * @return {@code this}
+		 */
+		public Hbar? QueryPayment { set; private get; }
+		/**
+		 * Set the maximum payment allowable for this query.
+		 * <p>
+		 * When a query is executed without an explicit {@link Query#setQueryPayment(Hbar)} call,
+		 * the client will first request the cost
+		 * of the given query from the node it will be submitted to and attach a payment for that amount
+		 * from the op account on the client.
+		 * <p>
+		 * If the returned value is greater than this value, a
+		 * {@link MaxQueryPaymentExceededException} will be thrown from
+		 * {@link Query#execute(Client)} or returned in the second callback of
+		 * {@link Query#executeAsync(Client, Consumer, Consumer)}.
+		 * <p>
+		 * Set to 0 to disable automatic implicit payments.
+		 *
+		 * @param maxQueryPayment The maximum payment amount to set
+		 * @return {@code this}
+		 */
+		public Hbar? MaxQueryPayment { set; private get; }
+		public Hbar? ChosenQueryPayment { set; private get; }
+		/**
+		 * Does this query require a payment?
+		 *
+		 * default to true as nearly all queries require a payment
+		 */
+		public virtual bool IsPaymentRequired { get; } = true;
 
-            // noinspection unchecked
-            return (T)this;
-        }
+		/**
+		 * Constructor.
+		 */
+		protected Query()
+		{
+			_ProtoQuery = new Proto.Query { };
+			_ProtoQueryHeader = new Proto.QueryHeader { };
+		}
 
-        /// <summary>
-        /// Set the maximum payment allowable for this query.
-        /// <p>
-        /// When a query is executed without an explicit {@link Query#setQueryPayment(Hbar)} call,
-        /// the client will first request the cost
-        /// of the given query from the node it will be submitted to and attach a payment for that amount
-        /// from the operator account on the client.
-        /// <p>
-        /// If the returned value is greater than this value, a
-        /// {@link MaxQueryPaymentExceededException} will be thrown from
-        /// {@link Query#execute(Client)} or returned in the second callback of
-        /// {@link Query#executeAsync(Client, Action, Action)}.
-        /// <p>
-        /// Set to 0 to disable automatic implicit payments.
-        /// </summary>
-        /// <param name="maxQueryPayment">The maximum payment amount to set</param>
-        /// <returns>{@code this}</returns>
-        public virtual T SetMaxQueryPayment(Hbar maxQueryPayment)
-        {
-            this.maxQueryPayment = maxQueryPayment;
+		/**
+		 * Create a payment transaction.
+		 *
+		 * @param paymentTransactionId      the transaction id
+		 * @param nodeId                    the node id
+		 * @param op                  the op
+		 * @param paymentAmount             the amount
+		 * @return                          the new payment transaction
+		 */
+		private static TransferTransaction MakePaymentTransaction(TransactionId paymentTransactionId, AccountId nodeId, Client.Operator operator_, Hbar paymentAmount)
+		{
+			return new TransferTransaction
+			{
+				TransactionId = paymentTransactionId,
+				NodeAccountIds = [nodeId],
+				MaxTransactionFee = new Hbar(1),
+			
+			}.SignWith(operator_.PublicKey, operator_.TransactionSigner).MakeRequest();
+		}
 
-            // noinspection unchecked
-            return (T)this;
-        }
+		/**
+		 * Validate the checksums.
+		 */
+		public abstract void ValidateChecksums(Client client);
+		/**
+		 * The derived class should access its request header and return.
+		 */
+		public abstract Proto.QueryHeader MapRequestHeader(Proto.Query request);
+		/**
+		 * The derived class should access its response header and return.
+		 */
+		public abstract Proto.ResponseHeader MapResponseHeader(Proto.Response response);
+		/**
+		 * Called in {@link #makeRequest} just before the query is built. The intent is for the derived
+		 * class to assign their data variant to the query.
+		 */
+		public abstract void OnMakeRequest(Proto.Query query, Proto.QueryHeader header);
 
-        /// <summary>
-        /// Fetch the expected cost.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <returns>                         the cost in hbar</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual Hbar GetCost(Client client)
-        {
-            return GetCost(client, client.GetRequestTimeout());
-        }
+		public virtual Proto.Query MakeRequest()
+		{
+			// If payment is required, set the next payment transaction on the query
+			if (IsPaymentRequired && PaymentTransactions != null)
+			{
+				_ProtoQueryHeader.Payment = GetPaymentTransaction(NodeAccountIds.Index);
+			}
 
-        /// <summary>
-        /// Fetch the expected cost.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>                         the cost in hbar</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual Hbar GetCost(Client client, Duration timeout)
-        {
-            InitWithNodeIds(client);
-            return GetCostExecutable().SetNodeAccountIds(Objects.RequireNonNull(GetNodeAccountIds())).Execute(client, timeout);
-        }
+			// Delegate to the derived class to apply the header because the common header struct is
+			// within the nested type
 
-        /// <summary>
-        /// Fetch the expected cost asynchronously.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <returns>                         Future result of the cost in hbar</returns>
-        public virtual Task<Hbar> GetCostAsync(Client client)
-        {
-            return GetCostAsync(client, client.GetRequestTimeout());
-        }
+			_ProtoQueryHeader.ResponseType = Proto.ResponseType.AnswerOnly;
 
-        /// <summary>
-        /// Fetch the expected cost asynchronously.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>                         Future result of the cost in hbar</returns>
-        public virtual Task<Hbar> GetCostAsync(Client client, Duration timeout)
-        {
-            InitWithNodeIds(client);
-            return GetCostExecutable().SetNodeAccountIds(Objects.RequireNonNull(GetNodeAccountIds())).ExecuteAsync(client, timeout);
-        }
+			OnMakeRequest(_ProtoQuery, _ProtoQueryHeader);
 
-        /// <summary>
-        /// Fetch the expected cost asynchronously.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar, Exception> callback)
-        {
-            ActionHelper.Action(GetCostAsync(client, timeout), callback);
-        }
+			return _ProtoQuery;
+		}
+		public virtual void OnExecute(Client client)
+		{
+			var grpcCostQuery = new GrpcCostQuery(client, this);
 
-        /// <summary>
-        /// Fetch the expected cost asynchronously.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void GetCostAsync(Client client, Action<Hbar, Exception> callback)
-        {
-            ActionHelper.Action(GetCostAsync(client), callback);
-        }
+			if (grpcCostQuery.NotRequired)
+				return;
 
-        /// <summary>
-        /// Fetch the expected cost asynchronously.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
-        {
-            ActionHelper.TwoActions(GetCostAsync(client, timeout), onSuccess, onFailure);
-        }
+			if (grpcCostQuery.Cost == null)
+			{
+				grpcCostQuery.Cost = GetCost(client);
 
-        /// <summary>
-        /// Fetch the expected cost asynchronously.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
-        {
-            ActionHelper.TwoActions(GetCostAsync(client), onSuccess, onFailure);
-        }
+				if (grpcCostQuery.ShouldError())
+					throw grpcCostQuery.MapError();
+			}
 
-        /// <summary>
-        /// Does this query require a payment?
-        /// </summary>
-        /// <returns>                         does this query require a payment</returns>
-        virtual bool IsPaymentRequired()
-        {
+			grpcCostQuery.Finish();
+		}
+		public virtual Task OnExecuteAsync(Client client)
+		{
+			var grpcCostQuery = new GrpcCostQuery(client, this);
 
-            // nearly all queries require a payment
-            return true;
-        }
+			if (grpcCostQuery.NotRequired)
+				return Task.CompletedTask;
 
-        /// <summary>
-        /// Called in {@link #makeRequest} just before the query is built. The intent is for the derived
-        /// class to assign their data variant to the query.
-        /// </summary>
-        abstract void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header);
-        /// <summary>
-        /// The derived class should access its response header and return.
-        /// </summary>
-        abstract ResponseHeader MapResponseHeader(Response response);
-        /// <summary>
-        /// The derived class should access its request header and return.
-        /// </summary>
-        abstract QueryHeader MapRequestHeader(Proto.Query request);
-        /// <summary>
-        /// Crate the new Query.
-        /// </summary>
-        /// <returns>                         the new Query</returns>
-        private Query<Hbar, QueryCostQuery> GetCostExecutable()
-        {
-            return new QueryCostQuery();
-        }
+			// Task.Run replaces CompletableFuture.supplyAsync to offload work to a thread pool
+			return Task.Run(async () =>
+			{
+				if (grpcCostQuery.Cost == null)
+				{
+					// Awaiting GetCostAsync replaces.thenCompose() for flattened async calls
+					var cost = await GetCostAsync(client);
+					grpcCostQuery.Cost = cost;
 
-        /// <summary>
-        /// Validate the checksums.
-        /// </summary>
-        abstract void ValidateChecksums(Client client);
-        /// <summary>
-        /// Retrieve the operator from the configured client.
-        /// </summary>
-        /// <param name="client">the configured client</param>
-        /// <returns>                         the operator</returns>
-        virtual Client.Operator GetOperatorFromClient(Client client)
-        {
-            var operator = client.GetOperator();
-            if (@operator == null)
-            {
-                throw new InvalidOperationException("`client` must have an `operator` or an explicit payment transaction must be provided");
-            }
+					if (grpcCostQuery.ShouldError())
+					{
+						// Throwing an exception is the idiomatic way to handle failed futures in C# tasks
+						throw grpcCostQuery.MapError();
+					}
+				}
+			}).ContinueWith(_ => grpcCostQuery.Finish());
+		}
+		public virtual Status MapResponseStatus(Proto.Response response)
+		{
+			var preCheckCode = MapResponseHeader(response).NodeTransactionPrecheckCode;
 
-            return @operator;
-        }
+			return (Status)preCheckCode;
+		}
+		public virtual TransactionId? GetTransactionIdInternal()
+		{
+			// this is only called on an error about either the payment transaction or missing a payment transaction
+			// as we make sure the latter can't happen, this will never be null
+			return PaymentTransactionId;
+		}
+		/**
+		 * Fetch the expected cost.
+		 *
+		 * @param client                    the client
+		 * @return                          the cost in hbar
+		 * @         when the transaction times out
+		 * @  when the precheck fails
+		 */
+		public virtual Hbar GetCost(Client client) 
+		{
+			return GetCost(client, client.GetRequestTimeout());
+		}
+		/**
+		* Fetch the expected cost.
+		*
+		* @param client                    the client
+		* @param timeout The timeout after which the execution attempt will be cancelled.
+		* @return                          the cost in hbar
+		* @         when the transaction times out
+		* @  when the precheck fails
+		*/
+		public virtual Hbar GetCost(Client client, Duration timeout)  
+		{
+			InitWithNodeIds(client);
 
-        override void OnExecute(Client client)
-        {
-            var grpcCostQuery = new GrpcCostQuery(client);
-            if (grpcCostQuery.IsNotRequired())
-            {
-                return;
-            }
+			return new QueryCostQuery
+			{
+				AccountIds = 
 
-            if (grpcCostQuery.GetCost() == null)
-            {
-                grpcCostQuery.SetCost(GetCost(client));
-                if (grpcCostQuery.ShouldError())
-                {
-                    throw grpcCostQuery.MapError();
-                }
-            }
-
-            grpcCostQuery.Finish();
-        }
-
-        /// <summary>
-        /// <p>Note: This method requires API level 33 or higher. It will not work on devices running API versions below 31
-        /// because it uses features introduced in API level 31 (Android 12).</p>*
-        /// </summary>
-        override Task OnExecuteAsync(Client client)
-        {
-            var grpcCostQuery = new GrpcCostQuery(client);
-            if (grpcCostQuery.IsNotRequired())
-            {
-                return Task.FromResult(null);
-            }
-
-            return Task.SupplyAsync(() =>
-            {
-                if (grpcCostQuery.GetCost() == null)
-                {
-
-                    // No payment was specified so we need to go ask
-                    // This is a query in its own right so we use a nested future here
-                    return GetCostAsync(client).ThenCompose((cost) =>
-                    {
-                        grpcCostQuery.SetCost(cost);
-                        if (grpcCostQuery.ShouldError())
-                        {
-                            return Task.FailedFuture(grpcCostQuery.MapError());
-                        }
-
-                        return Task.FromResult(null);
-                    });
-                }
-
-                return Task.FromResult(null);
-            }, client.executor).ThenCompose((x) => x).ThenAccept((paymentAmount) =>
-            {
-                grpcCostQuery.Finish();
-            });
-        }
-
-        private void InitWithNodeIds(Client client)
-        {
-            if (client.IsAutoValidateChecksumsEnabled())
-            {
-                try
-                {
-                    ValidateChecksums(client);
-                }
-                catch (BadEntityIdException exc)
-                {
-                    throw new ArgumentException(exc.GetMessage());
-                }
-            }
-
-            if (nodeAccountIds.Count == 0)
-            {
-
-                // Get a list of node AccountId's if the user has not set them manually.
-                try
-                {
-                    nodeAccountIds.SetList(client.network.GetNodeAccountIdsForExecute());
-                }
-                catch (InterruptedException e)
-                {
-                    throw new Exception(string.Empty, e);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Retrieve the transaction at the given index.
-        /// </summary>
-        /// <param name="index">the index</param>
-        /// <returns>                         the transaction</returns>
-        virtual Transaction GetPaymentTransaction(int index)
-        {
-            paymentTransactionId = TransactionId.Generate(Objects.RequireNonNull(paymentOperator).accountId);
-            var newPaymentTx = MakePaymentTransaction(paymentTransactionId, nodeAccountIds[index], paymentOperator, Objects.RequireNonNull(chosenQueryPayment));
-            paymentTransactions[index] = newPaymentTx;
-            return newPaymentTx;
-        }
-
-        override Proto.Query MakeRequest()
-        {
-
-            // If payment is required, set the next payment transaction on the query
-            if (IsPaymentRequired() && paymentTransactions != null)
-            {
-                headerBuilder.SetPayment(GetPaymentTransaction(nodeAccountIds.Index()));
-            }
+			}.Execute;
 
 
-            // Delegate to the derived class to apply the header because the common header struct is
-            // within the nested type
-            OnMakeRequest(builder, headerBuilder.SetResponseType(ResponseType.ANSWER_ONLY).Build());
-            return proto;
-        }
+			return GetCostExecutable()
+				.SetNodeAccountIds(Objects.requireNonNull(GetNodeAccountIds()))
+				.execute(client, timeout);
+		}
+		/**
+		 * Fetch the expected cost asynchronously.
+		 *
+		 * @param client                    the client
+		 * @return                          Future result of the cost in hbar
+		 */
+		public virtual Task<Hbar> GetCostAsync(Client client)
+	{
+		return GetCostAsync(client, client.GetRequestTimeout());
+	}
+		/**
+		 * Fetch the expected cost asynchronously.
+		 *
+		 * @param client                    the client
+		 * @param timeout The timeout after which the execution attempt will be cancelled.
+		 * @return                          Future result of the cost in hbar
+		 */
+		public virtual Task<Hbar> GetCostAsync(Client client, Duration timeout)
+		{
+			InitWithNodeIds(client);
 
-        override Status MapResponseStatus(Response response)
-        {
-            var preCheckCode = MapResponseHeader(response).GetNodeTransactionPrecheckCode();
-            return Status.ValueOf(preCheckCode);
-        }
+			return GetCostExecutable()
+					.setNodeAccountIds(Objects.requireNonNull(GetNodeAccountIds()))
+					.executeAsync(client, timeout);
+		}
+		/**
+		 * Fetch the expected cost asynchronously.
+		 *
+		 * @param client                    the client
+		 * @param timeout The timeout after which the execution attempt will be cancelled.
+		 * @param callback a BiConsumer which handles the result or error.
+		 */
+		public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar, Exception> callback)
+		{
+			ConsumerHelper.BiConsumer(GetCostAsync(client, timeout), callback);
+		}
+		/**
+		 * Fetch the expected cost asynchronously.
+		 *
+		 * @param client                    the client
+		 * @param callback a BiConsumer which handles the result or error.
+		 */
+		public virtual void GetCostAsync(Client client, Action<Hbar, Exception> callback)
+		{
+			ConsumerHelper.BiConsumer(GetCostAsync(client), callback);
+		}
+		/**
+		 * Fetch the expected cost asynchronously.
+		 *
+		 * @param client                    the client
+		 * @param timeout The timeout after which the execution attempt will be cancelled.
+		 * @param onSuccess a Consumer which consumes the result on success.
+		 * @param onFailure a Consumer which consumes the error on failure.
+		 */
+		public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
+		{
+			ConsumerHelper.TwoConsumers(GetCostAsync(client, timeout), onSuccess, onFailure);
+		}
+		/**
+		 * Fetch the expected cost asynchronously.
+		 *
+		 * @param client                    the client
+		 * @param onSuccess a Consumer which consumes the result on success.
+		 * @param onFailure a Consumer which consumes the error on failure.
+		 */
+		public virtual void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
+		{
+			ConsumerHelper.TwoConsumers(GetCostAsync(client), onSuccess, onFailure);
+		}
 
-        override TransactionId GetTransactionIdInternal()
-        {
+		
+		private void InitWithNodeIds(Client client)
+		{
+			if (client.IsAutoValidateChecksumsEnabled())
+			{
+				try
+				{
+					ValidateChecksums(client);
+				}
+				catch (BadEntityIdException exc)
+				{
+					throw new ArgumentException(exc.GetMessage());
+				}
+			}
 
-            // this is only called on an error about either the payment transaction or missing a payment transaction
-            // as we make sure the latter can't happen, this will never be null
-            return paymentTransactionId;
-        }
+			if (nodeAccountIds.Count == 0)
+			{
+				// Get a list of node AccountId's if the user has not set them manually.
+				try
+				{
+					nodeAccountIds.setList(client.network.GetNodeAccountIdsForExecute());
+				}
+				catch (InterruptedException e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		/**
+		 * Retrieve the transaction at the given index.
+		 *
+		 * @param index                     the index
+		 * @return                          the transaction
+		 */
+		private Transaction GetPaymentTransaction(int index)
+		{
+			paymentTransactionId = TransactionId.generate(Objects.requireNonNull(paymentOperator).accountId);
 
-        /// <summary>
-        /// Extract the transaction id.
-        /// </summary>
-        /// <returns>                         the transaction id</returns>
-        public virtual TransactionId GetPaymentTransactionId()
-        {
-            return paymentTransactionId;
-        }
+			var newPaymentTx = makePaymentTransaction(
+					paymentTransactionId,
+					nodeAccountIds.ElementAt(index),
+					paymentOperator,
+					Objects.requireNonNull(chosenQueryPayment));
+			paymentTransactions.set(index, newPaymentTx);
+			return newPaymentTx;
+		}
+		/**
+		 * Retrieve the op from the configured client.
+		 *
+		 * @param client                    the configured client
+		 * @return                          the op
+		 */
+		private Client.Operator GetOperatorFromClient(Client client)
+		{
+			return 
+				client.GetOperator() ?? 
+				throw new InvalidOperationException("`client` must have an `op` or an explicit payment transaction must be provided"); 
+		}
 
-        /// <summary>
-        /// Assign the transaction id.
-        /// </summary>
-        /// <param name="paymentTransactionId">the transaction id</param>
-        /// <returns>{@code this}</returns>
-        public virtual T SetPaymentTransactionId(TransactionId paymentTransactionId)
-        {
-            this.paymentTransactionId = paymentTransactionId;
+		public override string ToString()
+		{
+			var request = makeRequest();
 
-            // noinspection unchecked
-            return (T)this;
-        }
+			StringBuilder builder = new(request.toString().replaceAll("(?m)^# Proto.Query.*", ""));
 
-        public override string ToString()
-        {
-            var request = MakeRequest();
-            StringBuilder builder = new StringBuilder(request.ToString().ReplaceAll("(?m)^# Proto.Query.*", ""));
-            var queryHeader = MapRequestHeader(request);
-            if (queryHeader.HasPayment())
-            {
-                builder.Append("\n");
-                try
-                {
+			var queryHeader = mapRequestHeader(request);
+			if (queryHeader.hasPayment())
+			{
+				builder.Append("\n");
 
-                    // the replaceAll() is for removing the class name from Transaction Body
-                    builder.Append(TransactionBody.ParseFrom(queryHeader.GetPayment().GetBodyBytes()).ToString().ReplaceAll("(?m)^# Proto.TransactionBuilder.*", ""));
-                }
-                catch (InvalidProtocolBufferException e)
-                {
-                    throw new Exception(string.Empty, e);
-                }
-            }
+				try
+				{
+					// the replaceAll() is for removing the class name from Transaction Body
+					builder.Append(
+							Proto.TransactionBody.Parser.ParseFrom(
+								queryHeader.GetPayment().GetBodyBytes())
+									.toString()
+									.replaceAll("(?m)^# Proto.TransactionBuilder.*", ""));
+				}
+				catch (InvalidProtocolBufferException e)
+				{
+					throw new RuntimeWrappedException(e);
+				}
+			}
 
-            return builder.ToString();
-        }
-
-        private class GrpcCostQuery
-        {
-            private readonly Hbar maxCost;
-            private readonly bool notRequired;
-            private Client.Operator operator;
-            private Hbar cost;
-            GrpcCostQuery(Client client)
-            {
-                this.InitWithNodeIds(client);
-                cost = this.queryPayment;
-                notRequired = (this.paymentTransactions != null) || !this.IsPaymentRequired();
-                maxCost = MoreObjects.FirstNonNull(this.maxQueryPayment, client.defaultMaxQueryPayment);
-                if (!notRequired)
-                {
-                    @operator = this.GetOperatorFromClient(client);
-                }
-            }
-
-            public virtual Client.Operator GetOperator()
-            {
-                return @operator;
-            }
-
-            public virtual Hbar GetCost()
-            {
-                return cost;
-            }
-
-            public virtual bool IsNotRequired()
-            {
-                return notRequired;
-            }
-
-            virtual GrpcCostQuery SetCost(Hbar cost)
-            {
-                this.cost = cost;
-                return this;
-            }
-
-            virtual bool ShouldError()
-            {
-
-                // Check if this is below our configured maximum query payment
-                return cost.CompareTo(maxCost) > 0;
-            }
-
-            virtual MaxQueryPaymentExceededException MapError()
-            {
-                return new MaxQueryPaymentExceededException(this, cost, maxCost);
-            }
-
-            virtual void Finish()
-            {
-                this.chosenQueryPayment = cost;
-                this.paymentOperator = @operator;
-                this.paymentTransactions = new List(this.nodeAccountIds.Count);
-                for (int i = 0; i < this.nodeAccountIds.Count; i++)
-                {
-                    this.paymentTransactions.Add(null);
-                }
-            }
-        }
-
-        private class QueryCostQuery : Query<Hbar, QueryCostQuery>
-        {
-            override void ValidateChecksums(Client client)
-            {
-            }
-
-            override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
-            {
-                headerBuilder.SetResponseType(ResponseType.COST_ANSWER);
-
-                // COST_ANSWER requires a payment to pass validation but doesn't actually process it
-                // yes, this transaction is completely invalid
-                // that is okay
-                // now go back to sleep
-                // without this, an error of MISSING_QUERY_HEADER is returned
-                headerBuilder.SetPayment(new TransferTransaction().SetNodeAccountIds(Collections.SingletonList(new AccountId(0, 0, 0))).SetTransactionId(TransactionId.WithValidStart(new AccountId(0, 0, 0), Instant.OfEpochSecond(0))).Freeze().MakeRequest());
-                this.OnMakeRequest(queryBuilder, headerBuilder.Build());
-            }
-
-            override ResponseHeader MapResponseHeader(Response response)
-            {
-                return this.MapResponseHeader(response);
-            }
-
-            override QueryHeader MapRequestHeader(Proto.Query request)
-            {
-                return this.MapRequestHeader(request);
-            }
-
-            override Hbar MapResponse(Response response, AccountId nodeId, Proto.Query request)
-            {
-                return Hbar.FromTinybars(MapResponseHeader(response).GetCost());
-            }
-
-            override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
-            {
-                return this.GetMethodDescriptor();
-            }
-
-            override bool IsPaymentRequired()
-            {
-
-                // combo breaker
-                return false;
-            }
-        }
-    }
+			return builder.ToString();
+		}
+	}
 }

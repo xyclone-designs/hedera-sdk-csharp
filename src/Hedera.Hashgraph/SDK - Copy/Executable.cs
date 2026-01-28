@@ -2,7 +2,7 @@
 using Hedera.Hashgraph.SDK.FutureConverter;
 using Com.Google.Common.Annotations;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Logger;
+using Hedera.Hashgraph.SDK.Logging;
 using Io.Grpc;
 using Io.Grpc.Status;
 using Io.Grpc.Stub;
@@ -26,6 +26,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Transactions;
+using Org.BouncyCastle.Utilities.Encoders;
+using Hedera.Hashgraph.SDK.Ids;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -44,14 +46,7 @@ namespace Hedera.Hashgraph.SDK
         /// The maximum times execution will be attempted
         /// </summary>
         protected int maxAttempts = null;
-        /// <summary>
-        /// The maximum amount of time to wait between retries
-        /// </summary>
-        protected Duration maxBackoff = null;
-        /// <summary>
-        /// The minimum amount of time to wait between retries
-        /// </summary>
-        protected Duration minBackoff = null;
+
         /// <summary>
         /// List of account IDs for nodes with which execution will be attempted.
         /// </summary>
@@ -71,13 +66,13 @@ namespace Hedera.Hashgraph.SDK
         protected Logger logger;
         private Func<ProtoRequestT, ProtoRequestT> requestListener;
         // Lambda responsible for executing synchronous gRPC requests. Pluggable for unit testing.
-        Function<GrpcRequest, ResponseT> blockingUnaryCall = (grpcRequest) => ClientCalls.BlockingUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest());
+        Func<GrpcRequest, ResponseT> blockingUnaryCall = (grpcRequest) => ClientCalls.BlockingUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest());
         private Func<ResponseT, ResponseT> responseListener;
         Executable()
         {
             requestListener = (request) =>
             {
-                if (logger.IsEnabledForLevel(LogLevel.TRACE))
+                if (logger.IsEnabledForLevel(LogLevel.Trace))
                 {
                     logger.Trace("Sent protobuf {}", Hex.ToHexString(request.ToByteArray()));
                 }
@@ -86,7 +81,7 @@ namespace Hedera.Hashgraph.SDK
             };
             responseListener = (response) =>
             {
-                if (logger.IsEnabledForLevel(LogLevel.TRACE))
+                if (logger.IsEnabledForLevel(LogLevel.Trace))
                 {
                     logger.Trace("Received protobuf {}", Hex.ToHexString(response.ToByteArray()));
                 }
@@ -101,7 +96,6 @@ namespace Hedera.Hashgraph.SDK
         /// subsequently retry the execution.)
         /// </summary>
         public Duration GrpcDeadline { get; set; }
-
         /// <summary>
         /// The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
         /// until it reaches this time.
@@ -123,7 +117,6 @@ namespace Hedera.Hashgraph.SDK
 				field = value;
 			}
 		}
-        
         /// <summary>
         /// The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
         /// exponentially until it reaches the maxBackoff.
@@ -172,12 +165,26 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>the list of account IDs</returns>
         public IList<AccountId> GetNodeAccountIds()
         {
-            if (!nodeAccountIds.IsEmpty())
+            if (!nodeAccountIds.IsEmpty)
             {
-                return new List(nodeAccountIds.GetList());
+                return new List<AccountId>(nodeAccountIds.GetList());
             }
 
             return null;
+        }
+
+        public IList<AccountId> NodeAccountIds
+        {
+            get => [.. field ??= new LockableList<AccountId>()];
+            set
+            {
+				field ??= new LockableList<AccountId>();
+
+				(field as LockableList<AccountId>)!.SetLocked(false);
+				(field as LockableList<AccountId>)!.SetLocked(false);
+
+
+			}
         }
 
 
@@ -186,25 +193,13 @@ namespace Hedera.Hashgraph.SDK
         /// protobuf of the request, and the callback should return the request protobuf.  This means the callback has an
         /// opportunity to read, copy, or modify the request that will be sent.
         /// </summary>
-        /// <param name="requestListener">The callback to use</param>
-        /// <returns>{@code this}</returns>
-        public SdkRequestT SetRequestListener(Func<ProtoRequestT, ProtoRequestT> requestListener)
-        {
-            requestListener = Objects.RequireNonNull(requestListener);
-            return (SdkRequestT)this;
-        }
+        public Func<ProtoRequestT, ProtoRequestT> RequestListener { get; set; }
         /// <summary>
         /// Set a callback that will be called right before the response is returned. As input, the callback will receive the
         /// protobuf of the response, and the callback should return the response protobuf.  This means the callback has an
         /// opportunity to read, copy, or modify the response that will be read.
         /// </summary>
-        /// <param name="responseListener">The callback to use</param>
-        /// <returns>{@code this}</returns>
-        public SdkRequestT SetResponseListener(Func<ResponseT, ResponseT> responseListener)
-        {
-            responseListener = Objects.RequireNonNull(responseListener);
-            return (SdkRequestT)this;
-        }
+        public Func<ResponseT, ResponseT> ResponseListener { get; set; }
 
         /// <summary>
         /// Set the logger
@@ -233,8 +228,13 @@ namespace Hedera.Hashgraph.SDK
 			return (SdkRequestT)this;
 		}
 
-		
 
+
+		/// <summary>
+		/// Called to direct the invocation of the query to the appropriate gRPC service.
+		/// </summary>
+		public abstract MethodDescriptor<ProtoRequestT, ResponseT> GetMethodDescriptor();
+		public abstract TransactionId GetTransactionIdInternal();
 		public abstract void OnExecute(Client client);
 		public abstract Task OnExecuteAsync(Client client);
 		public abstract ProtoRequestT MakeRequest();
@@ -248,32 +248,15 @@ namespace Hedera.Hashgraph.SDK
 
         public virtual void MergeFromClient(Client client)
         {
-            if (maxAttempts == null)
-            {
-                maxAttempts = client.GetMaxAttempts();
-            }
-
-            if (maxBackoff == null)
-            {
-                maxBackoff = client.GetMaxBackoff();
-            }
-
-            if (minBackoff == null)
-            {
-                minBackoff = client.GetMinBackoff();
-            }
-
-            if (grpcDeadline == null)
-            {
-                grpcDeadline = client.GetGrpcDeadline();
-            }
+            MaxAttempts = client.GetMaxAttempts();
+            MaxBackoff = client.GetMaxBackoff();
+            MinBackoff = client.GetMinBackoff();
+            GrpcDeadline = client.GetGrpcDeadline();
         }
 		protected virtual void CheckNodeAccountIds()
 		{
-			if (nodeAccountIds.IsEmpty())
-			{
+			if (nodeAccountIds.IsEmpty)
 				throw new InvalidOperationException("Request node account IDs were not set before executing");
-			}
 		}
 		protected virtual bool IsBatchedAndNotBatchTransaction()
 		{
@@ -291,7 +274,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 if (delay > 0)
                 {
-                    if (logger.IsEnabledForLevel(LogLevel.DEBUG))
+                    if (logger.IsEnabledForLevel(LogLevel.Debug))
                     {
                         logger.Debug("Sleeping for: " + delay + " | Thread name: " + Thread.CurrentThread.Name);
                     }
@@ -321,7 +304,7 @@ namespace Hedera.Hashgraph.SDK
             }
             catch (Exception updateError)
             {
-                if (logger.IsEnabledForLevel(LogLevel.TRACE))
+                if (logger.IsEnabledForLevel(LogLevel.Trace))
                 {
                     logger.Trace("failed to update client address book after INVALID_NODE_ACCOUNT_ID: {}", updateError.Message);
                 }
@@ -394,7 +377,7 @@ namespace Hedera.Hashgraph.SDK
 
                 if (node.ChannelFailedToConnect(timeoutTime))
                 {
-                    logger.Trace("Failed to connect channel for node {} for request #{}", node.GetAccountId(), attempt);
+                    logger.Trace("Failed to connect channel for node {} for request #{}", node.AccountId, attempt);
                     lastException = grpcRequest.ReactToConnectionFailure();
                     AdvanceRequest(); // Advance to next node before retrying
                     continue;
@@ -448,7 +431,7 @@ namespace Hedera.Hashgraph.SDK
                         {
                             if (logger.IsEnabledForLevel(LogLevel.TRACE))
                             {
-                                logger.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", node.GetAccountId(), attempt);
+                                logger.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", node.AccountId, attempt);
                             }
 
 
@@ -575,7 +558,7 @@ namespace Hedera.Hashgraph.SDK
                 return;
             }
 
-            logger.Trace("Execute{} Transaction ID: {}, submit to {}, node: {}, attempt: {}", isAsync ? "Async" : "", transactionId, client.network, node.GetAccountId(), attempt);
+            logger.Trace("Execute{} Transaction ID: {}, submit to {}, node: {}, attempt: {}", isAsync ? "Async" : "", transactionId, client.network, node.AccountId, attempt);
             if (response != null)
             {
                 logger.Trace(" - Response: {}", response);
@@ -587,7 +570,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        virtual void SetNodesFromNodeAccountIds(Client client)
+        public virtual void SetNodesFromNodeAccountIds(Client client)
         {
             nodes.Clear();
 
@@ -596,7 +579,7 @@ namespace Hedera.Hashgraph.SDK
             if (nodeAccountIds.Count == 1)
             {
                 var nodeProxies = client.network.GetNodeProxies(nodeAccountIds[0]);
-                if (nodeProxies == null || nodeProxies.IsEmpty())
+                if (nodeProxies == null || nodeProxies.IsEmpty)
                 {
                     throw new InvalidOperationException("Account ID did not map to valid node in the client's network");
                 }
@@ -611,80 +594,23 @@ namespace Hedera.Hashgraph.SDK
             foreach (var accountId in nodeAccountIds)
             {
                 var nodeProxies = client.network.GetNodeProxies(accountId);
-                if (nodeProxies == null || nodeProxies.IsEmpty())
+                if (nodeProxies == null || nodeProxies.IsEmpty)
                 {
                     logger.Warn("Attempting to fetch node {} proxy which is not included in the Client's network. Please review your Client config.", accountId.ToString());
                     continue;
                 }
 
                 var node = nodeProxies[random.NextInt(nodeProxies.Count)];
-                nodes.Add(Objects.RequireNonNull(node));
+                nodes.Add(ArgumentNullException.ThrowIfNull(node));
             }
 
-            if (nodes.IsEmpty())
+            if (nodes.IsEmpty)
             {
                 throw new InvalidOperationException("All node account IDs did not map to valid nodes in the client's network");
             }
         }
 
-        /// <summary>
-        /// Return the next node for execution. Will select the first node that is deemed healthy. If we cannot find such a
-        /// node and have tried n nodes (n being the size of the node list), we will select the node with the smallest
-        /// remaining delay. All delays MUST be executed in calling layer as this method will be called for sync + async
-        /// scenarios.
-        /// </summary>
-        virtual Node GetNodeForExecute(int attempt)
-        {
-            Node node = null;
-            Node candidate = null;
-            long smallestDelay = Long.MAX_VALUE;
-            for (int _i = 0; _i < nodes.Count; _i++)
-            {
-
-                // NOTE: _i is NOT the index into nodes, it is just keeping track of how many times we've iterated.
-                // In the event of ServerErrors, this method depends on the nodes list to have advanced to
-                // the next node.
-                node = nodes.GetCurrent();
-                if (!node.IsHealthy())
-                {
-
-                    // Keep track of the node with the smallest delay seen thus far. If we go through the entire list
-                    // (meaning all nodes are unhealthy) then we will select the node with the smallest delay.
-                    long backoff = node.GetRemainingTimeForBackoff();
-                    if (backoff < smallestDelay)
-                    {
-                        candidate = node;
-                        smallestDelay = backoff;
-                    }
-
-                    node = null;
-                    AdvanceRequest();
-                }
-                else
-                {
-                    break; // got a good node, use it
-                }
-            }
-
-            if (node == null)
-            {
-                node = candidate;
-
-                // If we've tried all nodes, index will be +1 too far. Index increment happens outside
-                // this method so try to be consistent with happy path.
-                nodeAccountIds.SetIndex(Math.Max(0, nodeAccountIds.Index()));
-            }
-
-
-            // node won't be null at this point because execute() validates before this method is called.
-            // Add null check here to work around sonar NPE detection.
-            if (node != null && logger != null)
-            {
-                logger.Trace("Using node {} for request #{}: {}", node.AccountId, attempt, this);
-            }
-
-            return node;
-        }
+        
 
         private ProtoRequestT GetRequestForExecute()
         {
@@ -715,9 +641,11 @@ namespace Hedera.Hashgraph.SDK
 
             var timeoutTime = Instant.Now().Plus(timeout);
             GrpcRequest grpcRequest = new GrpcRequest(client.network, attempt, Duration.Between(Instant.Now(), timeoutTime));
-            Supplier<Task> afterUnhealthyDelay = () =>
+            Func<Task> afterUnhealthyDelay = () =>
             {
-                return grpcRequest.GetNode().IsHealthy() ? Task.FromResult((Void)null) : Delayer.DelayFor(grpcRequest.GetNode().GetRemainingTimeForBackoff(), client.executor);
+                return grpcRequest.GetNode().IsHealthy() 
+                    ? Task.CompletedTask 
+                    : Delayer.DelayFor(grpcRequest.GetNode().GetRemainingTimeForBackoff(), client.executor);
             };
             afterUnhealthyDelay.Get().ThenRun(() =>
             {
@@ -764,7 +692,7 @@ namespace Hedera.Hashgraph.SDK
                                 {
                                     if (logger.IsEnabledForLevel(LogLevel.TRACE))
                                     {
-                                        logger.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", grpcRequest.GetNode().GetAccountId(), attempt);
+                                        logger.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", grpcRequest.GetNode().AccountId, attempt);
                                     }
 
 
@@ -804,13 +732,71 @@ namespace Hedera.Hashgraph.SDK
             });
         }
 
-        
-		virtual GrpcRequest GetGrpcRequest(int attempt)
+
+		public virtual GrpcRequest GetGrpcRequest(int attempt)
         {
             return new GrpcRequest(null, attempt, grpcDeadline);
         }
+		/// <summary>
+		/// Return the next node for execution. Will select the first node that is deemed healthy. If we cannot find such a
+		/// node and have tried n nodes (n being the size of the node list), we will select the node with the smallest
+		/// remaining delay. All delays MUST be executed in calling layer as this method will be called for sync + async
+		/// scenarios.
+		/// </summary>
+		public virtual Node GetNodeForExecute(int attempt)
+		{
+			Node node = null;
+			Node candidate = null;
+			long smallestDelay = Long.MAX_VALUE;
+			for (int _i = 0; _i < nodes.Count; _i++)
+			{
 
-        virtual void AdvanceRequest()
+				// NOTE: _i is NOT the index into nodes, it is just keeping track of how many times we've iterated.
+				// In the event of ServerErrors, this method depends on the nodes list to have advanced to
+				// the next node.
+				node = nodes.GetCurrent();
+				if (!node.IsHealthy())
+				{
+
+					// Keep track of the node with the smallest delay seen thus far. If we go through the entire list
+					// (meaning all nodes are unhealthy) then we will select the node with the smallest delay.
+					long backoff = node.GetRemainingTimeForBackoff();
+					if (backoff < smallestDelay)
+					{
+						candidate = node;
+						smallestDelay = backoff;
+					}
+
+					node = null;
+					AdvanceRequest();
+				}
+				else
+				{
+					break; // got a good node, use it
+				}
+			}
+
+			if (node == null)
+			{
+				node = candidate;
+
+				// If we've tried all nodes, index will be +1 too far. Index increment happens outside
+				// this method so try to be consistent with happy path.
+				nodeAccountIds.SetIndex(Math.Max(0, nodeAccountIds.Index()));
+			}
+
+
+			// node won't be null at this point because execute() validates before this method is called.
+			// Add null check here to work around sonar NPE detection.
+			if (node != null && logger != null)
+			{
+				logger.Trace("Using node {} for request #{}: {}", node.AccountId, attempt, this);
+			}
+
+			return node;
+		}
+
+		public virtual void AdvanceRequest()
         {
             if (nodeAccountIds.Index() + 1 == nodes.Count - 1)
             {
@@ -825,17 +811,13 @@ namespace Hedera.Hashgraph.SDK
         }
 
 		
-		/// <summary>
-		/// Called to direct the invocation of the query to the appropriate gRPC service.
-		/// </summary>
-		public abstract MethodDescriptor<ProtoRequestT, ResponseT> GetMethodDescriptor();
-        public abstract TransactionId GetTransactionIdInternal();
-        virtual bool ShouldRetryExceptionally(Exception error)
+		
+        public virtual bool ShouldRetryExceptionally(Exception error)
         {
             if (error is StatusRuntimeException)
             {
                 var status = statusException.GetStatus().GetCode();
-                var description = statusException.GetStatus().GetDescription();
+                var description = statusException.GetStatus().Description;
                 return (status == Code.UNAVAILABLE) || (status == Code.RESOURCE_EXHAUSTED) || (status == Code.INTERNAL && description != null && RST_STREAM.Matcher(description).Matches());
             }
 
@@ -846,22 +828,20 @@ namespace Hedera.Hashgraph.SDK
         /// Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
         /// the query response from Hedera. By default it triggers a retry when the pre-check status is {@code BUSY}.
         /// </summary>
-        virtual ExecutionState GetExecutionState(Status status, ResponseT response)
+        public virtual ExecutionState GetExecutionState(Status status, ResponseT response)
         {
-            switch (status)
+            return status switch
             {
-                case PLATFORM_TRANSACTION_NOT_CREATED:
-                case PLATFORM_NOT_ACTIVE:
-                    return ExecutionState.SERVER_ERROR;
-                case BUSY:
-                case INVALID_NODE_ACCOUNT:
-                    return ExecutionState.RETRY; // INVALID_NODE_ACCOUNT retries with special handling for node account update
-                case OK:
-                    return ExecutionState.SUCCESS;
-                default:
-                    return ExecutionState.REQUEST_ERROR; // user error
-                    break;
-            }
+                Status.PlatformTransactionNotCreated or
+                Status.PlatformNotActive => ExecutionState.ServerError,
+
+                Status.Busy or 
+                Status.InvalidNodeAccount => ExecutionState.Retry, // INVALID_NODE_ACCOUNT retries with special handling for node account update
+                
+                Status.Ok => ExecutionState.Success,
+
+                _ => ExecutionState.RequestError, // user error
+            };
         }
     }
 }

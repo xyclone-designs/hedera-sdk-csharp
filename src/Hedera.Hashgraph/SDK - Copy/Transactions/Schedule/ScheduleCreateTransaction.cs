@@ -1,26 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Schedule
 {
@@ -100,11 +87,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
     public sealed class ScheduleCreateTransaction : Transaction<ScheduleCreateTransaction>
     {
         private AccountId payerAccountId = null;
-        private SchedulableTransactionBody transactionToSchedule = null;
+        private Proto.SchedulableTransactionBody transactionToSchedule = null;
         private Key adminKey = null;
         private string scheduleMemo = "";
         private Timestamp expirationTime = null;
-        private java.time.Duration expirationTimeDuration = null;
+        private Duration expirationTimeDuration = null;
         private bool waitForExpiry = false;
         /// <summary>
         /// Constructor.
@@ -145,7 +132,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// <returns>{@code this}</returns>
         public ScheduleCreateTransaction SetExpirationTime(Timestamp expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = expirationTime;
             expirationTimeDuration = null;
@@ -157,9 +144,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// </summary>
         /// <param name="expirationTime">The duration to be used as expiration time</param>
         /// <returns>{@code this}</returns>
-        public ScheduleCreateTransaction SetExpirationTime(java.time.Duration expirationTime)
+        public ScheduleCreateTransaction SetExpirationTime(Duration expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = null;
             expirationTimeDuration = expirationTime;
@@ -226,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// <returns>{@code this}</returns>
         public ScheduleCreateTransaction SetPayerAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             payerAccountId = accountId;
             return this;
@@ -237,10 +224,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// </summary>
         /// <param name="transaction">the transaction to schedule</param>
         /// <returns>{@code this}</returns>
-        public ScheduleCreateTransaction SetScheduledTransaction(Transaction<TWildcardTodo> transaction)
+        public ScheduleCreateTransaction SetScheduledTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(transaction);
+            ArgumentNullException.ThrowIfNull(transaction);
             var scheduled = transaction.Schedule();
             transactionToSchedule = scheduled.transactionToSchedule;
             return this;
@@ -251,10 +238,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// </summary>
         /// <param name="tx">the transaction body to schedule</param>
         /// <returns>{@code this}</returns>
-        ScheduleCreateTransaction SetScheduledTransactionBody(SchedulableTransactionBody tx)
+        ScheduleCreateTransaction SetScheduledTransactionBody(Proto.SchedulableTransactionBody tx)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(tx);
+            ArgumentNullException.ThrowIfNull(tx);
             transactionToSchedule = tx;
             return this;
         }
@@ -307,38 +294,41 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
             return this;
         }
 
-        /// <summary>
-        /// Build the correct transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.ScheduleCreateTransactionBody builder }</returns>
-        ScheduleCreateTransactionBody.Builder Build()
+		/// <summary>
+		/// Build the correct transaction body.
+		/// </summary>
+		/// <returns>{@link Proto.ScheduleCreateTransactionBody builder }</returns>
+		Proto.ScheduleCreateTransactionBody Build()
         {
-            var builder = ScheduleCreateTransactionBody.NewBuilder();
+            var builder = new Proto.ScheduleCreateTransactionBody();
+
             if (payerAccountId != null)
             {
-                builder.SetPayerAccountID(payerAccountId.ToProtobuf());
+                builder.PayerAccountID = payerAccountId.ToProtobuf();
             }
 
             if (transactionToSchedule != null)
             {
-                builder.SetScheduledTransactionBody(transactionToSchedule);
+                builder.ScheduledTransactionBody = transactionToSchedule;
             }
 
             if (adminKey != null)
             {
-                builder.SetAdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey = adminKey.ToProtobufKey();
             }
 
             if (expirationTime != null)
             {
-                builder.SetExpirationTime(Utils.TimestampConverter.ToProtobuf(expirationTime));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTime);
             }
             else if (expirationTimeDuration != null)
             {
-                builder.SetExpirationTime(Utils.TimestampConverter.ToProtobuf(expirationTimeDuration));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTimeDuration);
             }
 
-            builder.SetMemo(scheduleMemo).SetWaitForExpiry(waitForExpiry);
+            builder.Memo = scheduleMemo;
+            builder.WaitForExpiry = waitForExpiry;
+
             return builder;
         }
 
@@ -347,7 +337,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetScheduleCreate();
+            var body = sourceTransactionBody.ScheduleCreate();
             if (body.HasPayerAccountID())
             {
                 payerAccountId = AccountId.FromProtobuf(body.GetPayerAccountID());
@@ -358,9 +348,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
                 transactionToSchedule = body.GetScheduledTransactionBody();
             }
 
-            if (body.HasAdminKey())
+            if (body.AdminKey is not null)
             {
-                adminKey = Key.FromProtobufKey(body.GetAdminKey());
+                adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
             if (body.HasExpirationTime())
@@ -371,25 +361,22 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
             scheduleMemo = body.GetMemo();
         }
 
-        override void ValidateChecksums(Client client)
+        public override void ValidateChecksums(Client client)
         {
             if (payerAccountId != null)
             {
                 payerAccountId.ValidateChecksum(client);
             }
         }
-
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return ScheduleServiceGrpc.GetCreateScheduleMethod();
+            return ScheduleServiceGrpc.CreateScheduleMethod;
         }
-
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetScheduleCreate(Build());
+            bodyBuilder.ScheduleCreate = Build();
         }
-
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule ScheduleCreateTransaction");
         }

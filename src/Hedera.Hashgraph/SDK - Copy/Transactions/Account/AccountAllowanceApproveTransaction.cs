@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Token;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,9 +21,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
     /// </summary>
     public class AccountAllowanceApproveTransaction : Transaction<AccountAllowanceApproveTransaction>
     {
-        private readonly IList<HbarAllowance> hbarAllowances = new ();
-        private readonly IList<TokenAllowance> tokenAllowances = new ();
-        private readonly IList<TokenNftAllowance> nftAllowances = new ();
+        private readonly IList<HbarAllowance> hbarAllowances = [];
+        private readonly IList<TokenAllowance> tokenAllowances = [];
+        private readonly IList<TokenNftAllowance> nftAllowances = [];
         // key is "{ownerId}:{spenderId}".  OwnerId may be "FEE_PAYER"
         // <ownerId:spenderId, <tokenId, index>>
         private readonly Dictionary<string, Dictionary<TokenId, int>> nftMap = [];
@@ -55,26 +54,35 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 
         private void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetCryptoApproveAllowance();
-            foreach (var allowanceProto in body.GetCryptoAllowancesList())
+            var body = sourceTransactionBody.CryptoApproveAllowance;
+
+            foreach (var allowanceProto in body.CryptoAllowances)
             {
                 hbarAllowances.Add(HbarAllowance.FromProtobuf(allowanceProto));
             }
 
-            foreach (var allowanceProto in body.GetTokenAllowancesList())
+            foreach (var allowanceProto in body.TokenAllowances)
             {
                 tokenAllowances.Add(TokenAllowance.FromProtobuf(allowanceProto));
             }
 
-            foreach (var allowanceProto in body.GetNftAllowancesList())
+            foreach (var allowanceProto in body.NftAllowances)
             {
-                if (allowanceProto.HasApprovedForAll() && allowanceProto.GetApprovedForAll().GetValue())
+                if (allowanceProto.ApprovedForAll ?? false)
                 {
                     nftAllowances.Add(TokenNftAllowance.FromProtobuf(allowanceProto));
                 }
                 else
                 {
-                    GetNftSerials(allowanceProto.HasOwner() ? AccountId.FromProtobuf(allowanceProto.GetOwner()) : null, AccountId.FromProtobuf(allowanceProto.GetSpender()), allowanceProto.HasDelegatingSpender() ? AccountId.FromProtobuf(allowanceProto.GetDelegatingSpender()) : null, TokenId.FromProtobuf(allowanceProto.GetTokenId())).AddAll(allowanceProto.GetSerialNumbersList());
+                    GetNftSerials(
+                        allowanceProto.Owner is not null 
+                            ? AccountId.FromProtobuf(allowanceProto.Owner)
+                            : null, 
+                        AccountId.FromProtobuf(allowanceProto.Spender),
+                        allowanceProto.DelegatingSpender is not null 
+                            ? AccountId.FromProtobuf(allowanceProto.DelegatingSpender) 
+                            : null, 
+                        TokenId.FromProtobuf(allowanceProto.TokenId)).Concat(allowanceProto.SerialNumbers);
                 }
             }
         }
@@ -100,8 +108,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceApproveTransaction ApproveHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(amount);
-            hbarAllowances.Add(new HbarAllowance(ownerAccountId, Objects.RequireNonNull(spenderAccountId), amount));
+            ArgumentNullException.ThrowIfNull(amount);
+            hbarAllowances.Add(new HbarAllowance(ownerAccountId, spenderAccountId, amount));
             return this;
         }
 
@@ -120,7 +128,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>                         array list of hbar allowances</returns>
         public virtual IList<HbarAllowance> GetHbarApprovals()
         {
-            return new List(hbarAllowances);
+            return [.. hbarAllowances];
         }
 
         /// <summary>
@@ -146,7 +154,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceApproveTransaction ApproveTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
         {
             RequireNotFrozen();
-            tokenAllowances.Add(new TokenAllowance(Objects.RequireNonNull(tokenId), ownerAccountId, Objects.RequireNonNull(spenderAccountId), amount));
+            tokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount));
             return this;
         }
 
@@ -165,7 +173,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>                         array list of token approvals.</returns>
         public virtual IList<TokenAllowance> GetTokenApprovals()
         {
-            return new List(tokenAllowances);
+            return [.. tokenAllowances];
         }
 
         /// <summary>
@@ -195,7 +203,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
                 var innerMap = nftMap[key];
                 if (innerMap.ContainsKey(tokenId))
                 {
-                    return Objects.RequireNonNull(nftAllowances[innerMap[tokenId]].serialNumbers);
+                    return nftAllowances[innerMap[tokenId]].serialNumbers;
                 }
                 else
                 {
@@ -205,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             else
             {
                 Dictionary<TokenId, int> innerMap = [];
-                nftMap.Put(key, innerMap);
+                nftMap.Add(key, innerMap);
                 return NewNftSerials(ownerAccountId, spenderAccountId, delegatingSpender, tokenId, innerMap);
             }
         }
@@ -221,8 +229,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>list of NFT serial numbers</returns>
         private IList<long> NewNftSerials(AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender, TokenId tokenId, Dictionary<TokenId, int> innerMap)
         {
-            innerMap.Put(tokenId, nftAllowances.Count);
-            TokenNftAllowance newAllowance = new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, delegatingSpender, new (), null);
+            innerMap.Add(tokenId, nftAllowances.Count);
+            TokenNftAllowance newAllowance = new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, delegatingSpender, new (), default);
             nftAllowances.Add(newAllowance);
             return newAllowance.serialNumbers;
         }
@@ -249,7 +257,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceApproveTransaction AddAllTokenNftAllowance(TokenId tokenId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
-            nftAllowances.Add(new TokenNftAllowance(tokenId, null, spenderAccountId, null, Collections.EmptyList(), true));
+            nftAllowances.Add(new TokenNftAllowance(tokenId, null, spenderAccountId, null, [], true));
             return this;
         }
 
@@ -264,8 +272,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceApproveTransaction ApproveTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(nftId);
-            GetNftSerials(ownerAccountId, Objects.RequireNonNull(spenderAccountId), delegatingSpender, nftId.TokenId).Add(nftId.Serial);
+            ArgumentNullException.ThrowIfNull(nftId);
+            GetNftSerials(ownerAccountId, spenderAccountId, delegatingSpender, nftId.TokenId).Add(nftId.Serial);
             return this;
         }
 
@@ -279,8 +287,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceApproveTransaction ApproveTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(nftId);
-            GetNftSerials(ownerAccountId, Objects.RequireNonNull(spenderAccountId), null, nftId.TokenId).Add(nftId.Serial);
+            ArgumentNullException.ThrowIfNull(nftId);
+            GetNftSerials(ownerAccountId, spenderAccountId, null, nftId.TokenId).Add(nftId.Serial);
             return this;
         }
 
@@ -294,7 +302,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceApproveTransaction ApproveTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
-            nftAllowances.Add(new TokenNftAllowance(Objects.RequireNonNull(tokenId), ownerAccountId, Objects.RequireNonNull(spenderAccountId), null, Collections.EmptyList(), true));
+            nftAllowances.Add(new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, null, [], true));
             return this;
         }
 
@@ -308,7 +316,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceApproveTransaction DeleteTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
-            nftAllowances.Add(new TokenNftAllowance(Objects.RequireNonNull(tokenId), ownerAccountId, Objects.RequireNonNull(spenderAccountId), null, Collections.EmptyList(), false));
+            nftAllowances.Add(new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, null, [], false));
             return this;
         }
 
@@ -338,42 +346,43 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return CryptoServiceGrpc.GetApproveAllowancesMethod();
+            return CryptoServiceGrpc.ApproveAllowancesMethod;
         }
 
         /// <summary>
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.CryptoApproveAllowanceTransactionBody builder }</returns>
-        virtual CryptoApproveAllowanceTransactionBody.Builder Build()
+        public virtual Proto.CryptoApproveAllowanceTransactionBody Build()
         {
-            var builder = CryptoApproveAllowanceTransactionBody.NewBuilder();
+            var builder = new Proto.CryptoApproveAllowanceTransactionBody();
+
             foreach (var allowance in hbarAllowances)
             {
-                builder.AddCryptoAllowances(allowance.ToProtobuf());
+                builder.CryptoAllowances.Add(allowance.ToProtobuf());
             }
 
             foreach (var allowance in tokenAllowances)
             {
-                builder.AddTokenAllowances(allowance.ToProtobuf());
+                builder.TokenAllowances.Add(allowance.ToProtobuf());
             }
 
             foreach (var allowance in nftAllowances)
             {
-                builder.AddNftAllowances(allowance.ToProtobuf());
+                builder.NftAllowances.Add(allowance.ToProtobuf());
             }
 
             return builder;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetCryptoApproveAllowance(Build());
+            bodyBuilder.CryptoApproveAllowance = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetCryptoApproveAllowance(Build());
+            scheduled.CryptoApproveAllowance = Build();
         }
 
         override void ValidateChecksums(Client client)

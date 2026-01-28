@@ -2,6 +2,7 @@
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Transactions.Ethereum;
 using Hedera.Hashgraph.SDK.Transactions.File;
@@ -35,7 +36,7 @@ namespace Hedera.Hashgraph.SDK
         static int MAX_ETHEREUM_DATA_SIZE = 128000;
         private FileId callDataFileId;
         
-        private static FileId CreateFile(byte[] callData, Client client, Duration timeoutPerTransaction, Transaction<TWildcardTodo> ethereumTransaction)
+        private static FileId CreateFile(byte[] callData, Client client, Duration timeoutPerTransaction, Transaction<T> ethereumTransaction)
         {
             try
             {
@@ -54,7 +55,12 @@ namespace Hedera.Hashgraph.SDK
                 var nodeId = transaction.nodeId;
                 if (callDataHex.Length > FileAppendTransaction.DEFAULT_CHUNK_SIZE)
                 {
-                    new FileAppendTransaction().SetFileId(fileId).SetMaxChunks(1000).SetNodeAccountIds(Collections.SingletonList(nodeId)).SetContents(Array.CopyOfRange(callDataHex, FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length)).Execute(client, timeoutPerTransaction).GetReceipt(client);
+                    new FileAppendTransaction()
+                        .SetFileId(fileId)
+                        .SetMaxChunks(1000)
+                        .SetNodeAccountIds(Collections.SingletonList(nodeId))
+                        .SetContents(Array.CopyOfRange(callDataHex, FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length))
+                        .Execute(client, timeoutPerTransaction).GetReceipt(client);
                 }
 
                 ethereumTransaction.SetNodeAccountIds([nodeId]);
@@ -66,27 +72,35 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        private static Task<FileId> CreateFileAsync(byte[] callData, Client client, Duration timeoutPerTransaction, Transaction<TWildcardTodo> ethereumTransaction)
+        private static Task<FileId> CreateFileAsync(byte[] callData, Client client, Duration timeoutPerTransaction, Transaction<T> ethereumTransaction)
         {
 
             // Hex encode the call data
             byte[] callDataHex = Hex.Encode(callData);
-            return new FileCreateTransaction().SetKeys(Objects.RequireNonNull(client.GetOperatorPublicKey())).SetContents(Array.CopyOfRange(callDataHex, 0, Math.Min(FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length))).ExecuteAsync(client, timeoutPerTransaction).ThenCompose((response) =>
-            {
-                var nodeId = response.nodeId;
-                ethereumTransaction.SetNodeAccountIds(Collections.SingletonList(nodeId));
-                return response.GetReceiptAsync(client, timeoutPerTransaction).ThenCompose((receipt) =>
+            return new FileCreateTransaction()
+                .SetKeys(ArgumentNullException.ThrowIfNull(client.GetOperatorPublicKey()))
+                .SetContents(Array.CopyOfRange(callDataHex, 0, Math.Min(FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length)))
+                .ExecuteAsync(client, timeoutPerTransaction).ThenCompose((response) =>
                 {
-                    if (callDataHex.Length > FileAppendTransaction.DEFAULT_CHUNK_SIZE)
+                    var nodeId = response.nodeId;
+                    ethereumTransaction.SetNodeAccountIds(Collections.SingletonList(nodeId));
+                    return response.GetReceiptAsync(client, timeoutPerTransaction).ThenCompose((receipt) =>
                     {
-                        return new FileAppendTransaction().SetFileId(receipt.fileId).SetNodeAccountIds(Collections.SingletonList(nodeId)).SetMaxChunks(1000).SetContents(Array.CopyOfRange(callDataHex, FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length)).ExecuteAsync(client, timeoutPerTransaction).ThenCompose((appendResponse) => appendResponse.GetReceiptAsync(client, timeoutPerTransaction)).ThenApply((r) => receipt.fileId);
-                    }
-                    else
-                    {
-                        return Task.FromResult(receipt.fileId);
-                    }
+                        if (callDataHex.Length > FileAppendTransaction.DEFAULT_CHUNK_SIZE)
+                        {
+                            return new FileAppendTransaction()
+                                .SetFileId(receipt.fileId)
+                                .SetNodeAccountIds(Collections.SingletonList(nodeId))
+                                .SetMaxChunks(1000)
+                                .SetContents(Array.CopyOfRange(callDataHex, FileAppendTransaction.DEFAULT_CHUNK_SIZE, callDataHex.Length))
+                                .ExecuteAsync(client, timeoutPerTransaction).ThenCompose((appendResponse) => appendResponse.GetReceiptAsync(client, timeoutPerTransaction)).ThenApply((r) => receipt.fileId);
+                        }
+                        else
+                        {
+                            return Task.FromResult(receipt.fileId);
+                        }
+                    });
                 });
-            });
         }
 
         /// <summary>

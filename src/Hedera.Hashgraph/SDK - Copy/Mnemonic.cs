@@ -31,6 +31,7 @@ using Hedera.Hashgraph.SDK.Keys;
 using System.Text.RegularExpressions;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -237,7 +238,7 @@ namespace Hedera.Hashgraph.SDK
                 InputStream wordStream = typeof(Mnemonic).GetClassLoader().GetResourceAsStream("legacy-english.txt");
                 try
                 {
-                    using (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.RequireNonNull(wordStream), UTF_8)))
+                    using (BufferedReader reader = new BufferedReader(new InputStreamReader(ArgumentNullException.ThrowIfNull(wordStream), UTF_8)))
                     {
                         List<string> words = new List(4096);
                         for (string word = reader.readLine(); word != null; word = reader.ReadLine())
@@ -258,7 +259,7 @@ namespace Hedera.Hashgraph.SDK
                 InputStream wordStream = typeof(Mnemonic).GetClassLoader().GetResourceAsStream("bip39-english.txt");
                 try
                 {
-                    using (BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.RequireNonNull(wordStream), UTF_8)))
+                    using (BufferedReader reader = new BufferedReader(new InputStreamReader(ArgumentNullException.ThrowIfNull(wordStream), UTF_8)))
                     {
                         List<string> words = new List(2048);
                         for (string word = reader.readLine(); word != null; word = reader.ReadLine())
@@ -491,14 +492,14 @@ namespace Hedera.Hashgraph.SDK
                 {
 
                     // truncation is what we want here
-                    buffer.Put((byte)(scratch >> (offset - 8)));
+                    buffer.Add((byte)(scratch >> (offset - 8)));
                     offset -= 8;
                 }
             }
 
             if (offset != 0)
             {
-                buffer.Put((byte)(scratch << offset));
+                buffer.Add((byte)(scratch << offset));
             }
 
             return buffer.Array();
@@ -524,7 +525,7 @@ namespace Hedera.Hashgraph.SDK
             // int to byte conversion
             ByteBuffer byteBuffer = ByteBuffer.Allocate(result.Length * 4);
             IntBuffer intBuffer = byteBuffer.AsIntBuffer();
-            intBuffer.Put(result);
+            intBuffer.Add(result);
             var crc2 = Crc8(result);
             if (crc != crc2)
             {

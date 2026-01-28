@@ -1,25 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Schedule
 {
@@ -76,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// <returns>{@code this}</returns>
         public ScheduleSignTransaction SetScheduleId(ScheduleId scheduleId)
         {
-            Objects.RequireNonNull(scheduleId);
+            ArgumentNullException.ThrowIfNull(scheduleId);
             RequireNotFrozen();
             scheduleId = scheduleId;
             return this;
@@ -99,12 +83,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// <returns>{@link
         ///         Proto.ScheduleSignTransactionBody
         ///         builder }</returns>
-        ScheduleSignTransactionBody.Builder Build()
+        public Proto.ScheduleSignTransactionBody Build()
         {
-            var builder = ScheduleSignTransactionBody.NewBuilder();
+            var builder = new Proto.ScheduleSignTransactionBody();
             if (scheduleId != null)
             {
-                builder.SetScheduleID(scheduleId.ToProtobuf());
+                builder.ScheduleID = scheduleId.ToProtobuf();
             }
 
             return builder;
@@ -115,10 +99,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetScheduleSign();
-            if (body.HasScheduleID())
+            var body = sourceTransactionBody.ScheduleSign;
+            if (body.ScheduleID is not null)
             {
-                scheduleId = ScheduleId.FromProtobuf(body.GetScheduleID());
+                scheduleId = ScheduleId.FromProtobuf(body.ScheduleID);
             }
         }
 
@@ -132,15 +116,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return ScheduleServiceGrpc.GetSignScheduleMethod();
+            return ScheduleServiceGrpc.SignScheduleMethod;
         }
-
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetScheduleSign(Build());
+            bodyBuilder.ScheduleSign = Build();
         }
-
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("cannot schedule ScheduleSignTransaction");
         }

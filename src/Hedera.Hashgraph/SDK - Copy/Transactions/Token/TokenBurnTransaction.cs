@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenBurnTransaction SetTokenId(TokenId tokenId)
         {
-            Objects.RequireNonNull(tokenId);
+            ArgumentNullException.ThrowIfNull(tokenId);
             RequireNotFrozen();
             tokenId = tokenId;
             return this;
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenBurnTransaction SetSerials(IList<long> serials)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(serials);
+            ArgumentNullException.ThrowIfNull(serials);
             serials = new List(serials);
             return this;
         }
@@ -177,15 +177,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenBurnTransactionBody}</returns>
-        virtual TokenBurnTransactionBody.Builder Build()
+        public virtual TokenBurnTransactionBody.Builder Build()
         {
             var builder = TokenBurnTransactionBody.NewBuilder();
             if (tokenId != null)
             {
-                builder.SetToken(tokenId.ToProtobuf());
+                builder.Token(tokenId.ToProtobuf());
             }
 
-            builder.SetAmount(amount);
+            builder.Amount(amount);
             foreach (var serial in serials)
             {
                 builder.AddSerialNumbers(serial);
@@ -197,9 +197,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenBurn();
+            var body = sourceTransactionBody.TokenBurn();
             if (body.HasToken())
             {
                 tokenId = TokenId.FromProtobuf(body.GetToken());
@@ -222,14 +222,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetBurnTokenMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenBurn(Build());
+            bodyBuilder.TokenBurn = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenBurn(Build());
+            scheduled.TokenBurn = Build();
         }
     }
 }

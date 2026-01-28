@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
 using Hedera.Hashgraph.SDK.Proto.TransactionBody;
 using Io.Grpc;
@@ -71,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenCancelAirdropTransactionBody}</returns>
-        virtual TokenCancelAirdropTransactionBody.Builder Build()
+        public virtual TokenCancelAirdropTransactionBody.Builder Build()
         {
             var builder = TokenCancelAirdropTransactionBody.NewBuilder();
             foreach (var pendingAirdropId in PendingAirdropIds)
@@ -85,9 +87,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenCancelAirdrop();
+            var body = sourceTransactionBody.TokenCancelAirdrop();
             foreach (var pendingAirdropId in body.GetPendingAirdropsList())
             {
                 PendingAirdropIds.Add(PendingAirdropId.FromProtobuf(pendingAirdropId));
@@ -101,12 +103,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
 
         override void OnFreeze(Builder bodyBuilder)
         {
-            bodyBuilder.SetTokenCancelAirdrop(Build());
+            bodyBuilder.TokenCancelAirdrop = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenCancelAirdrop(Build());
+            scheduled.TokenCancelAirdrop = Build();
         }
     }
 }

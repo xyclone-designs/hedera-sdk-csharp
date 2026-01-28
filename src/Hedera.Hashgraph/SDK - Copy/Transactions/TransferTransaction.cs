@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Google.Common.Base;
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions.Account;
 using Io.Grpc;
 using Java.Util;
 using Javax.Annotation;
@@ -40,16 +44,16 @@ namespace Hedera.Hashgraph.SDK.Transactions
         private readonly List<HbarTransfer> hbarTransfers = new ();
         private class HbarTransfer
         {
-            readonly AccountId accountId;
-            Hbar amount;
-            bool isApproved;
-            FungibleHookCall hookCall;
+            readonly AccountId AccountId;
+            Hbar Amount;
+            bool IsApproved;
+            FungibleHookCall HookCall;
             HbarTransfer(AccountId accountId, Hbar amount, bool isApproved)
             {
                 accountId = accountId;
                 amount = amount;
                 isApproved = isApproved;
-                hookCall = null;
+                HookCall = null;
             }
 
             HbarTransfer(AccountId accountId, Hbar amount, bool isApproved, FungibleHookCall hookCall)
@@ -60,46 +64,46 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 hookCall = hookCall;
             }
 
-            virtual AccountAmount ToProtobuf()
+            public virtual Proto.AccountAmount ToProtobuf()
             {
-                var builder = AccountAmount.NewBuilder().SetAccountID(accountId.ToProtobuf()).SetAmount(amount.ToTinybars()).SetIsApproval(isApproved);
-
-                // Add hook call if present
-                if (hookCall != null)
+				Proto.AccountAmount proto = new ()
                 {
-                    switch (hookCall.GetType())
-                    {
-                        case PRE_TX_ALLOWANCE_HOOK:
-                            builder.SetPreTxAllowanceHook(hookCall.ToProtobuf());
-                            break;
-                        case PRE_POST_TX_ALLOWANCE_HOOK:
-                            builder.SetPrePostTxAllowanceHook(hookCall.ToProtobuf());
-                            break;
-                    }
-                }
+					IsApproval = IsApproved,
+					Amount = Amount.ToTinybars(),
+					AccountID = AccountId.ToProtobuf(),
+				};
 
-                return proto;
+				switch (HookCall?.Type)
+				{
+					case FungibleHookType.PreTxAllowanceHook:
+						proto.PreTxAllowanceHook = HookCall.ToProtobuf());
+						break;
+					case FungibleHookType.PrePostTxAllowanceHook:
+						proto.PrePostTxAllowanceHook = HookCall.ToProtobuf());
+						break;
+
+                    default: break;
+				}
+
+				return proto;
             }
 
-            static HbarTransfer FromProtobuf(AccountAmount transfer)
+            public static HbarTransfer FromProtobuf(Proto.AccountAmount transfer)
             {
-                FungibleHookCall typedHook = null;
-                if (transfer.HasPreTxAllowanceHook())
+                FungibleHookCall? typedHook = null;
+
+                if (transfer.PreTxAllowanceHook is not null)
                 {
-                    typedHook = ToFungibleHook(transfer.GetPreTxAllowanceHook(), FungibleHookType.PRE_TX_ALLOWANCE_HOOK);
+                    typedHook = ToFungibleHook(transfer.PreTxAllowanceHook, FungibleHookType.PreTxAllowanceHook);
                 }
-                else if (transfer.HasPrePostTxAllowanceHook())
+                else if (transfer.PrePostTxAllowanceHook is not null)
                 {
-                    typedHook = ToFungibleHook(transfer.GetPrePostTxAllowanceHook(), FungibleHookType.PRE_POST_TX_ALLOWANCE_HOOK);
+                    typedHook = ToFungibleHook(transfer.PrePostTxAllowanceHook, FungibleHookType.PrePostTxAllowanceHook);
                 }
 
-                return new HbarTransfer(AccountId.FromProtobuf(transfer.GetAccountID()), Hbar.FromTinybars(transfer.GetAmount()), transfer.GetIsApproval(), typedHook);
+                return new HbarTransfer(Ids.AccountId.FromProtobuf(transfer.AccountID), Hbar.FromTinybars(transfer.Amount), transfer.IsApproval, typedHook);
             }
 
-            public override string ToString()
-            {
-                return MoreObjects.ToStringHelper(this).Add("accountId", accountId).Add("amount", amount).Add("isApproved", isApproved).Add("hookCall", hookCall).ToString();
-            }
         }
 
         /// <summary>
@@ -138,7 +142,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Dictionary<AccountId, Hbar> transfers = [];
             foreach (var transfer in hbarTransfers)
             {
-                transfers.Put(transfer.accountId, transfer.amount);
+                transfers.Add(transfer.AccountId, transfer.Amount);
             }
 
             return transfers;
@@ -152,8 +156,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 if (transfer.accountId.Equals(accountId))
                 {
                     long combinedTinybars = transfer.amount.ToTinybars() + value.ToTinybars();
-                    transfer.amount = Hbar.FromTinybars(combinedTinybars);
-                    transfer.isApproved = transfer.isApproved || isApproved;
+                    transfer.Amount = Hbar.FromTinybars(combinedTinybars);
+                    transfer.IsApproved = transfer.IsApproved || isApproved;
                     return this;
                 }
             }
@@ -206,9 +210,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>the updated transaction</returns>
         public virtual TransferTransaction AddTokenTransferWithHook(TokenId tokenId, AccountId accountId, long value, FungibleHookCall hookCall)
         {
-            Objects.RequireNonNull(tokenId, "tokenId cannot be null");
-            Objects.RequireNonNull(accountId, "accountId cannot be null");
-            Objects.RequireNonNull(hookCall, "hookCall cannot be null");
             return DoAddTokenTransfer(tokenId, accountId, value, false, null, hookCall);
         }
 
@@ -223,9 +224,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>the updated transaction</returns>
         public virtual TransferTransaction AddNftTransferWithHook(NftId nftId, AccountId senderAccountId, AccountId receiverAccountId, NftHookCall senderHookCall, NftHookCall receiverHookCall)
         {
-            Objects.RequireNonNull(nftId, "nftId cannot be null");
-            Objects.RequireNonNull(senderAccountId, "senderAccountId cannot be null");
-            Objects.RequireNonNull(receiverAccountId, "receiverAccountId cannot be null");
             return DoAddNftTransfer(nftId, senderAccountId, receiverAccountId, false, senderHookCall, receiverHookCall);
         }
 
@@ -240,9 +238,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual TransferTransaction AddHbarTransferWithHook(AccountId accountId, Hbar amount, FungibleHookCall hookCall)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(accountId, "accountId cannot be null");
-            Objects.RequireNonNull(amount, "amount cannot be null");
-            Objects.RequireNonNull(hookCall, "hookCall cannot be null");
             return DoAddHbarTransfer(accountId, amount, false, hookCall);
         }
 
@@ -259,7 +254,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             {
                 if (transfer.accountId.Equals(accountId))
                 {
-                    transfer.isApproved = isApproved;
+                    transfer.IsApproved = isApproved;
                     return this;
                 }
             }
@@ -271,18 +266,18 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.CryptoTransferTransactionBody}</returns>
-        virtual CryptoTransferTransactionBody.Builder Build()
+        public virtual Proto.CryptoTransferTransactionBody Build()
         {
             var transfers = SortTransfersAndBuild();
             var builder = CryptoTransferTransactionBody.NewBuilder();
-            hbarTransfers.Sort(Comparator.Comparing((HbarTransfer a) => a.accountId).ThenComparing((a) => a.isApproved));
+            hbarTransfers.Sort(Comparator.Comparing((HbarTransfer a) => a.AccountId).ThenComparing((a) => a.isApproved));
             var hbarTransfersList = TransferList.NewBuilder();
             foreach (var transfer in hbarTransfers)
             {
                 hbarTransfersList.AddAccountAmounts(transfer.ToProtobuf());
             }
 
-            builder.SetTransfers(hbarTransfersList);
+            builder.Transfers(hbarTransfersList);
             foreach (var transfer in transfers)
             {
                 builder.AddTokenTransfers(transfer.ToProtobuf());
@@ -305,12 +300,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return CryptoServiceGrpc.GetCryptoTransferMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetCryptoTransfer(Build());
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.SetCryptoTransfer(Build());
         }
@@ -318,9 +313,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetCryptoTransfer();
+            var body = sourceTransactionBody.CryptoTransfer();
             foreach (var transfer in body.GetTransfers().GetAccountAmountsList())
             {
                 hbarTransfers.Add(HbarTransfer.FromProtobuf(transfer));

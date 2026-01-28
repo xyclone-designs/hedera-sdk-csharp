@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Token;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Account
 {
@@ -18,9 +14,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
     [Obsolete("Obsolete")]
     public class AccountAllowanceAdjustTransaction : Transaction<AccountAllowanceAdjustTransaction>
     {
-        private readonly IList<HbarAllowance> hbarAllowances = new ();
-        private readonly IList<TokenAllowance> tokenAllowances = new ();
-        private readonly IList<TokenNftAllowance> nftAllowances = new ();
+        private readonly IList<HbarAllowance> hbarAllowances = [];
+        private readonly IList<TokenAllowance> tokenAllowances = [];
+        private readonly IList<TokenNftAllowance> nftAllowances = [];
         // key is "{ownerId}:{spenderId}".  OwnerId may be "FEE_PAYER"
         private readonly Dictionary<string, Dictionary<TokenId, int>> nftMap = [];
         /// <summary>
@@ -48,7 +44,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         private AccountAllowanceAdjustTransaction AdjustHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
             RequireNotFrozen();
-            hbarAllowances.Add(new HbarAllowance(ownerAccountId, Objects.RequireNonNull(spenderAccountId), amount));
+            hbarAllowances.Add(new HbarAllowance(ownerAccountId, spenderAccountId, amount));
             return this;
         }
 
@@ -63,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// </remarks>
         public virtual AccountAllowanceAdjustTransaction AddHbarAllowance(AccountId spenderAccountId, Hbar amount)
         {
-            return AdjustHbarAllowance(null, spenderAccountId, Objects.RequireNonNull(amount));
+            return AdjustHbarAllowance(null, spenderAccountId, amount);
         }
 
         /// <summary>
@@ -75,13 +71,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public virtual AccountAllowanceAdjustTransaction GrantHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
-            Objects.RequireNonNull(amount);
             if (amount.CompareTo(Hbar.ZERO) < 0)
             {
                 throw new ArgumentException("amount passed to grantHbarAllowance must be positive");
             }
 
-            return AdjustHbarAllowance(Objects.RequireNonNull(ownerAccountId), spenderAccountId, amount);
+            return AdjustHbarAllowance(ownerAccountId, spenderAccountId, amount);
         }
 
         /// <summary>
@@ -93,13 +88,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public virtual AccountAllowanceAdjustTransaction RevokeHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
-            Objects.RequireNonNull(amount);
             if (amount.CompareTo(Hbar.ZERO) < 0)
             {
                 throw new ArgumentException("amount passed to revokeHbarAllowance must be positive");
             }
 
-            return AdjustHbarAllowance(Objects.RequireNonNull(ownerAccountId), spenderAccountId, amount.Negated());
+            return AdjustHbarAllowance(ownerAccountId, spenderAccountId, amount.Negated());
         }
 
         /// <summary>
@@ -108,13 +102,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>the Hbar allowances</returns>
         public virtual IList<HbarAllowance> GetHbarAllowances()
         {
-            return new List(hbarAllowances);
+            return [.. hbarAllowances];
         }
 
         private AccountAllowanceAdjustTransaction AdjustTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
         {
             RequireNotFrozen();
-            tokenAllowances.Add(new TokenAllowance(Objects.RequireNonNull(tokenId), ownerAccountId, Objects.RequireNonNull(spenderAccountId), amount));
+            tokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount));
             return this;
         }
 
@@ -143,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public virtual AccountAllowanceAdjustTransaction GrantTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
         {
-            return AdjustTokenAllowance(tokenId, Objects.RequireNonNull(ownerAccountId), spenderAccountId, amount);
+            return AdjustTokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount);
         }
 
         /// <summary>
@@ -156,7 +150,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public virtual AccountAllowanceAdjustTransaction RevokeTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
         {
-            return AdjustTokenAllowance(tokenId, Objects.RequireNonNull(ownerAccountId), spenderAccountId, -amount);
+            return AdjustTokenAllowance(tokenId, ownerAccountId, spenderAccountId, -amount);
         }
 
         /// <summary>
@@ -165,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>the token allowances</returns>
         public virtual IList<TokenAllowance> GetTokenAllowances()
         {
-            return new List(tokenAllowances);
+            return [.. tokenAllowances];
         }
 
         private static string OwnerToString(AccountId ownerAccountId)
@@ -179,9 +173,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             if (nftMap.ContainsKey(key))
             {
                 var innerMap = nftMap[key];
+
                 if (innerMap.ContainsKey(tokenId))
                 {
-                    return Objects.RequireNonNull(nftAllowances[innerMap[tokenId]].serialNumbers);
+                    return nftAllowances[innerMap[tokenId]].serialNumbers;
                 }
                 else
                 {
@@ -191,15 +186,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             else
             {
                 Dictionary<TokenId, int> innerMap = [];
-                nftMap.Put(key, innerMap);
+                nftMap.Add(key, innerMap);
                 return NewNftSerials(ownerAccountId, spenderAccountId, tokenId, innerMap);
             }
         }
 
         private IList<long> NewNftSerials(AccountId ownerAccountId, AccountId spenderAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
         {
-            innerMap.Put(tokenId, nftAllowances.Count);
-            TokenNftAllowance newAllowance = new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, null, new (), null);
+            innerMap.Add(tokenId, nftAllowances.Count);
+            TokenNftAllowance newAllowance = new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, null, new (), default);
             nftAllowances.Add(newAllowance);
             return newAllowance.serialNumbers;
         }
@@ -207,14 +202,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         private AccountAllowanceAdjustTransaction AdjustNftAllowance(TokenId tokenId, long serial, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
-            GetNftSerials(ownerAccountId, Objects.RequireNonNull(spenderAccountId), tokenId).Add(serial);
+            GetNftSerials(ownerAccountId, spenderAccountId, tokenId).Add(serial);
             return this;
         }
 
         private AccountAllowanceAdjustTransaction AdjustNftAllowanceAllSerials(TokenId tokenId, bool allSerials, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
-            nftAllowances.Add(new TokenNftAllowance(Objects.RequireNonNull(tokenId), ownerAccountId, Objects.RequireNonNull(spenderAccountId), null, Collections.EmptyList(), allSerials));
+            nftAllowances.Add(new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, null, [], allSerials));
             return this;
         }
 
@@ -229,7 +224,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// </remarks>
         public virtual AccountAllowanceAdjustTransaction AddTokenNftAllowance(NftId nftId, AccountId spenderAccountId)
         {
-            Objects.RequireNonNull(nftId);
             return AdjustNftAllowance(nftId.TokenId, nftId.Serial, null, spenderAccountId);
         }
 
@@ -256,8 +250,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public virtual AccountAllowanceAdjustTransaction GrantTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
-            Objects.RequireNonNull(nftId);
-            Objects.RequireNonNull(ownerAccountId);
             return AdjustNftAllowance(nftId.TokenId, nftId.Serial, ownerAccountId, spenderAccountId);
         }
 
@@ -270,7 +262,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>                     an account allowance adjust transaction</returns>
         public virtual AccountAllowanceAdjustTransaction GrantTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
-            Objects.RequireNonNull(ownerAccountId);
             return AdjustNftAllowanceAllSerials(tokenId, true, ownerAccountId, spenderAccountId);
         }
 
@@ -283,8 +274,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <remarks>@deprecatedwith no replacement</remarks>
         public virtual AccountAllowanceAdjustTransaction RevokeTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
-            Objects.RequireNonNull(nftId);
-            Objects.RequireNonNull(ownerAccountId);
             return AdjustNftAllowance(nftId.TokenId, -nftId.Serial, ownerAccountId, spenderAccountId);
         }
 
@@ -297,7 +286,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>                     an account allowance adjust transaction</returns>
         public virtual AccountAllowanceAdjustTransaction RevokeTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
-            Objects.RequireNonNull(ownerAccountId);
             return AdjustNftAllowanceAllSerials(tokenId, false, ownerAccountId, spenderAccountId);
         }
 
@@ -307,7 +295,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>a copy of {@link #nftAllowances}</returns>
         public virtual IList<TokenNftAllowance> GetTokenNftAllowances()
         {
-            IList<TokenNftAllowance> retval = new List(nftAllowances.Count);
+            IList<TokenNftAllowance> retval = new List<TokenNftAllowance>(nftAllowances.Count);
             foreach (var allowance in nftAllowances)
             {
                 retval.Add(TokenNftAllowance.CopyFrom(allowance));
@@ -321,11 +309,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             throw new NotSupportedException("Cannot get method descriptor for AccountAllowanceAdjustTransaction");
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule AccountAllowanceAdjustTransaction");
         }

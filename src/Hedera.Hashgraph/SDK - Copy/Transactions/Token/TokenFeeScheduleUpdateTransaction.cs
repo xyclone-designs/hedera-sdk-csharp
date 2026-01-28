@@ -1,26 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -37,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
     public class TokenFeeScheduleUpdateTransaction : Transaction<TokenFeeScheduleUpdateTransaction>
     {
         private TokenId tokenId = null;
-        private IList<CustomFee> customFees = new ();
+        private IList<CustomFee> customFees = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -85,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenFeeScheduleUpdateTransaction SetTokenId(TokenId tokenId)
         {
-            Objects.RequireNonNull(tokenId);
+            ArgumentNullException.ThrowIfNull(tokenId);
             RequireNotFrozen();
             tokenId = tokenId;
             return this;
@@ -114,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenFeeScheduleUpdateTransaction SetCustomFees(IList<CustomFee> customFees)
         {
-            Objects.RequireNonNull(customFees);
+            ArgumentNullException.ThrowIfNull(customFees);
             RequireNotFrozen();
             customFees = CustomFee.DeepCloneList(customFees);
             return this;
@@ -123,15 +106,16 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenFeeScheduleUpdate();
+            var body = sourceTransactionBody.TokenFeeScheduleUpdate();
+
             if (body.HasTokenId())
             {
                 tokenId = TokenId.FromProtobuf(body.GetTokenId());
             }
 
-            foreach (var fee in body.GetCustomFeesList())
+            foreach (var fee in body.CustomFees)
             {
                 customFees.Add(CustomFee.FromProtobuf(fee));
             }
@@ -142,18 +126,20 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenFeeScheduleUpdateTransactionBody}</returns>
-        virtual TokenFeeScheduleUpdateTransactionBody.Builder Build()
+        public virtual Proto.TokenFeeScheduleUpdateTransactionBody Build()
         {
-            var builder = TokenFeeScheduleUpdateTransactionBody.NewBuilder();
+            var builder = new Proto.TokenFeeScheduleUpdateTransactionBody();
+
             if (tokenId != null)
             {
-                builder.SetTokenId(tokenId.ToProtobuf());
+                builder.TokenId = tokenId.ToProtobuf();
             }
 
-            builder.ClearCustomFees();
+            builder.CustomFees.Clear();
+
             foreach (var fee in customFees)
             {
-                builder.AddCustomFees(fee.ToProtobuf());
+                builder.CustomFees.Add(fee.ToProtobuf());
             }
 
             return builder;
@@ -177,12 +163,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetUpdateTokenFeeScheduleMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenFeeScheduleUpdate(Build());
+            bodyBuilder.TokenFeeScheduleUpdate = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule TokenFeeScheduleUpdateTransaction");
         }

@@ -1,15 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
 {
@@ -28,86 +24,39 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
     /// </summary>
     public class EthereumTransaction : Transaction<EthereumTransaction>
     {
-        private byte[] ethereumData = new byte[0];
-        private FileId callDataFileId = null;
-        private Hbar maxGasAllowanceHbar = Hbar.ZERO;
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public EthereumTransaction()
-        {
-        }
-
-        EthereumTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+        public EthereumTransaction() { }
+		public EthereumTransaction(Proto.TransactionBody txBody) : base(txBody)
+		{
+			InitFromTransactionBody();
+		}
+		public EthereumTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        EthereumTransaction(Proto.TransactionBody txBody) : base(txBody)
+        private FileId CallDataFileId { get; set; }
+		/// <summary>
+		/// Sets the raw Ethereum transaction (RLP encoded type 0, 1, and 2). Complete
+		/// unless the callDataFileId is set.
+		/// </summary>
+		public virtual byte[] EthereumData
         {
-            InitFromTransactionBody();
+            get;
+            set { RequireNotFrozen(); field = value.CopyArray(); }
         }
-
-        /// <summary>
-        /// Gets the raw Ethereum transaction
-        /// </summary>
-        /// <returns>the raw Ethereum transaction</returns>
-        public virtual byte[] GetEthereumData()
-        {
-            return Array.CopyOf(ethereumData, ethereumData.Length);
-        }
-
-        /// <summary>
-        /// Sets the raw Ethereum transaction (RLP encoded type 0, 1, and 2). Complete
-        /// unless the callDataFileId is set.
-        /// </summary>
-        /// <param name="ethereumData">raw ethereum transaction bytes</param>
-        /// <returns>{@code this}</returns>
-        public virtual EthereumTransaction SetEthereumData(byte[] ethereumData)
-        {
-            Objects.RequireNonNull(ethereumData);
-            RequireNotFrozen();
-            ethereumData = Array.CopyOf(ethereumData, ethereumData.Length);
-            return this;
-        }
-
-        /// <summary>
-        /// Gets the FileId of the call data
-        /// </summary>
-        /// <returns>the FileId of the call data</returns>
-        public virtual FileId GetCallDataFileId()
-        {
-            return callDataFileId;
-        }
-
-        /// <summary>
-        /// For large transactions (for example contract create) this should be used to
-        /// set the FileId of an HFS file containing the callData
-        /// of the ethereumData. The data in the ethereumData will be re-written with
-        /// the callData element as a zero length string with the original contents in
-        /// the referenced file at time of execution. The ethereumData will need to be
-        /// "rehydrated" with the callData for signature validation to pass.
-        /// </summary>
-        /// <param name="fileId">File ID of an HFS file containing the callData</param>
-        /// <returns>{@code this}</returns>
-        public virtual EthereumTransaction SetCallDataFileId(FileId fileId)
-        {
-            Objects.RequireNonNull(fileId);
-            RequireNotFrozen();
-            callDataFileId = fileId;
-            return this;
-        }
-
-        /// <summary>
-        /// Gets the maximum amount that the payer of the hedera transaction
-        /// is willing to pay to complete the transaction.
-        /// </summary>
-        /// <returns>the max gas allowance</returns>
-        public virtual Hbar GetMaxGasAllowanceHbar()
-        {
-            return maxGasAllowanceHbar;
-        }
-
+		/// <summary>
+		/// For large transactions (for example contract create) this should be used to
+		/// set the FileId of an HFS file containing the callData
+		/// of the ethereumData. The data in the ethereumData will be re-written with
+		/// the callData element as a zero length string with the original contents in
+		/// the referenced file at time of execution. The ethereumData will need to be
+		/// "rehydrated" with the callData for signature validation to pass.
+		/// </summary>
+		public virtual FileId FileId
+		{
+			get;
+			set { RequireNotFrozen(); field = value; }
+		}
         /// <summary>
         /// Sets the maximum amount that the payer of the hedera transaction
         /// is willing to pay to complete the transaction.
@@ -122,60 +71,60 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
         /// price in the transaction was set to zero then the payer will be assessed
         /// the entire fee.
         /// </summary>
-        /// <param name="maxGasAllowanceHbar">the maximum gas allowance</param>
-        /// <returns>{@code this}</returns>
-        public virtual EthereumTransaction SetMaxGasAllowanceHbar(Hbar maxGasAllowanceHbar)
+        public virtual Hbar MaxGasAllowanceHbar
         {
-            Objects.RequireNonNull(maxGasAllowanceHbar);
-            RequireNotFrozen();
-            maxGasAllowanceHbar = maxGasAllowanceHbar;
-            return this;
+            get => field ?? Hbar.ZERO;
+			set { RequireNotFrozen(); field = value; }
         }
 
         private void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetEthereumTransaction();
-            ethereumData = body.GetEthereumData().ToByteArray();
-            if (body.HasCallData())
-            {
-                callDataFileId = FileId.FromProtobuf(body.GetCallData());
-            }
+            if (sourceTransactionBody.EthereumTransaction.CallData is not null)
+				CallDataFileId = FileId.FromProtobuf(sourceTransactionBody.EthereumTransaction.CallData);
 
-            maxGasAllowanceHbar = Hbar.FromTinybars(body.GetMaxGasAllowance());
-        }
+			EthereumData = sourceTransactionBody.EthereumTransaction.EthereumData.ToByteArray();
+			MaxGasAllowanceHbar = Hbar.FromTinybars(sourceTransactionBody.EthereumTransaction.MaxGasAllowance);
+		}
 
-        private EthereumTransactionBody.Builder Build()
+        private Proto.EthereumTransactionBody Build()
         {
-            var builder = EthereumTransactionBody.NewBuilder().SetEthereumData(ByteString.CopyFrom(ethereumData)).SetMaxGasAllowance(maxGasAllowanceHbar.ToTinybars());
-            if (callDataFileId != null)
+			Proto.EthereumTransactionBody proto = new ()
             {
-                builder.SetCallData(callDataFileId.ToProtobuf());
-            }
+                EthereumData = ByteString.CopyFrom(EthereumData),
+                MaxGasAllowance = MaxGasAllowanceHbar.ToTinybars(),
+            };
 
-            return builder;
+            if (CallDataFileId != null)
+                proto.CallData = CallDataFileId.ToProtobuf();
+
+            return proto;
         }
 
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
             return SmartContractServiceGrpc.GetCallEthereumMethod();
         }
-
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetEthereumTransaction(Build());
+            bodyBuilder.EthereumTransaction = Build();
         }
-
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule EthereumTransaction");
         }
-
-        override void ValidateChecksums(Client client)
+		private override void ValidateChecksums(Client client)
         {
-            if (callDataFileId != null)
-            {
-                callDataFileId.ValidateChecksum(client);
-            }
+            CallDataFileId?.ValidateChecksum(client);
+        }
+
+        private override void ValidateChecksums(Client client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnExecute(Client client)
+        {
+            throw new NotImplementedException();
         }
     }
 }

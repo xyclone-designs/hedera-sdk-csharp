@@ -5,7 +5,7 @@ using Com.Google.Gson;
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Logger;
+using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 using Java.Io;
 using Java.Nio.Charset;

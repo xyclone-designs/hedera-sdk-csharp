@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual ScheduleInfoQuery SetScheduleId(ScheduleId scheduleId)
         {
-            Objects.RequireNonNull(scheduleId);
+            ArgumentNullException.ThrowIfNull(scheduleId);
             scheduleId = scheduleId;
             return this;
         }
@@ -76,10 +76,10 @@ namespace Hedera.Hashgraph.SDK.Queries
             var builder = ScheduleGetInfoQuery.NewBuilder();
             if (scheduleId != null)
             {
-                builder.SetScheduleID(scheduleId.ToProtobuf());
+                builder.ScheduleID(scheduleId.ToProtobuf());
             }
 
-            queryBuilder.SetScheduleGetInfo(builder.SetHeader(header));
+            queryBuilder.SetScheduleGetInfo(builder.Header(header));
         }
 
         public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)

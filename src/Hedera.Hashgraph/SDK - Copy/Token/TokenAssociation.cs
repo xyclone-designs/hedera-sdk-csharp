@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 
 namespace Hedera.Hashgraph.SDK.Token

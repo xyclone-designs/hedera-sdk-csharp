@@ -1,14 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Account
 {
@@ -82,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public AccountDeleteTransaction SetAccountId(AccountId deleteAccountId)
         {
-            Objects.RequireNonNull(deleteAccountId);
+            ArgumentNullException.ThrowIfNull(deleteAccountId);
             RequireNotFrozen();
             accountId = deleteAccountId;
             return this;
@@ -111,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountDeleteTransaction SetTransferAccountId(AccountId transferAccountId)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(transferAccountId);
+            ArgumentNullException.ThrowIfNull(transferAccountId);
             transferAccountId = transferAccountId;
             return this;
         }
@@ -131,24 +125,24 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return CryptoServiceGrpc.GetCryptoDeleteMethod();
+            return CryptoServiceGrpc.CryptoDeleteMethod;
         }
 
         /// <summary>
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link CryptoDeleteTransactionBody}</returns>
-        CryptoDeleteTransactionBody.Builder Build()
+        Proto.CryptoDeleteTransactionBody Build()
         {
-            var builder = CryptoDeleteTransactionBody.NewBuilder();
+            var builder = new Proto.CryptoDeleteTransactionBody();
             if (accountId != null)
             {
-                builder.SetDeleteAccountID(accountId.ToProtobuf());
+                builder.DeleteAccountID = accountId.ToProtobuf();
             }
 
             if (transferAccountId != null)
             {
-                builder.SetTransferAccountID(transferAccountId.ToProtobuf());
+                builder.TransferAccountID = transferAccountId.ToProtobuf();
             }
 
             return builder;
@@ -159,26 +153,26 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetCryptoDelete();
-            if (body.HasDeleteAccountID())
+            var body = sourceTransactionBody.CryptoDelete;
+            if (body.DeleteAccountID is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetDeleteAccountID());
+                accountId = AccountId.FromProtobuf(body.DeleteAccountID);
             }
 
-            if (body.HasTransferAccountID())
+            if (body.TransferAccountID is not null)
             {
-                transferAccountId = AccountId.FromProtobuf(body.GetTransferAccountID());
+                transferAccountId = AccountId.FromProtobuf(body.TransferAccountID);
             }
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetCryptoDelete(Build());
+            bodyBuilder.CryptoDelete = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetCryptoDelete(Build());
+            scheduled.CryptoDelete = Build();
         }
     }
 }

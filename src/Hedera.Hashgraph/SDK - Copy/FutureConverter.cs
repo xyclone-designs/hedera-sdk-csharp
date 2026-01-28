@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.SDK
                 return wrappedFuture.Get(timeout, unit);
             }
 
-            virtual Future<T> GetWrappedFuture()
+            public virtual Future<T> GetWrappedFuture()
             {
                 return wrappedFuture;
             }
@@ -115,7 +115,7 @@ namespace Hedera.Hashgraph.SDK
                     return (ValueSourceFuture<T>)base.GetWrappedFuture();
                 }
 
-                public override void AddListener(Runnable listener, Executor executor)
+                public override void AddListener(Action listener, Executor executor)
                 {
                     GetWrappedFuture().AddCallbacks((value) => executor.Execute(listener), (ex) => executor.Execute(listener));
                 }

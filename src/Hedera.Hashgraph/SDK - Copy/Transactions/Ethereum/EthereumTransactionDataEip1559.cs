@@ -1,15 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Esaulpaugh.Headlong.Rlp;
-using Com.Esaulpaugh.Headlong.Util;
-using Com.Google.Common.Base;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
 {
@@ -114,12 +106,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
 
         public virtual byte[] ToBytes()
         {
-            return RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, nonce, maxPriorityGas, maxGas, gasLimit, to, value, callData, new List<string>(), recoveryId, r, s));
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("chainId", Hex.ToHexString(chainId)).Add("nonce", Hex.ToHexString(nonce)).Add("maxPriorityGas", Hex.ToHexString(maxPriorityGas)).Add("maxGas", Hex.ToHexString(maxGas)).Add("gasLimit", Hex.ToHexString(gasLimit)).Add("to", Hex.ToHexString(to)).Add("value", Hex.ToHexString(value)).Add("accessList", Hex.ToHexString(accessList)).Add("recoveryId", Hex.ToHexString(recoveryId)).Add("r", Hex.ToHexString(r)).Add("s", Hex.ToHexString(s)).ToString();
+            return RLPEncoder.Sequence(Integers.ToBytes(0x02), [chainId, nonce, maxPriorityGas, maxGas, gasLimit, to, value, callData, new List<string>(), recoveryId, r, s]);
         }
     }
 }

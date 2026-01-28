@@ -1,12 +1,88 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy\\contract\\contractfunctionparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy\\contract\\contractfunctionparameters.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy\\contract\\contractfunctionresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy\\contract\\contractfunctionresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy\\contract\\contractfunctionselector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy\\contract\\contractfunctionselector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy\\contract\\contractcreateflow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy\\contract\\contractcreateflow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ContractFunctionSelector.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionSelector.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionSelector.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionSelector.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionSelector.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoBAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T12:56:15.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ContractFunctionResult.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionResult.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionResult.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionResult.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T12:56:15.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ContractFunctionParameters.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionParameters.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionParameters.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionParameters.cs*",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractFunctionParameters.cs*",
+              "ViewState": "AgIAAAQKAAAAnJmZmZklwBkKAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T12:56:15.447Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ContractCreateFlow.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractCreateFlow.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractCreateFlow.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractCreateFlow.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy\\Contract\\ContractCreateFlow.cs",
+              "ViewState": "AgIAAHkCAAAAnJmZmZkVwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T12:56:15.322Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

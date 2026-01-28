@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK
         /// Extract the network names.
         /// </summary>
         /// <returns>the network names</returns>
-        virtual IList<string> GetNetwork()
+        public virtual IList<string> GetNetwork()
         {
             lock (this)
             {
@@ -103,14 +103,14 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>the mirror network</returns>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="InterruptedException">when a thread is interrupted while it's waiting, sleeping, or otherwise occupied</exception>
-        virtual MirrorNetwork SetNetwork(IList<string> network)
+        public virtual MirrorNetwork SetNetwork(IList<string> network)
         {
             lock (this)
             {
                 var map = new Dictionary<string, BaseNodeAddress>(network.Count);
                 foreach (var address in network)
                 {
-                    map.Put(address, BaseNodeAddress.FromString(address));
+                    map.Add(address, BaseNodeAddress.FromString(address));
                 }
 
                 return base.SetNetwork(map);
@@ -127,7 +127,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <returns>the next healthy mirror node on the list</returns>
         /// <exception cref="InterruptedException">when a thread is interrupted while it's waiting, sleeping, or otherwise occupied</exception>
-        virtual MirrorNode GetNextMirrorNode()
+        public virtual MirrorNode GetNextMirrorNode()
         {
             lock (this)
             {
@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.SDK
         /// <summary>
         /// Convenience to get the REST base URL from the next healthy mirror node.
         /// </summary>
-        virtual string GetRestBaseUrl()
+        public virtual string GetRestBaseUrl()
         {
             return GetNextMirrorNode().GetRestBaseUrl();
         }

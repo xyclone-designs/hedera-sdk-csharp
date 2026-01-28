@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
+using Hedera.Hashgraph.SDK.Ids;
+
 namespace Hedera.Hashgraph.SDK.Token
 {
     /// <summary>
@@ -107,6 +109,15 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
 		/// <summary>
+		/// Create the byte array.
+		/// </summary>
+		/// <returns>                         the byte array representation</returns>
+		public virtual byte[] ToBytes()
+		{
+			return ToProtobuf().ToByteArray();
+		}
+
+		/// <summary>
 		/// Create the protobuf.
 		/// </summary>
 		/// <returns>                         the protobuf representation</returns>
@@ -140,15 +151,6 @@ namespace Hedera.Hashgraph.SDK.Token
 		public static Proto.TokenFreezeStatus FreezeStatusToProtobuf(bool? freezeStatus)
         {
             return freezeStatus == null ? Proto.TokenFreezeStatus.FreezeNotApplicable : freezeStatus.Value ? Proto.TokenFreezeStatus.Frozen : Proto.TokenFreezeStatus.Unfrozen;
-        }
-
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
-        public virtual byte[] ToBytes()
-        {
-            return ToProtobuf().ToByteArray();
         }
     }
 }

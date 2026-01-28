@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual LambdaSStoreTransaction SetHookId(HookId hookId)
         {
             RequireNotFrozen();
-            hookId = Objects.RequireNonNull(hookId);
+            hookId = ArgumentNullException.ThrowIfNull(hookId);
             return this;
         }
 
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual LambdaSStoreTransaction SetStorageUpdates(IList<LambdaStorageUpdate> updates)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(updates);
+            ArgumentNullException.ThrowIfNull(updates);
             storageUpdates = new List(updates);
             return this;
         }
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual LambdaSStoreTransaction AddStorageUpdate(LambdaStorageUpdate update)
         {
             RequireNotFrozen();
-            storageUpdates.Add(Objects.RequireNonNull(update));
+            storageUpdates.Add(ArgumentNullException.ThrowIfNull(update));
             return this;
         }
 
@@ -98,12 +98,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return storageUpdates;
         }
 
-        virtual LambdaSStoreTransactionBody Build()
+        public virtual LambdaSStoreTransactionBody Build()
         {
             var builder = LambdaSStoreTransactionBody.NewBuilder();
             if (hookId != null)
             {
-                builder.SetHookId(hookId.ToProtobuf());
+                builder.HookId(hookId.ToProtobuf());
             }
 
             foreach (var update in storageUpdates)
@@ -114,9 +114,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return proto;
         }
 
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetLambdaSstore();
+            var body = sourceTransactionBody.LambdaSstore();
             if (body.HasHookId())
             {
                 hookId = HookId.FromProtobuf(body.GetHookId());
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 var entityId = hookId.GetEntityId();
                 if (entityId.IsAccount())
                 {
-                    entityId.GetAccountId().ValidateChecksum(client);
+                    entityId.AccountId.ValidateChecksum(client);
                 }
                 else if (entityId.IsContract())
                 {
@@ -150,12 +150,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return SmartContractServiceGrpc.GetLambdaSStoreMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetLambdaSstore(Build());
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("cannot schedule LambdaSStoreTransaction");
         }

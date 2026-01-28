@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
     public class TokenAssociateTransaction : Transaction<TokenAssociateTransaction>
     {
         private AccountId accountId = null;
-        private IList<TokenId> tokenIds = new ();
+        private IList<TokenId> tokenIds = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenAssociateTransaction SetAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             accountId = accountId;
             return this;
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenAssociateTransaction SetTokenIds(IList<TokenId> tokens)
         {
-            Objects.RequireNonNull(tokens);
+            ArgumentNullException.ThrowIfNull(tokens);
             RequireNotFrozen();
             tokenIds = new List(tokens);
             return this;
@@ -140,19 +140,19 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenAssociateTransactionBody}</returns>
-        virtual TokenAssociateTransactionBody.Builder Build()
+        public virtual TokenAssociateTransactionBody.Builder Build()
         {
             var builder = TokenAssociateTransactionBody.NewBuilder();
             if (accountId != null)
             {
-                builder.SetAccount(accountId.ToProtobuf());
+                builder.Account(accountId.ToProtobuf());
             }
 
             foreach (var token in tokenIds)
             {
                 if (token != null)
                 {
-                    builder.AddTokens(token.ToProtobuf());
+                    builder.Tokens.Add(token.ToProtobuf());
                 }
             }
 
@@ -162,15 +162,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenAssociate();
-            if (body.HasAccount())
+            var body = sourceTransactionBody.TokenAssociate();
+            if (body.Account is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetAccount());
+                accountId = AccountId.FromProtobuf(body.Account);
             }
 
-            foreach (var token in body.GetTokensList())
+            foreach (var token in body.Tokens)
             {
                 tokenIds.Add(TokenId.FromProtobuf(token));
             }
@@ -178,7 +178,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
 
         override void ValidateChecksums(Client client)
         {
-            Objects.RequireNonNull(client);
+            ArgumentNullException.ThrowIfNull(client);
             if (accountId != null)
             {
                 accountId.ValidateChecksum(client);
@@ -198,14 +198,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetAssociateTokensMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenAssociate(Build());
+            bodyBuilder.TokenAssociate = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenAssociate(Build());
+            scheduled.TokenAssociate = Build();
         }
     }
 }

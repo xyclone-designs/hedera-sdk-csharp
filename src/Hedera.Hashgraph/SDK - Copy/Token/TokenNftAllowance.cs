@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Google.Common.Base;
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
 using Java.Util;
 using Javax.Annotation;
@@ -65,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="delegatingSpender">the delegating spender's account id</param>
         /// <param name="serialNumbers">the list of serial numbers</param>
         /// <param name="allSerials">grant for all serial's</param>
-        TokenNftAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender, Collection<long> serialNumbers, bool allSerials)
+        internal TokenNftAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender, Collection<long> serialNumbers, bool allSerials)
         {
             tokenId = tokenId;
             ownerAccountId = ownerAccountId;
@@ -75,12 +76,12 @@ namespace Hedera.Hashgraph.SDK.Token
             allSerials = allSerials;
         }
 
-        /// <summary>
-        /// Create a copy of a nft token allowance object.
-        /// </summary>
-        /// <param name="allowance">the nft token allowance to copj</param>
-        /// <returns>                         a new copy</returns>
-        static TokenNftAllowance CopyFrom(TokenNftAllowance allowance)
+		/// <summary>
+		/// Create a copy of a nft token allowance object.
+		/// </summary>
+		/// <param name="allowance">the nft token allowance to copj</param>
+		/// <returns>                         a new copy</returns>
+		public static TokenNftAllowance CopyFrom(TokenNftAllowance allowance)
         {
             return new TokenNftAllowance(allowance.tokenId, allowance.ownerAccountId, allowance.spenderAccountId, allowance.delegatingSpender, allowance.serialNumbers, allowance.allSerials);
         }
@@ -90,7 +91,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="allowanceProto">the protobuf</param>
         /// <returns>                         the nft token allowance</returns>
-        static TokenNftAllowance FromProtobuf(NftAllowance allowanceProto)
+        public static TokenNftAllowance FromProtobuf(Proto.NftAllowance allowanceProto)
         {
             return new TokenNftAllowance(allowanceProto.HasTokenId() ? TokenId.FromProtobuf(allowanceProto.GetTokenId()) : null, allowanceProto.HasOwner() ? AccountId.FromProtobuf(allowanceProto.GetOwner()) : null, allowanceProto.HasSpender() ? AccountId.FromProtobuf(allowanceProto.GetSpender()) : null, allowanceProto.HasDelegatingSpender() ? AccountId.FromProtobuf(allowanceProto.GetDelegatingSpender()) : null, allowanceProto.GetSerialNumbersList(), allowanceProto.HasApprovedForAll() ? allowanceProto.GetApprovedForAll().GetValue() : null);
         }
@@ -103,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
         public static TokenNftAllowance FromBytes(byte[] bytes)
         {
-            return FromProtobuf(NftAllowance.ParseFrom(Objects.RequireNonNull(bytes)));
+            return FromProtobuf(NftAllowance.ParseFrom(ArgumentNullException.ThrowIfNull(bytes)));
         }
 
         /// <summary>
@@ -111,7 +112,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="client">the configured client</param>
         /// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
-        virtual void ValidateChecksums(Client client)
+        public virtual void ValidateChecksums(Client client)
         {
             if (tokenId != null)
             {
@@ -138,33 +139,33 @@ namespace Hedera.Hashgraph.SDK.Token
         /// Create the protobuf.
         /// </summary>
         /// <returns>                         the protobuf representation</returns>
-        virtual NftAllowance ToProtobuf()
+        public virtual Proto.NftAllowance ToProtobuf()
         {
             var builder = NftAllowance.NewBuilder();
             if (tokenId != null)
             {
-                builder.SetTokenId(tokenId.ToProtobuf());
+                builder.TokenId(tokenId.ToProtobuf());
             }
 
             if (ownerAccountId != null)
             {
-                builder.SetOwner(ownerAccountId.ToProtobuf());
+                builder.Owner(ownerAccountId.ToProtobuf());
             }
 
             if (spenderAccountId != null)
             {
-                builder.SetSpender(spenderAccountId.ToProtobuf());
+                builder.Spender(spenderAccountId.ToProtobuf());
             }
 
             if (delegatingSpender != null)
             {
-                builder.SetDelegatingSpender(delegatingSpender.ToProtobuf());
+                builder.DelegatingSpender(delegatingSpender.ToProtobuf());
             }
 
             builder.AddAllSerialNumbers(serialNumbers);
             if (allSerials != null)
             {
-                builder.SetApprovedForAll(BoolValue.NewBuilder().SetValue(allSerials).Build());
+                builder.ApprovedForAll(BoolValue.NewBuilder().SetValue(allSerials).Build());
             }
 
             return proto;
@@ -174,17 +175,17 @@ namespace Hedera.Hashgraph.SDK.Token
         /// Create the protobuf.
         /// </summary>
         /// <returns>                         the remove protobuf</returns>
-        virtual NftRemoveAllowance ToRemoveProtobuf()
+        public virtual Proto.NftRemoveAllowance ToRemoveProtobuf()
         {
             var builder = NftRemoveAllowance.NewBuilder();
             if (tokenId != null)
             {
-                builder.SetTokenId(tokenId.ToProtobuf());
+                builder.TokenId(tokenId.ToProtobuf());
             }
 
             if (ownerAccountId != null)
             {
-                builder.SetOwner(ownerAccountId.ToProtobuf());
+                builder.Owner(ownerAccountId.ToProtobuf());
             }
 
             builder.AddAllSerialNumbers(serialNumbers);
@@ -198,21 +199,6 @@ namespace Hedera.Hashgraph.SDK.Token
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
-        }
-
-        public override string ToString()
-        {
-            var stringHelper = MoreObjects.ToStringHelper(this).Add("tokenId", tokenId).Add("ownerAccountId", ownerAccountId).Add("spenderAccountId", spenderAccountId).Add("delegatingSpender", delegatingSpender);
-            if (allSerials != null)
-            {
-                stringHelper.Add("allSerials", allSerials);
-            }
-            else
-            {
-                stringHelper.Add("serials", serialNumbers);
-            }
-
-            return stringHelper.ToString();
         }
     }
 }

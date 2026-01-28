@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 metadata = new Metadata();
                 Metadata.Key<String> authKey = Metadata.Key.Of("x-user-agent", Metadata.ASCII_STRING_MARSHALLER);
-                metadata.Put(authKey, GetUserAgent());
+                metadata.Add(authKey, GetUserAgent());
             }
 
             public virtual ClientCall<ReqT, RespT> InterceptCall<ReqT, RespT>(MethodDescriptor<ReqT, RespT> method, CallOptions callOptions, Channel next)

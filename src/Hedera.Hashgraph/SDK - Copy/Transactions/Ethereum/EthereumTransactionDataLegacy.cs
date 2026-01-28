@@ -1,15 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Esaulpaugh.Headlong.Rlp;
-using Com.Google.Common.Base;
-using Java.Math;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
+using Org.BouncyCastle.Math;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
 {
@@ -21,9 +13,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
         /// <summary>
         /// ID of the chain
         /// </summary>
-        public byte[] chainId = new byte[]
-        {
-        };
+        public byte[] chainId = [];
         /// <summary>
         /// Transaction's nonce
         /// </summary>
@@ -60,6 +50,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
         /// The S value of the signature
         /// </summary>
         public byte[] s;
+
         EthereumTransactionDataLegacy(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] v, byte[] r, byte[] s) : base(callData)
         {
             nonce = nonce;
@@ -99,11 +90,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
         public virtual byte[] ToBytes()
         {
             return RLPEncoder.List(nonce, gasPrice, gasLimit, to, value, callData, v, r, s);
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("chainId", Hex.ToHexString(chainId)).Add("nonce", Hex.ToHexString(nonce)).Add("gasPrice", Hex.ToHexString(gasPrice)).Add("gasLimit", Hex.ToHexString(gasLimit)).Add("to", Hex.ToHexString(to)).Add("value", Hex.ToHexString(value)).Add("recoveryId", recoveryId).Add("v", Hex.ToHexString(v)).Add("r", Hex.ToHexString(r)).Add("s", Hex.ToHexString(s)).ToString();
         }
     }
 }

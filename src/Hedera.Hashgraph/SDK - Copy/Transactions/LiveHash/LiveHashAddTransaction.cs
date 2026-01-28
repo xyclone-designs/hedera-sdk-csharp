@@ -1,23 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
 
 namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
 {
@@ -37,9 +27,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
     public sealed class LiveHashAddTransaction : Transaction<LiveHashAddTransaction>
     {
         private AccountId accountId = null;
-        private byte[] hash = new[]
-        {
-        };
+        private byte[] hash = [];
         private KeyList keys = null;
         private Duration duration = null;
         /// <summary>
@@ -76,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// <returns>{@code this}</returns>
         public LiveHashAddTransaction SetAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             accountId = accountId;
             return this;
@@ -99,8 +87,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         public LiveHashAddTransaction SetHash(byte[] hash)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hash);
-            hash = Array.CopyOf(hash, hash.Length);
+            ArgumentNullException.ThrowIfNull(hash);
+            hash = hash.CopyArray();
             return this;
         }
 
@@ -111,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// <returns>{@code this}</returns>
         public LiveHashAddTransaction SetHash(ByteString hash)
         {
-            Objects.RequireNonNull(hash);
+            ArgumentNullException.ThrowIfNull(hash);
             return SetHash(hash.ToByteArray());
         }
 
@@ -154,7 +142,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         public LiveHashAddTransaction SetDuration(Duration duration)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(duration);
+            ArgumentNullException.ThrowIfNull(duration);
             duration = duration;
             return this;
         }
@@ -164,22 +152,24 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetCryptoAddLiveHash();
-            var hashBody = body.GetLiveHash();
-            if (hashBody.HasAccountId())
+            var body = sourceTransactionBody.CryptoAddLiveHash;
+            var hashBody = body.LiveHash;
+
+            if (hashBody.AccountId is not null)
             {
-                accountId = AccountId.FromProtobuf(hashBody.GetAccountId());
+                accountId = AccountId.FromProtobuf(hashBody.AccountId);
             }
 
-            hash = hashBody.GetHash().ToByteArray();
-            if (hashBody.HasKeys())
+            hash = hashBody.Hash.ToByteArray();
+
+            if (hashBody.Keys is not null)
             {
-                keys = KeyList.FromProtobuf(hashBody.GetKeys(), null);
+                keys = KeyList.FromProtobuf(hashBody.Keys, null);
             }
 
-            if (hashBody.HasDuration())
+            if (hashBody.Duration is not null)
             {
-                duration = Utils.DurationConverter.FromProtobuf(hashBody.GetDuration());
+                duration = Utils.DurationConverter.FromProtobuf(hashBody.Duration);
             }
         }
 
@@ -187,27 +177,30 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.CryptoAddLiveHashTransactionBody}</returns>
-        CryptoAddLiveHashTransactionBody.Builder Build()
+        Proto.CryptoAddLiveHashTransactionBody Build()
         {
-            var builder = CryptoAddLiveHashTransactionBody.NewBuilder();
-            var hashBuilder = LiveHash.NewBuilder();
+            var builder = new Proto.CryptoAddLiveHashTransactionBody();
+            var hashBuilder = new Proto.LiveHash();
             if (accountId != null)
             {
-                hashBuilder.SetAccountId(accountId.ToProtobuf());
+                hashBuilder.AccountId = accountId.ToProtobuf();
             }
 
-            hashBuilder.SetHash(ByteString.CopyFrom(hash));
+            hashBuilder.Hash = ByteString.CopyFrom(hash);
+
             if (keys != null)
             {
-                hashBuilder.SetKeys(keys.ToProtobuf());
+                hashBuilder.Keys = keys.ToProtobuf();
             }
 
             if (duration != null)
             {
-                hashBuilder.SetDuration(Utils.DurationConverter.ToProtobuf(duration));
+                hashBuilder.Duration = Utils.DurationConverter.ToProtobuf(duration);
             }
 
-            return builder.SetLiveHash(hashBuilder);
+            builder.LiveHash = hashBuilder;
+
+            return builder;
         }
 
         override void ValidateChecksums(Client client)
@@ -220,15 +213,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.LiveHash
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return CryptoServiceGrpc.GetAddLiveHashMethod();
+            return CryptoServiceGrpc.AddLiveHashMethod;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetCryptoAddLiveHash(Build());
+            bodyBuilder.CryptoAddLiveHash = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule LiveHashAddTransaction");
         }

@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>{@code this}</returns>
         public LiveHashQuery SetAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             accountId = accountId;
             return this;
         }
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>{@code this}</returns>
         public LiveHashQuery SetHash(byte[] hash)
         {
-            hash = Array.CopyOf(hash, hash.Length);
+            hash = hash.CopyArray();
             return this;
         }
 
@@ -94,11 +94,11 @@ namespace Hedera.Hashgraph.SDK
             var builder = CryptoGetLiveHashQuery.NewBuilder();
             if (accountId != null)
             {
-                builder.SetAccountID(accountId.ToProtobuf());
+                builder.AccountID(accountId.ToProtobuf());
             }
 
-            builder.SetHash(ByteString.CopyFrom(hash));
-            queryBuilder.SetCryptoGetLiveHash(builder.SetHeader(header));
+            builder.Hash(ByteString.CopyFrom(hash));
+            queryBuilder.SetCryptoGetLiveHash(builder.Header(header));
         }
 
         override LiveHash MapResponse(Response response, AccountId nodeId, Proto.Query request)

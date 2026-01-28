@@ -1,27 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Ids;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -35,27 +16,28 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The ID of the NFT
         /// </summary>
-        public readonly NftId nftId;
+        public NftId NftId;
         /// <summary>
         /// The current owner of the NFT
         /// </summary>
-        public readonly AccountId accountId;
+        public AccountId AccountId;
         /// <summary>
         /// The effective consensus timestamp at which the NFT was minted
         /// </summary>
-        public readonly Timestamp creationTime;
+        public Timestamp CreationTime;
         /// <summary>
         /// Represents the unique metadata of the NFT
         /// </summary>
-        public readonly byte[] metadata;
+        public byte[] Metadata;
         /// <summary>
         /// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
         /// </summary>
-        public readonly LedgerId ledgerId;
+        public LedgerId LedgerId;
         /// <summary>
         /// If an allowance is granted for the NFT, its corresponding spender account
         /// </summary>
-        public readonly AccountId spenderId;
+        public AccountId SpenderId;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -67,12 +49,12 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="spenderId">the spender of the allowance (null if not an allowance)</param>
         TokenNftInfo(NftId nftId, AccountId accountId, Timestamp creationTime, byte[] metadata, LedgerId ledgerId, AccountId spenderId)
         {
-            nftId = nftId;
-            accountId = accountId;
-            creationTime = Objects.RequireNonNull(creationTime);
-            metadata = metadata;
-            ledgerId = ledgerId;
-            spenderId = spenderId;
+            NftId = nftId;
+            AccountId = accountId;
+            CreationTime = creationTime;
+            Metadata = metadata;
+            LedgerId = ledgerId;
+            SpenderId = spenderId;
         }
 
         /// <summary>
@@ -82,7 +64,13 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <returns>                         the new token nft info</returns>
         static TokenNftInfo FromProtobuf(Proto.TokenNftInfo info)
         {
-            return new TokenNftInfo(NftId.FromProtobuf(info.GetNftID()), AccountId.FromProtobuf(info.GetAccountID()), Utils.TimestampConverter.FromProtobuf(info.GetCreationTime()), info.GetMetadata().ToByteArray(), LedgerId.FromByteString(info.GetLedgerId()), info.HasSpenderId() ? AccountId.FromProtobuf(info.GetSpenderId()) : null);
+            return new TokenNftInfo(
+                NftId.FromProtobuf(info.NftID), 
+                AccountId.FromProtobuf(info.AccountID), 
+                Utils.TimestampConverter.FromProtobuf(info.CreationTime), 
+                info.Metadata.ToByteArray(), 
+                LedgerId.FromByteString(info.LedgerId), 
+                info.SpenderId is not null ? AccountId.FromProtobuf(info.SpenderId) : null);
         }
 
         /// <summary>
@@ -100,20 +88,21 @@ namespace Hedera.Hashgraph.SDK.Token
         /// Create the protobuf.
         /// </summary>
         /// <returns>                         the protobuf representation</returns>
-        virtual Proto.TokenNftInfo ToProtobuf()
+        public virtual Proto.TokenNftInfo ToProtobuf()
         {
-            var builder = Proto.TokenNftInfo.NewBuilder().SetNftID(nftId.ToProtobuf()).SetAccountID(accountId.ToProtobuf()).SetCreationTime(Utils.TimestampConverter.ToProtobuf(creationTime)).SetMetadata(ByteString.CopyFrom(metadata)).SetLedgerId(ledgerId.ToByteString());
-            if (spenderId != null)
+            Proto.TokenNftInfo proto = new()
             {
-                builder.SetSpenderId(spenderId.ToProtobuf());
-            }
+				NftID = NftId.ToProtobuf(),
+				AccountID = AccountId.ToProtobuf(),
+				CreationTime = Utils.TimestampConverter.ToProtobuf(CreationTime),
+				Metadata = ByteString.CopyFrom(Metadata),
+				LedgerId = LedgerId.ToByteString(),
+			};
+                
+            if (SpenderId != null)
+				proto.SpenderId = SpenderId.ToProtobuf();
 
-            return proto;
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("nftId", nftId).Add("accountId", accountId).Add("creationTime", creationTime).Add("metadata", metadata).Add("ledgerId", ledgerId).Add("spenderId", spenderId).ToString();
+			return proto;
         }
 
         /// <summary>

@@ -131,9 +131,9 @@ namespace Hedera.Hashgraph.SDK
         /// Extract the unhealthy backoff time remaining.
         /// </summary>
         /// <returns>                         the unhealthy backoff time remaining</returns>
-        virtual long UnhealthyBackoffRemaining()
+        public virtual long UnhealthyBackoffRemaining()
         {
-            return Math.Max(0, readmitTime.ToEpochMilli() - System.CurrentTimeMillis());
+            return Math.Max(0, readmitTime.ToEpochMilli() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Hedera.Hashgraph.SDK
         /// the node backed off for a period of time.
         /// </summary>
         /// <returns>                         is the node healthy</returns>
-        virtual bool IsHealthy()
+        public virtual bool IsHealthy()
         {
             return readmitTime.ToEpochMilli() < Instant.Now().ToEpochMilli();
         }
@@ -150,7 +150,7 @@ namespace Hedera.Hashgraph.SDK
         /// <summary>
         /// Used when a node has received a bad gRPC status
         /// </summary>
-        virtual void IncreaseBackoff()
+        public virtual void IncreaseBackoff()
         {
             lock (this)
             {
@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK
         /// this is to allow a node which has been performing poorly (receiving several bad gRPC status) to become used again
         /// once it stops receiving bad gRPC statuses.
         /// </summary>
-        virtual void DecreaseBackoff()
+        public virtual void DecreaseBackoff()
         {
             lock (this)
             {
@@ -180,16 +180,16 @@ namespace Hedera.Hashgraph.SDK
         /// Get the amount of time the node has to wait until it's healthy again
         /// </summary>
         /// <returns>                         remaining back off time</returns>
-        virtual long GetRemainingTimeForBackoff()
+        public virtual long GetRemainingTimeForBackoff()
         {
-            return readmitTime.ToEpochMilli() - System.CurrentTimeMillis();
+            return readmitTime.ToEpochMilli() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
 
         /// <summary>
         /// Create TLS credentials when transport security is enabled
         /// </summary>
         /// <returns>                         the channel credentials</returns>
-        virtual ChannelCredentials GetChannelCredentials()
+        public virtual ChannelCredentials GetChannelCredentials()
         {
             return TlsChannelCredentials.Create();
         }
@@ -198,7 +198,7 @@ namespace Hedera.Hashgraph.SDK
         /// Get the gRPC channel for this node
         /// </summary>
         /// <returns>                         the channel</returns>
-        virtual ManagedChannel GetChannel()
+        public virtual ManagedChannel GetChannel()
         {
             lock (this)
             {
@@ -207,10 +207,10 @@ namespace Hedera.Hashgraph.SDK
                     return channel;
                 }
 
-                ManagedChannelBuilder<TWildcardTodo> channelBuilder;
+                ManagedChannelBuilder<T> channelBuilder;
                 if (address.IsInProcess())
                 {
-                    channelBuilder = InProcessChannelBuilder.ForName(Objects.RequireNonNull(address.GetName()));
+                    channelBuilder = InProcessChannelBuilder.ForName(ArgumentNullException.ThrowIfNull(address.GetName()));
                 }
                 else if (address.IsTransportSecurity())
                 {
@@ -235,11 +235,11 @@ namespace Hedera.Hashgraph.SDK
         /// Did we fail to connect?
         /// </summary>
         /// <returns>                         did we fail to connect</returns>
-        virtual bool ChannelFailedToConnect()
+        public virtual bool ChannelFailedToConnect()
         {
             return ChannelFailedToConnect(Instant.MAX);
         }
-        virtual bool ChannelFailedToConnect(Instant timeoutTime)
+        public virtual bool ChannelFailedToConnect(Instant timeoutTime)
         {
             if (hasConnected)
             {

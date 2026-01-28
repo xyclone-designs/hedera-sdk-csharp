@@ -227,7 +227,7 @@ namespace Hedera.Hashgraph.SDK.HBar
                 return true;
             }
 
-            if (o == null || GetType() != o.GetType())
+            if (o == null || GetType() != o?.GetType())
             {
                 return false;
             }

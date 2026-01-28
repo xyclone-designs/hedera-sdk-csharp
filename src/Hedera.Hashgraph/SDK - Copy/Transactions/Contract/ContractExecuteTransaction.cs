@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractExecuteTransaction SetContractId(ContractId contractId)
         {
-            Objects.RequireNonNull(contractId);
+            ArgumentNullException.ThrowIfNull(contractId);
             RequireNotFrozen();
             contractId = contractId;
             return this;
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractExecuteTransaction SetPayableAmount(Hbar amount)
         {
-            Objects.RequireNonNull(amount);
+            ArgumentNullException.ThrowIfNull(amount);
             RequireNotFrozen();
             payableAmount = amount;
             return this;
@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractExecuteTransaction SetFunctionParameters(ByteString functionParameters)
         {
-            Objects.RequireNonNull(functionParameters);
+            ArgumentNullException.ThrowIfNull(functionParameters);
             RequireNotFrozen();
             functionParameters = functionParameters.ToByteArray();
             return this;
@@ -186,7 +186,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractExecuteTransaction SetFunction(string name, ContractFunctionParameters @params)
         {
-            Objects.RequireNonNull(@params);
+            ArgumentNullException.ThrowIfNull(@params);
             return SetFunctionParameters(@params.ToBytes(name));
         }
 
@@ -195,7 +195,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetContractCall();
+            var body = sourceTransactionBody.ContractCall();
             if (body.HasContractID())
             {
                 contractId = ContractId.FromProtobuf(body.GetContractID());
@@ -215,12 +215,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             var builder = ContractCallTransactionBody.NewBuilder();
             if (contractId != null)
             {
-                builder.SetContractID(contractId.ToProtobuf());
+                builder.ContractID(contractId.ToProtobuf());
             }
 
-            builder.SetGas(gas);
-            builder.SetAmount(payableAmount.ToTinybars());
-            builder.SetFunctionParameters(ByteString.CopyFrom(functionParameters));
+            builder.Gas(gas);
+            builder.Amount(payableAmount.ToTinybars());
+            builder.FunctionParameters(ByteString.CopyFrom(functionParameters));
             return builder;
         }
 
@@ -237,12 +237,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             return SmartContractServiceGrpc.GetContractCallMethodMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetContractCall(Build());
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.SetContractCall(Build());
         }

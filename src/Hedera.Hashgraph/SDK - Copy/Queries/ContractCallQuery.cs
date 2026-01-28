@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public ContractCallQuery SetContractId(ContractId contractId)
         {
-            Objects.RequireNonNull(contractId);
+            ArgumentNullException.ThrowIfNull(contractId);
             contractId = contractId;
             return this;
         }
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public ContractCallQuery SetFunction(string name, ContractFunctionParameters @params)
         {
-            Objects.RequireNonNull(@params);
+            ArgumentNullException.ThrowIfNull(@params);
             SetFunctionParameters(@params.ToBytes(name).ToByteArray());
             return this;
         }
@@ -186,7 +186,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public ContractCallQuery SetSenderAccountId(AccountId senderAccountId)
         {
-            Objects.RequireNonNull(senderAccountId);
+            ArgumentNullException.ThrowIfNull(senderAccountId);
             senderAccountId = senderAccountId;
             return this;
         }
@@ -204,17 +204,17 @@ namespace Hedera.Hashgraph.SDK.Queries
             var builder = ContractCallLocalQuery.NewBuilder();
             if (contractId != null)
             {
-                builder.SetContractID(contractId.ToProtobuf());
+                builder.ContractID(contractId.ToProtobuf());
             }
 
-            builder.SetGas(gas);
-            builder.SetFunctionParameters(ByteString.CopyFrom(functionParameters));
+            builder.Gas(gas);
+            builder.FunctionParameters(ByteString.CopyFrom(functionParameters));
             if (senderAccountId != null)
             {
-                builder.SetSenderId(senderAccountId.ToProtobuf());
+                builder.SenderId(senderAccountId.ToProtobuf());
             }
 
-            queryBuilder.SetContractCallLocal(builder.SetHeader(header));
+            queryBuilder.SetContractCallLocal(builder.Header(header));
         }
 
         override ResponseHeader MapResponseHeader(Response response)

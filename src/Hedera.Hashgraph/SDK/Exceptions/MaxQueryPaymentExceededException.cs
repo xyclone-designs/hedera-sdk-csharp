@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.HBar;
+
 using System;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
@@ -27,7 +29,7 @@ namespace Hedera.Hashgraph.SDK.Exceptions
         base(string.Format("cost for {0}, of {1}, without explicit payment is greater than " + "the maximum allowed payment of {2}", queryType.Name, cost, maxQueryPayment))
         {
             QueryCost = cost;
-            maxQueryPayment = maxQueryPayment;
+            MaxQueryPayment = maxQueryPayment;
         }
     }
 }

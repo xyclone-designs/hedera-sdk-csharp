@@ -5,7 +5,7 @@ using Com.Google.Gson;
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Logger;
+using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 using Java.Io;
 using Java.Nio.Charset;
@@ -21,6 +21,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using Hedera.Hashgraph.SDK.Ids;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -97,24 +99,39 @@ namespace Hedera.Hashgraph.SDK
             return new ThreadPoolExecutor(nThreads, nThreads, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), threadFactory, new CallerRunsPolicy());
         }
 
-        /// <summary>
-        /// 
-        /// Construct a client given a set of nodes.
-        /// It is the responsibility of the caller to ensure that all nodes in the map are part of the
-        /// same Hedera network. Failure to do so will result in undefined behavior.
-        /// The client will load balance all requests to Hedera using a simple round-robin scheme to
-        /// chose nodes to send transactions to. For one transaction, at most 1/3 of the nodes will be tried.
-        /// </summary>
-        /// <param name="networkMap">the map of node IDs to node addresses that make up the network.</param>
-        /// <param name="executor">runs the grpc requests asynchronously.</param>
-        /// <returns>{@link Client}</returns>
-        public static Client ForNetwork(Dictionary<string, AccountId> networkMap, ExecutorService executor)
+		/// <summary>
+		/// Set up the client for the selected network.
+		/// </summary>
+		/// <param name="name">the selected network</param>
+		/// <returns>the configured client</returns>
+		public static Client ForName(string name)
+		{
+			return name switch
+			{
+				MAINNET => Client.ForMainnet(),
+				TESTNET => Client.ForTestnet(),
+				PREVIEWNET => Client.ForPreviewnet(),
+
+				_ => throw new ArgumentException("Name must be one-of `mainnet`, `testnet`, or `previewnet`")
+			};
+		}
+		/// <summary>
+		/// 
+		/// Construct a client given a set of nodes.
+		/// It is the responsibility of the caller to ensure that all nodes in the map are part of the
+		/// same Hedera network. Failure to do so will result in undefined behavior.
+		/// The client will load balance all requests to Hedera using a simple round-robin scheme to
+		/// chose nodes to send transactions to. For one transaction, at most 1/3 of the nodes will be tried.
+		/// </summary>
+		/// <param name="networkMap">the map of node IDs to node addresses that make up the network.</param>
+		/// <param name="executor">runs the grpc requests asynchronously.</param>
+		/// <returns>{@link Client}</returns>
+		public static Client ForNetwork(Dictionary<string, AccountId> networkMap, ExecutorService executor)
         {
             var network = Network.ForNetwork(executor, networkMap);
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             return new Client(executor, network, mirrorNetwork, null, false, null, 0, 0);
         }
-
         /// <summary>
         /// Construct a client given a set of nodes.
         /// 
@@ -160,7 +177,6 @@ namespace Hedera.Hashgraph.SDK
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, new ());
             return new Client(executor, network, mirrorNetwork, null, true, null, shard, realm);
         }
-
         /// <summary>
         /// Set up the client from selected mirror network.
         /// Using default `0` values for realm and shard for retrieving addressBookFileId
@@ -171,7 +187,6 @@ namespace Hedera.Hashgraph.SDK
         {
             return ForMirrorNetwork(mirrorNetworkList, 0, 0);
         }
-
         /// <summary>
         /// Set up the client from selected mirror network and given realm and shard
         /// </summary>
@@ -190,113 +205,96 @@ namespace Hedera.Hashgraph.SDK
             return client;
         }
 
-        /// <summary>
-        /// Set up the client for the selected network.
-        /// </summary>
-        /// <param name="name">the selected network</param>
-        /// <returns>the configured client</returns>
-        public static Client ForName(string name)
-        {
-            return name switch
-            {
-                MAINNET => Client.ForMainnet(),
-                TESTNET => Client.ForTestnet(),
-                PREVIEWNET => Client.ForPreviewnet(),
-
-                _ => throw new ArgumentException("Name must be one-of `mainnet`, `testnet`, or `previewnet`")};
-        }
-
-        /// <summary>
-        /// Construct a Hedera client pre-configured for <a
-        /// href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
-        /// </summary>
-        /// <param name="executor">runs the grpc requests asynchronously.</param>
-        /// <returns>{@link Client}</returns>
-        public static Client ForMainnet(ExecutorService executor)
+		/// <summary>
+		/// Construct a Hedera client pre-configured for <a
+		/// href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
+		/// </summary>
+		/// <returns>{@link Client}</returns>
+		public static Client ForMainnet()
+		{
+			var executor = CreateExecutor();
+			var network = Network.ForMainnet(executor);
+			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
+			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+		}
+		/// <summary>
+		/// Construct a Hedera client pre-configured for <a
+		/// href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
+		/// </summary>
+		/// <param name="executor">runs the grpc requests asynchronously.</param>
+		/// <returns>{@link Client}</returns>
+		public static Client ForMainnet(ExecutorService executor)
         {
             var network = Network.ForMainnet(executor);
             var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
             return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
         }
 
-        /// <summary>
-        /// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
-        /// access</a>.
-        /// </summary>
-        /// <param name="executor">runs the grpc requests asynchronously.</param>
-        /// <returns>{@link Client}</returns>
-        public static Client ForTestnet(ExecutorService executor)
+		/// <summary>
+		/// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
+		/// access</a>.
+		/// </summary>
+		/// <returns>{@link Client}</returns>
+		public static Client ForTestnet()
+		{
+			var executor = CreateExecutor();
+			var network = Network.ForTestnet(executor);
+			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
+			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+		}
+		/// <summary>
+		/// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
+		/// access</a>.
+		/// </summary>
+		/// <param name="executor">runs the grpc requests asynchronously.</param>
+		/// <returns>{@link Client}</returns>
+		public static Client ForTestnet(ExecutorService executor)
         {
             var network = Network.ForTestnet(executor);
             var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
             return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
         }
 
-        /// <summary>
-        /// Construct a Hedera client pre-configured for <a
-        /// href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
-        /// nodes</a>.
-        /// </summary>
-        /// <param name="executor">runs the grpc requests asynchronously.</param>
-        /// <returns>{@link Client}</returns>
-        public static Client ForPreviewnet(ExecutorService executor)
-        {
-            var network = Network.ForPreviewnet(executor);
-            var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
-            return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
-        }
+		/// <summary>
+		/// Construct a Hedera client pre-configured for <a
+		/// href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
+		/// nodes</a>.
+		/// </summary>
+		/// <returns>{@link Client}</returns>
+		public static Client ForPreviewnet()
+		{
+			var executor = CreateExecutor();
+			var network = Network.ForPreviewnet(executor);
+			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
+			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+		}
+		/// <summary>
+		/// Construct a Hedera client pre-configured for <a
+		/// href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
+		/// nodes</a>.
+		/// </summary>
+		/// <param name="executor">runs the grpc requests asynchronously.</param>
+		/// <returns>{@link Client}</returns>
+		public static Client ForPreviewnet(ExecutorService executor)
+		{
+			var network = Network.ForPreviewnet(executor);
+			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
+			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+		}
 
-        /// <summary>
-        /// Construct a Hedera client pre-configured for <a
-        /// href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
-        /// </summary>
-        /// <returns>{@link Client}</returns>
-        public static Client ForMainnet()
-        {
-            var executor = CreateExecutor();
-            var network = Network.ForMainnet(executor);
-            var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
-            return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
-        }
 
-        /// <summary>
-        /// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
-        /// access</a>.
-        /// </summary>
-        /// <returns>{@link Client}</returns>
-        public static Client ForTestnet()
-        {
-            var executor = CreateExecutor();
-            var network = Network.ForTestnet(executor);
-            var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
-            return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
-        }
 
-        /// <summary>
-        /// Construct a Hedera client pre-configured for <a
-        /// href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
-        /// nodes</a>.
-        /// </summary>
-        /// <returns>{@link Client}</returns>
-        public static Client ForPreviewnet()
-        {
-            var executor = CreateExecutor();
-            var network = Network.ForPreviewnet(executor);
-            var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
-            return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
-        }
 
-        /// <summary>
-        /// Configure a client based off the given JSON string.
-        /// </summary>
-        /// <param name="json">The json string containing the client configuration</param>
-        /// <returns>{@link Client}</returns>
-        /// <exception cref="Exception">if the config is incorrect</exception>
-        public static Client FromConfig(string json)
+		/// <summary>
+		/// Configure a client based off the given JSON string.
+		/// </summary>
+		/// <param name="json">The json string containing the client configuration</param>
+		/// <returns>{@link Client}</returns>
+		/// <exception cref="Exception">if the config is incorrect</exception>
+		public static Client FromConfig(string json)
         {
             return Config.FromString(json).ToClient();
         }
-
         /// <summary>
         /// Configure a client based off the given JSON reader.
         /// </summary>
@@ -313,7 +311,7 @@ namespace Hedera.Hashgraph.SDK
             Dictionary<string, AccountId> nodes = new (networks.Count);
             foreach (Map.Entry<String, JsonElement> entry in networks.EntrySet())
             {
-                nodes.Put(entry.GetValue().ToString().Replace("\"", ""), AccountId.FromString(entry.GetKey().Replace("\"", "")));
+                nodes.Add(entry.GetValue().ToString().Replace("\"", ""), AccountId.FromString(entry.GetKey().Replace("\"", "")));
             }
 
             return nodes;
@@ -329,7 +327,6 @@ namespace Hedera.Hashgraph.SDK
         {
             return FromConfigFile(new File(fileName));
         }
-
         /// <summary>
         /// Configure a client based on a JSON file.
         /// </summary>
@@ -436,7 +433,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        private CompletionStage<TWildcardTodo> RequireNetworkUpdatePeriodNotNull(Supplier<CompletionStage<TWildcardTodo>> task)
+        private CompletionStage<T> RequireNetworkUpdatePeriodNotNull(Supplier<CompletionStage<T>> task)
         {
             lock (this)
             {
@@ -586,7 +583,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public Void Ping(AccountId nodeAccountId)
+        public void Ping(AccountId nodeAccountId)
         {
             return Ping(nodeAccountId, GetRequestTimeout());
         }
@@ -598,7 +595,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public Void Ping(AccountId nodeAccountId, Duration timeout)
+        public void Ping(AccountId nodeAccountId, Duration timeout)
         {
             new AccountBalanceQuery().SetAccountId(nodeAccountId).SetNodeAccountIds(Collections.SingletonList(nodeAccountId)).Execute(this, timeout);
             return null;
@@ -642,7 +639,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void PingAsync(AccountId nodeAccountId, Action<Void, Exception> callback)
+        public void PingAsync(AccountId nodeAccountId, Action<Exception> callback)
         {
             ActionHelper.Action(PingAsync(nodeAccountId), callback);
         }
@@ -653,7 +650,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action<Void, Exception> callback)
+        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action<Exception> callback)
         {
             ActionHelper.Action(PingAsync(nodeAccountId, timeout), callback);
         }
@@ -664,7 +661,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public void PingAsync(AccountId nodeAccountId, Action<Void> onSuccess, Action<Exception> onFailure)
+        public void PingAsync(AccountId nodeAccountId, Action onSuccess, Action<Exception> onFailure)
         {
             ActionHelper.TwoActions(PingAsync(nodeAccountId), onSuccess, onFailure);
         }
@@ -676,7 +673,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action<Void> onSuccess, Action<Exception> onFailure)
+        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action onSuccess, Action<Exception> onFailure)
         {
             ActionHelper.TwoActions(PingAsync(nodeAccountId, timeout), onSuccess, onFailure);
         }
@@ -687,7 +684,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public Void PingAll()
+        public void PingAll()
         {
             lock (this)
             {
@@ -702,7 +699,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public Void PingAll(Duration timeoutPerPing)
+        public void PingAll(Duration timeoutPerPing)
         {
             lock (this)
             {
@@ -745,7 +742,7 @@ namespace Hedera.Hashgraph.SDK
                     list.Add(PingAsync(nodeAccountId, timeoutPerPing));
                 }
 
-                return Task.AllOf(list.ToArray(new Task<TWildcardTodo>[0])).ThenApply((v) => null);
+                return Task.AllOf(list.ToArray(new Task<T>[0])).ThenApply((v) => null);
             }
         }
 
@@ -754,7 +751,7 @@ namespace Hedera.Hashgraph.SDK
         /// all dead nodes from the network.
         /// </summary>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void PingAllAsync(Action<Void, Exception> callback)
+        public void PingAllAsync(Action<Exception> callback)
         {
             ActionHelper.Action(PingAllAsync(), callback);
         }
@@ -765,7 +762,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void PingAllAsync(Duration timeoutPerPing, Action<Void, Exception> callback)
+        public void PingAllAsync(Duration timeoutPerPing, Action<Exception> callback)
         {
             ActionHelper.Action(PingAllAsync(timeoutPerPing), callback);
         }
@@ -776,7 +773,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public void PingAllAsync(Action<Void> onSuccess, Action<Exception> onFailure)
+        public void PingAllAsync(Action onSuccess, Action<Exception> onFailure)
         {
             ActionHelper.TwoActions(PingAllAsync(), onSuccess, onFailure);
         }
@@ -788,7 +785,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public void PingAllAsync(Duration timeoutPerPing, Action<Void> onSuccess, Action<Exception> onFailure)
+        public void PingAllAsync(Duration timeoutPerPing, Action onSuccess, Action<Exception> onFailure)
         {
             ActionHelper.TwoActions(PingAllAsync(timeoutPerPing), onSuccess, onFailure);
         }
@@ -878,7 +875,23 @@ namespace Hedera.Hashgraph.SDK
         /// <summary>
         /// Current LedgerId of the network; corresponds to ledger ID in entity ID checksum calculations.
         /// </summary>
-        /// <returns>the ledger id</returns>
+        public LedgerId LedgerId 
+        {
+            get 
+            {
+				lock (this)
+				{
+					return network.GetLedgerId();
+				}
+			}
+            set
+            {
+				lock (this)
+				{
+					network.SetLedgerId(value);
+				}
+			}
+        }
         public LedgerId GetLedgerId()
         {
             lock (this)
@@ -1239,7 +1252,7 @@ namespace Hedera.Hashgraph.SDK
         {
             lock (this)
             {
-                Objects.RequireNonNull(defaultMaxTransactionFee);
+                ArgumentNullException.ThrowIfNull(defaultMaxTransactionFee);
                 if (defaultMaxTransactionFee.ToTinybars() < 0)
                 {
                     throw new ArgumentException("maxTransactionFee must be non-negative");
@@ -1299,7 +1312,7 @@ namespace Hedera.Hashgraph.SDK
         {
             lock (this)
             {
-                Objects.RequireNonNull(defaultMaxQueryPayment);
+                ArgumentNullException.ThrowIfNull(defaultMaxQueryPayment);
                 if (defaultMaxQueryPayment.ToTinybars() < 0)
                 {
                     throw new ArgumentException("defaultMaxQueryPayment must be non-negative");
@@ -1370,7 +1383,7 @@ namespace Hedera.Hashgraph.SDK
         {
             lock (this)
             {
-                requestTimeout = Objects.RequireNonNull(requestTimeout);
+                requestTimeout = ArgumentNullException.ThrowIfNull(requestTimeout);
                 return this;
             }
         }
@@ -1391,7 +1404,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>{@code this}</returns>
         public Client SetCloseTimeout(Duration closeTimeout)
         {
-            closeTimeout = Objects.RequireNonNull(closeTimeout);
+            closeTimeout = ArgumentNullException.ThrowIfNull(closeTimeout);
             network.SetCloseTimeout(closeTimeout);
             mirrorNetwork.SetCloseTimeout(closeTimeout);
             return this;
@@ -1413,7 +1426,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>{@code this}</returns>
         public Client SetGrpcDeadline(Duration grpcDeadline)
         {
-            grpcDeadline.Set(Objects.RequireNonNull(grpcDeadline));
+            grpcDeadline.Set(ArgumentNullException.ThrowIfNull(grpcDeadline));
             return this;
         }
 
@@ -1421,7 +1434,7 @@ namespace Hedera.Hashgraph.SDK
         /// Extract the oper8r.
         /// </summary>
         /// <returns>the oper8r</returns>
-        Operator GetOperator()
+        public Operator GetOperator()
         {
             lock (this)
             {

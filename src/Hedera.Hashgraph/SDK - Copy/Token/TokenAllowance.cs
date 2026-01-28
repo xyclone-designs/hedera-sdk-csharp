@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 
 namespace Hedera.Hashgraph.SDK.Token
@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="ownerAccountId">the grantor account id</param>
         /// <param name="spenderAccountId">the spender account id</param>
         /// <param name="amount">the token allowance</param>
-        TokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
+        internal TokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
         {
             this.tokenId = tokenId;
             this.ownerAccountId = ownerAccountId;

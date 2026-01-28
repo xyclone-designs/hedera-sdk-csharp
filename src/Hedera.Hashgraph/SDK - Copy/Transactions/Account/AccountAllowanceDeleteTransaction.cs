@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Token;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Account
 {
@@ -31,9 +27,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
     /// </summary>
     public class AccountAllowanceDeleteTransaction : Transaction<AccountAllowanceDeleteTransaction>
     {
-        private readonly IList<HbarAllowance> hbarAllowances = new ();
-        private readonly IList<TokenAllowance> tokenAllowances = new ();
-        private readonly IList<TokenNftAllowance> nftAllowances = new ();
+        private readonly IList<HbarAllowance> hbarAllowances = [];
+        private readonly IList<TokenAllowance> tokenAllowances = [];
+        private readonly IList<TokenNftAllowance> nftAllowances = [];
         // <ownerId, <tokenId, index>>
         private readonly Dictionary<AccountId, Dictionary<TokenId, int>> nftMap = [];
         /// <summary>
@@ -64,10 +60,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 
         private void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetCryptoDeleteAllowance();
-            foreach (var allowanceProto in body.GetNftAllowancesList())
+            var body = sourceTransactionBody.CryptoDeleteAllowance;
+            foreach (var allowanceProto in body.NftAllowances)
             {
-                GetNftSerials(AccountId.FromProtobuf(allowanceProto.GetOwner()), TokenId.FromProtobuf(allowanceProto.GetTokenId())).AddAll(allowanceProto.GetSerialNumbersList());
+                GetNftSerials(AccountId.FromProtobuf(allowanceProto.Owner), TokenId.FromProtobuf(allowanceProto.TokenId))
+                    .Add(allowanceProto.SerialNumbers);
             }
         }
 
@@ -79,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceDeleteTransaction DeleteAllHbarAllowances(AccountId ownerAccountId)
         {
             RequireNotFrozen();
-            hbarAllowances.Add(new HbarAllowance(Objects.RequireNonNull(ownerAccountId), null, null));
+            hbarAllowances.Add(new HbarAllowance(ownerAccountId, null, null));
             return this;
         }
 
@@ -89,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <remarks>@deprecatedwith no replacement</remarks>
         public virtual IList<HbarAllowance> GetHbarAllowanceDeletions()
         {
-            return new List(hbarAllowances);
+            return [.. hbarAllowances];
         }
 
         /// <summary>
@@ -101,7 +98,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceDeleteTransaction DeleteAllTokenAllowances(TokenId tokenId, AccountId ownerAccountId)
         {
             RequireNotFrozen();
-            tokenAllowances.Add(new TokenAllowance(Objects.RequireNonNull(tokenId), Objects.RequireNonNull(ownerAccountId), null, 0));
+            tokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, null, 0));
             return this;
         }
 
@@ -111,7 +108,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <remarks>@deprecatedwith no replacement</remarks>
         public virtual IList<TokenAllowance> GetTokenAllowanceDeletions()
         {
-            return new List(tokenAllowances);
+            return [.. tokenAllowances];
         }
 
         /// <summary>
@@ -123,8 +120,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public virtual AccountAllowanceDeleteTransaction DeleteAllTokenNftAllowances(NftId nftId, AccountId ownerAccountId)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(nftId);
-            GetNftSerials(Objects.RequireNonNull(ownerAccountId), nftId.TokenId).Add(nftId.Serial);
+            ArgumentNullException.ThrowIfNull(nftId);
+            GetNftSerials(ownerAccountId, nftId.TokenId).Add(nftId.Serial);
             return this;
         }
 
@@ -134,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>                         list of token nft allowances</returns>
         public virtual IList<TokenNftAllowance> GetTokenNftAllowanceDeletions()
         {
-            IList<TokenNftAllowance> retval = new List(nftAllowances.Count);
+            IList<TokenNftAllowance> retval = new List<TokenNftAllowance>(nftAllowances.Count);
             foreach (var allowance in nftAllowances)
             {
                 retval.Add(TokenNftAllowance.CopyFrom(allowance));
@@ -157,7 +154,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
                 var innerMap = nftMap[key];
                 if (innerMap.ContainsKey(tokenId))
                 {
-                    return Objects.RequireNonNull(nftAllowances[innerMap[tokenId]].serialNumbers);
+                    return nftAllowances[innerMap[tokenId]].serialNumbers;
                 }
                 else
                 {
@@ -167,7 +164,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             else
             {
                 Dictionary<TokenId, int> innerMap = [];
-                nftMap.Put(key, innerMap);
+                nftMap.Add(key, innerMap);
                 return NewNftSerials(ownerAccountId, tokenId, innerMap);
             }
         }
@@ -181,8 +178,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>                         list of nft serial numbers</returns>
         private IList<long> NewNftSerials(AccountId ownerAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
         {
-            innerMap.Put(tokenId, nftAllowances.Count);
-            TokenNftAllowance newAllowance = new TokenNftAllowance(tokenId, ownerAccountId, null, null, new (), null);
+            innerMap.Add(tokenId, nftAllowances.Count);
+            TokenNftAllowance newAllowance = new TokenNftAllowance(tokenId, ownerAccountId, null, null, new (), default);
             nftAllowances.Add(newAllowance);
             return newAllowance.serialNumbers;
         }
@@ -196,25 +193,25 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link CryptoDeleteAllowanceTransactionBody}</returns>
-        virtual CryptoDeleteAllowanceTransactionBody.Builder Build()
+        public virtual Proto.CryptoDeleteAllowanceTransactionBody Build()
         {
-            var builder = CryptoDeleteAllowanceTransactionBody.NewBuilder();
+            var builder = new Proto.CryptoDeleteAllowanceTransactionBody();
             foreach (var allowance in nftAllowances)
             {
-                builder.AddNftAllowances(allowance.ToRemoveProtobuf());
+                builder.NftAllowances.Add(allowance.ToRemoveProtobuf());
             }
 
             return builder;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetCryptoDeleteAllowance(Build());
+            bodyBuilder.CryptoDeleteAllowance = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetCryptoDeleteAllowance(Build());
+            scheduled.CryptoDeleteAllowance = Build();
         }
 
         override void ValidateChecksums(Client client)

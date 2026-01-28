@@ -1,5 +1,12 @@
 using Google.Protobuf;
+using Google.Protobuf.Collections;
+using Microsoft.VisualBasic;
+using Org.BouncyCastle.Utilities;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace Hedera.Hashgraph.SDK
@@ -13,15 +20,15 @@ namespace Hedera.Hashgraph.SDK
 	 * If you require a type which is not supported here, please let us know on
 	 * <a href="https://github.com/hashgraph/hedera-sdk-java/issues/298">this Github issue</a>.
 	 */
-	public sealed class ContractFunctionParameters
+	public sealed partial class ContractFunctionParameters
 	{
 		/**
-		 * The length of a Solidity address in bytes.
+		 * The length of a Solidity Address in bytes.
 		 */
 		public static readonly int ADDRESS_LEN = Utils.EntityIdHelper.SOLIDITY_ADDRESS_LEN;
 
 		/**
-		 * The length of a hexadecimal-encoded Solidity address, in ASCII characters (bytes).
+		 * The length of a hexadecimal-encoded Solidity Address, in ASCII characters (bytes).
 		 */
 		public static readonly int ADDRESS_LEN_HEX = Utils.EntityIdHelper.SOLIDITY_ADDRESS_LEN_HEX;
 
@@ -37,89 +44,110 @@ namespace Hedera.Hashgraph.SDK
 
 		// padding that we can substring without new allocations
 		private static readonly ByteString padding = ByteString.CopyFrom(new byte[31]);
-		private static readonly ByteString negativePadding;
+		private static readonly ByteString? negativePadding;
 
-  //  static {
-  //      byte[] fill = new byte[31];
+		//  static {
+		//      byte[] fill = new byte[31];
 		//Array.fill(fill, (byte) 0xFF);
-  //      negativePadding = ByteString.CopyFrom(fill);
-  //  }
+		//      negativePadding = ByteString.CopyFrom(fill);
+		//  }
 
 		private readonly List<Argument> args = [];
 
-		private static ByteString encodeString(string str)
+		private static byte[] DecodeAddress(string address)
+		{
+			address = address.StartsWith("0x") ? address.Substring(2) : address;
+
+			if (address.Length != ADDRESS_LEN_HEX)
+			{
+				throw new ArgumentException("Solidity Addresses must be 40 hex chars");
+			}
+
+			try
+			{
+				return Hex.Decode(address);
+			}
+			catch (Exception e)
+			{
+				throw new ArgumentException("failed to decode Solidity Address as hex", e);
+			}
+		}
+		private static byte[] GetTruncatedBytes(BigInteger bigInt, int bitWidth)
+		{
+			byte[] bytes = bigInt.ToByteArray();
+			int expectedBytes = bitWidth / 8;
+			return bytes.Length <= expectedBytes
+					? bytes
+					: bytes[(bytes.Length - expectedBytes)..bytes.Length].CopyArray();
+		}
+		private static ByteString EncodeString(string str)
 		{
 			ByteString strBytes = ByteString.CopyFromUtf8(str);
 			// prepend the size of the string in UTF-8 bytes
-			return int256(strBytes.Length, 32).concat(rightPad32(strBytes));
+			return Int256(strBytes.Length, 32).Concat(RightPad32(strBytes));
 		}
-
-		private static ByteString encodeBytes(byte[] bytes)
+		private static ByteString EncodeBytes(byte[] bytes)
 		{
-			return int256(bytes.Length, 32).Concat(rightPad32(ByteString.CopyFrom(bytes)));
+			return Int256(bytes.Length, 32).Concat(RightPad32(ByteString.CopyFrom(bytes)));
 		}
-
-		private static ByteString encodeBytes4(byte[] bytes)
+		private static ByteString EncodeBytes4(byte[] bytes)
 		{
 			if (bytes.Length > 4)
 			{
 				throw new ArgumentException("bytes4 encoding forbids byte array length greater than 4");
 			}
-			return rightPad32(ByteString.CopyFrom(bytes));
+			return RightPad32(ByteString.CopyFrom(bytes));
 		}
-
-		private static ByteString encodeBytes32(byte[] bytes)
+		private static ByteString EncodeBytes32(byte[] bytes)
 		{
 			if (bytes.Length > 32)
 			{
 				throw new ArgumentException("byte32 encoding forbids byte array length greater than 32");
 			}
 
-			return rightPad32(ByteString.CopyFrom(bytes));
+			return RightPad32(ByteString.CopyFrom(bytes));
 		}
-
-		private static ByteString encodeBool(bool bool)
+		private static ByteString EncodeBool(bool val)
 		{
-			return int256(bool ? 1 : 0, 8);
+			return Int256(val ? 1 : 0, 8);
 		}
-
-		private static ByteString encodeArray(Stream<ByteString> elements)
+		private static ByteString EncodeArray(IEnumerable<ByteString> elements)
 		{
-			List<ByteString> list = elements.collect(Collectors.toList());
+			byte[] bytearray = [.. elements.SelectMany(_ => _.ToByteArray())];
 
-			return int256(list.Count, 32).concat(ByteString.CopyFrom(list));
+			return Int256(bytearray.Length, 32).Concat(ByteString.CopyFrom(bytearray));
 		}
-
-		private static ByteString encodeDynArr(List<ByteString> elements)
+		private static ByteString EncodeDynArr(IEnumerable<ByteString> elements)
 		{
-			int offsetsLen = elements.Count;
+			int offsetsLen = elements.Count();
 
-			// [len, offset[0], offset[1], ... offset[len - 1]]
-			List<ByteString> head = new List<>(offsetsLen + 1);
-
-			head.Add(uint256(elements.Count, 32));
+            // [len, offset[0], offset[1], ... offset[len - 1]]
+            List<ByteString> head = new (offsetsLen + 1)
+            {
+                Uint256(elements.Count(), 32)
+            };
 
 			// points to start of dynamic segment, *not* including the length of the array
 			long currOffset = offsetsLen * 32L;
 
-			for (ByteString elem : elements)
+			foreach (ByteString elem in elements)
 			{
-				head.Add(uint256(currOffset, 64));
-				currOffset += elem.Count;
+				head.Add(Uint256(currOffset, 64));
+				currOffset += elem.Length;
 			}
 
-			return ByteString.CopyFrom(head).concat(ByteString.CopyFrom(elements));
+			return ByteString
+				.CopyFrom([.. head.SelectMany(_ => _.ToByteArray())])
+				.Concat(ByteString.CopyFrom([.. elements.SelectMany(_ => _.ToByteArray())]));
 		}
-
-		static ByteString int256(long val, int bitWidth)
+		private static ByteString Int256(long val, int bitWidth)
 		{
-			return int256(val, bitWidth, true);
+			return Int256(val, bitWidth, true);
 		}
-
-		static ByteString int256(long val, int bitWidth, bool signed)
+		private static ByteString Int256(long val, int bitWidth, bool signed)
 		{
 			// don't try to Get wider than a `long` as it should just be filled with padding
-			bitWidth = Math.min(bitWidth, 64);
+			bitWidth = Math.Min(bitWidth, 64);
 			ByteString.Output output = ByteString.NewOutput(bitWidth / 8);
 
 			try
@@ -134,7 +162,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 
 				// byte padding will sign-extend appropriately
-				return leftPad32(output.toByteString(), signed && val < 0);
+				return LeftPad32(output.toByteString(), signed && val < 0);
 			}
 			finally
 			{
@@ -142,2552 +170,2302 @@ namespace Hedera.Hashgraph.SDK
 				{
 					output.close();
 				}
-				catch (Exception ignored)
+				catch (Exception)
 				{
 					// do nothing
 				}
 			}
 		}
-
-		static byte[] GetTruncatedBytes(BigInteger bigInt, int bitWidth)
+		private static ByteString Int256(BigInteger bigInt, int bitWidth)
 		{
-			byte[] bytes = bigInt.ToByteArray();
-			int expectedBytes = bitWidth / 8;
-			return bytes.Length <= expectedBytes
-					? bytes
-					: Array.copyOfRange(bytes, bytes.Length - expectedBytes, bytes.Length);
+			return LeftPad32(GetTruncatedBytes(bigInt, bitWidth), bigInt.Sign < 0);
 		}
-
-		static ByteString int256(BigInteger bigInt, int bitWidth)
+		private static ByteString Uint256(long val, int bitWidth)
 		{
-			return leftPad32(GetTruncatedBytes(bigInt, bitWidth), bigInt.signum() < 0);
+			return Int256(val, bitWidth, false);
 		}
-
-		static ByteString uint256(long val, int bitWidth)
+		private static ByteString Uint256(BigInteger bigInt, int bitWidth)
 		{
-			return int256(val, bitWidth, false);
-		}
-
-		static ByteString uint256(BigInteger bigInt, int bitWidth)
-		{
-			if (bigInt.signum() < 0)
+			if (bigInt.Sign < 0)
 			{
 				throw new ArgumentException("negative BigInteger passed to unsigned function");
 			}
-			return leftPad32(GetTruncatedBytes(bigInt, bitWidth), false);
+			return LeftPad32(GetTruncatedBytes(bigInt, bitWidth), false);
 		}
-
-		static ByteString leftPad32(ByteString input)
+		private static ByteString LeftPad32(ByteString input)
 		{
-			return leftPad32(input, false);
+			return LeftPad32(input, false);
 		}
-
-		// Solidity contracts require all parameters to be padded to 32 byte multiples but specifies
-		// different requirements for padding for strings/byte arrays vs integers
-		static ByteString leftPad32(ByteString input, bool negative)
+		private static ByteString LeftPad32(ByteString input, bool negative)
 		{
-			int rem = 32 - input.Count % 32;
-			return rem == 32
-					? input
-					: (negative ? negativePadding : padding).substring(0, rem).concat(input);
+			int rem = 32 - input.Length % 32;
+
+			if (rem == 32)
+				return input;
+
+			ByteString bytestring = ByteString.CopyFromUtf8((negative ? negativePadding : padding).ToStringUtf8()[..rem]);
+
+			return bytestring.Concat(input);
 		}
-
-		static ByteString leftPad32(byte[] input, bool negative)
+		private static ByteString LeftPad32(byte[] input, bool negative)
 		{
-			return leftPad32(ByteString.CopyFrom(input), negative);
+			return LeftPad32(ByteString.CopyFrom(input), negative);
 		}
-
-		static ByteString rightPad32(ByteString input)
+		private static ByteString RightPad32(ByteString input)
 		{
-			int rem = 32 - input.Count % 32;
-			return rem == 32 ? input : input.concat(padding.substring(0, rem));
-		}
-
-		private static byte[] decodeAddress(string address)
-		{
-			address = address.startsWith("0x") ? address.substring(2) : address;
-
-			if (address.Length() != ADDRESS_LEN_HEX)
-			{
-				throw new ArgumentException("Solidity addresses must be 40 hex chars");
-			}
-
-			try
-			{
-				return Hex.decode(address);
-			}
-			catch (DecoderException e)
-			{
-				throw new ArgumentException("failed to decode Solidity address as hex", e);
-			}
+			int rem = 32 - input.Length % 32;
+			ByteString bytestring = ByteString.CopyFromUtf8(padding.ToStringUtf8()[.. rem]);
+			return rem == 32 ? input : input.Concat(bytestring);
 		}
 
 		/**
 		 * Add a parameter of type {@code string}.
 		 * <p>
-		 * For Solidity addresses, use {@link #addAddress(string)}.
+		 * For Solidity Addresses, use {@link #addAddress(string)}.
 		 *
-		 * @param param The string to be added
+		 * @param param The string to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addString(string param)
+		public ContractFunctionParameters AddString(string param)
 		{
-			args.Add(new Argument("string", encodeString(param), true));
+			args.Add(new Argument("string", EncodeString(param), true));
 
 			return this;
 		}
-
 		/**
 		 * Add a parameter of type {@code string[]}.
 		 *
-		 * @param strings The array of Strings to be added
+		 * @param strings The array of Strings to be Added
 		 * @return {@code this}
 		 * @ if any value in `strings` is null
 		 */
-		public ContractFunctionParameters addStringArray(string[] strings)
+		public ContractFunctionParameters AddStringArray(string[] strings)
 		{
-			List<ByteString> byteStrings = Array.stream(strings)
-					.map(ContractFunctionParameters::encodeString)
-					.collect(Collectors.toList());
-
-			ByteString argBytes = encodeDynArr(byteStrings);
+			ByteString argBytes = EncodeDynArr(strings.Select(_ => EncodeString(_)));
 
 			args.Add(new Argument("string[]", argBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a parameter of type {@code bytes}, a byte-string.
 		 *
-		 * @param param The byte-string to be added
+		 * @param param The byte-string to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addBytes(byte[] param)
+		public ContractFunctionParameters AddBytes(byte[] param)
 		{
-			args.Add(new Argument("bytes", encodeBytes(param), true));
+			args.Add(new Argument("bytes", EncodeBytes(param), true));
 
 			return this;
 		}
-
 		/**
 		 * Add a parameter of type {@code bytes[]}, an array of byte-strings.
 		 *
-		 * @param param The array of byte-strings to be added
+		 * @param param The array of byte-strings to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addBytesArray(byte[][] param)
+		public ContractFunctionParameters AddBytesArray(byte[][] param)
 		{
-			List<ByteString> byteArrays = Array.stream(param)
-					.map(ContractFunctionParameters::encodeBytes)
-					.collect(Collectors.toList());
+			ByteString argBytes = EncodeDynArr(param.Select(_ => EncodeBytes(_)));
 
-			args.Add(new Argument("bytes[]", encodeDynArr(byteArrays), true));
+			args.Add(new Argument("bytes[]", argBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a parameter of type {@code bytes4}, a 4-byte fixed-length byte-string.
 		 *
-		 * @param param The 4-byte array to be added
+		 * @param param The 4-byte array to be Added
 		 * @return {@code this}
 		 * @ if the length of the byte array is not 4.
 		 */
-		public ContractFunctionParameters addBytes4(byte[] param)
+		public ContractFunctionParameters AddBytes4(byte[] param)
 		{
-			args.Add(new Argument("bytes4", encodeBytes4(param), false));
+			args.Add(new Argument("bytes4", EncodeBytes4(param), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a parameter of type {@code bytes4[]}, an array of 4-byte fixed-length byte-strings.
 		 *
-		 * @param param The array of 4-byte arrays to be added
+		 * @param param The array of 4-byte arrays to be Added
 		 * @return {@code this}
 		 * @ if the length of any byte array is not 4.
 		 */
-		public ContractFunctionParameters addBytes4Array(byte[][] param)
+		public ContractFunctionParameters AddBytes4Array(byte[][] param)
 		{
-			Stream<ByteString> byteArrays = Array.stream(param).map(ContractFunctionParameters::encodeBytes4);
-
-			args.Add(new Argument("bytes4[]", encodeArray(byteArrays), true));
+			args.Add(new Argument("bytes4[]", EncodeArray(param.Select(_ => EncodeBytes4(_))), true));
 
 			return this;
 		}
-
 		/**
 		 * Add a parameter of type {@code bytes32}, a 32-byte byte-string.
 		 * <p>
 		 * If applicable, the array will be right-padded with zero bytes to a length of 32 bytes.
 		 *
-		 * @param param The byte-string to be added
+		 * @param param The byte-string to be Added
 		 * @return {@code this}
 		 * @ if the length of the byte array is greater than 32.
 		 */
-		public ContractFunctionParameters addBytes32(byte[] param)
+		public ContractFunctionParameters AddBytes32(byte[] param)
 		{
-			args.Add(new Argument("bytes32", encodeBytes32(param), false));
+			args.Add(new Argument("bytes32", EncodeBytes32(param), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a parameter of type {@code bytes32[]}, an array of 32-byte byte-strings.
 		 * <p>
 		 * Each byte array will be right-padded with zero bytes to a length of 32 bytes.
 		 *
-		 * @param param The array of byte-strings to be added
+		 * @param param The array of byte-strings to be Added
 		 * @return {@code this}
 		 * @ if the length of any byte array is greater than 32.
 		 */
-		public ContractFunctionParameters addBytes32Array(byte[][] param)
+		public ContractFunctionParameters AddBytes32Array(byte[][] param)
 		{
 			// array of fixed-size elements
-			Stream<ByteString> byteArrays = Array.stream(param).map(ContractFunctionParameters::encodeBytes32);
 
-			args.Add(new Argument("bytes32[]", encodeArray(byteArrays), true));
+			args.Add(new Argument("bytes32[]", EncodeArray(param.Select(_ => EncodeBytes32(_))), true));
 
 			return this;
 		}
-
 		/**
 		 * Add a bool parameter
 		 *
-		 * @param bool The bool to be added
+		 * @param bool The bool to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addBool(bool bool)
+		public ContractFunctionParameters AddBool(bool val)
 		{
-			// bool encodes to `uint8` of values [0, 1]
-			args.Add(new Argument("bool", encodeBool(bool), false));
+			// bool Encodes to `uint8` of values [0, 1]
+			args.Add(new Argument("bool", EncodeBool(val), false));
 			return this;
 		}
-
 		/**
 		 * Add a bool array parameter
 		 *
-		 * @param param The array of bools to be added
+		 * @param param The array of bools to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addBoolArray(bool[] param)
+		public ContractFunctionParameters AddBoolArray(bool[] param)
 		{
 			bool[] boolWrapperArray = new bool[param.Length];
+
 			for (int i = 0; i < param.Length; i++)
 			{
 				boolWrapperArray[i] = param[i];
 			}
 
-			Stream<ByteString> bools = Array.stream(boolWrapperArray).map(ContractFunctionParameters::encodeBool);
-
-			args.Add(new Argument("bool[]", encodeArray(bools), true));
+			args.Add(new Argument("bool[]", EncodeArray(boolWrapperArray.Select(_ => EncodeBool(_))), true));
 
 			return this;
 		}
-
 		/**
 		 * Add an 8-bit integer.
 		 * <p>
 		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
 		 *
-		 * @param value The value to be added
+		 * @param value The value to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt8(byte value)
+		public ContractFunctionParameters AddInt8(byte value)
 		{
-			args.Add(new Argument("int8", int256(value, 8), false));
+			args.Add(new Argument("int8", Int256(value, 8), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 16-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt16(int value)
+		public ContractFunctionParameters AddInt16(int value)
 		{
-			args.Add(new Argument("int16", int256(value, 16), false));
+			args.Add(new Argument("int16", Int256(value, 16), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 24-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt24(int value)
+		public ContractFunctionParameters AddInt24(int value)
 		{
-			args.Add(new Argument("int24", int256(value, 24), false));
+			args.Add(new Argument("int24", Int256(value, 24), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 32-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt32(int value)
+		public ContractFunctionParameters AddInt32(int value)
 		{
-			args.Add(new Argument("int32", int256(value, 32), false));
+			args.Add(new Argument("int32", Int256(value, 32), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 40-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt40(long value)
+		public ContractFunctionParameters AddInt40(long value)
 		{
-			args.Add(new Argument("int40", int256(value, 40), false));
+			args.Add(new Argument("int40", Int256(value, 40), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 48-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt48(long value)
+		public ContractFunctionParameters AddInt48(long value)
 		{
-			args.Add(new Argument("int48", int256(value, 48), false));
+			args.Add(new Argument("int48", Int256(value, 48), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 56-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt56(long value)
+		public ContractFunctionParameters AddInt56(long value)
 		{
-			args.Add(new Argument("int56", int256(value, 56), false));
+			args.Add(new Argument("int56", Int256(value, 56), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 64-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt64(long value)
+		public ContractFunctionParameters AddInt64(long value)
 		{
-			args.Add(new Argument("int64", int256(value, 64), false));
+			args.Add(new Argument("int64", Int256(value, 64), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 72-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt72(BigInteger value)
+		public ContractFunctionParameters AddInt72(BigInteger value)
 		{
-			args.Add(new Argument("int72", int256(value, 72), false));
+			args.Add(new Argument("int72", Int256(value, 72), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 80-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt80(BigInteger value)
+		public ContractFunctionParameters AddInt80(BigInteger value)
 		{
-			args.Add(new Argument("int80", int256(value, 80), false));
+			args.Add(new Argument("int80", Int256(value, 80), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 88-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt88(BigInteger value)
+		public ContractFunctionParameters AddInt88(BigInteger value)
 		{
-			args.Add(new Argument("int88", int256(value, 88), false));
+			args.Add(new Argument("int88", Int256(value, 88), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 96-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt96(BigInteger value)
+		public ContractFunctionParameters AddInt96(BigInteger value)
 		{
-			args.Add(new Argument("int96", int256(value, 96), false));
+			args.Add(new Argument("int96", Int256(value, 96), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 104-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt104(BigInteger value)
+		public ContractFunctionParameters AddInt104(BigInteger value)
 		{
-			args.Add(new Argument("int104", int256(value, 104), false));
+			args.Add(new Argument("int104", Int256(value, 104), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 112-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt112(BigInteger value)
+		public ContractFunctionParameters AddInt112(BigInteger value)
 		{
-			args.Add(new Argument("int112", int256(value, 112), false));
+			args.Add(new Argument("int112", Int256(value, 112), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 120-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt120(BigInteger value)
+		public ContractFunctionParameters AddInt120(BigInteger value)
 		{
-			args.Add(new Argument("int120", int256(value, 120), false));
+			args.Add(new Argument("int120", Int256(value, 120), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 128-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt128(BigInteger value)
+		public ContractFunctionParameters AddInt128(BigInteger value)
 		{
-			args.Add(new Argument("int128", int256(value, 128), false));
+			args.Add(new Argument("int128", Int256(value, 128), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 136-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt136(BigInteger value)
+		public ContractFunctionParameters AddInt136(BigInteger value)
 		{
-			args.Add(new Argument("int136", int256(value, 136), false));
+			args.Add(new Argument("int136", Int256(value, 136), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 144-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt144(BigInteger value)
+		public ContractFunctionParameters AddInt144(BigInteger value)
 		{
-			args.Add(new Argument("int144", int256(value, 144), false));
+			args.Add(new Argument("int144", Int256(value, 144), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 152-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt152(BigInteger value)
+		public ContractFunctionParameters AddInt152(BigInteger value)
 		{
-			args.Add(new Argument("int152", int256(value, 152), false));
+			args.Add(new Argument("int152", Int256(value, 152), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 160-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt160(BigInteger value)
+		public ContractFunctionParameters AddInt160(BigInteger value)
 		{
-			args.Add(new Argument("int160", int256(value, 160), false));
+			args.Add(new Argument("int160", Int256(value, 160), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 168-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt168(BigInteger value)
+		public ContractFunctionParameters AddInt168(BigInteger value)
 		{
-			args.Add(new Argument("int168", int256(value, 168), false));
+			args.Add(new Argument("int168", Int256(value, 168), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 176-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt176(BigInteger value)
+		public ContractFunctionParameters AddInt176(BigInteger value)
 		{
-			args.Add(new Argument("int176", int256(value, 176), false));
+			args.Add(new Argument("int176", Int256(value, 176), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 184-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt184(BigInteger value)
+		public ContractFunctionParameters AddInt184(BigInteger value)
 		{
-			args.Add(new Argument("int184", int256(value, 184), false));
+			args.Add(new Argument("int184", Int256(value, 184), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 192-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt192(BigInteger value)
+		public ContractFunctionParameters AddInt192(BigInteger value)
 		{
-			args.Add(new Argument("int192", int256(value, 192), false));
+			args.Add(new Argument("int192", Int256(value, 192), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 200-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt200(BigInteger value)
+		public ContractFunctionParameters AddInt200(BigInteger value)
 		{
-			args.Add(new Argument("int200", int256(value, 200), false));
+			args.Add(new Argument("int200", Int256(value, 200), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 208-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt208(BigInteger value)
+		public ContractFunctionParameters AddInt208(BigInteger value)
 		{
-			args.Add(new Argument("int208", int256(value, 208), false));
+			args.Add(new Argument("int208", Int256(value, 208), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 216-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt216(BigInteger value)
+		public ContractFunctionParameters AddInt216(BigInteger value)
 		{
-			args.Add(new Argument("int216", int256(value, 216), false));
+			args.Add(new Argument("int216", Int256(value, 216), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 224-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt224(BigInteger value)
+		public ContractFunctionParameters AddInt224(BigInteger value)
 		{
-			args.Add(new Argument("int224", int256(value, 224), false));
+			args.Add(new Argument("int224", Int256(value, 224), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 232-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt232(BigInteger value)
+		public ContractFunctionParameters AddInt232(BigInteger value)
 		{
-			args.Add(new Argument("int232", int256(value, 232), false));
+			args.Add(new Argument("int232", Int256(value, 232), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 240-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt240(BigInteger value)
+		public ContractFunctionParameters AddInt240(BigInteger value)
 		{
-			args.Add(new Argument("int240", int256(value, 240), false));
+			args.Add(new Argument("int240", Int256(value, 240), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 248-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt248(BigInteger value)
+		public ContractFunctionParameters AddInt248(BigInteger value)
 		{
-			args.Add(new Argument("int248", int256(value, 248), false));
+			args.Add(new Argument("int248", Int256(value, 248), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 256-bit integer.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt256(BigInteger value)
+		public ContractFunctionParameters AddInt256(BigInteger value)
 		{
-			args.Add(new Argument("int256", int256(value, 256), false));
+			args.Add(new Argument("int256", Int256(value, 256), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 8-bit integers.
 		 * <p>
 		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt8Array(byte[] intArray)
+		public ContractFunctionParameters AddInt8Array(byte[] intArray)
 		{
-			IntStream intStream = IntStream.range(0, intArray.Length).map(idx=>intArray[idx]);
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 8).ToByteArray())]);
 
-			ByteString arrayBytes =
-					ByteString.CopyFrom(intStream.mapToObj(i=>int256(i, 8)).collect(Collectors.toList()));
-
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int8[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 16-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt16Array(int[] intArray)
+		public ContractFunctionParameters AddInt16Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>int256(i, 16)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 16).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int16[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 24-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt24Array(int[] intArray)
+		public ContractFunctionParameters AddInt24Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>int256(i, 24)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 24).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int24[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 32-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt32Array(int[] intArray)
+		public ContractFunctionParameters AddInt32Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>int256(i, 32)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 32).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int32[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 40-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt40Array(long[] intArray)
+		public ContractFunctionParameters AddInt40Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>int256(i, 40)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 40).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int40[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 48-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt48Array(long[] intArray)
+		public ContractFunctionParameters AddInt48Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>int256(i, 48)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 48).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int48[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 56-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt56Array(long[] intArray)
+		public ContractFunctionParameters AddInt56Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>int256(i, 56)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 56).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int56[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 64-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt64Array(long[] intArray)
+		public ContractFunctionParameters AddInt64Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>int256(i, 64)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 64).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int64[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 72-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt72Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt72Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 72)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 72).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int72[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 80-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt80Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt80Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 80)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 80).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int80[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 88-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt88Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt88Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 88)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 88).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int88[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 96-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt96Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt96Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 96)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 96).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int96[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 104-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt104Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt104Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 104)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 104).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int104[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 112-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt112Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt112Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 112)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 112).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int112[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 120-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt120Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt120Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 120)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 120).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int120[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 128-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt128Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt128Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 128)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 128).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int128[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 136-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt136Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt136Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 136)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 136).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int136[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 144-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt144Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt144Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 144)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 144).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int144[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 152-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt152Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt152Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 152)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 152).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int152[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 160-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt160Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt160Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 160)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 160).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int160[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 168-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt168Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt168Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 168)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 168).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int168[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 176-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt176Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt176Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 176)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 176).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int176[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 184-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt184Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt184Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 184)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 184).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int184[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 192-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt192Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt192Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 192)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 192).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int192[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 200-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt200Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt200Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 200)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 200).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int200[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 208-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt208Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt208Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 208)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 208).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int208[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 216-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt216Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt216Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 216)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 216).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int216[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 224-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt224Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt224Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 224)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 224).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int224[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 232-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt232Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt232Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 232)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 232).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int232[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 240-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt240Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt240Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 240)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 240).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int240[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 248-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt248Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt248Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 248)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 248).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int248[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 256-bit integers.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addInt256Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddInt256Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>int256(i, 256)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Int256(i, 256).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("int256[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add an unsigned 8-bit integer.
 		 * <p>
 		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint8(byte value)
+		public ContractFunctionParameters AddUint8(byte value)
 		{
-			args.Add(new Argument("uint8", uint256(value, 8), false));
+			args.Add(new Argument("uint8", Uint256(value, 8), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 16-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint16(int value)
+		public ContractFunctionParameters AddUint16(int value)
 		{
-			args.Add(new Argument("uint16", uint256(value, 16), false));
+			args.Add(new Argument("uint16", Uint256(value, 16), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 24-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint24(int value)
+		public ContractFunctionParameters AddUint24(int value)
 		{
-			args.Add(new Argument("uint24", uint256(value, 24), false));
+			args.Add(new Argument("uint24", Uint256(value, 24), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 32-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint32(int value)
+		public ContractFunctionParameters AddUint32(int value)
 		{
-			args.Add(new Argument("uint32", uint256(value, 32), false));
+			args.Add(new Argument("uint32", Uint256(value, 32), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 40-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint40(long value)
+		public ContractFunctionParameters AddUint40(long value)
 		{
-			args.Add(new Argument("uint40", uint256(value, 40), false));
+			args.Add(new Argument("uint40", Uint256(value, 40), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 48-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint48(long value)
+		public ContractFunctionParameters AddUint48(long value)
 		{
-			args.Add(new Argument("uint48", uint256(value, 48), false));
+			args.Add(new Argument("uint48", Uint256(value, 48), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 56-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint56(long value)
+		public ContractFunctionParameters AddUint56(long value)
 		{
-			args.Add(new Argument("uint56", uint256(value, 56), false));
+			args.Add(new Argument("uint56", Uint256(value, 56), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 64-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint64(long value)
+		public ContractFunctionParameters AddUint64(long value)
 		{
-			args.Add(new Argument("uint64", uint256(value, 64), false));
+			args.Add(new Argument("uint64", Uint256(value, 64), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 72-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint72(BigInteger value)
+		public ContractFunctionParameters AddUint72(BigInteger value)
 		{
-			args.Add(new Argument("uint72", uint256(value, 72), false));
+			args.Add(new Argument("uint72", Uint256(value, 72), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 80-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint80(BigInteger value)
+		public ContractFunctionParameters AddUint80(BigInteger value)
 		{
-			args.Add(new Argument("uint80", uint256(value, 80), false));
+			args.Add(new Argument("uint80", Uint256(value, 80), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 88-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint88(BigInteger value)
+		public ContractFunctionParameters AddUint88(BigInteger value)
 		{
-			args.Add(new Argument("uint88", uint256(value, 88), false));
+			args.Add(new Argument("uint88", Uint256(value, 88), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 96-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint96(BigInteger value)
+		public ContractFunctionParameters AddUint96(BigInteger value)
 		{
-			args.Add(new Argument("uint96", uint256(value, 96), false));
+			args.Add(new Argument("uint96", Uint256(value, 96), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 104-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint104(BigInteger value)
+		public ContractFunctionParameters AddUint104(BigInteger value)
 		{
-			args.Add(new Argument("uint104", uint256(value, 104), false));
+			args.Add(new Argument("uint104", Uint256(value, 104), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 112-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint112(BigInteger value)
+		public ContractFunctionParameters AddUint112(BigInteger value)
 		{
-			args.Add(new Argument("uint112", uint256(value, 112), false));
+			args.Add(new Argument("uint112", Uint256(value, 112), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 120-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint120(BigInteger value)
+		public ContractFunctionParameters AddUint120(BigInteger value)
 		{
-			args.Add(new Argument("uint120", uint256(value, 120), false));
+			args.Add(new Argument("uint120", Uint256(value, 120), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 128-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint128(BigInteger value)
+		public ContractFunctionParameters AddUint128(BigInteger value)
 		{
-			args.Add(new Argument("uint128", uint256(value, 128), false));
+			args.Add(new Argument("uint128", Uint256(value, 128), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 136-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint136(BigInteger value)
+		public ContractFunctionParameters AddUint136(BigInteger value)
 		{
-			args.Add(new Argument("uint136", uint256(value, 136), false));
+			args.Add(new Argument("uint136", Uint256(value, 136), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 144-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint144(BigInteger value)
+		public ContractFunctionParameters AddUint144(BigInteger value)
 		{
-			args.Add(new Argument("uint144", uint256(value, 144), false));
+			args.Add(new Argument("uint144", Uint256(value, 144), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 152-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint152(BigInteger value)
+		public ContractFunctionParameters AddUint152(BigInteger value)
 		{
-			args.Add(new Argument("uint152", uint256(value, 152), false));
+			args.Add(new Argument("uint152", Uint256(value, 152), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 160-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint160(BigInteger value)
+		public ContractFunctionParameters AddUint160(BigInteger value)
 		{
-			args.Add(new Argument("uint160", uint256(value, 160), false));
+			args.Add(new Argument("uint160", Uint256(value, 160), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 168-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint168(BigInteger value)
+		public ContractFunctionParameters AddUint168(BigInteger value)
 		{
-			args.Add(new Argument("uint168", uint256(value, 168), false));
+			args.Add(new Argument("uint168", Uint256(value, 168), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 176-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint176(BigInteger value)
+		public ContractFunctionParameters AddUint176(BigInteger value)
 		{
-			args.Add(new Argument("uint176", uint256(value, 176), false));
+			args.Add(new Argument("uint176", Uint256(value, 176), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 184-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint184(BigInteger value)
+		public ContractFunctionParameters AddUint184(BigInteger value)
 		{
-			args.Add(new Argument("uint184", uint256(value, 184), false));
+			args.Add(new Argument("uint184", Uint256(value, 184), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 192-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint192(BigInteger value)
+		public ContractFunctionParameters AddUint192(BigInteger value)
 		{
-			args.Add(new Argument("uint192", uint256(value, 192), false));
+			args.Add(new Argument("uint192", Uint256(value, 192), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 200-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint200(BigInteger value)
+		public ContractFunctionParameters AddUint200(BigInteger value)
 		{
-			args.Add(new Argument("uint200", uint256(value, 200), false));
+			args.Add(new Argument("uint200", Uint256(value, 200), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 208-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint208(BigInteger value)
+		public ContractFunctionParameters AddUint208(BigInteger value)
 		{
-			args.Add(new Argument("uint208", uint256(value, 208), false));
+			args.Add(new Argument("uint208", Uint256(value, 208), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 216-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint216(BigInteger value)
+		public ContractFunctionParameters AddUint216(BigInteger value)
 		{
-			args.Add(new Argument("uint216", uint256(value, 216), false));
+			args.Add(new Argument("uint216", Uint256(value, 216), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 224-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint224(BigInteger value)
+		public ContractFunctionParameters AddUint224(BigInteger value)
 		{
-			args.Add(new Argument("uint224", uint256(value, 224), false));
+			args.Add(new Argument("uint224", Uint256(value, 224), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 232-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint232(BigInteger value)
+		public ContractFunctionParameters AddUint232(BigInteger value)
 		{
-			args.Add(new Argument("uint232", uint256(value, 232), false));
+			args.Add(new Argument("uint232", Uint256(value, 232), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 240-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint240(BigInteger value)
+		public ContractFunctionParameters AddUint240(BigInteger value)
 		{
-			args.Add(new Argument("uint240", uint256(value, 240), false));
+			args.Add(new Argument("uint240", Uint256(value, 240), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 248-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint248(BigInteger value)
+		public ContractFunctionParameters AddUint248(BigInteger value)
 		{
-			args.Add(new Argument("uint248", uint256(value, 248), false));
+			args.Add(new Argument("uint248", Uint256(value, 248), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a 256-bit unsigned integer.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param value The integer to be added
+		 * @param value The integer to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint256(BigInteger value)
+		public ContractFunctionParameters AddUint256(BigInteger value)
 		{
-			args.Add(new Argument("uint256", uint256(value, 256), false));
+			args.Add(new Argument("uint256", Uint256(value, 256), false));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of unsigned 8-bit integers.
 		 * <p>
 		 * The implementation is wasteful as we must pad to 32-bytes to store 1 byte.
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint8Array(byte[] intArray)
+		public ContractFunctionParameters AddUint8Array(byte[] intArray)
 		{
-			IntStream intStream = IntStream.range(0, intArray.Length).map(idx=>intArray[idx]);
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 8).ToByteArray())]);
 
-			ByteString arrayBytes =
-					ByteString.CopyFrom(intStream.mapToObj(i=>uint256(i, 8)).collect(Collectors.toList()));
-
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint8[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 16-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint16Array(int[] intArray)
+		public ContractFunctionParameters AddUint16Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>uint256(i, 16)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 16).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint16[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 24-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint24Array(int[] intArray)
+		public ContractFunctionParameters AddUint24Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>uint256(i, 24)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 24).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint24[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 32-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint32Array(int[] intArray)
+		public ContractFunctionParameters AddUint32Array(int[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>uint256(i, 32)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 32).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint32[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 40-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint40Array(long[] intArray)
+		public ContractFunctionParameters AddUint40Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>uint256(i, 40)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 40).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint40[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 48-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint48Array(long[] intArray)
+		public ContractFunctionParameters AddUint48Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>uint256(i, 48)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 48).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint48[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 56-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint56Array(long[] intArray)
+		public ContractFunctionParameters AddUint56Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>uint256(i, 56)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 56).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint56[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 64-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters addUint64Array(long[] intArray)
+		public ContractFunctionParameters AddUint64Array(long[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).mapToObj(i=>uint256(i, 64)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 64).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint64[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 72-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint72Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint72Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 72)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 72).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint72[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 80-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint80Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint80Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 80)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 80).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint80[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 88-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint88Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint88Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 88)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 88).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint88[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 96-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint96Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint96Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 96)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 96).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint96[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 104-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint104Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint104Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 104)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 104).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint104[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 112-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint112Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint112Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 112)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 112).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint112[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 120-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint120Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint120Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 120)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 120).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint120[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 128-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint128Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint128Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 128)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 128).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint128[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 136-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint136Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint136Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 136)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 136).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint136[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 144-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint144Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint144Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 144)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 144).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint144[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 152-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint152Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint152Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 152)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 152).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint152[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 160-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint160Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint160Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 160)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 160).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint160[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 168-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint168Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint168Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 168)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 168).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint168[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 176-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint176Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint176Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 176)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 176).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint176[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 184-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint184Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint184Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 184)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 184).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint184[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 192-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint192Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint192Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 192)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 192).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint192[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 200-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint200Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint200Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 200)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 200).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint200[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 208-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint208Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint208Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 208)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 208).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint208[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 216-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint216Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint216Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 216)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 216).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint216[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 224-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint224Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint224Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 224)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 224).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint224[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 232-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint232Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint232Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 232)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 232).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint232[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 240-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint240Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint240Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 240)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 240).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint240[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 248-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint248Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint248Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 248)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 248).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint248[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
 		 * Add a dynamic array of 256-bit unsigned integers.
 		 * <p>
 		 * The value will be treated as unsigned during encoding (it will be zero-padded instead of sign-extended to 32
 		 * bytes).
 		 *
-		 * @param intArray The array of integers to be added
+		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
-		 * @ if {@code bigInt.signum() < 0}.
+		 * @ if {@code bigInt.Sign < 0}.
 		 */
-		public ContractFunctionParameters addUint256Array(BigInteger[] intArray)
+		public ContractFunctionParameters AddUint256Array(BigInteger[] intArray)
 		{
-			ByteString arrayBytes = ByteString.CopyFrom(
-					Array.stream(intArray).map(i=>uint256(i, 256)).collect(Collectors.toList()));
+			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 256).ToByteArray())]);
 
-			arrayBytes = uint256(intArray.Length, 32).concat(arrayBytes);
+			arrayBytes = Uint256(intArray.Length, 32).Concat(arrayBytes);
 
 			args.Add(new Argument("uint256[]", arrayBytes, true));
 
 			return this;
 		}
-
 		/**
-		 * Add a {@value ADDRESS_LEN_HEX}-character hex-encoded Solidity address parameter with the type {@code address}.
+		 * Add a {@value ADDRESS_LEN_HEX}-character hex-encoded Solidity Address parameter with the type {@code Address}.
 		 * <p>
-		 * Note: adding a {@code address payable} or {@code contract} parameter must also use this function as the ABI does
+		 * Note: Adding a {@code Address payable} or {@code contract} parameter must also use this function as the ABI does
 		 * not support those types directly.
 		 *
-		 * @param address The address to be added
+		 * @param Address The Address to be Added
 		 * @return {@code this}
-		 * @ if the address is not exactly {@value ADDRESS_LEN_HEX} characters long or fails
+		 * @ if the Address is not exactly {@value ADDRESS_LEN_HEX} characters long or fails
 		 *                                  to decode as hexadecimal.
 		 */
-		public ContractFunctionParameters addAddress(string address)
+		public ContractFunctionParameters AddAddress(string address)
 		{
-			byte[] addressBytes = decodeAddress(address);
+			byte[] addressBytes = DecodeAddress(address);
 
-			args.Add(new Argument("address", leftPad32(ByteString.CopyFrom(addressBytes)), false));
+			args.Add(new Argument("address", LeftPad32(ByteString.CopyFrom(addressBytes)), false));
 
 			return this;
 		}
-
 		/**
-		 * Add an array of {@value ADDRESS_LEN_HEX}-character hex-encoded Solidity addresses as a {@code address[]} param.
+		 * Add an array of {@value ADDRESS_LEN_HEX}-character hex-encoded Solidity Addresses as a {@code Address[]} param.
 		 *
-		 * @param addresses The array of addresses to be added
+		 * @param Addresses The array of Addresses to be Added
 		 * @return {@code this}
 		 * @ if any value is not exactly {@value ADDRESS_LEN_HEX} characters long or fails to
 		 *                                  decode as hexadecimal.
 		 * @     if any value in the array is null.
 		 */
-		public ContractFunctionParameters addAddressArray(string[] addresses)
+		public ContractFunctionParameters AddAddressArray(string[] addresses)
 		{
-			ByteString addressArray = encodeArray(Array.stream(addresses).map(a=> {
-				byte[] address = decodeAddress(a);
-				return leftPad32(ByteString.CopyFrom(address));
+			ByteString addressArray = EncodeArray(addresses.Select(_ =>
+			{
+				byte[] address = DecodeAddress(_);
+
+				return LeftPad32(ByteString.CopyFrom(address));
 			}));
 
 			args.Add(new Argument("address[]", addressArray, true));
 
 			return this;
 		}
-
 		/**
-		 * Add a Solidity function reference as a {@value ADDRESS_LEN}-byte contract address and a
+		 * Add a Solidity function reference as a {@value ADDRESS_LEN}-byte contract Address and a
 		 * {@value SELECTOR_LEN}-byte function selector.
 		 *
-		 * @param address  a hex-encoded {@value ADDRESS_LEN_HEX}-character Solidity address.
+		 * @param Address  a hex-encoded {@value ADDRESS_LEN_HEX}-character Solidity Address.
 		 * @param selector a
 		 * @return {@code this}
-		 * @ if {@code address} is not {@value ADDRESS_LEN_HEX} characters or
+		 * @ if {@code Address} is not {@value ADDRESS_LEN_HEX} characters or
 		 *                                  {@code selector} is not {@value SELECTOR_LEN} bytes.
 		 */
-		public ContractFunctionParameters addFunction(string address, byte[] selector)
+		public ContractFunctionParameters AddFunction(string address, byte[] selector)
 		{
-			return addFunction(decodeAddress(address), selector);
+			return AddFunction(DecodeAddress(address), selector);
 		}
-
 		/**
-		 * Add a Solidity function reference as a {@value ADDRESS_LEN}-byte contract address and a constructed
+		 * Add a Solidity function reference as a {@value ADDRESS_LEN}-byte contract Address and a constructed
 		 * {@link ContractFunctionSelector}. The {@link ContractFunctionSelector} may not be modified after this call.
 		 *
-		 * @param address  The address used in the function to be added
-		 * @param selector The selector used in the function to be added
+		 * @param Address  The Address used in the function to be Added
+		 * @param selector The selector used in the function to be Added
 		 * @return {@code this}
-		 * @ if {@code address} is not {@value ADDRESS_LEN_HEX} characters.
+		 * @ if {@code Address} is not {@value ADDRESS_LEN_HEX} characters.
 		 */
-		public ContractFunctionParameters addFunction(string address, ContractFunctionSelector selector)
+		public ContractFunctionParameters AddFunction(string address, ContractFunctionSelector selector)
 		{
 			// allow the `FunctionSelector` to be reused multiple times
-			return addFunction(decodeAddress(address), selector.finish());
+			return AddFunction(DecodeAddress(address), selector.Finish());
 		}
-
-		private ContractFunctionParameters addFunction(byte[] address, byte[] selector)
+		private ContractFunctionParameters AddFunction(byte[] address, byte[] selector)
 		{
 			if (selector.Length != SELECTOR_LEN)
 			{
@@ -2700,8 +2478,8 @@ namespace Hedera.Hashgraph.SDK
 				output.write(address, 0, address.Length);
 				output.write(selector, 0, selector.Length);
 
-				// function reference encodes as `bytes24`
-				args.Add(new Argument("function", rightPad32(output.toByteString()), false));
+				// function reference Encodes as `bytes24`
+				args.Add(new Argument("function", RightPad32(output.toByteString()), false));
 
 				return this;
 			}
@@ -2719,13 +2497,13 @@ namespace Hedera.Hashgraph.SDK
 		}
 
 		/**
-		 * Get the encoding of the currently added parameters as a {@link ByteString}.
+		 * Get the encoding of the currently Added parameters as a {@link ByteString}.
 		 * <p>
-		 * You may continue to add parameters and call this again.
+		 * You may continue to Add parameters and call this again.
 		 *
-		 * @return the Solidity encoding of the call parameters in the order they were added.
+		 * @return the Solidity encoding of the call parameters in the order they were Added.
 		 */
-		public ByteString toBytes(@Nullable string funcName)
+		public ByteString ToBytes(string? funcName)
 		{
 			// offset for dynamic-length data, immediately after value arguments
 			var dynamicOffset = args.Count * 32;
@@ -2734,62 +2512,39 @@ namespace Hedera.Hashgraph.SDK
 
 			var dynamicArgs = new List<ByteString>();
 
-			ContractFunctionSelector functionSelector = funcName != null ? new ContractFunctionSelector(funcName) : null;
+			ContractFunctionSelector? functionSelector = funcName != null ? new ContractFunctionSelector(funcName) : null;
 
 			// iterate the arguments and determine whether they are dynamic or not
-			for (Argument arg : args)
+			foreach (Argument arg in args)
 			{
 				if (functionSelector != null)
 				{
-					functionSelector.AddParamType(arg.type);
+					functionSelector.AddParamType(arg.Type);
 				}
 
-				if (arg.isDynamic)
+				if (arg.IsDynamic)
 				{
 					// dynamic arguments supply their offset in value position and append their data at
 					// that offset
-					paramsBytes.Add(int256(dynamicOffset, 256));
-					dynamicArgs.Add(arg.value);
-					dynamicOffset += arg.value.Count;
+					paramsBytes.Add(Int256(dynamicOffset, 256));
+					dynamicArgs.Add(arg.Value);
+					dynamicOffset += arg.Value.Length;
 				}
 				else
 				{
 					// value arguments are dropped in the current arg position
-					paramsBytes.Add(arg.value);
+					paramsBytes.Add(arg.Value);
 				}
 			}
 
 			if (functionSelector != null)
 			{
-				paramsBytes.Add(0, ByteString.CopyFrom(functionSelector.finish()));
+				paramsBytes.Insert(0, ByteString.CopyFrom(functionSelector.Finish()));
 			}
 
-			paramsBytes.AddAll(dynamicArgs);
+			paramsBytes.AddRange(dynamicArgs);
 
-			return ByteString.CopyFrom(paramsBytes);
-		}
-
-
-	private static sealed class Argument
-	{
-		private readonly string type;
-
-        private readonly ByteString value;
-
-        private readonly bool isDynamic;
-
-        private Argument(string type, ByteString value, bool isDynamic)
-		{
-			type = type;
-			if (!isDynamic && value.Count != 32)
-			{
-				throw new ArgumentException("value argument that was not 32 bytes");
-			}
-
-			value = value;
-			isDynamic = isDynamic;
+			return ByteString.CopyFrom([.. paramsBytes.SelectMany(_ => _.ToByteArray())]);
 		}
 	}
-}
-
 }

@@ -1,5 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Proto;
 using Io.Grpc;
 using Java.Time;
@@ -133,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractCreateTransaction SetBytecodeFileId(FileId bytecodeFileId)
         {
-            Objects.RequireNonNull(bytecodeFileId);
+            ArgumentNullException.ThrowIfNull(bytecodeFileId);
             RequireNotFrozen();
             bytecode = null;
             bytecodeFileId = bytecodeFileId;
@@ -162,7 +166,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractCreateTransaction SetBytecode(byte[] bytecode)
         {
-            Objects.RequireNonNull(bytecode);
+            ArgumentNullException.ThrowIfNull(bytecode);
             RequireNotFrozen();
             bytecodeFileId = null;
             bytecode = Array.CopyOf(bytecode, bytecode.Length);
@@ -196,7 +200,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractCreateTransaction SetAdminKey(Key adminKey)
         {
-            Objects.RequireNonNull(adminKey);
+            ArgumentNullException.ThrowIfNull(adminKey);
             RequireNotFrozen();
             adminKey = adminKey;
             return this;
@@ -260,7 +264,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractCreateTransaction SetInitialBalance(Hbar initialBalance)
         {
-            Objects.RequireNonNull(initialBalance);
+            ArgumentNullException.ThrowIfNull(initialBalance);
             RequireNotFrozen();
             initialBalance = initialBalance;
             return this;
@@ -296,7 +300,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// </remarks>
         public ContractCreateTransaction SetProxyAccountId(AccountId proxyAccountId)
         {
-            Objects.RequireNonNull(proxyAccountId);
+            ArgumentNullException.ThrowIfNull(proxyAccountId);
             RequireNotFrozen();
             proxyAccountId = proxyAccountId;
             return this;
@@ -353,7 +357,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractCreateTransaction SetAutoRenewPeriod(Duration autoRenewPeriod)
         {
-            Objects.RequireNonNull(autoRenewPeriod);
+            ArgumentNullException.ThrowIfNull(autoRenewPeriod);
             RequireNotFrozen();
             autoRenewPeriod = autoRenewPeriod;
             return this;
@@ -390,7 +394,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractCreateTransaction SetConstructorParameters(ContractFunctionParameters constructorParameters)
         {
-            Objects.RequireNonNull(constructorParameters);
+            ArgumentNullException.ThrowIfNull(constructorParameters);
             return SetConstructorParameters(constructorParameters.ToBytes(null).ToByteArray());
         }
 
@@ -414,7 +418,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         public ContractCreateTransaction SetContractMemo(string memo)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(memo);
+            ArgumentNullException.ThrowIfNull(memo);
             contractMemo = memo;
             return this;
         }
@@ -528,7 +532,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractCreateTransaction SetAutoRenewAccountId(AccountId autoRenewAccountId)
         {
-            Objects.RequireNonNull(autoRenewAccountId);
+            ArgumentNullException.ThrowIfNull(autoRenewAccountId);
             RequireNotFrozen();
             autoRenewAccountId = autoRenewAccountId;
             return this;
@@ -551,7 +555,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         public ContractCreateTransaction AddHook(HookCreationDetails hookDetails)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hookDetails, "hookDetails cannot be null");
+            ArgumentNullException.ThrowIfNull(hookDetails, "hookDetails cannot be null");
             hookCreationDetails.Add(hookDetails);
             return this;
         }
@@ -564,7 +568,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         public ContractCreateTransaction SetHooks(IList<HookCreationDetails> hookDetails)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hookDetails, "hookDetails cannot be null");
+            ArgumentNullException.ThrowIfNull(hookDetails, "hookDetails cannot be null");
             hookCreationDetails = new List(hookDetails);
             return this;
         }
@@ -578,47 +582,47 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             var builder = ContractCreateTransactionBody.NewBuilder();
             if (bytecodeFileId != null)
             {
-                builder.SetFileID(bytecodeFileId.ToProtobuf());
+                builder.FileID(bytecodeFileId.ToProtobuf());
             }
 
             if (bytecode != null)
             {
-                builder.SetInitcode(ByteString.CopyFrom(bytecode));
+                builder.Initcode(ByteString.CopyFrom(bytecode));
             }
 
             if (proxyAccountId != null)
             {
-                builder.SetProxyAccountID(proxyAccountId.ToProtobuf());
+                builder.ProxyAccountID(proxyAccountId.ToProtobuf());
             }
 
             if (adminKey != null)
             {
-                builder.SetAdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey(adminKey.ToProtobufKey());
             }
 
-            builder.SetMaxAutomaticTokenAssociations(maxAutomaticTokenAssociations);
+            builder.MaxAutomaticTokenAssociations(maxAutomaticTokenAssociations);
             if (autoRenewPeriod != null)
             {
-                builder.SetAutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
+                builder.AutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
             }
 
-            builder.SetGas(gas);
-            builder.SetInitialBalance(initialBalance.ToTinybars());
-            builder.SetConstructorParameters(ByteString.CopyFrom(constructorParameters));
-            builder.SetMemo(contractMemo);
-            builder.SetDeclineReward(declineStakingReward);
+            builder.Gas(gas);
+            builder.InitialBalance(initialBalance.ToTinybars());
+            builder.ConstructorParameters(ByteString.CopyFrom(constructorParameters));
+            builder.Memo(contractMemo);
+            builder.DeclineReward(declineStakingReward);
             if (stakedAccountId != null)
             {
-                builder.SetStakedAccountId(stakedAccountId.ToProtobuf());
+                builder.StakedAccountId(stakedAccountId.ToProtobuf());
             }
             else if (stakedNodeId != null)
             {
-                builder.SetStakedNodeId(stakedNodeId);
+                builder.StakedNodeId(stakedNodeId);
             }
 
             if (autoRenewAccountId != null)
             {
-                builder.SetAutoRenewAccountId(autoRenewAccountId.ToProtobuf());
+                builder.AutoRenewAccountId(autoRenewAccountId.ToProtobuf());
             }
 
             foreach (HookCreationDetails hookDetails in hookCreationDetails)
@@ -657,7 +661,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetContractCreateInstance();
+            var body = sourceTransactionBody.ContractCreateInstance();
             if (body.HasFileID())
             {
                 bytecodeFileId = FileId.FromProtobuf(body.GetFileID());
@@ -673,9 +677,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
                 proxyAccountId = AccountId.FromProtobuf(body.GetProxyAccountID());
             }
 
-            if (body.HasAdminKey())
+            if (body.AdminKey is not null)
             {
-                adminKey = Key.FromProtobufKey(body.GetAdminKey());
+                adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
             maxAutomaticTokenAssociations = body.GetMaxAutomaticTokenAssociations();
@@ -688,7 +692,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             initialBalance = Hbar.FromTinybars(body.GetInitialBalance());
             constructorParameters = body.GetConstructorParameters().ToByteArray();
             contractMemo = body.GetMemo();
-            declineStakingReward = body.GetDeclineReward();
+            declineStakingReward = body.DeclineReward;
             if (body.HasStakedAccountId())
             {
                 stakedAccountId = AccountId.FromProtobuf(body.GetStakedAccountId());
@@ -718,12 +722,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             return SmartContractServiceGrpc.GetCreateContractMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetContractCreateInstance(Build());
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.SetContractCreateInstance(Build());
         }

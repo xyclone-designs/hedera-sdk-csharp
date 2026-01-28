@@ -8,7 +8,7 @@ namespace Hedera.Hashgraph.SDK
     /// <summary>
     /// Internal utility struct for a lockable list type, ported from Java.
     /// </summary>
-    public class LockableList<T> : IEnumerable<T>
+    public class LockableList<T> : IList<T>
 	{
 		private readonly List<T> _list;
 		private readonly int _index;
@@ -34,10 +34,19 @@ namespace Hedera.Hashgraph.SDK
 
 		public bool IsEmpty => _list.Count == 0;
 		public bool IsLocked => _locked;
-		public int Size => _list.Count;
 		public int Index { get; private set; }
+        public int Count => _list.Count;
+        public bool IsReadOnly => false;
 
-		public List<T> GetList() => _list;
+        public T this[int index] { get => _list[index]; 
+			set 
+			{
+				RequireNotLocked();
+				_list[index] = value; 
+			}
+		}
+
+        public List<T> GetList() => _list;
 		public LockableList<T> EnsureCapacity(int capacity)
 		{
 			_list.EnsureCapacity(capacity);
@@ -109,6 +118,45 @@ namespace Hedera.Hashgraph.SDK
 
 		public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-	}
 
+        public int IndexOf(T item)
+        {
+            return _list.IndexOf(item);
+        }
+        public void Insert(int index, T item)
+        {
+			RequireNotLocked();
+            _list.Insert(index, item);
+        }
+        public void RemoveAt(int index)
+		{
+			RequireNotLocked();
+			_list.RemoveAt(index);
+        }
+        public void Add(T item)
+		{
+			RequireNotLocked();
+			_list.Add(item);
+        }
+		public bool Contains(T item)
+        {
+            return _list.Contains(item);
+        }
+        public void CopyTo(T[] array, int arrayIndex)
+		{
+			RequireNotLocked();
+			_list.CopyTo(array, arrayIndex);
+        }
+
+		void ICollection<T>.Clear()
+		{
+			RequireNotLocked();
+			_list.Clear();
+		}
+		bool ICollection<T>.Remove(T item)
+		{
+			RequireNotLocked();
+			return _list.Remove(item);
+		}
+	}
 }

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 
 using System;
@@ -69,29 +69,22 @@ namespace Hedera.Hashgraph.SDK.Token
 
         static IList<TokenNftTransfer> FromProtobuf(TokenTransferList tokenTransferList)
         {
-            var token = TokenId.FromProtobuf(tokenTransferList.GetToken());
+            var token = TokenId.FromProtobuf(tokenTransferList.GetToken);
             var nftTransfers = new List<TokenNftTransfer>();
             foreach (var transfer in tokenTransferList.GetNftTransfersList())
             {
-                NftHookCall senderHookCall = null;
-                NftHookCall receiverHookCall = null;
-                if (transfer.HasPreTxSenderAllowanceHook())
-                {
-                    senderHookCall = ToNftHook(transfer.GetPreTxSenderAllowanceHook(), NftHookType.PRE_HOOK_SENDER);
-                }
-                else if (transfer.HasPrePostTxSenderAllowanceHook())
-                {
-                    senderHookCall = ToNftHook(transfer.GetPrePostTxSenderAllowanceHook(), NftHookType.PRE_POST_HOOK_SENDER);
-                }
+                NftHookCall? senderHookCall = null;
+                NftHookCall? receiverHookCall = null;
 
-                if (transfer.HasPreTxReceiverAllowanceHook())
-                {
-                    receiverHookCall = ToNftHook(transfer.GetPreTxReceiverAllowanceHook(), NftHookType.PRE_HOOK_RECEIVER);
-                }
+                if (transfer.HasPreTxSenderAllowanceHook())
+                    senderHookCall = ToNftHook(transfer.GetPreTxSenderAllowanceHook(), NftHookType.PreHookSender);
+                else if (transfer.HasPrePostTxSenderAllowanceHook())
+					senderHookCall = ToNftHook(transfer.GetPrePostTxSenderAllowanceHook(), NftHookType.PrePostHookSender);
+
+				if (transfer.HasPreTxReceiverAllowanceHook())
+                    receiverHookCall = ToNftHook(transfer.GetPreTxReceiverAllowanceHook(), NftHookType.PreHookReceiver);
                 else if (transfer.HasPrePostTxReceiverAllowanceHook())
-                {
-                    receiverHookCall = ToNftHook(transfer.GetPrePostTxReceiverAllowanceHook(), NftHookType.PRE_POST_HOOK_RECEIVER);
-                }
+                    receiverHookCall = ToNftHook(transfer.GetPrePostTxReceiverAllowanceHook(), NftHookType.PrePostHookReceiver);
 
                 var sender = AccountId.FromProtobuf(transfer.GetSenderAccountID());
                 var receiver = AccountId.FromProtobuf(transfer.GetReceiverAccountID());
@@ -170,19 +163,19 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 		public virtual int CompareTo(TokenNftTransfer? o)
 		{
-			int senderComparison = sender.CompareTo(o.sender);
+			int senderComparison = sender.CompareTo(o?.sender);
 			if (senderComparison != 0)
 			{
 				return senderComparison;
 			}
 
-			int receiverComparison = receiver.CompareTo(o.receiver);
+			int receiverComparison = receiver.CompareTo(o?.receiver);
 			if (receiverComparison != 0)
 			{
 				return receiverComparison;
 			}
 
-			return serial.CompareTo(o.serial);
+			return serial.CompareTo(o?.serial);
 		}
 		public override int GetHashCode()
 		{
@@ -195,7 +188,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 return true;
             }
 
-            if (o == null || GetType() != o.GetType())
+            if (o == null || GetType() != o?.GetType())
             {
                 return false;
             }

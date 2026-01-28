@@ -1,25 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Schedule
 {
@@ -86,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// <returns>{@code this}</returns>
         public ScheduleDeleteTransaction SetScheduleId(ScheduleId scheduleId)
         {
-            Objects.RequireNonNull(scheduleId);
+            ArgumentNullException.ThrowIfNull(scheduleId);
             RequireNotFrozen();
             scheduleId = scheduleId;
             return this;
@@ -97,10 +83,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetScheduleDelete();
-            if (body.HasScheduleID())
+            var body = sourceTransactionBody.ScheduleDelete;
+            if (body.ScheduleID is not null)
             {
-                scheduleId = ScheduleId.FromProtobuf(body.GetScheduleID());
+                scheduleId = ScheduleId.FromProtobuf(body.ScheduleID);
             }
         }
 
@@ -108,38 +94,35 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.ScheduleDeleteTransactionBody builder }</returns>
-        ScheduleDeleteTransactionBody.Builder Build()
+        Proto.ScheduleDeleteTransactionBody Build()
         {
-            var builder = ScheduleDeleteTransactionBody.NewBuilder();
+            var builder =  new Proto.ScheduleDeleteTransactionBody();
             if (scheduleId != null)
             {
-                builder.SetScheduleID(scheduleId.ToProtobuf());
+                builder.ScheduleID = scheduleId.ToProtobuf();
             }
 
             return builder;
         }
 
-        override void ValidateChecksums(Client client)
+        public override void ValidateChecksums(Client client)
         {
             if (scheduleId != null)
             {
                 scheduleId.ValidateChecksum(client);
             }
         }
-
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
             return ScheduleServiceGrpc.GetDeleteScheduleMethod();
         }
-
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetScheduleDelete(Build());
+            bodyBuilder.ScheduleDelete = Build();
         }
-
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetScheduleDelete(Build());
+            scheduled.ScheduleDelete = Build();
         }
     }
 }

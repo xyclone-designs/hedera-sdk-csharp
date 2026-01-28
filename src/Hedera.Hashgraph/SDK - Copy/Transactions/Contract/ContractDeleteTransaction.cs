@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractDeleteTransaction SetContractId(ContractId contractId)
         {
-            Objects.RequireNonNull(contractId);
+            ArgumentNullException.ThrowIfNull(contractId);
             RequireNotFrozen();
             contractId = contractId;
             return this;
@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractDeleteTransaction SetTransferAccountId(AccountId transferAccountId)
         {
-            Objects.RequireNonNull(transferAccountId);
+            ArgumentNullException.ThrowIfNull(transferAccountId);
             RequireNotFrozen();
             transferAccountId = transferAccountId;
             return this;
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// <returns>{@code this}</returns>
         public ContractDeleteTransaction SetTransferContractId(ContractId transferContractId)
         {
-            Objects.RequireNonNull(transferContractId);
+            ArgumentNullException.ThrowIfNull(transferContractId);
             RequireNotFrozen();
             transferContractId = transferContractId;
             return this;
@@ -200,7 +200,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetContractDeleteInstance();
+            var body = sourceTransactionBody.ContractDeleteInstance();
             if (body.HasContractID())
             {
                 contractId = ContractId.FromProtobuf(body.GetContractID());
@@ -231,33 +231,33 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             var builder = ContractDeleteTransactionBody.NewBuilder();
             if (contractId != null)
             {
-                builder.SetContractID(contractId.ToProtobuf());
+                builder.ContractID(contractId.ToProtobuf());
             }
 
             if (transferAccountId != null)
             {
-                builder.SetTransferAccountID(transferAccountId.ToProtobuf());
+                builder.TransferAccountID(transferAccountId.ToProtobuf());
             }
 
             if (transferContractId != null)
             {
-                builder.SetTransferContractID(transferContractId.ToProtobuf());
+                builder.TransferContractID(transferContractId.ToProtobuf());
             }
 
             if (permanentRemoval != null)
             {
-                builder.SetPermanentRemoval(permanentRemoval.BooleanValue());
+                builder.PermanentRemoval(permanentRemoval.BooleanValue());
             }
 
             return builder;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetContractDeleteInstance(Build());
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.SetContractDeleteInstance(Build());
         }

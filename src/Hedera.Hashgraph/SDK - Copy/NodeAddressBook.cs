@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.SDK
         /// Create the protobuf.
         /// </summary>
         /// <returns>                         the protobuf representation</returns>
-        virtual Proto.NodeAddressBook ToProtobuf()
+        public virtual Proto.NodeAddressBook ToProtobuf()
         {
             var builder = Proto.NodeAddressBook.NewBuilder();
             foreach (var nodeAdress in NodeAddresses)

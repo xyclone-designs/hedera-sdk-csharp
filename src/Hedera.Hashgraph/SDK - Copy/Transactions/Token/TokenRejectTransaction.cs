@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
 using Io.Grpc;
 using Java.Util;
@@ -48,8 +49,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
     public class TokenRejectTransaction : Transaction<TokenRejectTransaction>
     {
         private AccountId ownerId = null;
-        private IList<TokenId> tokenIds = new ();
-        private IList<NftId> nftIds = new ();
+        private IList<TokenId> tokenIds = [];
+        private IList<NftId> nftIds = [];
         /// <summary>
         /// Constructor
         /// </summary>
@@ -77,15 +78,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         }
 
         /// <summary>
-        /// Extract the Account ID of the Owner.
-        /// </summary>
-        /// <returns>the Account ID of the Owner.</returns>
-        public virtual AccountId GetOwnerId()
-        {
-            return ownerId;
-        }
-
-        /// <summary>
         /// An account identifier.<br/>
         /// This OPTIONAL field identifies the account holding the
         /// tokens to be rejected.
@@ -94,35 +86,29 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// If not set, the `payer` for this transaction SHALL be the effective
         /// `owner` for this transaction.
         /// </summary>
-        /// <param name="ownerId">the Account ID of the Owner.</param>
-        /// <returns>{@code this}</returns>
-        public virtual TokenRejectTransaction SetOwnerId(AccountId ownerId)
+        public virtual TokenRejectTransaction OwnerId
         {
-            Objects.RequireNonNull(ownerId);
-            RequireNotFrozen();
-            ownerId = ownerId;
-            return this;
+            get;
+            set
+            {
+				RequireNotFrozen();
+				field = value;
+			}
         }
+		public IList<TokenId> TokenIds { get; }
+		public IList<NftId> NftIds { get; }
 
-        /// <summary>
-        /// Extract the list of tokenIds.
-        /// </summary>
-        /// <returns>the list of tokenIds.</returns>
-        public virtual IList<TokenId> GetTokenIds()
-        {
-            return tokenIds;
-        }
 
-        /// <summary>
-        /// A list of one or more token rejections (a fungible/common token type).
-        /// </summary>
-        /// <param name="tokenIds">the list of tokenIds.</param>
-        /// <returns>{@code this}</returns>
-        public virtual TokenRejectTransaction SetTokenIds(IList<TokenId> tokenIds)
+		/// <summary>
+		/// A list of one or more token rejections (a fungible/common token type).
+		/// </summary>
+		/// <param name="tokenIds">the list of tokenIds.</param>
+		/// <returns>{@code this}</returns>
+		public virtual TokenRejectTransaction SetTokenIds(IList<TokenId> tokenIds)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(tokenIds);
-            tokenIds = new List(tokenIds);
+            ArgumentNullException.ThrowIfNull(tokenIds);
+            tokenIds = [.. tokenIds];
             return this;
         }
 
@@ -138,14 +124,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return this;
         }
 
-        /// <summary>
-        /// Extract the list of nftIds.
-        /// </summary>
-        /// <returns>the list of nftIds.</returns>
-        public virtual IList<NftId> GetNftIds()
-        {
-            return nftIds;
-        }
 
         /// <summary>
         /// A list of one or more token rejections (a single specific serialized non-fungible/unique token).
@@ -155,8 +133,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenRejectTransaction SetNftIds(IList<NftId> nftIds)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(nftIds);
-            nftIds = new List(nftIds);
+            ArgumentNullException.ThrowIfNull(nftIds);
+            nftIds = [.. nftIds];
             return this;
         }
 
@@ -176,22 +154,23 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenRejectTransactionBody}</returns>
-        virtual TokenRejectTransactionBody.Builder Build()
+        public virtual Proto.TokenRejectTransactionBody Build()
         {
-            var builder = TokenRejectTransactionBody.NewBuilder();
+            var builder = new Proto.TokenRejectTransactionBody();
+
             if (ownerId != null)
             {
-                builder.SetOwner(ownerId.ToProtobuf());
+                builder.Owner = ownerId.ToProtobuf();
             }
 
             foreach (TokenId tokenId in tokenIds)
             {
-                builder.AddRejections(TokenReference.NewBuilder().SetFungibleToken(tokenId.ToProtobuf()).Build());
+                builder.Rejections.Add(new Proto.TokenReference() { FungibleToken = tokenId.ToProtobuf() });
             }
 
             foreach (NftId nftId in nftIds)
             {
-                builder.AddRejections(TokenReference.NewBuilder().SetNft(nftId.ToProtobuf()).Build());
+                builder.Rejections.Add(new Proto.TokenReference() { Nft = nftId.ToProtobuf() });
             }
 
             return builder;
@@ -200,28 +179,29 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenReject();
-            if (body.HasOwner())
+            var body = sourceTransactionBody.TokenReject;
+
+            if (body.Owner is not null)
             {
-                ownerId = AccountId.FromProtobuf(body.GetOwner());
+                ownerId = AccountId.FromProtobuf(body.Owner);
             }
 
-            foreach (TokenReference tokenReference in body.GetRejectionsList())
+            foreach (Proto.TokenReference tokenReference in body.Rejections)
             {
-                if (tokenReference.HasFungibleToken())
+                if (tokenReference.FungibleToken is not null)
                 {
-                    tokenIds.Add(TokenId.FromProtobuf(tokenReference.GetFungibleToken()));
+                    tokenIds.Add(TokenId.FromProtobuf(tokenReference.FungibleToken));
                 }
-                else if (tokenReference.HasNft())
+                else if (tokenReference.Nft is not null)
                 {
-                    nftIds.Add(NftId.FromProtobuf(tokenReference.GetNft()));
+                    nftIds.Add(NftId.FromProtobuf(tokenReference.Nft));
                 }
             }
         }
 
-        override void ValidateChecksums(Client client)
+		public override void ValidateChecksums(Client client)
         {
             if (ownerId != null)
             {
@@ -241,20 +221,17 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
                 nftId.TokenId.ValidateChecksum(client);
             }
         }
-
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            return TokenServiceGrpc.GetRejectTokenMethod();
+            bodyBuilder.TokenReject = Build();
         }
-
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            bodyBuilder.SetTokenReject(Build());
+            scheduled.TokenReject = Build();
         }
-
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
-        {
-            scheduled.SetTokenReject(Build());
-        }
-    }
+		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		{
+			return TokenServiceGrpc.GetRejectTokenMethod();
+		}
+	}
 }

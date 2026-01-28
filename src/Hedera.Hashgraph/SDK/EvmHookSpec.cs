@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK
         {
             if (this == o)
                 return true;
-            if (o == null || GetType() != o.GetType())
+            if (o == null || GetType() != o?.GetType())
                 return false;
             EvmHookSpec that = (EvmHookSpec)o;
 

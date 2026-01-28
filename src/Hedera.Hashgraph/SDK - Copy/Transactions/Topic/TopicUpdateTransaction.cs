@@ -1,32 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Java.Util.Stream;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
-using static Hedera.Hashgraph.SDK.TokenSupplyType;
-using static Hedera.Hashgraph.SDK.TokenType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Topic
 {
@@ -99,7 +79,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction SetTopicId(TopicId topicId)
         {
-            Objects.RequireNonNull(topicId);
+            ArgumentNullException.ThrowIfNull(topicId);
             RequireNotFrozen();
             topicId = topicId;
             return this;
@@ -126,7 +106,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction SetTopicMemo(string memo)
         {
-            Objects.RequireNonNull(memo);
+            ArgumentNullException.ThrowIfNull(memo);
             RequireNotFrozen();
             topicMemo = memo;
             return this;
@@ -165,7 +145,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction SetAdminKey(Key adminKey)
         {
-            Objects.RequireNonNull(adminKey);
+            ArgumentNullException.ThrowIfNull(adminKey);
             RequireNotFrozen();
             adminKey = adminKey;
             return this;
@@ -205,7 +185,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction SetSubmitKey(Key submitKey)
         {
-            Objects.RequireNonNull(submitKey);
+            ArgumentNullException.ThrowIfNull(submitKey);
             RequireNotFrozen();
             submitKey = submitKey;
             return this;
@@ -248,7 +228,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
          */
         public TopicUpdateTransaction SetAutoRenewPeriod(Duration autoRenewPeriod)
         {
-            Objects.RequireNonNull(autoRenewPeriod);
+            ArgumentNullException.ThrowIfNull(autoRenewPeriod);
             RequireNotFrozen();
             autoRenewPeriod = autoRenewPeriod;
             return this;
@@ -278,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction SetAutoRenewAccountId(AccountId autoRenewAccountId)
         {
-            Objects.RequireNonNull(autoRenewAccountId);
+            ArgumentNullException.ThrowIfNull(autoRenewAccountId);
             RequireNotFrozen();
             autoRenewAccountId = autoRenewAccountId;
             return this;
@@ -328,14 +308,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         public TopicUpdateTransaction SetExpirationTime(Timestamp expirationTime)
         {
             RequireNotFrozen();
-            expirationTime = Objects.RequireNonNull(expirationTime);
+            expirationTime = expirationTime;
             expirationTimeDuration = null;
             return this;
         }
 
         public TopicUpdateTransaction SetExpirationTime(Duration expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = null;
             expirationTimeDuration = expirationTime;
@@ -386,9 +366,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction SetFeeExemptKeys(IList<Key> feeExemptKeys)
         {
-            Objects.RequireNonNull(feeExemptKeys);
+            ArgumentNullException.ThrowIfNull(feeExemptKeys);
             RequireNotFrozen();
-            feeExemptKeys = new List(feeExemptKeys);
+            feeExemptKeys = [.. feeExemptKeys];
             return this;
         }
 
@@ -399,7 +379,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         public TopicUpdateTransaction ClearFeeExemptKeys()
         {
             RequireNotFrozen();
-            feeExemptKeys = new ();
+            feeExemptKeys = [];
             return this;
         }
 
@@ -410,11 +390,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction AddFeeExemptKey(Key feeExemptKey)
         {
-            Objects.RequireNonNull(feeExemptKey);
+            ArgumentNullException.ThrowIfNull(feeExemptKey);
             RequireNotFrozen();
             if (feeExemptKeys == null)
             {
-                feeExemptKeys = new ();
+                feeExemptKeys = [];
             }
 
             feeExemptKeys.Add(feeExemptKey);
@@ -437,9 +417,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction SetCustomFees(IList<CustomFixedFee> customFees)
         {
-            Objects.RequireNonNull(customFees);
+            ArgumentNullException.ThrowIfNull(customFees);
             RequireNotFrozen();
-            customFees = new List(customFees);
+            customFees = [.. customFees];
             return this;
         }
 
@@ -450,7 +430,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         public TopicUpdateTransaction ClearCustomFees()
         {
             RequireNotFrozen();
-            customFees = new ();
+            customFees = [];
             return this;
         }
 
@@ -461,11 +441,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicUpdateTransaction AddCustomFee(CustomFixedFee customFixedFee)
         {
-            Objects.RequireNonNull(customFixedFee);
+            ArgumentNullException.ThrowIfNull(customFixedFee);
             RequireNotFrozen();
             if (customFees == null)
             {
-                customFees = new ();
+                customFees = [];
             }
 
             customFees.Add(customFixedFee);
@@ -477,55 +457,55 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetConsensusUpdateTopic();
-            if (body.HasTopicID())
+            var body = sourceTransactionBody.ConsensusUpdateTopic;
+            if (body.TopicID is not null)
             {
-                topicId = TopicId.FromProtobuf(body.GetTopicID());
+                topicId = TopicId.FromProtobuf(body.TopicID);
             }
 
-            if (body.HasAdminKey())
+            if (body.AdminKey is not null)
             {
-                adminKey = Key.FromProtobufKey(body.GetAdminKey());
+                adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
-            if (body.HasSubmitKey())
+            if (body.SubmitKey is not null)
             {
-                submitKey = Key.FromProtobufKey(body.GetSubmitKey());
+                submitKey = Key.FromProtobufKey(body.SubmitKey);
             }
 
-            if (body.HasAutoRenewPeriod())
+            if (body.AutoRenewPeriod is not null)
             {
-                autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.GetAutoRenewPeriod());
+                autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
             }
 
-            if (body.HasAutoRenewAccount())
+            if (body.AutoRenewAccount is not null)
             {
-                autoRenewAccountId = AccountId.FromProtobuf(body.GetAutoRenewAccount());
+                autoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccount);
             }
 
-            if (body.HasMemo())
+            if (body.Memo is not null)
             {
-                topicMemo = body.GetMemo().GetValue();
+                topicMemo = body.Memo;
             }
 
-            if (body.HasExpirationTime())
+            if (body.ExpirationTime is not null)
             {
-                expirationTime = Utils.TimestampConverter.FromProtobuf(body.GetExpirationTime());
+                expirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
             }
 
-            if (body.HasFeeScheduleKey())
+            if (body.FeeScheduleKey is not null)
             {
-                feeScheduleKey = Key.FromProtobufKey(body.GetFeeScheduleKey());
+                feeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
             }
 
-            if (body.HasFeeExemptKeyList())
+            if (body.FeeExemptKeyList is not null)
             {
-                feeExemptKeys = body.GetFeeExemptKeyList().GetKeysList().Stream().Map(Key.FromProtobufKey()).Collect(Collectors.ToList());
+                feeExemptKeys = [.. body.FeeExemptKeyList.Keys.Select(_ => Key.FromProtobufKey(_))];
             }
 
-            if (body.HasCustomFees())
+            if (body.CustomFees is not null)
             {
-                customFees = body.GetCustomFees().GetFeesList().Stream().Map((x) => CustomFixedFee.FromProtobuf(x.GetFixedFee())).Collect(Collectors.ToList());
+                customFees = [..body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee))];
             }
         }
 
@@ -534,74 +514,75 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         /// <returns>{@link
         ///         Proto.ConsensusUpdateTopicTransactionBody}</returns>
-        ConsensusUpdateTopicTransactionBody.Builder Build()
+        Proto.ConsensusUpdateTopicTransactionBody Build()
         {
-            var builder = ConsensusUpdateTopicTransactionBody.NewBuilder();
+            var builder = new Proto.ConsensusUpdateTopicTransactionBody();
+
             if (topicId != null)
             {
-                builder.SetTopicID(topicId.ToProtobuf());
+                builder.TopicID = topicId.ToProtobuf();
             }
 
             if (autoRenewAccountId != null)
             {
-                builder.SetAutoRenewAccount(autoRenewAccountId.ToProtobuf());
+                builder.AutoRenewAccount = autoRenewAccountId.ToProtobuf();
             }
 
             if (adminKey != null)
             {
-                builder.SetAdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey = adminKey.ToProtobufKey();
             }
 
             if (submitKey != null)
             {
-                builder.SetSubmitKey(submitKey.ToProtobufKey());
+                builder.SubmitKey = submitKey.ToProtobufKey();
             }
 
             if (autoRenewPeriod != null)
             {
-                builder.SetAutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
+                builder.AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(autoRenewPeriod);
             }
 
             if (topicMemo != null)
             {
-                builder.SetMemo(StringValue.Of(topicMemo));
+                builder.Memo = topicMemo;
             }
 
             if (expirationTime != null)
             {
-                builder.SetExpirationTime(Utils.TimestampConverter.ToProtobuf(expirationTime));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTime);
             }
 
             if (expirationTimeDuration != null)
             {
-                builder.SetExpirationTime(Utils.TimestampConverter.ToProtobuf(expirationTimeDuration));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTimeDuration);
             }
 
             if (feeScheduleKey != null)
             {
-                builder.SetFeeScheduleKey(feeScheduleKey.ToProtobufKey());
+                builder.FeeScheduleKey = feeScheduleKey.ToProtobufKey();
             }
 
             if (feeExemptKeys != null)
             {
-                var feeExemptKeyList = FeeExemptKeyList.NewBuilder();
+                var feeExemptKeyList = new Proto.FeeExemptKeyList();
                 foreach (var feeExemptKey in feeExemptKeys)
                 {
-                    feeExemptKeyList.AddKeys(feeExemptKey.ToProtobufKey());
+                    feeExemptKeyList.Keys.Add(feeExemptKey.ToProtobufKey());
                 }
 
-                builder.SetFeeExemptKeyList(feeExemptKeyList);
+                builder.FeeExemptKeyList = feeExemptKeyList;
             }
 
             if (customFees != null)
             {
-                var protoCustomFeeList = FixedCustomFeeList.NewBuilder();
+                var protoCustomFeeList = new Proto.FixedCustomFeeList();
                 foreach (CustomFixedFee customFee in customFees)
                 {
-                    protoCustomFeeList.AddFees(customFee.ToTopicFeeProtobuf());
+                    protoCustomFeeList.Fees.Add(customFee.ToTopicFeeProtobuf());
                 }
 
-                builder.SetCustomFees(protoCustomFeeList);
+                builder.CustomFees = protoCustomFeeList;
             }
 
             return builder;
@@ -625,14 +606,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
             return ConsensusServiceGrpc.GetUpdateTopicMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetConsensusUpdateTopic(Build());
+            bodyBuilder.ConsensusUpdateTopic = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetConsensusUpdateTopic(Build());
+            scheduled.ConsensusUpdateTopic = Build();
         }
     }
 }

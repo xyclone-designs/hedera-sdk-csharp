@@ -2,10 +2,8 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Transactions.Account;
-
-using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -82,18 +80,13 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>                         the protobuf</returns>
         protected virtual Proto.LiveHash ToProtobuf()
         {
-			Proto.LiveHash proto = new ()
+			return new Proto.LiveHash
 			{
 				AccountId = AccountId.ToProtobuf(),
 				Hash = Hash,
 				Duration = Utils.DurationConverter.ToProtobuf(Duration),
+                Keys = Keys.ToProtobuf(),
 			};
-
-			if (Keys.Iterator() is IEnumerator<Proto.Key> keys)
-                while (keys.MoveNext())
-					proto.Keys.Keys.Add(keys.Current);
-
-            return proto;
         }
 
         /// <summary>

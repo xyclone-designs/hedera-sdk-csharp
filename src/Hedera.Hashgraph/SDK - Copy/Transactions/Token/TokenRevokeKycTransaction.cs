@@ -1,27 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -92,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenRevokeKycTransaction SetTokenId(TokenId tokenId)
         {
-            Objects.RequireNonNull(tokenId);
+            ArgumentNullException.ThrowIfNull(tokenId);
             RequireNotFrozen();
             tokenId = tokenId;
             return this;
@@ -119,23 +102,24 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenRevokeKycTransaction SetAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             accountId = accountId;
             return this;
         }
 
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenRevokeKyc();
-            if (body.HasToken())
+            var body = sourceTransactionBody.TokenRevokeKyc;
+
+            if (body.Token is not null)
             {
-                tokenId = TokenId.FromProtobuf(body.GetToken());
+                tokenId = TokenId.FromProtobuf(body.Token);
             }
 
-            if (body.HasAccount())
+            if (body.Account is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetAccount());
+                accountId = AccountId.FromProtobuf(body.Account);
             }
         }
 
@@ -144,17 +128,18 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenRevokeKycTransactionBody}</returns>
-        virtual TokenRevokeKycTransactionBody.Builder Build()
+        public virtual Proto.TokenRevokeKycTransactionBody Build()
         {
-            var builder = TokenRevokeKycTransactionBody.NewBuilder();
+            var builder = new Proto.TokenRevokeKycTransactionBody();
+
             if (tokenId != null)
             {
-                builder.SetToken(tokenId.ToProtobuf());
+                builder.Token = tokenId.ToProtobuf();
             }
 
             if (accountId != null)
             {
-                builder.SetAccount(accountId.ToProtobuf());
+                builder.Account = accountId.ToProtobuf();
             }
 
             return builder;
@@ -178,14 +163,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetFreezeTokenAccountMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenRevokeKyc(Build());
+            bodyBuilder.TokenRevokeKyc = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenRevokeKyc(Build());
+            scheduled.TokenRevokeKyc = Build();
         }
     }
 }

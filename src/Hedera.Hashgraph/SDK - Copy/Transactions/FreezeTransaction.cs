@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public FreezeTransaction SetStartTime(Timestamp startTime)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(startTime);
+            ArgumentNullException.ThrowIfNull(startTime);
             startTime = startTime;
             return this;
         }
@@ -214,7 +214,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public FreezeTransaction SetFileId(FileId fileId)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(fileId);
+            ArgumentNullException.ThrowIfNull(fileId);
             fileId = fileId;
             return this;
         }
@@ -240,7 +240,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public FreezeTransaction SetFileHash(byte[] fileHash)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(fileHash);
+            ArgumentNullException.ThrowIfNull(fileHash);
             fileHash = Array.CopyOf(fileHash, fileHash.Length);
             return this;
         }
@@ -269,7 +269,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public FreezeTransaction SetFreezeType(FreezeType freezeType)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(freezeType);
+            ArgumentNullException.ThrowIfNull(freezeType);
             freezeType = freezeType;
             return this;
         }
@@ -288,7 +288,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetFreeze();
+            var body = sourceTransactionBody.Freeze();
             freezeType = FreezeType.ValueOf(body.GetFreezeType());
             if (body.HasUpdateFile())
             {
@@ -309,27 +309,27 @@ namespace Hedera.Hashgraph.SDK.Transactions
         FreezeTransactionBody.Builder Build()
         {
             var builder = FreezeTransactionBody.NewBuilder();
-            builder.SetFreezeType(freezeType.code);
+            builder.FreezeType(freezeType.code);
             if (fileId != null)
             {
-                builder.SetUpdateFile(fileId.ToProtobuf());
+                builder.UpdateFile(fileId.ToProtobuf());
             }
 
-            builder.SetFileHash(ByteString.CopyFrom(fileHash));
+            builder.FileHash(ByteString.CopyFrom(fileHash));
             if (startTime != null)
             {
-                builder.SetStartTime(Utils.TimestampConverter.ToProtobuf(startTime));
+                builder.StartTime(Utils.TimestampConverter.ToProtobuf(startTime));
             }
 
             return builder;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetFreeze(Build());
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.SetFreeze(Build());
         }

@@ -58,22 +58,22 @@ namespace Hedera.Hashgraph.SDK
             return range;
         }
 
-        virtual UtilPrngTransactionBody.Builder Build()
+        public virtual UtilPrngTransactionBody.Builder Build()
         {
             var builder = UtilPrngTransactionBody.NewBuilder();
             if (range != null)
             {
-                builder.SetRange(range);
+                builder.Range(range);
             }
 
             return builder;
         }
 
-		public override void OnFreeze(TransactionBody.Builder bodyBuilder)
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetUtilPrng(Build());
         }
-		public override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("cannot schedule RngTransaction");
         }

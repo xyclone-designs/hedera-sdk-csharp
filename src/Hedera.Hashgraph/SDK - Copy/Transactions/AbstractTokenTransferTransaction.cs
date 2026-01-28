@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Token;
 using Java.Util;
 using Javax.Annotation;
 using System;
@@ -44,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Dictionary<TokenId, int> decimalsMap = [];
             foreach (var transfer in tokenTransfers)
             {
-                decimalsMap.Put(transfer.tokenId, transfer.expectedDecimals);
+                decimalsMap.Add(transfer.tokenId, transfer.expectedDecimals);
             }
 
             return decimalsMap;
@@ -60,8 +62,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
             foreach (var transfer in tokenTransfers)
             {
                 var current = transfers[transfer.tokenId] != null ? transfers[transfer.tokenId] : new Dictionary<AccountId, long>();
-                current.Put(transfer.accountId, transfer.amount);
-                transfers.Put(transfer.tokenId, current);
+                current.Add(transfer.accountId, transfer.amount);
+                transfers.Add(transfer.tokenId, current);
             }
 
             return transfers;
@@ -191,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             {
                 var current = transfers[transfer.tokenId] != null ? transfers[transfer.tokenId] : new List<TokenNftTransfer>();
                 current.Add(transfer);
-                transfers.Put(transfer.tokenId, current);
+                transfers.Add(transfer.tokenId, current);
             }
 
             return transfers;
@@ -270,7 +272,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 {
                     var iTokenId = tokenTransfers[i].tokenId;
                     var jTokenId = nftTransfers[j].tokenId;
-                    var last = !transferLists.IsEmpty() ? transferLists[transferLists.Count - 1] : null;
+                    var last = !transferLists.IsEmpty ? transferLists[transferLists.Count - 1] : null;
                     var lastTokenId = last != null ? last.tokenId : null;
                     if (last != null && iTokenId.CompareTo(lastTokenId) == 0)
                     {
@@ -301,7 +303,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 else if (i < tokenTransfers.Count)
                 {
                     var iTokenId = tokenTransfers[i].tokenId;
-                    var last = !transferLists.IsEmpty() ? transferLists[transferLists.Count - 1] : null;
+                    var last = !transferLists.IsEmpty ? transferLists[transferLists.Count - 1] : null;
                     var lastTokenId = last != null ? last.tokenId : null;
                     if (last != null && iTokenId.CompareTo(lastTokenId) == 0)
                     {
@@ -314,7 +316,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 else
                 {
                     var jTokenId = nftTransfers[j].tokenId;
-                    var last = !transferLists.IsEmpty() ? transferLists[transferLists.Count - 1] : null;
+                    var last = !transferLists.IsEmpty ? transferLists[transferLists.Count - 1] : null;
                     var lastTokenId = last != null ? last.tokenId : null;
                     if (last != null && jTokenId.CompareTo(lastTokenId) == 0)
                     {

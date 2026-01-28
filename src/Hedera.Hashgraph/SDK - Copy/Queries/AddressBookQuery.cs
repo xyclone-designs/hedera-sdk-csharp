@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             if (Exception is StatusRuntimeException)
             {
                 var code = statusRuntimeException.GetStatus().GetCode();
-                var description = statusRuntimeException.GetStatus().GetDescription();
+                var description = statusRuntimeException.GetStatus().Description;
                 return (code == io.grpc.Status.Code.UNAVAILABLE) || (code == io.grpc.Status.Code.RESOURCE_EXHAUSTED) || (code == Status.Code.INTERNAL && description != null && Executable.RST_STREAM.Matcher(description).Matches());
             }
 
@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual AddressBookQuery SetMaxBackoff(Duration maxBackoff)
         {
-            Objects.RequireNonNull(maxBackoff);
+            ArgumentNullException.ThrowIfNull(maxBackoff);
             if (maxBackoff.ToMillis() < 500)
             {
                 throw new ArgumentException("maxBackoff must be at least 500 ms");
@@ -197,7 +197,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <param name="deadline">the user supplied timeout</param>
         /// <param name="returnFuture">returned promise callback</param>
         /// <param name="attempt">maximum number of attempts</param>
-        virtual void ExecuteAsync(Client client, Deadline deadline, Task<NodeAddressBook> returnFuture, int attempt)
+        public virtual void ExecuteAsync(Client client, Deadline deadline, Task<NodeAddressBook> returnFuture, int attempt)
         {
             IList<NodeAddress> addresses = new ();
             ClientCalls.AsyncServerStreamingCall(BuildCall(client, deadline), BuildQuery(), new AnonymousStreamObserver(this));
@@ -240,17 +240,17 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// Build the address book query.
         /// </summary>
         /// <returns>{@link Proto.mirror.AddressBookQuery buildQuery }</returns>
-        virtual Proto.mirror.AddressBookQuery BuildQuery()
+        public virtual Proto.mirror.AddressBookQuery BuildQuery()
         {
             var builder = Proto.mirror.AddressBookQuery.NewBuilder();
             if (fileId != null)
             {
-                builder.SetFileId(fileId.ToProtobuf());
+                builder.FileId(fileId.ToProtobuf());
             }
 
             if (limit != null)
             {
-                builder.SetLimit(limit);
+                builder.Limit(limit);
             }
 
             return proto;

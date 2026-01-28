@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual T SetContractId(ContractId contractId)
         {
-            Objects.RequireNonNull(contractId);
+            ArgumentNullException.ThrowIfNull(contractId);
             contractId = contractId;
             return Self();
         }
@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual T SetContractEvmAddress(string contractEvmAddress)
         {
-            Objects.RequireNonNull(contractEvmAddress);
+            ArgumentNullException.ThrowIfNull(contractEvmAddress);
             contractEvmAddress = contractEvmAddress;
             contractId = null;
             return Self();
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual T SetSender(AccountId sender)
         {
-            Objects.RequireNonNull(sender);
+            ArgumentNullException.ThrowIfNull(sender);
             sender = sender;
             return Self();
         }
@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual T SetSenderEvmAddress(string senderEvmAddress)
         {
-            Objects.RequireNonNull(senderEvmAddress);
+            ArgumentNullException.ThrowIfNull(senderEvmAddress);
             senderEvmAddress = senderEvmAddress;
             sender = null;
             return Self();
@@ -132,7 +132,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual T SetFunction(string name, ContractFunctionParameters @params)
         {
-            Objects.RequireNonNull(@params);
+            ArgumentNullException.ThrowIfNull(@params);
             return SetFunctionParameters(@params.ToBytes(name));
         }
 
@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public virtual T SetFunctionParameters(ByteString functionParameters)
         {
-            Objects.RequireNonNull(functionParameters);
+            ArgumentNullException.ThrowIfNull(functionParameters);
             callData = functionParameters.ToByteArray();
             return Self();
         }
@@ -266,7 +266,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         {
             if (contractEvmAddress == null)
             {
-                Objects.RequireNonNull(contractId);
+                ArgumentNullException.ThrowIfNull(contractId);
                 contractEvmAddress = contractId.ToEvmAddress();
             }
 
@@ -296,7 +296,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             if (baseUrl.Contains("localhost:5551") || baseUrl.Contains("127.0.0.1:5551"))
             {
                 string contractPort = System.GetProperty("hedera.mirror.contract.port");
-                if (contractPort != null && !contractPort.IsEmpty())
+                if (contractPort != null && !contractPort.IsEmpty)
                 {
                     baseUrl = baseUrl.Replace(":5551", ":" + contractPort);
                 }
@@ -323,7 +323,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             jsonObject.AddProperty("blockNumber", blockNumber);
 
             // Conditionally add fields if they are set to non-default values
-            if (senderAddress != null && !senderAddress.IsEmpty())
+            if (senderAddress != null && !senderAddress.IsEmpty)
             {
                 jsonObject.AddProperty("from", senderAddress);
             }

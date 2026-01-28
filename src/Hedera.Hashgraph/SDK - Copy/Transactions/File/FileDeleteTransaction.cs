@@ -1,18 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.File
 {
@@ -76,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// <returns>{@code this}</returns>
         public FileDeleteTransaction SetFileId(FileId fileId)
         {
-            Objects.RequireNonNull(fileId);
+            ArgumentNullException.ThrowIfNull(fileId);
             RequireNotFrozen();
             fileId = fileId;
             return this;
@@ -87,10 +79,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetFileDelete();
-            if (body.HasFileID())
+            var body = sourceTransactionBody.FileDelete;
+            if (body.FileID is not null)
             {
-                fileId = FileId.FromProtobuf(body.GetFileID());
+                fileId = FileId.FromProtobuf(body.FileID);
             }
         }
 
@@ -98,12 +90,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.FileDeleteTransactionBody builder}</returns>
-        FileDeleteTransactionBody.Builder Build()
+        Proto.FileDeleteTransactionBody Build()
         {
-            var builder = FileDeleteTransactionBody.NewBuilder();
+            var builder = new Proto.FileDeleteTransactionBody();
+
             if (fileId != null)
             {
-                builder.SetFileID(fileId.ToProtobuf());
+                builder.FileID = fileId.ToProtobuf();
             }
 
             return builder;
@@ -119,17 +112,17 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return FileServiceGrpc.GetDeleteFileMethod();
+            return FileServiceGrpc.DeleteFileMethod;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetFileDelete(Build());
+            bodyBuilder.FileDelete = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetFileDelete(Build());
+            scheduled.FileDelete = Build();
         }
     }
 }

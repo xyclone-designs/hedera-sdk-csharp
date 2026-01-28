@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// List of transaction types that are not allowed in a batch transaction.
         /// These transactions are prohibited due to their special nature or network-level implications.
         /// </summary>
-        private static readonly HashSet<Class<TWildcardTodoTransaction<TWildcardTodo>>> BLACKLISTED_TRANSACTIONS = Set.Of(typeof(FreezeTransaction), typeof(BatchTransaction));
+        private static readonly HashSet<Class<TWildcardTodoTransaction<T>>> BLACKLISTED_TRANSACTIONS = Set.Of(typeof(FreezeTransaction), typeof(BatchTransaction));
         /// <summary>
         /// Creates a new empty BatchTransaction.
         /// </summary>
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <exception cref="IllegalArgumentException">if any transaction is of a blacklisted type</exception>
         public BatchTransaction SetInnerTransactions(IList<Transaction> transactions)
         {
-            Objects.RequireNonNull(transactions);
+            ArgumentNullException.ThrowIfNull(transactions);
             RequireNotFrozen();
 
             // Validate all transactions before setting
@@ -130,9 +130,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <exception cref="IllegalStateException">if this transaction is frozen</exception>
         /// <exception cref="IllegalStateException">if the inner transaction is not frozen or missing a batch key</exception>
         /// <exception cref="IllegalArgumentException">if the transaction is of a blacklisted type</exception>
-        public BatchTransaction AddInnerTransaction(Transaction<TWildcardTodo> transaction)
+        public BatchTransaction AddInnerTransaction(Transaction<T> transaction)
         {
-            Objects.RequireNonNull(transaction);
+            ArgumentNullException.ThrowIfNull(transaction);
             RequireNotFrozen();
             ValidateInnerTransaction(transaction);
             innerTransactions.Add(transaction);
@@ -152,7 +152,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="transaction">The transaction to validate</param>
         /// <exception cref="IllegalArgumentException">if the transaction is blacklisted</exception>
         /// <exception cref="IllegalStateException">if the transaction is not frozen or missing a batch key</exception>
-        private void ValidateInnerTransaction(Transaction<TWildcardTodo> transaction)
+        private void ValidateInnerTransaction(Transaction<T> transaction)
         {
             if (BLACKLISTED_TRANSACTIONS.Contains(transaction.GetType()))
             {
@@ -203,7 +203,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         override void ValidateChecksums(Client client)
         {
-            foreach (Transaction<TWildcardTodo> transaction in innerTransactions)
+            foreach (Transaction<T> transaction in innerTransactions)
             {
                 transaction.ValidateChecksums(client);
             }
@@ -214,7 +214,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetAtomicBatch();
+            var body = sourceTransactionBody.AtomicBatch();
             foreach (var atomicTransactionBytes in body.GetTransactionsList())
             {
                 var transaction = Proto.Transaction.NewBuilder().SetSignedTransactionBytes(atomicTransactionBytes);
@@ -242,12 +242,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return proto;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.SetAtomicBatch(Build());
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule Atomic Batch");
         }

@@ -28,11 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SDK\Fees\" />
-    <Folder Include="SDK\Keys\" />
+    <Folder Include="SDK\Contract\" />
     <Folder Include="SDK\Queries\" />
     <Folder Include="SDK\Token\" />
-    <Folder Include="SDK\Topic\" />
     <Folder Include="SDK\Transactions\Account\" />
     <Folder Include="SDK\Transactions\Contract\" />
     <Folder Include="SDK\Transactions\Ethereum\" />

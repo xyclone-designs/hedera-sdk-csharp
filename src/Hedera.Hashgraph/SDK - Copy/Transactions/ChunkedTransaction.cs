@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Extract the data.
         /// </summary>
         /// <returns>                         the data</returns>
-        virtual ByteString GetData()
+        public virtual ByteString GetData()
         {
             return data;
         }
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="data">the byte array</param>
         /// <returns>{@code this}</returns>
-        virtual T SetData(byte[] data)
+        public virtual T SetData(byte[] data)
         {
             RequireNotFrozen();
             data = ByteString.CopyFrom(data);
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="data">the byte string</param>
         /// <returns>{@code this}</returns>
-        virtual T SetData(ByteString data)
+        public virtual T SetData(ByteString data)
         {
             RequireNotFrozen();
             data = data;
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="text">the byte array</param>
         /// <returns>{@code this}</returns>
-        virtual T SetData(string text)
+        public virtual T SetData(string text)
         {
             RequireNotFrozen();
             data = ByteString.CopyFromUtf8(text);
@@ -161,7 +161,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return base.GetTransactionHash();
         }
 
-        public override Map<AccountId, byte[]> GetTransactionHashPerNode()
+        public override IDictionary<AccountId, byte[]> GetTransactionHashPerNode()
         {
             if (outerTransactions.Count > nodeAccountIds.Count)
             {
@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Extract the list of transaction hashes.
         /// </summary>
         /// <returns>                         the list of transaction hashes</returns>
-        public List<Map<AccountId, byte[]>> GetAllTransactionHashesPerNode()
+        public List<IDictionary<AccountId, byte[]>> GetAllTransactionHashesPerNode()
         {
             if (!IsFrozen())
             {
@@ -187,14 +187,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
             BuildAllTransactions();
             var txCount = transactionIds.Count;
             var nodeCount = nodeAccountIds.Count;
-            var transactionHashes = new List<Map<AccountId, byte[]>>(txCount);
+            var transactionHashes = new List<IDictionary<AccountId, byte[]>>(txCount);
             for (var txIndex = 0; txIndex < txCount; ++txIndex)
             {
                 var hashes = new Dictionary<AccountId, byte[]>();
                 var offset = txIndex * nodeCount;
                 for (var nodeIndex = 0; nodeIndex < nodeCount; ++nodeIndex)
                 {
-                    hashes.Put(nodeAccountIds[nodeIndex], Hash(outerTransactions[offset + nodeIndex].GetSignedTransactionBytes().ToByteArray()));
+                    hashes.Add(nodeAccountIds[nodeIndex], Hash(outerTransactions[offset + nodeIndex].GetSignedTransactionBytes().ToByteArray()));
                 }
 
                 transactionHashes.Add(hashes);
@@ -213,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return base.AddSignature(publicKey, signature);
         }
 
-        public override Map<AccountId, Map<PublicKey, byte[]>> GetSignatures()
+        public override IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignatures()
         {
             if (data.Count > chunkSize)
             {
@@ -227,9 +227,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Extract the list of all signers.
         /// </summary>
         /// <returns>                         the list of all signatures</returns>
-        public virtual List<Map<AccountId, Map<PublicKey, byte[]>>> GetAllSignatures()
+        public virtual List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>> GetAllSignatures()
         {
-            if (publicKeys.IsEmpty())
+            if (publicKeys.IsEmpty)
             {
                 return new ();
             }
@@ -237,7 +237,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             BuildAllTransactions();
             var txCount = transactionIds.Count;
             var nodeCount = nodeAccountIds.Count;
-            var retval = new List<Map<AccountId, Map<PublicKey, byte[]>>>(txCount);
+            var retval = new List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>>(txCount);
             for (int i = 0; i < txCount; i++)
             {
                 retval.Add(GetSignaturesAtOffset(i * nodeCount));
@@ -254,7 +254,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
 
             var operatorId = client.GetOperatorAccountId();
-            if (operatorId != null && operatorId.Equals(Objects.RequireNonNull(GetTransactionIdInternal().accountId)))
+            if (operatorId != null && operatorId.Equals(ArgumentNullException.ThrowIfNull(GetTransactionIdInternal().accountId)))
             {
 
                 // on execute, sign each transaction with the operator, if present
@@ -403,7 +403,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public override ScheduleCreateTransaction Schedule()
         {
             RequireNotFrozen();
-            if (!nodeAccountIds.IsEmpty())
+            if (!nodeAccountIds.IsEmpty)
             {
                 throw new InvalidOperationException("The underlying transaction for a scheduled transaction cannot have node account IDs set");
             }
@@ -421,7 +421,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         override int GetRequiredChunks()
         {
-            if (data.IsEmpty())
+            if (data.IsEmpty)
             {
                 throw new ArgumentException("message cannot be empty");
             }
@@ -447,7 +447,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             innerSignedTransactions = new List(requiredChunks * nodeAccountIds.Count);
             for (int i = 0; i < requiredChunks; i++)
             {
-                if (!transactionIds.IsEmpty())
+                if (!transactionIds.IsEmpty)
                 {
                     var startIndex = i * chunkSize;
                     var endIndex = startIndex + chunkSize;
@@ -456,7 +456,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                         endIndex = data.Count;
                     }
 
-                    OnFreezeChunk(Objects.RequireNonNull(frozenBodyBuilder).SetTransactionID(transactionIds[i].ToProtobuf()), transactionIds[0].ToProtobuf(), startIndex, endIndex, i, requiredChunks);
+                    OnFreezeChunk(ArgumentNullException.ThrowIfNull(frozenBodyBuilder).SetTransactionID(transactionIds[i].ToProtobuf()), transactionIds[0].ToProtobuf(), startIndex, endIndex, i, requiredChunks);
                 }
 
 
@@ -478,7 +478,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Should the receipt be retrieved?
         /// </summary>
         /// <returns>                         by default do not get a receipt</returns>
-        virtual bool ShouldGetReceipt()
+        public virtual bool ShouldGetReceipt()
         {
             return false;
         }

@@ -1,29 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
-using static Hedera.Hashgraph.SDK.TokenSupplyType;
-using static Hedera.Hashgraph.SDK.TokenType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -45,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
     public class TokenUpdateNftsTransaction : Transaction<TokenUpdateNftsTransaction>
     {
         private TokenId tokenId = null;
-        private IList<long> serials = new ();
+        private IList<long> serials = [];
         private byte[] metadata = null;
         /// <summary>
         /// Constructor.
@@ -91,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenUpdateNftsTransaction SetTokenId(TokenId tokenId)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(tokenId);
+            ArgumentNullException.ThrowIfNull(tokenId);
             tokenId = tokenId;
             return this;
         }
@@ -117,8 +96,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenUpdateNftsTransaction SetSerials(IList<long> serials)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(serials);
-            serials = new List(serials);
+            ArgumentNullException.ThrowIfNull(serials);
+            serials = [.. serials];
             return this;
         }
 
@@ -161,18 +140,21 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenUpdateNfts();
-            if (body.HasToken())
-            {
-                tokenId = TokenId.FromProtobuf(body.GetToken());
+            var body = sourceTransactionBody.TokenUpdateNfts;
+
+            if (body.Token is not null)
+
+			{
+                tokenId = TokenId.FromProtobuf(body.Token);
             }
 
-            serials = body.GetSerialNumbersList();
-            if (body.HasMetadata())
+            serials = body.SerialNumbers;
+
+            if (body.Metadata is not null)
             {
-                metadata = body.GetMetadata().GetValue().ToByteArray();
+                metadata = body.Metadata.ToByteArray();
             }
         }
 
@@ -180,22 +162,23 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenUpdateNftsTransactionBody}</returns>
-        virtual TokenUpdateNftsTransactionBody.Builder Build()
+        public virtual Proto.TokenUpdateNftsTransactionBody Build()
         {
-            var builder = TokenUpdateNftsTransactionBody.NewBuilder();
+            var builder = new Proto.TokenUpdateNftsTransactionBody();
+
             if (tokenId != null)
             {
-                builder.SetToken(tokenId.ToProtobuf());
+                builder.Token = tokenId.ToProtobuf();
             }
 
             foreach (var serial in serials)
             {
-                builder.AddSerialNumbers(serial);
+                builder.SerialNumbers.Add(serial);
             }
 
             if (metadata != null)
             {
-                builder.SetMetadata(BytesValue.Of(ByteString.CopyFrom(metadata)));
+                builder.Metadata = ByteString.CopyFrom(metadata);
             }
 
             return builder;
@@ -214,14 +197,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetUpdateNftsMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenUpdateNfts(Build());
+            bodyBuilder.TokenUpdateNfts = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenUpdateNfts(Build());
+            scheduled.TokenUpdateNfts = Build();
         }
     }
 }

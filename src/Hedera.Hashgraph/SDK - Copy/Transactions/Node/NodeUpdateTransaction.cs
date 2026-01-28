@@ -1,24 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Com.Hedera.Hapi.Node.Addressbook;
+using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Node
 {
@@ -44,16 +31,16 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
     /// </summary>
     public class NodeUpdateTransaction : Transaction<NodeUpdateTransaction>
     {
-        private long nodeId;
-        private AccountId accountId = null;
-        private string description = null;
-        private IList<Endpoint> gossipEndpoints = new ();
-        private IList<Endpoint> serviceEndpoints = new ();
-        private byte[] gossipCaCertificate = null;
-        private byte[] grpcCertificateHash = null;
-        private Key adminKey = null;
-        private bool declineReward = null;
-        private Endpoint grpcWebProxyEndpoint = null;
+        private ulong nodeId;
+        private AccountId? accountId = null;
+        private string? description = null;
+        private IList<Endpoint> gossipEndpoints = [];
+        private IList<Endpoint> serviceEndpoints = [];
+        private byte[]? gossipCaCertificate = null;
+        private byte[]? grpcCertificateHash = null;
+        private Key? adminKey = null;
+        private bool? declineReward = null;
+        private Endpoint? grpcWebProxyEndpoint = null;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -85,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// </summary>
         /// <returns>the consensus node identifier in the network state.</returns>
         /// <exception cref="IllegalStateException">when node is not being set</exception>
-        public virtual long GetNodeId()
+        public virtual ulong GetNodeId()
         {
             if (nodeId == null)
             {
@@ -163,7 +150,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         public virtual NodeUpdateTransaction SetDescription(string description)
         {
             RequireNotFrozen();
-            if (description != null && description.GetBytes(java.nio.charset.StandardCharsets.UTF_8).Length > 100)
+            if (description != null && Encoding.UTF8.GetByteCount(description) > 100)
             {
                 throw new ArgumentException("Description must not exceed 100 bytes when encoded as UTF-8");
             }
@@ -228,8 +215,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         public virtual NodeUpdateTransaction SetGossipEndpoints(IList<Endpoint> gossipEndpoints)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(gossipEndpoints);
-            if (gossipEndpoints.IsEmpty())
+            ArgumentNullException.ThrowIfNull(gossipEndpoints);
+            if (gossipEndpoints.Count == 0)
             {
                 throw new ArgumentException("Gossip endpoints list must not be empty");
             }
@@ -244,7 +231,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
                 Endpoint.ValidateNoIpAndDomain(endpoint);
             }
 
-            gossipEndpoints = new List(gossipEndpoints);
+            gossipEndpoints = new List<Endpoint>(gossipEndpoints);
             return this;
         }
 
@@ -294,8 +281,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         public virtual NodeUpdateTransaction SetServiceEndpoints(IList<Endpoint> serviceEndpoints)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(serviceEndpoints);
-            if (serviceEndpoints.IsEmpty())
+            ArgumentNullException.ThrowIfNull(serviceEndpoints);
+            if (serviceEndpoints.Count == 0)
             {
                 throw new ArgumentException("Service endpoints list must not be empty");
             }
@@ -310,7 +297,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
                 Endpoint.ValidateNoIpAndDomain(endpoint);
             }
 
-            serviceEndpoints = new List(serviceEndpoints);
+            serviceEndpoints = new List<Endpoint>(serviceEndpoints);
             return this;
         }
 
@@ -429,7 +416,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// <returns>true if the node declines rewards; false if it accepts rewards.</returns>
         public virtual bool GetDeclineReward()
         {
-            return declineReward;
+            return declineReward.Value;
         }
 
         /// <summary>
@@ -474,57 +461,51 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.NodeUpdateTransactionBody}</returns>
-        virtual NodeUpdateTransactionBody.Builder Build()
+        public virtual NodeUpdateTransactionBody Build()
         {
-            var builder = NodeUpdateTransactionBody.NewBuilder();
-            if (nodeId != null)
-            {
-                builder.SetNodeId(nodeId);
-            }
+            var builder = new NodeUpdateTransactionBody();
 
             if (accountId != null)
             {
-                builder.SetAccountId(accountId.ToProtobuf());
+                builder.AccountId = accountId.ToProtobuf();
             }
 
             if (description != null)
             {
-                builder.SetDescription(StringValue.Of(description));
+                builder.Description = description;
             }
 
             foreach (Endpoint gossipEndpoint in gossipEndpoints)
             {
-                builder.AddGossipEndpoint(gossipEndpoint.ToProtobuf());
+				builder.GossipEndpoint.Add(gossipEndpoint.ToProtobuf());
             }
 
             foreach (Endpoint serviceEndpoint in serviceEndpoints)
             {
-                builder.AddServiceEndpoint(serviceEndpoint.ToProtobuf());
+                builder.ServiceEndpoint.Add(serviceEndpoint.ToProtobuf());
             }
 
             if (gossipCaCertificate != null)
             {
-                builder.SetGossipCaCertificate(BytesValue.Of(ByteString.CopyFrom(gossipCaCertificate)));
+                builder.GossipCaCertificate = ByteString.CopyFrom(gossipCaCertificate);
             }
 
             if (grpcCertificateHash != null)
             {
-                builder.SetGrpcCertificateHash(BytesValue.Of(ByteString.CopyFrom(grpcCertificateHash)));
+                builder.GrpcCertificateHash = ByteString.CopyFrom(grpcCertificateHash);
             }
 
             if (adminKey != null)
             {
-                builder.SetAdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey = adminKey.ToProtobufKey();
             }
 
-            if (declineReward != null)
-            {
-                builder.SetDeclineReward(BoolValue.Of(declineReward));
-            }
+			builder.NodeId = nodeId;
+			builder.DeclineReward = declineReward;
 
-            if (grpcWebProxyEndpoint != null)
+			if (grpcWebProxyEndpoint != null)
             {
-                builder.SetGrpcProxyEndpoint(grpcWebProxyEndpoint.ToProtobuf());
+                builder.GrpcProxyEndpoint = grpcWebProxyEndpoint.ToProtobuf();
             }
 
             return builder;
@@ -533,53 +514,55 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetNodeUpdate();
-            nodeId = body.GetNodeId();
-            if (body.HasAccountId())
+            var body = sourceTransactionBody.NodeUpdate;
+
+            nodeId = body.NodeId;
+
+            if (body.AccountId is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetAccountId());
+                accountId = AccountId.FromProtobuf(body.AccountId);
             }
 
-            if (body.HasDescription())
+            if (body.Description is not null)
             {
-                description = body.GetDescription().GetValue();
+                description = body.Description;
             }
 
-            foreach (var gossipEndpoint in body.GetGossipEndpointList())
+            foreach (var gossipEndpoint in body.GossipEndpoint)
             {
                 gossipEndpoints.Add(Endpoint.FromProtobuf(gossipEndpoint));
             }
 
-            foreach (var serviceEndpoint in body.GetServiceEndpointList())
+            foreach (var serviceEndpoint in body.ServiceEndpoint)
             {
                 serviceEndpoints.Add(Endpoint.FromProtobuf(serviceEndpoint));
             }
 
-            if (body.HasGossipCaCertificate())
+            if (body.GossipCaCertificate is not null)
             {
-                gossipCaCertificate = body.GetGossipCaCertificate().GetValue().ToByteArray();
+                gossipCaCertificate = body.GossipCaCertificate.ToByteArray();
             }
 
-            if (body.HasGrpcCertificateHash())
+            if (body.GrpcCertificateHash is not null)
             {
-                grpcCertificateHash = body.GetGrpcCertificateHash().GetValue().ToByteArray();
+                grpcCertificateHash = body.GrpcCertificateHash.ToByteArray();
             }
 
-            if (body.HasAdminKey())
+            if (body.AdminKey is not null)
             {
-                adminKey = Key.FromProtobufKey(body.GetAdminKey());
+                adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
-            if (body.HasDeclineReward())
+            if (body.DeclineReward is not null)
             {
-                declineReward = body.GetDeclineReward().GetValue();
+                declineReward = body.DeclineReward.Value;
             }
 
-            if (body.HasGrpcProxyEndpoint())
+            if (body.GrpcProxyEndpoint is not null)
             {
-                grpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GetGrpcProxyEndpoint());
+                grpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GrpcProxyEndpoint);
             }
         }
 
@@ -596,14 +579,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
             return AddressBookServiceGrpc.GetUpdateNodeMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetNodeUpdate(Build());
+            bodyBuilder.NodeUpdate = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetNodeUpdate(Build());
+            scheduled.NodeUpdate = Build();
         }
 
         /// <summary>

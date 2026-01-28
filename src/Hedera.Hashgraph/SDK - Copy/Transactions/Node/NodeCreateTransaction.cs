@@ -1,25 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
+using Com.Hedera.Hapi.Node.Addressbook;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Nio.Charset;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Node
 {
@@ -49,15 +35,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
     /// </summary>
     public class NodeCreateTransaction : Transaction<NodeCreateTransaction>
     {
-        private AccountId accountId = null;
+        private AccountId? accountId = null;
         private string description = "";
-        private IList<Endpoint> gossipEndpoints = new ();
-        private IList<Endpoint> serviceEndpoints = new ();
-        private byte[] gossipCaCertificate = null;
-        private byte[] grpcCertificateHash = null;
-        private Key adminKey = null;
-        private bool declineReward = null;
-        private Endpoint grpcWebProxyEndpoint = null;
+        private IList<Endpoint> gossipEndpoints = [];
+        private IList<Endpoint> serviceEndpoints = [];
+        private byte[]? gossipCaCertificate = null;
+        private byte[]? grpcCertificateHash = null;
+        private Key? adminKey = null;
+        private bool? declineReward = null;
+        private Endpoint? grpcWebProxyEndpoint = null;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -137,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
                 return this;
             }
 
-            int byteLen = description.GetBytes(StandardCharsets.UTF_8).Length;
+            int byteLen = Encoding.UTF8.GetByteCount(description);
             if (byteLen > 100)
             {
                 throw new ArgumentException("description must not exceed 100 bytes when UTF-8 encoded");
@@ -182,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         public virtual NodeCreateTransaction SetGossipEndpoints(IList<Endpoint> gossipEndpoints)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(gossipEndpoints);
+            ArgumentNullException.ThrowIfNull(gossipEndpoints);
             if (gossipEndpoints.Count > 10)
             {
                 throw new ArgumentException("gossipEndpoints must not contain more than 10 entries");
@@ -193,7 +179,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
                 Endpoint.ValidateNoIpAndDomain(endpoint);
             }
 
-            gossipEndpoints = new List(gossipEndpoints);
+            gossipEndpoints = [..gossipEndpoints];
             return this;
         }
 
@@ -240,7 +226,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         public virtual NodeCreateTransaction SetServiceEndpoints(IList<Endpoint> serviceEndpoints)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(serviceEndpoints);
+            ArgumentNullException.ThrowIfNull(serviceEndpoints);
             if (serviceEndpoints.Count > 8)
             {
                 throw new ArgumentException("serviceEndpoints must not contain more than 8 entries");
@@ -251,7 +237,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
                 Endpoint.ValidateNoIpAndDomain(endpoint);
             }
 
-            serviceEndpoints = new List(serviceEndpoints);
+            serviceEndpoints = new List<Endpoint>(serviceEndpoints);
             return this;
         }
 
@@ -414,73 +400,78 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.NodeCreateTransactionBody}</returns>
-        virtual NodeCreateTransactionBody.Builder Build()
+        public virtual NodeCreateTransactionBody  Build()
         {
-            var builder = NodeCreateTransactionBody.NewBuilder();
+            var builder = new NodeCreateTransactionBody();
             if (accountId != null)
             {
-                builder.SetAccountId(accountId.ToProtobuf());
+                builder.AccountId = accountId.ToProtobuf();
             }
 
-            builder.SetDescription(description);
+            builder.Description = description;
 
             // If gossip endpoints include FQDN but the network forbids it, prefer using an available IP
             // from service endpoints. We rewrite such gossip endpoints to use the first available service IP.
             byte[] fallbackServiceIp = null;
             foreach (Endpoint serviceEndpoint in serviceEndpoints)
             {
-                if (serviceEndpoint.GetAddress() != null)
+                if (serviceEndpoint.Address != null)
                 {
-                    fallbackServiceIp = serviceEndpoint.GetAddress().Clone();
+                    fallbackServiceIp = serviceEndpoint.Address.CopyArray();
                     break;
                 }
             }
 
             foreach (Endpoint gossipEndpoint in gossipEndpoints)
             {
-                bool hasFqdn = gossipEndpoint.GetDomainName() != null && !gossipEndpoint.GetDomainName().IsEmpty();
-                bool hasIp = gossipEndpoint.GetAddress() != null;
+                bool hasFqdn = gossipEndpoint.DomainName != null && gossipEndpoint.DomainName.Length != 0;
+                bool hasIp = gossipEndpoint.Address != null;
                 if (!hasIp && hasFqdn && fallbackServiceIp != null)
                 {
 
                     // rewrite to IP-only endpoint preserving the port
-                    Endpoint rewritten = new Endpoint().SetAddress(fallbackServiceIp.Clone()).SetPort(gossipEndpoint.GetPort());
-                    builder.AddGossipEndpoint(rewritten.ToProtobuf());
+                    Endpoint rewritten = new Endpoint()
+                    {
+						Port = gossipEndpoint.Port,
+						Address = fallbackServiceIp.CopyArray(),
+					};
+
+                    builder.GossipEndpoint.Add(rewritten.ToProtobuf());
                 }
                 else
                 {
-                    builder.AddGossipEndpoint(gossipEndpoint.ToProtobuf());
-                }
+                    builder.GossipEndpoint.Add(gossipEndpoint.ToProtobuf());
+				}
             }
 
             foreach (Endpoint serviceEndpoint in serviceEndpoints)
             {
-                builder.AddServiceEndpoint(serviceEndpoint.ToProtobuf());
+                builder.ServiceEndpoint.Add(serviceEndpoint.ToProtobuf());
             }
 
             if (gossipCaCertificate != null)
             {
-                builder.SetGossipCaCertificate(ByteString.CopyFrom(gossipCaCertificate));
+                builder.GossipCaCertificate = ByteString.CopyFrom(gossipCaCertificate);
             }
 
             if (grpcCertificateHash != null)
             {
-                builder.SetGrpcCertificateHash(ByteString.CopyFrom(grpcCertificateHash));
+                builder.GrpcCertificateHash = ByteString.CopyFrom(grpcCertificateHash);
             }
 
             if (adminKey != null)
             {
-                builder.SetAdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey = adminKey.ToProtobufKey();
             }
 
             if (declineReward != null)
             {
-                builder.SetDeclineReward(declineReward);
+                builder.DeclineReward = declineReward;
             }
 
             if (grpcWebProxyEndpoint != null)
             {
-                builder.SetGrpcProxyEndpoint(grpcWebProxyEndpoint.ToProtobuf());
+                builder.GrpcProxyEndpoint = grpcWebProxyEndpoint.ToProtobuf();
             }
 
             return builder;
@@ -489,38 +480,39 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetNodeCreate();
-            if (body.HasAccountId())
+            var body = sourceTransactionBody.NodeCreate;
+
+            if (body.AccountId is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetAccountId());
+                accountId = AccountId.FromProtobuf(body.AccountId);
             }
 
-            description = body.GetDescription();
-            foreach (var gossipEndpoint in body.GetGossipEndpointList())
+            description = body.Description;
+            foreach (var gossipEndpoint in body.GossipEndpoint)
             {
                 gossipEndpoints.Add(Endpoint.FromProtobuf(gossipEndpoint));
             }
 
-            foreach (var serviceEndpoint in body.GetServiceEndpointList())
+            foreach (var serviceEndpoint in body.ServiceEndpoint)
             {
                 serviceEndpoints.Add(Endpoint.FromProtobuf(serviceEndpoint));
             }
 
-            var protobufGossipCert = body.GetGossipCaCertificate();
-            gossipCaCertificate = protobufGossipCert.Equals(ByteString.Empty()) ? null : protobufGossipCert.ToByteArray();
-            var protobufGrpcCert = body.GetGrpcCertificateHash();
-            grpcCertificateHash = protobufGrpcCert.Equals(ByteString.Empty()) ? null : protobufGrpcCert.ToByteArray();
-            if (body.HasAdminKey())
+            var protobufGossipCert = body.GossipCaCertificate;
+            gossipCaCertificate = protobufGossipCert.Equals(ByteString.Empty) ? null : protobufGossipCert.ToByteArray();
+            var protobufGrpcCert = body.GrpcCertificateHash;
+            grpcCertificateHash = protobufGrpcCert.Equals(ByteString.Empty) ? null : protobufGrpcCert.ToByteArray();
+            if (body.AdminKey is not null)
             {
-                adminKey = Key.FromProtobufKey(body.GetAdminKey());
+                adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
-            declineReward = body.GetDeclineReward();
-            if (body.HasGrpcProxyEndpoint())
+            declineReward = body.DeclineReward;
+            if (body.GrpcProxyEndpoint is not null)
             {
-                grpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GetGrpcProxyEndpoint());
+                grpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GrpcProxyEndpoint);
             }
         }
 
@@ -537,14 +529,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
             return AddressBookServiceGrpc.GetCreateNodeMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetNodeCreate(Build());
+            bodyBuilder.NodeCreate = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetNodeCreate(Build());
+            scheduled.NodeCreate = Build();
         }
     }
 }

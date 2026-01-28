@@ -1,15 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Utils;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Account
 {
@@ -40,15 +36,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         private Timestamp expirationTime = null;
         private Duration expirationTimeDuration = null;
         private Duration autoRenewPeriod = null;
-        private bool receiverSigRequired = null;
+        private bool? receiverSigRequired = null;
         private string accountMemo = null;
-        private int maxAutomaticTokenAssociations = null;
+        private int? maxAutomaticTokenAssociations = null;
         private Key aliasKey;
         private AccountId stakedAccountId = null;
-        private long stakedNodeId = null;
-        private bool declineStakingReward = null;
-        private IList<long> hookIdsToDelete = new ();
-        private IList<HookCreationDetails> hookCreationDetails = new ();
+        private long? stakedNodeId = null;
+        private bool? declineStakingReward = null;
+        private IList<long> hookIdsToDelete = [];
+        private IList<HookCreationDetails> hookCreationDetails = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -91,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public AccountUpdateTransaction SetAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             accountId = accountId;
             return this;
@@ -118,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public AccountUpdateTransaction SetKey(Key key)
         {
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             RequireNotFrozen();
             key = key;
             return this;
@@ -144,7 +140,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// </remarks>
         public AccountUpdateTransaction SetAliasKey(Key aliasKey)
         {
-            Objects.RequireNonNull(aliasKey);
+            ArgumentNullException.ThrowIfNull(aliasKey);
             RequireNotFrozen();
             aliasKey = aliasKey;
             return this;
@@ -174,7 +170,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public AccountUpdateTransaction SetProxyAccountId(AccountId proxyAccountId)
         {
-            Objects.RequireNonNull(proxyAccountId);
+            ArgumentNullException.ThrowIfNull(proxyAccountId);
             RequireNotFrozen();
             proxyAccountId = proxyAccountId;
             return this;
@@ -203,7 +199,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public AccountUpdateTransaction SetExpirationTime(Timestamp expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = expirationTime;
             return this;
@@ -211,7 +207,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 
         public AccountUpdateTransaction SetExpirationTime(Duration expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = null;
             expirationTimeDuration = expirationTime;
@@ -241,7 +237,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>{@code this}</returns>
         public AccountUpdateTransaction SetAutoRenewPeriod(Duration autoRenewPeriod)
         {
-            Objects.RequireNonNull(autoRenewPeriod);
+            ArgumentNullException.ThrowIfNull(autoRenewPeriod);
             RequireNotFrozen();
             autoRenewPeriod = autoRenewPeriod;
             return this;
@@ -320,7 +316,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountUpdateTransaction SetAccountMemo(string memo)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(memo);
+            ArgumentNullException.ThrowIfNull(memo);
             accountMemo = memo;
             return this;
         }
@@ -457,7 +453,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountUpdateTransaction AddHookToCreate(HookCreationDetails hookDetails)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hookDetails, "hookDetails cannot be null");
+            ArgumentNullException.ThrowIfNull(hookDetails, "hookDetails cannot be null");
             hookCreationDetails.Add(hookDetails);
             return this;
         }
@@ -470,8 +466,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountUpdateTransaction SetHooksToCreate(IList<HookCreationDetails> hookDetails)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hookDetails, "hookDetails cannot be null");
-            hookCreationDetails = new List(hookDetails);
+            ArgumentNullException.ThrowIfNull(hookDetails, "hookDetails cannot be null");
+            hookCreationDetails = [.. hookDetails];
             return this;
         }
 
@@ -483,7 +479,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountUpdateTransaction AddHookToDelete(long hookId)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hookId, "hookId cannot be null");
+            ArgumentNullException.ThrowIfNull(hookId, "hookId cannot be null");
             hookIdsToDelete.Add(hookId);
             return this;
         }
@@ -496,8 +492,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         public AccountUpdateTransaction SetHooksToDelete(IList<long> hookIds)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(hookIds, "hookIds cannot be null");
-            hookIdsToDelete = new List(hookIds);
+            ArgumentNullException.ThrowIfNull(hookIds, "hookIds cannot be null");
+            hookIdsToDelete = [.. hookIds];
             return this;
         }
 
@@ -507,7 +503,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>a copy of the hook creation details list</returns>
         public IList<HookCreationDetails> GetHooksToCreate()
         {
-            return new List(hookCreationDetails);
+            return [.. hookCreationDetails];
         }
 
         /// <summary>
@@ -516,7 +512,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// <returns>a copy of the hook IDs list</returns>
         public IList<long> GetHooksToDelete()
         {
-            return new List(hookIdsToDelete);
+            return [.. hookIdsToDelete];
         }
 
         override void ValidateChecksums(Client client)
@@ -542,166 +538,165 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetCryptoUpdateAccount();
-            if (body.HasAccountIDToUpdate())
+            var body = sourceTransactionBody.CryptoUpdateAccount;
+
+            if (body.AccountIDToUpdate is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetAccountIDToUpdate());
+                accountId = AccountId.FromProtobuf(body.AccountIDToUpdate);
             }
 
-            if (body.HasProxyAccountID())
+            if (body.ProxyAccountID is not null)
             {
-                proxyAccountId = AccountId.FromProtobuf(body.GetProxyAccountID());
+                proxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
             }
 
-            if (body.HasKey())
+            if (body.Key is not null)
             {
-                key = Key.FromProtobufKey(body.GetKey());
+                key = Key.FromProtobufKey(body.Key);
             }
 
-            if (body.HasExpirationTime())
+            if (body.ExpirationTime is not null)
             {
-                expirationTime = TimestampConverter.FromProtobuf(body.GetExpirationTime());
+                expirationTime = TimestampConverter.FromProtobuf(body.ExpirationTime);
             }
 
-            if (body.HasAutoRenewPeriod())
+            if (body.AutoRenewPeriod is not null)
             {
-                autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.GetAutoRenewPeriod());
+                autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
             }
 
-            if (body.HasReceiverSigRequiredWrapper())
+            if (body.ReceiverSigRequiredWrapper is not null)
             {
-                receiverSigRequired = body.GetReceiverSigRequiredWrapper().GetValue();
+                receiverSigRequired = body.ReceiverSigRequiredWrapper;
             }
 
-            if (body.HasMemo())
+            if (body.Memo is not null)
             {
-                accountMemo = body.GetMemo().GetValue();
+                accountMemo = body.Memo;
             }
 
-            if (body.HasMaxAutomaticTokenAssociations())
+            if (body.MaxAutomaticTokenAssociations is not null)
             {
-                maxAutomaticTokenAssociations = body.GetMaxAutomaticTokenAssociations().GetValue();
+                maxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
             }
 
-            if (body.HasDeclineReward())
+            if (body.DeclineReward is not null)
             {
-                declineStakingReward = body.GetDeclineReward().GetValue();
+                declineStakingReward = body.DeclineReward.Value;
             }
 
-            if (body.HasStakedAccountId())
+            if (body.StakedAccountId is not null)
             {
-                stakedAccountId = AccountId.FromProtobuf(body.GetStakedAccountId());
+                stakedAccountId = AccountId.FromProtobuf(body.StakedAccountId);
             }
 
-            if (body.HasStakedNodeId())
-            {
-                stakedNodeId = body.GetStakedNodeId();
-            }
+			stakedNodeId = body.StakedNodeId;
 
 
-            // Initialize hook create/delete details
-            hookCreationDetails.Clear();
-            foreach (var protoHookDetails in body.GetHookCreationDetailsList())
+			// Initialize hook create/delete details
+			hookCreationDetails.Clear();
+            foreach (var protoHookDetails in body.HookCreationDetails)
             {
                 hookCreationDetails.Add(HookCreationDetails.FromProtobuf(protoHookDetails));
             }
 
             hookIdsToDelete.Clear();
-            hookIdsToDelete.AddAll(body.GetHookIdsToDeleteList());
+            hookIdsToDelete.AddAll(body.HookIdsToDelete);
         }
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return CryptoServiceGrpc.GetUpdateAccountMethod();
+            return CryptoServiceGrpc.UpdateAccountMethod;
         }
 
         /// <summary>
         /// Create the builder.
         /// </summary>
         /// <returns>                         the transaction builder</returns>
-        CryptoUpdateTransactionBody.Builder Build()
+        Proto.CryptoUpdateTransactionBody Build()
         {
-            var builder = CryptoUpdateTransactionBody.NewBuilder();
+            var builder = new Proto.CryptoUpdateTransactionBody();
+
             if (accountId != null)
             {
-                builder.SetAccountIDToUpdate(accountId.ToProtobuf());
+                builder.AccountIDToUpdate = accountId.ToProtobuf();
             }
 
             if (proxyAccountId != null)
             {
-                builder.SetProxyAccountID(proxyAccountId.ToProtobuf());
+                builder.ProxyAccountID = proxyAccountId.ToProtobuf();
             }
 
             if (key != null)
             {
-                builder.SetKey(key.ToProtobufKey());
+                builder.Key = key.ToProtobufKey();
             }
 
             if (expirationTime != null)
             {
-                builder.SetExpirationTime(TimestampConverter.ToProtobuf(expirationTime));
+                builder.ExpirationTime = TimestampConverter.ToProtobuf(expirationTime);
             }
 
             if (expirationTimeDuration != null)
             {
-                builder.SetExpirationTime(TimestampConverter.ToProtobuf(expirationTimeDuration));
+                builder.ExpirationTime = TimestampConverter.ToProtobuf(expirationTimeDuration);
             }
 
             if (autoRenewPeriod != null)
             {
-                builder.SetAutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
+                builder.AutoRenewPeriod = DurationConverter.ToProtobuf(autoRenewPeriod);
             }
 
             if (receiverSigRequired != null)
             {
-                builder.SetReceiverSigRequiredWrapper(BoolValue.Of(receiverSigRequired));
+                builder.ReceiverSigRequiredWrapper = receiverSigRequired;
             }
 
             if (accountMemo != null)
             {
-                builder.SetMemo(StringValue.Of(accountMemo));
+                builder.Memo = accountMemo;
             }
 
             if (maxAutomaticTokenAssociations != null)
             {
-                builder.SetMaxAutomaticTokenAssociations(Int32Value.Of(maxAutomaticTokenAssociations));
+                builder.MaxAutomaticTokenAssociations = maxAutomaticTokenAssociations;
             }
 
             if (stakedAccountId != null)
             {
-                builder.SetStakedAccountId(stakedAccountId.ToProtobuf());
+                builder.StakedAccountId = stakedAccountId.ToProtobuf());
             }
             else if (stakedNodeId != null)
             {
-                builder.SetStakedNodeId(stakedNodeId);
+                builder.StakedNodeId = stakedNodeId.Value;
             }
 
             if (declineStakingReward != null)
             {
-                builder.SetDeclineReward(BoolValue.NewBuilder().SetValue(declineStakingReward).Build());
+                builder.DeclineReward = declineStakingReward;
             }
 
             foreach (HookCreationDetails hookDetails in hookCreationDetails)
             {
-                builder.AddHookCreationDetails(hookDetails.ToProtobuf());
+                builder.HookCreationDetails.Add(hookDetails.ToProtobuf());
             }
 
-            if (!hookIdsToDelete.IsEmpty())
+            if (hookIdsToDelete.Count != 0)
             {
-                builder.AddAllHookIdsToDelete(hookIdsToDelete);
+                builder.HookIdsToDelete.AddRange(hookIdsToDelete);
             }
 
             return builder;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetCryptoUpdateAccount(Build());
+            bodyBuilder.CryptoUpdateAccount = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetCryptoUpdateAccount(Build());
+            scheduled.CryptoUpdateAccount = Build();
         }
     }
 }

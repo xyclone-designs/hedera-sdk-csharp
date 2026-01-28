@@ -1,20 +1,30 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions.Account;
+using Hedera.Hashgraph.SDK.Transactions.Schedule;
+using Java;
 using Java.Lang.Reflect;
 using Java.Time;
-using Java;
 using Java.Util.Concurrent;
 using Java.Util.Function;
 using Java.Util.Stream;
 using Javax.Annotation;
 using Org.Bouncycastle.Crypto.Digests;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using static Hedera.Hashgraph.SDK.Client;
 using static Hedera.Hashgraph.SDK.ExecutionState;
 using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
 using static Hedera.Hashgraph.SDK.FeeDataType;
@@ -36,12 +46,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
     /// Base class for all transactions that may be built and submitted to Hedera.
     /// </summary>
     /// <param name="<T>">The type of the transaction. Used to enable chaining.</param>
-    public abstract class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse> where T : Transaction<T>
+    public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse> where T : Transaction<T>
     {
         /// <summary>
         /// Default auto renew duration for accounts, contracts, topics, and files (entities)
         /// </summary>
-        static readonly Duration DEFAULT_AUTO_RENEW_PERIOD = Duration.OfDays(90);
+        protected static readonly Duration DEFAULT_AUTO_RENEW_PERIOD = Duration.OfDays(90);
         /// <summary>
         /// Dummy account ID used to assist in deserializing incomplete Transactions.
         /// </summary>
@@ -60,12 +70,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// subclass constructor will pick up where the Transaction superclass constructor left off, and will unpack the data
         /// in the transaction body.
         /// </summary>
-        protected readonly TransactionBody sourceTransactionBody;
+        protected readonly Proto.TransactionBody sourceTransactionBody;
         /// <summary>
         /// The builder that gets re-used to build each outer transaction. freezeWith() will create the frozenBodyBuilder.
         /// The presence of frozenBodyBuilder indicates that this transaction is frozen.
         /// </summary>
-        protected TransactionBody.Builder frozenBodyBuilder = null;
+        protected Proto.TransactionBody frozenBodyBuilder = null;
         /// <summary>
         /// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
         /// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
@@ -77,11 +87,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
         /// response, we try a different transaction and thus a different node.
         /// </summary>
-        protected List<Proto.SignedTransaction.Builder> innerSignedTransactions = Collections.EmptyList();
+        protected List<Proto.SignedTransaction> innerSignedTransactions = Collections.EmptyList();
         /// <summary>
         /// A set of signatures corresponding to every unique public key used to sign the transaction.
         /// </summary>
-        protected List<SignatureMap.Builder> sigPairLists = Collections.EmptyList();
+        protected List<Proto.SignatureMap> sigPairLists = Collections.EmptyList();
         /// <summary>
         /// List of IDs for the transaction based on the operator because the transaction ID includes the operator's account
         /// </summary>
@@ -97,7 +107,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
         /// the signer is not available (likely because this came from fromBytes())
         /// </summary>
-        protected List<Function<byte[], byte[]>> signers = new ();
+        protected List<Func<byte[], byte[]>> signers = new ();
         /// <summary>
         /// The maximum transaction fee the client is willing to pay
         /// </summary>
@@ -109,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         private Duration transactionValidDuration;
         private Hbar maxTransactionFee = null;
         private string memo = "";
-        IList<CustomFeeLimit> customFeeLimits = new ();
+        protected IList<CustomFeeLimit> customFeeLimits = new ();
         private Key batchKey = null;
 		/// <summary>
 		/// Constructor.
@@ -128,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         protected Transaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
         {
             LinkedDictionary<AccountId, Proto.Transaction> transactionMap = txs.Values().Iterator().Next();
-            if (!transactionMap.IsEmpty() && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && batchKey != null)
+            if (!transactionMap.IsEmpty && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && batchKey != null)
             {
 
                 // If the first account ID is a dummy account ID, then only the source TransactionBody needs to be copied.
@@ -162,7 +172,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                         outerTransactions.Add(nodeEntry.GetValue());
                         sigPairLists.Add(transaction.GetSigMap().ToBuilder());
                         innerSignedTransactions.Add(transaction.ToBuilder());
-                        if (publicKeys.IsEmpty())
+                        if (publicKeys.IsEmpty)
                         {
                             foreach (var sigPair in transaction.GetSigMap().GetSigPairList())
                             {
@@ -197,14 +207,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 sourceTransactionBody = ParseTransactionBody(innerSignedTransactions[0].GetBodyBytes());
             }
 
-            SetTransactionValidDuration(Utils.DurationConverter.FromProtobuf(sourceTransactionBody.GetTransactionValidDuration()));
-            SetMaxTransactionFee(Hbar.FromTinybars(sourceTransactionBody.GetTransactionFee()));
-            SetTransactionMemo(sourceTransactionBody.GetMemo());
-            customFeeLimits = sourceTransactionBody.GetMaxCustomFeesList().Stream().Map(CustomFeeLimit.FromProtobuf()).ToList();
-            batchKey = Key.FromProtobufKey(sourceTransactionBody.GetBatchKey());
+            SetTransactionValidDuration(Utils.DurationConverter.FromProtobuf(sourceTransactionBody.TransactionValidDuration()));
+            SetMaxTransactionFee(Hbar.FromTinybars(sourceTransactionBody.TransactionFee()));
+            SetTransactionMemo(sourceTransactionBody.Memo());
+            customFeeLimits = sourceTransactionBody.MaxCustomFeesList().Stream().Map(CustomFeeLimit.FromProtobuf()).ToList();
+            batchKey = Key.FromProtobufKey(sourceTransactionBody.BatchKey());
 
             // The presence of signatures implies the Transaction should be frozen.
-            if (!publicKeys.IsEmpty())
+            if (!publicKeys.IsEmpty)
             {
                 frozenBodyBuilder = sourceTransactionBody.ToBuilder();
             }
@@ -226,7 +236,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         protected Transaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
         {
             LinkedDictionary<AccountId, Proto.Transaction> transactionMap = txs.Values().Iterator().Next();
-            if (!transactionMap.IsEmpty() && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && batchKey != null)
+            if (!transactionMap.IsEmpty && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && batchKey != null)
             {
 
                 // If the first account ID is a dummy account ID, then only the source TransactionBody needs to be copied.
@@ -260,7 +270,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                         outerTransactions.Add(nodeEntry.GetValue());
                         sigPairLists.Add(transaction.GetSigMap().ToBuilder());
                         innerSignedTransactions.Add(transaction.ToBuilder());
-                        if (publicKeys.IsEmpty())
+                        if (publicKeys.IsEmpty)
                         {
                             foreach (var sigPair in transaction.GetSigMap().GetSigPairList())
                             {
@@ -295,14 +305,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 sourceTransactionBody = ParseTransactionBody(innerSignedTransactions[0].GetBodyBytes());
             }
 
-            SetTransactionValidDuration(Utils.DurationConverter.FromProtobuf(sourceTransactionBody.GetTransactionValidDuration()));
-            SetMaxTransactionFee(Hbar.FromTinybars(sourceTransactionBody.GetTransactionFee()));
-            SetTransactionMemo(sourceTransactionBody.GetMemo());
-            customFeeLimits = sourceTransactionBody.GetMaxCustomFeesList().Stream().Map(CustomFeeLimit.FromProtobuf()).ToList();
-            batchKey = Key.FromProtobufKey(sourceTransactionBody.GetBatchKey());
+            SetTransactionValidDuration(Utils.DurationConverter.FromProtobuf(sourceTransactionBody.TransactionValidDuration()));
+            SetMaxTransactionFee(Hbar.FromTinybars(sourceTransactionBody.TransactionFee()));
+            SetTransactionMemo(sourceTransactionBody.Memo());
+            customFeeLimits = sourceTransactionBody.MaxCustomFeesList().Stream().Map(CustomFeeLimit.FromProtobuf()).ToList();
+            batchKey = Key.FromProtobufKey(sourceTransactionBody.BatchKey());
 
             // The presence of signatures implies the Transaction should be frozen.
-            if (!publicKeys.IsEmpty())
+            if (!publicKeys.IsEmpty)
             {
                 frozenBodyBuilder = sourceTransactionBody.ToBuilder();
             }
@@ -314,12 +324,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="bytes">the byte array</param>
         /// <returns>the new transaction</returns>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static Transaction<TWildcardTodo> FromBytes(byte[] bytes)
+        public static Transaction<T> FromBytes(byte[] bytes)
         {
             var list = TransactionList.Parser.ParseFrom(bytes);
             var txsMap = new LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>>();
             TransactionBody.DataCase dataCase;
-            if (!list.GetTransactionListList().IsEmpty())
+            if (!list.GetTransactionListList().IsEmpty)
             {
                 dataCase = ProcessTransactionList(list.GetTransactionListList(), txsMap);
             }
@@ -331,10 +341,26 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return CreateTransactionFromDataCase(dataCase, txsMap);
         }
 
-        /// <summary>
-        /// Process a single transaction
-        /// </summary>
-        private static TransactionBody.DataCase ProcessSingleTransaction(byte[] bytes, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
+		/// <summary>
+		/// Prepare a single transaction by ensuring it has SignedTransactionBytes
+		/// </summary>
+		private static Proto.Transaction PrepareSingleTransaction(Proto.Transaction transaction)
+		{
+			if (transaction.GetSignedTransactionBytes().IsEmpty)
+			{
+				var txBuilder = transaction.ToBuilder();
+				var bodyBytes = txBuilder.GetBodyBytes();
+				var sigMap = txBuilder.GetSigMap();
+				txBuilder.SetSignedTransactionBytes(SignedTransaction.NewBuilder().SetBodyBytes(bodyBytes).SetSigMap(sigMap).Build().ToByteString()).ClearBodyBytes().ClearSigMap();
+				return txBuilder.Build();
+			}
+
+			return transaction;
+		}
+		/// <summary>
+		/// Process a single transaction
+		/// </summary>
+		private static Proto.TransactionBody.DataOneofCase ProcessSingleTransaction(byte[] bytes, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
         {
             var transaction = Proto.Transaction.Parser.ParseFrom(bytes);
             var builtTransaction = PrepareSingleTransaction(transaction);
@@ -343,30 +369,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             AddTransactionToMap(builtTransaction, txBody, txsMap);
             return txBody.GetDataCase();
         }
-
-        /// <summary>
-        /// Prepare a single transaction by ensuring it has SignedTransactionBytes
-        /// </summary>
-        private static Proto.Transaction PrepareSingleTransaction(Proto.Transaction transaction)
-        {
-            if (transaction.GetSignedTransactionBytes().IsEmpty())
-            {
-                var txBuilder = transaction.ToBuilder();
-                var bodyBytes = txBuilder.GetBodyBytes();
-                var sigMap = txBuilder.GetSigMap();
-                txBuilder.SetSignedTransactionBytes(SignedTransaction.NewBuilder().SetBodyBytes(bodyBytes).SetSigMap(sigMap).Build().ToByteString()).ClearBodyBytes().ClearSigMap();
-                return txBuilder.Build();
-            }
-
-            return transaction;
-        }
-
         /// <summary>
         /// Process a list of transactions with integrity verification
         /// </summary>
-        private static TransactionBody.DataCase ProcessTransactionList(List<Proto.Transaction> transactionList, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
+        private static Proto.TransactionBody.DataOneofCase ProcessTransactionList(List<Proto.Transaction> transactionList, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
         {
-            if (transactionList.IsEmpty())
+            if (transactionList.IsEmpty)
             {
                 return TransactionBody.DataCase.DATA_NOT_SET;
             }
@@ -392,15 +400,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             var account = txBody.HasNodeAccountID() ? AccountId.FromProtobuf(txBody.GetNodeAccountID()) : DUMMY_ACCOUNT_ID;
             var transactionId = txBody.HasTransactionID() ? TransactionId.FromProtobuf(txBody.GetTransactionID()) : DUMMY_TRANSACTION_ID;
-            var linked = txsMap.ContainsKey(transactionId) ? Objects.RequireNonNull(txsMap[transactionId]) : new LinkedDictionary<AccountId, Proto.Transaction>();
-            linked.Put(account, transaction);
-            txsMap.Put(transactionId, linked);
+            var linked = txsMap.ContainsKey(transactionId) ? ArgumentNullException.ThrowIfNull(txsMap[transactionId]) : new LinkedDictionary<AccountId, Proto.Transaction>();
+            linked.Add(account, transaction);
+            txsMap.Add(transactionId, linked);
         }
 
         /// <summary>
         /// Creates the appropriate transaction type based on the data case.
         /// </summary>
-        private static Transaction<TWildcardTodo> CreateTransactionFromDataCase(TransactionBody.DataCase dataCase, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
+        private static Transaction<T> CreateTransactionFromDataCase(TransactionBody.DataCase dataCase, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
         {
             return dataCase switch
             {
@@ -464,7 +472,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="scheduled">the scheduled transaction</param>
         /// <returns>the new transaction</returns>
-        public static Transaction<TWildcardTodo> FromScheduledTransaction(Proto.SchedulableTransactionBody scheduled)
+        public static Transaction<T> FromScheduledTransaction(Proto.SchedulableTransactionBody scheduled)
         {
             var body = TransactionBody.NewBuilder().SetMemo(scheduled.GetMemo()).SetTransactionFee(scheduled.GetTransactionFee()).AddAllMaxCustomFees(scheduled.GetMaxCustomFeesList());
             return scheduled.GetDataCase() switch
@@ -521,7 +529,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             throw new ArgumentException("fromBytes() failed because " + fieldName + " fields in TransactionBody protobuf messages in the TransactionList did not match: A was " + aWas + ", B was " + bWas);
         }
-
         private static void RequireProtoMatches(object protoA, object protoB, HashSet<string> ignoreSet, string thisFieldName)
         {
             var aIsNull = protoA == null;
@@ -615,8 +622,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
                     var retvalB = method.Invoke(protoB);
                     if (isList)
                     {
-                        var listA = (IList<TWildcardTodo>)retvalA;
-                        var listB = (IList<TWildcardTodo>)retvalB;
+                        var listA = (IList<T>)retvalA;
+                        var listB = (IList<T>)retvalB;
                         if (listA.Count != listB.Count)
                         {
                             ThrowProtoMatchException(methodFieldName, "of size " + listA.Count, "of size " + listB.Count);
@@ -679,12 +686,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="bodyBuilder">the transaction's body builder</param>
         /// <returns>the scheduled transaction</returns>
-        protected virtual ScheduleCreateTransaction DoSchedule(TransactionBody.Builder bodyBuilder)
+        protected virtual ScheduleCreateTransaction DoSchedule(Proto.TransactionBody bodyBuilder)
         {
             var schedulable = SchedulableTransactionBody.NewBuilder().SetTransactionFee(bodyBuilder.GetTransactionFee()).SetMemo(bodyBuilder.GetMemo()).AddAllMaxCustomFees(bodyBuilder.GetMaxCustomFeesList());
             OnScheduled(schedulable);
             var scheduled = new ScheduleCreateTransaction().SetScheduledTransactionBody(schedulable.Build());
-            if (!transactionIds.IsEmpty())
+            if (!transactionIds.IsEmpty)
             {
                 scheduled.SetTransactionId(transactionIds[0]);
             }
@@ -696,15 +703,35 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             return batchKey != null && !(this is BatchTransaction);
         }
+		/// <summary>
+		/// Throw an exception if the transaction is frozen.
+		/// </summary>
+		protected virtual void RequireNotFrozen()
+		{
+			if (IsFrozen())
+			{
+				throw new InvalidOperationException("transaction is immutable; it has at least one signature or has been explicitly frozen");
+			}
+		}
+		/// <summary>
+		/// Throw an exception if there is not exactly one node id set.
+		/// </summary>
+		protected virtual void RequireOneNodeAccountId()
+		{
+			if (nodeAccountIds.Count != 1)
+			{
+				throw new InvalidOperationException("transaction did not have exactly one node ID set");
+			}
+		}
 
-        /// <summary>
-        /// Extract the scheduled transaction.
-        /// </summary>
-        /// <returns>the scheduled transaction</returns>
-        public virtual ScheduleCreateTransaction Schedule()
+		/// <summary>
+		/// Extract the scheduled transaction.
+		/// </summary>
+		/// <returns>the scheduled transaction</returns>
+		public virtual ScheduleCreateTransaction Schedule()
         {
             RequireNotFrozen();
-            if (!nodeAccountIds.IsEmpty())
+            if (!nodeAccountIds.IsEmpty)
             {
                 throw new InvalidOperationException("The underlying transaction for a scheduled transaction cannot have node account IDs set");
             }
@@ -726,104 +753,65 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public override T SetNodeAccountIds(IList<AccountId> nodeAccountIds)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(nodeAccountIds);
+
             return base.SetNodeAccountIds(nodeAccountIds);
         }
 
+		
+
         /// <summary>
-        /// Extract the valid transaction duration.
+        /// The maximum transaction fee the operator (paying account) is willing to pay.
         /// </summary>
-        /// <returns>the transaction valid duration</returns>
-        public Duration GetTransactionValidDuration()
+        public Hbar MaxTransactionFee
         {
-            return transactionValidDuration;
-        }
+            get;
+            set
+			{
+				RequireNotFrozen();
+				field = value;
+			}
+		}
+		/// <summary>
+		/// Extract the memo for the transaction.
+		/// </summary>
+		/// <returns>the memo for the transaction</returns>
+		public string TransactionMemo
+		{
+			get;
+			set
+			{
+				RequireNotFrozen();
+				field = value;
+			}
+		}
+		/// <summary>
+		/// Sets the duration that this transaction is valid for.
+		/// <p>
+		/// This is defaulted by the SDK to 120 seconds (or two minutes).
+		/// </summary>
+		public Duration TransactionValidDuration
+		{
+			get;
+			set
+			{
+				RequireNotFrozen();
+				field = value;
+			}
+		}
 
-        /// <summary>
-        /// Sets the duration that this transaction is valid for.
-        /// <p>
-        /// This is defaulted by the SDK to 120 seconds (or two minutes).
-        /// </summary>
-        /// <param name="validDuration">The duration to be set</param>
-        /// <returns>{@code this}</returns>
-        public T SetTransactionValidDuration(Duration validDuration)
-        {
-            RequireNotFrozen();
-            Objects.RequireNonNull(validDuration);
-            transactionValidDuration = validDuration;
 
-            // noinspection unchecked
-            return (T)this;
-        }
 
-        /// <summary>
-        /// Extract the maximum transaction fee.
-        /// </summary>
-        /// <returns>the maximum transaction fee</returns>
-        public Hbar GetMaxTransactionFee()
-        {
-            return maxTransactionFee;
-        }
-
-        /// <summary>
-        /// Set the maximum transaction fee the operator (paying account) is willing to pay.
-        /// </summary>
-        /// <param name="maxTransactionFee">the maximum transaction fee, in tinybars.</param>
-        /// <returns>{@code this}</returns>
-        public T SetMaxTransactionFee(Hbar maxTransactionFee)
-        {
-            RequireNotFrozen();
-            Objects.RequireNonNull(maxTransactionFee);
-            maxTransactionFee = maxTransactionFee;
-
-            // noinspection unchecked
-            return (T)this;
-        }
-
-        /// <summary>
-        /// Extract the default maximum transaction fee.
-        /// </summary>
-        /// <returns>the default maximum transaction fee</returns>
-        public Hbar GetDefaultMaxTransactionFee()
-        {
-            return defaultMaxTransactionFee;
-        }
-
-        /// <summary>
-        /// Extract the memo for the transaction.
-        /// </summary>
-        /// <returns>the memo for the transaction</returns>
-        public string GetTransactionMemo()
-        {
-            return memo;
-        }
-
-        /// <summary>
-        /// Set a note or description that should be recorded in the transaction record (maximum length of 100 characters).
-        /// </summary>
-        /// <param name="memo">any notes or descriptions for this transaction.</param>
-        /// <returns>{@code this}</returns>
-        public T SetTransactionMemo(string memo)
+		/// <summary>
+		/// batchify method is used to mark a transaction as part of a batch transaction or make it so-called inner transaction.
+		/// The Transaction will be frozen and signed by the operator of the client.
+		/// </summary>
+		/// <param name="client">sdk client</param>
+		/// <param name="batchKey">batch key</param>
+		/// <returns>{@code this}</returns>
+		public T Batchify(Client client, Key batchKey)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(memo);
-            memo = memo;
-
-            // noinspection unchecked
-            return (T)this;
-        }
-
-        /// <summary>
-        /// batchify method is used to mark a transaction as part of a batch transaction or make it so-called inner transaction.
-        /// The Transaction will be frozen and signed by the operator of the client.
-        /// </summary>
-        /// <param name="client">sdk client</param>
-        /// <param name="batchKey">batch key</param>
-        /// <returns>{@code this}</returns>
-        public T Batchify(Client client, Key batchKey)
-        {
-            RequireNotFrozen();
-            Objects.RequireNonNull(batchKey);
+            ArgumentNullException.ThrowIfNull(batchKey);
             batchKey = batchKey;
             SignWithOperator(client);
 
@@ -837,7 +825,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public T SetBatchKey(Key batchKey)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(batchKey);
+            ArgumentNullException.ThrowIfNull(batchKey);
             batchKey = batchKey;
 
             // noinspection unchecked
@@ -862,10 +850,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             // If no nodes have been selected yet,
             // the new TransactionBody can be used to build a Transaction protobuf object.
-            if (nodeAccountIds.IsEmpty())
+            if (nodeAccountIds.IsEmpty)
             {
                 var bodyBuilder = SpawnBodyBuilder(null);
-                if (!transactionIds.IsEmpty())
+                if (!transactionIds.IsEmpty)
                 {
                     bodyBuilder.SetTransactionID(transactionIds[0].ToProtobuf());
                 }
@@ -882,14 +870,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 if (!IsFrozen())
                 {
                     frozenBodyBuilder = SpawnBodyBuilder(null);
-                    if (!transactionIds.IsEmpty())
+                    if (!transactionIds.IsEmpty)
                     {
                         frozenBodyBuilder.SetTransactionID(transactionIds[0].ToProtobuf());
                     }
 
                     OnFreeze(frozenBodyBuilder);
                     int requiredChunks = GetRequiredChunks();
-                    if (!transactionIds.IsEmpty())
+                    if (!transactionIds.IsEmpty)
                     {
                         GenerateTransactionIds(transactionIds[0], requiredChunks);
                     }
@@ -931,7 +919,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Extract the list of account id and hash records.
         /// </summary>
         /// <returns>the list of account id and hash records</returns>
-        public virtual Map<AccountId, byte[]> GetTransactionHashPerNode()
+        public virtual IDictionary<AccountId, byte[]> GetTransactionHashPerNode()
         {
             if (!IsFrozen())
             {
@@ -942,7 +930,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             var hashes = new Dictionary<AccountId, byte[]>();
             for (var i = 0; i < outerTransactions.Count; i++)
             {
-                hashes.Put(nodeAccountIds[i], Hash(outerTransactions[i].GetSignedTransactionBytes().ToByteArray()));
+                hashes.Add(nodeAccountIds[i], Hash(outerTransactions[i].GetSignedTransactionBytes().ToByteArray()));
             }
 
             return hashes;
@@ -959,7 +947,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>the transaction id</returns>
         public TransactionId GetTransactionId()
         {
-            if (transactionIds.IsEmpty() || !IsFrozen())
+            if (transactionIds.IsEmpty || !IsFrozen())
             {
                 throw new InvalidOperationException("No transaction ID generated yet. Try freezing the transaction or manually setting the transaction ID.");
             }
@@ -1020,59 +1008,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             return SignWith(privateKey.GetPublicKey(), privateKey.Sign());
         }
+		
 
-        /// <summary>
-        /// Sign the transaction.
-        /// </summary>
-        /// <param name="publicKey">the public key</param>
-        /// <param name="transactionSigner">the key list</param>
-        /// <returns>{@code this}</returns>
-        public virtual T SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
-        {
-            if (!IsFrozen())
-            {
-                throw new InvalidOperationException("Signing requires transaction to be frozen");
-            }
-
-            if (KeyAlreadySigned(publicKey))
-            {
-
-                // noinspection unchecked
-                return (T)this;
-            }
-
-            for (int i = 0; i < outerTransactions.Count; i++)
-            {
-                outerTransactions[i] = null;
-            }
-
-            publicKeys.Add(publicKey);
-            signers.Add(transactionSigner);
-
-            // noinspection unchecked
-            return (T)this;
-        }
-
-        /// <summary>
-        /// Sign the transaction with the configured client.
-        /// </summary>
-        /// <param name="client">the configured client</param>
-        /// <returns>the signed transaction</returns>
-        public virtual T SignWithOperator(Client client)
-        {
-            var operator = client.GetOperator();
-            if (@operator == null)
-            {
-                throw new InvalidOperationException("`client` must have an `operator` to sign with the operator");
-            }
-
-            if (!IsFrozen())
-            {
-                FreezeWith(client);
-            }
-
-            return SignWith(@operator.publicKey, @operator.transactionSigner);
-        }
+        
 
         /// <summary>
         /// Checks if a public key is already added to the transaction
@@ -1120,18 +1058,18 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return (T)this;
         }
 
-        protected virtual Map<AccountId, Map<PublicKey, byte[]>> GetSignaturesAtOffset(int offset)
+        protected virtual IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignaturesAtOffset(int offset)
         {
-            var map = new Dictionary<AccountId, Map<PublicKey, byte[]>>(nodeAccountIds.Count);
+            var map = new Dictionary<AccountId, IDictionary<PublicKey, byte[]>>(nodeAccountIds.Count);
             for (int i = 0; i < nodeAccountIds.Count; i++)
             {
                 var sigMap = sigPairLists[i + offset];
                 var nodeAccountId = nodeAccountIds[i];
-                var keyMap = map.ContainsKey(nodeAccountId) ? Objects.RequireNonNull(map[nodeAccountId]) : new Dictionary<PublicKey, byte[]>(sigMap.GetSigPairCount());
-                map.Put(nodeAccountId, keyMap);
+                var keyMap = map.ContainsKey(nodeAccountId) ? ArgumentNullException.ThrowIfNull(map[nodeAccountId]) : new Dictionary<PublicKey, byte[]>(sigMap.GetSigPairCount());
+                map.Add(nodeAccountId, keyMap);
                 foreach (var sigPair in sigMap.GetSigPairList())
                 {
-                    keyMap.Put(PublicKey.FromBytes(sigPair.GetPubKeyPrefix().ToByteArray()), sigPair.GetEd25519().ToByteArray());
+                    keyMap.Add(PublicKey.FromBytes(sigPair.GetPubKeyPrefix().ToByteArray()), sigPair.GetEd25519().ToByteArray());
                 }
             }
 
@@ -1142,14 +1080,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Extract list of account id and public keys.
         /// </summary>
         /// <returns>the list of account id and public keys</returns>
-        public virtual Map<AccountId, Map<PublicKey, byte[]>> GetSignatures()
+        public virtual IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignatures()
         {
             if (!IsFrozen())
             {
                 throw new InvalidOperationException("Transaction must be frozen in order to have signatures.");
             }
 
-            if (publicKeys.IsEmpty())
+            if (publicKeys.IsEmpty)
             {
                 return Collections.EmptyMap();
             }
@@ -1162,34 +1100,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Check if transaction is frozen.
         /// </summary>
         /// <returns>is the transaction frozen</returns>
-        protected virtual bool IsFrozen()
+        public virtual bool IsFrozen()
         {
             return frozenBodyBuilder != null;
         }
 
-        /// <summary>
-        /// Throw an exception if the transaction is frozen.
-        /// </summary>
-        protected virtual void RequireNotFrozen()
-        {
-            if (IsFrozen())
-            {
-                throw new InvalidOperationException("transaction is immutable; it has at least one signature or has been explicitly frozen");
-            }
-        }
+        
 
-        /// <summary>
-        /// Throw an exception if there is not exactly one node id set.
-        /// </summary>
-        protected virtual void RequireOneNodeAccountId()
-        {
-            if (nodeAccountIds.Count != 1)
-            {
-                throw new InvalidOperationException("transaction did not have exactly one node ID set");
-            }
-        }
-
-        protected virtual TransactionBody.Builder SpawnBodyBuilder(Client client)
+        protected virtual Proto.TransactionBody SpawnBodyBuilder(Client client)
         {
             var clientDefaultFee = client != null ? client.GetDefaultMaxTransactionFee() : null;
             var defaultFee = clientDefaultFee != null ? clientDefaultFee : defaultMaxTransactionFee;
@@ -1197,164 +1115,31 @@ namespace Hedera.Hashgraph.SDK.Transactions
             var builder = TransactionBody.NewBuilder().SetTransactionFee(feeHbars.ToTinybars()).SetTransactionValidDuration(Utils.DurationConverter.ToProtobuf(transactionValidDuration).ToBuilder()).AddAllMaxCustomFees(customFeeLimits.Stream().Map(CustomFeeLimit.ToProtobuf()).Collect(Collectors.ToList())).SetMemo(memo);
             if (batchKey != null)
             {
-                builder.SetBatchKey(batchKey.ToProtobufKey());
+                builder.BatchKey(batchKey.ToProtobufKey());
             }
 
             return builder;
         }
 
-        /// <summary>
-        /// Freeze this transaction from further modification to prepare for signing or serialization.
-        /// </summary>
-        /// <returns>{@code this}</returns>
-        public virtual T Freeze()
-        {
-            return FreezeWith(null);
-        }
 
-        /// <summary>
-        /// Freeze this transaction from further modification to prepare for signing or serialization.
-        /// <p>
-        /// Will use the `Client`, if available, to generate a default Transaction ID and select 1/3 nodes to prepare this
-        /// transaction for.
-        /// </summary>
-        /// <param name="client">the configured client</param>
-        /// <returns>{@code this}</returns>
-        public virtual T FreezeWith(Client client)
-        {
-            if (IsFrozen())
-            {
 
-                // noinspection unchecked
-                return (T)this;
-            }
+		/// <summary>
+		/// Called in {@link #freezeWith(Client)} just before the transaction body is built. The intent is for the derived
+		/// class to assign their data variant to the transaction body.
+		/// </summary>
+		public abstract void OnFreeze(Proto.TransactionBody bodyBuilder);
+		/// <summary>
+		/// Called in {@link #schedule()} when converting transaction into a scheduled version.
+		/// </summary>
+		public abstract void OnScheduled(Proto.SchedulableTransactionBody scheduled);
 
-            if (transactionIds.IsEmpty())
-            {
-                if (client != null)
-                {
-                    var operator = client.GetOperator();
-                    if (@operator != null)
-                    {
 
-                        // Set a default transaction ID, generated from the operator account ID
-                        transactionIds.SetList(Collections.SingletonList(TransactionId.Generate(@operator.accountId)));
-                    }
-                    else
-                    {
 
-                        // no client means there must be an explicitly set node ID and transaction ID
-                        throw new InvalidOperationException("`client` must have an `operator` or `transactionId` must be set");
-                    }
-                }
-                else
-                {
-                    throw new InvalidOperationException("Transaction ID must be set, or operator must be provided via freezeWith()");
-                }
-            }
 
-            if (nodeAccountIds.IsEmpty())
-            {
-                if (client == null)
-                {
-                    throw new InvalidOperationException("`client` must be provided or both `nodeId` and `transactionId` must be set");
-                }
-
-                try
-                {
-                    if (batchKey == null)
-                    {
-                        nodeAccountIds.SetList(client.network.GetNodeAccountIdsForExecute());
-                    }
-                    else
-                    {
-                        nodeAccountIds.SetList(Collections.SingletonList(AccountId.FromString(ATOMIC_BATCH_NODE_ACCOUNT_ID)));
-                    }
-                }
-                catch (InterruptedException e)
-                {
-                    throw new Exception(string.Empty, e);
-                }
-            }
-
-            frozenBodyBuilder = SpawnBodyBuilder(client).SetTransactionID(transactionIds[0].ToProtobuf());
-            OnFreeze(frozenBodyBuilder);
-            int requiredChunks = GetRequiredChunks();
-            GenerateTransactionIds(transactionIds[0], requiredChunks);
-            WipeTransactionLists(requiredChunks);
-            var clientDefaultRegenerateTransactionId = client != null ? client.GetDefaultRegenerateTransactionId() : null;
-            regenerateTransactionId = regenerateTransactionId != null ? regenerateTransactionId : clientDefaultRegenerateTransactionId;
-
-            // noinspection unchecked
-            return (T)this;
-        }
-
-        /// <summary>
-        /// There must be at least one chunk.
-        /// </summary>
-        /// <returns>there is 1 required chunk</returns>
-        virtual int GetRequiredChunks()
-        {
-            return 1;
-        }
-
-        /// <summary>
-        /// Generate transaction id's.
-        /// </summary>
-        /// <param name="initialTransactionId">the initial transaction id</param>
-        /// <param name="count">the number of id's to generate.</param>
-        virtual void GenerateTransactionIds(TransactionId initialTransactionId, int count)
-        {
-            var locked = transactionIds.IsLocked();
-            transactionIds.SetLocked(false);
-            if (count == 1)
-            {
-                transactionIds.SetList(Collections.SingletonList(initialTransactionId));
-                return;
-            }
-
-            var nextTransactionId = initialTransactionId.ToProtobuf().ToBuilder();
-            transactionIds.EnsureCapacity(count);
-            transactionIds.Clear();
-            for (int i = 0; i < count; i++)
-            {
-                transactionIds.Add(TransactionId.FromProtobuf(nextTransactionId.Build()));
-
-                // add 1 ns to the validStart to make cascading transaction IDs
-                var nextValidStart = nextTransactionId.GetTransactionValidStart().ToBuilder();
-                nextValidStart.SetNanos(nextValidStart.GetNanos() + 1);
-                nextTransactionId.SetTransactionValidStart(nextValidStart);
-            }
-
-            transactionIds.SetLocked(locked);
-        }
-
-        /// <summary>
-        /// Wipe / reset the transaction list.
-        /// </summary>
-        /// <param name="requiredChunks">the number of required chunks</param>
-        virtual void WipeTransactionLists(int requiredChunks)
-        {
-            if (!transactionIds.IsEmpty())
-            {
-                Objects.RequireNonNull(frozenBodyBuilder).SetTransactionID(GetTransactionIdInternal().ToProtobuf());
-            }
-
-            outerTransactions = new List(nodeAccountIds.Count);
-            sigPairLists = new List(nodeAccountIds.Count);
-            innerSignedTransactions = new List(nodeAccountIds.Count);
-            foreach (AccountId nodeId in nodeAccountIds)
-            {
-                sigPairLists.Add(SignatureMap.NewBuilder());
-                innerSignedTransactions.Add(SignedTransaction.NewBuilder().SetBodyBytes(Objects.RequireNonNull(frozenBodyBuilder).SetNodeAccountID(nodeId.ToProtobuf()).Build().ToByteString()));
-                outerTransactions.Add(null);
-            }
-        }
-
-        /// <summary>
-        /// Build all the transactions.
-        /// </summary>
-        virtual void BuildAllTransactions()
+		/// <summary>
+		/// Build all the transactions.
+		/// </summary>
+		public virtual void BuildAllTransactions()
         {
             transactionIds.SetLocked(true);
             nodeAccountIds.SetLocked(true);
@@ -1363,18 +1148,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 BuildTransaction(i);
             }
         }
-
         /// <summary>
         /// Will build the specific transaction at {@code index} This function is only ever called after the transaction is
         /// frozen.
         /// </summary>
         /// <param name="index">the index of the transaction to be built</param>
-        virtual void BuildTransaction(int index)
+        public virtual void BuildTransaction(int index)
         {
 
             // Check if transaction is already built.
             // Every time a signer is added via sign() or signWith(), all outerTransactions are nullified.
-            if (outerTransactions[index] != null && !outerTransactions[index].GetSignedTransactionBytes().IsEmpty())
+            if (outerTransactions[index] != null && !outerTransactions[index].GetSignedTransactionBytes().IsEmpty)
             {
                 return;
             }
@@ -1382,13 +1166,134 @@ namespace Hedera.Hashgraph.SDK.Transactions
             SignTransaction(index);
             outerTransactions[index] = Proto.Transaction.NewBuilder().SetSignedTransactionBytes(innerSignedTransactions[index].SetSigMap(sigPairLists[index]).Build().ToByteString()).Build();
         }
+		/// <summary>
+		/// Freeze this transaction from further modification to prepare for signing or serialization.
+		/// </summary>
+		/// <returns>{@code this}</returns>
+		public virtual T Freeze()
+		{
+			return FreezeWith(null);
+		}
+		/// <summary>
+		/// Freeze this transaction from further modification to prepare for signing or serialization.
+		/// <p>
+		/// Will use the `Client`, if available, to generate a default Transaction ID and select 1/3 nodes to prepare this
+		/// transaction for.
+		/// </summary>
+		/// <param name="client">the configured client</param>
+		/// <returns>{@code this}</returns>
+		public virtual T FreezeWith(Client client)
+		{
+			if (IsFrozen())
+			{
 
-        /// <summary>
-        /// Will sign the specific transaction at {@code index} This function is only ever called after the transaction is
-        /// frozen.
-        /// </summary>
-        /// <param name="index">the index of the transaction to sign</param>
-        virtual void SignTransaction(int index)
+				// noinspection unchecked
+				return (T)this;
+			}
+
+			if (transactionIds.IsEmpty)
+			{
+				if (client != null)
+				{
+					var operator = client.GetOperator();
+					if (@operator != null)
+					{
+
+						// Set a default transaction ID, generated from the operator account ID
+						transactionIds.SetList(Collections.SingletonList(TransactionId.Generate(@operator.accountId)));
+					}
+					else
+					{
+
+						// no client means there must be an explicitly set node ID and transaction ID
+						throw new InvalidOperationException("`client` must have an `operator` or `transactionId` must be set");
+					}
+				}
+				else
+				{
+					throw new InvalidOperationException("Transaction ID must be set, or operator must be provided via freezeWith()");
+				}
+			}
+
+			if (nodeAccountIds.IsEmpty)
+			{
+				if (client == null)
+				{
+					throw new InvalidOperationException("`client` must be provided or both `nodeId` and `transactionId` must be set");
+				}
+
+				try
+				{
+					if (batchKey == null)
+					{
+						nodeAccountIds.SetList(client.network.GetNodeAccountIdsForExecute());
+					}
+					else
+					{
+						nodeAccountIds.SetList(Collections.SingletonList(AccountId.FromString(ATOMIC_BATCH_NODE_ACCOUNT_ID)));
+					}
+				}
+				catch (InterruptedException e)
+				{
+					throw new Exception(string.Empty, e);
+				}
+			}
+
+			frozenBodyBuilder = SpawnBodyBuilder(client).SetTransactionID(transactionIds[0].ToProtobuf());
+			OnFreeze(frozenBodyBuilder);
+			int requiredChunks = GetRequiredChunks();
+			GenerateTransactionIds(transactionIds[0], requiredChunks);
+			WipeTransactionLists(requiredChunks);
+			var clientDefaultRegenerateTransactionId = client != null ? client.GetDefaultRegenerateTransactionId() : null;
+			regenerateTransactionId = regenerateTransactionId != null ? regenerateTransactionId : clientDefaultRegenerateTransactionId;
+
+			// noinspection unchecked
+			return (T)this;
+		}
+		/// <summary>
+		/// There must be at least one chunk.
+		/// </summary>
+		/// <returns>there is 1 required chunk</returns>
+		public virtual int GetRequiredChunks()
+		{
+			return 1;
+		}
+		/// <summary>
+		/// Generate transaction id's.
+		/// </summary>
+		/// <param name="initialTransactionId">the initial transaction id</param>
+		/// <param name="count">the number of id's to generate.</param>
+		public virtual void GenerateTransactionIds(TransactionId initialTransactionId, int count)
+		{
+			var locked = transactionIds.IsLocked();
+			transactionIds.SetLocked(false);
+			if (count == 1)
+			{
+				transactionIds.SetList(Collections.SingletonList(initialTransactionId));
+				return;
+			}
+
+			var nextTransactionId = initialTransactionId.ToProtobuf().ToBuilder();
+			transactionIds.EnsureCapacity(count);
+			transactionIds.Clear();
+			for (int i = 0; i < count; i++)
+			{
+				transactionIds.Add(TransactionId.FromProtobuf(nextTransactionId.Build()));
+
+				// add 1 ns to the validStart to make cascading transaction IDs
+				var nextValidStart = nextTransactionId.GetTransactionValidStart().ToBuilder();
+				nextValidStart.SetNanos(nextValidStart.GetNanos() + 1);
+				nextTransactionId.SetTransactionValidStart(nextValidStart);
+			}
+
+			transactionIds.SetLocked(locked);
+		}
+		/// <summary>
+		/// Will sign the specific transaction at {@code index} This function is only ever called after the transaction is
+		/// frozen.
+		/// </summary>
+		/// <param name="index">the index of the transaction to sign</param>
+		public virtual void SignTransaction(int index)
         {
             var bodyBytes = innerSignedTransactions[index].GetBodyBytes().ToByteArray();
             var thisSigPairList = sigPairLists[index].GetSigPairList();
@@ -1408,16 +1313,80 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 sigPairLists[index].AddSigPair(publicKeys[i].ToSignaturePairProtobuf(signatureBytes));
             }
         }
+		/// <summary>
+		/// Sign the transaction with the configured client.
+		/// </summary>
+		/// <param name="client">the configured client</param>
+		/// <returns>the signed transaction</returns>
+		public virtual T SignWithOperator(Client client)
+		{
+			var operator = client.GetOperator();
+			if (@operator == null)
+			{
+				throw new InvalidOperationException("`client` must have an `operator` to sign with the operator");
+			}
 
-        /// <summary>
-        /// Called in {@link #freezeWith(Client)} just before the transaction body is built. The intent is for the derived
-        /// class to assign their data variant to the transaction body.
-        /// </summary>
-        abstract void OnFreeze(TransactionBody.Builder bodyBuilder);
-        /// <summary>
-        /// Called in {@link #schedule()} when converting transaction into a scheduled version.
-        /// </summary>
-        abstract void OnScheduled(SchedulableTransactionBody.Builder scheduled);
+			if (!IsFrozen())
+			{
+				FreezeWith(client);
+			}
+
+			return SignWith(@operator.publicKey, @operator.transactionSigner);
+		}
+		/// <summary>
+		/// Sign the transaction.
+		/// </summary>
+		/// <param name="publicKey">the public key</param>
+		/// <param name="transactionSigner">the key list</param>
+		/// <returns>{@code this}</returns>
+		public virtual T SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
+		{
+			if (!IsFrozen())
+			{
+				throw new InvalidOperationException("Signing requires transaction to be frozen");
+			}
+
+			if (KeyAlreadySigned(publicKey))
+			{
+
+				// noinspection unchecked
+				return (T)this;
+			}
+
+			for (int i = 0; i < outerTransactions.Count; i++)
+			{
+				outerTransactions[i] = null;
+			}
+
+			publicKeys.Add(publicKey);
+			signers.Add(transactionSigner);
+
+			// noinspection unchecked
+			return (T)this;
+		}
+		/// <summary>
+		/// Wipe / reset the transaction list.
+		/// </summary>
+		/// <param name="requiredChunks">the number of required chunks</param>
+		public virtual void WipeTransactionLists(int requiredChunks)
+		{
+			if (!transactionIds.IsEmpty)
+			{
+				ArgumentNullException.ThrowIfNull(frozenBodyBuilder).SetTransactionID(GetTransactionIdInternal().ToProtobuf());
+			}
+
+			outerTransactions = new List(nodeAccountIds.Count);
+			sigPairLists = new List(nodeAccountIds.Count);
+			innerSignedTransactions = new List(nodeAccountIds.Count);
+			foreach (AccountId nodeId in nodeAccountIds)
+			{
+				sigPairLists.Add(SignatureMap.NewBuilder());
+				innerSignedTransactions.Add(SignedTransaction.NewBuilder().SetBodyBytes(ArgumentNullException.ThrowIfNull(frozenBodyBuilder).SetNodeAccountID(nodeId.ToProtobuf()).Build().ToByteString()));
+				outerTransactions.Add(null);
+			}
+		}
+
+		
         override Proto.Transaction MakeRequest()
         {
             var index = nodeAccountIds.Index() + (transactionIds.Index() * nodeAccountIds.Count);
@@ -1427,7 +1396,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         override TransactionResponse MapResponse(Proto.TransactionResponse transactionResponse, AccountId nodeId, Proto.Transaction request)
         {
-            var transactionId = Objects.RequireNonNull(GetTransactionIdInternal());
+            var transactionId = ArgumentNullException.ThrowIfNull(GetTransactionIdInternal());
             var hash = Hash(request.GetSignedTransactionBytes().ToByteArray());
 
             // advance is needed for chunked transactions
@@ -1445,14 +1414,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Prepare the transactions to be executed.
         /// </summary>
         /// <param name="client">the configured client</param>
-        virtual void OnExecute(Client client)
+        public virtual void OnExecute(Client client)
         {
             if (!IsFrozen())
             {
                 FreezeWith(client);
             }
 
-            var accountId = Objects.RequireNonNull(Objects.RequireNonNull(transactionIds[0]).accountId);
+            var accountId = ArgumentNullException.ThrowIfNull(ArgumentNullException.ThrowIfNull(transactionIds[0]).accountId);
             if (client.IsAutoValidateChecksumsEnabled())
             {
                 try
@@ -1492,8 +1461,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 }
                 else
                 {
-                    var firstTransactionId = Objects.RequireNonNull(transactionIds[0]);
-                    var accountId = Objects.RequireNonNull(firstTransactionId.accountId);
+                    var firstTransactionId = ArgumentNullException.ThrowIfNull(transactionIds[0]);
+                    var accountId = ArgumentNullException.ThrowIfNull(firstTransactionId.accountId);
                     GenerateTransactionIds(TransactionId.Generate(accountId), transactionIds.Count);
                     WipeTransactionLists(transactionIds.Count);
                     return ExecutionState.RETRY;
@@ -1503,9 +1472,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return base.GetExecutionState(status, response);
         }
 
-        virtual Transaction RegenerateTransactionId(Client client)
+        public virtual Transaction RegenerateTransactionId(Client client)
         {
-            Objects.RequireNonNull(client.GetOperatorAccountId());
+            ArgumentNullException.ThrowIfNull(client.GetOperatorAccountId());
             transactionIds.SetLocked(false);
             var newTransactionID = TransactionId.Generate(client.GetOperatorAccountId());
             transactionIds[transactionIds.Index()] = newTransactionID;
@@ -1518,12 +1487,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             // NOTE: regex is for removing the instance address from the default debug output
             TransactionBody.Builder body = SpawnBodyBuilder(null);
-            if (!transactionIds.IsEmpty())
+            if (!transactionIds.IsEmpty)
             {
                 body.SetTransactionID(transactionIds[0].ToProtobuf());
             }
 
-            if (!nodeAccountIds.IsEmpty())
+            if (!nodeAccountIds.IsEmpty)
             {
                 body.SetNodeAccountID(nodeAccountIds[0].ToProtobuf());
             }
@@ -1545,7 +1514,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             return MakeRequest().GetSerializedSize();
         }
-
         /// <summary>
         /// This method retrieves the transaction body size
         /// </summary>
@@ -1563,34 +1531,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
 
             return 0;
-        }
-
-        public class SignableNodeTransactionBodyBytes
-        {
-            private AccountId nodeID;
-            private TransactionId transactionID;
-            private byte[] body;
-            public SignableNodeTransactionBodyBytes(AccountId nodeID, TransactionId transactionID, byte[] body)
-            {
-                nodeID = nodeID;
-                transactionID = transactionID;
-                body = body;
-            }
-
-            public virtual AccountId GetNodeID()
-            {
-                return nodeID;
-            }
-
-            public virtual TransactionId GetTransactionID()
-            {
-                return transactionID;
-            }
-
-            public virtual byte[] GetBody()
-            {
-                return body;
-            }
         }
 
         /// <summary>
@@ -1620,7 +1560,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             return signableNodeTransactionBodyBytesList;
         }
-
         /// <summary>
         /// Adds a signature to the transaction for a specific transaction id and node id.
         /// This is useful for signing chunked transactions like FileAppendTransaction,
@@ -1634,7 +1573,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <exception cref="RuntimeException">if unmarshaling fails or invalid signed transaction</exception>
         public virtual T AddSignature(PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
         {
-            if (innerSignedTransactions.IsEmpty())
+            if (innerSignedTransactions.IsEmpty)
             {
 
                 // noinspection unchecked
@@ -1655,38 +1594,26 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return (T)this;
         }
 
-        /// <summary>
-        /// Processes signature addition for a single transaction at the given index.
-        /// </summary>
-        /// <param name="index">The index of the transaction to process</param>
-        /// <param name="publicKey">The public key to add signature for</param>
-        /// <param name="signature">The signature bytes</param>
-        /// <param name="transactionID">The specific transaction ID to match</param>
-        /// <param name="nodeID">The specific node ID to match</param>
-        /// <returns>true if signature was added, false otherwise</returns>
-        private bool ProcessedSignatureForTransaction(int index, PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
-        {
-            SignedTransaction.Builder temp = innerSignedTransactions[index];
-            TransactionBody body = ParseTransactionBody(temp);
-            if (body == null)
-            {
-                return false;
-            }
+        
 
-            if (!MatchesTargetTransactionAndNode(body, transactionID, nodeID))
-            {
-                return false;
-            }
 
-            return AddSignatureIfNotExists(index, publicKey, signature);
-        }
-
-        /// <summary>
-        /// Parses the transaction body from a signed transaction builder.
-        /// </summary>
-        /// <param name="signedTransactionBuilder">The signed transaction builder</param>
-        /// <returns>The parsed transaction body, or null if parsing fails</returns>
-        private static TransactionBody ParseTransactionBody(SignedTransaction.Builder signedTransactionBuilder)
+		private static Proto.TransactionBody ParseTransactionBody(ByteString signedTransactionBuilder)
+		{
+			try
+			{
+				return TransactionBody.ParseFrom(signedTransactionBuilder);
+			}
+			catch (InvalidProtocolBufferException e)
+			{
+				throw new Exception("Failed to parse transaction body", e);
+			}
+		}
+		/// <summary>
+		/// Parses the transaction body from a signed transaction builder.
+		/// </summary>
+		/// <param name="signedTransactionBuilder">The signed transaction builder</param>
+		/// <returns>The parsed transaction body, or null if parsing fails</returns>
+		private static Proto.TransactionBody ParseTransactionBody(Proto.SignedTransaction signedTransactionBuilder)
         {
             try
             {
@@ -1698,80 +1625,91 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
         }
 
-        private static TransactionBody ParseTransactionBody(ByteString signedTransactionBuilder)
-        {
-            try
-            {
-                return TransactionBody.ParseFrom(signedTransactionBuilder);
-            }
-            catch (InvalidProtocolBufferException e)
-            {
-                throw new Exception("Failed to parse transaction body", e);
-            }
-        }
 
-        /// <summary>
-        /// Checks if the transaction body matches the target transaction ID and node ID.
-        /// </summary>
-        /// <param name="body">The transaction body to check</param>
-        /// <param name="targetTransactionID">The target transaction ID to match against</param>
-        /// <param name="targetNodeID">The target node ID to match against</param>
-        /// <returns>true if both the transaction ID and node ID match the targets, false otherwise</returns>
-        private bool MatchesTargetTransactionAndNode(TransactionBody body, TransactionId targetTransactionID, AccountId targetNodeID)
+		/// <summary>
+		/// Adds signature if it doesn't already exist for the given public key.
+		/// </summary>
+		/// <param name="index">The transaction index</param>
+		/// <param name="publicKey">The public key</param>
+		/// <param name="signature">The signature bytes</param>
+		/// <returns>true if signature was added, false if it already existed</returns>
+		private bool AddSignatureIfNotExists(int index, PublicKey publicKey, byte[] signature)
+		{
+			SignatureMap.Builder sigMapBuilder = sigPairLists[index];
+
+			// Check if the signature is already in the signature map
+			if (IsSignatureAlreadyPresent(sigMapBuilder, publicKey))
+			{
+				return false;
+			}
+
+
+			// Add the signature to the signature map
+			SignaturePair newSigPair = publicKey.ToSignaturePairProtobuf(signature);
+			sigMapBuilder.AddSigPair(newSigPair);
+			return true;
+		}
+		/// <summary>
+		/// Checks if a signature for the given public key already exists.
+		/// </summary>
+		/// <param name="sigMapBuilder">The signature map builder</param>
+		/// <param name="publicKey">The public key to check</param>
+		/// <returns>true if signature already exists, false otherwise</returns>
+		private bool IsSignatureAlreadyPresent(Proto.SignatureMap sigMapBuilder, PublicKey publicKey)
+		{
+			foreach (SignaturePair sig in sigMapBuilder.GetSigPairList())
+			{
+				if (Equals(sig.GetPubKeyPrefix().ToByteArray(), publicKey.ToBytesRaw()))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+		/// <summary>
+		/// Checks if the transaction body matches the target transaction ID and node ID.
+		/// </summary>
+		/// <param name="body">The transaction body to check</param>
+		/// <param name="targetTransactionID">The target transaction ID to match against</param>
+		/// <param name="targetNodeID">The target node ID to match against</param>
+		/// <returns>true if both the transaction ID and node ID match the targets, false otherwise</returns>
+		private bool MatchesTargetTransactionAndNode(Proto.TransactionBody body, TransactionId targetTransactionID, AccountId targetNodeID)
         {
             TransactionId bodyTxID = TransactionId.FromProtobuf(body.GetTransactionID());
             AccountId bodyNodeID = AccountId.FromProtobuf(body.GetNodeAccountID());
             return bodyTxID.ToString().Equals(targetTransactionID.ToString()) && bodyNodeID.ToString().Equals(targetNodeID.ToString());
         }
+		/// <summary>
+		/// Processes signature addition for a single transaction at the given index.
+		/// </summary>
+		/// <param name="index">The index of the transaction to process</param>
+		/// <param name="publicKey">The public key to add signature for</param>
+		/// <param name="signature">The signature bytes</param>
+		/// <param name="transactionID">The specific transaction ID to match</param>
+		/// <param name="nodeID">The specific node ID to match</param>
+		/// <returns>true if signature was added, false otherwise</returns>
+		private bool ProcessedSignatureForTransaction(int index, PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
+		{
+			SignedTransaction.Builder temp = innerSignedTransactions[index];
+			TransactionBody body = ParseTransactionBody(temp);
+			if (body == null)
+			{
+				return false;
+			}
 
-        /// <summary>
-        /// Adds signature if it doesn't already exist for the given public key.
-        /// </summary>
-        /// <param name="index">The transaction index</param>
-        /// <param name="publicKey">The public key</param>
-        /// <param name="signature">The signature bytes</param>
-        /// <returns>true if signature was added, false if it already existed</returns>
-        private bool AddSignatureIfNotExists(int index, PublicKey publicKey, byte[] signature)
-        {
-            SignatureMap.Builder sigMapBuilder = sigPairLists[index];
+			if (!MatchesTargetTransactionAndNode(body, transactionID, nodeID))
+			{
+				return false;
+			}
 
-            // Check if the signature is already in the signature map
-            if (IsSignatureAlreadyPresent(sigMapBuilder, publicKey))
-            {
-                return false;
-            }
-
-
-            // Add the signature to the signature map
-            SignaturePair newSigPair = publicKey.ToSignaturePairProtobuf(signature);
-            sigMapBuilder.AddSigPair(newSigPair);
-            return true;
-        }
-
-        /// <summary>
-        /// Checks if a signature for the given public key already exists.
-        /// </summary>
-        /// <param name="sigMapBuilder">The signature map builder</param>
-        /// <param name="publicKey">The public key to check</param>
-        /// <returns>true if signature already exists, false otherwise</returns>
-        private bool IsSignatureAlreadyPresent(SignatureMap.Builder sigMapBuilder, PublicKey publicKey)
-        {
-            foreach (SignaturePair sig in sigMapBuilder.GetSigPairList())
-            {
-                if (Equals(sig.GetPubKeyPrefix().ToByteArray(), publicKey.ToBytesRaw()))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Updates the transaction state after adding a signature.
-        /// </summary>
-        /// <param name="publicKey">The public key that was added</param>
-        private void UpdateTransactionState(PublicKey publicKey)
+			return AddSignatureIfNotExists(index, publicKey, signature);
+		}
+		/// <summary>
+		/// Updates the transaction state after adding a signature.
+		/// </summary>
+		/// <param name="publicKey">The public key that was added</param>
+		private void UpdateTransactionState(PublicKey publicKey)
         {
             publicKeys.Add(publicKey);
             signers.Add(null);

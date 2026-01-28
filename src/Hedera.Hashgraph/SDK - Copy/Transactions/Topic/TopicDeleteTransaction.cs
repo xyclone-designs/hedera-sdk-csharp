@@ -1,29 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
-using static Hedera.Hashgraph.SDK.TokenSupplyType;
-using static Hedera.Hashgraph.SDK.TokenType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Topic
 {
@@ -81,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicDeleteTransaction SetTopicId(TopicId topicId)
         {
-            Objects.RequireNonNull(topicId);
+            ArgumentNullException.ThrowIfNull(topicId);
             RequireNotFrozen();
             topicId = topicId;
             return this;
@@ -92,10 +71,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetConsensusDeleteTopic();
-            if (body.HasTopicID())
+            var body = sourceTransactionBody.ConsensusDeleteTopic;
+            if (body.TopicID is not null)
             {
-                topicId = TopicId.FromProtobuf(body.GetTopicID());
+                topicId = TopicId.FromProtobuf(body.TopicID);
             }
         }
 
@@ -104,12 +83,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         /// <returns>{@link
         ///         Proto.ConsensusDeleteTopicTransactionBody}</returns>
-        ConsensusDeleteTopicTransactionBody.Builder Build()
+        Proto.ConsensusDeleteTopicTransactionBody Build()
         {
-            var builder = ConsensusDeleteTopicTransactionBody.NewBuilder();
+            var builder = new Proto.ConsensusDeleteTopicTransactionBody();
             if (topicId != null)
             {
-                builder.SetTopicID(topicId.ToProtobuf());
+                builder.TopicID = topicId.ToProtobuf();
             }
 
             return builder;
@@ -128,14 +107,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
             return ConsensusServiceGrpc.GetDeleteTopicMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetConsensusDeleteTopic(Build());
+            bodyBuilder.ConsensusDeleteTopic = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetConsensusDeleteTopic(Build());
+            scheduled.ConsensusDeleteTopic = Build();
         }
     }
 }

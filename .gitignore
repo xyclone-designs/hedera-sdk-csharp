@@ -1,4 +1,4 @@
-src/.vs
+src/.vs/
 src/Hedera.Hashgraph/bin
 src/Hedera.Hashgraph/obj
 src/Hedera.Hashgraph.Tests/bin

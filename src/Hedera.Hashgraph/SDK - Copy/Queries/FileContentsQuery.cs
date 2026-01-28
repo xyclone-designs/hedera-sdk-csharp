@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public FileContentsQuery SetFileId(FileId fileId)
         {
-            Objects.RequireNonNull(fileId);
+            ArgumentNullException.ThrowIfNull(fileId);
             fileId = fileId;
             return this;
         }
@@ -80,10 +80,10 @@ namespace Hedera.Hashgraph.SDK.Queries
             var builder = FileGetContentsQuery.NewBuilder();
             if (fileId != null)
             {
-                builder.SetFileID(fileId.ToProtobuf());
+                builder.FileID(fileId.ToProtobuf());
             }
 
-            queryBuilder.SetFileGetContents(builder.SetHeader(header));
+            queryBuilder.SetFileGetContents(builder.Header(header));
         }
 
         override ResponseHeader MapResponseHeader(Response response)

@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenAirdropTransactionBody}</returns>
-        virtual TokenAirdropTransactionBody.Builder Build()
+        public virtual TokenAirdropTransactionBody.Builder Build()
         {
             var transfers = SortTransfersAndBuild();
             var builder = TokenAirdropTransactionBody.NewBuilder();
@@ -81,22 +81,22 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetAirdropTokensMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenAirdrop(Build());
+            bodyBuilder.TokenAirdrop = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenAirdrop(Build());
+            scheduled.TokenAirdrop = Build();
         }
 
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenAirdrop();
+            var body = sourceTransactionBody.TokenAirdrop();
             foreach (var tokenTransferList in body.GetTokenTransfersList())
             {
                 var token = TokenId.FromProtobuf(tokenTransferList.GetToken());

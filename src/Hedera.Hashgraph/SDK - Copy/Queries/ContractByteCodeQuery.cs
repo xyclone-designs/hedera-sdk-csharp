@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public ContractByteCodeQuery SetContractId(ContractId contractId)
         {
-            Objects.RequireNonNull(contractId);
+            ArgumentNullException.ThrowIfNull(contractId);
             contractId = contractId;
             return this;
         }
@@ -60,10 +60,10 @@ namespace Hedera.Hashgraph.SDK.Queries
             var builder = ContractGetBytecodeQuery.NewBuilder();
             if (contractId != null)
             {
-                builder.SetContractID(contractId.ToProtobuf());
+                builder.ContractID(contractId.ToProtobuf());
             }
 
-            queryBuilder.SetContractGetBytecode(builder.SetHeader(header));
+            queryBuilder.SetContractGetBytecode(builder.Header(header));
         }
 
         override ResponseHeader MapResponseHeader(Response response)

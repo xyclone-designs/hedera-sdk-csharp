@@ -1,29 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
-using static Hedera.Hashgraph.SDK.TokenSupplyType;
-using static Hedera.Hashgraph.SDK.TokenType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Topic
 {
@@ -84,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicMessageSubmitTransaction SetTopicId(TopicId topicId)
         {
-            Objects.RequireNonNull(topicId);
+            ArgumentNullException.ThrowIfNull(topicId);
             RequireNotFrozen();
             topicId = topicId;
             return this;
@@ -144,7 +125,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         public TopicMessageSubmitTransaction SetCustomFeeLimits(IList<CustomFeeLimit> customFeeLimits)
         {
-            Objects.RequireNonNull(customFeeLimits);
+            ArgumentNullException.ThrowIfNull(customFeeLimits);
             RequireNotFrozen();
             customFeeLimits = customFeeLimits;
             return this;
@@ -157,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// <returns>{@code this}</returns>
         public TopicMessageSubmitTransaction AddCustomFeeLimit(CustomFeeLimit customFeeLimit)
         {
-            Objects.RequireNonNull(customFeeLimit);
+            ArgumentNullException.ThrowIfNull(customFeeLimit);
             RequireNotFrozen();
             if (customFeeLimits != null)
             {
@@ -187,29 +168,29 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetConsensusSubmitMessage();
-            if (body.HasTopicID())
+            var body = sourceTransactionBody.ConsensusSubmitMessage;
+            if (body.TopicID is not null)
             {
-                topicId = TopicId.FromProtobuf(body.GetTopicID());
+                topicId = TopicId.FromProtobuf(body.TopicID);
             }
 
-            if (!innerSignedTransactions.IsEmpty())
+            if (innerSignedTransactions.Count != 0)
             {
                 try
                 {
-                    for (var i = 0; i < innerSignedTransactions.Count; i += nodeAccountIds.IsEmpty() ? 1 : nodeAccountIds.Count)
+                    for (var i = 0; i < innerSignedTransactions.Count; i += nodeAccountIds.IsEmpty ? 1 : nodeAccountIds.Count)
                     {
-                        data = data.Concat(TransactionBody.ParseFrom(innerSignedTransactions[i].GetBodyBytes()).GetConsensusSubmitMessage().GetMessage());
+                        data = data.Concat(Proto.TransactionBody.Parser.ParseFrom(innerSignedTransactions[i].BodyBytes).ConsensusSubmitMessage.Message);
                     }
                 }
                 catch (InvalidProtocolBufferException exc)
                 {
-                    throw new ArgumentException(exc.GetMessage());
+                    throw new ArgumentException(exc.Message);
                 }
             }
             else
             {
-                data = body.GetMessage();
+                data = body.Message;
             }
         }
 
@@ -218,15 +199,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         /// <returns>{@link
         ///         Proto.ConsensusSubmitMessageTransactionBody}</returns>
-        ConsensusSubmitMessageTransactionBody.Builder Build()
+        Proto.ConsensusSubmitMessageTransactionBody Build()
         {
-            var builder = ConsensusSubmitMessageTransactionBody.NewBuilder();
+            var builder = new Proto.ConsensusSubmitMessageTransactionBody();
             if (topicId != null)
             {
-                builder.SetTopicID(topicId.ToProtobuf());
+                builder.TopicID = topicId.ToProtobuf();
             }
 
-            builder.SetMessage(data);
+            builder.Message = data;
             return builder;
         }
 
@@ -243,26 +224,35 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
             return ConsensusServiceGrpc.GetSubmitMessageMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetConsensusSubmitMessage(Build());
+            bodyBuilder.ConsensusSubmitMessage = Build();
         }
 
-        override void OnFreezeChunk(TransactionBody.Builder body, TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total)
+        override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total)
         {
             if (total == 1)
             {
-                body.SetConsensusSubmitMessage(Build().SetMessage(data.Substring(startIndex, endIndex)));
+                body.ConsensusSubmitMessage = Build();
+                body.ConsensusSubmitMessage.Message = data[startIndex .. endIndex];
             }
             else
             {
-                body.SetConsensusSubmitMessage(Build().SetMessage(data.Substring(startIndex, endIndex)).SetChunkInfo(ConsensusMessageChunkInfo.NewBuilder().SetInitialTransactionID(Objects.RequireNonNull(initialTransactionId)).SetNumber(chunk + 1).SetTotal(total)));
+                body.ConsensusSubmitMessage = Build();
+				body.ConsensusSubmitMessage.Message = data[startIndex..endIndex];
+                body.ConsensusSubmitMessage.ChunkInfo = new Proto.ConsensusMessageChunkInfo
+                {
+					InitialTransactionID = initialTransactionId,
+					Number = chunk + 1,
+					Total = total,
+				};
             }
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetConsensusSubmitMessage(Build().SetMessage(data));
+            scheduled.ConsensusSubmitMessage = Build();
+            scheduled.ConsensusSubmitMessage.Message = data;
         }
     }
 }

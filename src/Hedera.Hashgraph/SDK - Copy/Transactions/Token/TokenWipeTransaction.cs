@@ -1,29 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
-using static Hedera.Hashgraph.SDK.TokenSupplyType;
-using static Hedera.Hashgraph.SDK.TokenType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -52,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         private TokenId tokenId = null;
         private AccountId accountId = null;
         private long amount = 0;
-        private IList<long> serials = new ();
+        private IList<long> serials = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -100,7 +81,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenWipeTransaction SetTokenId(TokenId tokenId)
         {
-            Objects.RequireNonNull(tokenId);
+            ArgumentNullException.ThrowIfNull(tokenId);
             RequireNotFrozen();
             tokenId = tokenId;
             return this;
@@ -130,7 +111,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenWipeTransaction SetAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             accountId = accountId;
             return this;
@@ -178,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>                         the list of serial numbers</returns>
         public virtual IList<long> GetSerials()
         {
-            return new List(serials);
+            return [.. serials];
         }
 
         /// <summary>
@@ -208,8 +189,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenWipeTransaction SetSerials(IList<long> serials)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(serials);
-            serials = new List(serials);
+            ArgumentNullException.ThrowIfNull(serials);
+            serials = [.. serials];
             return this;
         }
 
@@ -228,21 +209,22 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenWipe();
-            if (body.HasToken())
+            var body = sourceTransactionBody.TokenWipe;
+
+            if (body.Token is not null)
             {
-                tokenId = TokenId.FromProtobuf(body.GetToken());
+                tokenId = TokenId.FromProtobuf(body.Token);
             }
 
-            if (body.HasAccount())
+            if (body.Account is not null)
             {
-                accountId = AccountId.FromProtobuf(body.GetAccount());
+                accountId = AccountId.FromProtobuf(body.Account);
             }
 
-            amount = body.GetAmount();
-            serials = body.GetSerialNumbersList();
+            amount = body.Amount;
+            serials = body.SerialNumbers;
         }
 
         /// <summary>
@@ -250,23 +232,25 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenWipeAccountTransactionBody}</returns>
-        virtual TokenWipeAccountTransactionBody.Builder Build()
+        public virtual Proto.TokenWipeAccountTransactionBody Build()
         {
-            var builder = TokenWipeAccountTransactionBody.NewBuilder();
+            var builder = new Proto.TokenWipeAccountTransactionBody();
+
             if (tokenId != null)
             {
-                builder.SetToken(tokenId.ToProtobuf());
+                builder.Token = tokenId.ToProtobuf();
             }
 
             if (accountId != null)
             {
-                builder.SetAccount(accountId.ToProtobuf());
+                builder.Account = accountId.ToProtobuf();
             }
 
-            builder.SetAmount(amount);
+            builder.Amount = amount;
+
             foreach (var serial in serials)
             {
-                builder.AddSerialNumbers(serial);
+                builder.SerialNumbers.Add(serial);
             }
 
             return builder;
@@ -290,14 +274,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetWipeTokenAccountMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenWipe(Build());
+            bodyBuilder.TokenWipe = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenWipe(Build());
+            scheduled.TokenWipe = Build();
         }
     }
 }

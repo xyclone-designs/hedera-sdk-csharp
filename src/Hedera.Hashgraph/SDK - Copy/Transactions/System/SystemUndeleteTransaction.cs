@@ -1,27 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions.System
 {
@@ -108,7 +92,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
         /// <returns>{@code this}</returns>
         public SystemUndeleteTransaction SetFileId(FileId fileId)
         {
-            Objects.RequireNonNull(fileId);
+            ArgumentNullException.ThrowIfNull(fileId);
             RequireNotFrozen();
             fileId = fileId;
             return this;
@@ -136,7 +120,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
         /// <returns>{@code this}</returns>
         public SystemUndeleteTransaction SetContractId(ContractId contractId)
         {
-            Objects.RequireNonNull(contractId);
+            ArgumentNullException.ThrowIfNull(contractId);
             RequireNotFrozen();
             contractId = contractId;
             return this;
@@ -147,15 +131,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetSystemUndelete();
-            if (body.HasFileID())
+            var body = sourceTransactionBody.SystemUndelete;
+            if (body.FileID is not null)
             {
-                fileId = FileId.FromProtobuf(body.GetFileID());
+                fileId = FileId.FromProtobuf(body.FileID);
             }
 
-            if (body.HasContractID())
+            if (body.ContractID is not null)
             {
-                contractId = ContractId.FromProtobuf(body.GetContractID());
+                contractId = ContractId.FromProtobuf(body.ContractID);
             }
         }
 
@@ -163,23 +147,23 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.SystemUndeleteTransactionBody}</returns>
-        SystemUndeleteTransactionBody.Builder Build()
+        public Proto.SystemUndeleteTransactionBody Build()
         {
-            var builder = SystemUndeleteTransactionBody.NewBuilder();
+            var builder = new Proto.SystemUndeleteTransactionBody();
             if (fileId != null)
             {
-                builder.SetFileID(fileId.ToProtobuf());
+                builder.FileID = fileId.ToProtobuf();
             }
 
             if (contractId != null)
             {
-                builder.SetContractID(contractId.ToProtobuf());
+                builder.ContractID = contractId.ToProtobuf();
             }
 
             return builder;
         }
 
-        override void ValidateChecksums(Client client)
+        public override void ValidateChecksums(Client client)
         {
             if (fileId != null)
             {
@@ -191,19 +175,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
                 contractId.ValidateChecksum(client);
             }
         }
-
-        override Task OnExecuteAsync(Client client)
+        public override Task OnExecuteAsync(Client client)
         {
             int modesEnabled = (fileId != null ? 1 : 0) + (contractId != null ? 1 : 0);
             if (modesEnabled != 1)
             {
                 throw new InvalidOperationException("SystemDeleteTransaction must have exactly 1 of the following fields set: contractId, fileId");
             }
-
-            return base.OnExecuteAsync(client);
         }
-
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
             if (fileId != null)
             {
@@ -214,15 +194,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
                 return SmartContractServiceGrpc.GetSystemUndeleteMethod();
             }
         }
-
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetSystemUndelete(Build());
+            bodyBuilder.SystemUndelete = Build();
         }
-
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetSystemUndelete(Build());
+            scheduled.SystemUndelete = Build();
         }
     }
 }

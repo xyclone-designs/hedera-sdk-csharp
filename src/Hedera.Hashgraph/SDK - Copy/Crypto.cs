@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 using Org.BouncyCastle.Math.EC;
+using Org.BouncyCastle.Math;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -27,28 +28,28 @@ namespace Hedera.Hashgraph.SDK
     /// </summary>
     sealed class Crypto
     {
-        static readonly int IV_LEN = 16;
-        static readonly int ITERATIONS = 262144;
-        static readonly int SALT_LEN = 32;
-        static readonly int DK_LEN = 32;
-        // OpenSSL doesn't like longer derived keys
-        static readonly int CBC_DK_LEN = 16;
-        static readonly X9ECParameters ECDSA_SECP256K1_CURVE = SecNamedCurves.GetByName("secp256k1");
-        static readonly ECDomainParameters ECDSA_SECP256K1_DOMAIN = new (ECDSA_SECP256K1_CURVE.Curve, ECDSA_SECP256K1_CURVE.G, ECDSA_SECP256K1_CURVE.N, ECDSA_SECP256K1_CURVE.H);
+		internal static readonly int IV_LEN = 16;
+        internal static readonly int ITERATIONS = 262144;
+		internal static readonly int SALT_LEN = 32;
+        internal static readonly int DK_LEN = 32;
+		// OpenSSL doesn't like longer derived keys
+		internal static readonly int CBC_DK_LEN = 16;
+        internal static readonly X9ECParameters ECDSA_SECP256K1_CURVE = SecNamedCurves.GetByName("secp256k1");
+        internal static readonly ECDomainParameters ECDSA_SECP256K1_DOMAIN = new (ECDSA_SECP256K1_CURVE.Curve, ECDSA_SECP256K1_CURVE.G, ECDSA_SECP256K1_CURVE.N, ECDSA_SECP256K1_CURVE.H);
         /// <summary>
         /// Constructor.
         /// </summary>
         private Crypto() { }
 
-        /// <summary>
-        /// Derive a sha 256 key.
-        /// </summary>
-        /// <param name="passphrase">the password will be converted into bytes</param>
-        /// <param name="salt">the salt to be mixed in</param>
-        /// <param name="iterations">the iterations for mixing</param>
-        /// <param name="dkLenBytes">the key length in bytes</param>
-        /// <returns>                         the key parameter object</returns>
-        static KeyParameter DeriveKeySha256(string passphrase, byte[] salt, int iterations, int dkLenBytes)
+		/// <summary>
+		/// Derive a sha 256 key.
+		/// </summary>
+		/// <param name="passphrase">the password will be converted into bytes</param>
+		/// <param name="salt">the salt to be mixed in</param>
+		/// <param name="iterations">the iterations for mixing</param>
+		/// <param name="dkLenBytes">the key length in bytes</param>
+		/// <returns>                         the key parameter object</returns>
+		internal static KeyParameter DeriveKeySha256(string passphrase, byte[] salt, int iterations, int dkLenBytes)
         {
 			Pkcs5S2ParametersGenerator gen = new (new Sha256Digest());
             gen.Init(passphrase.GetBytes(StandardCharsets.UTF_8), salt, iterations);
@@ -56,14 +57,14 @@ namespace Hedera.Hashgraph.SDK
             return (KeyParameter)gen.GenerateDerivedParameters(dkLenBytes * 8);
         }
 
-        /// <summary>
-        /// Initialize an advanced encryption standard counter mode cipher.
-        /// </summary>
-        /// <param name="cipherKey">the cipher key</param>
-        /// <param name="iv">the initialization vector byte array</param>
-        /// <param name="forDecrypt">is this for decryption</param>
-        /// <returns>                         the aes ctr cipher</returns>
-        static Cipher InitAesCtr128(KeyParameter cipherKey, byte[] iv, bool forDecrypt)
+		/// <summary>
+		/// Initialize an advanced encryption standard counter mode cipher.
+		/// </summary>
+		/// <param name="cipherKey">the cipher key</param>
+		/// <param name="iv">the initialization vector byte array</param>
+		/// <param name="forDecrypt">is this for decryption</param>
+		/// <returns>                         the aes ctr cipher</returns>
+		internal static Cipher InitAesCtr128(KeyParameter cipherKey, byte[] iv, bool forDecrypt)
         {
             Cipher aesCipher;
             try
@@ -82,14 +83,14 @@ namespace Hedera.Hashgraph.SDK
             return InitAesCipher(aesCipher, cipherKey, iv, forDecrypt);
         }
 
-        /// <summary>
-        /// Initialize an advanced encryption standard cipher block chaining mode
-        /// cipher for encryption.
-        /// </summary>
-        /// <param name="cipherKey">the cipher key</param>
-        /// <param name="iv">the initialization vector byte array</param>
-        /// <returns>                         the aes cbc cipher</returns>
-        static Cipher InitAesCbc128Encrypt(KeyParameter cipherKey, byte[] iv)
+		/// <summary>
+		/// Initialize an advanced encryption standard cipher block chaining mode
+		/// cipher for encryption.
+		/// </summary>
+		/// <param name="cipherKey">the cipher key</param>
+		/// <param name="iv">the initialization vector byte array</param>
+		/// <returns>                         the aes cbc cipher</returns>
+		internal static Cipher InitAesCbc128Encrypt(KeyParameter cipherKey, byte[] iv)
         {
             Cipher aesCipher;
             try
@@ -108,14 +109,14 @@ namespace Hedera.Hashgraph.SDK
             return InitAesCipher(aesCipher, cipherKey, iv, false);
         }
 
-        /// <summary>
-        /// Initialize an advanced encryption standard cipher block chaining mode
-        /// cipher for decryption.
-        /// </summary>
-        /// <param name="cipherKey">the cipher key</param>
-        /// <param name="parameters">the algorithm parameters</param>
-        /// <returns>                         the aes cbc cipher</returns>
-        static Cipher InitAesCbc128Decrypt(KeyParameter cipherKey, AlgorithmParameters parameters)
+		/// <summary>
+		/// Initialize an advanced encryption standard cipher block chaining mode
+		/// cipher for decryption.
+		/// </summary>
+		/// <param name="cipherKey">the cipher key</param>
+		/// <param name="parameters">the algorithm parameters</param>
+		/// <returns>                         the aes cbc cipher</returns>
+		internal static Cipher InitAesCbc128Decrypt(KeyParameter cipherKey, AlgorithmParameters parameters)
         {
             Cipher aesCipher;
             try
@@ -147,15 +148,15 @@ namespace Hedera.Hashgraph.SDK
             return aesCipher;
         }
 
-        /// <summary>
-        /// Create a new aes cipher.
-        /// </summary>
-        /// <param name="aesCipher">the aes cipher</param>
-        /// <param name="cipherKey">the cipher key</param>
-        /// <param name="iv">the initialization vector byte array</param>
-        /// <param name="forDecrypt">is this for decryption True or encryption False</param>
-        /// <returns>                         the new aes cipher</returns>
-        private static Cipher InitAesCipher(Cipher aesCipher, KeyParameter cipherKey, byte[] iv, bool forDecrypt)
+		/// <summary>
+		/// Create a new aes cipher.
+		/// </summary>
+		/// <param name="aesCipher">the aes cipher</param>
+		/// <param name="cipherKey">the cipher key</param>
+		/// <param name="iv">the initialization vector byte array</param>
+		/// <param name="forDecrypt">is this for decryption True or encryption False</param>
+		/// <returns>                         the new aes cipher</returns>
+		internal private static Cipher InitAesCipher(Cipher aesCipher, KeyParameter cipherKey, byte[] iv, bool forDecrypt)
         {
             int mode = forDecrypt ? Cipher.DECRYPT_MODE : Cipher.ENCRYPT_MODE;
             try
@@ -174,39 +175,39 @@ namespace Hedera.Hashgraph.SDK
             return aesCipher;
         }
 
-        /// <summary>
-        /// Encrypt a byte array with the aes ctr cipher.
-        /// </summary>
-        /// <param name="cipherKey">the cipher key</param>
-        /// <param name="iv">the initialization vector</param>
-        /// <param name="input">the byte array to encrypt</param>
-        /// <returns>                         the encrypted byte array</returns>
-        static byte[] EncryptAesCtr128(KeyParameter cipherKey, byte[] iv, byte[] input)
+		/// <summary>
+		/// Encrypt a byte array with the aes ctr cipher.
+		/// </summary>
+		/// <param name="cipherKey">the cipher key</param>
+		/// <param name="iv">the initialization vector</param>
+		/// <param name="input">the byte array to encrypt</param>
+		/// <returns>                         the encrypted byte array</returns>
+		internal static byte[] EncryptAesCtr128(KeyParameter cipherKey, byte[] iv, byte[] input)
         {
             Cipher aesCipher = InitAesCtr128(cipherKey, iv, false);
             return RunCipher(aesCipher, input);
         }
 
-        /// <summary>
-        /// Decrypt a byte array with the aes ctr cipher.
-        /// </summary>
-        /// <param name="cipherKey">the cipher key</param>
-        /// <param name="iv">the initialization vector</param>
-        /// <param name="input">the byte array to decrypt</param>
-        /// <returns>                         the decrypted byte array</returns>
-        static byte[] DecryptAesCtr128(KeyParameter cipherKey, byte[] iv, byte[] input)
+		/// <summary>
+		/// Decrypt a byte array with the aes ctr cipher.
+		/// </summary>
+		/// <param name="cipherKey">the cipher key</param>
+		/// <param name="iv">the initialization vector</param>
+		/// <param name="input">the byte array to decrypt</param>
+		/// <returns>                         the decrypted byte array</returns>
+		internal static byte[] DecryptAesCtr128(KeyParameter cipherKey, byte[] iv, byte[] input)
         {
             Cipher aesCipher = InitAesCtr128(cipherKey, iv, true);
             return RunCipher(aesCipher, input);
         }
 
-        /// <summary>
-        /// Run the cipher on the given input.
-        /// </summary>
-        /// <param name="cipher">the cipher</param>
-        /// <param name="input">the byte array</param>
-        /// <returns>                         the output of running the cipher</returns>
-        static byte[] RunCipher(Cipher cipher, byte[] input)
+		/// <summary>
+		/// Run the cipher on the given input.
+		/// </summary>
+		/// <param name="cipher">the cipher</param>
+		/// <param name="input">the byte array</param>
+		/// <returns>                         the output of running the cipher</returns>
+		internal static byte[] RunCipher(Cipher cipher, byte[] input)
         {
             byte[] output = new byte[cipher.GetOutputSize(input.Length)];
             try
@@ -229,15 +230,15 @@ namespace Hedera.Hashgraph.SDK
             return output;
         }
 
-        /// <summary>
-        /// Calculate a hash message authentication code using the secure hash
-        /// algorithm variant 384.
-        /// </summary>
-        /// <param name="cipherKey">the cipher key</param>
-        /// <param name="iv">the initialization vector</param>
-        /// <param name="input">the byte array</param>
-        /// <returns>                         the hmac using sha 384</returns>
-        static byte[] CalcHmacSha384(KeyParameter cipherKey, byte[] iv, byte[] input)
+		/// <summary>
+		/// Calculate a hash message authentication code using the secure hash
+		/// algorithm variant 384.
+		/// </summary>
+		/// <param name="cipherKey">the cipher key</param>
+		/// <param name="iv">the initialization vector</param>
+		/// <param name="input">the byte array</param>
+		/// <returns>                         the hmac using sha 384</returns>
+		internal static byte[] CalcHmacSha384(KeyParameter cipherKey, byte[] iv, byte[] input)
         {
             HMac hmacSha384 = new (new Sha384Digest());
             byte[] output = new byte[hmacSha384.GetMacSize()];
@@ -252,24 +253,33 @@ namespace Hedera.Hashgraph.SDK
             return output;
         }
 
-        /// <summary>
-        /// Calculate a keccak 256-bit hash.
-        /// </summary>
-        /// <param name="message">the message to be hashed</param>
-        /// <returns>                         the hash</returns>
-        static byte[] CalcKeccak256(byte[] message)
+		/// <summary>
+		/// Calculate a keccak 256-bit hash.
+		/// </summary>
+		/// <param name="message">the message to be hashed</param>
+		/// <returns>                         the hash</returns>
+		internal static byte[] CalcKeccak256(byte[] message)
         {
             var digest = new Digest256();
             digest.Update(message);
             return digest.Digest();
-        }
 
-        /// <summary>
-        /// Generate some randomness.
-        /// </summary>
-        /// <param name="len">the number of bytes requested</param>
-        /// <returns>                         the byte array of randomness</returns>
-        static byte[] RandomBytes(int len)
+			// Note: KeccakDigest(256) is NOT the same as Sha3Digest(256)
+			var digest = new KeccakDigest(256);
+			var output = new byte[digest.GetDigestSize()];
+
+			digest.BlockUpdate(input, 0, input.Length);
+			digest.DoFinal(output, 0);
+
+			return output;
+		}
+
+		/// <summary>
+		/// Generate some randomness.
+		/// </summary>
+		/// <param name="len">the number of bytes requested</param>
+		/// <returns>                         the byte array of randomness</returns>
+		internal static byte[] RandomBytes(int len)
         {
             byte[] _out = new byte[len];
             ThreadLocalSecureRandom.Current().NextBytes(_out);
@@ -288,7 +298,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="s">The S component of the signature.</param>
         /// <param name="messageHash">Hash of the data that was signed.</param>
         /// <returns>A ECKey containing only the public part, or {@code null} if recovery wasn't possible.</returns>
-        static byte[]? RecoverPublicKeyECDSAFromSignature(int recId, BigInteger r, BigInteger s, byte[] messageHash)
+        internal static byte[]? RecoverPublicKeyECDSAFromSignature(int recId, BigInteger r, BigInteger s, byte[] messageHash)
         {
             if (!(recId == 0 || recId == 1))
             {

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Ids;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -83,68 +84,30 @@ namespace Hedera.Hashgraph.SDK
             earliestReadmitTime = Timestamp.Now().Plus(minNodeReadmitTime);
         }
 
-        /// <summary>
-        /// Extract the ledger id.
-        /// </summary>
-        /// <returns>                         the ledger id</returns>
-        virtual LedgerId GetLedgerId()
-        {
-            lock (this)
-            {
-                return ledgerId;
-            }
-        }
+		/// <summary>
+		/// Set the new LedgerId for this network. LedgerIds are used for TLS certificate checking and entity ID
+		/// checksum validation.
+		/// </summary>
+		public virtual LedgerId LedgerId
+		{
+			get { lock (this) return field; }
+			set { lock (this) field = value; }
+		}
 
-        /// <summary>
-        /// Set the new LedgerId for this network. LedgerIds are used for TLS certificate checking and entity ID
-        /// checksum validation.
-        /// </summary>
-        /// <param name="ledgerId">the ledger id</param>
-        /// <returns>{@code this}</returns>
-        virtual BaseNetworkT SetLedgerId(LedgerId ledgerId)
-        {
-            lock (this)
-            {
-                ledgerId = ledgerId;
+		/// <summary>
+		/// Set the max number of times a node can return a bad gRPC status before we remove it from the list.
+		/// </summary>
+		public virtual int MaxNodeAttempts
+		{
+			get { lock (this) return field; }
+			set { lock (this) field = value; }
+		}
 
-                // noinspection unchecked
-                return (BaseNetworkT)this;
-            }
-        }
-
-        /// <summary>
-        /// Extract the node attempts.
-        /// </summary>
-        /// <returns>                         maximum node attempts</returns>
-        virtual int GetMaxNodeAttempts()
-        {
-            lock (this)
-            {
-                return maxNodeAttempts;
-            }
-        }
-
-        /// <summary>
-        /// Set the max number of times a node can return a bad gRPC status before we remove it from the list.
-        /// </summary>
-        /// <param name="maxNodeAttempts">the max node attempts</param>
-        /// <returns>{@code this}</returns>
-        virtual BaseNetworkT SetMaxNodeAttempts(int maxNodeAttempts)
-        {
-            lock (this)
-            {
-                maxNodeAttempts = maxNodeAttempts;
-
-                // noinspection unchecked
-                return (BaseNetworkT)this;
-            }
-        }
-
-        /// <summary>
-        /// Extract the minimum node backoff time.
-        /// </summary>
-        /// <returns>                         the minimum node backoff time</returns>
-        virtual Duration GetMinNodeBackoff()
+		/// <summary>
+		/// Extract the minimum node backoff time.
+		/// </summary>
+		/// <returns>                         the minimum node backoff time</returns>
+		public virtual Duration Get()
         {
             lock (this)
             {
@@ -152,148 +115,90 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        /// <summary>
-        /// Set the minimum backoff a node should use when receiving a bad gRPC status.
-        /// </summary>
-        /// <param name="minNodeBackoff">the min node backoff</param>
-        /// <returns>{@code this}</returns>
-        virtual BaseNetworkT SetMinNodeBackoff(Duration minNodeBackoff)
-        {
-            lock (this)
+		/// <summary>
+		/// Set the minimum backoff a node should use when receiving a bad gRPC status.
+		/// </summary>
+		public virtual Duration MinNodeBackoff
+		{
+			get { lock (this) return field; }
+			set 
             {
-                minNodeBackoff = minNodeBackoff;
-                foreach (var node in nodes)
+                lock (this)
                 {
-                    node.SetMinBackoff(minNodeBackoff);
-                }
-
-
-                // noinspection unchecked
-                return (BaseNetworkT)this;
+                    field = value;
+					foreach (var node in nodes)
+					{
+						node.SetMinBackoff(minNodeBackoff);
+					}
+				} 
             }
-        }
+		}
 
-        /// <summary>
-        /// Extract the maximum node backoff time.
-        /// </summary>
-        /// <returns>                         the maximum node backoff time</returns>
-        virtual Duration GetMaxNodeBackoff()
-        {
-            lock (this)
-            {
-                return maxNodeBackoff;
-            }
-        }
+		/// <summary>
+		/// Extract the maximum node backoff time.
+		/// </summary>
+		public virtual Duration MaxNodeBackoff
+		{
+			get { lock (this) return field; }
+			set
+			{
+				lock (this)
+				{
+					field = value;
 
-        /// <summary>
-        /// Set the maximum backoff a node should use when receiving a bad gRPC status.
-        /// </summary>
-        /// <param name="maxNodeBackoff">the max node backoff</param>
-        /// <returns>{@code this}</returns>
-        virtual BaseNetworkT SetMaxNodeBackoff(Duration maxNodeBackoff)
-        {
-            lock (this)
-            {
-                maxNodeBackoff = maxNodeBackoff;
-                foreach (var node in nodes)
-                {
-                    node.SetMaxBackoff(maxNodeBackoff);
-                }
-
-
-                // noinspection unchecked
-                return (BaseNetworkT)this;
-            }
-        }
-
-        /// <summary>
-        /// Extract the minimum node readmit time.
-        /// </summary>
-        /// <returns>                         the minimum node readmit time</returns>
-        public virtual Duration GetMinNodeReadmitTime()
-        {
-            lock (this)
-            {
-                return minNodeReadmitTime;
-            }
-        }
+					foreach (var node in nodes)
+						node.SetMaxBackoff(value) = Timestamp.FromDateTime(DateTime.UtcNow);
+				}
+			}
+		}
 
         /// <summary>
         /// Assign the minimum node readmit time.
         /// </summary>
-        /// <param name="minNodeReadmitTime">the minimum node readmit time</param>
-        public virtual void SetMinNodeReadmitTime(Duration minNodeReadmitTime)
-        {
-            lock (this)
+		public virtual Duration MinNodeReadmitTime
+		{
+			get { lock (this) return field; }
+			set 
             {
-                minNodeReadmitTime = minNodeReadmitTime;
-                foreach (var node in nodes)
+                lock (this)
                 {
-                    node.readmitTime = Timestamp.Now();
-                }
+					field = value;
+
+					foreach (var node in nodes)
+						node.ReadmitTime = Timestamp.FromDateTime(DateTime.UtcNow);
+				}
             }
-        }
+		}
 
-        /// <summary>
-        /// Extract the maximum node readmit time.
-        /// </summary>
-        /// <returns>                         the maximum node readmit time</returns>
-        public virtual Duration GetMaxNodeReadmitTime()
-        {
-            return maxNodeReadmitTime;
-        }
+		public virtual Duration MaxNodeReadmitTime
+		{
+			get { lock (this) return field; }
+			set { lock (this) field = value; }
+		}
 
-        /// <summary>
-        /// Assign the maximum node readmit time.
-        /// </summary>
-        /// <param name="maxNodeReadmitTime">the maximum node readmit time</param>
-        public virtual void SetMaxNodeReadmitTime(Duration maxNodeReadmitTime)
-        {
-            maxNodeReadmitTime = maxNodeReadmitTime;
-        }
-
-        /// <summary>
-        /// Is transport Security enabled?
-        /// </summary>
-        /// <returns>                         using transport security</returns>
-        virtual bool IsTransportSecurity()
+		/// <summary>
+		/// Is transport Security enabled?
+		/// </summary>
+		/// <returns>                         using transport security</returns>
+		public virtual bool IsTransportSecurity()
         {
             return transportSecurity;
         }
 
-        /// <summary>
-        /// Extract the close timeout.
-        /// </summary>
-        /// <returns>                         the close timeout</returns>
-        virtual Duration GetCloseTimeout()
-        {
-            lock (this)
-            {
-                return closeTimeout;
-            }
-        }
-
-        /// <summary>
-        /// Assign the close timeout.
-        /// </summary>
-        /// <param name="closeTimeout">the close timeout</param>
-        /// <returns>{@code this}</returns>
-        virtual BaseNetworkT SetCloseTimeout(Duration closeTimeout)
-        {
-            lock (this)
-            {
-                closeTimeout = closeTimeout;
-
-                // noinspection unchecked
-                return (BaseNetworkT)this;
-            }
-        }
+		/// <summary>
+		/// Assign the close timeout.
+		/// </summary>
+		public virtual Duration CloseTimeout
+		{
+			get { lock (this) return field; }
+			set { lock (this) field = value; }
+		}
 
         protected abstract BaseNodeT CreateNodeFromNetworkEntry(Map.Entry<String, KeyT> entry);
         /// <summary>
         /// Returns a list of index in descending order to remove from the current node list.
         /// 
-        /// Descending order is important here because {@link BaseNetwork#setNetwork(Map<String, KeyT>)} uses a for-each loop.
+        /// Descending order is important here because {@link BaseNetwork#setNetwork(IDictionary<String, KeyT>)} uses a for-each loop.
         /// </summary>
         /// <param name="network">- the new network</param>
         /// <returns>- list of indexes in descending order</returns>
@@ -337,7 +242,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>- {@code this}</returns>
         /// <exception cref="TimeoutException">- when shutting down nodes</exception>
         /// <exception cref="InterruptedException">- when acquiring the lock</exception>
-        virtual BaseNetworkT SetNetwork(Dictionary<string, KeyT> network)
+        public virtual BaseNetworkT SetNetwork(Dictionary<string, KeyT> network)
         {
             lock (this)
             {
@@ -393,7 +298,7 @@ namespace Hedera.Hashgraph.SDK
                     {
                         var list = new List<BaseNodeT>();
                         list.Add(node);
-                        newNetwork.Put(node.GetKey(), list);
+                        newNetwork.Add(node.GetKey(), list);
                     }
 
                     newHealthyNodes.Add(node);
@@ -410,7 +315,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        virtual void IncreaseBackoff(BaseNodeT node)
+        public virtual void IncreaseBackoff(BaseNodeT node)
         {
             lock (this)
             {
@@ -419,7 +324,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        virtual void DecreaseBackoff(BaseNodeT node)
+        public virtual void DecreaseBackoff(BaseNodeT node)
         {
             lock (this)
             {
@@ -431,7 +336,7 @@ namespace Hedera.Hashgraph.SDK
         {
             var nodesForKey = network[node.GetKey()];
             nodesForKey.Remove(node);
-            if (nodesForKey.IsEmpty())
+            if (nodesForKey.IsEmpty)
             {
                 network.Remove(node.GetKey());
             }
@@ -461,7 +366,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 for (int i = nodes.size() - 1; i >= 0; i--)
                 {
-                    var node = Objects.RequireNonNull(nodes[i]);
+                    var node = ArgumentNullException.ThrowIfNull(nodes[i]);
                     if (node.GetBadGrpcStatusCount() >= maxNodeAttempts)
                     {
                         node.Dispose(closeTimeout);
@@ -478,7 +383,7 @@ namespace Hedera.Hashgraph.SDK
         /// a new value. This value is either the value of the node with the smallest readmission time from now,
         /// or `minNodeReadmitTime` or `maxNodeReadmitTime`.
         /// </summary>
-        virtual void ReadmitNodes()
+        public virtual void ReadmitNodes()
         {
             lock (this)
             {
@@ -528,7 +433,7 @@ namespace Hedera.Hashgraph.SDK
         /// Get a random healthy node.
         /// </summary>
         /// <returns>                         the node</returns>
-        virtual BaseNodeT GetRandomNode()
+        public virtual BaseNodeT GetRandomNode()
         {
             lock (this)
             {
@@ -537,7 +442,7 @@ namespace Hedera.Hashgraph.SDK
                 // Note: Readmitting nodes will only happen periodically so calling it each time should not harm
                 // performance.
                 ReadmitNodes();
-                if (healthyNodes.IsEmpty())
+                if (healthyNodes.IsEmpty)
                 {
                     throw new InvalidOperationException("No healthy node was found");
                 }
@@ -551,7 +456,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="key">the desired key</param>
         /// <returns>                         the list of node proxies</returns>
-        virtual IList<BaseNodeT> GetNodeProxies(KeyT key)
+        public virtual IList<BaseNodeT> GetNodeProxies(KeyT key)
         {
             lock (this)
             {
@@ -585,7 +490,7 @@ namespace Hedera.Hashgraph.SDK
                     var node = GetRandomNode();
                     if (!returnNodes.ContainsKey(node.GetKey()))
                     {
-                        returnNodes.Put(node.GetKey(), node);
+                        returnNodes.Add(node.GetKey(), node);
                     }
                 }
 
@@ -595,7 +500,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        virtual void BeginClose()
+        public virtual void BeginClose()
         {
             lock (this)
             {
@@ -610,7 +515,7 @@ namespace Hedera.Hashgraph.SDK
         }
 
         // returns null if successful, or Exception if error occurred
-        virtual Exception AwaitClose(Timestamp deadline, Exception previousError)
+        public virtual Exception AwaitClose(Timestamp deadline, Exception previousError)
         {
             lock (this)
             {

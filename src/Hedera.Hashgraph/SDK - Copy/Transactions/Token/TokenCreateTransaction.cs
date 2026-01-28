@@ -149,7 +149,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetTokenName(string name)
         {
-            Objects.RequireNonNull(name);
+            ArgumentNullException.ThrowIfNull(name);
             RequireNotFrozen();
             tokenName = name;
             return this;
@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetTokenSymbol(string symbol)
         {
-            Objects.RequireNonNull(symbol);
+            ArgumentNullException.ThrowIfNull(symbol);
             RequireNotFrozen();
             tokenSymbol = symbol;
             return this;
@@ -258,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetTreasuryAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             treasuryAccountId = accountId;
             return this;
@@ -286,7 +286,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenCreateTransaction SetAdminKey(Key key)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             adminKey = key;
             return this;
         }
@@ -343,7 +343,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetFreezeKey(Key key)
         {
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             RequireNotFrozen();
             freezeKey = key;
             return this;
@@ -371,7 +371,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetWipeKey(Key key)
         {
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             RequireNotFrozen();
             wipeKey = key;
             return this;
@@ -400,7 +400,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetSupplyKey(Key key)
         {
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             RequireNotFrozen();
             supplyKey = key;
             return this;
@@ -428,7 +428,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenCreateTransaction SetFeeScheduleKey(Key key)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             feeScheduleKey = key;
             return this;
         }
@@ -457,7 +457,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenCreateTransaction SetPauseKey(Key key)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             pauseKey = key;
             return this;
         }
@@ -484,7 +484,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenCreateTransaction SetMetadataKey(Key key)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(key);
+            ArgumentNullException.ThrowIfNull(key);
             metadataKey = key;
             return this;
         }
@@ -552,7 +552,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetExpirationTime(Timestamp expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             autoRenewPeriod = null;
             expirationTimeDuration = null;
@@ -562,7 +562,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
 
         public virtual TokenCreateTransaction SetExpirationTime(Duration expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             autoRenewPeriod = null;
             expirationTime = null;
@@ -601,7 +601,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetAutoRenewAccountId(AccountId accountId)
         {
-            Objects.RequireNonNull(accountId);
+            ArgumentNullException.ThrowIfNull(accountId);
             RequireNotFrozen();
             autoRenewAccountId = accountId;
             return this;
@@ -634,7 +634,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetAutoRenewPeriod(Duration period)
         {
-            Objects.RequireNonNull(period);
+            ArgumentNullException.ThrowIfNull(period);
             RequireNotFrozen();
             autoRenewPeriod = period;
             return this;
@@ -659,7 +659,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>{@code this}</returns>
         public virtual TokenCreateTransaction SetTokenMemo(string memo)
         {
-            Objects.RequireNonNull(memo);
+            ArgumentNullException.ThrowIfNull(memo);
             RequireNotFrozen();
             tokenMemo = memo;
             return this;
@@ -715,7 +715,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenCreateTransaction SetTokenType(TokenType tokenType)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(tokenType);
+            ArgumentNullException.ThrowIfNull(tokenType);
             tokenType = tokenType;
             return this;
         }
@@ -742,7 +742,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         public virtual TokenCreateTransaction SetSupplyType(TokenSupplyType supplyType)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(supplyType);
+            ArgumentNullException.ThrowIfNull(supplyType);
             tokenSupplyType = supplyType;
             return this;
         }
@@ -804,7 +804,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         {
             if (autoRenewAccountId == null && client != null && client.GetOperatorAccountId() != null && autoRenewPeriod != null && !autoRenewPeriod.IsZero())
             {
-                autoRenewAccountId = transactionIds != null && !transactionIds.IsEmpty() && transactionIds.GetCurrent() != null ? transactionIds.GetCurrent().accountId : client.GetOperatorAccountId();
+                autoRenewAccountId = transactionIds != null && !transactionIds.IsEmpty && transactionIds.GetCurrent() != null ? transactionIds.GetCurrent().accountId : client.GetOperatorAccountId();
             }
 
             return base.FreezeWith(client);
@@ -814,87 +814,87 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenCreateTransactionBody}</returns>
-        virtual TokenCreateTransactionBody.Builder Build()
+        public virtual TokenCreateTransactionBody.Builder Build()
         {
             var builder = TokenCreateTransactionBody.NewBuilder();
             if (treasuryAccountId != null)
             {
-                builder.SetTreasury(treasuryAccountId.ToProtobuf());
+                builder.Treasury(treasuryAccountId.ToProtobuf());
             }
 
             if (autoRenewAccountId != null)
             {
-                builder.SetAutoRenewAccount(autoRenewAccountId.ToProtobuf());
+                builder.AutoRenewAccount(autoRenewAccountId.ToProtobuf());
             }
 
-            builder.SetName(tokenName);
-            builder.SetSymbol(tokenSymbol);
-            builder.SetDecimals(decimals);
-            builder.SetInitialSupply(initialSupply);
+            builder.Name(tokenName);
+            builder.Symbol(tokenSymbol);
+            builder.Decimals(decimals);
+            builder.InitialSupply(initialSupply);
             if (adminKey != null)
             {
-                builder.SetAdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey(adminKey.ToProtobufKey());
             }
 
             if (kycKey != null)
             {
-                builder.SetKycKey(kycKey.ToProtobufKey());
+                builder.KycKey(kycKey.ToProtobufKey());
             }
 
             if (freezeKey != null)
             {
-                builder.SetFreezeKey(freezeKey.ToProtobufKey());
+                builder.FreezeKey(freezeKey.ToProtobufKey());
             }
 
             if (wipeKey != null)
             {
-                builder.SetWipeKey(wipeKey.ToProtobufKey());
+                builder.WipeKey(wipeKey.ToProtobufKey());
             }
 
             if (supplyKey != null)
             {
-                builder.SetSupplyKey(supplyKey.ToProtobufKey());
+                builder.SupplyKey(supplyKey.ToProtobufKey());
             }
 
             if (feeScheduleKey != null)
             {
-                builder.SetFeeScheduleKey(feeScheduleKey.ToProtobufKey());
+                builder.FeeScheduleKey(feeScheduleKey.ToProtobufKey());
             }
 
             if (pauseKey != null)
             {
-                builder.SetPauseKey(pauseKey.ToProtobufKey());
+                builder.PauseKey(pauseKey.ToProtobufKey());
             }
 
             if (metadataKey != null)
             {
-                builder.SetMetadataKey(metadataKey.ToProtobufKey());
+                builder.MetadataKey(metadataKey.ToProtobufKey());
             }
 
-            builder.SetFreezeDefault(freezeDefault);
+            builder.FreezeDefault(freezeDefault);
             if (expirationTime != null)
             {
-                builder.SetExpiry(Utils.TimestampConverter.ToProtobuf(expirationTime));
+                builder.Expiry(Utils.TimestampConverter.ToProtobuf(expirationTime));
             }
 
             if (expirationTimeDuration != null)
             {
-                builder.SetExpiry(Utils.TimestampConverter.ToProtobuf(expirationTimeDuration));
+                builder.Expiry(Utils.TimestampConverter.ToProtobuf(expirationTimeDuration));
             }
 
             if (autoRenewPeriod != null)
             {
-                builder.SetAutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
+                builder.AutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
             }
 
-            builder.SetMemo(tokenMemo);
-            builder.SetTokenType(tokenType.code);
-            builder.SetSupplyType(tokenSupplyType.code);
-            builder.SetMaxSupply(maxSupply);
-            builder.SetMetadata(ByteString.CopyFrom(tokenMetadata));
+            builder.Memo(tokenMemo);
+            builder.TokenType(tokenType.code);
+            builder.SupplyType(tokenSupplyType.code);
+            builder.MaxSupply(maxSupply);
+            builder.Metadata(ByteString.CopyFrom(tokenMetadata));
             foreach (var fee in customFees)
             {
-                builder.AddCustomFees(fee.ToProtobuf());
+                builder.CustomFees.Add(fee.ToProtobuf());
             }
 
             return builder;
@@ -903,9 +903,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetTokenCreation();
+            var body = sourceTransactionBody.TokenCreation();
             if (body.HasTreasury())
             {
                 treasuryAccountId = AccountId.FromProtobuf(body.GetTreasury());
@@ -920,9 +920,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             tokenSymbol = body.GetSymbol();
             decimals = body.GetDecimals();
             initialSupply = body.GetInitialSupply();
-            if (body.HasAdminKey())
+            if (body.AdminKey is not null)
             {
-                adminKey = Key.FromProtobufKey(body.GetAdminKey());
+                adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
             if (body.HasKycKey())
@@ -976,7 +976,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             tokenSupplyType = TokenSupplyType.ValueOf(body.GetSupplyType());
             maxSupply = body.GetMaxSupply();
             tokenMetadata = body.GetMetadata().ToByteArray();
-            foreach (var fee in body.GetCustomFeesList())
+            foreach (var fee in body.CustomFees)
             {
                 customFees.Add(CustomFee.FromProtobuf(fee));
             }
@@ -1005,14 +1005,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             return TokenServiceGrpc.GetCreateTokenMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetTokenCreation(Build());
+            bodyBuilder.TokenCreation = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetTokenCreation(Build());
+            scheduled.TokenCreation = Build();
         }
     }
 }

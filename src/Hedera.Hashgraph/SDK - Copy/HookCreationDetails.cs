@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK
 
             if (adminKey != null)
             {
-                builder.SetAdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey(adminKey.ToProtobufKey());
             }
 
             return proto;
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>a new HookCreationDetails instance</returns>
         public static HookCreationDetails FromProtobuf(Proto.HookCreationDetails proto)
         {
-            var adminKey = proto.HasAdminKey() ? Key.FromProtobufKey(proto.GetAdminKey()) : null;
+            var adminKey = proto.AdminKey is not null ? Key.FromProtobufKey(proto.AdminKey) : null;
 
             return new HookCreationDetails((HookExtensionPoint)proto.ExtensionPoint, proto.GetHookId(), LambdaEvmHook.FromProtobuf(proto.GetLambdaEvmHook()), adminKey);
         }
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.SDK
         {
             if (this == o)
                 return true;
-            if (o == null || GetType() != o.GetType())
+            if (o == null || GetType() != o?.GetType())
                 return false;
             
             HookCreationDetails that = (HookCreationDetails)o;

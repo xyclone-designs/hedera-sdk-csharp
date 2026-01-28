@@ -5,7 +5,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.FutureConverter;
-using Hedera.Hashgraph.SDK.Logger;
+using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 using Io.Grpc;
 using Io.Grpc.Status;
@@ -38,18 +38,17 @@ namespace Hedera.Hashgraph.SDK
     /// <param name="<ProtoRequestT>">the proto request</param>
     /// <param name="<ResponseT>">the response</param>
     /// <param name="<O>">the O type</param>
-    internal abstract partial class Executable<SdkRequestT, ProtoRequestT, ResponseT, O>
-    {
+    internal abstract partial class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> 
+
+	{
 		private class GrpcRequest
 		{
 			private readonly Network network;
-			private readonly Node node;
 			private readonly int attempt;
 			// private final ClientCall<ProtoRequestT, ResponseT> call;
 			private readonly ProtoRequestT request;
 			private readonly long startAt;
-			private readonly long delay;
-			private Duration grpcDeadline;
+			
 			private ResponseT response;
 			private double latency;
 			private Status responseStatus;
@@ -58,34 +57,30 @@ namespace Hedera.Hashgraph.SDK
 				network = network;
 				attempt = attempt;
 				grpcDeadline = grpcDeadline;
-				node = GetNodeForExecute(attempt);
+				Node = GetNodeForExecute(attempt);
 				request = GetRequestForExecute(); // node index gets incremented here
 				startAt = System.NanoTime();
 
 				// Exponential back-off for Delayer: 250ms, 500ms, 1s, 2s, 4s, 8s, ... 8s
-				delay = (long)Math.Min(Objects.RequireNonNull(minBackoff).ToMillis() * Math.Pow(2, attempt - 1), Objects.RequireNonNull(maxBackoff).ToMillis());
+				Delay = (long)Math.Min(ArgumentNullException.ThrowIfNull(minBackoff).ToMillis() * Math.Pow(2, attempt - 1), ArgumentNullException.ThrowIfNull(maxBackoff).ToMillis());
 			}
 
-			public virtual CallOptions GetCallOptions()
+			private readonly Node Node { get; }
+			private readonly long Delay { get; }
+			private Duration GrpcDeadline { set; }
+			public virtual CallOptions CallOptions 
 			{
-				long deadline = Math.Min(grpcDeadline.ToMillis(), grpcDeadline.ToMillis());
-				return CallOptions.DEFAULT.WithDeadlineAfter(deadline, TimeUnit.MILLISECONDS);
+				get 
+				{
+					long deadline = Math.Min(grpcDeadline.ToMillis(), grpcDeadline.ToMillis());
+					return CallOptions.DEFAULT.WithDeadlineAfter(deadline, TimeUnit.MILLISECONDS);
+				}
 			}
-
-			public virtual void SetGrpcDeadline(Duration grpcDeadline)
-			{
-				grpcDeadline = grpcDeadline;
-			}
-
-			public virtual Node GetNode()
-			{
-				return node;
-			}
-
 			public virtual ClientCall<ProtoRequestT, ResponseT> CreateCall()
 			{
-				VerboseLog(node);
-				return node.GetChannel().NewCall(GetMethodDescriptor(), GetCallOptions());
+				VerboseLog(Node);
+
+				return Node.GetChannel().NewCall(GetMethodDescriptor(), GetCallOptions());
 			}
 
 			public virtual ProtoRequestT GetRequest()
@@ -93,45 +88,40 @@ namespace Hedera.Hashgraph.SDK
 				return requestListener.Apply(request);
 			}
 
-			public virtual long GetDelay()
+
+
+			public virtual Exception ReactToConnectionFailure()
 			{
-				return delay;
+				ArgumentNullException.ThrowIfNull(network).IncreaseBackoff(Node);
+				logger.Warn("Retrying in {} ms after channel connection failure with node {} during attempt #{}", Node.GetRemainingTimeForBackoff(), Node.AccountId, attempt);
+				VerboseLog(Node);
+				return new InvalidOperationException("Failed to connect to node " + Node.AccountId);
 			}
 
-			virtual Exception ReactToConnectionFailure()
-			{
-				Objects.RequireNonNull(network).IncreaseBackoff(node);
-				logger.Warn("Retrying in {} ms after channel connection failure with node {} during attempt #{}", node.GetRemainingTimeForBackoff(), node.GetAccountId(), attempt);
-				VerboseLog(node);
-				return new InvalidOperationException("Failed to connect to node " + node.GetAccountId());
-			}
-
-			virtual bool ShouldRetryExceptionally(Exception e)
+			public virtual bool ShouldRetryExceptionally(Exception e)
 			{
 				latency = (double)(System.NanoTime() - startAt) / 1000000000;
 				var retry = ShouldRetryExceptionally(e);
 				if (retry)
 				{
-					Objects.RequireNonNull(network).IncreaseBackoff(node);
-					logger.Warn("Retrying in {} ms after failure with node {} during attempt #{}: {}", node.GetRemainingTimeForBackoff(), node.GetAccountId(), attempt, e != null ? e.GetMessage() : "NULL");
-					VerboseLog(node);
+					ArgumentNullException.ThrowIfNull(network).IncreaseBackoff(Node);
+					logger.Warn("Retrying in {} ms after failure with node {} during attempt #{}: {}", Node.GetRemainingTimeForBackoff(), Node.AccountId, attempt, e != null ? e.GetMessage() : "NULL");
+					VerboseLog(Node);
 				}
 
 				return retry;
 			}
 
-			virtual PrecheckStatusException MapStatusException()
+			public virtual PrecheckStatusException MapStatusException()
 			{
-
 				// request to hedera failed in a non-recoverable way
 				return new PrecheckStatusException(responseStatus, GetTransactionIdInternal());
 			}
 
-			virtual O MapResponse()
+			public virtual O MapResponse()
 			{
-
 				// successful response from Hedera
-				return MapResponse(response, node.GetAccountId(), request);
+				return MapResponse(response, Node.AccountId, request);
 			}
 
 			virtual void HandleResponse(ResponseT response, Status status, ExecutionState executionState, Client client)
@@ -141,12 +131,12 @@ namespace Hedera.Hashgraph.SDK
 				// because we need to do it AFTER advancing the request, to match Go SDK behavior
 				if (status != Status.INVALID_NODE_ACCOUNT)
 				{
-					node.DecreaseBackoff();
+					Node.DecreaseBackoff();
 				}
 
 				response = responseListener.Apply(response);
 				responseStatus = status;
-				logger.Trace("Received {} response in {} s from node {} during attempt #{}: {}", responseStatus, latency, node.GetAccountId(), attempt, response);
+				logger.Trace("Received {} response in {} s from node {} during attempt #{}: {}", responseStatus, latency, Node.AccountId, attempt, response);
 				if (executionState == ExecutionState.SERVER_ERROR && attemptedAllNodes)
 				{
 					executionState = ExecutionState.RETRY;
@@ -155,21 +145,21 @@ namespace Hedera.Hashgraph.SDK
 
 				switch (executionState)
 				{
-					case RETRY:
+					case ExecutionState.Retry:
 						{
-							logger.Warn("Retrying in {} ms after failure with node {} during attempt #{}: {}", delay, node.GetAccountId(), attempt, responseStatus);
-							VerboseLog(node);
+							logger.Warn("Retrying in {} ms after failure with node {} during attempt #{}: {}", Delay, Node.AccountId, attempt, responseStatus);
+							VerboseLog(Node);
 						}
 
-					case SERVER_ERROR:
+					case ExecutionState.ServerError:
 						{
 
 							// Note: INVALID_NODE_ACCOUNT is handled after advanceRequest() in execute methods
 							// to match Go SDK's executionStateRetryWithAnotherNode behavior
 							if (status != Status.INVALID_NODE_ACCOUNT)
 							{
-								logger.Warn("Problem submitting request to node {} for attempt #{}, retry with new node: {}", node.GetAccountId(), attempt, responseStatus);
-								VerboseLog(node);
+								logger.Warn("Problem submitting request to node {} for attempt #{}, retry with new node: {}", Node.AccountId, attempt, responseStatus);
+								VerboseLog(Node);
 							}
 						}
 
@@ -181,23 +171,9 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 
-			virtual void VerboseLog(Node node)
+			public virtual void VerboseLog(Node node)
 			{
-				string ipAddress;
-				if (node.address == null)
-				{
-					ipAddress = "NULL";
-				}
-				else if (node.address.GetAddress() == null)
-				{
-					ipAddress = "NULL";
-				}
-				else
-				{
-					ipAddress = node.address.GetAddress();
-				}
-
-				logger.Trace("Node IP {} Timestamp {} Transaction Type {}", ipAddress, System.CurrentTimeMillis(), GetType().GetSimpleName());
+				logger.Trace("Node IP {0} Timestamp {1} Transaction Type {2}", node.Address?.Address ?? "NULL", DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(), GetType().Name);
 			}
 		}
 	}

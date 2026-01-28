@@ -6,28 +6,29 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK
 {
-    class ActionHelper
+	internal class ActionHelper
     {
-        static void Action<T>(Task<T> future, Action<T, Exception> Action)
+		internal static void Action<T>(Task<T> future, Action<T, Exception> Action)
         {
             future.WhenComplete(Action);
         }
 
-        static void TwoActions<T>(Task<T> future, Action<T> onSuccess, Action<Exception> onFailure)
+        internal static void TwoActions<T>(Task<T> future, Action<T> onSuccess, Action<Exception> onFailure)
         {
-            future.WhenComplete((output, error) =>
+            future.ContinueWith((output, error) =>
             {
                 if (error != null)
                 {
-                    onFailure.Accept(error);
+                    onFailure.Invoke(error);
                 }
                 else
                 {
-                    onSuccess.Accept(output);
+                    onSuccess.Invoke(output);
                 }
             });
         }

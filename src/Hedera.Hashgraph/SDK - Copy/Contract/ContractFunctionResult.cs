@@ -4,6 +4,7 @@ using Com.Google.Common.Base;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 using Java.Math;
@@ -33,7 +34,16 @@ namespace Hedera.Hashgraph.SDK.Contract
     /// </summary>
     public sealed class ContractFunctionResult
     {
-        private static readonly ByteString errorPrefix = ByteString.CopyFrom(new byte[] { 8, -61, 121, -96 });
+        // Java Source => (Byte are signed) private static readonly ByteString errorPrefix = ByteString.CopyFrom(new byte[] { 8, -61, 121, -96 });
+        private static readonly ByteString errorPrefix =
+            ByteString.CopyFrom(new byte[]
+            {
+                0x08,
+                0xC3, // -61 in Java
+                0x79,
+                0xA0  // -96 in Java
+            });
+
         /// <summary>
         /// The ID of the contract that was invoked.
         /// </summary>
@@ -108,7 +118,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             contractId = ContractId.FromProtobuf(inner.GetContractID());
             evmAddress = inner.HasEvmAddress() ? new ContractId(contractId.Shard, contractId.Realm, inner.EvmAddress.GetValue().ToByteArray()) : null;
             string errMsg = inner.GetErrorMessage();
-            errorMessage = !errMsg.IsEmpty() ? errMsg : null;
+            errorMessage = errMsg.Any() ? errMsg : null;
             ByteString callResult = inner.GetContractCallResult();
 
             // if an exception was thrown, the call result is encoded like the params
@@ -375,17 +385,23 @@ namespace Hedera.Hashgraph.SDK.Contract
             return GetByteBuffer(valueOffset + 28).GetInt();
         }
 
-        private ByteBuffer GetByteBuffer(int offset)
-        {
+		private ReadOnlyMemory<byte> GetByteBuffer(int offset)
+		{
+			/*
+             private ByteBuffer GetByteBuffer(int offset)
+            {
+                // **NB** `.asReadOnlyByteBuffer()` on a substring returns a `ByteBuffer` with the
+                // offset set as `position()`, so be sure to advance the buffer relative to that
+                ByteBuffer byteBuffer = rawResult.AsReadOnlyByteBuffer();
+                byteBuffer.Position(byteBuffer.Position() + offset);
+                return byteBuffer;
+            }
+             */
+			return rawResult.Memory[offset..];
+		}
 
-            // **NB** `.asReadOnlyByteBuffer()` on a substring returns a `ByteBuffer` with the
-            // offset set as `position()`, so be sure to advance the buffer relative to that
-            ByteBuffer byteBuffer = rawResult.AsReadOnlyByteBuffer();
-            byteBuffer.Position(byteBuffer.Position() + offset);
-            return byteBuffer;
-        }
 
-        private ByteString GetByteString(int startIndex, int endIndex)
+		private ByteString GetByteString(int startIndex, int endIndex)
         {
             return rawResult[startIndex .. endIndex];
         }
@@ -394,15 +410,15 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// Create the protobuf representation.
         /// </summary>
         /// <returns>{@link Proto.ContractFunctionResult}</returns>
-        Proto.ContractFunctionResult ToProtobuf()
+        public Proto.ContractFunctionResult ToProtobuf()
         {
 			Proto.ContractFunctionResult proto = new()
             {
 				ContractID = contractId.ToProtobuf(),
 				ContractCallResult = rawResult,
 				Bloom = bloom,
-				GasUsed = gasUsed,
-				SignerNonce = Int64Value.Parser.ParseFrom(signerNonce),
+				GasUsed = GasUsed,
+				SignerNonce = Int64Value.Parser.ParseFrom(SignerNonce),
 			};
 
             if (evmAddress != null)

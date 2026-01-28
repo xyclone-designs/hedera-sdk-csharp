@@ -1,20 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Nio.Charset;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.File
 {
@@ -48,9 +42,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         private KeyList keys = null;
         private Timestamp expirationTime = null;
         private Duration expirationTimeDuration = null;
-        private byte[] contents = new[]
-        {
-        };
+        private byte[] contents = [];
         private string fileMemo = null;
         /// <summary>
         /// Constructor.
@@ -95,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// <returns>{@code this}</returns>
         public FileUpdateTransaction SetFileId(FileId fileId)
         {
-            Objects.RequireNonNull(fileId);
+            ArgumentNullException.ThrowIfNull(fileId);
             RequireNotFrozen();
             fileId = fileId;
             return this;
@@ -124,7 +116,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         public FileUpdateTransaction SetKeys(params Key[] keys)
         {
             RequireNotFrozen();
-            keys = KeyList.Of(keys);
+            keys = KeyList.Of(null, keys);
             return this;
         }
 
@@ -152,7 +144,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// <returns>{@code this}</returns>
         public FileUpdateTransaction SetExpirationTime(Timestamp expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = expirationTime;
             return this;
@@ -160,7 +152,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
 
         public FileUpdateTransaction SetExpirationTime(Duration expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = null;
             expirationTimeDuration = expirationTime;
@@ -199,8 +191,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         public FileUpdateTransaction SetContents(byte[] bytes)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(bytes);
-            contents = Array.CopyOf(bytes, bytes.Length);
+            ArgumentNullException.ThrowIfNull(bytes);
+            contents = bytes.CopyArray();
             return this;
         }
 
@@ -230,9 +222,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// </remarks>
         public FileUpdateTransaction SetContents(string text)
         {
-            Objects.RequireNonNull(text);
+            ArgumentNullException.ThrowIfNull(text);
             RequireNotFrozen();
-            contents = text.GetBytes(StandardCharsets.UTF_8);
+            contents = Encoding.UTF8.GetBytes(text);
             return this;
         }
 
@@ -255,7 +247,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// <returns>{@code this}</returns>
         public FileUpdateTransaction SetFileMemo(string memo)
         {
-            Objects.RequireNonNull(memo);
+            ArgumentNullException.ThrowIfNull(memo);
             RequireNotFrozen();
             fileMemo = memo;
             return this;
@@ -277,61 +269,64 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetFileUpdate();
-            if (body.HasFileID())
+            var body = sourceTransactionBody.FileUpdate;
+
+            if (body.FileID is not null)
             {
-                fileId = FileId.FromProtobuf(body.GetFileID());
+                fileId = FileId.FromProtobuf(body.FileID);
             }
 
-            if (body.HasKeys())
+            if (body.Keys is not null)
             {
-                keys = KeyList.FromProtobuf(body.GetKeys(), null);
+                keys = KeyList.FromProtobuf(body.Keys, null);
             }
 
-            if (body.HasExpirationTime())
+            if (body.ExpirationTime is not null)
             {
-                expirationTime = Utils.TimestampConverter.FromProtobuf(body.GetExpirationTime());
+                expirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
             }
 
-            if (body.HasMemo())
+            if (body.Memo is not null)
             {
-                fileMemo = body.GetMemo().GetValue();
+                fileMemo = body.Memo;
             }
 
-            contents = body.GetContents().ToByteArray();
+            contents = body.Contents.ToByteArray();
         }
 
         /// <summary>
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.FileUpdateTransactionBody builder }</returns>
-        FileUpdateTransactionBody.Builder Build()
+        Proto.FileUpdateTransactionBody Build()
         {
-            var builder = FileUpdateTransactionBody.NewBuilder();
+            var builder = new Proto.FileUpdateTransactionBody();
+
             if (fileId != null)
             {
-                builder.SetFileID(fileId.ToProtobuf());
+                builder.FileID = fileId.ToProtobuf();
             }
 
             if (keys != null)
             {
-                builder.SetKeys(keys.ToProtobuf());
+                builder.Keys = keys.ToProtobuf();
             }
 
             if (expirationTime != null)
             {
-                builder.SetExpirationTime(Utils.TimestampConverter.ToProtobuf(expirationTime));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTime);
             }
 
             if (expirationTimeDuration != null)
             {
-                builder.SetExpirationTime(Utils.TimestampConverter.ToProtobuf(expirationTimeDuration));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTimeDuration);
             }
 
-            builder.SetContents(ByteString.CopyFrom(contents));
+            builder.Contents = ByteString.CopyFrom(contents);
+
             if (fileMemo != null)
             {
-                builder.SetMemo(StringValue.Of(fileMemo));
+                builder.Memo = fileMemo;
             }
 
             return builder;
@@ -350,14 +345,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
             return FileServiceGrpc.GetUpdateFileMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetFileUpdate(Build());
+            bodyBuilder.FileUpdate = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetFileUpdate(Build());
+            scheduled.FileUpdate = Build();
         }
     }
 }

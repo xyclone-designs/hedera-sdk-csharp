@@ -1,18 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.File
 {
@@ -43,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
     /// </summary>
     public sealed class FileAppendTransaction : ChunkedTransaction<FileAppendTransaction>
     {
-        static int DEFAULT_CHUNK_SIZE = 4096;
+        public static int DEFAULT_CHUNK_SIZE = 4096;
         private FileId fileId = null;
         /// <summary>
         /// Constructor.
@@ -98,7 +92,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// <returns>{@code this}</returns>
         public FileAppendTransaction SetFileId(FileId fileId)
         {
-            Objects.RequireNonNull(fileId);
+            ArgumentNullException.ThrowIfNull(fileId);
             RequireNotFrozen();
             fileId = fileId;
             return this;
@@ -167,7 +161,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return FileServiceGrpc.GetAppendContentMethod();
+            return FileServiceGrpc.AppendContentMethod;
         }
 
         /// <summary>
@@ -175,29 +169,29 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetFileAppend();
-            if (body.HasFileID())
+            var body = sourceTransactionBody.FileAppend;
+            if (body.FileID is not null)
             {
-                fileId = FileId.FromProtobuf(body.GetFileID());
+                fileId = FileId.FromProtobuf(body.FileID);
             }
 
-            if (!innerSignedTransactions.IsEmpty())
+            if (innerSignedTransactions.Count > 0)
             {
                 try
                 {
-                    for (var i = 0; i < innerSignedTransactions.Count; i += nodeAccountIds.IsEmpty() ? 1 : nodeAccountIds.Count)
+                    for (var i = 0; i < innerSignedTransactions.Count; i += nodeAccountIds.IsEmpty ? 1 : nodeAccountIds.Count)
                     {
-                        data = data.Concat(TransactionBody.ParseFrom(innerSignedTransactions[i].GetBodyBytes()).GetFileAppend().GetContents());
+                        data = data.Concat(Proto.TransactionBody.Parser.ParseFrom(innerSignedTransactions[i].BodyBytes).FileAppend.Contents);
                     }
                 }
                 catch (InvalidProtocolBufferException exc)
                 {
-                    throw new ArgumentException(exc.GetMessage());
+                    throw new ArgumentException(exc.Message);
                 }
             }
             else
             {
-                data = body.GetContents();
+                data = body.Contents;
             }
         }
 
@@ -205,21 +199,24 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.FileAppendTransactionBody builder}</returns>
-        FileAppendTransactionBody.Builder Build()
+        Proto.FileAppendTransactionBody Build()
         {
-            var builder = FileAppendTransactionBody.NewBuilder();
+            var builder = new Proto.FileAppendTransactionBody ();
+
             if (fileId != null)
             {
-                builder.SetFileID(fileId.ToProtobuf());
+                builder.FileID = fileId.ToProtobuf();
             }
 
-            builder.SetContents(data);
+            builder.Contents = data;
+
             return builder;
         }
 
-        override void OnFreezeChunk(TransactionBody.Builder body, TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total)
+        override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total)
         {
-            body.SetFileAppend(Build().SetContents(data.Substring(startIndex, endIndex)));
+            body.FileAppend =  Build();
+            body.FileAppend.Contents = data[startIndex..endIndex]);
         }
 
         override bool ShouldGetReceipt()
@@ -227,14 +224,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
             return true;
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetFileAppend(Build());
+            bodyBuilder.FileAppend = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetFileAppend(Build().SetContents(data));
+            scheduled.FileAppend = Build();
+            scheduled.FileAppend.Contents = data;
         }
     }
 }

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 
 
@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// <param name="ownerAccountId">the owner granting the allowance</param>
         /// <param name="spenderAccountId">the spender</param>
         /// <param name="amount">the amount of hbar</param>
-        HbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
+        internal HbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
             OwnerAccountId = ownerAccountId;
             SpenderAccountId = spenderAccountId;

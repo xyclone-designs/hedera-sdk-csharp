@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
 using Java.Util;
 using Javax.Annotation;
@@ -75,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Token
             proto.Transfers.AddRange(transfers);
             proto.NftTransfers.AddRange(nftTransfers);
 
-			var builder = Proto.TokenTransferList.NewBuilder().SetToken(tokenId.ToProtobuf()).AddAllTransfers(transfers).AddAllNftTransfers(nftTransfers);
+			var builder = new Proto.TokenTransferList .NewBuilder().SetToken(tokenId.ToProtobuf()).AddAllTransfers(transfers).AddAllNftTransfers(nftTransfers);
             if (expectDecimals != null)
             {
                 builder. );

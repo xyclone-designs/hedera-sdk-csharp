@@ -1,24 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
+using Com.Hedera.Hapi.Node.Addressbook;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Node
 {
@@ -42,7 +27,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
     /// </summary>
     public class NodeDeleteTransaction : Transaction<NodeDeleteTransaction>
     {
-        private long nodeId;
+        private ulong nodeId;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -64,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// Constructor.
         /// </summary>
         /// <param name="txBody">protobuf TransactionBody</param>
-        NodeDeleteTransaction(TransactionBody txBody) : base(txBody)
+        NodeDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
         {
             InitFromTransactionBody();
         }
@@ -74,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// </summary>
         /// <returns>the consensus node identifier in the network state.</returns>
         /// <exception cref="IllegalStateException">when node is not being set</exception>
-        public virtual long GetNodeId()
+        public virtual ulong GetNodeId()
         {
             if (nodeId == null)
             {
@@ -110,12 +95,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.NodeDeleteTransactionBody}</returns>
-        virtual NodeDeleteTransactionBody.Builder Build()
+        public virtual NodeDeleteTransactionBody Build()
         {
-            var builder = NodeDeleteTransactionBody.NewBuilder();
+            var builder = new NodeDeleteTransactionBody();
             if (nodeId != null)
             {
-                builder.SetNodeId(nodeId);
+                builder.NodeId = nodeId;
             }
 
             return builder;
@@ -124,10 +109,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        virtual void InitFromTransactionBody()
+        public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetNodeDelete();
-            nodeId = body.GetNodeId();
+            var body = sourceTransactionBody.NodeDelete;
+            nodeId = body.NodeId;
         }
 
         override void ValidateChecksums(Client client)
@@ -139,14 +124,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Node
             return AddressBookServiceGrpc.GetDeleteNodeMethod();
         }
 
-        override void OnFreeze(TransactionBody.Builder bodyBuilder)
+        override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetNodeDelete(Build());
+            bodyBuilder.NodeDelete = Build();
         }
 
-        override void OnScheduled(SchedulableTransactionBody.Builder scheduled)
+        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetNodeDelete(Build());
+            scheduled.NodeDelete = Build();
         }
 
         /// <summary>

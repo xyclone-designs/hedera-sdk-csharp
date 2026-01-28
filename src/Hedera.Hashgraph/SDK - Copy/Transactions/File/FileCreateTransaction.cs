@@ -1,21 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Nio.Charset;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
 
 namespace Hedera.Hashgraph.SDK.Transactions.File
 {
@@ -65,9 +59,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         private Timestamp expirationTime = null;
         private Duration expirationTimeDuration = null;
         private KeyList keys = null;
-        private byte[] contents = new[]
-        {
-        };
+        private byte[] contents = [];
 
         private string fileMemo = "";
         /// <summary>
@@ -75,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         /// </summary>
         public FileCreateTransaction()
         {
-            SetExpirationTime(Timestamp.Now().Plus(DEFAULT_AUTO_RENEW_PERIOD));
+            SetExpirationTime(Timestamp..Now().Plus(DEFAULT_AUTO_RENEW_PERIOD));
             defaultMaxTransactionFee = new Hbar(5);
         }
 
@@ -122,14 +114,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         public FileCreateTransaction SetExpirationTime(Timestamp expirationTime)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             expirationTime = expirationTime;
             return this;
         }
 
         public FileCreateTransaction SetExpirationTime(Duration expirationTime)
         {
-            Objects.RequireNonNull(expirationTime);
+            ArgumentNullException.ThrowIfNull(expirationTime);
             RequireNotFrozen();
             expirationTime = null;
             expirationTimeDuration = expirationTime;
@@ -193,8 +185,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         public FileCreateTransaction SetContents(byte[] bytes)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(bytes);
-            contents = Array.CopyOf(bytes, bytes.Length);
+            ArgumentNullException.ThrowIfNull(bytes);
+            contents = bytes.CopyArray();
             return this;
         }
 
@@ -219,8 +211,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         public FileCreateTransaction SetContents(string text)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(text);
-            contents = text.GetBytes(StandardCharsets.UTF_8);
+            ArgumentNullException.ThrowIfNull(text);
+            contents = Encoding.UTF8.GetBytes(text);
             return this;
         }
 
@@ -241,74 +233,75 @@ namespace Hedera.Hashgraph.SDK.Transactions.File
         public FileCreateTransaction SetFileMemo(string memo)
         {
             RequireNotFrozen();
-            Objects.RequireNonNull(memo);
+            ArgumentNullException.ThrowIfNull(memo);
             fileMemo = memo;
             return this;
         }
 
         override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
-            return FileServiceGrpc.GetCreateFileMethod();
+            return FileServiceGrpc.CreateFileMethod;
         }
 
-        public override void ValidateChecksums(Client client)
-        {
-        }
+        public override void ValidateChecksums(Client client) { }
 
         /// <summary>
         /// Initialize from transaction body.
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.GetFileCreate();
-            if (body.HasExpirationTime())
+            var body = sourceTransactionBody.FileCreate;
+
+            if (body.ExpirationTime is not null)
             {
-                expirationTime = TimestampConverter.FromProtobuf(body.GetExpirationTime());
+                expirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
             }
 
-            if (body.HasKeys())
+            if (body.Keys is not null)
             {
-                keys = KeyList.FromProtobuf(body.GetKeys(), null);
+                keys = KeyList.FromProtobuf(body.Keys, null);
             }
 
-            contents = body.GetContents().ToByteArray();
-            fileMemo = body.GetMemo();
+            contents = body.Contents.ToByteArray();
+            fileMemo = body.Memo;
         }
 
         /// <summary>
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.FileCreateTransactionBody builder}</returns>
-        FileCreateTransactionBody.Builder Build()
+        Proto.FileCreateTransactionBody Build()
         {
-            var builder = FileCreateTransactionBody.NewBuilder();
+            var builder = new Proto.FileCreateTransactionBody();
+
             if (expirationTime != null)
             {
-                builder.SetExpirationTime(TimestampConverter.ToProtobuf(expirationTime));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTime);
             }
 
             if (expirationTimeDuration != null)
             {
-                builder.SetExpirationTime(TimestampConverter.ToProtobuf(expirationTimeDuration));
+                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(expirationTimeDuration);
             }
 
             if (keys != null)
             {
-                builder.SetKeys(keys.ToProtobuf());
+                builder.Keys = keys.ToProtobuf();
             }
 
-            builder.SetContents(ByteString.CopyFrom(contents));
-            builder.SetMemo(fileMemo);
+            builder.Contents = ByteString.CopyFrom(contents);
+            builder.Memo = fileMemo;
+
             return builder;
         }
 
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetFileCreate(Build());
+            bodyBuilder.FileCreate = Build();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetFileCreate(Build());
+            scheduled.FileCreate = Build();
         }
     }
 }

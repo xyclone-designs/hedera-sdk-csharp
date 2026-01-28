@@ -16,16 +16,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
     /// </summary>
     public abstract class EthereumTransactionData
     {
-        /// <summary>
-        /// The raw call data.
-        /// </summary>
-        public byte[] callData;
         EthereumTransactionData(byte[] callData)
         {
             callData = callData;
         }
 
-        static EthereumTransactionData FromBytes(byte[] bytes)
+        public static EthereumTransactionData FromBytes(byte[] bytes)
         {
             var decoder = RLPDecoder.RLP_STRICT.SequenceIterator(bytes);
             var rlpItem = decoder.Next();
@@ -38,6 +34,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
                 return EthereumTransactionDataEip1559.FromBytes(bytes);
             }
         }
+
+		/// <summary>
+		/// The raw call data.
+		/// </summary>
+		public byte[] CallData { get; }
 
         /// <summary>
         /// Serialize the ethereum transaction data into bytes using RLP

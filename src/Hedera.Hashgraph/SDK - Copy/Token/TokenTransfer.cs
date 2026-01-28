@@ -24,6 +24,7 @@ using static Hedera.Hashgraph.SDK.Status;
 using static Hedera.Hashgraph.SDK.TokenKeyValidation;
 using static Hedera.Hashgraph.SDK.TokenSupplyType;
 using Hedera.Hashgraph.SDK.Transactions.Account;
+using Hedera.Hashgraph.SDK.Ids;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -40,6 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
         long amount;
         bool isApproved;
         FungibleHookCall hookCall;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -47,9 +49,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="accountId">the account id</param>
         /// <param name="amount">the amount</param>
         /// <param name="isApproved">is it approved</param>
-        TokenTransfer(TokenId tokenId, AccountId accountId, long amount, bool isApproved) : this(tokenId, accountId, amount, null, isApproved)
-        {
-        }
+        TokenTransfer(TokenId tokenId, AccountId accountId, long amount, bool isApproved) : this(tokenId, accountId, amount, null, isApproved) { }
 
         /// <summary>
         /// Constructor.
@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.SDK.Token
             hookCall = null;
         }
 
-        TokenTransfer(TokenId tokenId, AccountId accountId, long amount, int expectedDecimals, bool isApproved, FungibleHookCall hookCall)
+        TokenTransfer(TokenId tokenId, AccountId accountId, long amount, int expectedDecimals, bool isApproved, FungibleHookCall? hookCall)
         {
             tokenId = tokenId;
             accountId = accountId;
@@ -83,20 +83,20 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             var token = TokenId.FromProtobuf(tokenTransferList.GetToken());
             var tokenTransfers = new List<TokenTransfer>();
-            foreach (var transfer in tokenTransferList.GetTransfersList())
+            foreach (var transfer in tokenTransferList.TransfersList())
             {
                 FungibleHookCall typedHook = null;
                 if (transfer.HasPreTxAllowanceHook())
                 {
-                    typedHook = ToFungibleHook(transfer.GetPreTxAllowanceHook(), FungibleHookType.PRE_TX_ALLOWANCE_HOOK);
+                    typedHook = ToFungibleHook(transfer.GetPreTxAllowanceHook(), FungibleHookType.PreTxAllowanceHook);
                 }
                 else if (transfer.HasPrePostTxAllowanceHook())
                 {
-                    typedHook = ToFungibleHook(transfer.GetPrePostTxAllowanceHook(), FungibleHookType.PRE_POST_TX_ALLOWANCE_HOOK);
+                    typedHook = ToFungibleHook(transfer.GetPrePostTxAllowanceHook(), FungibleHookType.PrePostTxAllowanceHook);
                 }
 
                 var acctId = AccountId.FromProtobuf(transfer.GetAccountID());
-                int expectedDecimals = tokenTransferList.HasExpectedDecimals() ? tokenTransferList.GetExpectedDecimals().GetValue() : null;
+                int expectedDecimals = tokenTransferList.HasExpectedDecimals() ? tokenTransferList.ExpectedDecimals.GetValue() : null;
                 tokenTransfers.Add(new TokenTransfer(token, acctId, transfer.GetAmount(), expectedDecimals, transfer.GetIsApproval(), typedHook));
             }
 
@@ -107,31 +107,30 @@ namespace Hedera.Hashgraph.SDK.Token
         /// Create the protobuf.
         /// </summary>
         /// <returns>an account amount protobuf</returns>
-        virtual AccountAmount ToProtobuf()
+        public virtual Proto.AccountAmount ToProtobuf()
         {
-            var builder = AccountAmount.NewBuilder().SetAccountID(accountId.ToProtobuf()).SetAmount(amount).SetIsApproval(isApproved);
+			Proto.AccountAmount proto = new()
+            {
+				Amount = amount,
+				IsApproval = isApproved,
+				AccountID = accountId.ToProtobuf(),
+			};
+
             if (hookCall != null)
             {
-                switch (hookCall.GetType())
+                switch (hookCall?.Type)
                 {
-                    case PRE_TX_ALLOWANCE_HOOK:
-                        builder.SetPreTxAllowanceHook(hookCall.ToProtobuf());
-                    case PRE_POST_TX_ALLOWANCE_HOOK:
-                        builder.SetPrePostTxAllowanceHook(hookCall.ToProtobuf());
-                    default:
-                    {
-                    }
-
+                    case FungibleHookType.PreTxAllowanceHook:
+                        proto.PreTxAllowanceHook = hookCall.ToProtobuf();
                         break;
+                    case FungibleHookType.PrePostTxAllowanceHook:
+                        proto.PrePostTxAllowanceHook = hookCall.ToProtobuf();
+						break;
+					default: break;
                 }
             }
 
             return proto;
-        }
-
-        public override string ToString()
-        {
-            return MoreObjects.ToStringHelper(this).Add("tokenId", tokenId).Add("accountId", accountId).Add("amount", amount).Add("expectedDecimals", expectedDecimals).Add("isApproved", isApproved).ToString();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="verifyCertificate">should be verified</param>
         HederaTrustManager(ByteString certHash, bool verifyCertificate)
         {
-            if (certHash == null || certHash.IsEmpty())
+            if (certHash == null || certHash.IsEmpty)
             {
                 if (verifyCertificate)
                 {

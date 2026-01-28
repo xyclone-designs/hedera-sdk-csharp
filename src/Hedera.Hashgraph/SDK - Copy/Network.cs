@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK
         static Network ForMainnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.MAINNET);
-            Dictionary<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
+            Dictionary<string, AccountId> network = AddressBookToNetwork(ArgumentNullException.ThrowIfNull(addressBook).Values());
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.MAINNET, addressBook);
         }
 
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK
         static Network ForTestnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.TESTNET);
-            Dictionary<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
+            Dictionary<string, AccountId> network = AddressBookToNetwork(ArgumentNullException.ThrowIfNull(addressBook).Values());
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.TESTNET, addressBook);
         }
 
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.SDK
         static Network ForPreviewnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.PREVIEWNET);
-            Dictionary<string, AccountId> network = AddressBookToNetwork(Objects.RequireNonNull(addressBook).Values());
+            Dictionary<string, AccountId> network = AddressBookToNetwork(ArgumentNullException.ThrowIfNull(addressBook).Values());
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.PREVIEWNET, addressBook);
         }
 
@@ -102,7 +102,7 @@ namespace Hedera.Hashgraph.SDK
         /// Are certificates being verified?
         /// </summary>
         /// <returns>                         are certificates being verified</returns>
-        virtual bool IsVerifyCertificates()
+        public virtual bool IsVerifyCertificates()
         {
             return verifyCertificates;
         }
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="verifyCertificates">the desired status</param>
         /// <returns>{@code this}</returns>
-        virtual Network SetVerifyCertificates(bool verifyCertificates)
+        public virtual Network SetVerifyCertificates(bool verifyCertificates)
         {
             lock (this)
             {
@@ -140,15 +140,15 @@ namespace Hedera.Hashgraph.SDK
             addressBook = addressBook;
             foreach (var node in nodes)
             {
-                node.SetAddressBookEntry(addressBook == null ? null : addressBook[node.GetAccountId()]);
+                node.SetAddressBookEntry(addressBook == null ? null : addressBook[node.AccountId]);
             }
 
             return this;
         }
 
-        virtual void SetAddressBook(NodeAddressBook addressBook)
+        public virtual void SetAddressBook(NodeAddressBook addressBook)
         {
-            Dictionary<AccountId, NodeAddress> newAddressBook = addressBook.GetNodeAddresses().Stream().Filter((nodeAddress) => Objects.NonNull(nodeAddress.GetAccountId())).Collect(Collectors.ToMap(NodeAddress.GetAccountId(), Function.Identity(), (a, b) => a));
+            Dictionary<AccountId, NodeAddress> newAddressBook = addressBook.GetNodeAddresses().Stream().Filter((nodeAddress) => Objects.NonNull(nodeAddress.AccountId)).Collect(Collectors.ToMap(NodeAddress.AccountId, Function.Identity(), (a, b) => a));
             /*
              * Here we preserve the certificate hash in the case where one is previously defined and no new one is provided.
              *
@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.SDK
                     if (null != previous)
                     {
                         ByteString certHash = entry.GetValue().GetCertHash();
-                        if (null == certHash || certHash.IsEmpty())
+                        if (null == certHash || certHash.IsEmpty)
                         {
                             entry.GetValue().SetCertHash(previous.certHash);
                         }
@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.SDK
             addressBook = newAddressBook;
             foreach (var node in nodes)
             {
-                node.SetAddressBookEntry(addressBook[node.GetAccountId()]);
+                node.SetAddressBookEntry(addressBook[node.AccountId]);
             }
         }
 
@@ -191,7 +191,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 foreach (var endpoint in nodeAddress.addresses)
                 {
-                    network.Put(endpoint.ToString(), nodeAddress.accountId);
+                    network.Add(endpoint.ToString(), nodeAddress.accountId);
                 }
             }
 
@@ -207,7 +207,7 @@ namespace Hedera.Hashgraph.SDK
         {
             try
             {
-                using (var inputStream = Objects.RequireNonNull(typeof(Network).GetResource("/" + fileName)).OpenStream())
+                using (var inputStream = ArgumentNullException.ThrowIfNull(typeof(Network).GetResource("/" + fileName)).OpenStream())
                 {
                     var contents = ByteStreams.ToByteArray(inputStream);
                     var nodeAddressBook = NodeAddressBook.FromBytes(ByteString.CopyFrom(contents));
@@ -219,7 +219,7 @@ namespace Hedera.Hashgraph.SDK
                             continue;
                         }
 
-                        map.Put(nodeAddress.accountId, nodeAddress);
+                        map.Add(nodeAddress.accountId, nodeAddress);
                     }
 
                     return map;
@@ -235,14 +235,14 @@ namespace Hedera.Hashgraph.SDK
         /// Extract the of network records.
         /// </summary>
         /// <returns>                         list of network records</returns>
-        virtual Dictionary<string, AccountId> GetNetwork()
+        public virtual Dictionary<string, AccountId> GetNetwork()
         {
             lock (this)
             {
                 Dictionary<string, AccountId> returnMap = [];
                 foreach (var node in nodes)
                 {
-                    returnMap.Put(node.address.ToString(), node.GetAccountId());
+                    returnMap.Add(node.address.ToString(), node.AccountId);
                 }
 
                 return returnMap;
@@ -260,7 +260,7 @@ namespace Hedera.Hashgraph.SDK
         /// This is used by Query and Transaction for selecting node AccountId's.
         /// </summary>
         /// <returns>{@link java.util.List<AccountId>}</returns>
-        virtual IList<AccountId> GetNodeAccountIdsForExecute()
+        public virtual IList<AccountId> GetNodeAccountIdsForExecute()
         {
             lock (this)
             {
@@ -268,7 +268,7 @@ namespace Hedera.Hashgraph.SDK
                 var nodeAccountIds = new List<AccountId>(nodes.Count);
                 foreach (var node in nodes)
                 {
-                    nodeAccountIds.Add(node.GetAccountId());
+                    nodeAccountIds.Add(node.AccountId);
                 }
 
                 return nodeAccountIds;
@@ -280,7 +280,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="maxNodesPerRequest">the desired number of nodes</param>
         /// <returns>{@code this}</returns>
-        virtual Network SetMaxNodesPerRequest(int maxNodesPerRequest)
+        public virtual Network SetMaxNodesPerRequest(int maxNodesPerRequest)
         {
             maxNodesPerRequest = maxNodesPerRequest;
             return this;
@@ -290,7 +290,7 @@ namespace Hedera.Hashgraph.SDK
         /// Extract the number of nodes for each request.
         /// </summary>
         /// <returns>                         the number of nodes for each request</returns>
-        virtual int GetNumberOfNodesForRequest()
+        public virtual int GetNumberOfNodesForRequest()
         {
             if (maxNodesPerRequest != null)
             {
@@ -311,7 +311,7 @@ namespace Hedera.Hashgraph.SDK
             else
             {
                 var newList = new List<Node>();
-                network.Put(key, newList);
+                network.Add(key, newList);
                 return newList;
             }
         }
@@ -322,7 +322,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="transportSecurity">should transport security be enabled</param>
         /// <returns>{@code this}</returns>
         /// <exception cref="InterruptedException">when a thread is interrupted while it's waiting, sleeping, or otherwise occupied</exception>
-        virtual Network SetTransportSecurity(bool transportSecurity)
+        public virtual Network SetTransportSecurity(bool transportSecurity)
         {
             lock (this)
             {

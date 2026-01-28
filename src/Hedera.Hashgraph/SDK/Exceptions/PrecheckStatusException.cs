@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Exceptions
         /// <summary>
         /// The status of the failing transaction
         /// </summary>
-        public readonly Status status;
+        public readonly Status Status;
         /// <summary>
         /// The ID of the transaction that failed.
         /// <p>
@@ -31,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Exceptions
 		/// <param name="transactionId">the transaction id</param>
 		internal PrecheckStatusException(Status status, TransactionId transactionId)
         {
-            status = status;
+            Status = status;
             TransactionId = transactionId;
         }
 
@@ -45,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Exceptions
 					stringBuilder.Append("Hedera transaction `").Append(TransactionId).Append("` ");
 				}
 
-				stringBuilder.Append("failed pre-check with the status `").Append(status).Append("`");
+				stringBuilder.Append("failed pre-check with the status `").Append(Status).Append("`");
 				return stringBuilder.ToString();
 			}
 		}
