@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -54,30 +50,35 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = CryptoGetAccountRecordsQuery.NewBuilder();
+            var builder = new Proto.CryptoGetAccountRecordsQuery
+            {
+                Header = header,
+            };
+
             if (accountId != null)
             {
-                builder.AccountID(accountId.ToProtobuf());
+                builder.AccountID = accountId.ToProtobuf();
             }
 
-            queryBuilder.SetCryptoGetAccountRecords(builder.Header(header));
+            queryBuilder.CryptoGetAccountRecords = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetCryptoGetAccountRecords().GetHeader();
+            return response.CryptoGetAccountRecords.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetCryptoGetAccountRecords().GetHeader();
+            return request.CryptoGetAccountRecords.Header;
         }
 
-        override IList<TransactionRecord> MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override IList<TransactionRecord> MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            var rawTransactionRecords = response.GetCryptoGetAccountRecords().GetRecordsList();
+            var rawTransactionRecords = response.CryptoGetAccountRecords.RecordsList;
+
             var transactionRecords = new List<TransactionRecord>(rawTransactionRecords.Count);
             foreach (var record in rawTransactionRecords)
             {
@@ -87,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             return transactionRecords;
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return CryptoServiceGrpc.GetGetAccountRecordsMethod();
         }

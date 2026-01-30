@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_relation.proto</summary>
   public static partial class TokenRelationReflection {
@@ -30,12 +30,13 @@ namespace Proto {
             "dElEEg8KB2JhbGFuY2UYAyABKAMSDgoGZnJvemVuGAQgASgIEhMKC2t5Y19n",
             "cmFudGVkGAUgASgIEh0KFWF1dG9tYXRpY19hc3NvY2lhdGlvbhgGIAEoCBIm",
             "Cg5wcmV2aW91c190b2tlbhgHIAEoCzIOLnByb3RvLlRva2VuSUQSIgoKbmV4",
-            "dF90b2tlbhgIIAEoCzIOLnByb3RvLlRva2VuSURCIgoeY29tLmhlZGVyYS5o",
-            "YXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "dF90b2tlbhgIIAEoCzIOLnByb3RvLlRva2VuSURCOQoeY29tLmhlZGVyYS5o",
+            "YXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenRelation), global::Proto.TokenRelation.Parser, new[]{ "TokenId", "AccountId", "Balance", "Frozen", "KycGranted", "AutomaticAssociation", "PreviousToken", "NextToken" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenRelation), global::Hedera.Hashgraph.Proto.TokenRelation.Parser, new[]{ "TokenId", "AccountId", "Balance", "Frozen", "KycGranted", "AutomaticAssociation", "PreviousToken", "NextToken" }, null, null, null, null)
           }));
     }
     #endregion
@@ -76,7 +77,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenRelationReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenRelationReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -115,7 +116,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token_id" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier.
@@ -124,7 +125,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -133,7 +134,7 @@ namespace Proto {
 
     /// <summary>Field number for the "account_id" field.</summary>
     public const int AccountIdFieldNumber = 2;
-    private global::Proto.AccountID accountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountId_;
     /// <summary>
     ///*
     /// An account identifier.
@@ -142,7 +143,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountId {
       get { return accountId_; }
       set {
         accountId_ = value;
@@ -245,7 +246,7 @@ namespace Proto {
 
     /// <summary>Field number for the "previous_token" field.</summary>
     public const int PreviousTokenFieldNumber = 7;
-    private global::Proto.TokenID previousToken_;
+    private global::Hedera.Hashgraph.Proto.TokenID previousToken_;
     /// <summary>
     ///*
     /// The Token ID of the previous entry in the associated Account's
@@ -256,7 +257,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID PreviousToken {
+    public global::Hedera.Hashgraph.Proto.TokenID PreviousToken {
       get { return previousToken_; }
       set {
         previousToken_ = value;
@@ -265,7 +266,7 @@ namespace Proto {
 
     /// <summary>Field number for the "next_token" field.</summary>
     public const int NextTokenFieldNumber = 8;
-    private global::Proto.TokenID nextToken_;
+    private global::Hedera.Hashgraph.Proto.TokenID nextToken_;
     /// <summary>
     ///*
     /// The Token ID of the next entry in the associated Account's "virtual
@@ -276,7 +277,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID NextToken {
+    public global::Hedera.Hashgraph.Proto.TokenID NextToken {
       get { return nextToken_; }
       set {
         nextToken_ = value;
@@ -461,13 +462,13 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
       if (other.accountId_ != null) {
         if (accountId_ == null) {
-          AccountId = new global::Proto.AccountID();
+          AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountId.MergeFrom(other.AccountId);
       }
@@ -485,13 +486,13 @@ namespace Proto {
       }
       if (other.previousToken_ != null) {
         if (previousToken_ == null) {
-          PreviousToken = new global::Proto.TokenID();
+          PreviousToken = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         PreviousToken.MergeFrom(other.PreviousToken);
       }
       if (other.nextToken_ != null) {
         if (nextToken_ == null) {
-          NextToken = new global::Proto.TokenID();
+          NextToken = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         NextToken.MergeFrom(other.NextToken);
       }
@@ -516,14 +517,14 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -546,14 +547,14 @@ namespace Proto {
           }
           case 58: {
             if (previousToken_ == null) {
-              PreviousToken = new global::Proto.TokenID();
+              PreviousToken = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(PreviousToken);
             break;
           }
           case 66: {
             if (nextToken_ == null) {
-              NextToken = new global::Proto.TokenID();
+              NextToken = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(NextToken);
             break;
@@ -579,14 +580,14 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -609,14 +610,14 @@ namespace Proto {
           }
           case 58: {
             if (previousToken_ == null) {
-              PreviousToken = new global::Proto.TokenID();
+              PreviousToken = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(PreviousToken);
             break;
           }
           case 66: {
             if (nextToken_ == null) {
-              NextToken = new global::Proto.TokenID();
+              NextToken = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(NextToken);
             break;

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from file_delete.proto</summary>
   public static partial class FileDeleteReflection {
@@ -26,12 +26,12 @@ namespace Proto {
           string.Concat(
             "ChFmaWxlX2RlbGV0ZS5wcm90bxIFcHJvdG8aEWJhc2ljX3R5cGVzLnByb3Rv",
             "IjoKGUZpbGVEZWxldGVUcmFuc2FjdGlvbkJvZHkSHQoGZmlsZUlEGAIgASgL",
-            "Mg0ucHJvdG8uRmlsZUlEQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5w",
-            "cm90b1ABYgZwcm90bzM="));
+            "Mg0ucHJvdG8uRmlsZUlEQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5w",
+            "cm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileDeleteTransactionBody), global::Proto.FileDeleteTransactionBody.Parser, new[]{ "FileID" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody), global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody.Parser, new[]{ "FileID" }, null, null, null, null)
           }));
     }
     #endregion
@@ -80,7 +80,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FileDeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.FileDeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -112,7 +112,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fileID" field.</summary>
     public const int FileIDFieldNumber = 2;
-    private global::Proto.FileID fileID_;
+    private global::Hedera.Hashgraph.Proto.FileID fileID_;
     /// <summary>
     ///*
     /// A file identifier.&lt;br/>
@@ -123,7 +123,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
       get { return fileID_; }
       set {
         fileID_ = value;
@@ -217,7 +217,7 @@ namespace Proto {
       }
       if (other.fileID_ != null) {
         if (fileID_ == null) {
-          FileID = new global::Proto.FileID();
+          FileID = new global::Hedera.Hashgraph.Proto.FileID();
         }
         FileID.MergeFrom(other.FileID);
       }
@@ -242,7 +242,7 @@ namespace Proto {
             break;
           case 18: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
@@ -268,7 +268,7 @@ namespace Proto {
             break;
           case 18: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;

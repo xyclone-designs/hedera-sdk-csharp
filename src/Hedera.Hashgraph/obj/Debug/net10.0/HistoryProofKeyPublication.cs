@@ -27,8 +27,8 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
             "CiNoaXN0b3J5X3Byb29mX2tleV9wdWJsaWNhdGlvbi5wcm90bxIqY29tLmhl",
             "ZGVyYS5oYXBpLnNlcnZpY2VzLmF1eGlsaWFyeS5oaXN0b3J5Ij4KKUhpc3Rv",
             "cnlQcm9vZktleVB1YmxpY2F0aW9uVHJhbnNhY3Rpb25Cb2R5EhEKCXByb29m",
-            "X2tleRgBIAEoDEI1CjFjb20uaGVkZXJhLmhhcGkuc2VydmljZXMuYXV4aWxp",
-            "YXJ5Lmhpc3RvcnkubGVnYWN5UAFiBnByb3RvMw=="));
+            "X2tleRgBIAEoDEIzCjFjb20uaGVkZXJhLmhhcGkuc2VydmljZXMuYXV4aWxp",
+            "YXJ5Lmhpc3RvcnkubGVnYWN5YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

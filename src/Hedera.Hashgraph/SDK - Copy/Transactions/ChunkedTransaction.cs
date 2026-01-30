@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Function;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Queries;
+using Hedera.Hashgraph.SDK.Transactions.Schedule;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
@@ -24,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// The transaction data
         /// </summary>
-        protected ByteString data = ByteString.EMPTY;
+        protected ByteString data = ByteString.Empty;
         /// <summary>
         /// Maximum number of chunks this message will get broken up into when
         /// it's frozen.
@@ -71,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual T SetData(byte[] data)
         {
             RequireNotFrozen();
-            data = ByteString.CopyFrom(data);
+            data = ByteString.CopyFrom(data).ToByteArray();
 
             // noinspection unchecked
             return (T)this;
@@ -194,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 var offset = txIndex * nodeCount;
                 for (var nodeIndex = 0; nodeIndex < nodeCount; ++nodeIndex)
                 {
-                    hashes.Add(nodeAccountIds[nodeIndex], Hash(outerTransactions[offset + nodeIndex].GetSignedTransactionBytes().ToByteArray()));
+                    hashes.Add(nodeAccountIds[nodeIndex], Hash(outerTransactions[offset + nodeIndex].SignedTransactionBytes.ToByteArray()));
                 }
 
                 transactionHashes.Add(hashes);
@@ -205,7 +204,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         public override T AddSignature(PublicKey publicKey, byte[] signature)
         {
-            if (data.Count > chunkSize)
+            if (data.Length > chunkSize)
             {
                 throw new InvalidOperationException("Cannot manually add signature to chunked transaction with length greater than " + chunkSize);
             }
@@ -215,7 +214,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         public override IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignatures()
         {
-            if (data.Count > chunkSize)
+            if (data.Length > chunkSize)
             {
                 throw new InvalidOperationException("Cannot call getSignatures() on a chunked transaction with length greater than " + chunkSize);
             }
@@ -229,9 +228,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>                         the list of all signatures</returns>
         public virtual List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>> GetAllSignatures()
         {
-            if (publicKeys.IsEmpty)
+            if (publicKeys.Any() is false)
             {
-                return new ();
+                return [];
             }
 
             BuildAllTransactions();
@@ -254,7 +253,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
 
             var operatorId = client.GetOperatorAccountId();
-            if (operatorId != null && operatorId.Equals(ArgumentNullException.ThrowIfNull(GetTransactionIdInternal().accountId)))
+            if (operatorId != null && operatorId.Equals(GetTransactionIdInternal().AccountId))
             {
 
                 // on execute, sign each transaction with the operator, if present
@@ -297,7 +296,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 var response = base.Execute(client, timeoutPerChunk);
                 if (ShouldGetReceipt())
                 {
-                    new TransactionReceiptQuery().SetNodeAccountIds(Collections.SingletonList(response.nodeId)).SetTransactionId(response.transactionId).Execute(client, timeoutPerChunk);
+                    new TransactionReceiptQuery
+                    {
+						NodeAccountIds = [response.nodeId],
+						TransactionId = response.transactionId,
+
+					}.Execute(client, timeoutPerChunk);
                 }
 
                 responses.Add(response);
@@ -325,13 +329,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual Task<IList<TransactionResponse>> ExecuteAllAsync(Client client, Duration timeoutPerChunk)
         {
             FreezeAndSign(client);
-            Task<List<TransactionResponse>> future = Task.SupplyAsync(() => new List(transactionIds.Count));
+            Task<List<TransactionResponse>> future = Task.Run(() => new List<TransactionResponse>(transactionIds.Count));
             for (var i = 0; i < transactionIds.Count; i++)
             {
                 future = future.ThenCompose((list) =>
                 {
                     var responseFuture = base.ExecuteAsync(client, timeoutPerChunk);
-                    Function<TransactionResponse, TWildcardTodoCompletionStage<TransactionResponse>> receiptFuture = (TransactionResponse response) => response.GetReceiptAsync(client, timeoutPerChunk).ThenApply((receipt) => response);
+                    Function<TransactionResponse, TWildcardTodoCompletionStage<TransactionResponse>> receiptFuture = (TransactionResponse response) => response.ReceiptAsync(client, timeoutPerChunk).ThenApply((receipt) => response);
                     Function<TransactionResponse, IList<TransactionResponse>> addToList = (response) =>
                     {
                         list.Add(response);
@@ -408,14 +412,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 throw new InvalidOperationException("The underlying transaction for a scheduled transaction cannot have node account IDs set");
             }
 
-            if (data.Count > chunkSize)
+            if (data.Length > chunkSize)
             {
                 throw new InvalidOperationException("Cannot schedule a chunked transaction with length greater than " + chunkSize);
             }
 
             var bodyBuilder = SpawnBodyBuilder(null);
             OnFreeze(bodyBuilder);
-            OnFreezeChunk(bodyBuilder, null, 0, data.Count, 1, 1);
+            OnFreezeChunk(bodyBuilder, null, 0, data.Length, 1, 1);
             return DoSchedule(bodyBuilder);
         }
 
@@ -426,7 +430,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 throw new ArgumentException("message cannot be empty");
             }
 
-            var requiredChunks = (data.Count + (chunkSize - 1)) / chunkSize;
+            var requiredChunks = (data.Length + (chunkSize - 1)) / chunkSize;
             if (requiredChunks == 0)
             {
                 requiredChunks = 1;
@@ -434,7 +438,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             if (requiredChunks > maxChunks)
             {
-                throw new ArgumentException("message of " + data.Count + " bytes requires " + requiredChunks + " chunks but the maximum allowed chunks is " + maxChunks + ", try using setMaxChunks");
+                throw new ArgumentException("message of " + data.Length + " bytes requires " + requiredChunks + " chunks but the maximum allowed chunks is " + maxChunks + ", try using setMaxChunks");
             }
 
             return requiredChunks;
@@ -442,18 +446,18 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         override void WipeTransactionLists(int requiredChunks)
         {
-            sigPairLists = new List(requiredChunks * nodeAccountIds.Count);
-            outerTransactions = new List(requiredChunks * nodeAccountIds.Count);
-            innerSignedTransactions = new List(requiredChunks * nodeAccountIds.Count);
+            sigPairLists = new List<Proto.SignatureMap>(requiredChunks * nodeAccountIds.Count);
+            outerTransactions = new List<Proto.Transaction>(requiredChunks * nodeAccountIds.Count);
+            innerSignedTransactions = new List<Proto.SignedTransaction>(requiredChunks * nodeAccountIds.Count);
             for (int i = 0; i < requiredChunks; i++)
             {
                 if (!transactionIds.IsEmpty)
                 {
                     var startIndex = i * chunkSize;
                     var endIndex = startIndex + chunkSize;
-                    if (endIndex > data.Count)
+                    if (endIndex > data.Length)
                     {
-                        endIndex = data.Count;
+                        endIndex = data.Length;
                     }
 
                     OnFreezeChunk(ArgumentNullException.ThrowIfNull(frozenBodyBuilder).SetTransactionID(transactionIds[i].ToProtobuf()), transactionIds[0].ToProtobuf(), startIndex, endIndex, i, requiredChunks);
@@ -463,9 +467,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 // For each node we add a transaction with that node
                 foreach (var nodeId in nodeAccountIds)
                 {
-                    sigPairLists.Add(SignatureMap.NewBuilder());
-                    innerSignedTransactions.Add(SignedTransaction.NewBuilder().SetBodyBytes(frozenBodyBuilder.SetNodeAccountID(nodeId.ToProtobuf()).Build().ToByteString()));
-                    outerTransactions.Add(null);
+                    sigPairLists.Add(new Proto.SignatureMap());
+                    frozenBodyBuilder.NodeAccountID = nodeId.ToProtobuf();
+                    frozenBodyBuilder.ToByteString();
+					outerTransactions.Add(null);
+					innerSignedTransactions.Add(new Proto.SignedTransaction 
+                    {
+						BodyBytes = frozenBodyBuilder.ToByteString()
+					});
                 }
             }
         }
@@ -473,7 +482,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// A common base for file and topic message transactions.
         /// </summary>
-        abstract void OnFreezeChunk(TransactionBody.Builder body, TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total);
+        public abstract void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total);
         /// <summary>
         /// Should the receipt be retrieved?
         /// </summary>
@@ -492,11 +501,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>List of integers that represent the size of each chunk</returns>
         public virtual IList<int> BodySizeAllChunks()
         {
-            IList<int> list = new ();
-            int originalIndex = transactionIds.Index();
+            IList<int> list = [];
+            int originalIndex = transactionIds.Index;
             try
             {
-
                 // Calculate size for each chunk
                 for (int i = 0; i < GetRequiredChunks(); i++)
                 {

@@ -626,7 +626,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.ContractUpdateTransactionBody builder }</returns>
-        ContractUpdateTransactionBody.Builder Build()
+        ContractUpdateTransactionBody Build()
         {
             var builder = ContractUpdateTransactionBody.NewBuilder();
             if (contractId != null)

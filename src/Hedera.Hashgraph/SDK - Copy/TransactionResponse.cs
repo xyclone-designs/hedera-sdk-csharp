@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK
                                 // Retry the transaction
                                 return RetryTransaction(client);
                             }
-                            catch (InterruptedException ie)
+                            catch (ThreadInterruptedException ie)
                             {
                                 Thread.CurrentThread().Interrupt();
                                 throw new Exception("Retry on throttled status interrupted", ie);

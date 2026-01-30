@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Mirror.Api.Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from mirror/mirror_network_service.proto</summary>
   public static partial class MirrorNetworkServiceReflection {
@@ -29,13 +29,13 @@ namespace Com.Hedera.Mirror.Api.Proto {
             "ZXN0YW1wLnByb3RvIkEKEEFkZHJlc3NCb29rUXVlcnkSHgoHZmlsZV9pZBgB",
             "IAEoCzINLnByb3RvLkZpbGVJRBINCgVsaW1pdBgCIAEoBTJhCg5OZXR3b3Jr",
             "U2VydmljZRJPCghnZXROb2RlcxItLmNvbS5oZWRlcmEubWlycm9yLmFwaS5w",
-            "cm90by5BZGRyZXNzQm9va1F1ZXJ5GhIucHJvdG8uTm9kZUFkZHJlc3MwAUIp",
-            "CiVjb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG8ubWlycm9yUAFiBnBy",
-            "b3RvMw=="));
+            "cm90by5BZGRyZXNzQm9va1F1ZXJ5GhIucHJvdG8uTm9kZUFkZHJlc3MwAUJC",
+            "CiVjb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG8ubWlycm9yUAGqAhZI",
+            "ZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery), global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery.Parser, new[]{ "FileId", "Limit" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.AddressBookQuery), global::Hedera.Hashgraph.Proto.AddressBookQuery.Parser, new[]{ "FileId", "Limit" }, null, null, null, null)
           }));
     }
     #endregion
@@ -61,7 +61,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Mirror.Api.Proto.MirrorNetworkServiceReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.MirrorNetworkServiceReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -94,14 +94,14 @@ namespace Com.Hedera.Mirror.Api.Proto {
 
     /// <summary>Field number for the "file_id" field.</summary>
     public const int FileIdFieldNumber = 1;
-    private global::Proto.FileID fileId_;
+    private global::Hedera.Hashgraph.Proto.FileID fileId_;
     /// <summary>
     ///*
     /// The ID of the address book file on the network. Can be either 0.0.101 or 0.0.102.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileId {
+    public global::Hedera.Hashgraph.Proto.FileID FileId {
       get { return fileId_; }
       set {
         fileId_ = value;
@@ -224,7 +224,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
       }
       if (other.fileId_ != null) {
         if (fileId_ == null) {
-          FileId = new global::Proto.FileID();
+          FileId = new global::Hedera.Hashgraph.Proto.FileID();
         }
         FileId.MergeFrom(other.FileId);
       }
@@ -252,7 +252,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
             break;
           case 10: {
             if (fileId_ == null) {
-              FileId = new global::Proto.FileID();
+              FileId = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileId);
             break;
@@ -282,7 +282,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
             break;
           case 10: {
             if (fileId_ == null) {
-              FileId = new global::Proto.FileID();
+              FileId = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileId);
             break;

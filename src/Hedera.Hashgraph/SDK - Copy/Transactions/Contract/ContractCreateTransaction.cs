@@ -577,7 +577,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link ContractCreateTransactionBody}</returns>
-        ContractCreateTransactionBody.Builder Build()
+        ContractCreateTransactionBody Build()
         {
             var builder = ContractCreateTransactionBody.NewBuilder();
             if (bytecodeFileId != null)

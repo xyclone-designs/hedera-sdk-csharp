@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_delete_live_hash.proto</summary>
   public static partial class CryptoDeleteLiveHashReflection {
@@ -27,12 +27,13 @@ namespace Proto {
             "Ch1jcnlwdG9fZGVsZXRlX2xpdmVfaGFzaC5wcm90bxIFcHJvdG8aEWJhc2lj",
             "X3R5cGVzLnByb3RvImwKI0NyeXB0b0RlbGV0ZUxpdmVIYXNoVHJhbnNhY3Rp",
             "b25Cb2R5EisKEWFjY291bnRPZkxpdmVIYXNoGAEgASgLMhAucHJvdG8uQWNj",
-            "b3VudElEEhgKEGxpdmVIYXNoVG9EZWxldGUYAiABKAxCIgoeY29tLmhlZGVy",
-            "YS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "b3VudElEEhgKEGxpdmVIYXNoVG9EZWxldGUYAiABKAxCOQoeY29tLmhlZGVy",
+            "YS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90",
+            "b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoDeleteLiveHashTransactionBody), global::Proto.CryptoDeleteLiveHashTransactionBody.Parser, new[]{ "AccountOfLiveHash", "LiveHashToDelete" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody), global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody.Parser, new[]{ "AccountOfLiveHash", "LiveHashToDelete" }, null, null, null, null)
           }));
     }
     #endregion
@@ -64,7 +65,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoDeleteLiveHashReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -97,14 +98,14 @@ namespace Proto {
 
     /// <summary>Field number for the "accountOfLiveHash" field.</summary>
     public const int AccountOfLiveHashFieldNumber = 1;
-    private global::Proto.AccountID accountOfLiveHash_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountOfLiveHash_;
     /// <summary>
     ///*
     /// An account associated to a live hash.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountOfLiveHash {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountOfLiveHash {
       get { return accountOfLiveHash_; }
       set {
         accountOfLiveHash_ = value;
@@ -227,7 +228,7 @@ namespace Proto {
       }
       if (other.accountOfLiveHash_ != null) {
         if (accountOfLiveHash_ == null) {
-          AccountOfLiveHash = new global::Proto.AccountID();
+          AccountOfLiveHash = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountOfLiveHash.MergeFrom(other.AccountOfLiveHash);
       }
@@ -255,7 +256,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountOfLiveHash_ == null) {
-              AccountOfLiveHash = new global::Proto.AccountID();
+              AccountOfLiveHash = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountOfLiveHash);
             break;
@@ -285,7 +286,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountOfLiveHash_ == null) {
-              AccountOfLiveHash = new global::Proto.AccountID();
+              AccountOfLiveHash = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountOfLiveHash);
             break;

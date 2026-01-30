@@ -1,15 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -55,33 +49,37 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = ContractGetBytecodeQuery.NewBuilder();
+            var builder = new Proto.ContractGetBytecodeQuery
+            {
+                Header = header
+            };
+
             if (contractId != null)
             {
-                builder.ContractID(contractId.ToProtobuf());
+                builder.ContractID = contractId.ToProtobuf();
             }
 
-            queryBuilder.SetContractGetBytecode(builder.Header(header));
+            queryBuilder.ContractGetBytecode = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetContractGetBytecodeResponse().GetHeader();
+            return response.ContractGetBytecodeResponse.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetContractGetBytecode().GetHeader();
+            return request.ContractGetBytecode.Header;
         }
 
-        override ByteString MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override ByteString MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return response.GetContractGetBytecodeResponse().GetBytecode();
+            return response.ContractGetBytecodeResponse.Bytecode;
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return SmartContractServiceGrpc.GetContractGetBytecodeMethod();
         }

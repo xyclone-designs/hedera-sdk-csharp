@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from transaction_get_record.proto</summary>
   public static partial class TransactionGetRecordReflection {
@@ -36,13 +36,13 @@ namespace Proto {
             "bnNhY3Rpb25SZWNvcmQSPQobZHVwbGljYXRlVHJhbnNhY3Rpb25SZWNvcmRz",
             "GAQgAygLMhgucHJvdG8uVHJhbnNhY3Rpb25SZWNvcmQSOwoZY2hpbGRfdHJh",
             "bnNhY3Rpb25fcmVjb3JkcxgFIAMoCzIYLnByb3RvLlRyYW5zYWN0aW9uUmVj",
-            "b3JkQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90",
-            "bzM="));
+            "b3JkQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVy",
+            "YS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TransactionRecordReflection.Descriptor, global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TransactionRecordReflection.Descriptor, global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionGetRecordQuery), global::Proto.TransactionGetRecordQuery.Parser, new[]{ "Header", "TransactionID", "IncludeDuplicates", "IncludeChildRecords" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionGetRecordResponse), global::Proto.TransactionGetRecordResponse.Parser, new[]{ "Header", "TransactionRecord", "DuplicateTransactionRecords", "ChildTransactionRecords" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionGetRecordQuery), global::Hedera.Hashgraph.Proto.TransactionGetRecordQuery.Parser, new[]{ "Header", "TransactionID", "IncludeDuplicates", "IncludeChildRecords" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse), global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse.Parser, new[]{ "Header", "TransactionRecord", "DuplicateTransactionRecords", "ChildTransactionRecords" }, null, null, null, null)
           }));
     }
     #endregion
@@ -88,7 +88,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TransactionGetRecordReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TransactionGetRecordReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -123,7 +123,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -132,7 +132,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -141,7 +141,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transactionID" field.</summary>
     public const int TransactionIDFieldNumber = 2;
-    private global::Proto.TransactionID transactionID_;
+    private global::Hedera.Hashgraph.Proto.TransactionID transactionID_;
     /// <summary>
     ///*
     /// A transaction identifier.
@@ -151,7 +151,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionID TransactionID {
+    public global::Hedera.Hashgraph.Proto.TransactionID TransactionID {
       get { return transactionID_; }
       set {
         transactionID_ = value;
@@ -327,13 +327,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.transactionID_ != null) {
         if (transactionID_ == null) {
-          TransactionID = new global::Proto.TransactionID();
+          TransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
         }
         TransactionID.MergeFrom(other.TransactionID);
       }
@@ -364,14 +364,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (transactionID_ == null) {
-              TransactionID = new global::Proto.TransactionID();
+              TransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(TransactionID);
             break;
@@ -405,14 +405,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (transactionID_ == null) {
-              TransactionID = new global::Proto.TransactionID();
+              TransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(TransactionID);
             break;
@@ -475,7 +475,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TransactionGetRecordReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.TransactionGetRecordReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -510,7 +510,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -519,7 +519,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -528,7 +528,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transactionRecord" field.</summary>
     public const int TransactionRecordFieldNumber = 3;
-    private global::Proto.TransactionRecord transactionRecord_;
+    private global::Hedera.Hashgraph.Proto.TransactionRecord transactionRecord_;
     /// <summary>
     ///*
     /// A transaction record.
@@ -543,7 +543,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionRecord TransactionRecord {
+    public global::Hedera.Hashgraph.Proto.TransactionRecord TransactionRecord {
       get { return transactionRecord_; }
       set {
         transactionRecord_ = value;
@@ -552,9 +552,9 @@ namespace Proto {
 
     /// <summary>Field number for the "duplicateTransactionRecords" field.</summary>
     public const int DuplicateTransactionRecordsFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::Proto.TransactionRecord> _repeated_duplicateTransactionRecords_codec
-        = pb::FieldCodec.ForMessage(34, global::Proto.TransactionRecord.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TransactionRecord> duplicateTransactionRecords_ = new pbc::RepeatedField<global::Proto.TransactionRecord>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TransactionRecord> _repeated_duplicateTransactionRecords_codec
+        = pb::FieldCodec.ForMessage(34, global::Hedera.Hashgraph.Proto.TransactionRecord.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionRecord> duplicateTransactionRecords_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionRecord>();
     /// <summary>
     ///*
     /// A list of duplicate transaction records.
@@ -570,15 +570,15 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TransactionRecord> DuplicateTransactionRecords {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionRecord> DuplicateTransactionRecords {
       get { return duplicateTransactionRecords_; }
     }
 
     /// <summary>Field number for the "child_transaction_records" field.</summary>
     public const int ChildTransactionRecordsFieldNumber = 5;
-    private static readonly pb::FieldCodec<global::Proto.TransactionRecord> _repeated_childTransactionRecords_codec
-        = pb::FieldCodec.ForMessage(42, global::Proto.TransactionRecord.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TransactionRecord> childTransactionRecords_ = new pbc::RepeatedField<global::Proto.TransactionRecord>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TransactionRecord> _repeated_childTransactionRecords_codec
+        = pb::FieldCodec.ForMessage(42, global::Hedera.Hashgraph.Proto.TransactionRecord.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionRecord> childTransactionRecords_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionRecord>();
     /// <summary>
     ///*
     /// A list of records for all child transactions spawned by the requested
@@ -597,7 +597,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TransactionRecord> ChildTransactionRecords {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionRecord> ChildTransactionRecords {
       get { return childTransactionRecords_; }
     }
 
@@ -711,13 +711,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.transactionRecord_ != null) {
         if (transactionRecord_ == null) {
-          TransactionRecord = new global::Proto.TransactionRecord();
+          TransactionRecord = new global::Hedera.Hashgraph.Proto.TransactionRecord();
         }
         TransactionRecord.MergeFrom(other.TransactionRecord);
       }
@@ -744,14 +744,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 26: {
             if (transactionRecord_ == null) {
-              TransactionRecord = new global::Proto.TransactionRecord();
+              TransactionRecord = new global::Hedera.Hashgraph.Proto.TransactionRecord();
             }
             input.ReadMessage(TransactionRecord);
             break;
@@ -785,14 +785,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 26: {
             if (transactionRecord_ == null) {
-              TransactionRecord = new global::Proto.TransactionRecord();
+              TransactionRecord = new global::Hedera.Hashgraph.Proto.TransactionRecord();
             }
             input.ReadMessage(TransactionRecord);
             break;

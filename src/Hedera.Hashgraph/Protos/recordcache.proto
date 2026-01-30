@@ -20,8 +20,7 @@ import "transaction_record.proto";
 import "response_code.proto";
 
 option java_package = "com.hedera.hashgraph.sdk.proto";
-// <<<pbj.java_package = "com.hedera.hapi.node.state.recordcache">>> This comment is special code for setting PBJ Compiler java package
-option java_multiple_files = true;
+option csharp_namespace = "Hedera.Hashgraph.Proto";
 
 /**
  * As transactions are handled and records and receipts are created, they are

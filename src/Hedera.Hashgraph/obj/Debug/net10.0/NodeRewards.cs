@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from node_rewards.proto</summary>
   public static partial class NodeRewardsReflection {
@@ -28,13 +28,14 @@ namespace Proto {
             "HG51bV9yb3VuZHNfaW5fc3Rha2luZ19wZXJpb2QYASABKAQSGwoTbm9kZV9m",
             "ZWVzX2NvbGxlY3RlZBgCIAEoBBIsCg9ub2RlX2FjdGl2aXRpZXMYAyADKAsy",
             "Ey5wcm90by5Ob2RlQWN0aXZpdHkiQAoMTm9kZUFjdGl2aXR5Eg8KB25vZGVf",
-            "aWQYASABKAQSHwoXbnVtX21pc3NlZF9qdWRnZV9yb3VuZHMYAiABKARCIgoe",
-            "Y29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "aWQYASABKAQSHwoXbnVtX21pc3NlZF9qdWRnZV9yb3VuZHMYAiABKARCOQoe",
+            "Y29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hn",
+            "cmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NodeRewards), global::Proto.NodeRewards.Parser, new[]{ "NumRoundsInStakingPeriod", "NodeFeesCollected", "NodeActivities" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NodeActivity), global::Proto.NodeActivity.Parser, new[]{ "NodeId", "NumMissedJudgeRounds" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeRewards), global::Hedera.Hashgraph.Proto.NodeRewards.Parser, new[]{ "NumRoundsInStakingPeriod", "NodeFeesCollected", "NodeActivities" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeActivity), global::Hedera.Hashgraph.Proto.NodeActivity.Parser, new[]{ "NodeId", "NumMissedJudgeRounds" }, null, null, null, null)
           }));
     }
     #endregion
@@ -68,7 +69,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NodeRewardsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NodeRewardsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -134,9 +135,9 @@ namespace Proto {
 
     /// <summary>Field number for the "node_activities" field.</summary>
     public const int NodeActivitiesFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::Proto.NodeActivity> _repeated_nodeActivities_codec
-        = pb::FieldCodec.ForMessage(26, global::Proto.NodeActivity.Parser);
-    private readonly pbc::RepeatedField<global::Proto.NodeActivity> nodeActivities_ = new pbc::RepeatedField<global::Proto.NodeActivity>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NodeActivity> _repeated_nodeActivities_codec
+        = pb::FieldCodec.ForMessage(26, global::Hedera.Hashgraph.Proto.NodeActivity.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeActivity> nodeActivities_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeActivity>();
     /// <summary>
     ///*
     /// A list of node activities.&lt;br/>
@@ -148,7 +149,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.NodeActivity> NodeActivities {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeActivity> NodeActivities {
       get { return nodeActivities_; }
     }
 
@@ -357,7 +358,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NodeRewardsReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.NodeRewardsReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

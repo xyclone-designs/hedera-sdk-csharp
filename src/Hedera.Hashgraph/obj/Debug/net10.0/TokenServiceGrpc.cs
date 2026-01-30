@@ -18,7 +18,7 @@
 
 using grpc = global::Grpc.Core;
 
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
   /// <summary>
   ///*
   /// Transactions and queries for the Token Service
@@ -61,16 +61,16 @@ namespace Proto {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Proto.Transaction> __Marshaller_proto_Transaction = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Proto.Transaction.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.Transaction> __Marshaller_proto_Transaction = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.Transaction.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Proto.TransactionResponse> __Marshaller_proto_TransactionResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Proto.TransactionResponse.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.TransactionResponse> __Marshaller_proto_TransactionResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.TransactionResponse.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Proto.Query> __Marshaller_proto_Query = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Proto.Query.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.Query> __Marshaller_proto_Query = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.Query.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Proto.Response> __Marshaller_proto_Response = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Proto.Response.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.Response> __Marshaller_proto_Response = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.Response.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_createToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_createToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "createToken",
@@ -78,7 +78,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_updateToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_updateToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "updateToken",
@@ -86,7 +86,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_mintToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_mintToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "mintToken",
@@ -94,7 +94,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_burnToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_burnToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "burnToken",
@@ -102,7 +102,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_deleteToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_deleteToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "deleteToken",
@@ -110,7 +110,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_wipeTokenAccount = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_wipeTokenAccount = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "wipeTokenAccount",
@@ -118,7 +118,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_freezeTokenAccount = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_freezeTokenAccount = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "freezeTokenAccount",
@@ -126,7 +126,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_unfreezeTokenAccount = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_unfreezeTokenAccount = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "unfreezeTokenAccount",
@@ -134,7 +134,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_grantKycToTokenAccount = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_grantKycToTokenAccount = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "grantKycToTokenAccount",
@@ -142,7 +142,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_revokeKycFromTokenAccount = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_revokeKycFromTokenAccount = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "revokeKycFromTokenAccount",
@@ -150,7 +150,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_associateTokens = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_associateTokens = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "associateTokens",
@@ -158,7 +158,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_dissociateTokens = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_dissociateTokens = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "dissociateTokens",
@@ -166,7 +166,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_updateTokenFeeSchedule = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_updateTokenFeeSchedule = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "updateTokenFeeSchedule",
@@ -174,7 +174,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Query, global::Proto.Response> __Method_getTokenInfo = new grpc::Method<global::Proto.Query, global::Proto.Response>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Query, global::Hedera.Hashgraph.Proto.Response> __Method_getTokenInfo = new grpc::Method<global::Hedera.Hashgraph.Proto.Query, global::Hedera.Hashgraph.Proto.Response>(
         grpc::MethodType.Unary,
         __ServiceName,
         "getTokenInfo",
@@ -182,7 +182,7 @@ namespace Proto {
         __Marshaller_proto_Response);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Query, global::Proto.Response> __Method_getTokenNftInfo = new grpc::Method<global::Proto.Query, global::Proto.Response>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Query, global::Hedera.Hashgraph.Proto.Response> __Method_getTokenNftInfo = new grpc::Method<global::Hedera.Hashgraph.Proto.Query, global::Hedera.Hashgraph.Proto.Response>(
         grpc::MethodType.Unary,
         __ServiceName,
         "getTokenNftInfo",
@@ -190,7 +190,7 @@ namespace Proto {
         __Marshaller_proto_Response);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_pauseToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_pauseToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "pauseToken",
@@ -198,7 +198,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_unpauseToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_unpauseToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "unpauseToken",
@@ -206,7 +206,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_updateNfts = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_updateNfts = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "updateNfts",
@@ -214,7 +214,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_rejectToken = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_rejectToken = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "rejectToken",
@@ -222,7 +222,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_airdropTokens = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_airdropTokens = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "airdropTokens",
@@ -230,7 +230,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_cancelAirdrop = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_cancelAirdrop = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "cancelAirdrop",
@@ -238,7 +238,7 @@ namespace Proto {
         __Marshaller_proto_TransactionResponse);
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse> __Method_claimAirdrop = new grpc::Method<global::Proto.Transaction, global::Proto.TransactionResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse> __Method_claimAirdrop = new grpc::Method<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(
         grpc::MethodType.Unary,
         __ServiceName,
         "claimAirdrop",
@@ -248,7 +248,7 @@ namespace Proto {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::Proto.TokenServiceReflection.Descriptor.Services[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenServiceReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Base class for server-side implementations of TokenService</summary>
@@ -263,7 +263,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> createToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> createToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -276,7 +276,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> updateToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> updateToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -293,7 +293,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> mintToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> mintToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -310,7 +310,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> burnToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> burnToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -323,7 +323,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> deleteToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> deleteToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -340,7 +340,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> wipeTokenAccount(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> wipeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -353,7 +353,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> freezeTokenAccount(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> freezeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -366,7 +366,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> unfreezeTokenAccount(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> unfreezeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -380,7 +380,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> grantKycToTokenAccount(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> grantKycToTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -394,7 +394,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> revokeKycFromTokenAccount(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> revokeKycFromTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -407,7 +407,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> associateTokens(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> associateTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -420,7 +420,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> dissociateTokens(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> dissociateTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -433,7 +433,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> updateTokenFeeSchedule(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> updateTokenFeeSchedule(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -449,7 +449,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.Response> getTokenInfo(global::Proto.Query request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.Response> getTokenInfo(global::Hedera.Hashgraph.Proto.Query request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -466,7 +466,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.Response> getTokenNftInfo(global::Proto.Query request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.Response> getTokenNftInfo(global::Hedera.Hashgraph.Proto.Query request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -479,7 +479,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> pauseToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> pauseToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -492,7 +492,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> unpauseToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> unpauseToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -510,7 +510,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> updateNfts(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> updateNfts(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -540,7 +540,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> rejectToken(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> rejectToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -580,7 +580,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> airdropTokens(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> airdropTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -596,7 +596,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> cancelAirdrop(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> cancelAirdrop(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -614,7 +614,7 @@ namespace Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::Proto.TransactionResponse> claimAirdrop(global::Proto.Transaction request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::Hedera.Hashgraph.Proto.TransactionResponse> claimAirdrop(global::Hedera.Hashgraph.Proto.Transaction request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -658,7 +658,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse createToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse createToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return createToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -670,7 +670,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse createToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse createToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_createToken, null, options, request);
       }
@@ -684,7 +684,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> createTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> createTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return createTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -696,7 +696,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> createTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> createTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_createToken, null, options, request);
       }
@@ -710,7 +710,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse updateToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse updateToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return updateToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -722,7 +722,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse updateToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse updateToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_updateToken, null, options, request);
       }
@@ -736,7 +736,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> updateTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> updateTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return updateTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -748,7 +748,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> updateTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> updateTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_updateToken, null, options, request);
       }
@@ -766,7 +766,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse mintToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse mintToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return mintToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -782,7 +782,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse mintToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse mintToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_mintToken, null, options, request);
       }
@@ -800,7 +800,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> mintTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> mintTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return mintTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -816,7 +816,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> mintTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> mintTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_mintToken, null, options, request);
       }
@@ -834,7 +834,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse burnToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse burnToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return burnToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -850,7 +850,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse burnToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse burnToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_burnToken, null, options, request);
       }
@@ -868,7 +868,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> burnTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> burnTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return burnTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -884,7 +884,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> burnTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> burnTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_burnToken, null, options, request);
       }
@@ -898,7 +898,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse deleteToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse deleteToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return deleteToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -910,7 +910,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse deleteToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse deleteToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_deleteToken, null, options, request);
       }
@@ -924,7 +924,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> deleteTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> deleteTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return deleteTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -936,7 +936,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> deleteTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> deleteTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_deleteToken, null, options, request);
       }
@@ -954,7 +954,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse wipeTokenAccount(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse wipeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return wipeTokenAccount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -970,7 +970,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse wipeTokenAccount(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse wipeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_wipeTokenAccount, null, options, request);
       }
@@ -988,7 +988,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> wipeTokenAccountAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> wipeTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return wipeTokenAccountAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1004,7 +1004,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> wipeTokenAccountAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> wipeTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_wipeTokenAccount, null, options, request);
       }
@@ -1018,7 +1018,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse freezeTokenAccount(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse freezeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return freezeTokenAccount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1030,7 +1030,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse freezeTokenAccount(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse freezeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_freezeTokenAccount, null, options, request);
       }
@@ -1044,7 +1044,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> freezeTokenAccountAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> freezeTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return freezeTokenAccountAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1056,7 +1056,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> freezeTokenAccountAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> freezeTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_freezeTokenAccount, null, options, request);
       }
@@ -1070,7 +1070,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse unfreezeTokenAccount(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse unfreezeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return unfreezeTokenAccount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1082,7 +1082,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse unfreezeTokenAccount(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse unfreezeTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_unfreezeTokenAccount, null, options, request);
       }
@@ -1096,7 +1096,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> unfreezeTokenAccountAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> unfreezeTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return unfreezeTokenAccountAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1108,7 +1108,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> unfreezeTokenAccountAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> unfreezeTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_unfreezeTokenAccount, null, options, request);
       }
@@ -1123,7 +1123,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse grantKycToTokenAccount(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse grantKycToTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return grantKycToTokenAccount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1136,7 +1136,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse grantKycToTokenAccount(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse grantKycToTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_grantKycToTokenAccount, null, options, request);
       }
@@ -1151,7 +1151,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> grantKycToTokenAccountAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> grantKycToTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return grantKycToTokenAccountAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1164,7 +1164,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> grantKycToTokenAccountAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> grantKycToTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_grantKycToTokenAccount, null, options, request);
       }
@@ -1179,7 +1179,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse revokeKycFromTokenAccount(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse revokeKycFromTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return revokeKycFromTokenAccount(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1192,7 +1192,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse revokeKycFromTokenAccount(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse revokeKycFromTokenAccount(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_revokeKycFromTokenAccount, null, options, request);
       }
@@ -1207,7 +1207,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> revokeKycFromTokenAccountAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> revokeKycFromTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return revokeKycFromTokenAccountAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1220,7 +1220,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> revokeKycFromTokenAccountAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> revokeKycFromTokenAccountAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_revokeKycFromTokenAccount, null, options, request);
       }
@@ -1234,7 +1234,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse associateTokens(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse associateTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return associateTokens(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1246,7 +1246,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse associateTokens(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse associateTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_associateTokens, null, options, request);
       }
@@ -1260,7 +1260,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> associateTokensAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> associateTokensAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return associateTokensAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1272,7 +1272,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> associateTokensAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> associateTokensAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_associateTokens, null, options, request);
       }
@@ -1286,7 +1286,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse dissociateTokens(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse dissociateTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return dissociateTokens(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1298,7 +1298,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse dissociateTokens(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse dissociateTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_dissociateTokens, null, options, request);
       }
@@ -1312,7 +1312,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> dissociateTokensAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> dissociateTokensAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return dissociateTokensAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1324,7 +1324,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> dissociateTokensAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> dissociateTokensAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_dissociateTokens, null, options, request);
       }
@@ -1338,7 +1338,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse updateTokenFeeSchedule(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse updateTokenFeeSchedule(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return updateTokenFeeSchedule(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1350,7 +1350,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse updateTokenFeeSchedule(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse updateTokenFeeSchedule(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_updateTokenFeeSchedule, null, options, request);
       }
@@ -1364,7 +1364,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> updateTokenFeeScheduleAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> updateTokenFeeScheduleAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return updateTokenFeeScheduleAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1376,7 +1376,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> updateTokenFeeScheduleAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> updateTokenFeeScheduleAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_updateTokenFeeSchedule, null, options, request);
       }
@@ -1393,7 +1393,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.Response getTokenInfo(global::Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.Response getTokenInfo(global::Hedera.Hashgraph.Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return getTokenInfo(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1408,7 +1408,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.Response getTokenInfo(global::Proto.Query request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.Response getTokenInfo(global::Hedera.Hashgraph.Proto.Query request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_getTokenInfo, null, options, request);
       }
@@ -1425,7 +1425,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.Response> getTokenInfoAsync(global::Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.Response> getTokenInfoAsync(global::Hedera.Hashgraph.Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return getTokenInfoAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1440,7 +1440,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.Response> getTokenInfoAsync(global::Proto.Query request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.Response> getTokenInfoAsync(global::Hedera.Hashgraph.Proto.Query request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_getTokenInfo, null, options, request);
       }
@@ -1458,7 +1458,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.Response getTokenNftInfo(global::Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.Response getTokenNftInfo(global::Hedera.Hashgraph.Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return getTokenNftInfo(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1474,7 +1474,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.Response getTokenNftInfo(global::Proto.Query request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.Response getTokenNftInfo(global::Hedera.Hashgraph.Proto.Query request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_getTokenNftInfo, null, options, request);
       }
@@ -1492,7 +1492,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.Response> getTokenNftInfoAsync(global::Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.Response> getTokenNftInfoAsync(global::Hedera.Hashgraph.Proto.Query request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return getTokenNftInfoAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1508,7 +1508,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.Response> getTokenNftInfoAsync(global::Proto.Query request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.Response> getTokenNftInfoAsync(global::Hedera.Hashgraph.Proto.Query request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_getTokenNftInfo, null, options, request);
       }
@@ -1522,7 +1522,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse pauseToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse pauseToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return pauseToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1534,7 +1534,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse pauseToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse pauseToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_pauseToken, null, options, request);
       }
@@ -1548,7 +1548,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> pauseTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> pauseTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return pauseTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1560,7 +1560,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> pauseTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> pauseTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_pauseToken, null, options, request);
       }
@@ -1574,7 +1574,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse unpauseToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse unpauseToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return unpauseToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1586,7 +1586,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse unpauseToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse unpauseToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_unpauseToken, null, options, request);
       }
@@ -1600,7 +1600,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> unpauseTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> unpauseTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return unpauseTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1612,7 +1612,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> unpauseTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> unpauseTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_unpauseToken, null, options, request);
       }
@@ -1631,7 +1631,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse updateNfts(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse updateNfts(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return updateNfts(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1648,7 +1648,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse updateNfts(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse updateNfts(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_updateNfts, null, options, request);
       }
@@ -1667,7 +1667,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> updateNftsAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> updateNftsAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return updateNftsAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1684,7 +1684,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> updateNftsAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> updateNftsAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_updateNfts, null, options, request);
       }
@@ -1715,7 +1715,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse rejectToken(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse rejectToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return rejectToken(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1744,7 +1744,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse rejectToken(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse rejectToken(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_rejectToken, null, options, request);
       }
@@ -1775,7 +1775,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> rejectTokenAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> rejectTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return rejectTokenAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1804,7 +1804,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> rejectTokenAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> rejectTokenAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_rejectToken, null, options, request);
       }
@@ -1845,7 +1845,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse airdropTokens(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse airdropTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return airdropTokens(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1884,7 +1884,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse airdropTokens(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse airdropTokens(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_airdropTokens, null, options, request);
       }
@@ -1925,7 +1925,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> airdropTokensAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> airdropTokensAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return airdropTokensAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1964,7 +1964,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> airdropTokensAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> airdropTokensAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_airdropTokens, null, options, request);
       }
@@ -1981,7 +1981,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse cancelAirdrop(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse cancelAirdrop(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return cancelAirdrop(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -1996,7 +1996,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse cancelAirdrop(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse cancelAirdrop(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_cancelAirdrop, null, options, request);
       }
@@ -2013,7 +2013,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> cancelAirdropAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> cancelAirdropAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return cancelAirdropAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -2028,7 +2028,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> cancelAirdropAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> cancelAirdropAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_cancelAirdrop, null, options, request);
       }
@@ -2047,7 +2047,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse claimAirdrop(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse claimAirdrop(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return claimAirdrop(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -2064,7 +2064,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The response received from the server.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::Proto.TransactionResponse claimAirdrop(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual global::Hedera.Hashgraph.Proto.TransactionResponse claimAirdrop(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.BlockingUnaryCall(__Method_claimAirdrop, null, options, request);
       }
@@ -2083,7 +2083,7 @@ namespace Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> claimAirdropAsync(global::Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> claimAirdropAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return claimAirdropAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -2100,7 +2100,7 @@ namespace Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncUnaryCall<global::Proto.TransactionResponse> claimAirdropAsync(global::Proto.Transaction request, grpc::CallOptions options)
+      public virtual grpc::AsyncUnaryCall<global::Hedera.Hashgraph.Proto.TransactionResponse> claimAirdropAsync(global::Hedera.Hashgraph.Proto.Transaction request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_claimAirdrop, null, options, request);
       }
@@ -2149,28 +2149,28 @@ namespace Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, TokenServiceBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_createToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.createToken));
-      serviceBinder.AddMethod(__Method_updateToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.updateToken));
-      serviceBinder.AddMethod(__Method_mintToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.mintToken));
-      serviceBinder.AddMethod(__Method_burnToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.burnToken));
-      serviceBinder.AddMethod(__Method_deleteToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.deleteToken));
-      serviceBinder.AddMethod(__Method_wipeTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.wipeTokenAccount));
-      serviceBinder.AddMethod(__Method_freezeTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.freezeTokenAccount));
-      serviceBinder.AddMethod(__Method_unfreezeTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.unfreezeTokenAccount));
-      serviceBinder.AddMethod(__Method_grantKycToTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.grantKycToTokenAccount));
-      serviceBinder.AddMethod(__Method_revokeKycFromTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.revokeKycFromTokenAccount));
-      serviceBinder.AddMethod(__Method_associateTokens, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.associateTokens));
-      serviceBinder.AddMethod(__Method_dissociateTokens, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.dissociateTokens));
-      serviceBinder.AddMethod(__Method_updateTokenFeeSchedule, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.updateTokenFeeSchedule));
-      serviceBinder.AddMethod(__Method_getTokenInfo, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Query, global::Proto.Response>(serviceImpl.getTokenInfo));
-      serviceBinder.AddMethod(__Method_getTokenNftInfo, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Query, global::Proto.Response>(serviceImpl.getTokenNftInfo));
-      serviceBinder.AddMethod(__Method_pauseToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.pauseToken));
-      serviceBinder.AddMethod(__Method_unpauseToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.unpauseToken));
-      serviceBinder.AddMethod(__Method_updateNfts, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.updateNfts));
-      serviceBinder.AddMethod(__Method_rejectToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.rejectToken));
-      serviceBinder.AddMethod(__Method_airdropTokens, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.airdropTokens));
-      serviceBinder.AddMethod(__Method_cancelAirdrop, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.cancelAirdrop));
-      serviceBinder.AddMethod(__Method_claimAirdrop, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Proto.Transaction, global::Proto.TransactionResponse>(serviceImpl.claimAirdrop));
+      serviceBinder.AddMethod(__Method_createToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.createToken));
+      serviceBinder.AddMethod(__Method_updateToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.updateToken));
+      serviceBinder.AddMethod(__Method_mintToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.mintToken));
+      serviceBinder.AddMethod(__Method_burnToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.burnToken));
+      serviceBinder.AddMethod(__Method_deleteToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.deleteToken));
+      serviceBinder.AddMethod(__Method_wipeTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.wipeTokenAccount));
+      serviceBinder.AddMethod(__Method_freezeTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.freezeTokenAccount));
+      serviceBinder.AddMethod(__Method_unfreezeTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.unfreezeTokenAccount));
+      serviceBinder.AddMethod(__Method_grantKycToTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.grantKycToTokenAccount));
+      serviceBinder.AddMethod(__Method_revokeKycFromTokenAccount, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.revokeKycFromTokenAccount));
+      serviceBinder.AddMethod(__Method_associateTokens, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.associateTokens));
+      serviceBinder.AddMethod(__Method_dissociateTokens, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.dissociateTokens));
+      serviceBinder.AddMethod(__Method_updateTokenFeeSchedule, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.updateTokenFeeSchedule));
+      serviceBinder.AddMethod(__Method_getTokenInfo, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Query, global::Hedera.Hashgraph.Proto.Response>(serviceImpl.getTokenInfo));
+      serviceBinder.AddMethod(__Method_getTokenNftInfo, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Query, global::Hedera.Hashgraph.Proto.Response>(serviceImpl.getTokenNftInfo));
+      serviceBinder.AddMethod(__Method_pauseToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.pauseToken));
+      serviceBinder.AddMethod(__Method_unpauseToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.unpauseToken));
+      serviceBinder.AddMethod(__Method_updateNfts, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.updateNfts));
+      serviceBinder.AddMethod(__Method_rejectToken, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.rejectToken));
+      serviceBinder.AddMethod(__Method_airdropTokens, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.airdropTokens));
+      serviceBinder.AddMethod(__Method_cancelAirdrop, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.cancelAirdrop));
+      serviceBinder.AddMethod(__Method_claimAirdrop, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::Hedera.Hashgraph.Proto.Transaction, global::Hedera.Hashgraph.Proto.TransactionResponse>(serviceImpl.claimAirdrop));
     }
 
   }

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Com.Hedera.Mirror.Api.Proto;
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
@@ -16,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 using static Hedera.Hashgraph.SDK.ExecutionState;
 using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
@@ -41,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Topic
     public sealed class TopicMessageQuery
     {
         private static readonly Logger LOGGER = LoggerFactory.GetLogger(typeof(TopicMessageQuery));
-        private readonly ConsensusTopicQuery.Builder builder;
+        private readonly ConsensusTopicQuery builder;
         private Action completionHandler = OnComplete();
         private Action<Exception, TopicMessage> errorHandler = OnError();
         private int maxAttempts = 10;
@@ -179,7 +181,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         private void OnError(Exception Exception, TopicMessage topicMessage)
         {
             var topicId = TopicId.FromProtobuf(builder.GetTopicID());
-            if (Exception is StatusRuntimeException && sre.GetStatus().GetCode().Equals(Status.Code.CANCELLED))
+            if (Exception is StatusRuntimeException && sre.Status.Code.Equals(Status.Code.CANCELLED))
             {
                 LOGGER.Warn("Call is cancelled for topic {}.", topicId);
             }
@@ -227,12 +229,12 @@ namespace Hedera.Hashgraph.SDK.Topic
         public SubscriptionHandle Subscribe(Client client, Action<TopicMessage> onNext)
         {
             SubscriptionHandle subscriptionHandle = new SubscriptionHandle();
-            Dictionary<TransactionID, List<ConsensusTopicResponse>> pendingMessages = [];
+            Dictionary<Proto.TransactionID, List<ConsensusTopicResponse>> pendingMessages = [];
             try
             {
                 MakeStreamingCall(client, subscriptionHandle, onNext, 0, new AtomicLong(), new AtomicReference(), pendingMessages);
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException e)
             {
                 throw new Exception(string.Empty, e);
             }
@@ -240,7 +242,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             return subscriptionHandle;
         }
 
-        private void MakeStreamingCall(Client client, SubscriptionHandle subscriptionHandle, Action<TopicMessage> onNext, int attempt, AtomicLong counter, AtomicReference<ConsensusTopicResponse> lastMessage, Dictionary<TransactionID, List<ConsensusTopicResponse>> pendingMessages)
+        private void MakeStreamingCall(Client client, SubscriptionHandle subscriptionHandle, Action<TopicMessage> onNext, int attempt, AtomicLong counter, AtomicReference<ConsensusTopicResponse> lastMessage, Dictionary<Proto.TransactionID, List<ConsensusTopicResponse>> pendingMessages)
         {
 
             // TODO: check status of channel before using it?
@@ -355,7 +357,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 {
                     Thread.Sleep(delay);
                 }
-                catch (InterruptedException e)
+                catch (ThreadInterruptedException e)
                 {
                     Thread.CurrentThread().Interrupt();
                 }
@@ -364,7 +366,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 {
                     MakeStreamingCall(client, subscriptionHandle, onNext, attempt + 1, counter, lastMessage, pendingMessages);
                 }
-                catch (InterruptedException e)
+                catch (ThreadInterruptedException e)
                 {
                     throw new Exception(string.Empty, e);
                 }

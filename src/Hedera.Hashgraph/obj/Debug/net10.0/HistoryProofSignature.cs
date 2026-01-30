@@ -29,10 +29,10 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
             "LnByb3RvIogBCiRIaXN0b3J5UHJvb2ZTaWduYXR1cmVUcmFuc2FjdGlvbkJv",
             "ZHkSFwoPY29uc3RydWN0aW9uX2lkGAEgASgEEkcKCXNpZ25hdHVyZRgCIAEo",
             "CzI0LmNvbS5oZWRlcmEuaGFwaS5ub2RlLnN0YXRlLmhpc3RvcnkuSGlzdG9y",
-            "eVNpZ25hdHVyZUI1CjFjb20uaGVkZXJhLmhhcGkuc2VydmljZXMuYXV4aWxp",
-            "YXJ5Lmhpc3RvcnkubGVnYWN5UAFiBnByb3RvMw=="));
+            "eVNpZ25hdHVyZUIzCjFjb20uaGVkZXJhLmhhcGkuc2VydmljZXMuYXV4aWxp",
+            "YXJ5Lmhpc3RvcnkubGVnYWN5YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Com.Hedera.Hapi.Node.State.History.HistoryTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.HistoryTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofSignatureTransactionBody), global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofSignatureTransactionBody.Parser, new[]{ "ConstructionId", "Signature" }, null, null, null, null)
           }));
@@ -112,14 +112,14 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
 
     /// <summary>Field number for the "signature" field.</summary>
     public const int SignatureFieldNumber = 2;
-    private global::Com.Hedera.Hapi.Node.State.History.HistorySignature signature_;
+    private global::Hedera.Hashgraph.Proto.HistorySignature signature_;
     /// <summary>
     ///*
     /// This node's signature on its computed history.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.History.HistorySignature Signature {
+    public global::Hedera.Hashgraph.Proto.HistorySignature Signature {
       get { return signature_; }
       set {
         signature_ = value;
@@ -229,7 +229,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
       }
       if (other.signature_ != null) {
         if (signature_ == null) {
-          Signature = new global::Com.Hedera.Hapi.Node.State.History.HistorySignature();
+          Signature = new global::Hedera.Hashgraph.Proto.HistorySignature();
         }
         Signature.MergeFrom(other.Signature);
       }
@@ -258,7 +258,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
           }
           case 18: {
             if (signature_ == null) {
-              Signature = new global::Com.Hedera.Hapi.Node.State.History.HistorySignature();
+              Signature = new global::Hedera.Hashgraph.Proto.HistorySignature();
             }
             input.ReadMessage(Signature);
             break;
@@ -288,7 +288,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
           }
           case 18: {
             if (signature_ == null) {
-              Signature = new global::Com.Hedera.Hapi.Node.State.History.HistorySignature();
+              Signature = new global::Hedera.Hashgraph.Proto.HistorySignature();
             }
             input.ReadMessage(Signature);
             break;

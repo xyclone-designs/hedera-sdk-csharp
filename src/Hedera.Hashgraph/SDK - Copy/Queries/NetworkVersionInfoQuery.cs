@@ -35,12 +35,12 @@ namespace Hedera.Hashgraph.SDK.Queries
         {
         }
 
-		public override NetworkVersionInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+		public override NetworkVersionInfo MapResponse(Proto.Response response, Proto.AccountID nodeId, Proto.Query request)
         {
             return NetworkVersionInfo.FromProtobuf(response.NetworkGetVersionInfo);
         }
 
-		public override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+		public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return NetworkServiceGrpc.GetGetVersionInfoMethod();
         }

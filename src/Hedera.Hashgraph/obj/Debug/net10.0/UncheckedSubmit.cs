@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from unchecked_submit.proto</summary>
   public static partial class UncheckedSubmitReflection {
@@ -25,12 +25,13 @@ namespace Proto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChZ1bmNoZWNrZWRfc3VibWl0LnByb3RvEgVwcm90byIzChNVbmNoZWNrZWRT",
-            "dWJtaXRCb2R5EhgKEHRyYW5zYWN0aW9uQnl0ZXMYASABKAw6AhgBQiIKHmNv",
-            "bS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "dWJtaXRCb2R5EhgKEHRyYW5zYWN0aW9uQnl0ZXMYASABKAw6AhgBQjkKHmNv",
+            "bS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3Jh",
+            "cGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.UncheckedSubmitBody), global::Proto.UncheckedSubmitBody.Parser, new[]{ "TransactionBytes" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.UncheckedSubmitBody), global::Hedera.Hashgraph.Proto.UncheckedSubmitBody.Parser, new[]{ "TransactionBytes" }, null, null, null, null)
           }));
     }
     #endregion
@@ -61,7 +62,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.UncheckedSubmitReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.UncheckedSubmitReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

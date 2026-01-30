@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
+using Com.Hedera.Mirror.Api.Proto;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto.Mirror;
 using Io.Grpc;
 using Io.Grpc.Stub;
@@ -12,6 +15,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -213,7 +218,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             private readonly AddressBookQuery parent;
             public void OnNext(Proto.NodeAddress addressProto)
             {
-                addresses.Add(NodeAddress.FromProtobuf(addressProto));
+                Addresses.Add(NodeAddress.FromProtobuf(addressProto));
             }
 
             public void OnError(Exception error)
@@ -240,20 +245,21 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// Build the address book query.
         /// </summary>
         /// <returns>{@link Proto.mirror.AddressBookQuery buildQuery }</returns>
-        public virtual Proto.mirror.AddressBookQuery BuildQuery()
+        public virtual AddressBookQuery BuildQuery()
         {
-            var builder = Proto.mirror.AddressBookQuery.NewBuilder();
+            var builder = new AddressBookQuery();
+
             if (fileId != null)
             {
-                builder.FileId(fileId.ToProtobuf());
+                builder.fileId = fileId.ToProtobuf();
             }
 
             if (limit != null)
             {
-                builder.Limit(limit);
+                builder.limit = limit;
             }
 
-            return proto;
+            return builder;
         }
 
         private ClientCall<Proto.mirror.AddressBookQuery, Proto.NodeAddress> BuildCall(Client client, Deadline deadline)
@@ -262,7 +268,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             {
                 return client.mirrorNetwork.GetNextMirrorNode().GetChannel().NewCall(NetworkServiceGrpc.GetGetNodesMethod(), CallOptions.DEFAULT.WithDeadline(deadline));
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException e)
             {
                 throw new Exception(string.Empty, e);
             }
@@ -271,14 +277,14 @@ namespace Hedera.Hashgraph.SDK.Queries
         private void WarnAndDelay(int attempt, Exception error)
         {
             var delay = Math.Min(500 * (long)Math.Pow(2, attempt), maxBackoff.ToMillis());
-            LOGGER.Warn("Error fetching address book at FileId {} during attempt #{}. Waiting {} ms before next attempt: {}", fileId, attempt, delay, error.GetMessage());
+            LOGGER.Warn("Error fetching address book at FileId {} during attempt #{}. Waiting {} ms before next attempt: {}", fileId, attempt, delay, error.Message);
             try
             {
                 Thread.Sleep(delay);
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException)
             {
-                Thread.CurrentThread().Interrupt();
+                Thread.CurrentThread.Interrupt();
             }
         }
     }

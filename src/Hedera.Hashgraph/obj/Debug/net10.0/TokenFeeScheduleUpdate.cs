@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_fee_schedule_update.proto</summary>
   public static partial class TokenFeeScheduleUpdateReflection {
@@ -28,12 +28,12 @@ namespace Proto {
             "aWNfdHlwZXMucHJvdG8aEWN1c3RvbV9mZWVzLnByb3RvInAKJVRva2VuRmVl",
             "U2NoZWR1bGVVcGRhdGVUcmFuc2FjdGlvbkJvZHkSIAoIdG9rZW5faWQYASAB",
             "KAsyDi5wcm90by5Ub2tlbklEEiUKC2N1c3RvbV9mZWVzGAIgAygLMhAucHJv",
-            "dG8uQ3VzdG9tRmVlQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90",
-            "b1ABYgZwcm90bzM="));
+            "dG8uQ3VzdG9tRmVlQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90",
+            "b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.CustomFeesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenFeeScheduleUpdateTransactionBody), global::Proto.TokenFeeScheduleUpdateTransactionBody.Parser, new[]{ "TokenId", "CustomFees" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody), global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody.Parser, new[]{ "TokenId", "CustomFees" }, null, null, null, null)
           }));
     }
     #endregion
@@ -70,7 +70,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenFeeScheduleUpdateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -103,7 +103,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token_id" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier.
@@ -114,7 +114,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -123,9 +123,9 @@ namespace Proto {
 
     /// <summary>Field number for the "custom_fees" field.</summary>
     public const int CustomFeesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.CustomFee> _repeated_customFees_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.CustomFee.Parser);
-    private readonly pbc::RepeatedField<global::Proto.CustomFee> customFees_ = new pbc::RepeatedField<global::Proto.CustomFee>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.CustomFee> _repeated_customFees_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.CustomFee.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFee> customFees_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFee>();
     /// <summary>
     ///*
     /// A list of custom fees representing a fee schedule.
@@ -139,7 +139,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.CustomFee> CustomFees {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFee> CustomFees {
       get { return customFees_; }
     }
 
@@ -235,7 +235,7 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
@@ -261,7 +261,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
@@ -291,7 +291,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;

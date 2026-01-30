@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
 using Io.Grpc;
 using Java;
@@ -52,12 +53,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
     /// </summary>
     public sealed class BatchTransaction : Transaction<BatchTransaction>
     {
-        private IList<Transaction> innerTransactions = new ();
+        private IList<Transaction> innerTransactions = [];
         /// <summary>
         /// List of transaction types that are not allowed in a batch transaction.
         /// These transactions are prohibited due to their special nature or network-level implications.
         /// </summary>
-        private static readonly HashSet<Class<TWildcardTodoTransaction<T>>> BLACKLISTED_TRANSACTIONS = Set.Of(typeof(FreezeTransaction), typeof(BatchTransaction));
+        private static readonly HashSet<Type> BLACKLISTED_TRANSACTIONS = [typeof(FreezeTransaction), typeof(BatchTransaction)];
         /// <summary>
         /// Creates a new empty BatchTransaction.
         /// </summary>
@@ -152,11 +153,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="transaction">The transaction to validate</param>
         /// <exception cref="IllegalArgumentException">if the transaction is blacklisted</exception>
         /// <exception cref="IllegalStateException">if the transaction is not frozen or missing a batch key</exception>
-        private void ValidateInnerTransaction(Transaction<T> transaction)
+        private void ValidateInnerTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
         {
             if (BLACKLISTED_TRANSACTIONS.Contains(transaction.GetType()))
             {
-                throw new ArgumentException("Transaction type " + transaction.GetType().GetSimpleName() + " is not allowed in a batch transaction");
+                throw new ArgumentException("Transaction type " + transaction.GetType().Name + " is not allowed in a batch transaction");
             }
 
             if (!transaction.IsFrozen())
@@ -198,7 +199,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>The list of inner transaction IDs</returns>
         public IList<TransactionId> GetInnerTransactionIds()
         {
-            return innerTransactions.Stream().Map(Transaction.GetTransactionId()).ToList();
+            return innerTransactions.Select(_ => Transaction.Id); .Stream().Map(Transaction.GetTransactionId()).ToList();
         }
 
         override void ValidateChecksums(Client client)
@@ -214,11 +215,16 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.AtomicBatch();
-            foreach (var atomicTransactionBytes in body.GetTransactionsList())
+            var body = sourceTransactionBody.AtomicBatch;
+
+            foreach (var atomicTransactionBytes in body.Transactions)
             {
-                var transaction = Proto.Transaction.NewBuilder().SetSignedTransactionBytes(atomicTransactionBytes);
-                innerTransactions.Add(Transaction.FromBytes(transaction.Build().ToByteArray()));
+                var transaction = new Proto.Transaction
+                {
+					SignedTransactionBytes = atomicTransactionBytes
+				};
+
+                innerTransactions.Add(FromBytes(transaction.ToByteArray()));
             }
         }
 
@@ -231,20 +237,21 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Create the builder.
         /// </summary>
         /// <returns>the transaction builder</returns>
-        AtomicBatchTransactionBody Build()
+        public Proto.AtomicBatchTransactionBody Build()
         {
-            var builder = AtomicBatchTransactionBody.NewBuilder();
+            var builder = new Proto.AtomicBatchTransactionBody();
+
             foreach (var transaction in innerTransactions)
             {
-                builder.AddTransactions(transaction.MakeRequest().GetSignedTransactionBytes());
+                builder.Transactions.Add(transaction.MakeRequest().GetSignedTransactionBytes());
             }
 
-            return proto;
+            return builder;
         }
 
         override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetAtomicBatch(Build());
+            bodyBuilder.AtomicBatch = Build();
         }
 
         override void OnScheduled(Proto.SchedulableTransactionBody scheduled)

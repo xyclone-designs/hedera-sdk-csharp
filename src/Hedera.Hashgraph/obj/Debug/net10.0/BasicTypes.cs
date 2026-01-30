@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from basic_types.proto</summary>
   public static partial class BasicTypesReflection {
@@ -204,56 +204,56 @@ namespace Proto {
             "SGlzdG9yeUFzc2VtYmx5U2lnbmF0dXJlEGgSHgoaSGlzdG9yeVByb29mS2V5",
             "UHVibGljYXRpb24QaRIUChBIaXN0b3J5UHJvb2ZWb3RlEGoSEgoOQ3JzUHVi",
             "bGljYXRpb24QaxIPCgtBdG9taWNCYXRjaBBsEhAKDExhbWJkYVNTdG9yZRBt",
-            "EhAKDEhvb2tEaXNwYXRjaBBuQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNk",
-            "ay5wcm90b1ABYgZwcm90bzM="));
+            "EhAKDEhvb2tEaXNwYXRjaBBuQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNk",
+            "ay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Proto.BlockHashAlgorithm), typeof(global::Proto.TokenType), typeof(global::Proto.SubType), typeof(global::Proto.TokenSupplyType), typeof(global::Proto.TokenKeyValidation), typeof(global::Proto.TokenFreezeStatus), typeof(global::Proto.TokenKycStatus), typeof(global::Proto.TokenPauseStatus), typeof(global::Proto.HederaFunctionality), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ShardID), global::Proto.ShardID.Parser, new[]{ "ShardNum" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.RealmID), global::Proto.RealmID.Parser, new[]{ "ShardNum", "RealmNum" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenID), global::Proto.TokenID.Parser, new[]{ "ShardNum", "RealmNum", "TokenNum" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.AccountID), global::Proto.AccountID.Parser, new[]{ "ShardNum", "RealmNum", "AccountNum", "Alias" }, new[]{ "Account" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NftID), global::Proto.NftID.Parser, new[]{ "TokenID", "SerialNumber" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileID), global::Proto.FileID.Parser, new[]{ "ShardNum", "RealmNum", "FileNum" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractID), global::Proto.ContractID.Parser, new[]{ "ShardNum", "RealmNum", "ContractNum", "EvmAddress" }, new[]{ "Contract" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TopicID), global::Proto.TopicID.Parser, new[]{ "ShardNum", "RealmNum", "TopicNum" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ScheduleID), global::Proto.ScheduleID.Parser, new[]{ "ShardNum", "RealmNum", "ScheduleNum" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionID), global::Proto.TransactionID.Parser, new[]{ "TransactionValidStart", "AccountID", "Scheduled", "Nonce" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.HookId), global::Proto.HookId.Parser, new[]{ "EntityId", "HookId_" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.HookEntityId), global::Proto.HookEntityId.Parser, new[]{ "AccountId", "ContractId" }, new[]{ "EntityId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.HookCall), global::Proto.HookCall.Parser, new[]{ "HookId", "EvmHookCall" }, new[]{ "Id", "CallSpec" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.EvmHookCall), global::Proto.EvmHookCall.Parser, new[]{ "Data", "GasLimit" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.AccountAmount), global::Proto.AccountAmount.Parser, new[]{ "AccountID", "Amount", "IsApproval", "PreTxAllowanceHook", "PrePostTxAllowanceHook" }, new[]{ "HookCall" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransferList), global::Proto.TransferList.Parser, new[]{ "AccountAmounts" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NftTransfer), global::Proto.NftTransfer.Parser, new[]{ "SenderAccountID", "ReceiverAccountID", "SerialNumber", "IsApproval", "PreTxSenderAllowanceHook", "PrePostTxSenderAllowanceHook", "PreTxReceiverAllowanceHook", "PrePostTxReceiverAllowanceHook" }, new[]{ "SenderAllowanceHookCall", "ReceiverAllowanceHookCall" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenTransferList), global::Proto.TokenTransferList.Parser, new[]{ "Token", "Transfers", "NftTransfers", "ExpectedDecimals" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Fraction), global::Proto.Fraction.Parser, new[]{ "Numerator", "Denominator" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Key), global::Proto.Key.Parser, new[]{ "ContractID", "Ed25519", "RSA3072", "ECDSA384", "ThresholdKey", "KeyList", "ECDSASecp256K1", "DelegatableContractId" }, new[]{ "Key" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ThresholdKey), global::Proto.ThresholdKey.Parser, new[]{ "Threshold", "Keys" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.KeyList), global::Proto.KeyList.Parser, new[]{ "Keys" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Signature), global::Proto.Signature.Parser, new[]{ "Contract", "Ed25519", "RSA3072", "ECDSA384", "ThresholdSignature", "SignatureList" }, new[]{ "Signature" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ThresholdSignature), global::Proto.ThresholdSignature.Parser, new[]{ "Sigs" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SignatureList), global::Proto.SignatureList.Parser, new[]{ "Sigs" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SignaturePair), global::Proto.SignaturePair.Parser, new[]{ "PubKeyPrefix", "Contract", "Ed25519", "RSA3072", "ECDSA384", "ECDSASecp256K1" }, new[]{ "Signature" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SignatureMap), global::Proto.SignatureMap.Parser, new[]{ "SigPair" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FeeComponents), global::Proto.FeeComponents.Parser, new[]{ "Min", "Max", "Constant", "Bpt", "Vpt", "Rbh", "Sbh", "Gas", "Tv", "Bpr", "Sbpr" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionFeeSchedule), global::Proto.TransactionFeeSchedule.Parser, new[]{ "HederaFunctionality", "FeeData", "Fees" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FeeData), global::Proto.FeeData.Parser, new[]{ "Nodedata", "Networkdata", "Servicedata", "SubType" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FeeSchedule), global::Proto.FeeSchedule.Parser, new[]{ "TransactionFeeSchedule", "ExpiryTime" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CurrentAndNextFeeSchedule), global::Proto.CurrentAndNextFeeSchedule.Parser, new[]{ "CurrentFeeSchedule", "NextFeeSchedule" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ServiceEndpoint), global::Proto.ServiceEndpoint.Parser, new[]{ "IpAddressV4", "Port", "DomainName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NodeAddress), global::Proto.NodeAddress.Parser, new[]{ "IpAddress", "Portno", "Memo", "RSAPubKey", "NodeId", "NodeAccountId", "NodeCertHash", "ServiceEndpoint", "Description", "Stake" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NodeAddressBook), global::Proto.NodeAddressBook.Parser, new[]{ "NodeAddress" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SemanticVersion), global::Proto.SemanticVersion.Parser, new[]{ "Major", "Minor", "Patch", "Pre", "Build" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Setting), global::Proto.Setting.Parser, new[]{ "Name", "Value", "Data" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ServicesConfigurationList), global::Proto.ServicesConfigurationList.Parser, new[]{ "NameValue" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenRelationship), global::Proto.TokenRelationship.Parser, new[]{ "TokenId", "Symbol", "Balance", "KycStatus", "FreezeStatus", "Decimals", "AutomaticAssociation" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenBalance), global::Proto.TokenBalance.Parser, new[]{ "TokenId", "Balance", "Decimals" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenBalances), global::Proto.TokenBalances.Parser, new[]{ "TokenBalances_" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenAssociation), global::Proto.TokenAssociation.Parser, new[]{ "TokenId", "AccountId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.StakingInfo), global::Proto.StakingInfo.Parser, new[]{ "DeclineReward", "StakePeriodStart", "PendingReward", "StakedToMe", "StakedAccountId", "StakedNodeId" }, new[]{ "StakedId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.PendingAirdropId), global::Proto.PendingAirdropId.Parser, new[]{ "SenderId", "ReceiverId", "FungibleTokenType", "NonFungibleToken" }, new[]{ "TokenReference" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.PendingAirdropValue), global::Proto.PendingAirdropValue.Parser, new[]{ "Amount" }, null, null, null, null)
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Hedera.Hashgraph.Proto.BlockHashAlgorithm), typeof(global::Hedera.Hashgraph.Proto.TokenType), typeof(global::Hedera.Hashgraph.Proto.SubType), typeof(global::Hedera.Hashgraph.Proto.TokenSupplyType), typeof(global::Hedera.Hashgraph.Proto.TokenKeyValidation), typeof(global::Hedera.Hashgraph.Proto.TokenFreezeStatus), typeof(global::Hedera.Hashgraph.Proto.TokenKycStatus), typeof(global::Hedera.Hashgraph.Proto.TokenPauseStatus), typeof(global::Hedera.Hashgraph.Proto.HederaFunctionality), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ShardID), global::Hedera.Hashgraph.Proto.ShardID.Parser, new[]{ "ShardNum" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.RealmID), global::Hedera.Hashgraph.Proto.RealmID.Parser, new[]{ "ShardNum", "RealmNum" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenID), global::Hedera.Hashgraph.Proto.TokenID.Parser, new[]{ "ShardNum", "RealmNum", "TokenNum" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.AccountID), global::Hedera.Hashgraph.Proto.AccountID.Parser, new[]{ "ShardNum", "RealmNum", "AccountNum", "Alias" }, new[]{ "Account" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NftID), global::Hedera.Hashgraph.Proto.NftID.Parser, new[]{ "TokenID", "SerialNumber" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileID), global::Hedera.Hashgraph.Proto.FileID.Parser, new[]{ "ShardNum", "RealmNum", "FileNum" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractID), global::Hedera.Hashgraph.Proto.ContractID.Parser, new[]{ "ShardNum", "RealmNum", "ContractNum", "EvmAddress" }, new[]{ "Contract" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TopicID), global::Hedera.Hashgraph.Proto.TopicID.Parser, new[]{ "ShardNum", "RealmNum", "TopicNum" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ScheduleID), global::Hedera.Hashgraph.Proto.ScheduleID.Parser, new[]{ "ShardNum", "RealmNum", "ScheduleNum" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionID), global::Hedera.Hashgraph.Proto.TransactionID.Parser, new[]{ "TransactionValidStart", "AccountID", "Scheduled", "Nonce" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HookId), global::Hedera.Hashgraph.Proto.HookId.Parser, new[]{ "EntityId", "HookId_" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HookEntityId), global::Hedera.Hashgraph.Proto.HookEntityId.Parser, new[]{ "AccountId", "ContractId" }, new[]{ "EntityId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HookCall), global::Hedera.Hashgraph.Proto.HookCall.Parser, new[]{ "HookId", "EvmHookCall" }, new[]{ "Id", "CallSpec" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EvmHookCall), global::Hedera.Hashgraph.Proto.EvmHookCall.Parser, new[]{ "Data", "GasLimit" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.AccountAmount), global::Hedera.Hashgraph.Proto.AccountAmount.Parser, new[]{ "AccountID", "Amount", "IsApproval", "PreTxAllowanceHook", "PrePostTxAllowanceHook" }, new[]{ "HookCall" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransferList), global::Hedera.Hashgraph.Proto.TransferList.Parser, new[]{ "AccountAmounts" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NftTransfer), global::Hedera.Hashgraph.Proto.NftTransfer.Parser, new[]{ "SenderAccountID", "ReceiverAccountID", "SerialNumber", "IsApproval", "PreTxSenderAllowanceHook", "PrePostTxSenderAllowanceHook", "PreTxReceiverAllowanceHook", "PrePostTxReceiverAllowanceHook" }, new[]{ "SenderAllowanceHookCall", "ReceiverAllowanceHookCall" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenTransferList), global::Hedera.Hashgraph.Proto.TokenTransferList.Parser, new[]{ "Token", "Transfers", "NftTransfers", "ExpectedDecimals" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Fraction), global::Hedera.Hashgraph.Proto.Fraction.Parser, new[]{ "Numerator", "Denominator" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Key), global::Hedera.Hashgraph.Proto.Key.Parser, new[]{ "ContractID", "Ed25519", "RSA3072", "ECDSA384", "ThresholdKey", "KeyList", "ECDSASecp256K1", "DelegatableContractId" }, new[]{ "Key" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ThresholdKey), global::Hedera.Hashgraph.Proto.ThresholdKey.Parser, new[]{ "Threshold", "Keys" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.KeyList), global::Hedera.Hashgraph.Proto.KeyList.Parser, new[]{ "Keys" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Signature), global::Hedera.Hashgraph.Proto.Signature.Parser, new[]{ "Contract", "Ed25519", "RSA3072", "ECDSA384", "ThresholdSignature", "SignatureList" }, new[]{ "Signature" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ThresholdSignature), global::Hedera.Hashgraph.Proto.ThresholdSignature.Parser, new[]{ "Sigs" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SignatureList), global::Hedera.Hashgraph.Proto.SignatureList.Parser, new[]{ "Sigs" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SignaturePair), global::Hedera.Hashgraph.Proto.SignaturePair.Parser, new[]{ "PubKeyPrefix", "Contract", "Ed25519", "RSA3072", "ECDSA384", "ECDSASecp256K1" }, new[]{ "Signature" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SignatureMap), global::Hedera.Hashgraph.Proto.SignatureMap.Parser, new[]{ "SigPair" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FeeComponents), global::Hedera.Hashgraph.Proto.FeeComponents.Parser, new[]{ "Min", "Max", "Constant", "Bpt", "Vpt", "Rbh", "Sbh", "Gas", "Tv", "Bpr", "Sbpr" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionFeeSchedule), global::Hedera.Hashgraph.Proto.TransactionFeeSchedule.Parser, new[]{ "HederaFunctionality", "FeeData", "Fees" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FeeData), global::Hedera.Hashgraph.Proto.FeeData.Parser, new[]{ "Nodedata", "Networkdata", "Servicedata", "SubType" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FeeSchedule), global::Hedera.Hashgraph.Proto.FeeSchedule.Parser, new[]{ "TransactionFeeSchedule", "ExpiryTime" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CurrentAndNextFeeSchedule), global::Hedera.Hashgraph.Proto.CurrentAndNextFeeSchedule.Parser, new[]{ "CurrentFeeSchedule", "NextFeeSchedule" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ServiceEndpoint), global::Hedera.Hashgraph.Proto.ServiceEndpoint.Parser, new[]{ "IpAddressV4", "Port", "DomainName" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeAddress), global::Hedera.Hashgraph.Proto.NodeAddress.Parser, new[]{ "IpAddress", "Portno", "Memo", "RSAPubKey", "NodeId", "NodeAccountId", "NodeCertHash", "ServiceEndpoint", "Description", "Stake" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeAddressBook), global::Hedera.Hashgraph.Proto.NodeAddressBook.Parser, new[]{ "NodeAddress" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SemanticVersion), global::Hedera.Hashgraph.Proto.SemanticVersion.Parser, new[]{ "Major", "Minor", "Patch", "Pre", "Build" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Setting), global::Hedera.Hashgraph.Proto.Setting.Parser, new[]{ "Name", "Value", "Data" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ServicesConfigurationList), global::Hedera.Hashgraph.Proto.ServicesConfigurationList.Parser, new[]{ "NameValue" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenRelationship), global::Hedera.Hashgraph.Proto.TokenRelationship.Parser, new[]{ "TokenId", "Symbol", "Balance", "KycStatus", "FreezeStatus", "Decimals", "AutomaticAssociation" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenBalance), global::Hedera.Hashgraph.Proto.TokenBalance.Parser, new[]{ "TokenId", "Balance", "Decimals" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenBalances), global::Hedera.Hashgraph.Proto.TokenBalances.Parser, new[]{ "TokenBalances_" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenAssociation), global::Hedera.Hashgraph.Proto.TokenAssociation.Parser, new[]{ "TokenId", "AccountId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.StakingInfo), global::Hedera.Hashgraph.Proto.StakingInfo.Parser, new[]{ "DeclineReward", "StakePeriodStart", "PendingReward", "StakedToMe", "StakedAccountId", "StakedNodeId" }, new[]{ "StakedId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.PendingAirdropId), global::Hedera.Hashgraph.Proto.PendingAirdropId.Parser, new[]{ "SenderId", "ReceiverId", "FungibleTokenType", "NonFungibleToken" }, new[]{ "TokenReference" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.PendingAirdropValue), global::Hedera.Hashgraph.Proto.PendingAirdropValue.Parser, new[]{ "Amount" }, null, null, null, null)
           }));
     }
     #endregion
@@ -1084,7 +1084,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1292,7 +1292,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1542,7 +1542,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1901,7 +1901,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2298,7 +2298,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2331,7 +2331,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token_ID" field.</summary>
     public const int TokenIDFieldNumber = 1;
-    private global::Proto.TokenID tokenID_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenID_;
     /// <summary>
     ///*
     /// A token identifier.&lt;br/>
@@ -2339,7 +2339,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenID {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenID {
       get { return tokenID_; }
       set {
         tokenID_ = value;
@@ -2463,7 +2463,7 @@ namespace Proto {
       }
       if (other.tokenID_ != null) {
         if (tokenID_ == null) {
-          TokenID = new global::Proto.TokenID();
+          TokenID = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenID.MergeFrom(other.TokenID);
       }
@@ -2491,7 +2491,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenID_ == null) {
-              TokenID = new global::Proto.TokenID();
+              TokenID = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenID);
             break;
@@ -2521,7 +2521,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenID_ == null) {
-              TokenID = new global::Proto.TokenID();
+              TokenID = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenID);
             break;
@@ -2556,7 +2556,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2844,7 +2844,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3250,7 +3250,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3538,7 +3538,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3867,7 +3867,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[9]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3902,7 +3902,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transactionValidStart" field.</summary>
     public const int TransactionValidStartFieldNumber = 1;
-    private global::Proto.Timestamp transactionValidStart_;
+    private global::Hedera.Hashgraph.Proto.Timestamp transactionValidStart_;
     /// <summary>
     ///*
     /// A timestamp for the transaction start time.&lt;br/>
@@ -3913,7 +3913,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp TransactionValidStart {
+    public global::Hedera.Hashgraph.Proto.Timestamp TransactionValidStart {
       get { return transactionValidStart_; }
       set {
         transactionValidStart_ = value;
@@ -3922,7 +3922,7 @@ namespace Proto {
 
     /// <summary>Field number for the "accountID" field.</summary>
     public const int AccountIDFieldNumber = 2;
-    private global::Proto.AccountID accountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountID_;
     /// <summary>
     ///*
     /// An Account identifier.
@@ -3931,7 +3931,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
       get { return accountID_; }
       set {
         accountID_ = value;
@@ -4111,13 +4111,13 @@ namespace Proto {
       }
       if (other.transactionValidStart_ != null) {
         if (transactionValidStart_ == null) {
-          TransactionValidStart = new global::Proto.Timestamp();
+          TransactionValidStart = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         TransactionValidStart.MergeFrom(other.TransactionValidStart);
       }
       if (other.accountID_ != null) {
         if (accountID_ == null) {
-          AccountID = new global::Proto.AccountID();
+          AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountID.MergeFrom(other.AccountID);
       }
@@ -4148,14 +4148,14 @@ namespace Proto {
             break;
           case 10: {
             if (transactionValidStart_ == null) {
-              TransactionValidStart = new global::Proto.Timestamp();
+              TransactionValidStart = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(TransactionValidStart);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -4189,14 +4189,14 @@ namespace Proto {
             break;
           case 10: {
             if (transactionValidStart_ == null) {
-              TransactionValidStart = new global::Proto.Timestamp();
+              TransactionValidStart = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(TransactionValidStart);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -4238,7 +4238,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[10]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[10]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4271,14 +4271,14 @@ namespace Proto {
 
     /// <summary>Field number for the "entity_id" field.</summary>
     public const int EntityIdFieldNumber = 1;
-    private global::Proto.HookEntityId entityId_;
+    private global::Hedera.Hashgraph.Proto.HookEntityId entityId_;
     /// <summary>
     ///*
     /// The hook's creating entity id.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookEntityId EntityId {
+    public global::Hedera.Hashgraph.Proto.HookEntityId EntityId {
       get { return entityId_; }
       set {
         entityId_ = value;
@@ -4401,7 +4401,7 @@ namespace Proto {
       }
       if (other.entityId_ != null) {
         if (entityId_ == null) {
-          EntityId = new global::Proto.HookEntityId();
+          EntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
         }
         EntityId.MergeFrom(other.EntityId);
       }
@@ -4429,7 +4429,7 @@ namespace Proto {
             break;
           case 10: {
             if (entityId_ == null) {
-              EntityId = new global::Proto.HookEntityId();
+              EntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
             }
             input.ReadMessage(EntityId);
             break;
@@ -4459,7 +4459,7 @@ namespace Proto {
             break;
           case 10: {
             if (entityId_ == null) {
-              EntityId = new global::Proto.HookEntityId();
+              EntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
             }
             input.ReadMessage(EntityId);
             break;
@@ -4494,7 +4494,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[11]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[11]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4540,8 +4540,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountId {
-      get { return entityIdCase_ == EntityIdOneofCase.AccountId ? (global::Proto.AccountID) entityId_ : null; }
+    public global::Hedera.Hashgraph.Proto.AccountID AccountId {
+      get { return entityIdCase_ == EntityIdOneofCase.AccountId ? (global::Hedera.Hashgraph.Proto.AccountID) entityId_ : null; }
       set {
         entityId_ = value;
         entityIdCase_ = value == null ? EntityIdOneofCase.None : EntityIdOneofCase.AccountId;
@@ -4556,8 +4556,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractId {
-      get { return entityIdCase_ == EntityIdOneofCase.ContractId ? (global::Proto.ContractID) entityId_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID ContractId {
+      get { return entityIdCase_ == EntityIdOneofCase.ContractId ? (global::Hedera.Hashgraph.Proto.ContractID) entityId_ : null; }
       set {
         entityId_ = value;
         entityIdCase_ = value == null ? EntityIdOneofCase.None : EntityIdOneofCase.ContractId;
@@ -4688,13 +4688,13 @@ namespace Proto {
       switch (other.EntityIdCase) {
         case EntityIdOneofCase.AccountId:
           if (AccountId == null) {
-            AccountId = new global::Proto.AccountID();
+            AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
           }
           AccountId.MergeFrom(other.AccountId);
           break;
         case EntityIdOneofCase.ContractId:
           if (ContractId == null) {
-            ContractId = new global::Proto.ContractID();
+            ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           ContractId.MergeFrom(other.ContractId);
           break;
@@ -4720,7 +4720,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (entityIdCase_ == EntityIdOneofCase.AccountId) {
               subBuilder.MergeFrom(AccountId);
             }
@@ -4729,7 +4729,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (entityIdCase_ == EntityIdOneofCase.ContractId) {
               subBuilder.MergeFrom(ContractId);
             }
@@ -4757,7 +4757,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (entityIdCase_ == EntityIdOneofCase.AccountId) {
               subBuilder.MergeFrom(AccountId);
             }
@@ -4766,7 +4766,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (entityIdCase_ == EntityIdOneofCase.ContractId) {
               subBuilder.MergeFrom(ContractId);
             }
@@ -4806,7 +4806,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[12]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[12]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -4885,8 +4885,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.EvmHookCall EvmHookCall {
-      get { return callSpecCase_ == CallSpecOneofCase.EvmHookCall ? (global::Proto.EvmHookCall) callSpec_ : null; }
+    public global::Hedera.Hashgraph.Proto.EvmHookCall EvmHookCall {
+      get { return callSpecCase_ == CallSpecOneofCase.EvmHookCall ? (global::Hedera.Hashgraph.Proto.EvmHookCall) callSpec_ : null; }
       set {
         callSpec_ = value;
         callSpecCase_ = value == null ? CallSpecOneofCase.None : CallSpecOneofCase.EvmHookCall;
@@ -5044,7 +5044,7 @@ namespace Proto {
       switch (other.CallSpecCase) {
         case CallSpecOneofCase.EvmHookCall:
           if (EvmHookCall == null) {
-            EvmHookCall = new global::Proto.EvmHookCall();
+            EvmHookCall = new global::Hedera.Hashgraph.Proto.EvmHookCall();
           }
           EvmHookCall.MergeFrom(other.EvmHookCall);
           break;
@@ -5074,7 +5074,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.EvmHookCall subBuilder = new global::Proto.EvmHookCall();
+            global::Hedera.Hashgraph.Proto.EvmHookCall subBuilder = new global::Hedera.Hashgraph.Proto.EvmHookCall();
             if (callSpecCase_ == CallSpecOneofCase.EvmHookCall) {
               subBuilder.MergeFrom(EvmHookCall);
             }
@@ -5106,7 +5106,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.EvmHookCall subBuilder = new global::Proto.EvmHookCall();
+            global::Hedera.Hashgraph.Proto.EvmHookCall subBuilder = new global::Hedera.Hashgraph.Proto.EvmHookCall();
             if (callSpecCase_ == CallSpecOneofCase.EvmHookCall) {
               subBuilder.MergeFrom(EvmHookCall);
             }
@@ -5140,7 +5140,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[13]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[13]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5390,7 +5390,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[14]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[14]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5433,14 +5433,14 @@ namespace Proto {
 
     /// <summary>Field number for the "accountID" field.</summary>
     public const int AccountIDFieldNumber = 1;
-    private global::Proto.AccountID accountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountID_;
     /// <summary>
     ///*
     /// An account identifier that will send or receive token(s).
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
       get { return accountID_; }
       set {
         accountID_ = value;
@@ -5499,8 +5499,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookCall PreTxAllowanceHook {
-      get { return hookCallCase_ == HookCallOneofCase.PreTxAllowanceHook ? (global::Proto.HookCall) hookCall_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookCall PreTxAllowanceHook {
+      get { return hookCallCase_ == HookCallOneofCase.PreTxAllowanceHook ? (global::Hedera.Hashgraph.Proto.HookCall) hookCall_ : null; }
       set {
         hookCall_ = value;
         hookCallCase_ = value == null ? HookCallOneofCase.None : HookCallOneofCase.PreTxAllowanceHook;
@@ -5518,8 +5518,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookCall PrePostTxAllowanceHook {
-      get { return hookCallCase_ == HookCallOneofCase.PrePostTxAllowanceHook ? (global::Proto.HookCall) hookCall_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookCall PrePostTxAllowanceHook {
+      get { return hookCallCase_ == HookCallOneofCase.PrePostTxAllowanceHook ? (global::Hedera.Hashgraph.Proto.HookCall) hookCall_ : null; }
       set {
         hookCall_ = value;
         hookCallCase_ = value == null ? HookCallOneofCase.None : HookCallOneofCase.PrePostTxAllowanceHook;
@@ -5688,7 +5688,7 @@ namespace Proto {
       }
       if (other.accountID_ != null) {
         if (accountID_ == null) {
-          AccountID = new global::Proto.AccountID();
+          AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountID.MergeFrom(other.AccountID);
       }
@@ -5701,13 +5701,13 @@ namespace Proto {
       switch (other.HookCallCase) {
         case HookCallOneofCase.PreTxAllowanceHook:
           if (PreTxAllowanceHook == null) {
-            PreTxAllowanceHook = new global::Proto.HookCall();
+            PreTxAllowanceHook = new global::Hedera.Hashgraph.Proto.HookCall();
           }
           PreTxAllowanceHook.MergeFrom(other.PreTxAllowanceHook);
           break;
         case HookCallOneofCase.PrePostTxAllowanceHook:
           if (PrePostTxAllowanceHook == null) {
-            PrePostTxAllowanceHook = new global::Proto.HookCall();
+            PrePostTxAllowanceHook = new global::Hedera.Hashgraph.Proto.HookCall();
           }
           PrePostTxAllowanceHook.MergeFrom(other.PrePostTxAllowanceHook);
           break;
@@ -5734,7 +5734,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -5748,7 +5748,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (hookCallCase_ == HookCallOneofCase.PreTxAllowanceHook) {
               subBuilder.MergeFrom(PreTxAllowanceHook);
             }
@@ -5757,7 +5757,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (hookCallCase_ == HookCallOneofCase.PrePostTxAllowanceHook) {
               subBuilder.MergeFrom(PrePostTxAllowanceHook);
             }
@@ -5786,7 +5786,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -5800,7 +5800,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (hookCallCase_ == HookCallOneofCase.PreTxAllowanceHook) {
               subBuilder.MergeFrom(PreTxAllowanceHook);
             }
@@ -5809,7 +5809,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (hookCallCase_ == HookCallOneofCase.PrePostTxAllowanceHook) {
               subBuilder.MergeFrom(PrePostTxAllowanceHook);
             }
@@ -5851,7 +5851,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[15]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[15]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -5883,9 +5883,9 @@ namespace Proto {
 
     /// <summary>Field number for the "accountAmounts" field.</summary>
     public const int AccountAmountsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.AccountAmount> _repeated_accountAmounts_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.AccountAmount.Parser);
-    private readonly pbc::RepeatedField<global::Proto.AccountAmount> accountAmounts_ = new pbc::RepeatedField<global::Proto.AccountAmount>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.AccountAmount> _repeated_accountAmounts_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.AccountAmount.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountAmount> accountAmounts_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountAmount>();
     /// <summary>
     ///*
     /// A list of AccountAmount pairs.&lt;br/>
@@ -5894,7 +5894,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.AccountAmount> AccountAmounts {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountAmount> AccountAmounts {
       get { return accountAmounts_; }
     }
 
@@ -6054,7 +6054,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[16]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[16]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6107,14 +6107,14 @@ namespace Proto {
 
     /// <summary>Field number for the "senderAccountID" field.</summary>
     public const int SenderAccountIDFieldNumber = 1;
-    private global::Proto.AccountID senderAccountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID senderAccountID_;
     /// <summary>
     ///*
     /// An Account identifier for the sender.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID SenderAccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID SenderAccountID {
       get { return senderAccountID_; }
       set {
         senderAccountID_ = value;
@@ -6123,14 +6123,14 @@ namespace Proto {
 
     /// <summary>Field number for the "receiverAccountID" field.</summary>
     public const int ReceiverAccountIDFieldNumber = 2;
-    private global::Proto.AccountID receiverAccountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID receiverAccountID_;
     /// <summary>
     ///*
     /// An Account identifier for the receiver.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID ReceiverAccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID ReceiverAccountID {
       get { return receiverAccountID_; }
       set {
         receiverAccountID_ = value;
@@ -6185,8 +6185,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookCall PreTxSenderAllowanceHook {
-      get { return senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PreTxSenderAllowanceHook ? (global::Proto.HookCall) senderAllowanceHookCall_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookCall PreTxSenderAllowanceHook {
+      get { return senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PreTxSenderAllowanceHook ? (global::Hedera.Hashgraph.Proto.HookCall) senderAllowanceHookCall_ : null; }
       set {
         senderAllowanceHookCall_ = value;
         senderAllowanceHookCallCase_ = value == null ? SenderAllowanceHookCallOneofCase.None : SenderAllowanceHookCallOneofCase.PreTxSenderAllowanceHook;
@@ -6204,8 +6204,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookCall PrePostTxSenderAllowanceHook {
-      get { return senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PrePostTxSenderAllowanceHook ? (global::Proto.HookCall) senderAllowanceHookCall_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookCall PrePostTxSenderAllowanceHook {
+      get { return senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PrePostTxSenderAllowanceHook ? (global::Hedera.Hashgraph.Proto.HookCall) senderAllowanceHookCall_ : null; }
       set {
         senderAllowanceHookCall_ = value;
         senderAllowanceHookCallCase_ = value == null ? SenderAllowanceHookCallOneofCase.None : SenderAllowanceHookCallOneofCase.PrePostTxSenderAllowanceHook;
@@ -6221,8 +6221,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookCall PreTxReceiverAllowanceHook {
-      get { return receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PreTxReceiverAllowanceHook ? (global::Proto.HookCall) receiverAllowanceHookCall_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookCall PreTxReceiverAllowanceHook {
+      get { return receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PreTxReceiverAllowanceHook ? (global::Hedera.Hashgraph.Proto.HookCall) receiverAllowanceHookCall_ : null; }
       set {
         receiverAllowanceHookCall_ = value;
         receiverAllowanceHookCallCase_ = value == null ? ReceiverAllowanceHookCallOneofCase.None : ReceiverAllowanceHookCallOneofCase.PreTxReceiverAllowanceHook;
@@ -6240,8 +6240,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookCall PrePostTxReceiverAllowanceHook {
-      get { return receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PrePostTxReceiverAllowanceHook ? (global::Proto.HookCall) receiverAllowanceHookCall_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookCall PrePostTxReceiverAllowanceHook {
+      get { return receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PrePostTxReceiverAllowanceHook ? (global::Hedera.Hashgraph.Proto.HookCall) receiverAllowanceHookCall_ : null; }
       set {
         receiverAllowanceHookCall_ = value;
         receiverAllowanceHookCallCase_ = value == null ? ReceiverAllowanceHookCallOneofCase.None : ReceiverAllowanceHookCallOneofCase.PrePostTxReceiverAllowanceHook;
@@ -6472,13 +6472,13 @@ namespace Proto {
       }
       if (other.senderAccountID_ != null) {
         if (senderAccountID_ == null) {
-          SenderAccountID = new global::Proto.AccountID();
+          SenderAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         SenderAccountID.MergeFrom(other.SenderAccountID);
       }
       if (other.receiverAccountID_ != null) {
         if (receiverAccountID_ == null) {
-          ReceiverAccountID = new global::Proto.AccountID();
+          ReceiverAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         ReceiverAccountID.MergeFrom(other.ReceiverAccountID);
       }
@@ -6491,13 +6491,13 @@ namespace Proto {
       switch (other.SenderAllowanceHookCallCase) {
         case SenderAllowanceHookCallOneofCase.PreTxSenderAllowanceHook:
           if (PreTxSenderAllowanceHook == null) {
-            PreTxSenderAllowanceHook = new global::Proto.HookCall();
+            PreTxSenderAllowanceHook = new global::Hedera.Hashgraph.Proto.HookCall();
           }
           PreTxSenderAllowanceHook.MergeFrom(other.PreTxSenderAllowanceHook);
           break;
         case SenderAllowanceHookCallOneofCase.PrePostTxSenderAllowanceHook:
           if (PrePostTxSenderAllowanceHook == null) {
-            PrePostTxSenderAllowanceHook = new global::Proto.HookCall();
+            PrePostTxSenderAllowanceHook = new global::Hedera.Hashgraph.Proto.HookCall();
           }
           PrePostTxSenderAllowanceHook.MergeFrom(other.PrePostTxSenderAllowanceHook);
           break;
@@ -6506,13 +6506,13 @@ namespace Proto {
       switch (other.ReceiverAllowanceHookCallCase) {
         case ReceiverAllowanceHookCallOneofCase.PreTxReceiverAllowanceHook:
           if (PreTxReceiverAllowanceHook == null) {
-            PreTxReceiverAllowanceHook = new global::Proto.HookCall();
+            PreTxReceiverAllowanceHook = new global::Hedera.Hashgraph.Proto.HookCall();
           }
           PreTxReceiverAllowanceHook.MergeFrom(other.PreTxReceiverAllowanceHook);
           break;
         case ReceiverAllowanceHookCallOneofCase.PrePostTxReceiverAllowanceHook:
           if (PrePostTxReceiverAllowanceHook == null) {
-            PrePostTxReceiverAllowanceHook = new global::Proto.HookCall();
+            PrePostTxReceiverAllowanceHook = new global::Hedera.Hashgraph.Proto.HookCall();
           }
           PrePostTxReceiverAllowanceHook.MergeFrom(other.PrePostTxReceiverAllowanceHook);
           break;
@@ -6539,14 +6539,14 @@ namespace Proto {
             break;
           case 10: {
             if (senderAccountID_ == null) {
-              SenderAccountID = new global::Proto.AccountID();
+              SenderAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderAccountID);
             break;
           }
           case 18: {
             if (receiverAccountID_ == null) {
-              ReceiverAccountID = new global::Proto.AccountID();
+              ReceiverAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(ReceiverAccountID);
             break;
@@ -6560,7 +6560,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PreTxSenderAllowanceHook) {
               subBuilder.MergeFrom(PreTxSenderAllowanceHook);
             }
@@ -6569,7 +6569,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PrePostTxSenderAllowanceHook) {
               subBuilder.MergeFrom(PrePostTxSenderAllowanceHook);
             }
@@ -6578,7 +6578,7 @@ namespace Proto {
             break;
           }
           case 58: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PreTxReceiverAllowanceHook) {
               subBuilder.MergeFrom(PreTxReceiverAllowanceHook);
             }
@@ -6587,7 +6587,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PrePostTxReceiverAllowanceHook) {
               subBuilder.MergeFrom(PrePostTxReceiverAllowanceHook);
             }
@@ -6616,14 +6616,14 @@ namespace Proto {
             break;
           case 10: {
             if (senderAccountID_ == null) {
-              SenderAccountID = new global::Proto.AccountID();
+              SenderAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderAccountID);
             break;
           }
           case 18: {
             if (receiverAccountID_ == null) {
-              ReceiverAccountID = new global::Proto.AccountID();
+              ReceiverAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(ReceiverAccountID);
             break;
@@ -6637,7 +6637,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PreTxSenderAllowanceHook) {
               subBuilder.MergeFrom(PreTxSenderAllowanceHook);
             }
@@ -6646,7 +6646,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (senderAllowanceHookCallCase_ == SenderAllowanceHookCallOneofCase.PrePostTxSenderAllowanceHook) {
               subBuilder.MergeFrom(PrePostTxSenderAllowanceHook);
             }
@@ -6655,7 +6655,7 @@ namespace Proto {
             break;
           }
           case 58: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PreTxReceiverAllowanceHook) {
               subBuilder.MergeFrom(PreTxReceiverAllowanceHook);
             }
@@ -6664,7 +6664,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.HookCall subBuilder = new global::Proto.HookCall();
+            global::Hedera.Hashgraph.Proto.HookCall subBuilder = new global::Hedera.Hashgraph.Proto.HookCall();
             if (receiverAllowanceHookCallCase_ == ReceiverAllowanceHookCallOneofCase.PrePostTxReceiverAllowanceHook) {
               subBuilder.MergeFrom(PrePostTxReceiverAllowanceHook);
             }
@@ -6711,7 +6711,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[17]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[17]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -6746,7 +6746,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token" field.</summary>
     public const int TokenFieldNumber = 1;
-    private global::Proto.TokenID token_;
+    private global::Hedera.Hashgraph.Proto.TokenID token_;
     /// <summary>
     ///*
     /// A token identifier.&lt;br/>
@@ -6754,7 +6754,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID Token {
+    public global::Hedera.Hashgraph.Proto.TokenID Token {
       get { return token_; }
       set {
         token_ = value;
@@ -6763,9 +6763,9 @@ namespace Proto {
 
     /// <summary>Field number for the "transfers" field.</summary>
     public const int TransfersFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.AccountAmount> _repeated_transfers_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.AccountAmount.Parser);
-    private readonly pbc::RepeatedField<global::Proto.AccountAmount> transfers_ = new pbc::RepeatedField<global::Proto.AccountAmount>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.AccountAmount> _repeated_transfers_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.AccountAmount.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountAmount> transfers_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountAmount>();
     /// <summary>
     ///*
     /// A list of account amounts.
@@ -6779,15 +6779,15 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.AccountAmount> Transfers {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountAmount> Transfers {
       get { return transfers_; }
     }
 
     /// <summary>Field number for the "nftTransfers" field.</summary>
     public const int NftTransfersFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::Proto.NftTransfer> _repeated_nftTransfers_codec
-        = pb::FieldCodec.ForMessage(26, global::Proto.NftTransfer.Parser);
-    private readonly pbc::RepeatedField<global::Proto.NftTransfer> nftTransfers_ = new pbc::RepeatedField<global::Proto.NftTransfer>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NftTransfer> _repeated_nftTransfers_codec
+        = pb::FieldCodec.ForMessage(26, global::Hedera.Hashgraph.Proto.NftTransfer.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftTransfer> nftTransfers_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftTransfer>();
     /// <summary>
     ///*
     /// A list of NftTransfers.
@@ -6799,7 +6799,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.NftTransfer> NftTransfers {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftTransfer> NftTransfers {
       get { return nftTransfers_; }
     }
 
@@ -6936,7 +6936,7 @@ namespace Proto {
       }
       if (other.token_ != null) {
         if (token_ == null) {
-          Token = new global::Proto.TokenID();
+          Token = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         Token.MergeFrom(other.Token);
       }
@@ -6968,7 +6968,7 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;
@@ -7009,7 +7009,7 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;
@@ -7062,7 +7062,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[18]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[18]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7361,7 +7361,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[19]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[19]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -7428,8 +7428,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
-      get { return keyCase_ == KeyOneofCase.ContractID ? (global::Proto.ContractID) key_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
+      get { return keyCase_ == KeyOneofCase.ContractID ? (global::Hedera.Hashgraph.Proto.ContractID) key_ : null; }
       set {
         key_ = value;
         keyCase_ = value == null ? KeyOneofCase.None : KeyOneofCase.ContractID;
@@ -7543,8 +7543,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ThresholdKey ThresholdKey {
-      get { return keyCase_ == KeyOneofCase.ThresholdKey ? (global::Proto.ThresholdKey) key_ : null; }
+    public global::Hedera.Hashgraph.Proto.ThresholdKey ThresholdKey {
+      get { return keyCase_ == KeyOneofCase.ThresholdKey ? (global::Hedera.Hashgraph.Proto.ThresholdKey) key_ : null; }
       set {
         key_ = value;
         keyCase_ = value == null ? KeyOneofCase.None : KeyOneofCase.ThresholdKey;
@@ -7560,8 +7560,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.KeyList KeyList {
-      get { return keyCase_ == KeyOneofCase.KeyList ? (global::Proto.KeyList) key_ : null; }
+    public global::Hedera.Hashgraph.Proto.KeyList KeyList {
+      get { return keyCase_ == KeyOneofCase.KeyList ? (global::Hedera.Hashgraph.Proto.KeyList) key_ : null; }
       set {
         key_ = value;
         keyCase_ = value == null ? KeyOneofCase.None : KeyOneofCase.KeyList;
@@ -7614,8 +7614,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID DelegatableContractId {
-      get { return keyCase_ == KeyOneofCase.DelegatableContractId ? (global::Proto.ContractID) key_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID DelegatableContractId {
+      get { return keyCase_ == KeyOneofCase.DelegatableContractId ? (global::Hedera.Hashgraph.Proto.ContractID) key_ : null; }
       set {
         key_ = value;
         keyCase_ = value == null ? KeyOneofCase.None : KeyOneofCase.DelegatableContractId;
@@ -7830,7 +7830,7 @@ namespace Proto {
       switch (other.KeyCase) {
         case KeyOneofCase.ContractID:
           if (ContractID == null) {
-            ContractID = new global::Proto.ContractID();
+            ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           ContractID.MergeFrom(other.ContractID);
           break;
@@ -7845,13 +7845,13 @@ namespace Proto {
           break;
         case KeyOneofCase.ThresholdKey:
           if (ThresholdKey == null) {
-            ThresholdKey = new global::Proto.ThresholdKey();
+            ThresholdKey = new global::Hedera.Hashgraph.Proto.ThresholdKey();
           }
           ThresholdKey.MergeFrom(other.ThresholdKey);
           break;
         case KeyOneofCase.KeyList:
           if (KeyList == null) {
-            KeyList = new global::Proto.KeyList();
+            KeyList = new global::Hedera.Hashgraph.Proto.KeyList();
           }
           KeyList.MergeFrom(other.KeyList);
           break;
@@ -7860,7 +7860,7 @@ namespace Proto {
           break;
         case KeyOneofCase.DelegatableContractId:
           if (DelegatableContractId == null) {
-            DelegatableContractId = new global::Proto.ContractID();
+            DelegatableContractId = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           DelegatableContractId.MergeFrom(other.DelegatableContractId);
           break;
@@ -7886,7 +7886,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (keyCase_ == KeyOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -7907,7 +7907,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.ThresholdKey subBuilder = new global::Proto.ThresholdKey();
+            global::Hedera.Hashgraph.Proto.ThresholdKey subBuilder = new global::Hedera.Hashgraph.Proto.ThresholdKey();
             if (keyCase_ == KeyOneofCase.ThresholdKey) {
               subBuilder.MergeFrom(ThresholdKey);
             }
@@ -7916,7 +7916,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.KeyList subBuilder = new global::Proto.KeyList();
+            global::Hedera.Hashgraph.Proto.KeyList subBuilder = new global::Hedera.Hashgraph.Proto.KeyList();
             if (keyCase_ == KeyOneofCase.KeyList) {
               subBuilder.MergeFrom(KeyList);
             }
@@ -7929,7 +7929,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (keyCase_ == KeyOneofCase.DelegatableContractId) {
               subBuilder.MergeFrom(DelegatableContractId);
             }
@@ -7957,7 +7957,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (keyCase_ == KeyOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -7978,7 +7978,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.ThresholdKey subBuilder = new global::Proto.ThresholdKey();
+            global::Hedera.Hashgraph.Proto.ThresholdKey subBuilder = new global::Hedera.Hashgraph.Proto.ThresholdKey();
             if (keyCase_ == KeyOneofCase.ThresholdKey) {
               subBuilder.MergeFrom(ThresholdKey);
             }
@@ -7987,7 +7987,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.KeyList subBuilder = new global::Proto.KeyList();
+            global::Hedera.Hashgraph.Proto.KeyList subBuilder = new global::Hedera.Hashgraph.Proto.KeyList();
             if (keyCase_ == KeyOneofCase.KeyList) {
               subBuilder.MergeFrom(KeyList);
             }
@@ -8000,7 +8000,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (keyCase_ == KeyOneofCase.DelegatableContractId) {
               subBuilder.MergeFrom(DelegatableContractId);
             }
@@ -8049,7 +8049,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[20]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[20]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8099,14 +8099,14 @@ namespace Proto {
 
     /// <summary>Field number for the "keys" field.</summary>
     public const int KeysFieldNumber = 2;
-    private global::Proto.KeyList keys_;
+    private global::Hedera.Hashgraph.Proto.KeyList keys_;
     /// <summary>
     ///*
     /// A list of the keys that MAY satisfy signature requirements of this key.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.KeyList Keys {
+    public global::Hedera.Hashgraph.Proto.KeyList Keys {
       get { return keys_; }
       set {
         keys_ = value;
@@ -8216,7 +8216,7 @@ namespace Proto {
       }
       if (other.keys_ != null) {
         if (keys_ == null) {
-          Keys = new global::Proto.KeyList();
+          Keys = new global::Hedera.Hashgraph.Proto.KeyList();
         }
         Keys.MergeFrom(other.Keys);
       }
@@ -8245,7 +8245,7 @@ namespace Proto {
           }
           case 18: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;
@@ -8275,7 +8275,7 @@ namespace Proto {
           }
           case 18: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;
@@ -8317,7 +8317,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[21]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[21]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8349,9 +8349,9 @@ namespace Proto {
 
     /// <summary>Field number for the "keys" field.</summary>
     public const int KeysFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.Key> _repeated_keys_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.Key.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Key> keys_ = new pbc::RepeatedField<global::Proto.Key>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Key> _repeated_keys_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.Key.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key> keys_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key>();
     /// <summary>
     ///*
     /// A list of keys. All values in this list SHALL be non-null.
@@ -8359,7 +8359,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Key> Keys {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key> Keys {
       get { return keys_; }
     }
 
@@ -8521,7 +8521,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[22]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[22]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -8701,8 +8701,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ThresholdSignature ThresholdSignature {
-      get { return signatureCase_ == SignatureOneofCase.ThresholdSignature ? (global::Proto.ThresholdSignature) signature_ : null; }
+    public global::Hedera.Hashgraph.Proto.ThresholdSignature ThresholdSignature {
+      get { return signatureCase_ == SignatureOneofCase.ThresholdSignature ? (global::Hedera.Hashgraph.Proto.ThresholdSignature) signature_ : null; }
       set {
         signature_ = value;
         signatureCase_ = value == null ? SignatureOneofCase.None : SignatureOneofCase.ThresholdSignature;
@@ -8719,8 +8719,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SignatureList SignatureList {
-      get { return signatureCase_ == SignatureOneofCase.SignatureList ? (global::Proto.SignatureList) signature_ : null; }
+    public global::Hedera.Hashgraph.Proto.SignatureList SignatureList {
+      get { return signatureCase_ == SignatureOneofCase.SignatureList ? (global::Hedera.Hashgraph.Proto.SignatureList) signature_ : null; }
       set {
         signature_ = value;
         signatureCase_ = value == null ? SignatureOneofCase.None : SignatureOneofCase.SignatureList;
@@ -8919,13 +8919,13 @@ namespace Proto {
           break;
         case SignatureOneofCase.ThresholdSignature:
           if (ThresholdSignature == null) {
-            ThresholdSignature = new global::Proto.ThresholdSignature();
+            ThresholdSignature = new global::Hedera.Hashgraph.Proto.ThresholdSignature();
           }
           ThresholdSignature.MergeFrom(other.ThresholdSignature);
           break;
         case SignatureOneofCase.SignatureList:
           if (SignatureList == null) {
-            SignatureList = new global::Proto.SignatureList();
+            SignatureList = new global::Hedera.Hashgraph.Proto.SignatureList();
           }
           SignatureList.MergeFrom(other.SignatureList);
           break;
@@ -8967,7 +8967,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.ThresholdSignature subBuilder = new global::Proto.ThresholdSignature();
+            global::Hedera.Hashgraph.Proto.ThresholdSignature subBuilder = new global::Hedera.Hashgraph.Proto.ThresholdSignature();
             if (signatureCase_ == SignatureOneofCase.ThresholdSignature) {
               subBuilder.MergeFrom(ThresholdSignature);
             }
@@ -8976,7 +8976,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.SignatureList subBuilder = new global::Proto.SignatureList();
+            global::Hedera.Hashgraph.Proto.SignatureList subBuilder = new global::Hedera.Hashgraph.Proto.SignatureList();
             if (signatureCase_ == SignatureOneofCase.SignatureList) {
               subBuilder.MergeFrom(SignatureList);
             }
@@ -9020,7 +9020,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.ThresholdSignature subBuilder = new global::Proto.ThresholdSignature();
+            global::Hedera.Hashgraph.Proto.ThresholdSignature subBuilder = new global::Hedera.Hashgraph.Proto.ThresholdSignature();
             if (signatureCase_ == SignatureOneofCase.ThresholdSignature) {
               subBuilder.MergeFrom(ThresholdSignature);
             }
@@ -9029,7 +9029,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.SignatureList subBuilder = new global::Proto.SignatureList();
+            global::Hedera.Hashgraph.Proto.SignatureList subBuilder = new global::Hedera.Hashgraph.Proto.SignatureList();
             if (signatureCase_ == SignatureOneofCase.SignatureList) {
               subBuilder.MergeFrom(SignatureList);
             }
@@ -9071,7 +9071,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[23]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[23]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9103,7 +9103,7 @@ namespace Proto {
 
     /// <summary>Field number for the "sigs" field.</summary>
     public const int SigsFieldNumber = 2;
-    private global::Proto.SignatureList sigs_;
+    private global::Hedera.Hashgraph.Proto.SignatureList sigs_;
     /// <summary>
     ///*
     /// For an N-of-M threshold key, this is a list of M signatures, at least N
@@ -9112,7 +9112,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SignatureList Sigs {
+    public global::Hedera.Hashgraph.Proto.SignatureList Sigs {
       get { return sigs_; }
       set {
         sigs_ = value;
@@ -9206,7 +9206,7 @@ namespace Proto {
       }
       if (other.sigs_ != null) {
         if (sigs_ == null) {
-          Sigs = new global::Proto.SignatureList();
+          Sigs = new global::Hedera.Hashgraph.Proto.SignatureList();
         }
         Sigs.MergeFrom(other.Sigs);
       }
@@ -9231,7 +9231,7 @@ namespace Proto {
             break;
           case 18: {
             if (sigs_ == null) {
-              Sigs = new global::Proto.SignatureList();
+              Sigs = new global::Hedera.Hashgraph.Proto.SignatureList();
             }
             input.ReadMessage(Sigs);
             break;
@@ -9257,7 +9257,7 @@ namespace Proto {
             break;
           case 18: {
             if (sigs_ == null) {
-              Sigs = new global::Proto.SignatureList();
+              Sigs = new global::Hedera.Hashgraph.Proto.SignatureList();
             }
             input.ReadMessage(Sigs);
             break;
@@ -9296,7 +9296,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[24]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[24]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -9328,9 +9328,9 @@ namespace Proto {
 
     /// <summary>Field number for the "sigs" field.</summary>
     public const int SigsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.Signature> _repeated_sigs_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.Signature.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Signature> sigs_ = new pbc::RepeatedField<global::Proto.Signature>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Signature> _repeated_sigs_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.Signature.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Signature> sigs_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Signature>();
     /// <summary>
     ///*
     /// Each signature corresponds to a Key in the KeyList.
@@ -9338,7 +9338,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Signature> Sigs {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Signature> Sigs {
       get { return sigs_; }
     }
 
@@ -9494,7 +9494,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[25]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[25]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10060,7 +10060,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[26]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[26]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10092,9 +10092,9 @@ namespace Proto {
 
     /// <summary>Field number for the "sigPair" field.</summary>
     public const int SigPairFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.SignaturePair> _repeated_sigPair_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.SignaturePair.Parser);
-    private readonly pbc::RepeatedField<global::Proto.SignaturePair> sigPair_ = new pbc::RepeatedField<global::Proto.SignaturePair>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.SignaturePair> _repeated_sigPair_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.SignaturePair.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.SignaturePair> sigPair_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.SignaturePair>();
     /// <summary>
     ///*
     /// A list of signature pairs for a specific transaction.&lt;br/>
@@ -10104,7 +10104,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.SignaturePair> SigPair {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.SignaturePair> SigPair {
       get { return sigPair_; }
     }
 
@@ -10271,7 +10271,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[27]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[27]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10905,7 +10905,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[28]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[28]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -10939,7 +10939,7 @@ namespace Proto {
 
     /// <summary>Field number for the "hederaFunctionality" field.</summary>
     public const int HederaFunctionalityFieldNumber = 1;
-    private global::Proto.HederaFunctionality hederaFunctionality_ = global::Proto.HederaFunctionality.None;
+    private global::Hedera.Hashgraph.Proto.HederaFunctionality hederaFunctionality_ = global::Hedera.Hashgraph.Proto.HederaFunctionality.None;
     /// <summary>
     ///*
     /// An enumeration for a particular transaction or query.&lt;br/>
@@ -10947,7 +10947,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HederaFunctionality HederaFunctionality {
+    public global::Hedera.Hashgraph.Proto.HederaFunctionality HederaFunctionality {
       get { return hederaFunctionality_; }
       set {
         hederaFunctionality_ = value;
@@ -10956,7 +10956,7 @@ namespace Proto {
 
     /// <summary>Field number for the "feeData" field.</summary>
     public const int FeeDataFieldNumber = 2;
-    private global::Proto.FeeData feeData_;
+    private global::Hedera.Hashgraph.Proto.FeeData feeData_;
     /// <summary>
     ///*
     /// Use `fees` instead of this field.&lt;br/>
@@ -10965,7 +10965,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FeeData FeeData {
+    public global::Hedera.Hashgraph.Proto.FeeData FeeData {
       get { return feeData_; }
       set {
         feeData_ = value;
@@ -10974,9 +10974,9 @@ namespace Proto {
 
     /// <summary>Field number for the "fees" field.</summary>
     public const int FeesFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::Proto.FeeData> _repeated_fees_codec
-        = pb::FieldCodec.ForMessage(26, global::Proto.FeeData.Parser);
-    private readonly pbc::RepeatedField<global::Proto.FeeData> fees_ = new pbc::RepeatedField<global::Proto.FeeData>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.FeeData> _repeated_fees_codec
+        = pb::FieldCodec.ForMessage(26, global::Hedera.Hashgraph.Proto.FeeData.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FeeData> fees_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FeeData>();
     /// <summary>
     ///*
     /// The resource price coefficients for transaction type and any applicable
@@ -10985,7 +10985,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.FeeData> Fees {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FeeData> Fees {
       get { return fees_; }
     }
 
@@ -11014,7 +11014,7 @@ namespace Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (HederaFunctionality != global::Proto.HederaFunctionality.None) hash ^= HederaFunctionality.GetHashCode();
+      if (HederaFunctionality != global::Hedera.Hashgraph.Proto.HederaFunctionality.None) hash ^= HederaFunctionality.GetHashCode();
       if (feeData_ != null) hash ^= FeeData.GetHashCode();
       hash ^= fees_.GetHashCode();
       if (_unknownFields != null) {
@@ -11035,7 +11035,7 @@ namespace Proto {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (HederaFunctionality != global::Proto.HederaFunctionality.None) {
+      if (HederaFunctionality != global::Hedera.Hashgraph.Proto.HederaFunctionality.None) {
         output.WriteRawTag(8);
         output.WriteEnum((int) HederaFunctionality);
       }
@@ -11054,7 +11054,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (HederaFunctionality != global::Proto.HederaFunctionality.None) {
+      if (HederaFunctionality != global::Hedera.Hashgraph.Proto.HederaFunctionality.None) {
         output.WriteRawTag(8);
         output.WriteEnum((int) HederaFunctionality);
       }
@@ -11073,7 +11073,7 @@ namespace Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (HederaFunctionality != global::Proto.HederaFunctionality.None) {
+      if (HederaFunctionality != global::Hedera.Hashgraph.Proto.HederaFunctionality.None) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) HederaFunctionality);
       }
       if (feeData_ != null) {
@@ -11092,12 +11092,12 @@ namespace Proto {
       if (other == null) {
         return;
       }
-      if (other.HederaFunctionality != global::Proto.HederaFunctionality.None) {
+      if (other.HederaFunctionality != global::Hedera.Hashgraph.Proto.HederaFunctionality.None) {
         HederaFunctionality = other.HederaFunctionality;
       }
       if (other.feeData_ != null) {
         if (feeData_ == null) {
-          FeeData = new global::Proto.FeeData();
+          FeeData = new global::Hedera.Hashgraph.Proto.FeeData();
         }
         FeeData.MergeFrom(other.FeeData);
       }
@@ -11122,12 +11122,12 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            HederaFunctionality = (global::Proto.HederaFunctionality) input.ReadEnum();
+            HederaFunctionality = (global::Hedera.Hashgraph.Proto.HederaFunctionality) input.ReadEnum();
             break;
           }
           case 18: {
             if (feeData_ == null) {
-              FeeData = new global::Proto.FeeData();
+              FeeData = new global::Hedera.Hashgraph.Proto.FeeData();
             }
             input.ReadMessage(FeeData);
             break;
@@ -11156,12 +11156,12 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            HederaFunctionality = (global::Proto.HederaFunctionality) input.ReadEnum();
+            HederaFunctionality = (global::Hedera.Hashgraph.Proto.HederaFunctionality) input.ReadEnum();
             break;
           }
           case 18: {
             if (feeData_ == null) {
-              FeeData = new global::Proto.FeeData();
+              FeeData = new global::Hedera.Hashgraph.Proto.FeeData();
             }
             input.ReadMessage(FeeData);
             break;
@@ -11209,7 +11209,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[29]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[29]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11244,14 +11244,14 @@ namespace Proto {
 
     /// <summary>Field number for the "nodedata" field.</summary>
     public const int NodedataFieldNumber = 1;
-    private global::Proto.FeeComponents nodedata_;
+    private global::Hedera.Hashgraph.Proto.FeeComponents nodedata_;
     /// <summary>
     ///*
     /// Fee components to be paid to the submitting node.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FeeComponents Nodedata {
+    public global::Hedera.Hashgraph.Proto.FeeComponents Nodedata {
       get { return nodedata_; }
       set {
         nodedata_ = value;
@@ -11260,7 +11260,7 @@ namespace Proto {
 
     /// <summary>Field number for the "networkdata" field.</summary>
     public const int NetworkdataFieldNumber = 2;
-    private global::Proto.FeeComponents networkdata_;
+    private global::Hedera.Hashgraph.Proto.FeeComponents networkdata_;
     /// <summary>
     ///*
     /// Fee components to be paid to the network for bringing a
@@ -11268,7 +11268,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FeeComponents Networkdata {
+    public global::Hedera.Hashgraph.Proto.FeeComponents Networkdata {
       get { return networkdata_; }
       set {
         networkdata_ = value;
@@ -11277,7 +11277,7 @@ namespace Proto {
 
     /// <summary>Field number for the "servicedata" field.</summary>
     public const int ServicedataFieldNumber = 3;
-    private global::Proto.FeeComponents servicedata_;
+    private global::Hedera.Hashgraph.Proto.FeeComponents servicedata_;
     /// <summary>
     ///*
     /// Fee components to be paid to the network for providing the immediate and
@@ -11286,7 +11286,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FeeComponents Servicedata {
+    public global::Hedera.Hashgraph.Proto.FeeComponents Servicedata {
       get { return servicedata_; }
       set {
         servicedata_ = value;
@@ -11295,7 +11295,7 @@ namespace Proto {
 
     /// <summary>Field number for the "subType" field.</summary>
     public const int SubTypeFieldNumber = 4;
-    private global::Proto.SubType subType_ = global::Proto.SubType.Default;
+    private global::Hedera.Hashgraph.Proto.SubType subType_ = global::Hedera.Hashgraph.Proto.SubType.Default;
     /// <summary>
     ///*
     /// A sub-type distinguishing between different types of `FeeData` that may
@@ -11304,7 +11304,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SubType SubType {
+    public global::Hedera.Hashgraph.Proto.SubType SubType {
       get { return subType_; }
       set {
         subType_ = value;
@@ -11340,7 +11340,7 @@ namespace Proto {
       if (nodedata_ != null) hash ^= Nodedata.GetHashCode();
       if (networkdata_ != null) hash ^= Networkdata.GetHashCode();
       if (servicedata_ != null) hash ^= Servicedata.GetHashCode();
-      if (SubType != global::Proto.SubType.Default) hash ^= SubType.GetHashCode();
+      if (SubType != global::Hedera.Hashgraph.Proto.SubType.Default) hash ^= SubType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -11371,7 +11371,7 @@ namespace Proto {
         output.WriteRawTag(26);
         output.WriteMessage(Servicedata);
       }
-      if (SubType != global::Proto.SubType.Default) {
+      if (SubType != global::Hedera.Hashgraph.Proto.SubType.Default) {
         output.WriteRawTag(32);
         output.WriteEnum((int) SubType);
       }
@@ -11397,7 +11397,7 @@ namespace Proto {
         output.WriteRawTag(26);
         output.WriteMessage(Servicedata);
       }
-      if (SubType != global::Proto.SubType.Default) {
+      if (SubType != global::Hedera.Hashgraph.Proto.SubType.Default) {
         output.WriteRawTag(32);
         output.WriteEnum((int) SubType);
       }
@@ -11420,7 +11420,7 @@ namespace Proto {
       if (servicedata_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Servicedata);
       }
-      if (SubType != global::Proto.SubType.Default) {
+      if (SubType != global::Hedera.Hashgraph.Proto.SubType.Default) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) SubType);
       }
       if (_unknownFields != null) {
@@ -11437,23 +11437,23 @@ namespace Proto {
       }
       if (other.nodedata_ != null) {
         if (nodedata_ == null) {
-          Nodedata = new global::Proto.FeeComponents();
+          Nodedata = new global::Hedera.Hashgraph.Proto.FeeComponents();
         }
         Nodedata.MergeFrom(other.Nodedata);
       }
       if (other.networkdata_ != null) {
         if (networkdata_ == null) {
-          Networkdata = new global::Proto.FeeComponents();
+          Networkdata = new global::Hedera.Hashgraph.Proto.FeeComponents();
         }
         Networkdata.MergeFrom(other.Networkdata);
       }
       if (other.servicedata_ != null) {
         if (servicedata_ == null) {
-          Servicedata = new global::Proto.FeeComponents();
+          Servicedata = new global::Hedera.Hashgraph.Proto.FeeComponents();
         }
         Servicedata.MergeFrom(other.Servicedata);
       }
-      if (other.SubType != global::Proto.SubType.Default) {
+      if (other.SubType != global::Hedera.Hashgraph.Proto.SubType.Default) {
         SubType = other.SubType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -11477,27 +11477,27 @@ namespace Proto {
             break;
           case 10: {
             if (nodedata_ == null) {
-              Nodedata = new global::Proto.FeeComponents();
+              Nodedata = new global::Hedera.Hashgraph.Proto.FeeComponents();
             }
             input.ReadMessage(Nodedata);
             break;
           }
           case 18: {
             if (networkdata_ == null) {
-              Networkdata = new global::Proto.FeeComponents();
+              Networkdata = new global::Hedera.Hashgraph.Proto.FeeComponents();
             }
             input.ReadMessage(Networkdata);
             break;
           }
           case 26: {
             if (servicedata_ == null) {
-              Servicedata = new global::Proto.FeeComponents();
+              Servicedata = new global::Hedera.Hashgraph.Proto.FeeComponents();
             }
             input.ReadMessage(Servicedata);
             break;
           }
           case 32: {
-            SubType = (global::Proto.SubType) input.ReadEnum();
+            SubType = (global::Hedera.Hashgraph.Proto.SubType) input.ReadEnum();
             break;
           }
         }
@@ -11521,27 +11521,27 @@ namespace Proto {
             break;
           case 10: {
             if (nodedata_ == null) {
-              Nodedata = new global::Proto.FeeComponents();
+              Nodedata = new global::Hedera.Hashgraph.Proto.FeeComponents();
             }
             input.ReadMessage(Nodedata);
             break;
           }
           case 18: {
             if (networkdata_ == null) {
-              Networkdata = new global::Proto.FeeComponents();
+              Networkdata = new global::Hedera.Hashgraph.Proto.FeeComponents();
             }
             input.ReadMessage(Networkdata);
             break;
           }
           case 26: {
             if (servicedata_ == null) {
-              Servicedata = new global::Proto.FeeComponents();
+              Servicedata = new global::Hedera.Hashgraph.Proto.FeeComponents();
             }
             input.ReadMessage(Servicedata);
             break;
           }
           case 32: {
-            SubType = (global::Proto.SubType) input.ReadEnum();
+            SubType = (global::Hedera.Hashgraph.Proto.SubType) input.ReadEnum();
             break;
           }
         }
@@ -11575,7 +11575,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[30]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[30]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11608,22 +11608,22 @@ namespace Proto {
 
     /// <summary>Field number for the "transactionFeeSchedule" field.</summary>
     public const int TransactionFeeScheduleFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.TransactionFeeSchedule> _repeated_transactionFeeSchedule_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.TransactionFeeSchedule.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TransactionFeeSchedule> transactionFeeSchedule_ = new pbc::RepeatedField<global::Proto.TransactionFeeSchedule>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TransactionFeeSchedule> _repeated_transactionFeeSchedule_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.TransactionFeeSchedule.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionFeeSchedule> transactionFeeSchedule_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionFeeSchedule>();
     /// <summary>
     ///*
     /// Sets of fee coefficients for various transaction or query types.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TransactionFeeSchedule> TransactionFeeSchedule {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionFeeSchedule> TransactionFeeSchedule {
       get { return transactionFeeSchedule_; }
     }
 
     /// <summary>Field number for the "expiryTime" field.</summary>
     public const int ExpiryTimeFieldNumber = 2;
-    private global::Proto.TimestampSeconds expiryTime_;
+    private global::Hedera.Hashgraph.Proto.TimestampSeconds expiryTime_;
     /// <summary>
     ///*
     /// A time, in seconds since the `epoch`, when this fee schedule
@@ -11634,7 +11634,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TimestampSeconds ExpiryTime {
+    public global::Hedera.Hashgraph.Proto.TimestampSeconds ExpiryTime {
       get { return expiryTime_; }
       set {
         expiryTime_ = value;
@@ -11734,7 +11734,7 @@ namespace Proto {
       transactionFeeSchedule_.Add(other.transactionFeeSchedule_);
       if (other.expiryTime_ != null) {
         if (expiryTime_ == null) {
-          ExpiryTime = new global::Proto.TimestampSeconds();
+          ExpiryTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
         }
         ExpiryTime.MergeFrom(other.ExpiryTime);
       }
@@ -11763,7 +11763,7 @@ namespace Proto {
           }
           case 18: {
             if (expiryTime_ == null) {
-              ExpiryTime = new global::Proto.TimestampSeconds();
+              ExpiryTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
             }
             input.ReadMessage(ExpiryTime);
             break;
@@ -11793,7 +11793,7 @@ namespace Proto {
           }
           case 18: {
             if (expiryTime_ == null) {
-              ExpiryTime = new global::Proto.TimestampSeconds();
+              ExpiryTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
             }
             input.ReadMessage(ExpiryTime);
             break;
@@ -11834,7 +11834,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[31]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[31]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -11867,14 +11867,14 @@ namespace Proto {
 
     /// <summary>Field number for the "currentFeeSchedule" field.</summary>
     public const int CurrentFeeScheduleFieldNumber = 1;
-    private global::Proto.FeeSchedule currentFeeSchedule_;
+    private global::Hedera.Hashgraph.Proto.FeeSchedule currentFeeSchedule_;
     /// <summary>
     ///*
     /// A current, unexpired, fee schedule.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FeeSchedule CurrentFeeSchedule {
+    public global::Hedera.Hashgraph.Proto.FeeSchedule CurrentFeeSchedule {
       get { return currentFeeSchedule_; }
       set {
         currentFeeSchedule_ = value;
@@ -11883,14 +11883,14 @@ namespace Proto {
 
     /// <summary>Field number for the "nextFeeSchedule" field.</summary>
     public const int NextFeeScheduleFieldNumber = 2;
-    private global::Proto.FeeSchedule nextFeeSchedule_;
+    private global::Hedera.Hashgraph.Proto.FeeSchedule nextFeeSchedule_;
     /// <summary>
     ///*
     /// A future fee schedule to use when the current schedule expires.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FeeSchedule NextFeeSchedule {
+    public global::Hedera.Hashgraph.Proto.FeeSchedule NextFeeSchedule {
       get { return nextFeeSchedule_; }
       set {
         nextFeeSchedule_ = value;
@@ -11997,13 +11997,13 @@ namespace Proto {
       }
       if (other.currentFeeSchedule_ != null) {
         if (currentFeeSchedule_ == null) {
-          CurrentFeeSchedule = new global::Proto.FeeSchedule();
+          CurrentFeeSchedule = new global::Hedera.Hashgraph.Proto.FeeSchedule();
         }
         CurrentFeeSchedule.MergeFrom(other.CurrentFeeSchedule);
       }
       if (other.nextFeeSchedule_ != null) {
         if (nextFeeSchedule_ == null) {
-          NextFeeSchedule = new global::Proto.FeeSchedule();
+          NextFeeSchedule = new global::Hedera.Hashgraph.Proto.FeeSchedule();
         }
         NextFeeSchedule.MergeFrom(other.NextFeeSchedule);
       }
@@ -12028,14 +12028,14 @@ namespace Proto {
             break;
           case 10: {
             if (currentFeeSchedule_ == null) {
-              CurrentFeeSchedule = new global::Proto.FeeSchedule();
+              CurrentFeeSchedule = new global::Hedera.Hashgraph.Proto.FeeSchedule();
             }
             input.ReadMessage(CurrentFeeSchedule);
             break;
           }
           case 18: {
             if (nextFeeSchedule_ == null) {
-              NextFeeSchedule = new global::Proto.FeeSchedule();
+              NextFeeSchedule = new global::Hedera.Hashgraph.Proto.FeeSchedule();
             }
             input.ReadMessage(NextFeeSchedule);
             break;
@@ -12061,14 +12061,14 @@ namespace Proto {
             break;
           case 10: {
             if (currentFeeSchedule_ == null) {
-              CurrentFeeSchedule = new global::Proto.FeeSchedule();
+              CurrentFeeSchedule = new global::Hedera.Hashgraph.Proto.FeeSchedule();
             }
             input.ReadMessage(CurrentFeeSchedule);
             break;
           }
           case 18: {
             if (nextFeeSchedule_ == null) {
-              NextFeeSchedule = new global::Proto.FeeSchedule();
+              NextFeeSchedule = new global::Hedera.Hashgraph.Proto.FeeSchedule();
             }
             input.ReadMessage(NextFeeSchedule);
             break;
@@ -12111,7 +12111,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[32]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[32]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -12420,7 +12420,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[33]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[33]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -12562,7 +12562,7 @@ namespace Proto {
 
     /// <summary>Field number for the "nodeAccountId" field.</summary>
     public const int NodeAccountIdFieldNumber = 6;
-    private global::Proto.AccountID nodeAccountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID nodeAccountId_;
     /// <summary>
     ///*
     /// An account to be paid the "node" portion of transaction fees.&lt;br/>
@@ -12572,7 +12572,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID NodeAccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID NodeAccountId {
       get { return nodeAccountId_; }
       set {
         nodeAccountId_ = value;
@@ -12607,9 +12607,9 @@ namespace Proto {
 
     /// <summary>Field number for the "serviceEndpoint" field.</summary>
     public const int ServiceEndpointFieldNumber = 8;
-    private static readonly pb::FieldCodec<global::Proto.ServiceEndpoint> _repeated_serviceEndpoint_codec
-        = pb::FieldCodec.ForMessage(66, global::Proto.ServiceEndpoint.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ServiceEndpoint> serviceEndpoint_ = new pbc::RepeatedField<global::Proto.ServiceEndpoint>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ServiceEndpoint> _repeated_serviceEndpoint_codec
+        = pb::FieldCodec.ForMessage(66, global::Hedera.Hashgraph.Proto.ServiceEndpoint.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> serviceEndpoint_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint>();
     /// <summary>
     ///*
     /// A node's service IP addresses and TCP ports.&lt;br/>
@@ -12621,7 +12621,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ServiceEndpoint> ServiceEndpoint {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> ServiceEndpoint {
       get { return serviceEndpoint_; }
     }
 
@@ -12875,7 +12875,7 @@ namespace Proto {
       }
       if (other.nodeAccountId_ != null) {
         if (nodeAccountId_ == null) {
-          NodeAccountId = new global::Proto.AccountID();
+          NodeAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         NodeAccountId.MergeFrom(other.NodeAccountId);
       }
@@ -12930,7 +12930,7 @@ namespace Proto {
           }
           case 50: {
             if (nodeAccountId_ == null) {
-              NodeAccountId = new global::Proto.AccountID();
+              NodeAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(NodeAccountId);
             break;
@@ -12992,7 +12992,7 @@ namespace Proto {
           }
           case 50: {
             if (nodeAccountId_ == null) {
-              NodeAccountId = new global::Proto.AccountID();
+              NodeAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(NodeAccountId);
             break;
@@ -13042,7 +13042,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[34]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[34]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -13074,16 +13074,16 @@ namespace Proto {
 
     /// <summary>Field number for the "nodeAddress" field.</summary>
     public const int NodeAddressFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.NodeAddress> _repeated_nodeAddress_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.NodeAddress.Parser);
-    private readonly pbc::RepeatedField<global::Proto.NodeAddress> nodeAddress_ = new pbc::RepeatedField<global::Proto.NodeAddress>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NodeAddress> _repeated_nodeAddress_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.NodeAddress.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeAddress> nodeAddress_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeAddress>();
     /// <summary>
     ///*
     /// Published data for all nodes in the network
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.NodeAddress> NodeAddress {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeAddress> NodeAddress {
       get { return nodeAddress_; }
     }
 
@@ -13243,7 +13243,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[35]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[35]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -13638,7 +13638,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[36]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[36]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -13929,7 +13929,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[37]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[37]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -13961,16 +13961,16 @@ namespace Proto {
 
     /// <summary>Field number for the "nameValue" field.</summary>
     public const int NameValueFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.Setting> _repeated_nameValue_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.Setting.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Setting> nameValue_ = new pbc::RepeatedField<global::Proto.Setting>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Setting> _repeated_nameValue_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.Setting.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Setting> nameValue_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Setting>();
     /// <summary>
     ///*
     /// A List of `Setting` values, typically read from application properties.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Setting> NameValue {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Setting> NameValue {
       get { return nameValue_; }
     }
 
@@ -14135,7 +14135,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[38]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[38]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -14173,7 +14173,7 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenId" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier.
@@ -14182,7 +14182,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -14233,7 +14233,7 @@ namespace Proto {
 
     /// <summary>Field number for the "kycStatus" field.</summary>
     public const int KycStatusFieldNumber = 4;
-    private global::Proto.TokenKycStatus kycStatus_ = global::Proto.TokenKycStatus.KycNotApplicable;
+    private global::Hedera.Hashgraph.Proto.TokenKycStatus kycStatus_ = global::Hedera.Hashgraph.Proto.TokenKycStatus.KycNotApplicable;
     /// <summary>
     ///*
     /// A KYC status for the account with respect to this token.
@@ -14244,7 +14244,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenKycStatus KycStatus {
+    public global::Hedera.Hashgraph.Proto.TokenKycStatus KycStatus {
       get { return kycStatus_; }
       set {
         kycStatus_ = value;
@@ -14253,7 +14253,7 @@ namespace Proto {
 
     /// <summary>Field number for the "freezeStatus" field.</summary>
     public const int FreezeStatusFieldNumber = 5;
-    private global::Proto.TokenFreezeStatus freezeStatus_ = global::Proto.TokenFreezeStatus.FreezeNotApplicable;
+    private global::Hedera.Hashgraph.Proto.TokenFreezeStatus freezeStatus_ = global::Hedera.Hashgraph.Proto.TokenFreezeStatus.FreezeNotApplicable;
     /// <summary>
     ///*
     /// A Freeze status for the account with respect to this token.
@@ -14265,7 +14265,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenFreezeStatus FreezeStatus {
+    public global::Hedera.Hashgraph.Proto.TokenFreezeStatus FreezeStatus {
       get { return freezeStatus_; }
       set {
         freezeStatus_ = value;
@@ -14346,8 +14346,8 @@ namespace Proto {
       if (tokenId_ != null) hash ^= TokenId.GetHashCode();
       if (Symbol.Length != 0) hash ^= Symbol.GetHashCode();
       if (Balance != 0UL) hash ^= Balance.GetHashCode();
-      if (KycStatus != global::Proto.TokenKycStatus.KycNotApplicable) hash ^= KycStatus.GetHashCode();
-      if (FreezeStatus != global::Proto.TokenFreezeStatus.FreezeNotApplicable) hash ^= FreezeStatus.GetHashCode();
+      if (KycStatus != global::Hedera.Hashgraph.Proto.TokenKycStatus.KycNotApplicable) hash ^= KycStatus.GetHashCode();
+      if (FreezeStatus != global::Hedera.Hashgraph.Proto.TokenFreezeStatus.FreezeNotApplicable) hash ^= FreezeStatus.GetHashCode();
       if (Decimals != 0) hash ^= Decimals.GetHashCode();
       if (AutomaticAssociation != false) hash ^= AutomaticAssociation.GetHashCode();
       if (_unknownFields != null) {
@@ -14380,11 +14380,11 @@ namespace Proto {
         output.WriteRawTag(24);
         output.WriteUInt64(Balance);
       }
-      if (KycStatus != global::Proto.TokenKycStatus.KycNotApplicable) {
+      if (KycStatus != global::Hedera.Hashgraph.Proto.TokenKycStatus.KycNotApplicable) {
         output.WriteRawTag(32);
         output.WriteEnum((int) KycStatus);
       }
-      if (FreezeStatus != global::Proto.TokenFreezeStatus.FreezeNotApplicable) {
+      if (FreezeStatus != global::Hedera.Hashgraph.Proto.TokenFreezeStatus.FreezeNotApplicable) {
         output.WriteRawTag(40);
         output.WriteEnum((int) FreezeStatus);
       }
@@ -14418,11 +14418,11 @@ namespace Proto {
         output.WriteRawTag(24);
         output.WriteUInt64(Balance);
       }
-      if (KycStatus != global::Proto.TokenKycStatus.KycNotApplicable) {
+      if (KycStatus != global::Hedera.Hashgraph.Proto.TokenKycStatus.KycNotApplicable) {
         output.WriteRawTag(32);
         output.WriteEnum((int) KycStatus);
       }
-      if (FreezeStatus != global::Proto.TokenFreezeStatus.FreezeNotApplicable) {
+      if (FreezeStatus != global::Hedera.Hashgraph.Proto.TokenFreezeStatus.FreezeNotApplicable) {
         output.WriteRawTag(40);
         output.WriteEnum((int) FreezeStatus);
       }
@@ -14453,10 +14453,10 @@ namespace Proto {
       if (Balance != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Balance);
       }
-      if (KycStatus != global::Proto.TokenKycStatus.KycNotApplicable) {
+      if (KycStatus != global::Hedera.Hashgraph.Proto.TokenKycStatus.KycNotApplicable) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) KycStatus);
       }
-      if (FreezeStatus != global::Proto.TokenFreezeStatus.FreezeNotApplicable) {
+      if (FreezeStatus != global::Hedera.Hashgraph.Proto.TokenFreezeStatus.FreezeNotApplicable) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) FreezeStatus);
       }
       if (Decimals != 0) {
@@ -14479,7 +14479,7 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
@@ -14489,10 +14489,10 @@ namespace Proto {
       if (other.Balance != 0UL) {
         Balance = other.Balance;
       }
-      if (other.KycStatus != global::Proto.TokenKycStatus.KycNotApplicable) {
+      if (other.KycStatus != global::Hedera.Hashgraph.Proto.TokenKycStatus.KycNotApplicable) {
         KycStatus = other.KycStatus;
       }
-      if (other.FreezeStatus != global::Proto.TokenFreezeStatus.FreezeNotApplicable) {
+      if (other.FreezeStatus != global::Hedera.Hashgraph.Proto.TokenFreezeStatus.FreezeNotApplicable) {
         FreezeStatus = other.FreezeStatus;
       }
       if (other.Decimals != 0) {
@@ -14522,7 +14522,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
@@ -14536,11 +14536,11 @@ namespace Proto {
             break;
           }
           case 32: {
-            KycStatus = (global::Proto.TokenKycStatus) input.ReadEnum();
+            KycStatus = (global::Hedera.Hashgraph.Proto.TokenKycStatus) input.ReadEnum();
             break;
           }
           case 40: {
-            FreezeStatus = (global::Proto.TokenFreezeStatus) input.ReadEnum();
+            FreezeStatus = (global::Hedera.Hashgraph.Proto.TokenFreezeStatus) input.ReadEnum();
             break;
           }
           case 48: {
@@ -14572,7 +14572,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
@@ -14586,11 +14586,11 @@ namespace Proto {
             break;
           }
           case 32: {
-            KycStatus = (global::Proto.TokenKycStatus) input.ReadEnum();
+            KycStatus = (global::Hedera.Hashgraph.Proto.TokenKycStatus) input.ReadEnum();
             break;
           }
           case 40: {
-            FreezeStatus = (global::Proto.TokenFreezeStatus) input.ReadEnum();
+            FreezeStatus = (global::Hedera.Hashgraph.Proto.TokenFreezeStatus) input.ReadEnum();
             break;
           }
           case 48: {
@@ -14635,7 +14635,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[39]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[39]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -14669,14 +14669,14 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenId" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -14836,7 +14836,7 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
@@ -14867,7 +14867,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
@@ -14901,7 +14901,7 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
@@ -14944,7 +14944,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[40]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[40]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -14976,9 +14976,9 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenBalances" field.</summary>
     public const int TokenBalances_FieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.TokenBalance> _repeated_tokenBalances_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.TokenBalance.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenBalance> tokenBalances_ = new pbc::RepeatedField<global::Proto.TokenBalance>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenBalance> _repeated_tokenBalances_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.TokenBalance.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenBalance> tokenBalances_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenBalance>();
     /// <summary>
     ///*
     /// A list of token balance values.&lt;br/>
@@ -14986,7 +14986,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenBalance> TokenBalances_ {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenBalance> TokenBalances_ {
       get { return tokenBalances_; }
     }
 
@@ -15143,7 +15143,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[41]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[41]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15176,14 +15176,14 @@ namespace Proto {
 
     /// <summary>Field number for the "token_id" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier for the associated token.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -15192,14 +15192,14 @@ namespace Proto {
 
     /// <summary>Field number for the "account_id" field.</summary>
     public const int AccountIdFieldNumber = 2;
-    private global::Proto.AccountID accountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountId_;
     /// <summary>
     ///*
     /// An account identifier for the associated account.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountId {
       get { return accountId_; }
       set {
         accountId_ = value;
@@ -15306,13 +15306,13 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
       if (other.accountId_ != null) {
         if (accountId_ == null) {
-          AccountId = new global::Proto.AccountID();
+          AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountId.MergeFrom(other.AccountId);
       }
@@ -15337,14 +15337,14 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -15370,14 +15370,14 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -15411,7 +15411,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[42]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[42]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15472,7 +15472,7 @@ namespace Proto {
 
     /// <summary>Field number for the "stake_period_start" field.</summary>
     public const int StakePeriodStartFieldNumber = 2;
-    private global::Proto.Timestamp stakePeriodStart_;
+    private global::Hedera.Hashgraph.Proto.Timestamp stakePeriodStart_;
     /// <summary>
     ///*
     /// A `Timestamp` of the start time for the latest active staking period.
@@ -15486,7 +15486,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp StakePeriodStart {
+    public global::Hedera.Hashgraph.Proto.Timestamp StakePeriodStart {
       get { return stakePeriodStart_; }
       set {
         stakePeriodStart_ = value;
@@ -15539,8 +15539,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID StakedAccountId {
-      get { return stakedIdCase_ == StakedIdOneofCase.StakedAccountId ? (global::Proto.AccountID) stakedId_ : null; }
+    public global::Hedera.Hashgraph.Proto.AccountID StakedAccountId {
+      get { return stakedIdCase_ == StakedIdOneofCase.StakedAccountId ? (global::Hedera.Hashgraph.Proto.AccountID) stakedId_ : null; }
       set {
         stakedId_ = value;
         stakedIdCase_ = value == null ? StakedIdOneofCase.None : StakedIdOneofCase.StakedAccountId;
@@ -15757,7 +15757,7 @@ namespace Proto {
       }
       if (other.stakePeriodStart_ != null) {
         if (stakePeriodStart_ == null) {
-          StakePeriodStart = new global::Proto.Timestamp();
+          StakePeriodStart = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         StakePeriodStart.MergeFrom(other.StakePeriodStart);
       }
@@ -15770,7 +15770,7 @@ namespace Proto {
       switch (other.StakedIdCase) {
         case StakedIdOneofCase.StakedAccountId:
           if (StakedAccountId == null) {
-            StakedAccountId = new global::Proto.AccountID();
+            StakedAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
           }
           StakedAccountId.MergeFrom(other.StakedAccountId);
           break;
@@ -15804,7 +15804,7 @@ namespace Proto {
           }
           case 18: {
             if (stakePeriodStart_ == null) {
-              StakePeriodStart = new global::Proto.Timestamp();
+              StakePeriodStart = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(StakePeriodStart);
             break;
@@ -15818,7 +15818,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (stakedIdCase_ == StakedIdOneofCase.StakedAccountId) {
               subBuilder.MergeFrom(StakedAccountId);
             }
@@ -15855,7 +15855,7 @@ namespace Proto {
           }
           case 18: {
             if (stakePeriodStart_ == null) {
-              StakePeriodStart = new global::Proto.Timestamp();
+              StakePeriodStart = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(StakePeriodStart);
             break;
@@ -15869,7 +15869,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (stakedIdCase_ == StakedIdOneofCase.StakedAccountId) {
               subBuilder.MergeFrom(StakedAccountId);
             }
@@ -15913,7 +15913,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[43]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[43]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -15955,7 +15955,7 @@ namespace Proto {
 
     /// <summary>Field number for the "sender_id" field.</summary>
     public const int SenderIdFieldNumber = 1;
-    private global::Proto.AccountID senderId_;
+    private global::Hedera.Hashgraph.Proto.AccountID senderId_;
     /// <summary>
     ///*
     /// A sending account.
@@ -15966,7 +15966,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID SenderId {
+    public global::Hedera.Hashgraph.Proto.AccountID SenderId {
       get { return senderId_; }
       set {
         senderId_ = value;
@@ -15975,7 +15975,7 @@ namespace Proto {
 
     /// <summary>Field number for the "receiver_id" field.</summary>
     public const int ReceiverIdFieldNumber = 2;
-    private global::Proto.AccountID receiverId_;
+    private global::Hedera.Hashgraph.Proto.AccountID receiverId_;
     /// <summary>
     ///*
     /// A receiving account.
@@ -15985,7 +15985,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID ReceiverId {
+    public global::Hedera.Hashgraph.Proto.AccountID ReceiverId {
       get { return receiverId_; }
       set {
         receiverId_ = value;
@@ -16004,8 +16004,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID FungibleTokenType {
-      get { return tokenReferenceCase_ == TokenReferenceOneofCase.FungibleTokenType ? (global::Proto.TokenID) tokenReference_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenID FungibleTokenType {
+      get { return tokenReferenceCase_ == TokenReferenceOneofCase.FungibleTokenType ? (global::Hedera.Hashgraph.Proto.TokenID) tokenReference_ : null; }
       set {
         tokenReference_ = value;
         tokenReferenceCase_ = value == null ? TokenReferenceOneofCase.None : TokenReferenceOneofCase.FungibleTokenType;
@@ -16025,8 +16025,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NftID NonFungibleToken {
-      get { return tokenReferenceCase_ == TokenReferenceOneofCase.NonFungibleToken ? (global::Proto.NftID) tokenReference_ : null; }
+    public global::Hedera.Hashgraph.Proto.NftID NonFungibleToken {
+      get { return tokenReferenceCase_ == TokenReferenceOneofCase.NonFungibleToken ? (global::Hedera.Hashgraph.Proto.NftID) tokenReference_ : null; }
       set {
         tokenReference_ = value;
         tokenReferenceCase_ = value == null ? TokenReferenceOneofCase.None : TokenReferenceOneofCase.NonFungibleToken;
@@ -16182,26 +16182,26 @@ namespace Proto {
       }
       if (other.senderId_ != null) {
         if (senderId_ == null) {
-          SenderId = new global::Proto.AccountID();
+          SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         SenderId.MergeFrom(other.SenderId);
       }
       if (other.receiverId_ != null) {
         if (receiverId_ == null) {
-          ReceiverId = new global::Proto.AccountID();
+          ReceiverId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         ReceiverId.MergeFrom(other.ReceiverId);
       }
       switch (other.TokenReferenceCase) {
         case TokenReferenceOneofCase.FungibleTokenType:
           if (FungibleTokenType == null) {
-            FungibleTokenType = new global::Proto.TokenID();
+            FungibleTokenType = new global::Hedera.Hashgraph.Proto.TokenID();
           }
           FungibleTokenType.MergeFrom(other.FungibleTokenType);
           break;
         case TokenReferenceOneofCase.NonFungibleToken:
           if (NonFungibleToken == null) {
-            NonFungibleToken = new global::Proto.NftID();
+            NonFungibleToken = new global::Hedera.Hashgraph.Proto.NftID();
           }
           NonFungibleToken.MergeFrom(other.NonFungibleToken);
           break;
@@ -16228,20 +16228,20 @@ namespace Proto {
             break;
           case 10: {
             if (senderId_ == null) {
-              SenderId = new global::Proto.AccountID();
+              SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderId);
             break;
           }
           case 18: {
             if (receiverId_ == null) {
-              ReceiverId = new global::Proto.AccountID();
+              ReceiverId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(ReceiverId);
             break;
           }
           case 26: {
-            global::Proto.TokenID subBuilder = new global::Proto.TokenID();
+            global::Hedera.Hashgraph.Proto.TokenID subBuilder = new global::Hedera.Hashgraph.Proto.TokenID();
             if (tokenReferenceCase_ == TokenReferenceOneofCase.FungibleTokenType) {
               subBuilder.MergeFrom(FungibleTokenType);
             }
@@ -16250,7 +16250,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.NftID subBuilder = new global::Proto.NftID();
+            global::Hedera.Hashgraph.Proto.NftID subBuilder = new global::Hedera.Hashgraph.Proto.NftID();
             if (tokenReferenceCase_ == TokenReferenceOneofCase.NonFungibleToken) {
               subBuilder.MergeFrom(NonFungibleToken);
             }
@@ -16279,20 +16279,20 @@ namespace Proto {
             break;
           case 10: {
             if (senderId_ == null) {
-              SenderId = new global::Proto.AccountID();
+              SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderId);
             break;
           }
           case 18: {
             if (receiverId_ == null) {
-              ReceiverId = new global::Proto.AccountID();
+              ReceiverId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(ReceiverId);
             break;
           }
           case 26: {
-            global::Proto.TokenID subBuilder = new global::Proto.TokenID();
+            global::Hedera.Hashgraph.Proto.TokenID subBuilder = new global::Hedera.Hashgraph.Proto.TokenID();
             if (tokenReferenceCase_ == TokenReferenceOneofCase.FungibleTokenType) {
               subBuilder.MergeFrom(FungibleTokenType);
             }
@@ -16301,7 +16301,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.NftID subBuilder = new global::Proto.NftID();
+            global::Hedera.Hashgraph.Proto.NftID subBuilder = new global::Hedera.Hashgraph.Proto.NftID();
             if (tokenReferenceCase_ == TokenReferenceOneofCase.NonFungibleToken) {
               subBuilder.MergeFrom(NonFungibleToken);
             }
@@ -16345,7 +16345,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BasicTypesReflection.Descriptor.MessageTypes[44]; }
+      get { return global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor.MessageTypes[44]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

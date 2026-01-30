@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -92,38 +85,41 @@ namespace Hedera.Hashgraph.SDK.Queries
             return false;
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = CryptoGetAccountBalanceQuery.NewBuilder();
+            var builder = new Proto.CryptoGetAccountBalanceQuery()
+            {
+                Header = header
+            };
             if (accountId != null)
             {
-                builder.AccountID(accountId.ToProtobuf());
+                builder.AccountID = accountId.ToProtobuf();
             }
 
             if (contractId != null)
             {
-                builder.ContractID(contractId.ToProtobuf());
+                builder.ContractID = contractId.ToProtobuf();
             }
 
-            queryBuilder.SetCryptogetAccountBalance(builder.Header(header));
+            queryBuilder.CryptogetAccountBalance = builder;
         }
 
-        override AccountBalance MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override AccountBalance MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return AccountBalance.FromProtobuf(response.GetCryptogetAccountBalance());
+            return AccountBalance.FromProtobuf(response.CryptogetAccountBalance);
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetCryptogetAccountBalance().GetHeader();
+            return response.CryptogetAccountBalance.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetCryptogetAccountBalance().GetHeader();
+            return request.CryptogetAccountBalance.Header;
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return CryptoServiceGrpc.GetCryptoGetBalanceMethod();
         }

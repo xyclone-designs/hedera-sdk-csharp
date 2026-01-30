@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.State.Roster {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from ledger_id.proto</summary>
   public static partial class LedgerIdReflection {
@@ -32,14 +32,14 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
             "EhMKC3Jvc3Rlcl9oYXNoGAEgASgMEkkKD25vZGVfc2lnbmF0dXJlcxgCIAMo",
             "CzIwLmNvbS5oZWRlcmEuaGFwaS5ub2RlLnN0YXRlLnJvc3Rlci5Ob2RlU2ln",
             "bmF0dXJlIjgKDU5vZGVTaWduYXR1cmUSDwoHbm9kZV9pZBgBIAEoBBIWCg5u",
-            "b2RlX3NpZ25hdHVyZRgCIAEoDEIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
-            "ZGsucHJvdG9QAWIGcHJvdG8z"));
+            "b2RlX3NpZ25hdHVyZRgCIAEoDEI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
+            "ZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Roster.LedgerId), global::Com.Hedera.Hapi.Node.State.Roster.LedgerId.Parser, new[]{ "LedgerId_", "Round", "LedgerSignature", "RosterSignatures" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Roster.RosterSignatures), global::Com.Hedera.Hapi.Node.State.Roster.RosterSignatures.Parser, new[]{ "RosterHash", "NodeSignatures" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Roster.NodeSignature), global::Com.Hedera.Hapi.Node.State.Roster.NodeSignature.Parser, new[]{ "NodeId", "NodeSignature_" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LedgerId), global::Hedera.Hashgraph.Proto.LedgerId.Parser, new[]{ "LedgerId_", "Round", "LedgerSignature", "RosterSignatures" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.RosterSignatures), global::Hedera.Hashgraph.Proto.RosterSignatures.Parser, new[]{ "RosterHash", "NodeSignatures" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeSignature), global::Hedera.Hashgraph.Proto.NodeSignature.Parser, new[]{ "NodeId", "NodeSignature_" }, null, null, null, null)
           }));
     }
     #endregion
@@ -85,7 +85,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Roster.LedgerIdReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.LedgerIdReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -180,7 +180,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
 
     /// <summary>Field number for the "roster_signatures" field.</summary>
     public const int RosterSignaturesFieldNumber = 4;
-    private global::Com.Hedera.Hapi.Node.State.Roster.RosterSignatures rosterSignatures_;
+    private global::Hedera.Hashgraph.Proto.RosterSignatures rosterSignatures_;
     /// <summary>
     ///*
     /// The signatures from nodes in the active roster signing the new
@@ -193,7 +193,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.Roster.RosterSignatures RosterSignatures {
+    public global::Hedera.Hashgraph.Proto.RosterSignatures RosterSignatures {
       get { return rosterSignatures_; }
       set {
         rosterSignatures_ = value;
@@ -335,7 +335,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
       }
       if (other.rosterSignatures_ != null) {
         if (rosterSignatures_ == null) {
-          RosterSignatures = new global::Com.Hedera.Hapi.Node.State.Roster.RosterSignatures();
+          RosterSignatures = new global::Hedera.Hashgraph.Proto.RosterSignatures();
         }
         RosterSignatures.MergeFrom(other.RosterSignatures);
       }
@@ -372,7 +372,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
           }
           case 34: {
             if (rosterSignatures_ == null) {
-              RosterSignatures = new global::Com.Hedera.Hapi.Node.State.Roster.RosterSignatures();
+              RosterSignatures = new global::Hedera.Hashgraph.Proto.RosterSignatures();
             }
             input.ReadMessage(RosterSignatures);
             break;
@@ -410,7 +410,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
           }
           case 34: {
             if (rosterSignatures_ == null) {
-              RosterSignatures = new global::Com.Hedera.Hapi.Node.State.Roster.RosterSignatures();
+              RosterSignatures = new global::Hedera.Hashgraph.Proto.RosterSignatures();
             }
             input.ReadMessage(RosterSignatures);
             break;
@@ -441,7 +441,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Roster.LedgerIdReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.LedgerIdReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -490,9 +490,9 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
 
     /// <summary>Field number for the "node_signatures" field.</summary>
     public const int NodeSignaturesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.State.Roster.NodeSignature> _repeated_nodeSignatures_codec
-        = pb::FieldCodec.ForMessage(18, global::Com.Hedera.Hapi.Node.State.Roster.NodeSignature.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.NodeSignature> nodeSignatures_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.NodeSignature>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NodeSignature> _repeated_nodeSignatures_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.NodeSignature.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeSignature> nodeSignatures_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeSignature>();
     /// <summary>
     ///*
     /// A list of node signatures on the same message where all node ids in the
@@ -500,7 +500,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.NodeSignature> NodeSignatures {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeSignature> NodeSignatures {
       get { return nodeSignatures_; }
     }
 
@@ -679,7 +679,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Roster.LedgerIdReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.LedgerIdReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

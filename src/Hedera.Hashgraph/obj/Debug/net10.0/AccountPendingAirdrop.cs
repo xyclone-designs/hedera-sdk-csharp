@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from account_pending_airdrop.proto</summary>
   public static partial class AccountPendingAirdropReflection {
@@ -29,12 +29,12 @@ namespace Proto {
             "ZGluZ19haXJkcm9wX3ZhbHVlGAEgASgLMhoucHJvdG8uUGVuZGluZ0FpcmRy",
             "b3BWYWx1ZRIxChBwcmV2aW91c19haXJkcm9wGAIgASgLMhcucHJvdG8uUGVu",
             "ZGluZ0FpcmRyb3BJZBItCgxuZXh0X2FpcmRyb3AYAyABKAsyFy5wcm90by5Q",
-            "ZW5kaW5nQWlyZHJvcElkQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5w",
-            "cm90b1ABYgZwcm90bzM="));
+            "ZW5kaW5nQWlyZHJvcElkQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5w",
+            "cm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.AccountPendingAirdrop), global::Proto.AccountPendingAirdrop.Parser, new[]{ "PendingAirdropValue", "PreviousAirdrop", "NextAirdrop" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.AccountPendingAirdrop), global::Hedera.Hashgraph.Proto.AccountPendingAirdrop.Parser, new[]{ "PendingAirdropValue", "PreviousAirdrop", "NextAirdrop" }, null, null, null, null)
           }));
     }
     #endregion
@@ -69,7 +69,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.AccountPendingAirdropReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.AccountPendingAirdropReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -103,7 +103,7 @@ namespace Proto {
 
     /// <summary>Field number for the "pending_airdrop_value" field.</summary>
     public const int PendingAirdropValueFieldNumber = 1;
-    private global::Proto.PendingAirdropValue pendingAirdropValue_;
+    private global::Hedera.Hashgraph.Proto.PendingAirdropValue pendingAirdropValue_;
     /// <summary>
     ///*
     /// An amount of fungible tokens to be sent for this pending airdrop.
@@ -112,7 +112,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.PendingAirdropValue PendingAirdropValue {
+    public global::Hedera.Hashgraph.Proto.PendingAirdropValue PendingAirdropValue {
       get { return pendingAirdropValue_; }
       set {
         pendingAirdropValue_ = value;
@@ -121,7 +121,7 @@ namespace Proto {
 
     /// <summary>Field number for the "previous_airdrop" field.</summary>
     public const int PreviousAirdropFieldNumber = 2;
-    private global::Proto.PendingAirdropId previousAirdrop_;
+    private global::Hedera.Hashgraph.Proto.PendingAirdropId previousAirdrop_;
     /// <summary>
     ///*
     /// A pending airdrop identifier.
@@ -135,7 +135,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.PendingAirdropId PreviousAirdrop {
+    public global::Hedera.Hashgraph.Proto.PendingAirdropId PreviousAirdrop {
       get { return previousAirdrop_; }
       set {
         previousAirdrop_ = value;
@@ -144,7 +144,7 @@ namespace Proto {
 
     /// <summary>Field number for the "next_airdrop" field.</summary>
     public const int NextAirdropFieldNumber = 3;
-    private global::Proto.PendingAirdropId nextAirdrop_;
+    private global::Hedera.Hashgraph.Proto.PendingAirdropId nextAirdrop_;
     /// <summary>
     ///*
     /// A pending airdrop identifier.&lt;br/>
@@ -158,7 +158,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.PendingAirdropId NextAirdrop {
+    public global::Hedera.Hashgraph.Proto.PendingAirdropId NextAirdrop {
       get { return nextAirdrop_; }
       set {
         nextAirdrop_ = value;
@@ -278,19 +278,19 @@ namespace Proto {
       }
       if (other.pendingAirdropValue_ != null) {
         if (pendingAirdropValue_ == null) {
-          PendingAirdropValue = new global::Proto.PendingAirdropValue();
+          PendingAirdropValue = new global::Hedera.Hashgraph.Proto.PendingAirdropValue();
         }
         PendingAirdropValue.MergeFrom(other.PendingAirdropValue);
       }
       if (other.previousAirdrop_ != null) {
         if (previousAirdrop_ == null) {
-          PreviousAirdrop = new global::Proto.PendingAirdropId();
+          PreviousAirdrop = new global::Hedera.Hashgraph.Proto.PendingAirdropId();
         }
         PreviousAirdrop.MergeFrom(other.PreviousAirdrop);
       }
       if (other.nextAirdrop_ != null) {
         if (nextAirdrop_ == null) {
-          NextAirdrop = new global::Proto.PendingAirdropId();
+          NextAirdrop = new global::Hedera.Hashgraph.Proto.PendingAirdropId();
         }
         NextAirdrop.MergeFrom(other.NextAirdrop);
       }
@@ -315,21 +315,21 @@ namespace Proto {
             break;
           case 10: {
             if (pendingAirdropValue_ == null) {
-              PendingAirdropValue = new global::Proto.PendingAirdropValue();
+              PendingAirdropValue = new global::Hedera.Hashgraph.Proto.PendingAirdropValue();
             }
             input.ReadMessage(PendingAirdropValue);
             break;
           }
           case 18: {
             if (previousAirdrop_ == null) {
-              PreviousAirdrop = new global::Proto.PendingAirdropId();
+              PreviousAirdrop = new global::Hedera.Hashgraph.Proto.PendingAirdropId();
             }
             input.ReadMessage(PreviousAirdrop);
             break;
           }
           case 26: {
             if (nextAirdrop_ == null) {
-              NextAirdrop = new global::Proto.PendingAirdropId();
+              NextAirdrop = new global::Hedera.Hashgraph.Proto.PendingAirdropId();
             }
             input.ReadMessage(NextAirdrop);
             break;
@@ -355,21 +355,21 @@ namespace Proto {
             break;
           case 10: {
             if (pendingAirdropValue_ == null) {
-              PendingAirdropValue = new global::Proto.PendingAirdropValue();
+              PendingAirdropValue = new global::Hedera.Hashgraph.Proto.PendingAirdropValue();
             }
             input.ReadMessage(PendingAirdropValue);
             break;
           }
           case 18: {
             if (previousAirdrop_ == null) {
-              PreviousAirdrop = new global::Proto.PendingAirdropId();
+              PreviousAirdrop = new global::Hedera.Hashgraph.Proto.PendingAirdropId();
             }
             input.ReadMessage(PreviousAirdrop);
             break;
           }
           case 26: {
             if (nextAirdrop_ == null) {
-              NextAirdrop = new global::Proto.PendingAirdropId();
+              NextAirdrop = new global::Hedera.Hashgraph.Proto.PendingAirdropId();
             }
             input.ReadMessage(NextAirdrop);
             break;

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from throttle_definitions.proto</summary>
   public static partial class ThrottleDefinitionsReflection {
@@ -31,13 +31,14 @@ namespace Proto {
             "dXJzdFBlcmlvZE1zGAIgASgEEiwKDnRocm90dGxlR3JvdXBzGAMgAygLMhQu",
             "cHJvdG8uVGhyb3R0bGVHcm91cCJFChNUaHJvdHRsZURlZmluaXRpb25zEi4K",
             "D3Rocm90dGxlQnVja2V0cxgBIAMoCzIVLnByb3RvLlRocm90dGxlQnVja2V0",
-            "QiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "QjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5I",
+            "YXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ThrottleGroup), global::Proto.ThrottleGroup.Parser, new[]{ "Operations", "MilliOpsPerSec" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ThrottleBucket), global::Proto.ThrottleBucket.Parser, new[]{ "Name", "BurstPeriodMs", "ThrottleGroups" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ThrottleDefinitions), global::Proto.ThrottleDefinitions.Parser, new[]{ "ThrottleBuckets" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ThrottleGroup), global::Hedera.Hashgraph.Proto.ThrottleGroup.Parser, new[]{ "Operations", "MilliOpsPerSec" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ThrottleBucket), global::Hedera.Hashgraph.Proto.ThrottleBucket.Parser, new[]{ "Name", "BurstPeriodMs", "ThrottleGroups" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ThrottleDefinitions), global::Hedera.Hashgraph.Proto.ThrottleDefinitions.Parser, new[]{ "ThrottleBuckets" }, null, null, null, null)
           }));
     }
     #endregion
@@ -68,7 +69,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ThrottleDefinitionsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ThrottleDefinitionsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -101,9 +102,9 @@ namespace Proto {
 
     /// <summary>Field number for the "operations" field.</summary>
     public const int OperationsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.HederaFunctionality> _repeated_operations_codec
-        = pb::FieldCodec.ForEnum(10, x => (int) x, x => (global::Proto.HederaFunctionality) x);
-    private readonly pbc::RepeatedField<global::Proto.HederaFunctionality> operations_ = new pbc::RepeatedField<global::Proto.HederaFunctionality>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.HederaFunctionality> _repeated_operations_codec
+        = pb::FieldCodec.ForEnum(10, x => (int) x, x => (global::Hedera.Hashgraph.Proto.HederaFunctionality) x);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.HederaFunctionality> operations_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.HederaFunctionality>();
     /// <summary>
     ///*
     /// A list of operations to be throttled.
@@ -114,7 +115,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.HederaFunctionality> Operations {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.HederaFunctionality> Operations {
       get { return operations_; }
     }
 
@@ -334,7 +335,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ThrottleDefinitionsReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ThrottleDefinitionsReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -411,9 +412,9 @@ namespace Proto {
 
     /// <summary>Field number for the "throttleGroups" field.</summary>
     public const int ThrottleGroupsFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::Proto.ThrottleGroup> _repeated_throttleGroups_codec
-        = pb::FieldCodec.ForMessage(26, global::Proto.ThrottleGroup.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ThrottleGroup> throttleGroups_ = new pbc::RepeatedField<global::Proto.ThrottleGroup>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ThrottleGroup> _repeated_throttleGroups_codec
+        = pb::FieldCodec.ForMessage(26, global::Hedera.Hashgraph.Proto.ThrottleGroup.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleGroup> throttleGroups_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleGroup>();
     /// <summary>
     ///*
     /// A list of throttle groups.&lt;br/>
@@ -424,7 +425,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ThrottleGroup> ThrottleGroups {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleGroup> ThrottleGroups {
       get { return throttleGroups_; }
     }
 
@@ -633,7 +634,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ThrottleDefinitionsReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.ThrottleDefinitionsReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -665,9 +666,9 @@ namespace Proto {
 
     /// <summary>Field number for the "throttleBuckets" field.</summary>
     public const int ThrottleBucketsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.ThrottleBucket> _repeated_throttleBuckets_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.ThrottleBucket.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ThrottleBucket> throttleBuckets_ = new pbc::RepeatedField<global::Proto.ThrottleBucket>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ThrottleBucket> _repeated_throttleBuckets_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.ThrottleBucket.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleBucket> throttleBuckets_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleBucket>();
     /// <summary>
     ///*
     /// A list of throttle buckets.
@@ -679,7 +680,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ThrottleBucket> ThrottleBuckets {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleBucket> ThrottleBuckets {
       get { return throttleBuckets_; }
     }
 

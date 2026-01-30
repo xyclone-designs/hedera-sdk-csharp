@@ -27,8 +27,8 @@ namespace Com.Hedera.Hapi.Platform.Event {
             "CiFzdGF0ZV9zaWduYXR1cmVfdHJhbnNhY3Rpb24ucHJvdG8SHmNvbS5oZWRl",
             "cmEuaGFwaS5wbGF0Zm9ybS5ldmVudCJLChlTdGF0ZVNpZ25hdHVyZVRyYW5z",
             "YWN0aW9uEg0KBXJvdW5kGAEgASgDEhEKCXNpZ25hdHVyZRgCIAEoDBIMCgRo",
-            "YXNoGAMgASgMQikKJWNvbS5oZWRlcmEuaGFwaS5wbGF0Zm9ybS5ldmVudC5s",
-            "ZWdhY3lQAWIGcHJvdG8z"));
+            "YXNoGAMgASgMQicKJWNvbS5oZWRlcmEuaGFwaS5wbGF0Zm9ybS5ldmVudC5s",
+            "ZWdhY3liBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

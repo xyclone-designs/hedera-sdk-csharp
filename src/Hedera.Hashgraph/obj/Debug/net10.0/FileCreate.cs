@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from file_create.proto</summary>
   public static partial class FileCreateReflection {
@@ -30,12 +30,13 @@ namespace Proto {
             "HAoEa2V5cxgDIAEoCzIOLnByb3RvLktleUxpc3QSEAoIY29udGVudHMYBCAB",
             "KAwSHwoHc2hhcmRJRBgFIAEoCzIOLnByb3RvLlNoYXJkSUQSHwoHcmVhbG1J",
             "RBgGIAEoCzIOLnByb3RvLlJlYWxtSUQSKAoQbmV3UmVhbG1BZG1pbktleRgH",
-            "IAEoCzIKLnByb3RvLktleUICGAESDAoEbWVtbxgIIAEoCUIiCh5jb20uaGVk",
-            "ZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "IAEoCzIKLnByb3RvLktleUICGAESDAoEbWVtbxgIIAEoCUI5Ch5jb20uaGVk",
+            "ZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlBy",
+            "b3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileCreateTransactionBody), global::Proto.FileCreateTransactionBody.Parser, new[]{ "ExpirationTime", "Keys", "Contents", "ShardID", "RealmID", "NewRealmAdminKey", "Memo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileCreateTransactionBody), global::Hedera.Hashgraph.Proto.FileCreateTransactionBody.Parser, new[]{ "ExpirationTime", "Keys", "Contents", "ShardID", "RealmID", "NewRealmAdminKey", "Memo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -99,7 +100,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FileCreateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.FileCreateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -137,7 +138,7 @@ namespace Proto {
 
     /// <summary>Field number for the "expirationTime" field.</summary>
     public const int ExpirationTimeFieldNumber = 2;
-    private global::Proto.Timestamp expirationTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp expirationTime_;
     /// <summary>
     ///*
     /// An expiration timestamp.
@@ -147,7 +148,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ExpirationTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp ExpirationTime {
       get { return expirationTime_; }
       set {
         expirationTime_ = value;
@@ -156,7 +157,7 @@ namespace Proto {
 
     /// <summary>Field number for the "keys" field.</summary>
     public const int KeysFieldNumber = 3;
-    private global::Proto.KeyList keys_;
+    private global::Hedera.Hashgraph.Proto.KeyList keys_;
     /// <summary>
     ///*
     /// A list of keys that represent file "owners".
@@ -172,7 +173,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.KeyList Keys {
+    public global::Hedera.Hashgraph.Proto.KeyList Keys {
       get { return keys_; }
       set {
         keys_ = value;
@@ -199,14 +200,14 @@ namespace Proto {
 
     /// <summary>Field number for the "shardID" field.</summary>
     public const int ShardIDFieldNumber = 5;
-    private global::Proto.ShardID shardID_;
+    private global::Hedera.Hashgraph.Proto.ShardID shardID_;
     /// <summary>
     ///*
     /// A shard in which this file is created
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ShardID ShardID {
+    public global::Hedera.Hashgraph.Proto.ShardID ShardID {
       get { return shardID_; }
       set {
         shardID_ = value;
@@ -215,7 +216,7 @@ namespace Proto {
 
     /// <summary>Field number for the "realmID" field.</summary>
     public const int RealmIDFieldNumber = 6;
-    private global::Proto.RealmID realmID_;
+    private global::Hedera.Hashgraph.Proto.RealmID realmID_;
     /// <summary>
     ///*
     /// A realm in which this file is created.
@@ -226,7 +227,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.RealmID RealmID {
+    public global::Hedera.Hashgraph.Proto.RealmID RealmID {
       get { return realmID_; }
       set {
         realmID_ = value;
@@ -235,7 +236,7 @@ namespace Proto {
 
     /// <summary>Field number for the "newRealmAdminKey" field.</summary>
     public const int NewRealmAdminKeyFieldNumber = 7;
-    private global::Proto.Key newRealmAdminKey_;
+    private global::Hedera.Hashgraph.Proto.Key newRealmAdminKey_;
     /// <summary>
     ///*
     /// The "create realm" was never enabled, and
@@ -246,7 +247,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key NewRealmAdminKey {
+    public global::Hedera.Hashgraph.Proto.Key NewRealmAdminKey {
       get { return newRealmAdminKey_; }
       set {
         newRealmAdminKey_ = value;
@@ -437,13 +438,13 @@ namespace Proto {
       }
       if (other.expirationTime_ != null) {
         if (expirationTime_ == null) {
-          ExpirationTime = new global::Proto.Timestamp();
+          ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ExpirationTime.MergeFrom(other.ExpirationTime);
       }
       if (other.keys_ != null) {
         if (keys_ == null) {
-          Keys = new global::Proto.KeyList();
+          Keys = new global::Hedera.Hashgraph.Proto.KeyList();
         }
         Keys.MergeFrom(other.Keys);
       }
@@ -452,19 +453,19 @@ namespace Proto {
       }
       if (other.shardID_ != null) {
         if (shardID_ == null) {
-          ShardID = new global::Proto.ShardID();
+          ShardID = new global::Hedera.Hashgraph.Proto.ShardID();
         }
         ShardID.MergeFrom(other.ShardID);
       }
       if (other.realmID_ != null) {
         if (realmID_ == null) {
-          RealmID = new global::Proto.RealmID();
+          RealmID = new global::Hedera.Hashgraph.Proto.RealmID();
         }
         RealmID.MergeFrom(other.RealmID);
       }
       if (other.newRealmAdminKey_ != null) {
         if (newRealmAdminKey_ == null) {
-          NewRealmAdminKey = new global::Proto.Key();
+          NewRealmAdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         NewRealmAdminKey.MergeFrom(other.NewRealmAdminKey);
       }
@@ -492,14 +493,14 @@ namespace Proto {
             break;
           case 18: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;
           }
           case 26: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;
@@ -510,21 +511,21 @@ namespace Proto {
           }
           case 42: {
             if (shardID_ == null) {
-              ShardID = new global::Proto.ShardID();
+              ShardID = new global::Hedera.Hashgraph.Proto.ShardID();
             }
             input.ReadMessage(ShardID);
             break;
           }
           case 50: {
             if (realmID_ == null) {
-              RealmID = new global::Proto.RealmID();
+              RealmID = new global::Hedera.Hashgraph.Proto.RealmID();
             }
             input.ReadMessage(RealmID);
             break;
           }
           case 58: {
             if (newRealmAdminKey_ == null) {
-              NewRealmAdminKey = new global::Proto.Key();
+              NewRealmAdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(NewRealmAdminKey);
             break;
@@ -554,14 +555,14 @@ namespace Proto {
             break;
           case 18: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;
           }
           case 26: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;
@@ -572,21 +573,21 @@ namespace Proto {
           }
           case 42: {
             if (shardID_ == null) {
-              ShardID = new global::Proto.ShardID();
+              ShardID = new global::Hedera.Hashgraph.Proto.ShardID();
             }
             input.ReadMessage(ShardID);
             break;
           }
           case 50: {
             if (realmID_ == null) {
-              RealmID = new global::Proto.RealmID();
+              RealmID = new global::Hedera.Hashgraph.Proto.RealmID();
             }
             input.ReadMessage(RealmID);
             break;
           }
           case 58: {
             if (newRealmAdminKey_ == null) {
-              NewRealmAdminKey = new global::Proto.Key();
+              NewRealmAdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(NewRealmAdminKey);
             break;

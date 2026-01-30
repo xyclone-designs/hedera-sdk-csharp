@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from transaction.proto</summary>
   public static partial class TransactionReflection {
@@ -176,14 +176,14 @@ namespace Proto {
             "ZUxpbWl0QgYKBGRhdGFKBAgeEB9KBAg9ED5KBAg+ED9KBAg/EEBKBAhAEEFS",
             "CnRzc01lc3NhZ2VSB3Rzc1ZvdGVSEXRzc1NoYXJlU2lnbmF0dXJlUhB0c3NF",
             "bmNyeXB0aW9uS2V5IjIKGkF0b21pY0JhdGNoVHJhbnNhY3Rpb25Cb2R5EhQK",
-            "DHRyYW5zYWN0aW9ucxgBIAMoDEIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
-            "ZGsucHJvdG9QAWIGcHJvdG8z"));
+            "DHRyYW5zYWN0aW9ucxgBIAMoDEI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
+            "ZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.SystemDeleteReflection.Descriptor, global::Proto.SystemUndeleteReflection.Descriptor, global::Proto.FreezeReflection.Descriptor, global::Proto.ContractCallReflection.Descriptor, global::Proto.ContractCreateReflection.Descriptor, global::Proto.ContractUpdateReflection.Descriptor, global::Proto.CryptoAddLiveHashReflection.Descriptor, global::Proto.CryptoCreateReflection.Descriptor, global::Proto.CryptoDeleteReflection.Descriptor, global::Proto.CryptoDeleteLiveHashReflection.Descriptor, global::Proto.CryptoTransferReflection.Descriptor, global::Proto.CryptoUpdateReflection.Descriptor, global::Proto.CryptoApproveAllowanceReflection.Descriptor, global::Proto.CryptoDeleteAllowanceReflection.Descriptor, global::Proto.EthereumTransactionReflection.Descriptor, global::Proto.FileAppendReflection.Descriptor, global::Proto.FileCreateReflection.Descriptor, global::Proto.FileDeleteReflection.Descriptor, global::Proto.FileUpdateReflection.Descriptor, global::Proto.DurationReflection.Descriptor, global::Proto.ContractDeleteReflection.Descriptor, global::Proto.ConsensusCreateTopicReflection.Descriptor, global::Proto.ConsensusUpdateTopicReflection.Descriptor, global::Proto.ConsensusDeleteTopicReflection.Descriptor, global::Proto.ConsensusSubmitMessageReflection.Descriptor, global::Proto.UncheckedSubmitReflection.Descriptor, global::Proto.TokenCreateReflection.Descriptor, global::Proto.TokenFreezeAccountReflection.Descriptor, global::Proto.TokenUnfreezeAccountReflection.Descriptor, global::Proto.TokenGrantKycReflection.Descriptor, global::Proto.TokenRevokeKycReflection.Descriptor, global::Proto.TokenDeleteReflection.Descriptor, global::Proto.TokenUpdateReflection.Descriptor, global::Proto.TokenMintReflection.Descriptor, global::Proto.TokenBurnReflection.Descriptor, global::Proto.TokenWipeAccountReflection.Descriptor, global::Proto.TokenAssociateReflection.Descriptor, global::Proto.TokenDissociateReflection.Descriptor, global::Proto.TokenFeeScheduleUpdateReflection.Descriptor, global::Proto.TokenPauseReflection.Descriptor, global::Proto.TokenUnpauseReflection.Descriptor, global::Proto.TokenUpdateNftsReflection.Descriptor, global::Proto.TokenRejectReflection.Descriptor, global::Proto.TokenAirdropReflection.Descriptor, global::Proto.TokenCancelAirdropReflection.Descriptor, global::Proto.TokenClaimAirdropReflection.Descriptor, global::Proto.ScheduleCreateReflection.Descriptor, global::Proto.ScheduleDeleteReflection.Descriptor, global::Proto.ScheduleSignReflection.Descriptor, global::Proto.NodeStakeUpdateReflection.Descriptor, global::Proto.UtilPrngReflection.Descriptor, global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateReflection.Descriptor, global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateReflection.Descriptor, global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteReflection.Descriptor, global::Proto.CustomFeesReflection.Descriptor, global::Com.Hedera.Hapi.Platform.Event.StateSignatureTransactionReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsKeyPublicationReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsPreprocessingVoteReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsPartialSignatureReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.CrsPublicationReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofSignatureReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofKeyPublicationReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofVoteReflection.Descriptor, global::Com.Hedera.Hapi.Node.Hooks.LambdaSstoreReflection.Descriptor, global::Com.Hedera.Hapi.Node.Hooks.HookDispatchReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.SystemDeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.SystemUndeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.FreezeReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractCallReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractCreateReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractUpdateReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoAddLiveHashReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoCreateReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoDeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoTransferReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoUpdateReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceReflection.Descriptor, global::Hedera.Hashgraph.Proto.EthereumTransactionReflection.Descriptor, global::Hedera.Hashgraph.Proto.FileAppendReflection.Descriptor, global::Hedera.Hashgraph.Proto.FileCreateReflection.Descriptor, global::Hedera.Hashgraph.Proto.FileDeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.FileUpdateReflection.Descriptor, global::Hedera.Hashgraph.Proto.DurationReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractDeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.ConsensusCreateTopicReflection.Descriptor, global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicReflection.Descriptor, global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicReflection.Descriptor, global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageReflection.Descriptor, global::Hedera.Hashgraph.Proto.UncheckedSubmitReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenCreateReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenFreezeAccountReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenGrantKycReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenRevokeKycReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenDeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenUpdateReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenMintReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenBurnReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenWipeAccountReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenAssociateReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenDissociateReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenPauseReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenUnpauseReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenUpdateNftsReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenRejectReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenAirdropReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenCancelAirdropReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenClaimAirdropReflection.Descriptor, global::Hedera.Hashgraph.Proto.ScheduleCreateReflection.Descriptor, global::Hedera.Hashgraph.Proto.ScheduleDeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.ScheduleSignReflection.Descriptor, global::Hedera.Hashgraph.Proto.NodeStakeUpdateReflection.Descriptor, global::Hedera.Hashgraph.Proto.UtilPrngReflection.Descriptor, global::Hedera.Hashgraph.Proto.NodeCreateReflection.Descriptor, global::Hedera.Hashgraph.Proto.NodeUpdateReflection.Descriptor, global::Hedera.Hashgraph.Proto.NodeDeleteReflection.Descriptor, global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor, global::Com.Hedera.Hapi.Platform.Event.StateSignatureTransactionReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsKeyPublicationReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsPreprocessingVoteReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsPartialSignatureReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.Hints.CrsPublicationReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofSignatureReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofKeyPublicationReflection.Descriptor, global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofVoteReflection.Descriptor, global::Hedera.Hashgraph.Proto.LambdaSstoreReflection.Descriptor, global::Hedera.Hashgraph.Proto.HookDispatchReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Transaction), global::Proto.Transaction.Parser, new[]{ "Body", "Sigs", "SigMap", "BodyBytes", "SignedTransactionBytes" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionBody), global::Proto.TransactionBody.Parser, new[]{ "TransactionID", "NodeAccountID", "TransactionFee", "TransactionValidDuration", "GenerateRecord", "Memo", "BatchKey", "ContractCall", "ContractCreateInstance", "ContractUpdateInstance", "CryptoAddLiveHash", "CryptoCreateAccount", "CryptoDelete", "CryptoDeleteLiveHash", "CryptoTransfer", "CryptoUpdateAccount", "FileAppend", "FileCreate", "FileDelete", "FileUpdate", "SystemDelete", "SystemUndelete", "ContractDeleteInstance", "Freeze", "ConsensusCreateTopic", "ConsensusUpdateTopic", "ConsensusDeleteTopic", "ConsensusSubmitMessage", "UncheckedSubmit", "TokenCreation", "TokenFreeze", "TokenUnfreeze", "TokenGrantKyc", "TokenRevokeKyc", "TokenDeletion", "TokenUpdate", "TokenMint", "TokenBurn", "TokenWipe", "TokenAssociate", "TokenDissociate", "ScheduleCreate", "ScheduleDelete", "ScheduleSign", "TokenFeeScheduleUpdate", "TokenPause", "TokenUnpause", "CryptoApproveAllowance", "CryptoDeleteAllowance", "EthereumTransaction", "NodeStakeUpdate", "UtilPrng", "TokenUpdateNfts", "NodeCreate", "NodeUpdate", "NodeDelete", "TokenReject", "TokenAirdrop", "TokenCancelAirdrop", "TokenClaimAirdrop", "StateSignatureTransaction", "HintsPreprocessingVote", "HintsKeyPublication", "HintsPartialSignature", "HistoryProofSignature", "HistoryProofKeyPublication", "HistoryProofVote", "CrsPublication", "AtomicBatch", "LambdaSstore", "HookDispatch", "MaxCustomFees" }, new[]{ "Data" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.AtomicBatchTransactionBody), global::Proto.AtomicBatchTransactionBody.Parser, new[]{ "Transactions" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Transaction), global::Hedera.Hashgraph.Proto.Transaction.Parser, new[]{ "Body", "Sigs", "SigMap", "BodyBytes", "SignedTransactionBytes" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionBody), global::Hedera.Hashgraph.Proto.TransactionBody.Parser, new[]{ "TransactionID", "NodeAccountID", "TransactionFee", "TransactionValidDuration", "GenerateRecord", "Memo", "BatchKey", "ContractCall", "ContractCreateInstance", "ContractUpdateInstance", "CryptoAddLiveHash", "CryptoCreateAccount", "CryptoDelete", "CryptoDeleteLiveHash", "CryptoTransfer", "CryptoUpdateAccount", "FileAppend", "FileCreate", "FileDelete", "FileUpdate", "SystemDelete", "SystemUndelete", "ContractDeleteInstance", "Freeze", "ConsensusCreateTopic", "ConsensusUpdateTopic", "ConsensusDeleteTopic", "ConsensusSubmitMessage", "UncheckedSubmit", "TokenCreation", "TokenFreeze", "TokenUnfreeze", "TokenGrantKyc", "TokenRevokeKyc", "TokenDeletion", "TokenUpdate", "TokenMint", "TokenBurn", "TokenWipe", "TokenAssociate", "TokenDissociate", "ScheduleCreate", "ScheduleDelete", "ScheduleSign", "TokenFeeScheduleUpdate", "TokenPause", "TokenUnpause", "CryptoApproveAllowance", "CryptoDeleteAllowance", "EthereumTransaction", "NodeStakeUpdate", "UtilPrng", "TokenUpdateNfts", "NodeCreate", "NodeUpdate", "NodeDelete", "TokenReject", "TokenAirdrop", "TokenCancelAirdrop", "TokenClaimAirdrop", "StateSignatureTransaction", "HintsPreprocessingVote", "HintsKeyPublication", "HintsPartialSignature", "HistoryProofSignature", "HistoryProofKeyPublication", "HistoryProofVote", "CrsPublication", "AtomicBatch", "LambdaSstore", "HookDispatch", "MaxCustomFees" }, new[]{ "Data" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody), global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody.Parser, new[]{ "Transactions" }, null, null, null, null)
           }));
     }
     #endregion
@@ -219,7 +219,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TransactionReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TransactionReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -255,7 +255,7 @@ namespace Proto {
 
     /// <summary>Field number for the "body" field.</summary>
     public const int BodyFieldNumber = 1;
-    private global::Proto.TransactionBody body_;
+    private global::Hedera.Hashgraph.Proto.TransactionBody body_;
     /// <summary>
     ///*
     /// Replaced with `signedTransactionBytes`.&lt;br/>
@@ -264,7 +264,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionBody Body {
+    public global::Hedera.Hashgraph.Proto.TransactionBody Body {
       get { return body_; }
       set {
         body_ = value;
@@ -273,7 +273,7 @@ namespace Proto {
 
     /// <summary>Field number for the "sigs" field.</summary>
     public const int SigsFieldNumber = 2;
-    private global::Proto.SignatureList sigs_;
+    private global::Hedera.Hashgraph.Proto.SignatureList sigs_;
     /// <summary>
     ///*
     /// Replaced with `signedTransactionBytes`.&lt;br/>
@@ -282,7 +282,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SignatureList Sigs {
+    public global::Hedera.Hashgraph.Proto.SignatureList Sigs {
       get { return sigs_; }
       set {
         sigs_ = value;
@@ -291,7 +291,7 @@ namespace Proto {
 
     /// <summary>Field number for the "sigMap" field.</summary>
     public const int SigMapFieldNumber = 3;
-    private global::Proto.SignatureMap sigMap_;
+    private global::Hedera.Hashgraph.Proto.SignatureMap sigMap_;
     /// <summary>
     ///*
     /// Replaced with `signedTransactionBytes`.&lt;br/>
@@ -300,7 +300,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SignatureMap SigMap {
+    public global::Hedera.Hashgraph.Proto.SignatureMap SigMap {
       get { return sigMap_; }
       set {
         sigMap_ = value;
@@ -484,19 +484,19 @@ namespace Proto {
       }
       if (other.body_ != null) {
         if (body_ == null) {
-          Body = new global::Proto.TransactionBody();
+          Body = new global::Hedera.Hashgraph.Proto.TransactionBody();
         }
         Body.MergeFrom(other.Body);
       }
       if (other.sigs_ != null) {
         if (sigs_ == null) {
-          Sigs = new global::Proto.SignatureList();
+          Sigs = new global::Hedera.Hashgraph.Proto.SignatureList();
         }
         Sigs.MergeFrom(other.Sigs);
       }
       if (other.sigMap_ != null) {
         if (sigMap_ == null) {
-          SigMap = new global::Proto.SignatureMap();
+          SigMap = new global::Hedera.Hashgraph.Proto.SignatureMap();
         }
         SigMap.MergeFrom(other.SigMap);
       }
@@ -527,21 +527,21 @@ namespace Proto {
             break;
           case 10: {
             if (body_ == null) {
-              Body = new global::Proto.TransactionBody();
+              Body = new global::Hedera.Hashgraph.Proto.TransactionBody();
             }
             input.ReadMessage(Body);
             break;
           }
           case 18: {
             if (sigs_ == null) {
-              Sigs = new global::Proto.SignatureList();
+              Sigs = new global::Hedera.Hashgraph.Proto.SignatureList();
             }
             input.ReadMessage(Sigs);
             break;
           }
           case 26: {
             if (sigMap_ == null) {
-              SigMap = new global::Proto.SignatureMap();
+              SigMap = new global::Hedera.Hashgraph.Proto.SignatureMap();
             }
             input.ReadMessage(SigMap);
             break;
@@ -575,21 +575,21 @@ namespace Proto {
             break;
           case 10: {
             if (body_ == null) {
-              Body = new global::Proto.TransactionBody();
+              Body = new global::Hedera.Hashgraph.Proto.TransactionBody();
             }
             input.ReadMessage(Body);
             break;
           }
           case 18: {
             if (sigs_ == null) {
-              Sigs = new global::Proto.SignatureList();
+              Sigs = new global::Hedera.Hashgraph.Proto.SignatureList();
             }
             input.ReadMessage(Sigs);
             break;
           }
           case 26: {
             if (sigMap_ == null) {
-              SigMap = new global::Proto.SignatureMap();
+              SigMap = new global::Hedera.Hashgraph.Proto.SignatureMap();
             }
             input.ReadMessage(SigMap);
             break;
@@ -638,7 +638,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TransactionReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.TransactionReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -872,7 +872,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transactionID" field.</summary>
     public const int TransactionIDFieldNumber = 1;
-    private global::Proto.TransactionID transactionID_;
+    private global::Hedera.Hashgraph.Proto.TransactionID transactionID_;
     /// <summary>
     ///*
     /// A transaction identifier.&lt;br/>
@@ -896,7 +896,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionID TransactionID {
+    public global::Hedera.Hashgraph.Proto.TransactionID TransactionID {
       get { return transactionID_; }
       set {
         transactionID_ = value;
@@ -905,7 +905,7 @@ namespace Proto {
 
     /// <summary>Field number for the "nodeAccountID" field.</summary>
     public const int NodeAccountIDFieldNumber = 2;
-    private global::Proto.AccountID nodeAccountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID nodeAccountID_;
     /// <summary>
     ///*
     /// A node account identifier.
@@ -915,7 +915,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID NodeAccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID NodeAccountID {
       get { return nodeAccountID_; }
       set {
         nodeAccountID_ = value;
@@ -947,7 +947,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transactionValidDuration" field.</summary>
     public const int TransactionValidDurationFieldNumber = 4;
-    private global::Proto.Duration transactionValidDuration_;
+    private global::Hedera.Hashgraph.Proto.Duration transactionValidDuration_;
     /// <summary>
     ///*
     /// A maximum duration in which to execute this transaction.
@@ -961,7 +961,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Duration TransactionValidDuration {
+    public global::Hedera.Hashgraph.Proto.Duration TransactionValidDuration {
       get { return transactionValidDuration_; }
       set {
         transactionValidDuration_ = value;
@@ -1010,14 +1010,14 @@ namespace Proto {
 
     /// <summary>Field number for the "batch_key" field.</summary>
     public const int BatchKeyFieldNumber = 73;
-    private global::Proto.Key batchKey_;
+    private global::Hedera.Hashgraph.Proto.Key batchKey_;
     /// <summary>
     ///*
     /// The &lt;b>public key&lt;/b> of the trusted batch assembler.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key BatchKey {
+    public global::Hedera.Hashgraph.Proto.Key BatchKey {
       get { return batchKey_; }
       set {
         batchKey_ = value;
@@ -1032,8 +1032,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractCallTransactionBody ContractCall {
-      get { return dataCase_ == DataOneofCase.ContractCall ? (global::Proto.ContractCallTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractCallTransactionBody ContractCall {
+      get { return dataCase_ == DataOneofCase.ContractCall ? (global::Hedera.Hashgraph.Proto.ContractCallTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ContractCall;
@@ -1048,8 +1048,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractCreateTransactionBody ContractCreateInstance {
-      get { return dataCase_ == DataOneofCase.ContractCreateInstance ? (global::Proto.ContractCreateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractCreateTransactionBody ContractCreateInstance {
+      get { return dataCase_ == DataOneofCase.ContractCreateInstance ? (global::Hedera.Hashgraph.Proto.ContractCreateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ContractCreateInstance;
@@ -1064,8 +1064,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractUpdateTransactionBody ContractUpdateInstance {
-      get { return dataCase_ == DataOneofCase.ContractUpdateInstance ? (global::Proto.ContractUpdateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody ContractUpdateInstance {
+      get { return dataCase_ == DataOneofCase.ContractUpdateInstance ? (global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ContractUpdateInstance;
@@ -1082,8 +1082,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoAddLiveHashTransactionBody CryptoAddLiveHash {
-      get { return dataCase_ == DataOneofCase.CryptoAddLiveHash ? (global::Proto.CryptoAddLiveHashTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody CryptoAddLiveHash {
+      get { return dataCase_ == DataOneofCase.CryptoAddLiveHash ? (global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoAddLiveHash;
@@ -1098,8 +1098,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoCreateTransactionBody CryptoCreateAccount {
-      get { return dataCase_ == DataOneofCase.CryptoCreateAccount ? (global::Proto.CryptoCreateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoCreateTransactionBody CryptoCreateAccount {
+      get { return dataCase_ == DataOneofCase.CryptoCreateAccount ? (global::Hedera.Hashgraph.Proto.CryptoCreateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoCreateAccount;
@@ -1116,8 +1116,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoDeleteTransactionBody CryptoDelete {
-      get { return dataCase_ == DataOneofCase.CryptoDelete ? (global::Proto.CryptoDeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody CryptoDelete {
+      get { return dataCase_ == DataOneofCase.CryptoDelete ? (global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoDelete;
@@ -1134,8 +1134,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoDeleteLiveHashTransactionBody CryptoDeleteLiveHash {
-      get { return dataCase_ == DataOneofCase.CryptoDeleteLiveHash ? (global::Proto.CryptoDeleteLiveHashTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody CryptoDeleteLiveHash {
+      get { return dataCase_ == DataOneofCase.CryptoDeleteLiveHash ? (global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoDeleteLiveHash;
@@ -1150,8 +1150,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoTransferTransactionBody CryptoTransfer {
-      get { return dataCase_ == DataOneofCase.CryptoTransfer ? (global::Proto.CryptoTransferTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody CryptoTransfer {
+      get { return dataCase_ == DataOneofCase.CryptoTransfer ? (global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoTransfer;
@@ -1166,8 +1166,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoUpdateTransactionBody CryptoUpdateAccount {
-      get { return dataCase_ == DataOneofCase.CryptoUpdateAccount ? (global::Proto.CryptoUpdateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoUpdateTransactionBody CryptoUpdateAccount {
+      get { return dataCase_ == DataOneofCase.CryptoUpdateAccount ? (global::Hedera.Hashgraph.Proto.CryptoUpdateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoUpdateAccount;
@@ -1182,8 +1182,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileAppendTransactionBody FileAppend {
-      get { return dataCase_ == DataOneofCase.FileAppend ? (global::Proto.FileAppendTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileAppendTransactionBody FileAppend {
+      get { return dataCase_ == DataOneofCase.FileAppend ? (global::Hedera.Hashgraph.Proto.FileAppendTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.FileAppend;
@@ -1198,8 +1198,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileCreateTransactionBody FileCreate {
-      get { return dataCase_ == DataOneofCase.FileCreate ? (global::Proto.FileCreateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileCreateTransactionBody FileCreate {
+      get { return dataCase_ == DataOneofCase.FileCreate ? (global::Hedera.Hashgraph.Proto.FileCreateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.FileCreate;
@@ -1216,8 +1216,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileDeleteTransactionBody FileDelete {
-      get { return dataCase_ == DataOneofCase.FileDelete ? (global::Proto.FileDeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody FileDelete {
+      get { return dataCase_ == DataOneofCase.FileDelete ? (global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.FileDelete;
@@ -1233,8 +1233,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileUpdateTransactionBody FileUpdate {
-      get { return dataCase_ == DataOneofCase.FileUpdate ? (global::Proto.FileUpdateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody FileUpdate {
+      get { return dataCase_ == DataOneofCase.FileUpdate ? (global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.FileUpdate;
@@ -1250,8 +1250,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SystemDeleteTransactionBody SystemDelete {
-      get { return dataCase_ == DataOneofCase.SystemDelete ? (global::Proto.SystemDeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody SystemDelete {
+      get { return dataCase_ == DataOneofCase.SystemDelete ? (global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.SystemDelete;
@@ -1267,8 +1267,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SystemUndeleteTransactionBody SystemUndelete {
-      get { return dataCase_ == DataOneofCase.SystemUndelete ? (global::Proto.SystemUndeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody SystemUndelete {
+      get { return dataCase_ == DataOneofCase.SystemUndelete ? (global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.SystemUndelete;
@@ -1284,8 +1284,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractDeleteTransactionBody ContractDeleteInstance {
-      get { return dataCase_ == DataOneofCase.ContractDeleteInstance ? (global::Proto.ContractDeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody ContractDeleteInstance {
+      get { return dataCase_ == DataOneofCase.ContractDeleteInstance ? (global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ContractDeleteInstance;
@@ -1303,8 +1303,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FreezeTransactionBody Freeze {
-      get { return dataCase_ == DataOneofCase.Freeze ? (global::Proto.FreezeTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.FreezeTransactionBody Freeze {
+      get { return dataCase_ == DataOneofCase.Freeze ? (global::Hedera.Hashgraph.Proto.FreezeTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.Freeze;
@@ -1319,8 +1319,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusCreateTopicTransactionBody ConsensusCreateTopic {
-      get { return dataCase_ == DataOneofCase.ConsensusCreateTopic ? (global::Proto.ConsensusCreateTopicTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ConsensusCreateTopicTransactionBody ConsensusCreateTopic {
+      get { return dataCase_ == DataOneofCase.ConsensusCreateTopic ? (global::Hedera.Hashgraph.Proto.ConsensusCreateTopicTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ConsensusCreateTopic;
@@ -1335,8 +1335,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusUpdateTopicTransactionBody ConsensusUpdateTopic {
-      get { return dataCase_ == DataOneofCase.ConsensusUpdateTopic ? (global::Proto.ConsensusUpdateTopicTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicTransactionBody ConsensusUpdateTopic {
+      get { return dataCase_ == DataOneofCase.ConsensusUpdateTopic ? (global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ConsensusUpdateTopic;
@@ -1351,8 +1351,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusDeleteTopicTransactionBody ConsensusDeleteTopic {
-      get { return dataCase_ == DataOneofCase.ConsensusDeleteTopic ? (global::Proto.ConsensusDeleteTopicTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody ConsensusDeleteTopic {
+      get { return dataCase_ == DataOneofCase.ConsensusDeleteTopic ? (global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ConsensusDeleteTopic;
@@ -1369,8 +1369,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusSubmitMessageTransactionBody ConsensusSubmitMessage {
-      get { return dataCase_ == DataOneofCase.ConsensusSubmitMessage ? (global::Proto.ConsensusSubmitMessageTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody ConsensusSubmitMessage {
+      get { return dataCase_ == DataOneofCase.ConsensusSubmitMessage ? (global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ConsensusSubmitMessage;
@@ -1393,8 +1393,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.UncheckedSubmitBody UncheckedSubmit {
-      get { return dataCase_ == DataOneofCase.UncheckedSubmit ? (global::Proto.UncheckedSubmitBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.UncheckedSubmitBody UncheckedSubmit {
+      get { return dataCase_ == DataOneofCase.UncheckedSubmit ? (global::Hedera.Hashgraph.Proto.UncheckedSubmitBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.UncheckedSubmit;
@@ -1409,8 +1409,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenCreateTransactionBody TokenCreation {
-      get { return dataCase_ == DataOneofCase.TokenCreation ? (global::Proto.TokenCreateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody TokenCreation {
+      get { return dataCase_ == DataOneofCase.TokenCreation ? (global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenCreation;
@@ -1426,8 +1426,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenFreezeAccountTransactionBody TokenFreeze {
-      get { return dataCase_ == DataOneofCase.TokenFreeze ? (global::Proto.TokenFreezeAccountTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenFreezeAccountTransactionBody TokenFreeze {
+      get { return dataCase_ == DataOneofCase.TokenFreeze ? (global::Hedera.Hashgraph.Proto.TokenFreezeAccountTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenFreeze;
@@ -1442,8 +1442,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenUnfreezeAccountTransactionBody TokenUnfreeze {
-      get { return dataCase_ == DataOneofCase.TokenUnfreeze ? (global::Proto.TokenUnfreezeAccountTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountTransactionBody TokenUnfreeze {
+      get { return dataCase_ == DataOneofCase.TokenUnfreeze ? (global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenUnfreeze;
@@ -1461,8 +1461,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenGrantKycTransactionBody TokenGrantKyc {
-      get { return dataCase_ == DataOneofCase.TokenGrantKyc ? (global::Proto.TokenGrantKycTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody TokenGrantKyc {
+      get { return dataCase_ == DataOneofCase.TokenGrantKyc ? (global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenGrantKyc;
@@ -1477,8 +1477,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenRevokeKycTransactionBody TokenRevokeKyc {
-      get { return dataCase_ == DataOneofCase.TokenRevokeKyc ? (global::Proto.TokenRevokeKycTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenRevokeKycTransactionBody TokenRevokeKyc {
+      get { return dataCase_ == DataOneofCase.TokenRevokeKyc ? (global::Hedera.Hashgraph.Proto.TokenRevokeKycTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenRevokeKyc;
@@ -1494,8 +1494,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenDeleteTransactionBody TokenDeletion {
-      get { return dataCase_ == DataOneofCase.TokenDeletion ? (global::Proto.TokenDeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody TokenDeletion {
+      get { return dataCase_ == DataOneofCase.TokenDeletion ? (global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenDeletion;
@@ -1513,8 +1513,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenUpdateTransactionBody TokenUpdate {
-      get { return dataCase_ == DataOneofCase.TokenUpdate ? (global::Proto.TokenUpdateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenUpdateTransactionBody TokenUpdate {
+      get { return dataCase_ == DataOneofCase.TokenUpdate ? (global::Hedera.Hashgraph.Proto.TokenUpdateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenUpdate;
@@ -1532,8 +1532,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenMintTransactionBody TokenMint {
-      get { return dataCase_ == DataOneofCase.TokenMint ? (global::Proto.TokenMintTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenMintTransactionBody TokenMint {
+      get { return dataCase_ == DataOneofCase.TokenMint ? (global::Hedera.Hashgraph.Proto.TokenMintTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenMint;
@@ -1549,8 +1549,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenBurnTransactionBody TokenBurn {
-      get { return dataCase_ == DataOneofCase.TokenBurn ? (global::Proto.TokenBurnTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenBurnTransactionBody TokenBurn {
+      get { return dataCase_ == DataOneofCase.TokenBurn ? (global::Hedera.Hashgraph.Proto.TokenBurnTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenBurn;
@@ -1570,8 +1570,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenWipeAccountTransactionBody TokenWipe {
-      get { return dataCase_ == DataOneofCase.TokenWipe ? (global::Proto.TokenWipeAccountTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenWipeAccountTransactionBody TokenWipe {
+      get { return dataCase_ == DataOneofCase.TokenWipe ? (global::Hedera.Hashgraph.Proto.TokenWipeAccountTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenWipe;
@@ -1586,8 +1586,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenAssociateTransactionBody TokenAssociate {
-      get { return dataCase_ == DataOneofCase.TokenAssociate ? (global::Proto.TokenAssociateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenAssociateTransactionBody TokenAssociate {
+      get { return dataCase_ == DataOneofCase.TokenAssociate ? (global::Hedera.Hashgraph.Proto.TokenAssociateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenAssociate;
@@ -1602,8 +1602,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenDissociateTransactionBody TokenDissociate {
-      get { return dataCase_ == DataOneofCase.TokenDissociate ? (global::Proto.TokenDissociateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody TokenDissociate {
+      get { return dataCase_ == DataOneofCase.TokenDissociate ? (global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenDissociate;
@@ -1625,8 +1625,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ScheduleCreateTransactionBody ScheduleCreate {
-      get { return dataCase_ == DataOneofCase.ScheduleCreate ? (global::Proto.ScheduleCreateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody ScheduleCreate {
+      get { return dataCase_ == DataOneofCase.ScheduleCreate ? (global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ScheduleCreate;
@@ -1642,8 +1642,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ScheduleDeleteTransactionBody ScheduleDelete {
-      get { return dataCase_ == DataOneofCase.ScheduleDelete ? (global::Proto.ScheduleDeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody ScheduleDelete {
+      get { return dataCase_ == DataOneofCase.ScheduleDelete ? (global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ScheduleDelete;
@@ -1661,8 +1661,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ScheduleSignTransactionBody ScheduleSign {
-      get { return dataCase_ == DataOneofCase.ScheduleSign ? (global::Proto.ScheduleSignTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.ScheduleSignTransactionBody ScheduleSign {
+      get { return dataCase_ == DataOneofCase.ScheduleSign ? (global::Hedera.Hashgraph.Proto.ScheduleSignTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.ScheduleSign;
@@ -1679,8 +1679,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenFeeScheduleUpdateTransactionBody TokenFeeScheduleUpdate {
-      get { return dataCase_ == DataOneofCase.TokenFeeScheduleUpdate ? (global::Proto.TokenFeeScheduleUpdateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody TokenFeeScheduleUpdate {
+      get { return dataCase_ == DataOneofCase.TokenFeeScheduleUpdate ? (global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenFeeScheduleUpdate;
@@ -1697,8 +1697,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenPauseTransactionBody TokenPause {
-      get { return dataCase_ == DataOneofCase.TokenPause ? (global::Proto.TokenPauseTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenPauseTransactionBody TokenPause {
+      get { return dataCase_ == DataOneofCase.TokenPause ? (global::Hedera.Hashgraph.Proto.TokenPauseTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenPause;
@@ -1715,8 +1715,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenUnpauseTransactionBody TokenUnpause {
-      get { return dataCase_ == DataOneofCase.TokenUnpause ? (global::Proto.TokenUnpauseTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenUnpauseTransactionBody TokenUnpause {
+      get { return dataCase_ == DataOneofCase.TokenUnpause ? (global::Hedera.Hashgraph.Proto.TokenUnpauseTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenUnpause;
@@ -1732,8 +1732,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoApproveAllowanceTransactionBody CryptoApproveAllowance {
-      get { return dataCase_ == DataOneofCase.CryptoApproveAllowance ? (global::Proto.CryptoApproveAllowanceTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody CryptoApproveAllowance {
+      get { return dataCase_ == DataOneofCase.CryptoApproveAllowance ? (global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoApproveAllowance;
@@ -1749,8 +1749,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoDeleteAllowanceTransactionBody CryptoDeleteAllowance {
-      get { return dataCase_ == DataOneofCase.CryptoDeleteAllowance ? (global::Proto.CryptoDeleteAllowanceTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody CryptoDeleteAllowance {
+      get { return dataCase_ == DataOneofCase.CryptoDeleteAllowance ? (global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.CryptoDeleteAllowance;
@@ -1765,8 +1765,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.EthereumTransactionBody EthereumTransaction {
-      get { return dataCase_ == DataOneofCase.EthereumTransaction ? (global::Proto.EthereumTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.EthereumTransactionBody EthereumTransaction {
+      get { return dataCase_ == DataOneofCase.EthereumTransaction ? (global::Hedera.Hashgraph.Proto.EthereumTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.EthereumTransaction;
@@ -1784,8 +1784,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NodeStakeUpdateTransactionBody NodeStakeUpdate {
-      get { return dataCase_ == DataOneofCase.NodeStakeUpdate ? (global::Proto.NodeStakeUpdateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody NodeStakeUpdate {
+      get { return dataCase_ == DataOneofCase.NodeStakeUpdate ? (global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.NodeStakeUpdate;
@@ -1800,8 +1800,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.UtilPrngTransactionBody UtilPrng {
-      get { return dataCase_ == DataOneofCase.UtilPrng ? (global::Proto.UtilPrngTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody UtilPrng {
+      get { return dataCase_ == DataOneofCase.UtilPrng ? (global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.UtilPrng;
@@ -1818,8 +1818,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenUpdateNftsTransactionBody TokenUpdateNfts {
-      get { return dataCase_ == DataOneofCase.TokenUpdateNfts ? (global::Proto.TokenUpdateNftsTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody TokenUpdateNfts {
+      get { return dataCase_ == DataOneofCase.TokenUpdateNfts ? (global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenUpdateNfts;
@@ -1838,8 +1838,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody NodeCreate {
-      get { return dataCase_ == DataOneofCase.NodeCreate ? (global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody NodeCreate {
+      get { return dataCase_ == DataOneofCase.NodeCreate ? (global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.NodeCreate;
@@ -1858,8 +1858,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateTransactionBody NodeUpdate {
-      get { return dataCase_ == DataOneofCase.NodeUpdate ? (global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.NodeUpdateTransactionBody NodeUpdate {
+      get { return dataCase_ == DataOneofCase.NodeUpdate ? (global::Hedera.Hashgraph.Proto.NodeUpdateTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.NodeUpdate;
@@ -1878,8 +1878,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody NodeDelete {
-      get { return dataCase_ == DataOneofCase.NodeDelete ? (global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody NodeDelete {
+      get { return dataCase_ == DataOneofCase.NodeDelete ? (global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.NodeDelete;
@@ -1908,8 +1908,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenRejectTransactionBody TokenReject {
-      get { return dataCase_ == DataOneofCase.TokenReject ? (global::Proto.TokenRejectTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody TokenReject {
+      get { return dataCase_ == DataOneofCase.TokenReject ? (global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenReject;
@@ -1929,8 +1929,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenAirdropTransactionBody TokenAirdrop {
-      get { return dataCase_ == DataOneofCase.TokenAirdrop ? (global::Proto.TokenAirdropTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody TokenAirdrop {
+      get { return dataCase_ == DataOneofCase.TokenAirdrop ? (global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenAirdrop;
@@ -1945,8 +1945,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenCancelAirdropTransactionBody TokenCancelAirdrop {
-      get { return dataCase_ == DataOneofCase.TokenCancelAirdrop ? (global::Proto.TokenCancelAirdropTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenCancelAirdropTransactionBody TokenCancelAirdrop {
+      get { return dataCase_ == DataOneofCase.TokenCancelAirdrop ? (global::Hedera.Hashgraph.Proto.TokenCancelAirdropTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenCancelAirdrop;
@@ -1961,8 +1961,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenClaimAirdropTransactionBody TokenClaimAirdrop {
-      get { return dataCase_ == DataOneofCase.TokenClaimAirdrop ? (global::Proto.TokenClaimAirdropTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody TokenClaimAirdrop {
+      get { return dataCase_ == DataOneofCase.TokenClaimAirdrop ? (global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.TokenClaimAirdrop;
@@ -2105,8 +2105,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AtomicBatchTransactionBody AtomicBatch {
-      get { return dataCase_ == DataOneofCase.AtomicBatch ? (global::Proto.AtomicBatchTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody AtomicBatch {
+      get { return dataCase_ == DataOneofCase.AtomicBatch ? (global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.AtomicBatch;
@@ -2121,8 +2121,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody LambdaSstore {
-      get { return dataCase_ == DataOneofCase.LambdaSstore ? (global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody LambdaSstore {
+      get { return dataCase_ == DataOneofCase.LambdaSstore ? (global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.LambdaSstore;
@@ -2137,8 +2137,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody HookDispatch {
-      get { return dataCase_ == DataOneofCase.HookDispatch ? (global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody) data_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody HookDispatch {
+      get { return dataCase_ == DataOneofCase.HookDispatch ? (global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody) data_ : null; }
       set {
         data_ = value;
         dataCase_ = value == null ? DataOneofCase.None : DataOneofCase.HookDispatch;
@@ -2147,9 +2147,9 @@ namespace Proto {
 
     /// <summary>Field number for the "max_custom_fees" field.</summary>
     public const int MaxCustomFeesFieldNumber = 1001;
-    private static readonly pb::FieldCodec<global::Proto.CustomFeeLimit> _repeated_maxCustomFees_codec
-        = pb::FieldCodec.ForMessage(8010, global::Proto.CustomFeeLimit.Parser);
-    private readonly pbc::RepeatedField<global::Proto.CustomFeeLimit> maxCustomFees_ = new pbc::RepeatedField<global::Proto.CustomFeeLimit>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.CustomFeeLimit> _repeated_maxCustomFees_codec
+        = pb::FieldCodec.ForMessage(8010, global::Hedera.Hashgraph.Proto.CustomFeeLimit.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFeeLimit> maxCustomFees_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFeeLimit>();
     /// <summary>
     ///*
     /// A list of maximum custom fees that the users are willing to pay.
@@ -2160,7 +2160,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.CustomFeeLimit> MaxCustomFees {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFeeLimit> MaxCustomFees {
       get { return maxCustomFees_; }
     }
 
@@ -3251,13 +3251,13 @@ namespace Proto {
       }
       if (other.transactionID_ != null) {
         if (transactionID_ == null) {
-          TransactionID = new global::Proto.TransactionID();
+          TransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
         }
         TransactionID.MergeFrom(other.TransactionID);
       }
       if (other.nodeAccountID_ != null) {
         if (nodeAccountID_ == null) {
-          NodeAccountID = new global::Proto.AccountID();
+          NodeAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         NodeAccountID.MergeFrom(other.NodeAccountID);
       }
@@ -3266,7 +3266,7 @@ namespace Proto {
       }
       if (other.transactionValidDuration_ != null) {
         if (transactionValidDuration_ == null) {
-          TransactionValidDuration = new global::Proto.Duration();
+          TransactionValidDuration = new global::Hedera.Hashgraph.Proto.Duration();
         }
         TransactionValidDuration.MergeFrom(other.TransactionValidDuration);
       }
@@ -3278,7 +3278,7 @@ namespace Proto {
       }
       if (other.batchKey_ != null) {
         if (batchKey_ == null) {
-          BatchKey = new global::Proto.Key();
+          BatchKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         BatchKey.MergeFrom(other.BatchKey);
       }
@@ -3286,319 +3286,319 @@ namespace Proto {
       switch (other.DataCase) {
         case DataOneofCase.ContractCall:
           if (ContractCall == null) {
-            ContractCall = new global::Proto.ContractCallTransactionBody();
+            ContractCall = new global::Hedera.Hashgraph.Proto.ContractCallTransactionBody();
           }
           ContractCall.MergeFrom(other.ContractCall);
           break;
         case DataOneofCase.ContractCreateInstance:
           if (ContractCreateInstance == null) {
-            ContractCreateInstance = new global::Proto.ContractCreateTransactionBody();
+            ContractCreateInstance = new global::Hedera.Hashgraph.Proto.ContractCreateTransactionBody();
           }
           ContractCreateInstance.MergeFrom(other.ContractCreateInstance);
           break;
         case DataOneofCase.ContractUpdateInstance:
           if (ContractUpdateInstance == null) {
-            ContractUpdateInstance = new global::Proto.ContractUpdateTransactionBody();
+            ContractUpdateInstance = new global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody();
           }
           ContractUpdateInstance.MergeFrom(other.ContractUpdateInstance);
           break;
         case DataOneofCase.CryptoAddLiveHash:
           if (CryptoAddLiveHash == null) {
-            CryptoAddLiveHash = new global::Proto.CryptoAddLiveHashTransactionBody();
+            CryptoAddLiveHash = new global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody();
           }
           CryptoAddLiveHash.MergeFrom(other.CryptoAddLiveHash);
           break;
         case DataOneofCase.CryptoCreateAccount:
           if (CryptoCreateAccount == null) {
-            CryptoCreateAccount = new global::Proto.CryptoCreateTransactionBody();
+            CryptoCreateAccount = new global::Hedera.Hashgraph.Proto.CryptoCreateTransactionBody();
           }
           CryptoCreateAccount.MergeFrom(other.CryptoCreateAccount);
           break;
         case DataOneofCase.CryptoDelete:
           if (CryptoDelete == null) {
-            CryptoDelete = new global::Proto.CryptoDeleteTransactionBody();
+            CryptoDelete = new global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody();
           }
           CryptoDelete.MergeFrom(other.CryptoDelete);
           break;
         case DataOneofCase.CryptoDeleteLiveHash:
           if (CryptoDeleteLiveHash == null) {
-            CryptoDeleteLiveHash = new global::Proto.CryptoDeleteLiveHashTransactionBody();
+            CryptoDeleteLiveHash = new global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody();
           }
           CryptoDeleteLiveHash.MergeFrom(other.CryptoDeleteLiveHash);
           break;
         case DataOneofCase.CryptoTransfer:
           if (CryptoTransfer == null) {
-            CryptoTransfer = new global::Proto.CryptoTransferTransactionBody();
+            CryptoTransfer = new global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody();
           }
           CryptoTransfer.MergeFrom(other.CryptoTransfer);
           break;
         case DataOneofCase.CryptoUpdateAccount:
           if (CryptoUpdateAccount == null) {
-            CryptoUpdateAccount = new global::Proto.CryptoUpdateTransactionBody();
+            CryptoUpdateAccount = new global::Hedera.Hashgraph.Proto.CryptoUpdateTransactionBody();
           }
           CryptoUpdateAccount.MergeFrom(other.CryptoUpdateAccount);
           break;
         case DataOneofCase.FileAppend:
           if (FileAppend == null) {
-            FileAppend = new global::Proto.FileAppendTransactionBody();
+            FileAppend = new global::Hedera.Hashgraph.Proto.FileAppendTransactionBody();
           }
           FileAppend.MergeFrom(other.FileAppend);
           break;
         case DataOneofCase.FileCreate:
           if (FileCreate == null) {
-            FileCreate = new global::Proto.FileCreateTransactionBody();
+            FileCreate = new global::Hedera.Hashgraph.Proto.FileCreateTransactionBody();
           }
           FileCreate.MergeFrom(other.FileCreate);
           break;
         case DataOneofCase.FileDelete:
           if (FileDelete == null) {
-            FileDelete = new global::Proto.FileDeleteTransactionBody();
+            FileDelete = new global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody();
           }
           FileDelete.MergeFrom(other.FileDelete);
           break;
         case DataOneofCase.FileUpdate:
           if (FileUpdate == null) {
-            FileUpdate = new global::Proto.FileUpdateTransactionBody();
+            FileUpdate = new global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody();
           }
           FileUpdate.MergeFrom(other.FileUpdate);
           break;
         case DataOneofCase.SystemDelete:
           if (SystemDelete == null) {
-            SystemDelete = new global::Proto.SystemDeleteTransactionBody();
+            SystemDelete = new global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody();
           }
           SystemDelete.MergeFrom(other.SystemDelete);
           break;
         case DataOneofCase.SystemUndelete:
           if (SystemUndelete == null) {
-            SystemUndelete = new global::Proto.SystemUndeleteTransactionBody();
+            SystemUndelete = new global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody();
           }
           SystemUndelete.MergeFrom(other.SystemUndelete);
           break;
         case DataOneofCase.ContractDeleteInstance:
           if (ContractDeleteInstance == null) {
-            ContractDeleteInstance = new global::Proto.ContractDeleteTransactionBody();
+            ContractDeleteInstance = new global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody();
           }
           ContractDeleteInstance.MergeFrom(other.ContractDeleteInstance);
           break;
         case DataOneofCase.Freeze:
           if (Freeze == null) {
-            Freeze = new global::Proto.FreezeTransactionBody();
+            Freeze = new global::Hedera.Hashgraph.Proto.FreezeTransactionBody();
           }
           Freeze.MergeFrom(other.Freeze);
           break;
         case DataOneofCase.ConsensusCreateTopic:
           if (ConsensusCreateTopic == null) {
-            ConsensusCreateTopic = new global::Proto.ConsensusCreateTopicTransactionBody();
+            ConsensusCreateTopic = new global::Hedera.Hashgraph.Proto.ConsensusCreateTopicTransactionBody();
           }
           ConsensusCreateTopic.MergeFrom(other.ConsensusCreateTopic);
           break;
         case DataOneofCase.ConsensusUpdateTopic:
           if (ConsensusUpdateTopic == null) {
-            ConsensusUpdateTopic = new global::Proto.ConsensusUpdateTopicTransactionBody();
+            ConsensusUpdateTopic = new global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicTransactionBody();
           }
           ConsensusUpdateTopic.MergeFrom(other.ConsensusUpdateTopic);
           break;
         case DataOneofCase.ConsensusDeleteTopic:
           if (ConsensusDeleteTopic == null) {
-            ConsensusDeleteTopic = new global::Proto.ConsensusDeleteTopicTransactionBody();
+            ConsensusDeleteTopic = new global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody();
           }
           ConsensusDeleteTopic.MergeFrom(other.ConsensusDeleteTopic);
           break;
         case DataOneofCase.ConsensusSubmitMessage:
           if (ConsensusSubmitMessage == null) {
-            ConsensusSubmitMessage = new global::Proto.ConsensusSubmitMessageTransactionBody();
+            ConsensusSubmitMessage = new global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody();
           }
           ConsensusSubmitMessage.MergeFrom(other.ConsensusSubmitMessage);
           break;
         case DataOneofCase.UncheckedSubmit:
           if (UncheckedSubmit == null) {
-            UncheckedSubmit = new global::Proto.UncheckedSubmitBody();
+            UncheckedSubmit = new global::Hedera.Hashgraph.Proto.UncheckedSubmitBody();
           }
           UncheckedSubmit.MergeFrom(other.UncheckedSubmit);
           break;
         case DataOneofCase.TokenCreation:
           if (TokenCreation == null) {
-            TokenCreation = new global::Proto.TokenCreateTransactionBody();
+            TokenCreation = new global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody();
           }
           TokenCreation.MergeFrom(other.TokenCreation);
           break;
         case DataOneofCase.TokenFreeze:
           if (TokenFreeze == null) {
-            TokenFreeze = new global::Proto.TokenFreezeAccountTransactionBody();
+            TokenFreeze = new global::Hedera.Hashgraph.Proto.TokenFreezeAccountTransactionBody();
           }
           TokenFreeze.MergeFrom(other.TokenFreeze);
           break;
         case DataOneofCase.TokenUnfreeze:
           if (TokenUnfreeze == null) {
-            TokenUnfreeze = new global::Proto.TokenUnfreezeAccountTransactionBody();
+            TokenUnfreeze = new global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountTransactionBody();
           }
           TokenUnfreeze.MergeFrom(other.TokenUnfreeze);
           break;
         case DataOneofCase.TokenGrantKyc:
           if (TokenGrantKyc == null) {
-            TokenGrantKyc = new global::Proto.TokenGrantKycTransactionBody();
+            TokenGrantKyc = new global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody();
           }
           TokenGrantKyc.MergeFrom(other.TokenGrantKyc);
           break;
         case DataOneofCase.TokenRevokeKyc:
           if (TokenRevokeKyc == null) {
-            TokenRevokeKyc = new global::Proto.TokenRevokeKycTransactionBody();
+            TokenRevokeKyc = new global::Hedera.Hashgraph.Proto.TokenRevokeKycTransactionBody();
           }
           TokenRevokeKyc.MergeFrom(other.TokenRevokeKyc);
           break;
         case DataOneofCase.TokenDeletion:
           if (TokenDeletion == null) {
-            TokenDeletion = new global::Proto.TokenDeleteTransactionBody();
+            TokenDeletion = new global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody();
           }
           TokenDeletion.MergeFrom(other.TokenDeletion);
           break;
         case DataOneofCase.TokenUpdate:
           if (TokenUpdate == null) {
-            TokenUpdate = new global::Proto.TokenUpdateTransactionBody();
+            TokenUpdate = new global::Hedera.Hashgraph.Proto.TokenUpdateTransactionBody();
           }
           TokenUpdate.MergeFrom(other.TokenUpdate);
           break;
         case DataOneofCase.TokenMint:
           if (TokenMint == null) {
-            TokenMint = new global::Proto.TokenMintTransactionBody();
+            TokenMint = new global::Hedera.Hashgraph.Proto.TokenMintTransactionBody();
           }
           TokenMint.MergeFrom(other.TokenMint);
           break;
         case DataOneofCase.TokenBurn:
           if (TokenBurn == null) {
-            TokenBurn = new global::Proto.TokenBurnTransactionBody();
+            TokenBurn = new global::Hedera.Hashgraph.Proto.TokenBurnTransactionBody();
           }
           TokenBurn.MergeFrom(other.TokenBurn);
           break;
         case DataOneofCase.TokenWipe:
           if (TokenWipe == null) {
-            TokenWipe = new global::Proto.TokenWipeAccountTransactionBody();
+            TokenWipe = new global::Hedera.Hashgraph.Proto.TokenWipeAccountTransactionBody();
           }
           TokenWipe.MergeFrom(other.TokenWipe);
           break;
         case DataOneofCase.TokenAssociate:
           if (TokenAssociate == null) {
-            TokenAssociate = new global::Proto.TokenAssociateTransactionBody();
+            TokenAssociate = new global::Hedera.Hashgraph.Proto.TokenAssociateTransactionBody();
           }
           TokenAssociate.MergeFrom(other.TokenAssociate);
           break;
         case DataOneofCase.TokenDissociate:
           if (TokenDissociate == null) {
-            TokenDissociate = new global::Proto.TokenDissociateTransactionBody();
+            TokenDissociate = new global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody();
           }
           TokenDissociate.MergeFrom(other.TokenDissociate);
           break;
         case DataOneofCase.ScheduleCreate:
           if (ScheduleCreate == null) {
-            ScheduleCreate = new global::Proto.ScheduleCreateTransactionBody();
+            ScheduleCreate = new global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody();
           }
           ScheduleCreate.MergeFrom(other.ScheduleCreate);
           break;
         case DataOneofCase.ScheduleDelete:
           if (ScheduleDelete == null) {
-            ScheduleDelete = new global::Proto.ScheduleDeleteTransactionBody();
+            ScheduleDelete = new global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody();
           }
           ScheduleDelete.MergeFrom(other.ScheduleDelete);
           break;
         case DataOneofCase.ScheduleSign:
           if (ScheduleSign == null) {
-            ScheduleSign = new global::Proto.ScheduleSignTransactionBody();
+            ScheduleSign = new global::Hedera.Hashgraph.Proto.ScheduleSignTransactionBody();
           }
           ScheduleSign.MergeFrom(other.ScheduleSign);
           break;
         case DataOneofCase.TokenFeeScheduleUpdate:
           if (TokenFeeScheduleUpdate == null) {
-            TokenFeeScheduleUpdate = new global::Proto.TokenFeeScheduleUpdateTransactionBody();
+            TokenFeeScheduleUpdate = new global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody();
           }
           TokenFeeScheduleUpdate.MergeFrom(other.TokenFeeScheduleUpdate);
           break;
         case DataOneofCase.TokenPause:
           if (TokenPause == null) {
-            TokenPause = new global::Proto.TokenPauseTransactionBody();
+            TokenPause = new global::Hedera.Hashgraph.Proto.TokenPauseTransactionBody();
           }
           TokenPause.MergeFrom(other.TokenPause);
           break;
         case DataOneofCase.TokenUnpause:
           if (TokenUnpause == null) {
-            TokenUnpause = new global::Proto.TokenUnpauseTransactionBody();
+            TokenUnpause = new global::Hedera.Hashgraph.Proto.TokenUnpauseTransactionBody();
           }
           TokenUnpause.MergeFrom(other.TokenUnpause);
           break;
         case DataOneofCase.CryptoApproveAllowance:
           if (CryptoApproveAllowance == null) {
-            CryptoApproveAllowance = new global::Proto.CryptoApproveAllowanceTransactionBody();
+            CryptoApproveAllowance = new global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody();
           }
           CryptoApproveAllowance.MergeFrom(other.CryptoApproveAllowance);
           break;
         case DataOneofCase.CryptoDeleteAllowance:
           if (CryptoDeleteAllowance == null) {
-            CryptoDeleteAllowance = new global::Proto.CryptoDeleteAllowanceTransactionBody();
+            CryptoDeleteAllowance = new global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody();
           }
           CryptoDeleteAllowance.MergeFrom(other.CryptoDeleteAllowance);
           break;
         case DataOneofCase.EthereumTransaction:
           if (EthereumTransaction == null) {
-            EthereumTransaction = new global::Proto.EthereumTransactionBody();
+            EthereumTransaction = new global::Hedera.Hashgraph.Proto.EthereumTransactionBody();
           }
           EthereumTransaction.MergeFrom(other.EthereumTransaction);
           break;
         case DataOneofCase.NodeStakeUpdate:
           if (NodeStakeUpdate == null) {
-            NodeStakeUpdate = new global::Proto.NodeStakeUpdateTransactionBody();
+            NodeStakeUpdate = new global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody();
           }
           NodeStakeUpdate.MergeFrom(other.NodeStakeUpdate);
           break;
         case DataOneofCase.UtilPrng:
           if (UtilPrng == null) {
-            UtilPrng = new global::Proto.UtilPrngTransactionBody();
+            UtilPrng = new global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody();
           }
           UtilPrng.MergeFrom(other.UtilPrng);
           break;
         case DataOneofCase.TokenUpdateNfts:
           if (TokenUpdateNfts == null) {
-            TokenUpdateNfts = new global::Proto.TokenUpdateNftsTransactionBody();
+            TokenUpdateNfts = new global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody();
           }
           TokenUpdateNfts.MergeFrom(other.TokenUpdateNfts);
           break;
         case DataOneofCase.NodeCreate:
           if (NodeCreate == null) {
-            NodeCreate = new global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody();
+            NodeCreate = new global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody();
           }
           NodeCreate.MergeFrom(other.NodeCreate);
           break;
         case DataOneofCase.NodeUpdate:
           if (NodeUpdate == null) {
-            NodeUpdate = new global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateTransactionBody();
+            NodeUpdate = new global::Hedera.Hashgraph.Proto.NodeUpdateTransactionBody();
           }
           NodeUpdate.MergeFrom(other.NodeUpdate);
           break;
         case DataOneofCase.NodeDelete:
           if (NodeDelete == null) {
-            NodeDelete = new global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody();
+            NodeDelete = new global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody();
           }
           NodeDelete.MergeFrom(other.NodeDelete);
           break;
         case DataOneofCase.TokenReject:
           if (TokenReject == null) {
-            TokenReject = new global::Proto.TokenRejectTransactionBody();
+            TokenReject = new global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody();
           }
           TokenReject.MergeFrom(other.TokenReject);
           break;
         case DataOneofCase.TokenAirdrop:
           if (TokenAirdrop == null) {
-            TokenAirdrop = new global::Proto.TokenAirdropTransactionBody();
+            TokenAirdrop = new global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody();
           }
           TokenAirdrop.MergeFrom(other.TokenAirdrop);
           break;
         case DataOneofCase.TokenCancelAirdrop:
           if (TokenCancelAirdrop == null) {
-            TokenCancelAirdrop = new global::Proto.TokenCancelAirdropTransactionBody();
+            TokenCancelAirdrop = new global::Hedera.Hashgraph.Proto.TokenCancelAirdropTransactionBody();
           }
           TokenCancelAirdrop.MergeFrom(other.TokenCancelAirdrop);
           break;
         case DataOneofCase.TokenClaimAirdrop:
           if (TokenClaimAirdrop == null) {
-            TokenClaimAirdrop = new global::Proto.TokenClaimAirdropTransactionBody();
+            TokenClaimAirdrop = new global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody();
           }
           TokenClaimAirdrop.MergeFrom(other.TokenClaimAirdrop);
           break;
@@ -3652,19 +3652,19 @@ namespace Proto {
           break;
         case DataOneofCase.AtomicBatch:
           if (AtomicBatch == null) {
-            AtomicBatch = new global::Proto.AtomicBatchTransactionBody();
+            AtomicBatch = new global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody();
           }
           AtomicBatch.MergeFrom(other.AtomicBatch);
           break;
         case DataOneofCase.LambdaSstore:
           if (LambdaSstore == null) {
-            LambdaSstore = new global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody();
+            LambdaSstore = new global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody();
           }
           LambdaSstore.MergeFrom(other.LambdaSstore);
           break;
         case DataOneofCase.HookDispatch:
           if (HookDispatch == null) {
-            HookDispatch = new global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody();
+            HookDispatch = new global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody();
           }
           HookDispatch.MergeFrom(other.HookDispatch);
           break;
@@ -3691,14 +3691,14 @@ namespace Proto {
             break;
           case 10: {
             if (transactionID_ == null) {
-              TransactionID = new global::Proto.TransactionID();
+              TransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(TransactionID);
             break;
           }
           case 18: {
             if (nodeAccountID_ == null) {
-              NodeAccountID = new global::Proto.AccountID();
+              NodeAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(NodeAccountID);
             break;
@@ -3709,7 +3709,7 @@ namespace Proto {
           }
           case 34: {
             if (transactionValidDuration_ == null) {
-              TransactionValidDuration = new global::Proto.Duration();
+              TransactionValidDuration = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(TransactionValidDuration);
             break;
@@ -3723,7 +3723,7 @@ namespace Proto {
             break;
           }
           case 58: {
-            global::Proto.ContractCallTransactionBody subBuilder = new global::Proto.ContractCallTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractCallTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractCallTransactionBody();
             if (dataCase_ == DataOneofCase.ContractCall) {
               subBuilder.MergeFrom(ContractCall);
             }
@@ -3732,7 +3732,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.ContractCreateTransactionBody subBuilder = new global::Proto.ContractCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractCreateTransactionBody();
             if (dataCase_ == DataOneofCase.ContractCreateInstance) {
               subBuilder.MergeFrom(ContractCreateInstance);
             }
@@ -3741,7 +3741,7 @@ namespace Proto {
             break;
           }
           case 74: {
-            global::Proto.ContractUpdateTransactionBody subBuilder = new global::Proto.ContractUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.ContractUpdateInstance) {
               subBuilder.MergeFrom(ContractUpdateInstance);
             }
@@ -3750,7 +3750,7 @@ namespace Proto {
             break;
           }
           case 82: {
-            global::Proto.CryptoAddLiveHashTransactionBody subBuilder = new global::Proto.CryptoAddLiveHashTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoAddLiveHash) {
               subBuilder.MergeFrom(CryptoAddLiveHash);
             }
@@ -3759,7 +3759,7 @@ namespace Proto {
             break;
           }
           case 90: {
-            global::Proto.CryptoCreateTransactionBody subBuilder = new global::Proto.CryptoCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoCreateTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoCreateAccount) {
               subBuilder.MergeFrom(CryptoCreateAccount);
             }
@@ -3768,7 +3768,7 @@ namespace Proto {
             break;
           }
           case 98: {
-            global::Proto.CryptoDeleteTransactionBody subBuilder = new global::Proto.CryptoDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoDelete) {
               subBuilder.MergeFrom(CryptoDelete);
             }
@@ -3777,7 +3777,7 @@ namespace Proto {
             break;
           }
           case 106: {
-            global::Proto.CryptoDeleteLiveHashTransactionBody subBuilder = new global::Proto.CryptoDeleteLiveHashTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoDeleteLiveHash) {
               subBuilder.MergeFrom(CryptoDeleteLiveHash);
             }
@@ -3786,7 +3786,7 @@ namespace Proto {
             break;
           }
           case 114: {
-            global::Proto.CryptoTransferTransactionBody subBuilder = new global::Proto.CryptoTransferTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoTransfer) {
               subBuilder.MergeFrom(CryptoTransfer);
             }
@@ -3795,7 +3795,7 @@ namespace Proto {
             break;
           }
           case 122: {
-            global::Proto.CryptoUpdateTransactionBody subBuilder = new global::Proto.CryptoUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoUpdateAccount) {
               subBuilder.MergeFrom(CryptoUpdateAccount);
             }
@@ -3804,7 +3804,7 @@ namespace Proto {
             break;
           }
           case 130: {
-            global::Proto.FileAppendTransactionBody subBuilder = new global::Proto.FileAppendTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileAppendTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileAppendTransactionBody();
             if (dataCase_ == DataOneofCase.FileAppend) {
               subBuilder.MergeFrom(FileAppend);
             }
@@ -3813,7 +3813,7 @@ namespace Proto {
             break;
           }
           case 138: {
-            global::Proto.FileCreateTransactionBody subBuilder = new global::Proto.FileCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileCreateTransactionBody();
             if (dataCase_ == DataOneofCase.FileCreate) {
               subBuilder.MergeFrom(FileCreate);
             }
@@ -3822,7 +3822,7 @@ namespace Proto {
             break;
           }
           case 146: {
-            global::Proto.FileDeleteTransactionBody subBuilder = new global::Proto.FileDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.FileDelete) {
               subBuilder.MergeFrom(FileDelete);
             }
@@ -3831,7 +3831,7 @@ namespace Proto {
             break;
           }
           case 154: {
-            global::Proto.FileUpdateTransactionBody subBuilder = new global::Proto.FileUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.FileUpdate) {
               subBuilder.MergeFrom(FileUpdate);
             }
@@ -3840,7 +3840,7 @@ namespace Proto {
             break;
           }
           case 162: {
-            global::Proto.SystemDeleteTransactionBody subBuilder = new global::Proto.SystemDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.SystemDelete) {
               subBuilder.MergeFrom(SystemDelete);
             }
@@ -3849,7 +3849,7 @@ namespace Proto {
             break;
           }
           case 170: {
-            global::Proto.SystemUndeleteTransactionBody subBuilder = new global::Proto.SystemUndeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody();
             if (dataCase_ == DataOneofCase.SystemUndelete) {
               subBuilder.MergeFrom(SystemUndelete);
             }
@@ -3858,7 +3858,7 @@ namespace Proto {
             break;
           }
           case 178: {
-            global::Proto.ContractDeleteTransactionBody subBuilder = new global::Proto.ContractDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.ContractDeleteInstance) {
               subBuilder.MergeFrom(ContractDeleteInstance);
             }
@@ -3867,7 +3867,7 @@ namespace Proto {
             break;
           }
           case 186: {
-            global::Proto.FreezeTransactionBody subBuilder = new global::Proto.FreezeTransactionBody();
+            global::Hedera.Hashgraph.Proto.FreezeTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FreezeTransactionBody();
             if (dataCase_ == DataOneofCase.Freeze) {
               subBuilder.MergeFrom(Freeze);
             }
@@ -3876,7 +3876,7 @@ namespace Proto {
             break;
           }
           case 194: {
-            global::Proto.ConsensusCreateTopicTransactionBody subBuilder = new global::Proto.ConsensusCreateTopicTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusCreateTopicTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusCreateTopicTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusCreateTopic) {
               subBuilder.MergeFrom(ConsensusCreateTopic);
             }
@@ -3885,7 +3885,7 @@ namespace Proto {
             break;
           }
           case 202: {
-            global::Proto.ConsensusUpdateTopicTransactionBody subBuilder = new global::Proto.ConsensusUpdateTopicTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusUpdateTopic) {
               subBuilder.MergeFrom(ConsensusUpdateTopic);
             }
@@ -3894,7 +3894,7 @@ namespace Proto {
             break;
           }
           case 210: {
-            global::Proto.ConsensusDeleteTopicTransactionBody subBuilder = new global::Proto.ConsensusDeleteTopicTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusDeleteTopic) {
               subBuilder.MergeFrom(ConsensusDeleteTopic);
             }
@@ -3903,7 +3903,7 @@ namespace Proto {
             break;
           }
           case 218: {
-            global::Proto.ConsensusSubmitMessageTransactionBody subBuilder = new global::Proto.ConsensusSubmitMessageTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusSubmitMessage) {
               subBuilder.MergeFrom(ConsensusSubmitMessage);
             }
@@ -3912,7 +3912,7 @@ namespace Proto {
             break;
           }
           case 226: {
-            global::Proto.UncheckedSubmitBody subBuilder = new global::Proto.UncheckedSubmitBody();
+            global::Hedera.Hashgraph.Proto.UncheckedSubmitBody subBuilder = new global::Hedera.Hashgraph.Proto.UncheckedSubmitBody();
             if (dataCase_ == DataOneofCase.UncheckedSubmit) {
               subBuilder.MergeFrom(UncheckedSubmit);
             }
@@ -3921,7 +3921,7 @@ namespace Proto {
             break;
           }
           case 234: {
-            global::Proto.TokenCreateTransactionBody subBuilder = new global::Proto.TokenCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenCreation) {
               subBuilder.MergeFrom(TokenCreation);
             }
@@ -3930,7 +3930,7 @@ namespace Proto {
             break;
           }
           case 250: {
-            global::Proto.TokenFreezeAccountTransactionBody subBuilder = new global::Proto.TokenFreezeAccountTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenFreezeAccountTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenFreezeAccountTransactionBody();
             if (dataCase_ == DataOneofCase.TokenFreeze) {
               subBuilder.MergeFrom(TokenFreeze);
             }
@@ -3939,7 +3939,7 @@ namespace Proto {
             break;
           }
           case 258: {
-            global::Proto.TokenUnfreezeAccountTransactionBody subBuilder = new global::Proto.TokenUnfreezeAccountTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUnfreeze) {
               subBuilder.MergeFrom(TokenUnfreeze);
             }
@@ -3948,7 +3948,7 @@ namespace Proto {
             break;
           }
           case 266: {
-            global::Proto.TokenGrantKycTransactionBody subBuilder = new global::Proto.TokenGrantKycTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody();
             if (dataCase_ == DataOneofCase.TokenGrantKyc) {
               subBuilder.MergeFrom(TokenGrantKyc);
             }
@@ -3957,7 +3957,7 @@ namespace Proto {
             break;
           }
           case 274: {
-            global::Proto.TokenRevokeKycTransactionBody subBuilder = new global::Proto.TokenRevokeKycTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenRevokeKycTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenRevokeKycTransactionBody();
             if (dataCase_ == DataOneofCase.TokenRevokeKyc) {
               subBuilder.MergeFrom(TokenRevokeKyc);
             }
@@ -3966,7 +3966,7 @@ namespace Proto {
             break;
           }
           case 282: {
-            global::Proto.TokenDeleteTransactionBody subBuilder = new global::Proto.TokenDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.TokenDeletion) {
               subBuilder.MergeFrom(TokenDeletion);
             }
@@ -3975,7 +3975,7 @@ namespace Proto {
             break;
           }
           case 290: {
-            global::Proto.TokenUpdateTransactionBody subBuilder = new global::Proto.TokenUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUpdate) {
               subBuilder.MergeFrom(TokenUpdate);
             }
@@ -3984,7 +3984,7 @@ namespace Proto {
             break;
           }
           case 298: {
-            global::Proto.TokenMintTransactionBody subBuilder = new global::Proto.TokenMintTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenMintTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenMintTransactionBody();
             if (dataCase_ == DataOneofCase.TokenMint) {
               subBuilder.MergeFrom(TokenMint);
             }
@@ -3993,7 +3993,7 @@ namespace Proto {
             break;
           }
           case 306: {
-            global::Proto.TokenBurnTransactionBody subBuilder = new global::Proto.TokenBurnTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenBurnTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenBurnTransactionBody();
             if (dataCase_ == DataOneofCase.TokenBurn) {
               subBuilder.MergeFrom(TokenBurn);
             }
@@ -4002,7 +4002,7 @@ namespace Proto {
             break;
           }
           case 314: {
-            global::Proto.TokenWipeAccountTransactionBody subBuilder = new global::Proto.TokenWipeAccountTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenWipeAccountTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenWipeAccountTransactionBody();
             if (dataCase_ == DataOneofCase.TokenWipe) {
               subBuilder.MergeFrom(TokenWipe);
             }
@@ -4011,7 +4011,7 @@ namespace Proto {
             break;
           }
           case 322: {
-            global::Proto.TokenAssociateTransactionBody subBuilder = new global::Proto.TokenAssociateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenAssociateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenAssociateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenAssociate) {
               subBuilder.MergeFrom(TokenAssociate);
             }
@@ -4020,7 +4020,7 @@ namespace Proto {
             break;
           }
           case 330: {
-            global::Proto.TokenDissociateTransactionBody subBuilder = new global::Proto.TokenDissociateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenDissociate) {
               subBuilder.MergeFrom(TokenDissociate);
             }
@@ -4029,7 +4029,7 @@ namespace Proto {
             break;
           }
           case 338: {
-            global::Proto.ScheduleCreateTransactionBody subBuilder = new global::Proto.ScheduleCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody();
             if (dataCase_ == DataOneofCase.ScheduleCreate) {
               subBuilder.MergeFrom(ScheduleCreate);
             }
@@ -4038,7 +4038,7 @@ namespace Proto {
             break;
           }
           case 346: {
-            global::Proto.ScheduleDeleteTransactionBody subBuilder = new global::Proto.ScheduleDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.ScheduleDelete) {
               subBuilder.MergeFrom(ScheduleDelete);
             }
@@ -4047,7 +4047,7 @@ namespace Proto {
             break;
           }
           case 354: {
-            global::Proto.ScheduleSignTransactionBody subBuilder = new global::Proto.ScheduleSignTransactionBody();
+            global::Hedera.Hashgraph.Proto.ScheduleSignTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleSignTransactionBody();
             if (dataCase_ == DataOneofCase.ScheduleSign) {
               subBuilder.MergeFrom(ScheduleSign);
             }
@@ -4056,7 +4056,7 @@ namespace Proto {
             break;
           }
           case 362: {
-            global::Proto.TokenFeeScheduleUpdateTransactionBody subBuilder = new global::Proto.TokenFeeScheduleUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenFeeScheduleUpdate) {
               subBuilder.MergeFrom(TokenFeeScheduleUpdate);
             }
@@ -4065,7 +4065,7 @@ namespace Proto {
             break;
           }
           case 370: {
-            global::Proto.TokenPauseTransactionBody subBuilder = new global::Proto.TokenPauseTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenPauseTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenPauseTransactionBody();
             if (dataCase_ == DataOneofCase.TokenPause) {
               subBuilder.MergeFrom(TokenPause);
             }
@@ -4074,7 +4074,7 @@ namespace Proto {
             break;
           }
           case 378: {
-            global::Proto.TokenUnpauseTransactionBody subBuilder = new global::Proto.TokenUnpauseTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUnpauseTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUnpauseTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUnpause) {
               subBuilder.MergeFrom(TokenUnpause);
             }
@@ -4083,7 +4083,7 @@ namespace Proto {
             break;
           }
           case 386: {
-            global::Proto.CryptoApproveAllowanceTransactionBody subBuilder = new global::Proto.CryptoApproveAllowanceTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoApproveAllowance) {
               subBuilder.MergeFrom(CryptoApproveAllowance);
             }
@@ -4092,7 +4092,7 @@ namespace Proto {
             break;
           }
           case 394: {
-            global::Proto.CryptoDeleteAllowanceTransactionBody subBuilder = new global::Proto.CryptoDeleteAllowanceTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoDeleteAllowance) {
               subBuilder.MergeFrom(CryptoDeleteAllowance);
             }
@@ -4101,7 +4101,7 @@ namespace Proto {
             break;
           }
           case 402: {
-            global::Proto.EthereumTransactionBody subBuilder = new global::Proto.EthereumTransactionBody();
+            global::Hedera.Hashgraph.Proto.EthereumTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.EthereumTransactionBody();
             if (dataCase_ == DataOneofCase.EthereumTransaction) {
               subBuilder.MergeFrom(EthereumTransaction);
             }
@@ -4110,7 +4110,7 @@ namespace Proto {
             break;
           }
           case 410: {
-            global::Proto.NodeStakeUpdateTransactionBody subBuilder = new global::Proto.NodeStakeUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.NodeStakeUpdate) {
               subBuilder.MergeFrom(NodeStakeUpdate);
             }
@@ -4119,7 +4119,7 @@ namespace Proto {
             break;
           }
           case 418: {
-            global::Proto.UtilPrngTransactionBody subBuilder = new global::Proto.UtilPrngTransactionBody();
+            global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody();
             if (dataCase_ == DataOneofCase.UtilPrng) {
               subBuilder.MergeFrom(UtilPrng);
             }
@@ -4128,7 +4128,7 @@ namespace Proto {
             break;
           }
           case 426: {
-            global::Proto.TokenUpdateNftsTransactionBody subBuilder = new global::Proto.TokenUpdateNftsTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUpdateNfts) {
               subBuilder.MergeFrom(TokenUpdateNfts);
             }
@@ -4137,7 +4137,7 @@ namespace Proto {
             break;
           }
           case 434: {
-            global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody();
             if (dataCase_ == DataOneofCase.NodeCreate) {
               subBuilder.MergeFrom(NodeCreate);
             }
@@ -4146,7 +4146,7 @@ namespace Proto {
             break;
           }
           case 442: {
-            global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.NodeUpdate) {
               subBuilder.MergeFrom(NodeUpdate);
             }
@@ -4155,7 +4155,7 @@ namespace Proto {
             break;
           }
           case 450: {
-            global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.NodeDelete) {
               subBuilder.MergeFrom(NodeDelete);
             }
@@ -4164,7 +4164,7 @@ namespace Proto {
             break;
           }
           case 458: {
-            global::Proto.TokenRejectTransactionBody subBuilder = new global::Proto.TokenRejectTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody();
             if (dataCase_ == DataOneofCase.TokenReject) {
               subBuilder.MergeFrom(TokenReject);
             }
@@ -4173,7 +4173,7 @@ namespace Proto {
             break;
           }
           case 466: {
-            global::Proto.TokenAirdropTransactionBody subBuilder = new global::Proto.TokenAirdropTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody();
             if (dataCase_ == DataOneofCase.TokenAirdrop) {
               subBuilder.MergeFrom(TokenAirdrop);
             }
@@ -4182,7 +4182,7 @@ namespace Proto {
             break;
           }
           case 474: {
-            global::Proto.TokenCancelAirdropTransactionBody subBuilder = new global::Proto.TokenCancelAirdropTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenCancelAirdropTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenCancelAirdropTransactionBody();
             if (dataCase_ == DataOneofCase.TokenCancelAirdrop) {
               subBuilder.MergeFrom(TokenCancelAirdrop);
             }
@@ -4191,7 +4191,7 @@ namespace Proto {
             break;
           }
           case 482: {
-            global::Proto.TokenClaimAirdropTransactionBody subBuilder = new global::Proto.TokenClaimAirdropTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody();
             if (dataCase_ == DataOneofCase.TokenClaimAirdrop) {
               subBuilder.MergeFrom(TokenClaimAirdrop);
             }
@@ -4273,13 +4273,13 @@ namespace Proto {
           }
           case 586: {
             if (batchKey_ == null) {
-              BatchKey = new global::Proto.Key();
+              BatchKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(BatchKey);
             break;
           }
           case 594: {
-            global::Proto.AtomicBatchTransactionBody subBuilder = new global::Proto.AtomicBatchTransactionBody();
+            global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody();
             if (dataCase_ == DataOneofCase.AtomicBatch) {
               subBuilder.MergeFrom(AtomicBatch);
             }
@@ -4288,7 +4288,7 @@ namespace Proto {
             break;
           }
           case 602: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody();
+            global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody();
             if (dataCase_ == DataOneofCase.LambdaSstore) {
               subBuilder.MergeFrom(LambdaSstore);
             }
@@ -4297,7 +4297,7 @@ namespace Proto {
             break;
           }
           case 610: {
-            global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody();
+            global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody();
             if (dataCase_ == DataOneofCase.HookDispatch) {
               subBuilder.MergeFrom(HookDispatch);
             }
@@ -4330,14 +4330,14 @@ namespace Proto {
             break;
           case 10: {
             if (transactionID_ == null) {
-              TransactionID = new global::Proto.TransactionID();
+              TransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(TransactionID);
             break;
           }
           case 18: {
             if (nodeAccountID_ == null) {
-              NodeAccountID = new global::Proto.AccountID();
+              NodeAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(NodeAccountID);
             break;
@@ -4348,7 +4348,7 @@ namespace Proto {
           }
           case 34: {
             if (transactionValidDuration_ == null) {
-              TransactionValidDuration = new global::Proto.Duration();
+              TransactionValidDuration = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(TransactionValidDuration);
             break;
@@ -4362,7 +4362,7 @@ namespace Proto {
             break;
           }
           case 58: {
-            global::Proto.ContractCallTransactionBody subBuilder = new global::Proto.ContractCallTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractCallTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractCallTransactionBody();
             if (dataCase_ == DataOneofCase.ContractCall) {
               subBuilder.MergeFrom(ContractCall);
             }
@@ -4371,7 +4371,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.ContractCreateTransactionBody subBuilder = new global::Proto.ContractCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractCreateTransactionBody();
             if (dataCase_ == DataOneofCase.ContractCreateInstance) {
               subBuilder.MergeFrom(ContractCreateInstance);
             }
@@ -4380,7 +4380,7 @@ namespace Proto {
             break;
           }
           case 74: {
-            global::Proto.ContractUpdateTransactionBody subBuilder = new global::Proto.ContractUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.ContractUpdateInstance) {
               subBuilder.MergeFrom(ContractUpdateInstance);
             }
@@ -4389,7 +4389,7 @@ namespace Proto {
             break;
           }
           case 82: {
-            global::Proto.CryptoAddLiveHashTransactionBody subBuilder = new global::Proto.CryptoAddLiveHashTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoAddLiveHash) {
               subBuilder.MergeFrom(CryptoAddLiveHash);
             }
@@ -4398,7 +4398,7 @@ namespace Proto {
             break;
           }
           case 90: {
-            global::Proto.CryptoCreateTransactionBody subBuilder = new global::Proto.CryptoCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoCreateTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoCreateAccount) {
               subBuilder.MergeFrom(CryptoCreateAccount);
             }
@@ -4407,7 +4407,7 @@ namespace Proto {
             break;
           }
           case 98: {
-            global::Proto.CryptoDeleteTransactionBody subBuilder = new global::Proto.CryptoDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoDelete) {
               subBuilder.MergeFrom(CryptoDelete);
             }
@@ -4416,7 +4416,7 @@ namespace Proto {
             break;
           }
           case 106: {
-            global::Proto.CryptoDeleteLiveHashTransactionBody subBuilder = new global::Proto.CryptoDeleteLiveHashTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoDeleteLiveHashTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoDeleteLiveHash) {
               subBuilder.MergeFrom(CryptoDeleteLiveHash);
             }
@@ -4425,7 +4425,7 @@ namespace Proto {
             break;
           }
           case 114: {
-            global::Proto.CryptoTransferTransactionBody subBuilder = new global::Proto.CryptoTransferTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoTransfer) {
               subBuilder.MergeFrom(CryptoTransfer);
             }
@@ -4434,7 +4434,7 @@ namespace Proto {
             break;
           }
           case 122: {
-            global::Proto.CryptoUpdateTransactionBody subBuilder = new global::Proto.CryptoUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoUpdateAccount) {
               subBuilder.MergeFrom(CryptoUpdateAccount);
             }
@@ -4443,7 +4443,7 @@ namespace Proto {
             break;
           }
           case 130: {
-            global::Proto.FileAppendTransactionBody subBuilder = new global::Proto.FileAppendTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileAppendTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileAppendTransactionBody();
             if (dataCase_ == DataOneofCase.FileAppend) {
               subBuilder.MergeFrom(FileAppend);
             }
@@ -4452,7 +4452,7 @@ namespace Proto {
             break;
           }
           case 138: {
-            global::Proto.FileCreateTransactionBody subBuilder = new global::Proto.FileCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileCreateTransactionBody();
             if (dataCase_ == DataOneofCase.FileCreate) {
               subBuilder.MergeFrom(FileCreate);
             }
@@ -4461,7 +4461,7 @@ namespace Proto {
             break;
           }
           case 146: {
-            global::Proto.FileDeleteTransactionBody subBuilder = new global::Proto.FileDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.FileDelete) {
               subBuilder.MergeFrom(FileDelete);
             }
@@ -4470,7 +4470,7 @@ namespace Proto {
             break;
           }
           case 154: {
-            global::Proto.FileUpdateTransactionBody subBuilder = new global::Proto.FileUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.FileUpdate) {
               subBuilder.MergeFrom(FileUpdate);
             }
@@ -4479,7 +4479,7 @@ namespace Proto {
             break;
           }
           case 162: {
-            global::Proto.SystemDeleteTransactionBody subBuilder = new global::Proto.SystemDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.SystemDelete) {
               subBuilder.MergeFrom(SystemDelete);
             }
@@ -4488,7 +4488,7 @@ namespace Proto {
             break;
           }
           case 170: {
-            global::Proto.SystemUndeleteTransactionBody subBuilder = new global::Proto.SystemUndeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody();
             if (dataCase_ == DataOneofCase.SystemUndelete) {
               subBuilder.MergeFrom(SystemUndelete);
             }
@@ -4497,7 +4497,7 @@ namespace Proto {
             break;
           }
           case 178: {
-            global::Proto.ContractDeleteTransactionBody subBuilder = new global::Proto.ContractDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.ContractDeleteInstance) {
               subBuilder.MergeFrom(ContractDeleteInstance);
             }
@@ -4506,7 +4506,7 @@ namespace Proto {
             break;
           }
           case 186: {
-            global::Proto.FreezeTransactionBody subBuilder = new global::Proto.FreezeTransactionBody();
+            global::Hedera.Hashgraph.Proto.FreezeTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.FreezeTransactionBody();
             if (dataCase_ == DataOneofCase.Freeze) {
               subBuilder.MergeFrom(Freeze);
             }
@@ -4515,7 +4515,7 @@ namespace Proto {
             break;
           }
           case 194: {
-            global::Proto.ConsensusCreateTopicTransactionBody subBuilder = new global::Proto.ConsensusCreateTopicTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusCreateTopicTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusCreateTopicTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusCreateTopic) {
               subBuilder.MergeFrom(ConsensusCreateTopic);
             }
@@ -4524,7 +4524,7 @@ namespace Proto {
             break;
           }
           case 202: {
-            global::Proto.ConsensusUpdateTopicTransactionBody subBuilder = new global::Proto.ConsensusUpdateTopicTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusUpdateTopicTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusUpdateTopic) {
               subBuilder.MergeFrom(ConsensusUpdateTopic);
             }
@@ -4533,7 +4533,7 @@ namespace Proto {
             break;
           }
           case 210: {
-            global::Proto.ConsensusDeleteTopicTransactionBody subBuilder = new global::Proto.ConsensusDeleteTopicTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusDeleteTopic) {
               subBuilder.MergeFrom(ConsensusDeleteTopic);
             }
@@ -4542,7 +4542,7 @@ namespace Proto {
             break;
           }
           case 218: {
-            global::Proto.ConsensusSubmitMessageTransactionBody subBuilder = new global::Proto.ConsensusSubmitMessageTransactionBody();
+            global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody();
             if (dataCase_ == DataOneofCase.ConsensusSubmitMessage) {
               subBuilder.MergeFrom(ConsensusSubmitMessage);
             }
@@ -4551,7 +4551,7 @@ namespace Proto {
             break;
           }
           case 226: {
-            global::Proto.UncheckedSubmitBody subBuilder = new global::Proto.UncheckedSubmitBody();
+            global::Hedera.Hashgraph.Proto.UncheckedSubmitBody subBuilder = new global::Hedera.Hashgraph.Proto.UncheckedSubmitBody();
             if (dataCase_ == DataOneofCase.UncheckedSubmit) {
               subBuilder.MergeFrom(UncheckedSubmit);
             }
@@ -4560,7 +4560,7 @@ namespace Proto {
             break;
           }
           case 234: {
-            global::Proto.TokenCreateTransactionBody subBuilder = new global::Proto.TokenCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenCreation) {
               subBuilder.MergeFrom(TokenCreation);
             }
@@ -4569,7 +4569,7 @@ namespace Proto {
             break;
           }
           case 250: {
-            global::Proto.TokenFreezeAccountTransactionBody subBuilder = new global::Proto.TokenFreezeAccountTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenFreezeAccountTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenFreezeAccountTransactionBody();
             if (dataCase_ == DataOneofCase.TokenFreeze) {
               subBuilder.MergeFrom(TokenFreeze);
             }
@@ -4578,7 +4578,7 @@ namespace Proto {
             break;
           }
           case 258: {
-            global::Proto.TokenUnfreezeAccountTransactionBody subBuilder = new global::Proto.TokenUnfreezeAccountTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUnfreezeAccountTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUnfreeze) {
               subBuilder.MergeFrom(TokenUnfreeze);
             }
@@ -4587,7 +4587,7 @@ namespace Proto {
             break;
           }
           case 266: {
-            global::Proto.TokenGrantKycTransactionBody subBuilder = new global::Proto.TokenGrantKycTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody();
             if (dataCase_ == DataOneofCase.TokenGrantKyc) {
               subBuilder.MergeFrom(TokenGrantKyc);
             }
@@ -4596,7 +4596,7 @@ namespace Proto {
             break;
           }
           case 274: {
-            global::Proto.TokenRevokeKycTransactionBody subBuilder = new global::Proto.TokenRevokeKycTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenRevokeKycTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenRevokeKycTransactionBody();
             if (dataCase_ == DataOneofCase.TokenRevokeKyc) {
               subBuilder.MergeFrom(TokenRevokeKyc);
             }
@@ -4605,7 +4605,7 @@ namespace Proto {
             break;
           }
           case 282: {
-            global::Proto.TokenDeleteTransactionBody subBuilder = new global::Proto.TokenDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.TokenDeletion) {
               subBuilder.MergeFrom(TokenDeletion);
             }
@@ -4614,7 +4614,7 @@ namespace Proto {
             break;
           }
           case 290: {
-            global::Proto.TokenUpdateTransactionBody subBuilder = new global::Proto.TokenUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUpdate) {
               subBuilder.MergeFrom(TokenUpdate);
             }
@@ -4623,7 +4623,7 @@ namespace Proto {
             break;
           }
           case 298: {
-            global::Proto.TokenMintTransactionBody subBuilder = new global::Proto.TokenMintTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenMintTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenMintTransactionBody();
             if (dataCase_ == DataOneofCase.TokenMint) {
               subBuilder.MergeFrom(TokenMint);
             }
@@ -4632,7 +4632,7 @@ namespace Proto {
             break;
           }
           case 306: {
-            global::Proto.TokenBurnTransactionBody subBuilder = new global::Proto.TokenBurnTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenBurnTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenBurnTransactionBody();
             if (dataCase_ == DataOneofCase.TokenBurn) {
               subBuilder.MergeFrom(TokenBurn);
             }
@@ -4641,7 +4641,7 @@ namespace Proto {
             break;
           }
           case 314: {
-            global::Proto.TokenWipeAccountTransactionBody subBuilder = new global::Proto.TokenWipeAccountTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenWipeAccountTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenWipeAccountTransactionBody();
             if (dataCase_ == DataOneofCase.TokenWipe) {
               subBuilder.MergeFrom(TokenWipe);
             }
@@ -4650,7 +4650,7 @@ namespace Proto {
             break;
           }
           case 322: {
-            global::Proto.TokenAssociateTransactionBody subBuilder = new global::Proto.TokenAssociateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenAssociateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenAssociateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenAssociate) {
               subBuilder.MergeFrom(TokenAssociate);
             }
@@ -4659,7 +4659,7 @@ namespace Proto {
             break;
           }
           case 330: {
-            global::Proto.TokenDissociateTransactionBody subBuilder = new global::Proto.TokenDissociateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenDissociate) {
               subBuilder.MergeFrom(TokenDissociate);
             }
@@ -4668,7 +4668,7 @@ namespace Proto {
             break;
           }
           case 338: {
-            global::Proto.ScheduleCreateTransactionBody subBuilder = new global::Proto.ScheduleCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody();
             if (dataCase_ == DataOneofCase.ScheduleCreate) {
               subBuilder.MergeFrom(ScheduleCreate);
             }
@@ -4677,7 +4677,7 @@ namespace Proto {
             break;
           }
           case 346: {
-            global::Proto.ScheduleDeleteTransactionBody subBuilder = new global::Proto.ScheduleDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.ScheduleDelete) {
               subBuilder.MergeFrom(ScheduleDelete);
             }
@@ -4686,7 +4686,7 @@ namespace Proto {
             break;
           }
           case 354: {
-            global::Proto.ScheduleSignTransactionBody subBuilder = new global::Proto.ScheduleSignTransactionBody();
+            global::Hedera.Hashgraph.Proto.ScheduleSignTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleSignTransactionBody();
             if (dataCase_ == DataOneofCase.ScheduleSign) {
               subBuilder.MergeFrom(ScheduleSign);
             }
@@ -4695,7 +4695,7 @@ namespace Proto {
             break;
           }
           case 362: {
-            global::Proto.TokenFeeScheduleUpdateTransactionBody subBuilder = new global::Proto.TokenFeeScheduleUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenFeeScheduleUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.TokenFeeScheduleUpdate) {
               subBuilder.MergeFrom(TokenFeeScheduleUpdate);
             }
@@ -4704,7 +4704,7 @@ namespace Proto {
             break;
           }
           case 370: {
-            global::Proto.TokenPauseTransactionBody subBuilder = new global::Proto.TokenPauseTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenPauseTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenPauseTransactionBody();
             if (dataCase_ == DataOneofCase.TokenPause) {
               subBuilder.MergeFrom(TokenPause);
             }
@@ -4713,7 +4713,7 @@ namespace Proto {
             break;
           }
           case 378: {
-            global::Proto.TokenUnpauseTransactionBody subBuilder = new global::Proto.TokenUnpauseTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUnpauseTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUnpauseTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUnpause) {
               subBuilder.MergeFrom(TokenUnpause);
             }
@@ -4722,7 +4722,7 @@ namespace Proto {
             break;
           }
           case 386: {
-            global::Proto.CryptoApproveAllowanceTransactionBody subBuilder = new global::Proto.CryptoApproveAllowanceTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoApproveAllowance) {
               subBuilder.MergeFrom(CryptoApproveAllowance);
             }
@@ -4731,7 +4731,7 @@ namespace Proto {
             break;
           }
           case 394: {
-            global::Proto.CryptoDeleteAllowanceTransactionBody subBuilder = new global::Proto.CryptoDeleteAllowanceTransactionBody();
+            global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody();
             if (dataCase_ == DataOneofCase.CryptoDeleteAllowance) {
               subBuilder.MergeFrom(CryptoDeleteAllowance);
             }
@@ -4740,7 +4740,7 @@ namespace Proto {
             break;
           }
           case 402: {
-            global::Proto.EthereumTransactionBody subBuilder = new global::Proto.EthereumTransactionBody();
+            global::Hedera.Hashgraph.Proto.EthereumTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.EthereumTransactionBody();
             if (dataCase_ == DataOneofCase.EthereumTransaction) {
               subBuilder.MergeFrom(EthereumTransaction);
             }
@@ -4749,7 +4749,7 @@ namespace Proto {
             break;
           }
           case 410: {
-            global::Proto.NodeStakeUpdateTransactionBody subBuilder = new global::Proto.NodeStakeUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.NodeStakeUpdate) {
               subBuilder.MergeFrom(NodeStakeUpdate);
             }
@@ -4758,7 +4758,7 @@ namespace Proto {
             break;
           }
           case 418: {
-            global::Proto.UtilPrngTransactionBody subBuilder = new global::Proto.UtilPrngTransactionBody();
+            global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody();
             if (dataCase_ == DataOneofCase.UtilPrng) {
               subBuilder.MergeFrom(UtilPrng);
             }
@@ -4767,7 +4767,7 @@ namespace Proto {
             break;
           }
           case 426: {
-            global::Proto.TokenUpdateNftsTransactionBody subBuilder = new global::Proto.TokenUpdateNftsTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody();
             if (dataCase_ == DataOneofCase.TokenUpdateNfts) {
               subBuilder.MergeFrom(TokenUpdateNfts);
             }
@@ -4776,7 +4776,7 @@ namespace Proto {
             break;
           }
           case 434: {
-            global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody();
             if (dataCase_ == DataOneofCase.NodeCreate) {
               subBuilder.MergeFrom(NodeCreate);
             }
@@ -4785,7 +4785,7 @@ namespace Proto {
             break;
           }
           case 442: {
-            global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Addressbook.NodeUpdateTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeUpdateTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeUpdateTransactionBody();
             if (dataCase_ == DataOneofCase.NodeUpdate) {
               subBuilder.MergeFrom(NodeUpdate);
             }
@@ -4794,7 +4794,7 @@ namespace Proto {
             break;
           }
           case 450: {
-            global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody();
+            global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody();
             if (dataCase_ == DataOneofCase.NodeDelete) {
               subBuilder.MergeFrom(NodeDelete);
             }
@@ -4803,7 +4803,7 @@ namespace Proto {
             break;
           }
           case 458: {
-            global::Proto.TokenRejectTransactionBody subBuilder = new global::Proto.TokenRejectTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody();
             if (dataCase_ == DataOneofCase.TokenReject) {
               subBuilder.MergeFrom(TokenReject);
             }
@@ -4812,7 +4812,7 @@ namespace Proto {
             break;
           }
           case 466: {
-            global::Proto.TokenAirdropTransactionBody subBuilder = new global::Proto.TokenAirdropTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody();
             if (dataCase_ == DataOneofCase.TokenAirdrop) {
               subBuilder.MergeFrom(TokenAirdrop);
             }
@@ -4821,7 +4821,7 @@ namespace Proto {
             break;
           }
           case 474: {
-            global::Proto.TokenCancelAirdropTransactionBody subBuilder = new global::Proto.TokenCancelAirdropTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenCancelAirdropTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenCancelAirdropTransactionBody();
             if (dataCase_ == DataOneofCase.TokenCancelAirdrop) {
               subBuilder.MergeFrom(TokenCancelAirdrop);
             }
@@ -4830,7 +4830,7 @@ namespace Proto {
             break;
           }
           case 482: {
-            global::Proto.TokenClaimAirdropTransactionBody subBuilder = new global::Proto.TokenClaimAirdropTransactionBody();
+            global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody();
             if (dataCase_ == DataOneofCase.TokenClaimAirdrop) {
               subBuilder.MergeFrom(TokenClaimAirdrop);
             }
@@ -4912,13 +4912,13 @@ namespace Proto {
           }
           case 586: {
             if (batchKey_ == null) {
-              BatchKey = new global::Proto.Key();
+              BatchKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(BatchKey);
             break;
           }
           case 594: {
-            global::Proto.AtomicBatchTransactionBody subBuilder = new global::Proto.AtomicBatchTransactionBody();
+            global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.AtomicBatchTransactionBody();
             if (dataCase_ == DataOneofCase.AtomicBatch) {
               subBuilder.MergeFrom(AtomicBatch);
             }
@@ -4927,7 +4927,7 @@ namespace Proto {
             break;
           }
           case 602: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody();
+            global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody();
             if (dataCase_ == DataOneofCase.LambdaSstore) {
               subBuilder.MergeFrom(LambdaSstore);
             }
@@ -4936,7 +4936,7 @@ namespace Proto {
             break;
           }
           case 610: {
-            global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody();
+            global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody subBuilder = new global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody();
             if (dataCase_ == DataOneofCase.HookDispatch) {
               subBuilder.MergeFrom(HookDispatch);
             }
@@ -4974,7 +4974,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TransactionReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.TransactionReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

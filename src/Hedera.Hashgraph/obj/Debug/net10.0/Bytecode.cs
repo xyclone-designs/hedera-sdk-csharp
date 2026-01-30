@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from bytecode.proto</summary>
   public static partial class BytecodeReflection {
@@ -25,12 +25,12 @@ namespace Proto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg5ieXRlY29kZS5wcm90bxIFcHJvdG8iGAoIQnl0ZWNvZGUSDAoEY29kZRgB",
-            "IAEoDEIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJv",
-            "dG8z"));
+            "IAEoDEI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRl",
+            "cmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Bytecode), global::Proto.Bytecode.Parser, new[]{ "Code" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Bytecode), global::Hedera.Hashgraph.Proto.Bytecode.Parser, new[]{ "Code" }, null, null, null, null)
           }));
     }
     #endregion
@@ -59,7 +59,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BytecodeReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.BytecodeReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

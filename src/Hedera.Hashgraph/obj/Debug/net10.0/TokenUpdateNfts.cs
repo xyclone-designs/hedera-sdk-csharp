@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_update_nfts.proto</summary>
   public static partial class TokenUpdateNftsReflection {
@@ -28,12 +28,13 @@ namespace Proto {
             "LnByb3RvGh5nb29nbGUvcHJvdG9idWYvd3JhcHBlcnMucHJvdG8ihgEKHlRv",
             "a2VuVXBkYXRlTmZ0c1RyYW5zYWN0aW9uQm9keRIdCgV0b2tlbhgBIAEoCzIO",
             "LnByb3RvLlRva2VuSUQSFgoOc2VyaWFsX251bWJlcnMYAiADKAMSLQoIbWV0",
-            "YWRhdGEYAyABKAsyGy5nb29nbGUucHJvdG9idWYuQnl0ZXNWYWx1ZUIiCh5j",
-            "b20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "YWRhdGEYAyABKAsyGy5nb29nbGUucHJvdG9idWYuQnl0ZXNWYWx1ZUI5Ch5j",
+            "b20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdy",
+            "YXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenUpdateNftsTransactionBody), global::Proto.TokenUpdateNftsTransactionBody.Parser, new[]{ "Token", "SerialNumbers", "Metadata" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody), global::Hedera.Hashgraph.Proto.TokenUpdateNftsTransactionBody.Parser, new[]{ "Token", "SerialNumbers", "Metadata" }, null, null, null, null)
           }));
     }
     #endregion
@@ -71,7 +72,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenUpdateNftsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenUpdateNftsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -105,7 +106,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token" field.</summary>
     public const int TokenFieldNumber = 1;
-    private global::Proto.TokenID token_;
+    private global::Hedera.Hashgraph.Proto.TokenID token_;
     /// <summary>
     ///*
     /// A token identifier.&lt;br/>
@@ -117,7 +118,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID Token {
+    public global::Hedera.Hashgraph.Proto.TokenID Token {
       get { return token_; }
       set {
         token_ = value;
@@ -267,7 +268,7 @@ namespace Proto {
       }
       if (other.token_ != null) {
         if (token_ == null) {
-          Token = new global::Proto.TokenID();
+          Token = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         Token.MergeFrom(other.Token);
       }
@@ -298,7 +299,7 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;
@@ -336,7 +337,7 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;

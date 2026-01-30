@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Mirror.Api.Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from mirror/consensus_service.proto</summary>
   public static partial class ConsensusServiceReflection {
@@ -38,13 +38,14 @@ namespace Com.Hedera.Mirror.Api.Proto {
             "YWdlQ2h1bmtJbmZvMo0BChBDb25zZW5zdXNTZXJ2aWNlEnkKDnN1YnNjcmli",
             "ZVRvcGljEjAuY29tLmhlZGVyYS5taXJyb3IuYXBpLnByb3RvLkNvbnNlbnN1",
             "c1RvcGljUXVlcnkaMy5jb20uaGVkZXJhLm1pcnJvci5hcGkucHJvdG8uQ29u",
-            "c2Vuc3VzVG9waWNSZXNwb25zZTABQikKJWNvbS5oZWRlcmEuaGFzaGdyYXBo",
-            "LnNkay5wcm90by5taXJyb3JQAWIGcHJvdG8z"));
+            "c2Vuc3VzVG9waWNSZXNwb25zZTABQkIKJWNvbS5oZWRlcmEuaGFzaGdyYXBo",
+            "LnNkay5wcm90by5taXJyb3JQAaoCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9i",
+            "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, global::Proto.ConsensusSubmitMessageReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery), global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery.Parser, new[]{ "TopicID", "ConsensusStartTime", "ConsensusEndTime", "Limit" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse), global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse.Parser, new[]{ "ConsensusTimestamp", "Message", "RunningHash", "SequenceNumber", "RunningHashVersion", "ChunkInfo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ConsensusTopicQuery), global::Hedera.Hashgraph.Proto.ConsensusTopicQuery.Parser, new[]{ "TopicID", "ConsensusStartTime", "ConsensusEndTime", "Limit" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ConsensusTopicResponse), global::Hedera.Hashgraph.Proto.ConsensusTopicResponse.Parser, new[]{ "ConsensusTimestamp", "Message", "RunningHash", "SequenceNumber", "RunningHashVersion", "ChunkInfo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -66,7 +67,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Mirror.Api.Proto.ConsensusServiceReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusServiceReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -101,14 +102,14 @@ namespace Com.Hedera.Mirror.Api.Proto {
 
     /// <summary>Field number for the "topicID" field.</summary>
     public const int TopicIDFieldNumber = 1;
-    private global::Proto.TopicID topicID_;
+    private global::Hedera.Hashgraph.Proto.TopicID topicID_;
     /// <summary>
     ///*
     /// A required topic ID to retrieve messages for.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TopicID TopicID {
+    public global::Hedera.Hashgraph.Proto.TopicID TopicID {
       get { return topicID_; }
       set {
         topicID_ = value;
@@ -117,7 +118,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
 
     /// <summary>Field number for the "consensusStartTime" field.</summary>
     public const int ConsensusStartTimeFieldNumber = 2;
-    private global::Proto.Timestamp consensusStartTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp consensusStartTime_;
     /// <summary>
     ///*
     /// Include messages which reached consensus on or after this time. Defaults to current time if
@@ -125,7 +126,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ConsensusStartTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp ConsensusStartTime {
       get { return consensusStartTime_; }
       set {
         consensusStartTime_ = value;
@@ -134,7 +135,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
 
     /// <summary>Field number for the "consensusEndTime" field.</summary>
     public const int ConsensusEndTimeFieldNumber = 3;
-    private global::Proto.Timestamp consensusEndTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp consensusEndTime_;
     /// <summary>
     ///*
     /// Include messages which reached consensus before this time. If not set it will receive
@@ -142,7 +143,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ConsensusEndTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp ConsensusEndTime {
       get { return consensusEndTime_; }
       set {
         consensusEndTime_ = value;
@@ -292,19 +293,19 @@ namespace Com.Hedera.Mirror.Api.Proto {
       }
       if (other.topicID_ != null) {
         if (topicID_ == null) {
-          TopicID = new global::Proto.TopicID();
+          TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
         }
         TopicID.MergeFrom(other.TopicID);
       }
       if (other.consensusStartTime_ != null) {
         if (consensusStartTime_ == null) {
-          ConsensusStartTime = new global::Proto.Timestamp();
+          ConsensusStartTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ConsensusStartTime.MergeFrom(other.ConsensusStartTime);
       }
       if (other.consensusEndTime_ != null) {
         if (consensusEndTime_ == null) {
-          ConsensusEndTime = new global::Proto.Timestamp();
+          ConsensusEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ConsensusEndTime.MergeFrom(other.ConsensusEndTime);
       }
@@ -332,21 +333,21 @@ namespace Com.Hedera.Mirror.Api.Proto {
             break;
           case 10: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
           }
           case 18: {
             if (consensusStartTime_ == null) {
-              ConsensusStartTime = new global::Proto.Timestamp();
+              ConsensusStartTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusStartTime);
             break;
           }
           case 26: {
             if (consensusEndTime_ == null) {
-              ConsensusEndTime = new global::Proto.Timestamp();
+              ConsensusEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusEndTime);
             break;
@@ -376,21 +377,21 @@ namespace Com.Hedera.Mirror.Api.Proto {
             break;
           case 10: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
           }
           case 18: {
             if (consensusStartTime_ == null) {
-              ConsensusStartTime = new global::Proto.Timestamp();
+              ConsensusStartTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusStartTime);
             break;
           }
           case 26: {
             if (consensusEndTime_ == null) {
-              ConsensusEndTime = new global::Proto.Timestamp();
+              ConsensusEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusEndTime);
             break;
@@ -421,7 +422,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Mirror.Api.Proto.ConsensusServiceReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusServiceReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -458,14 +459,14 @@ namespace Com.Hedera.Mirror.Api.Proto {
 
     /// <summary>Field number for the "consensusTimestamp" field.</summary>
     public const int ConsensusTimestampFieldNumber = 1;
-    private global::Proto.Timestamp consensusTimestamp_;
+    private global::Hedera.Hashgraph.Proto.Timestamp consensusTimestamp_;
     /// <summary>
     ///*
     /// The time at which the transaction reached consensus
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ConsensusTimestamp {
+    public global::Hedera.Hashgraph.Proto.Timestamp ConsensusTimestamp {
       get { return consensusTimestamp_; }
       set {
         consensusTimestamp_ = value;
@@ -539,14 +540,14 @@ namespace Com.Hedera.Mirror.Api.Proto {
 
     /// <summary>Field number for the "chunkInfo" field.</summary>
     public const int ChunkInfoFieldNumber = 6;
-    private global::Proto.ConsensusMessageChunkInfo chunkInfo_;
+    private global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo chunkInfo_;
     /// <summary>
     ///*
     /// Optional information of the current chunk in a fragmented message.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusMessageChunkInfo ChunkInfo {
+    public global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo ChunkInfo {
       get { return chunkInfo_; }
       set {
         chunkInfo_ = value;
@@ -705,7 +706,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
       }
       if (other.consensusTimestamp_ != null) {
         if (consensusTimestamp_ == null) {
-          ConsensusTimestamp = new global::Proto.Timestamp();
+          ConsensusTimestamp = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ConsensusTimestamp.MergeFrom(other.ConsensusTimestamp);
       }
@@ -723,7 +724,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
       }
       if (other.chunkInfo_ != null) {
         if (chunkInfo_ == null) {
-          ChunkInfo = new global::Proto.ConsensusMessageChunkInfo();
+          ChunkInfo = new global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo();
         }
         ChunkInfo.MergeFrom(other.ChunkInfo);
       }
@@ -748,7 +749,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
             break;
           case 10: {
             if (consensusTimestamp_ == null) {
-              ConsensusTimestamp = new global::Proto.Timestamp();
+              ConsensusTimestamp = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusTimestamp);
             break;
@@ -771,7 +772,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
           }
           case 50: {
             if (chunkInfo_ == null) {
-              ChunkInfo = new global::Proto.ConsensusMessageChunkInfo();
+              ChunkInfo = new global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo();
             }
             input.ReadMessage(ChunkInfo);
             break;
@@ -797,7 +798,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
             break;
           case 10: {
             if (consensusTimestamp_ == null) {
-              ConsensusTimestamp = new global::Proto.Timestamp();
+              ConsensusTimestamp = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusTimestamp);
             break;
@@ -820,7 +821,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
           }
           case 50: {
             if (chunkInfo_ == null) {
-              ChunkInfo = new global::Proto.ConsensusMessageChunkInfo();
+              ChunkInfo = new global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo();
             }
             input.ReadMessage(ChunkInfo);
             break;

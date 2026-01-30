@@ -28,10 +28,10 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Hints {
             "aS5zZXJ2aWNlcy5hdXhpbGlhcnkuaGludHMaEWhpbnRzX3R5cGVzLnByb3Rv",
             "Il4KIkhpbnRzS2V5UHVibGljYXRpb25UcmFuc2FjdGlvbkJvZHkSEAoIcGFy",
             "dHlfaWQYASABKA0SEwoLbnVtX3BhcnRpZXMYAiABKA0SEQoJaGludHNfa2V5",
-            "GAMgASgMQjMKL2NvbS5oZWRlcmEuaGFwaS5zZXJ2aWNlcy5hdXhpbGlhcnku",
-            "aGludHMubGVnYWN5UAFiBnByb3RvMw=="));
+            "GAMgASgMQjEKL2NvbS5oZWRlcmEuaGFwaS5zZXJ2aWNlcy5hdXhpbGlhcnku",
+            "aGludHMubGVnYWN5YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsKeyPublicationTransactionBody), global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsKeyPublicationTransactionBody.Parser, new[]{ "PartyId", "NumParties", "HintsKey" }, null, null, null, null)
           }));

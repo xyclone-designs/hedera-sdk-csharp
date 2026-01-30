@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from get_by_key.proto</summary>
   public static partial class GetByKeyReflection {
@@ -34,14 +34,14 @@ namespace Proto {
             "SURIABInCgpjb250cmFjdElEGAQgASgLMhEucHJvdG8uQ29udHJhY3RJREgA",
             "OgIYAUIICgZlbnRpdHkiYAoQR2V0QnlLZXlSZXNwb25zZRIlCgZoZWFkZXIY",
             "ASABKAsyFS5wcm90by5SZXNwb25zZUhlYWRlchIhCghlbnRpdGllcxgCIAMo",
-            "CzIPLnByb3RvLkVudGl0eUlEOgIYAUIiCh5jb20uaGVkZXJhLmhhc2hncmFw",
-            "aC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "CzIPLnByb3RvLkVudGl0eUlEOgIYAUI5Ch5jb20uaGVkZXJhLmhhc2hncmFw",
+            "aC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, global::Proto.CryptoAddLiveHashReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoAddLiveHashReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.GetByKeyQuery), global::Proto.GetByKeyQuery.Parser, new[]{ "Header", "Key" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.EntityID), global::Proto.EntityID.Parser, new[]{ "AccountID", "LiveHash", "FileID", "ContractID" }, new[]{ "Entity" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.GetByKeyResponse), global::Proto.GetByKeyResponse.Parser, new[]{ "Header", "Entities" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.GetByKeyQuery), global::Hedera.Hashgraph.Proto.GetByKeyQuery.Parser, new[]{ "Header", "Key" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EntityID), global::Hedera.Hashgraph.Proto.EntityID.Parser, new[]{ "AccountID", "LiveHash", "FileID", "ContractID" }, new[]{ "Entity" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.GetByKeyResponse), global::Hedera.Hashgraph.Proto.GetByKeyResponse.Parser, new[]{ "Header", "Entities" }, null, null, null, null)
           }));
     }
     #endregion
@@ -71,7 +71,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.GetByKeyReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.GetByKeyReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -104,7 +104,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -113,7 +113,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -122,7 +122,7 @@ namespace Proto {
 
     /// <summary>Field number for the "key" field.</summary>
     public const int KeyFieldNumber = 2;
-    private global::Proto.Key key_;
+    private global::Hedera.Hashgraph.Proto.Key key_;
     /// <summary>
     ///*
     /// The key to search for. It MUST NOT contain a contractID nor
@@ -130,7 +130,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key Key {
+    public global::Hedera.Hashgraph.Proto.Key Key {
       get { return key_; }
       set {
         key_ = value;
@@ -237,13 +237,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.key_ != null) {
         if (key_ == null) {
-          Key = new global::Proto.Key();
+          Key = new global::Hedera.Hashgraph.Proto.Key();
         }
         Key.MergeFrom(other.Key);
       }
@@ -268,14 +268,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (key_ == null) {
-              Key = new global::Proto.Key();
+              Key = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(Key);
             break;
@@ -301,14 +301,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (key_ == null) {
-              Key = new global::Proto.Key();
+              Key = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(Key);
             break;
@@ -342,7 +342,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.GetByKeyReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.GetByKeyReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -394,8 +394,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
-      get { return entityCase_ == EntityOneofCase.AccountID ? (global::Proto.AccountID) entity_ : null; }
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
+      get { return entityCase_ == EntityOneofCase.AccountID ? (global::Hedera.Hashgraph.Proto.AccountID) entity_ : null; }
       set {
         entity_ = value;
         entityCase_ = value == null ? EntityOneofCase.None : EntityOneofCase.AccountID;
@@ -410,8 +410,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.LiveHash LiveHash {
-      get { return entityCase_ == EntityOneofCase.LiveHash ? (global::Proto.LiveHash) entity_ : null; }
+    public global::Hedera.Hashgraph.Proto.LiveHash LiveHash {
+      get { return entityCase_ == EntityOneofCase.LiveHash ? (global::Hedera.Hashgraph.Proto.LiveHash) entity_ : null; }
       set {
         entity_ = value;
         entityCase_ = value == null ? EntityOneofCase.None : EntityOneofCase.LiveHash;
@@ -426,8 +426,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
-      get { return entityCase_ == EntityOneofCase.FileID ? (global::Proto.FileID) entity_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
+      get { return entityCase_ == EntityOneofCase.FileID ? (global::Hedera.Hashgraph.Proto.FileID) entity_ : null; }
       set {
         entity_ = value;
         entityCase_ = value == null ? EntityOneofCase.None : EntityOneofCase.FileID;
@@ -442,8 +442,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
-      get { return entityCase_ == EntityOneofCase.ContractID ? (global::Proto.ContractID) entity_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
+      get { return entityCase_ == EntityOneofCase.ContractID ? (global::Hedera.Hashgraph.Proto.ContractID) entity_ : null; }
       set {
         entity_ = value;
         entityCase_ = value == null ? EntityOneofCase.None : EntityOneofCase.ContractID;
@@ -602,25 +602,25 @@ namespace Proto {
       switch (other.EntityCase) {
         case EntityOneofCase.AccountID:
           if (AccountID == null) {
-            AccountID = new global::Proto.AccountID();
+            AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
           }
           AccountID.MergeFrom(other.AccountID);
           break;
         case EntityOneofCase.LiveHash:
           if (LiveHash == null) {
-            LiveHash = new global::Proto.LiveHash();
+            LiveHash = new global::Hedera.Hashgraph.Proto.LiveHash();
           }
           LiveHash.MergeFrom(other.LiveHash);
           break;
         case EntityOneofCase.FileID:
           if (FileID == null) {
-            FileID = new global::Proto.FileID();
+            FileID = new global::Hedera.Hashgraph.Proto.FileID();
           }
           FileID.MergeFrom(other.FileID);
           break;
         case EntityOneofCase.ContractID:
           if (ContractID == null) {
-            ContractID = new global::Proto.ContractID();
+            ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           ContractID.MergeFrom(other.ContractID);
           break;
@@ -646,7 +646,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (entityCase_ == EntityOneofCase.AccountID) {
               subBuilder.MergeFrom(AccountID);
             }
@@ -655,7 +655,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.LiveHash subBuilder = new global::Proto.LiveHash();
+            global::Hedera.Hashgraph.Proto.LiveHash subBuilder = new global::Hedera.Hashgraph.Proto.LiveHash();
             if (entityCase_ == EntityOneofCase.LiveHash) {
               subBuilder.MergeFrom(LiveHash);
             }
@@ -664,7 +664,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.FileID subBuilder = new global::Proto.FileID();
+            global::Hedera.Hashgraph.Proto.FileID subBuilder = new global::Hedera.Hashgraph.Proto.FileID();
             if (entityCase_ == EntityOneofCase.FileID) {
               subBuilder.MergeFrom(FileID);
             }
@@ -673,7 +673,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (entityCase_ == EntityOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -701,7 +701,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (entityCase_ == EntityOneofCase.AccountID) {
               subBuilder.MergeFrom(AccountID);
             }
@@ -710,7 +710,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.LiveHash subBuilder = new global::Proto.LiveHash();
+            global::Hedera.Hashgraph.Proto.LiveHash subBuilder = new global::Hedera.Hashgraph.Proto.LiveHash();
             if (entityCase_ == EntityOneofCase.LiveHash) {
               subBuilder.MergeFrom(LiveHash);
             }
@@ -719,7 +719,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.FileID subBuilder = new global::Proto.FileID();
+            global::Hedera.Hashgraph.Proto.FileID subBuilder = new global::Hedera.Hashgraph.Proto.FileID();
             if (entityCase_ == EntityOneofCase.FileID) {
               subBuilder.MergeFrom(FileID);
             }
@@ -728,7 +728,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (entityCase_ == EntityOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -765,7 +765,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.GetByKeyReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.GetByKeyReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -798,7 +798,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -807,7 +807,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -816,9 +816,9 @@ namespace Proto {
 
     /// <summary>Field number for the "entities" field.</summary>
     public const int EntitiesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.EntityID> _repeated_entities_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.EntityID.Parser);
-    private readonly pbc::RepeatedField<global::Proto.EntityID> entities_ = new pbc::RepeatedField<global::Proto.EntityID>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.EntityID> _repeated_entities_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.EntityID.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.EntityID> entities_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.EntityID>();
     /// <summary>
     ///*
     /// The list of entities that include this public key in their
@@ -827,7 +827,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.EntityID> Entities {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.EntityID> Entities {
       get { return entities_; }
     }
 
@@ -923,7 +923,7 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
@@ -949,7 +949,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -979,7 +979,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;

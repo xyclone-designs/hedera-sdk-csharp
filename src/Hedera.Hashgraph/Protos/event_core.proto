@@ -38,8 +38,6 @@ import "event_descriptor.proto";
 import "timestamp.proto";
 
 option java_package = "com.hedera.hapi.platform.event.legacy";
-// <<<pbj.java_package = "com.hedera.hapi.platform.event">>> This comment is special code for setting PBJ Compiler java package
-option java_multiple_files = true;
 
 /**
  * Contains information about an event and its parents.

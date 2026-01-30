@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_transfer.proto</summary>
   public static partial class CryptoTransferReflection {
@@ -27,12 +27,13 @@ namespace Proto {
             "ChVjcnlwdG9fdHJhbnNmZXIucHJvdG8SBXByb3RvGhFiYXNpY190eXBlcy5w",
             "cm90byJ5Ch1DcnlwdG9UcmFuc2ZlclRyYW5zYWN0aW9uQm9keRImCgl0cmFu",
             "c2ZlcnMYASABKAsyEy5wcm90by5UcmFuc2Zlckxpc3QSMAoOdG9rZW5UcmFu",
-            "c2ZlcnMYAiADKAsyGC5wcm90by5Ub2tlblRyYW5zZmVyTGlzdEIiCh5jb20u",
-            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "c2ZlcnMYAiADKAsyGC5wcm90by5Ub2tlblRyYW5zZmVyTGlzdEI5Ch5jb20u",
+            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBo",
+            "LlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoTransferTransactionBody), global::Proto.CryptoTransferTransactionBody.Parser, new[]{ "Transfers", "TokenTransfers" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody), global::Hedera.Hashgraph.Proto.CryptoTransferTransactionBody.Parser, new[]{ "Transfers", "TokenTransfers" }, null, null, null, null)
           }));
     }
     #endregion
@@ -93,7 +94,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoTransferReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoTransferReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -126,7 +127,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transfers" field.</summary>
     public const int TransfersFieldNumber = 1;
-    private global::Proto.TransferList transfers_;
+    private global::Hedera.Hashgraph.Proto.TransferList transfers_;
     /// <summary>
     ///*
     /// A list of HBAR transfers.
@@ -135,7 +136,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransferList Transfers {
+    public global::Hedera.Hashgraph.Proto.TransferList Transfers {
       get { return transfers_; }
       set {
         transfers_ = value;
@@ -144,9 +145,9 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenTransfers" field.</summary>
     public const int TokenTransfersFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.TokenTransferList> _repeated_tokenTransfers_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.TokenTransferList.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenTransferList> tokenTransfers_ = new pbc::RepeatedField<global::Proto.TokenTransferList>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenTransferList> _repeated_tokenTransfers_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.TokenTransferList.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenTransferList> tokenTransfers_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenTransferList>();
     /// <summary>
     ///*
     /// One or more lists of token transfers.
@@ -160,7 +161,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenTransferList> TokenTransfers {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenTransferList> TokenTransfers {
       get { return tokenTransfers_; }
     }
 
@@ -256,7 +257,7 @@ namespace Proto {
       }
       if (other.transfers_ != null) {
         if (transfers_ == null) {
-          Transfers = new global::Proto.TransferList();
+          Transfers = new global::Hedera.Hashgraph.Proto.TransferList();
         }
         Transfers.MergeFrom(other.Transfers);
       }
@@ -282,7 +283,7 @@ namespace Proto {
             break;
           case 10: {
             if (transfers_ == null) {
-              Transfers = new global::Proto.TransferList();
+              Transfers = new global::Hedera.Hashgraph.Proto.TransferList();
             }
             input.ReadMessage(Transfers);
             break;
@@ -312,7 +313,7 @@ namespace Proto {
             break;
           case 10: {
             if (transfers_ == null) {
-              Transfers = new global::Proto.TransferList();
+              Transfers = new global::Hedera.Hashgraph.Proto.TransferList();
             }
             input.ReadMessage(Transfers);
             break;

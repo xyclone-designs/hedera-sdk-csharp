@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from recordcache.proto</summary>
   public static partial class RecordcacheReflection {
@@ -33,14 +33,15 @@ namespace Proto {
             "X2lkGAEgASgEEiwKDnRyYW5zYWN0aW9uX2lkGAIgASgLMhQucHJvdG8uVHJh",
             "bnNhY3Rpb25JRBInCgZzdGF0dXMYAyABKA4yFy5wcm90by5SZXNwb25zZUNv",
             "ZGVFbnVtIkwKGVRyYW5zYWN0aW9uUmVjZWlwdEVudHJpZXMSLwoHZW50cmll",
-            "cxgBIAMoCzIeLnByb3RvLlRyYW5zYWN0aW9uUmVjZWlwdEVudHJ5QiIKHmNv",
-            "bS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "cxgBIAMoCzIeLnByb3RvLlRyYW5zYWN0aW9uUmVjZWlwdEVudHJ5QjkKHmNv",
+            "bS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3Jh",
+            "cGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TransactionRecordReflection.Descriptor, global::Proto.ResponseCodeReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TransactionRecordReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseCodeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionRecordEntry), global::Proto.TransactionRecordEntry.Parser, new[]{ "NodeId", "PayerAccountId", "TransactionRecord" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionReceiptEntry), global::Proto.TransactionReceiptEntry.Parser, new[]{ "NodeId", "TransactionId", "Status" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionReceiptEntries), global::Proto.TransactionReceiptEntries.Parser, new[]{ "Entries" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionRecordEntry), global::Hedera.Hashgraph.Proto.TransactionRecordEntry.Parser, new[]{ "NodeId", "PayerAccountId", "TransactionRecord" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionReceiptEntry), global::Hedera.Hashgraph.Proto.TransactionReceiptEntry.Parser, new[]{ "NodeId", "TransactionId", "Status" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionReceiptEntries), global::Hedera.Hashgraph.Proto.TransactionReceiptEntries.Parser, new[]{ "Entries" }, null, null, null, null)
           }));
     }
     #endregion
@@ -70,7 +71,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.RecordcacheReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.RecordcacheReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -124,7 +125,7 @@ namespace Proto {
 
     /// <summary>Field number for the "payer_account_id" field.</summary>
     public const int PayerAccountIdFieldNumber = 2;
-    private global::Proto.AccountID payerAccountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID payerAccountId_;
     /// <summary>
     ///*
     /// An Account identifier for the payer for the transaction.
@@ -136,7 +137,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID PayerAccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID PayerAccountId {
       get { return payerAccountId_; }
       set {
         payerAccountId_ = value;
@@ -145,14 +146,14 @@ namespace Proto {
 
     /// <summary>Field number for the "transaction_record" field.</summary>
     public const int TransactionRecordFieldNumber = 3;
-    private global::Proto.TransactionRecord transactionRecord_;
+    private global::Hedera.Hashgraph.Proto.TransactionRecord transactionRecord_;
     /// <summary>
     ///*
     /// A transaction record for the transaction.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionRecord TransactionRecord {
+    public global::Hedera.Hashgraph.Proto.TransactionRecord TransactionRecord {
       get { return transactionRecord_; }
       set {
         transactionRecord_ = value;
@@ -275,13 +276,13 @@ namespace Proto {
       }
       if (other.payerAccountId_ != null) {
         if (payerAccountId_ == null) {
-          PayerAccountId = new global::Proto.AccountID();
+          PayerAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         PayerAccountId.MergeFrom(other.PayerAccountId);
       }
       if (other.transactionRecord_ != null) {
         if (transactionRecord_ == null) {
-          TransactionRecord = new global::Proto.TransactionRecord();
+          TransactionRecord = new global::Hedera.Hashgraph.Proto.TransactionRecord();
         }
         TransactionRecord.MergeFrom(other.TransactionRecord);
       }
@@ -310,14 +311,14 @@ namespace Proto {
           }
           case 18: {
             if (payerAccountId_ == null) {
-              PayerAccountId = new global::Proto.AccountID();
+              PayerAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(PayerAccountId);
             break;
           }
           case 26: {
             if (transactionRecord_ == null) {
-              TransactionRecord = new global::Proto.TransactionRecord();
+              TransactionRecord = new global::Hedera.Hashgraph.Proto.TransactionRecord();
             }
             input.ReadMessage(TransactionRecord);
             break;
@@ -347,14 +348,14 @@ namespace Proto {
           }
           case 18: {
             if (payerAccountId_ == null) {
-              PayerAccountId = new global::Proto.AccountID();
+              PayerAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(PayerAccountId);
             break;
           }
           case 26: {
             if (transactionRecord_ == null) {
-              TransactionRecord = new global::Proto.TransactionRecord();
+              TransactionRecord = new global::Hedera.Hashgraph.Proto.TransactionRecord();
             }
             input.ReadMessage(TransactionRecord);
             break;
@@ -393,7 +394,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.RecordcacheReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.RecordcacheReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -448,7 +449,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transaction_id" field.</summary>
     public const int TransactionIdFieldNumber = 2;
-    private global::Proto.TransactionID transactionId_;
+    private global::Hedera.Hashgraph.Proto.TransactionID transactionId_;
     /// <summary>
     ///*
     /// A transaction identifier.&lt;br/>
@@ -456,7 +457,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionID TransactionId {
+    public global::Hedera.Hashgraph.Proto.TransactionID TransactionId {
       get { return transactionId_; }
       set {
         transactionId_ = value;
@@ -465,7 +466,7 @@ namespace Proto {
 
     /// <summary>Field number for the "status" field.</summary>
     public const int StatusFieldNumber = 3;
-    private global::Proto.ResponseCodeEnum status_ = global::Proto.ResponseCodeEnum.Ok;
+    private global::Hedera.Hashgraph.Proto.ResponseCodeEnum status_ = global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok;
     /// <summary>
     ///*
     /// A status result.&lt;br/>
@@ -473,7 +474,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseCodeEnum Status {
+    public global::Hedera.Hashgraph.Proto.ResponseCodeEnum Status {
       get { return status_; }
       set {
         status_ = value;
@@ -507,7 +508,7 @@ namespace Proto {
       int hash = 1;
       if (NodeId != 0UL) hash ^= NodeId.GetHashCode();
       if (transactionId_ != null) hash ^= TransactionId.GetHashCode();
-      if (Status != global::Proto.ResponseCodeEnum.Ok) hash ^= Status.GetHashCode();
+      if (Status != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) hash ^= Status.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -534,7 +535,7 @@ namespace Proto {
         output.WriteRawTag(18);
         output.WriteMessage(TransactionId);
       }
-      if (Status != global::Proto.ResponseCodeEnum.Ok) {
+      if (Status != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         output.WriteRawTag(24);
         output.WriteEnum((int) Status);
       }
@@ -556,7 +557,7 @@ namespace Proto {
         output.WriteRawTag(18);
         output.WriteMessage(TransactionId);
       }
-      if (Status != global::Proto.ResponseCodeEnum.Ok) {
+      if (Status != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         output.WriteRawTag(24);
         output.WriteEnum((int) Status);
       }
@@ -576,7 +577,7 @@ namespace Proto {
       if (transactionId_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(TransactionId);
       }
-      if (Status != global::Proto.ResponseCodeEnum.Ok) {
+      if (Status != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Status);
       }
       if (_unknownFields != null) {
@@ -596,11 +597,11 @@ namespace Proto {
       }
       if (other.transactionId_ != null) {
         if (transactionId_ == null) {
-          TransactionId = new global::Proto.TransactionID();
+          TransactionId = new global::Hedera.Hashgraph.Proto.TransactionID();
         }
         TransactionId.MergeFrom(other.TransactionId);
       }
-      if (other.Status != global::Proto.ResponseCodeEnum.Ok) {
+      if (other.Status != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         Status = other.Status;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -628,13 +629,13 @@ namespace Proto {
           }
           case 18: {
             if (transactionId_ == null) {
-              TransactionId = new global::Proto.TransactionID();
+              TransactionId = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(TransactionId);
             break;
           }
           case 24: {
-            Status = (global::Proto.ResponseCodeEnum) input.ReadEnum();
+            Status = (global::Hedera.Hashgraph.Proto.ResponseCodeEnum) input.ReadEnum();
             break;
           }
         }
@@ -662,13 +663,13 @@ namespace Proto {
           }
           case 18: {
             if (transactionId_ == null) {
-              TransactionId = new global::Proto.TransactionID();
+              TransactionId = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(TransactionId);
             break;
           }
           case 24: {
-            Status = (global::Proto.ResponseCodeEnum) input.ReadEnum();
+            Status = (global::Hedera.Hashgraph.Proto.ResponseCodeEnum) input.ReadEnum();
             break;
           }
         }
@@ -704,7 +705,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.RecordcacheReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.RecordcacheReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -736,12 +737,12 @@ namespace Proto {
 
     /// <summary>Field number for the "entries" field.</summary>
     public const int EntriesFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.TransactionReceiptEntry> _repeated_entries_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.TransactionReceiptEntry.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TransactionReceiptEntry> entries_ = new pbc::RepeatedField<global::Proto.TransactionReceiptEntry>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TransactionReceiptEntry> _repeated_entries_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.TransactionReceiptEntry.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionReceiptEntry> entries_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionReceiptEntry>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TransactionReceiptEntry> Entries {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionReceiptEntry> Entries {
       get { return entries_; }
     }
 

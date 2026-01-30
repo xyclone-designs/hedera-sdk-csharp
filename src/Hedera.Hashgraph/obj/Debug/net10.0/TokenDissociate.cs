@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_dissociate.proto</summary>
   public static partial class TokenDissociateReflection {
@@ -27,12 +27,12 @@ namespace Proto {
             "ChZ0b2tlbl9kaXNzb2NpYXRlLnByb3RvEgVwcm90bxoRYmFzaWNfdHlwZXMu",
             "cHJvdG8iYwoeVG9rZW5EaXNzb2NpYXRlVHJhbnNhY3Rpb25Cb2R5EiEKB2Fj",
             "Y291bnQYASABKAsyEC5wcm90by5BY2NvdW50SUQSHgoGdG9rZW5zGAIgAygL",
-            "Mg4ucHJvdG8uVG9rZW5JREIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsu",
-            "cHJvdG9QAWIGcHJvdG8z"));
+            "Mg4ucHJvdG8uVG9rZW5JREI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsu",
+            "cHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenDissociateTransactionBody), global::Proto.TokenDissociateTransactionBody.Parser, new[]{ "Account", "Tokens" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody), global::Hedera.Hashgraph.Proto.TokenDissociateTransactionBody.Parser, new[]{ "Account", "Tokens" }, null, null, null, null)
           }));
     }
     #endregion
@@ -83,7 +83,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenDissociateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenDissociateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -116,7 +116,7 @@ namespace Proto {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 1;
-    private global::Proto.AccountID account_;
+    private global::Hedera.Hashgraph.Proto.AccountID account_;
     /// <summary>
     ///*
     /// An account identifier.
@@ -130,7 +130,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Account {
+    public global::Hedera.Hashgraph.Proto.AccountID Account {
       get { return account_; }
       set {
         account_ = value;
@@ -139,9 +139,9 @@ namespace Proto {
 
     /// <summary>Field number for the "tokens" field.</summary>
     public const int TokensFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.TokenID> _repeated_tokens_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.TokenID.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenID> tokens_ = new pbc::RepeatedField<global::Proto.TokenID>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenID> _repeated_tokens_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.TokenID.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenID> tokens_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenID>();
     /// <summary>
     ///*
     /// A list of token identifiers.
@@ -158,7 +158,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenID> Tokens {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenID> Tokens {
       get { return tokens_; }
     }
 
@@ -254,7 +254,7 @@ namespace Proto {
       }
       if (other.account_ != null) {
         if (account_ == null) {
-          Account = new global::Proto.AccountID();
+          Account = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Account.MergeFrom(other.Account);
       }
@@ -280,7 +280,7 @@ namespace Proto {
             break;
           case 10: {
             if (account_ == null) {
-              Account = new global::Proto.AccountID();
+              Account = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Account);
             break;
@@ -310,7 +310,7 @@ namespace Proto {
             break;
           case 10: {
             if (account_ == null) {
-              Account = new global::Proto.AccountID();
+              Account = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Account);
             break;

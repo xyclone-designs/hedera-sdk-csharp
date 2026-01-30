@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from staking_node_info.proto</summary>
   public static partial class StakingNodeInfoReflection {
@@ -31,12 +31,12 @@ namespace Proto {
             "ZF9zdGFydBgGIAEoAxIkChx1bmNsYWltZWRfc3Rha2VfcmV3YXJkX3N0YXJ0",
             "GAcgASgDEg0KBXN0YWtlGAggASgDEhoKEnJld2FyZF9zdW1faGlzdG9yeRgJ",
             "IAMoAxISCgZ3ZWlnaHQYCiABKAVCAhgBEhcKD3BlbmRpbmdfcmV3YXJkcxgL",
-            "IAEoAxIPCgdkZWxldGVkGAwgASgIQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBo",
-            "LnNkay5wcm90b1ABYgZwcm90bzM="));
+            "IAEoAxIPCgdkZWxldGVkGAwgASgIQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBo",
+            "LnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.StakingNodeInfo), global::Proto.StakingNodeInfo.Parser, new[]{ "NodeNumber", "MinStake", "MaxStake", "StakeToReward", "StakeToNotReward", "StakeRewardStart", "UnclaimedStakeRewardStart", "Stake", "RewardSumHistory", "Weight", "PendingRewards", "Deleted" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.StakingNodeInfo), global::Hedera.Hashgraph.Proto.StakingNodeInfo.Parser, new[]{ "NodeNumber", "MinStake", "MaxStake", "StakeToReward", "StakeToNotReward", "StakeRewardStart", "UnclaimedStakeRewardStart", "Stake", "RewardSumHistory", "Weight", "PendingRewards", "Deleted" }, null, null, null, null)
           }));
     }
     #endregion
@@ -65,7 +65,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.StakingNodeInfoReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.StakingNodeInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

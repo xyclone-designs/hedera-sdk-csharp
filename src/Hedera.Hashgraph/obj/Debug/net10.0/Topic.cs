@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from topic.proto</summary>
   public static partial class TopicReflection {
@@ -34,12 +34,12 @@ namespace Proto {
             "HgoKc3VibWl0X2tleRgKIAEoCzIKLnByb3RvLktleRIkChBmZWVfc2NoZWR1",
             "bGVfa2V5GAsgASgLMgoucHJvdG8uS2V5EicKE2ZlZV9leGVtcHRfa2V5X2xp",
             "c3QYDCADKAsyCi5wcm90by5LZXkSKgoLY3VzdG9tX2ZlZXMYDSADKAsyFS5w",
-            "cm90by5GaXhlZEN1c3RvbUZlZUIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
-            "ZGsucHJvdG9QAWIGcHJvdG8z"));
+            "cm90by5GaXhlZEN1c3RvbUZlZUI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
+            "ZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.CustomFeesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Topic), global::Proto.Topic.Parser, new[]{ "TopicId", "SequenceNumber", "ExpirationSecond", "AutoRenewPeriod", "AutoRenewAccountId", "Deleted", "RunningHash", "Memo", "AdminKey", "SubmitKey", "FeeScheduleKey", "FeeExemptKeyList", "CustomFees" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Topic), global::Hedera.Hashgraph.Proto.Topic.Parser, new[]{ "TopicId", "SequenceNumber", "ExpirationSecond", "AutoRenewPeriod", "AutoRenewAccountId", "Deleted", "RunningHash", "Memo", "AdminKey", "SubmitKey", "FeeScheduleKey", "FeeExemptKeyList", "CustomFees" }, null, null, null, null)
           }));
     }
     #endregion
@@ -77,7 +77,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TopicReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TopicReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -121,7 +121,7 @@ namespace Proto {
 
     /// <summary>Field number for the "topic_id" field.</summary>
     public const int TopicIdFieldNumber = 1;
-    private global::Proto.TopicID topicId_;
+    private global::Hedera.Hashgraph.Proto.TopicID topicId_;
     /// <summary>
     ///*
     /// The topic's ID.
@@ -130,7 +130,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TopicID TopicId {
+    public global::Hedera.Hashgraph.Proto.TopicID TopicId {
       get { return topicId_; }
       set {
         topicId_ = value;
@@ -190,7 +190,7 @@ namespace Proto {
 
     /// <summary>Field number for the "auto_renew_account_id" field.</summary>
     public const int AutoRenewAccountIdFieldNumber = 5;
-    private global::Proto.AccountID autoRenewAccountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID autoRenewAccountId_;
     /// <summary>
     ///*
     /// The id of the account (if any) that the network will attempt to charge
@@ -198,7 +198,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AutoRenewAccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AutoRenewAccountId {
       get { return autoRenewAccountId_; }
       set {
         autoRenewAccountId_ = value;
@@ -290,7 +290,7 @@ namespace Proto {
 
     /// <summary>Field number for the "admin_key" field.</summary>
     public const int AdminKeyFieldNumber = 9;
-    private global::Proto.Key adminKey_;
+    private global::Hedera.Hashgraph.Proto.Key adminKey_;
     /// <summary>
     ///*
     /// Access control for modification of the topic.
@@ -303,7 +303,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key AdminKey {
+    public global::Hedera.Hashgraph.Proto.Key AdminKey {
       get { return adminKey_; }
       set {
         adminKey_ = value;
@@ -312,7 +312,7 @@ namespace Proto {
 
     /// <summary>Field number for the "submit_key" field.</summary>
     public const int SubmitKeyFieldNumber = 10;
-    private global::Proto.Key submitKey_;
+    private global::Hedera.Hashgraph.Proto.Key submitKey_;
     /// <summary>
     ///*
     /// Access control for message submission to the topic.
@@ -322,7 +322,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key SubmitKey {
+    public global::Hedera.Hashgraph.Proto.Key SubmitKey {
       get { return submitKey_; }
       set {
         submitKey_ = value;
@@ -331,7 +331,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fee_schedule_key" field.</summary>
     public const int FeeScheduleKeyFieldNumber = 11;
-    private global::Proto.Key feeScheduleKey_;
+    private global::Hedera.Hashgraph.Proto.Key feeScheduleKey_;
     /// <summary>
     ///*
     /// Access control for update/delete of custom fees.
@@ -342,7 +342,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key FeeScheduleKey {
+    public global::Hedera.Hashgraph.Proto.Key FeeScheduleKey {
       get { return feeScheduleKey_; }
       set {
         feeScheduleKey_ = value;
@@ -351,9 +351,9 @@ namespace Proto {
 
     /// <summary>Field number for the "fee_exempt_key_list" field.</summary>
     public const int FeeExemptKeyListFieldNumber = 12;
-    private static readonly pb::FieldCodec<global::Proto.Key> _repeated_feeExemptKeyList_codec
-        = pb::FieldCodec.ForMessage(98, global::Proto.Key.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Key> feeExemptKeyList_ = new pbc::RepeatedField<global::Proto.Key>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Key> _repeated_feeExemptKeyList_codec
+        = pb::FieldCodec.ForMessage(98, global::Hedera.Hashgraph.Proto.Key.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key> feeExemptKeyList_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key>();
     /// <summary>
     ///*
     /// A set of "privileged payer" keys&lt;br/>
@@ -373,15 +373,15 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Key> FeeExemptKeyList {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key> FeeExemptKeyList {
       get { return feeExemptKeyList_; }
     }
 
     /// <summary>Field number for the "custom_fees" field.</summary>
     public const int CustomFeesFieldNumber = 13;
-    private static readonly pb::FieldCodec<global::Proto.FixedCustomFee> _repeated_customFees_codec
-        = pb::FieldCodec.ForMessage(106, global::Proto.FixedCustomFee.Parser);
-    private readonly pbc::RepeatedField<global::Proto.FixedCustomFee> customFees_ = new pbc::RepeatedField<global::Proto.FixedCustomFee>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.FixedCustomFee> _repeated_customFees_codec
+        = pb::FieldCodec.ForMessage(106, global::Hedera.Hashgraph.Proto.FixedCustomFee.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedCustomFee> customFees_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedCustomFee>();
     /// <summary>
     ///*
     /// A set of custom fee definitions.&lt;br/>
@@ -397,7 +397,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.FixedCustomFee> CustomFees {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedCustomFee> CustomFees {
       get { return customFees_; }
     }
 
@@ -628,7 +628,7 @@ namespace Proto {
       }
       if (other.topicId_ != null) {
         if (topicId_ == null) {
-          TopicId = new global::Proto.TopicID();
+          TopicId = new global::Hedera.Hashgraph.Proto.TopicID();
         }
         TopicId.MergeFrom(other.TopicId);
       }
@@ -643,7 +643,7 @@ namespace Proto {
       }
       if (other.autoRenewAccountId_ != null) {
         if (autoRenewAccountId_ == null) {
-          AutoRenewAccountId = new global::Proto.AccountID();
+          AutoRenewAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AutoRenewAccountId.MergeFrom(other.AutoRenewAccountId);
       }
@@ -658,19 +658,19 @@ namespace Proto {
       }
       if (other.adminKey_ != null) {
         if (adminKey_ == null) {
-          AdminKey = new global::Proto.Key();
+          AdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         AdminKey.MergeFrom(other.AdminKey);
       }
       if (other.submitKey_ != null) {
         if (submitKey_ == null) {
-          SubmitKey = new global::Proto.Key();
+          SubmitKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         SubmitKey.MergeFrom(other.SubmitKey);
       }
       if (other.feeScheduleKey_ != null) {
         if (feeScheduleKey_ == null) {
-          FeeScheduleKey = new global::Proto.Key();
+          FeeScheduleKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         FeeScheduleKey.MergeFrom(other.FeeScheduleKey);
       }
@@ -697,7 +697,7 @@ namespace Proto {
             break;
           case 10: {
             if (topicId_ == null) {
-              TopicId = new global::Proto.TopicID();
+              TopicId = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicId);
             break;
@@ -716,7 +716,7 @@ namespace Proto {
           }
           case 42: {
             if (autoRenewAccountId_ == null) {
-              AutoRenewAccountId = new global::Proto.AccountID();
+              AutoRenewAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AutoRenewAccountId);
             break;
@@ -735,21 +735,21 @@ namespace Proto {
           }
           case 74: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 82: {
             if (submitKey_ == null) {
-              SubmitKey = new global::Proto.Key();
+              SubmitKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(SubmitKey);
             break;
           }
           case 90: {
             if (feeScheduleKey_ == null) {
-              FeeScheduleKey = new global::Proto.Key();
+              FeeScheduleKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(FeeScheduleKey);
             break;
@@ -783,7 +783,7 @@ namespace Proto {
             break;
           case 10: {
             if (topicId_ == null) {
-              TopicId = new global::Proto.TopicID();
+              TopicId = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicId);
             break;
@@ -802,7 +802,7 @@ namespace Proto {
           }
           case 42: {
             if (autoRenewAccountId_ == null) {
-              AutoRenewAccountId = new global::Proto.AccountID();
+              AutoRenewAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AutoRenewAccountId);
             break;
@@ -821,21 +821,21 @@ namespace Proto {
           }
           case 74: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 82: {
             if (submitKey_ == null) {
-              SubmitKey = new global::Proto.Key();
+              SubmitKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(SubmitKey);
             break;
           }
           case 90: {
             if (feeScheduleKey_ == null) {
-              FeeScheduleKey = new global::Proto.Key();
+              FeeScheduleKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(FeeScheduleKey);
             break;

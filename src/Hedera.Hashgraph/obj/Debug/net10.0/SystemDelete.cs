@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from system_delete.proto</summary>
   public static partial class SystemDeleteReflection {
@@ -29,11 +29,12 @@ namespace Proto {
             "b25Cb2R5Eh8KBmZpbGVJRBgBIAEoCzINLnByb3RvLkZpbGVJREgAEicKCmNv",
             "bnRyYWN0SUQYAiABKAsyES5wcm90by5Db250cmFjdElESAASLwoOZXhwaXJh",
             "dGlvblRpbWUYAyABKAsyFy5wcm90by5UaW1lc3RhbXBTZWNvbmRzQgQKAmlk",
-            "QiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "QjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5I",
+            "YXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SystemDeleteTransactionBody), global::Proto.SystemDeleteTransactionBody.Parser, new[]{ "FileID", "ContractID", "ExpirationTime" }, new[]{ "Id" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody), global::Hedera.Hashgraph.Proto.SystemDeleteTransactionBody.Parser, new[]{ "FileID", "ContractID", "ExpirationTime" }, new[]{ "Id" }, null, null, null)
           }));
     }
     #endregion
@@ -79,7 +80,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.SystemDeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.SystemDeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -131,8 +132,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
-      get { return idCase_ == IdOneofCase.FileID ? (global::Proto.FileID) id_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
+      get { return idCase_ == IdOneofCase.FileID ? (global::Hedera.Hashgraph.Proto.FileID) id_ : null; }
       set {
         id_ = value;
         idCase_ = value == null ? IdOneofCase.None : IdOneofCase.FileID;
@@ -152,8 +153,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
-      get { return idCase_ == IdOneofCase.ContractID ? (global::Proto.ContractID) id_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
+      get { return idCase_ == IdOneofCase.ContractID ? (global::Hedera.Hashgraph.Proto.ContractID) id_ : null; }
       set {
         id_ = value;
         idCase_ = value == null ? IdOneofCase.None : IdOneofCase.ContractID;
@@ -162,7 +163,7 @@ namespace Proto {
 
     /// <summary>Field number for the "expirationTime" field.</summary>
     public const int ExpirationTimeFieldNumber = 3;
-    private global::Proto.TimestampSeconds expirationTime_;
+    private global::Hedera.Hashgraph.Proto.TimestampSeconds expirationTime_;
     /// <summary>
     ///*
     /// A timestamp indicating when the file will be removed from state.
@@ -173,7 +174,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TimestampSeconds ExpirationTime {
+    public global::Hedera.Hashgraph.Proto.TimestampSeconds ExpirationTime {
       get { return expirationTime_; }
       set {
         expirationTime_ = value;
@@ -316,20 +317,20 @@ namespace Proto {
       }
       if (other.expirationTime_ != null) {
         if (expirationTime_ == null) {
-          ExpirationTime = new global::Proto.TimestampSeconds();
+          ExpirationTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
         }
         ExpirationTime.MergeFrom(other.ExpirationTime);
       }
       switch (other.IdCase) {
         case IdOneofCase.FileID:
           if (FileID == null) {
-            FileID = new global::Proto.FileID();
+            FileID = new global::Hedera.Hashgraph.Proto.FileID();
           }
           FileID.MergeFrom(other.FileID);
           break;
         case IdOneofCase.ContractID:
           if (ContractID == null) {
-            ContractID = new global::Proto.ContractID();
+            ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           ContractID.MergeFrom(other.ContractID);
           break;
@@ -355,7 +356,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.FileID subBuilder = new global::Proto.FileID();
+            global::Hedera.Hashgraph.Proto.FileID subBuilder = new global::Hedera.Hashgraph.Proto.FileID();
             if (idCase_ == IdOneofCase.FileID) {
               subBuilder.MergeFrom(FileID);
             }
@@ -364,7 +365,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (idCase_ == IdOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -374,7 +375,7 @@ namespace Proto {
           }
           case 26: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.TimestampSeconds();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
             }
             input.ReadMessage(ExpirationTime);
             break;
@@ -399,7 +400,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.FileID subBuilder = new global::Proto.FileID();
+            global::Hedera.Hashgraph.Proto.FileID subBuilder = new global::Hedera.Hashgraph.Proto.FileID();
             if (idCase_ == IdOneofCase.FileID) {
               subBuilder.MergeFrom(FileID);
             }
@@ -408,7 +409,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (idCase_ == IdOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -418,7 +419,7 @@ namespace Proto {
           }
           case 26: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.TimestampSeconds();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
             }
             input.ReadMessage(ExpirationTime);
             break;

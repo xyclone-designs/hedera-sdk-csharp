@@ -1,22 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Queries;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -30,9 +16,7 @@ namespace Hedera.Hashgraph.SDK
     public sealed class LiveHashQuery : Query<LiveHash, LiveHashQuery>
     {
         private AccountId accountId = null;
-        private byte[] hash = new[]
-        {
-        };
+        private byte[] hash = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -89,34 +73,39 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = CryptoGetLiveHashQuery.NewBuilder();
+            var builder = new Proto.CryptoGetLiveHashQuery
+            {
+                Header = header
+            };
+
             if (accountId != null)
             {
-                builder.AccountID(accountId.ToProtobuf());
+                builder.AccountID = accountId.ToProtobuf();
             }
 
-            builder.Hash(ByteString.CopyFrom(hash));
-            queryBuilder.SetCryptoGetLiveHash(builder.Header(header));
+            builder.Hash = ByteString.CopyFrom(hash);
+            
+            queryBuilder.CryptoGetLiveHash = builder;
         }
 
-        override LiveHash MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override LiveHash MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return LiveHash.FromProtobuf(response.GetCryptoGetLiveHash().GetLiveHash());
+            return LiveHash.FromProtobuf(response.CryptoGetLiveHash.LiveHash);
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetCryptoGetLiveHash().GetHeader();
+            return response.CryptoGetLiveHash.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetCryptoGetLiveHash().GetHeader();
+            return request.CryptoGetLiveHash.Header;
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return CryptoServiceGrpc.GetCryptoGetBalanceMethod();
         }

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_get_account_nft_infos.proto</summary>
   public static partial class TokenGetAccountNftInfosReflection {
@@ -32,13 +32,13 @@ namespace Proto {
             "by5BY2NvdW50SUQSDQoFc3RhcnQYAyABKAMSCwoDZW5kGAQgASgDImsKH1Rv",
             "a2VuR2V0QWNjb3VudE5mdEluZm9zUmVzcG9uc2USJQoGaGVhZGVyGAEgASgL",
             "MhUucHJvdG8uUmVzcG9uc2VIZWFkZXISIQoEbmZ0cxgCIAMoCzITLnByb3Rv",
-            "LlRva2VuTmZ0SW5mb0IiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJv",
-            "dG9QAWIGcHJvdG8z"));
+            "LlRva2VuTmZ0SW5mb0I5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJv",
+            "dG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TokenGetNftInfoReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenGetNftInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenGetAccountNftInfosQuery), global::Proto.TokenGetAccountNftInfosQuery.Parser, new[]{ "Header", "AccountID", "Start", "End" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenGetAccountNftInfosResponse), global::Proto.TokenGetAccountNftInfosResponse.Parser, new[]{ "Header", "Nfts" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosQuery), global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosQuery.Parser, new[]{ "Header", "AccountID", "Start", "End" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse), global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse.Parser, new[]{ "Header", "Nfts" }, null, null, null, null)
           }));
     }
     #endregion
@@ -67,7 +67,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenGetAccountNftInfosReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -102,7 +102,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -111,7 +111,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -120,14 +120,14 @@ namespace Proto {
 
     /// <summary>Field number for the "accountID" field.</summary>
     public const int AccountIDFieldNumber = 2;
-    private global::Proto.AccountID accountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountID_;
     /// <summary>
     ///*
     /// The Account for which information is requested
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
       get { return accountID_; }
       set {
         accountID_ = value;
@@ -294,13 +294,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.accountID_ != null) {
         if (accountID_ == null) {
-          AccountID = new global::Proto.AccountID();
+          AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountID.MergeFrom(other.AccountID);
       }
@@ -331,14 +331,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -372,14 +372,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -418,7 +418,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenGetAccountNftInfosReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -451,7 +451,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -460,7 +460,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -469,16 +469,16 @@ namespace Proto {
 
     /// <summary>Field number for the "nfts" field.</summary>
     public const int NftsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.TokenNftInfo> _repeated_nfts_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.TokenNftInfo.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenNftInfo> nfts_ = new pbc::RepeatedField<global::Proto.TokenNftInfo>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenNftInfo> _repeated_nfts_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.TokenNftInfo.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenNftInfo> nfts_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenNftInfo>();
     /// <summary>
     ///*
     /// List of NFTs associated to the account
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenNftInfo> Nfts {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenNftInfo> Nfts {
       get { return nfts_; }
     }
 
@@ -574,7 +574,7 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
@@ -600,7 +600,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -630,7 +630,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;

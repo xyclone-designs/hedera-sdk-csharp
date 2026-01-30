@@ -1,15 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -67,33 +63,37 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = ContractGetInfoQuery.NewBuilder();
+            var builder = new Proto.ContractGetInfoQuery()
+            {
+                Header = header
+			};
+
             if (contractId != null)
             {
-                builder.ContractID(contractId.ToProtobuf());
+                builder.ContractID = contractId.ToProtobuf();
             }
 
-            queryBuilder.SetContractGetInfo(builder.Header(header));
+            queryBuilder.ContractGetInfo = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetContractGetInfo().GetHeader();
+            return response.ContractGetInfo.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetContractGetInfo().GetHeader();
+            return request.ContractGetInfo.Header;
         }
 
-        override ContractInfo MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override ContractInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return ContractInfo.FromProtobuf(response.GetContractGetInfo().GetContractInfo());
+            return ContractInfo.FromProtobuf(response.ContractGetInfo.ContractInfo);
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return SmartContractServiceGrpc.GetGetContractInfoMethod();
         }

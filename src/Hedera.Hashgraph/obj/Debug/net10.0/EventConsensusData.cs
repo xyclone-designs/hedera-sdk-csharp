@@ -28,10 +28,10 @@ namespace Com.Hedera.Hapi.Platform.Event {
             "LnBsYXRmb3JtLmV2ZW50GhFiYXNpY190eXBlcy5wcm90bxoWZXZlbnRfZGVz",
             "Y3JpcHRvci5wcm90bxoPdGltZXN0YW1wLnByb3RvIlwKEkV2ZW50Q29uc2Vu",
             "c3VzRGF0YRItChNjb25zZW5zdXNfdGltZXN0YW1wGAEgASgLMhAucHJvdG8u",
-            "VGltZXN0YW1wEhcKD2NvbnNlbnN1c19vcmRlchgCIAEoBEIpCiVjb20uaGVk",
-            "ZXJhLmhhcGkucGxhdGZvcm0uZXZlbnQubGVnYWN5UAFiBnByb3RvMw=="));
+            "VGltZXN0YW1wEhcKD2NvbnNlbnN1c19vcmRlchgCIAEoBEInCiVjb20uaGVk",
+            "ZXJhLmhhcGkucGxhdGZvcm0uZXZlbnQubGVnYWN5YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Com.Hedera.Hapi.Platform.Event.EventDescriptorReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Com.Hedera.Hapi.Platform.Event.EventDescriptorReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Platform.Event.EventConsensusData), global::Com.Hedera.Hapi.Platform.Event.EventConsensusData.Parser, new[]{ "ConsensusTimestamp", "ConsensusOrder" }, null, null, null, null)
           }));
@@ -93,7 +93,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
 
     /// <summary>Field number for the "consensus_timestamp" field.</summary>
     public const int ConsensusTimestampFieldNumber = 1;
-    private global::Proto.Timestamp consensusTimestamp_;
+    private global::Hedera.Hashgraph.Proto.Timestamp consensusTimestamp_;
     /// <summary>
     ///*
     /// A consensus timestamp.&lt;br/>
@@ -105,7 +105,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ConsensusTimestamp {
+    public global::Hedera.Hashgraph.Proto.Timestamp ConsensusTimestamp {
       get { return consensusTimestamp_; }
       set {
         consensusTimestamp_ = value;
@@ -234,7 +234,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
       }
       if (other.consensusTimestamp_ != null) {
         if (consensusTimestamp_ == null) {
-          ConsensusTimestamp = new global::Proto.Timestamp();
+          ConsensusTimestamp = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ConsensusTimestamp.MergeFrom(other.ConsensusTimestamp);
       }
@@ -262,7 +262,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
             break;
           case 10: {
             if (consensusTimestamp_ == null) {
-              ConsensusTimestamp = new global::Proto.Timestamp();
+              ConsensusTimestamp = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusTimestamp);
             break;
@@ -292,7 +292,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
             break;
           case 10: {
             if (consensusTimestamp_ == null) {
-              ConsensusTimestamp = new global::Proto.Timestamp();
+              ConsensusTimestamp = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsensusTimestamp);
             break;

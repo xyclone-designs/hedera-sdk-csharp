@@ -28,11 +28,11 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
             "ZXJ2aWNlcy5hdXhpbGlhcnkuaGlzdG9yeRoTaGlzdG9yeV90eXBlcy5wcm90",
             "byJ+Ch9IaXN0b3J5UHJvb2ZWb3RlVHJhbnNhY3Rpb25Cb2R5EhcKD2NvbnN0",
             "cnVjdGlvbl9pZBgBIAEoBBJCCgR2b3RlGAIgASgLMjQuY29tLmhlZGVyYS5o",
-            "YXBpLm5vZGUuc3RhdGUuaGlzdG9yeS5IaXN0b3J5UHJvb2ZWb3RlQjUKMWNv",
+            "YXBpLm5vZGUuc3RhdGUuaGlzdG9yeS5IaXN0b3J5UHJvb2ZWb3RlQjMKMWNv",
             "bS5oZWRlcmEuaGFwaS5zZXJ2aWNlcy5hdXhpbGlhcnkuaGlzdG9yeS5sZWdh",
-            "Y3lQAWIGcHJvdG8z"));
+            "Y3liBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Com.Hedera.Hapi.Node.State.History.HistoryTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.HistoryTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofVoteTransactionBody), global::Com.Hedera.Hapi.Services.Auxiliary.History.HistoryProofVoteTransactionBody.Parser, new[]{ "ConstructionId", "Vote" }, null, null, null, null)
           }));
@@ -110,14 +110,14 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
 
     /// <summary>Field number for the "vote" field.</summary>
     public const int VoteFieldNumber = 2;
-    private global::Com.Hedera.Hapi.Node.State.History.HistoryProofVote vote_;
+    private global::Hedera.Hashgraph.Proto.HistoryProofVote vote_;
     /// <summary>
     ///*
     /// The submitting node's vote on the history proof.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.History.HistoryProofVote Vote {
+    public global::Hedera.Hashgraph.Proto.HistoryProofVote Vote {
       get { return vote_; }
       set {
         vote_ = value;
@@ -227,7 +227,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
       }
       if (other.vote_ != null) {
         if (vote_ == null) {
-          Vote = new global::Com.Hedera.Hapi.Node.State.History.HistoryProofVote();
+          Vote = new global::Hedera.Hashgraph.Proto.HistoryProofVote();
         }
         Vote.MergeFrom(other.Vote);
       }
@@ -256,7 +256,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
           }
           case 18: {
             if (vote_ == null) {
-              Vote = new global::Com.Hedera.Hapi.Node.State.History.HistoryProofVote();
+              Vote = new global::Hedera.Hashgraph.Proto.HistoryProofVote();
             }
             input.ReadMessage(Vote);
             break;
@@ -286,7 +286,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.History {
           }
           case 18: {
             if (vote_ == null) {
-              Vote = new global::Com.Hedera.Hapi.Node.State.History.HistoryProofVote();
+              Vote = new global::Hedera.Hashgraph.Proto.HistoryProofVote();
             }
             input.ReadMessage(Vote);
             break;

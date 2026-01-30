@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from file_update.proto</summary>
   public static partial class FileUpdateReflection {
@@ -30,12 +30,12 @@ namespace Proto {
             "ASABKAsyDS5wcm90by5GaWxlSUQSKAoOZXhwaXJhdGlvblRpbWUYAiABKAsy",
             "EC5wcm90by5UaW1lc3RhbXASHAoEa2V5cxgDIAEoCzIOLnByb3RvLktleUxp",
             "c3QSEAoIY29udGVudHMYBCABKAwSKgoEbWVtbxgFIAEoCzIcLmdvb2dsZS5w",
-            "cm90b2J1Zi5TdHJpbmdWYWx1ZUIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
-            "ZGsucHJvdG9QAWIGcHJvdG8z"));
+            "cm90b2J1Zi5TdHJpbmdWYWx1ZUI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
+            "ZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileUpdateTransactionBody), global::Proto.FileUpdateTransactionBody.Parser, new[]{ "FileID", "ExpirationTime", "Keys", "Contents", "Memo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody), global::Hedera.Hashgraph.Proto.FileUpdateTransactionBody.Parser, new[]{ "FileID", "ExpirationTime", "Keys", "Contents", "Memo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -80,7 +80,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FileUpdateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.FileUpdateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -116,7 +116,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fileID" field.</summary>
     public const int FileIDFieldNumber = 1;
-    private global::Proto.FileID fileID_;
+    private global::Hedera.Hashgraph.Proto.FileID fileID_;
     /// <summary>
     ///*
     /// A file identifier for the file to update.
@@ -125,7 +125,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
       get { return fileID_; }
       set {
         fileID_ = value;
@@ -134,7 +134,7 @@ namespace Proto {
 
     /// <summary>Field number for the "expirationTime" field.</summary>
     public const int ExpirationTimeFieldNumber = 2;
-    private global::Proto.Timestamp expirationTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp expirationTime_;
     /// <summary>
     ///*
     /// An expiration timestamp.
@@ -149,7 +149,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ExpirationTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp ExpirationTime {
       get { return expirationTime_; }
       set {
         expirationTime_ = value;
@@ -158,7 +158,7 @@ namespace Proto {
 
     /// <summary>Field number for the "keys" field.</summary>
     public const int KeysFieldNumber = 3;
-    private global::Proto.KeyList keys_;
+    private global::Hedera.Hashgraph.Proto.KeyList keys_;
     /// <summary>
     ///*
     /// The new list of keys that "own" this file.
@@ -171,7 +171,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.KeyList Keys {
+    public global::Hedera.Hashgraph.Proto.KeyList Keys {
       get { return keys_; }
       set {
         keys_ = value;
@@ -356,19 +356,19 @@ namespace Proto {
       }
       if (other.fileID_ != null) {
         if (fileID_ == null) {
-          FileID = new global::Proto.FileID();
+          FileID = new global::Hedera.Hashgraph.Proto.FileID();
         }
         FileID.MergeFrom(other.FileID);
       }
       if (other.expirationTime_ != null) {
         if (expirationTime_ == null) {
-          ExpirationTime = new global::Proto.Timestamp();
+          ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ExpirationTime.MergeFrom(other.ExpirationTime);
       }
       if (other.keys_ != null) {
         if (keys_ == null) {
-          Keys = new global::Proto.KeyList();
+          Keys = new global::Hedera.Hashgraph.Proto.KeyList();
         }
         Keys.MergeFrom(other.Keys);
       }
@@ -401,21 +401,21 @@ namespace Proto {
             break;
           case 10: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
           }
           case 18: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;
           }
           case 26: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;
@@ -452,21 +452,21 @@ namespace Proto {
             break;
           case 10: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
           }
           case 18: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;
           }
           case 26: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;

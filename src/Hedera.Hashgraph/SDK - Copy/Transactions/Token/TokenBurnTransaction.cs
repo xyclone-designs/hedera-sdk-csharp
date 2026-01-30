@@ -1,26 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -48,8 +30,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
     public class TokenBurnTransaction : Transaction<TokenBurnTransaction>
     {
         private TokenId tokenId = null;
-        private long amount = 0;
-        private IList<long> serials = new ();
+        private ulong amount = 0;
+        private IList<long> serials = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -106,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Extract the amount of tokens to burn.
         /// </summary>
         /// <returns>                         the amount of tokens to burn</returns>
-        public virtual long GetAmount()
+        public virtual ulong GetAmount()
         {
             return amount;
         }
@@ -137,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>                         list of token serials</returns>
         public virtual IList<long> GetSerials()
         {
-            return new List(serials);
+            return [..serials];
         }
 
         /// <summary>
@@ -157,7 +139,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         {
             RequireNotFrozen();
             ArgumentNullException.ThrowIfNull(serials);
-            serials = new List(serials);
+            serials = [..serials];
             return this;
         }
 
@@ -177,18 +159,20 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenBurnTransactionBody}</returns>
-        public virtual TokenBurnTransactionBody.Builder Build()
+        public virtual Proto.TokenBurnTransactionBody Build()
         {
-            var builder = TokenBurnTransactionBody.NewBuilder();
+            var builder = new Proto.TokenBurnTransactionBody();
+
             if (tokenId != null)
             {
-                builder.Token(tokenId.ToProtobuf());
+                builder.Token = tokenId.ToProtobuf();
             }
 
-            builder.Amount(amount);
+            builder.Amount = amount;
+
             foreach (var serial in serials)
             {
-                builder.AddSerialNumbers(serial);
+                builder.SerialNumbers.Add(serial);
             }
 
             return builder;
@@ -199,14 +183,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.TokenBurn();
-            if (body.HasToken())
+            var body = sourceTransactionBody.TokenBurn;
+
+            if (body.Token is not null)
             {
-                tokenId = TokenId.FromProtobuf(body.GetToken());
+                tokenId = TokenId.FromProtobuf(body.Token);
             }
 
-            amount = body.GetAmount();
-            serials = body.GetSerialNumbersList();
+            amount = body.Amount;
+            serials = body.SerialNumbers;
         }
 
         override void ValidateChecksums(Client client)
@@ -217,7 +202,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
             }
         }
 
-        override MethodDescriptor<Transaction, TransactionResponse> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
             return TokenServiceGrpc.GetBurnTokenMethod();
         }

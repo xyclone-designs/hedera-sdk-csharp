@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from network_get_version_info.proto</summary>
   public static partial class NetworkGetVersionInfoReflection {
@@ -31,13 +31,14 @@ namespace Proto {
             "ZXRWZXJzaW9uSW5mb1Jlc3BvbnNlEiUKBmhlYWRlchgBIAEoCzIVLnByb3Rv",
             "LlJlc3BvbnNlSGVhZGVyEjAKEGhhcGlQcm90b1ZlcnNpb24YAiABKAsyFi5w",
             "cm90by5TZW1hbnRpY1ZlcnNpb24SNQoVaGVkZXJhU2VydmljZXNWZXJzaW9u",
-            "GAMgASgLMhYucHJvdG8uU2VtYW50aWNWZXJzaW9uQiIKHmNvbS5oZWRlcmEu",
-            "aGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "GAMgASgLMhYucHJvdG8uU2VtYW50aWNWZXJzaW9uQjkKHmNvbS5oZWRlcmEu",
+            "aGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9i",
+            "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NetworkGetVersionInfoQuery), global::Proto.NetworkGetVersionInfoQuery.Parser, new[]{ "Header" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NetworkGetVersionInfoResponse), global::Proto.NetworkGetVersionInfoResponse.Parser, new[]{ "Header", "HapiProtoVersion", "HederaServicesVersion" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoQuery), global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoQuery.Parser, new[]{ "Header" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse), global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse.Parser, new[]{ "Header", "HapiProtoVersion", "HederaServicesVersion" }, null, null, null, null)
           }));
     }
     #endregion
@@ -64,7 +65,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NetworkGetVersionInfoReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -96,7 +97,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -105,7 +106,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -199,7 +200,7 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
@@ -224,7 +225,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -250,7 +251,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -284,7 +285,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NetworkGetVersionInfoReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -318,7 +319,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -327,7 +328,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -336,7 +337,7 @@ namespace Proto {
 
     /// <summary>Field number for the "hapiProtoVersion" field.</summary>
     public const int HapiProtoVersionFieldNumber = 2;
-    private global::Proto.SemanticVersion hapiProtoVersion_;
+    private global::Hedera.Hashgraph.Proto.SemanticVersion hapiProtoVersion_;
     /// <summary>
     ///*
     /// An API version.
@@ -346,7 +347,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SemanticVersion HapiProtoVersion {
+    public global::Hedera.Hashgraph.Proto.SemanticVersion HapiProtoVersion {
       get { return hapiProtoVersion_; }
       set {
         hapiProtoVersion_ = value;
@@ -355,7 +356,7 @@ namespace Proto {
 
     /// <summary>Field number for the "hederaServicesVersion" field.</summary>
     public const int HederaServicesVersionFieldNumber = 3;
-    private global::Proto.SemanticVersion hederaServicesVersion_;
+    private global::Hedera.Hashgraph.Proto.SemanticVersion hederaServicesVersion_;
     /// <summary>
     ///*
     /// A Services version.
@@ -365,7 +366,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SemanticVersion HederaServicesVersion {
+    public global::Hedera.Hashgraph.Proto.SemanticVersion HederaServicesVersion {
       get { return hederaServicesVersion_; }
       set {
         hederaServicesVersion_ = value;
@@ -485,19 +486,19 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.hapiProtoVersion_ != null) {
         if (hapiProtoVersion_ == null) {
-          HapiProtoVersion = new global::Proto.SemanticVersion();
+          HapiProtoVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
         }
         HapiProtoVersion.MergeFrom(other.HapiProtoVersion);
       }
       if (other.hederaServicesVersion_ != null) {
         if (hederaServicesVersion_ == null) {
-          HederaServicesVersion = new global::Proto.SemanticVersion();
+          HederaServicesVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
         }
         HederaServicesVersion.MergeFrom(other.HederaServicesVersion);
       }
@@ -522,21 +523,21 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (hapiProtoVersion_ == null) {
-              HapiProtoVersion = new global::Proto.SemanticVersion();
+              HapiProtoVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(HapiProtoVersion);
             break;
           }
           case 26: {
             if (hederaServicesVersion_ == null) {
-              HederaServicesVersion = new global::Proto.SemanticVersion();
+              HederaServicesVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(HederaServicesVersion);
             break;
@@ -562,21 +563,21 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (hapiProtoVersion_ == null) {
-              HapiProtoVersion = new global::Proto.SemanticVersion();
+              HapiProtoVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(HapiProtoVersion);
             break;
           }
           case 26: {
             if (hederaServicesVersion_ == null) {
-              HederaServicesVersion = new global::Proto.SemanticVersion();
+              HederaServicesVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(HederaServicesVersion);
             break;

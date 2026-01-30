@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenUnpauseTransactionBody}</returns>
-        public virtual TokenUnpauseTransactionBody.Builder Build()
+        public virtual Proto.TokenUnpauseTransactionBody Build()
         {
             var builder = new Proto.TokenUnpauseTransactionBody();
 

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from response_code.proto</summary>
   public static partial class ResponseCodeReflection {
@@ -315,11 +315,11 @@ namespace Proto {
             "RV9OT1RfU1VQUE9SVEVEX0lOX0FJUkRST1BTEIsEEiAKG0FDQ09VTlRfSVNf",
             "TElOS0VEX1RPX0FfTk9ERRCMBBI3CjJIT09LU19FWEVDVVRJT05TX1JFUVVJ",
             "UkVfVE9QX0xFVkVMX0NSWVBUT19UUkFOU0ZFUhCNBBIiCh1OT0RFX0FDQ09V",
-            "TlRfSEFTX1pFUk9fQkFMQU5DRRCOBEIiCh5jb20uaGVkZXJhLmhhc2hncmFw",
-            "aC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "TlRfSEFTX1pFUk9fQkFMQU5DRRCOBEI5Ch5jb20uaGVkZXJhLmhhc2hncmFw",
+            "aC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Proto.ResponseCodeEnum), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Hedera.Hashgraph.Proto.ResponseCodeEnum), }, null, null));
     }
     #endregion
 

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from storage_slot.proto</summary>
   public static partial class StorageSlotReflection {
@@ -27,13 +27,14 @@ namespace Proto {
             "ChJzdG9yYWdlX3Nsb3QucHJvdG8SBXByb3RvGhFiYXNpY190eXBlcy5wcm90",
             "byI9CgdTbG90S2V5EiUKCmNvbnRyYWN0SUQYASABKAsyES5wcm90by5Db250",
             "cmFjdElEEgsKA2tleRgCIAEoDCJCCglTbG90VmFsdWUSDQoFdmFsdWUYASAB",
-            "KAwSFAoMcHJldmlvdXNfa2V5GAIgASgMEhAKCG5leHRfa2V5GAMgASgMQiIK",
-            "HmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "KAwSFAoMcHJldmlvdXNfa2V5GAIgASgMEhAKCG5leHRfa2V5GAMgASgMQjkK",
+            "HmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNo",
+            "Z3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SlotKey), global::Proto.SlotKey.Parser, new[]{ "ContractID", "Key" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SlotValue), global::Proto.SlotValue.Parser, new[]{ "Value", "PreviousKey", "NextKey" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SlotKey), global::Hedera.Hashgraph.Proto.SlotKey.Parser, new[]{ "ContractID", "Key" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SlotValue), global::Hedera.Hashgraph.Proto.SlotValue.Parser, new[]{ "Value", "PreviousKey", "NextKey" }, null, null, null, null)
           }));
     }
     #endregion
@@ -62,7 +63,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.StorageSlotReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.StorageSlotReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -95,14 +96,14 @@ namespace Proto {
 
     /// <summary>Field number for the "contractID" field.</summary>
     public const int ContractIDFieldNumber = 1;
-    private global::Proto.ContractID contractID_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractID_;
     /// <summary>
     ///*
     /// The Contract ID of the contract that owns (and pays for) this slot.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
       get { return contractID_; }
       set {
         contractID_ = value;
@@ -225,7 +226,7 @@ namespace Proto {
       }
       if (other.contractID_ != null) {
         if (contractID_ == null) {
-          ContractID = new global::Proto.ContractID();
+          ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractID.MergeFrom(other.ContractID);
       }
@@ -253,7 +254,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -283,7 +284,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -322,7 +323,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.StorageSlotReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.StorageSlotReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

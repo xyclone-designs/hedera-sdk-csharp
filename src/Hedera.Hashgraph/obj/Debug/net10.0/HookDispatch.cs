@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.Hooks {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from hook_dispatch.proto</summary>
   public static partial class HookDispatchReflection {
@@ -32,13 +32,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             "PgoJZXhlY3V0aW9uGAMgASgLMikuY29tLmhlZGVyYS5oYXBpLm5vZGUuaG9v",
             "a3MuSG9va0V4ZWN1dGlvbkgAQggKBmFjdGlvbiJbCg1Ib29rRXhlY3V0aW9u",
             "EisKDmhvb2tfZW50aXR5X2lkGAEgASgLMhMucHJvdG8uSG9va0VudGl0eUlk",
-            "Eh0KBGNhbGwYAiABKAsyDy5wcm90by5Ib29rQ2FsbEIiCh5jb20uaGVkZXJh",
-            "Lmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "Eh0KBGNhbGwYAiABKAsyDy5wcm90by5Ib29rQ2FsbEI5Ch5jb20uaGVkZXJh",
+            "Lmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3Rv",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody), global::Com.Hedera.Hapi.Node.Hooks.HookDispatchTransactionBody.Parser, new[]{ "HookIdToDelete", "Creation", "Execution" }, new[]{ "Action" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.HookExecution), global::Com.Hedera.Hapi.Node.Hooks.HookExecution.Parser, new[]{ "HookEntityId", "Call" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody), global::Hedera.Hashgraph.Proto.HookDispatchTransactionBody.Parser, new[]{ "HookIdToDelete", "Creation", "Execution" }, new[]{ "Action" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HookExecution), global::Hedera.Hashgraph.Proto.HookExecution.Parser, new[]{ "HookEntityId", "Call" }, null, null, null, null)
           }));
     }
     #endregion
@@ -64,7 +65,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookDispatchReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.HookDispatchReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -113,8 +114,8 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookId HookIdToDelete {
-      get { return actionCase_ == ActionOneofCase.HookIdToDelete ? (global::Proto.HookId) action_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookId HookIdToDelete {
+      get { return actionCase_ == ActionOneofCase.HookIdToDelete ? (global::Hedera.Hashgraph.Proto.HookId) action_ : null; }
       set {
         action_ = value;
         actionCase_ = value == null ? ActionOneofCase.None : ActionOneofCase.HookIdToDelete;
@@ -129,8 +130,8 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.HookCreation Creation {
-      get { return actionCase_ == ActionOneofCase.Creation ? (global::Com.Hedera.Hapi.Node.Hooks.HookCreation) action_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookCreation Creation {
+      get { return actionCase_ == ActionOneofCase.Creation ? (global::Hedera.Hashgraph.Proto.HookCreation) action_ : null; }
       set {
         action_ = value;
         actionCase_ = value == null ? ActionOneofCase.None : ActionOneofCase.Creation;
@@ -145,8 +146,8 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.HookExecution Execution {
-      get { return actionCase_ == ActionOneofCase.Execution ? (global::Com.Hedera.Hapi.Node.Hooks.HookExecution) action_ : null; }
+    public global::Hedera.Hashgraph.Proto.HookExecution Execution {
+      get { return actionCase_ == ActionOneofCase.Execution ? (global::Hedera.Hashgraph.Proto.HookExecution) action_ : null; }
       set {
         action_ = value;
         actionCase_ = value == null ? ActionOneofCase.None : ActionOneofCase.Execution;
@@ -291,19 +292,19 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       switch (other.ActionCase) {
         case ActionOneofCase.HookIdToDelete:
           if (HookIdToDelete == null) {
-            HookIdToDelete = new global::Proto.HookId();
+            HookIdToDelete = new global::Hedera.Hashgraph.Proto.HookId();
           }
           HookIdToDelete.MergeFrom(other.HookIdToDelete);
           break;
         case ActionOneofCase.Creation:
           if (Creation == null) {
-            Creation = new global::Com.Hedera.Hapi.Node.Hooks.HookCreation();
+            Creation = new global::Hedera.Hashgraph.Proto.HookCreation();
           }
           Creation.MergeFrom(other.Creation);
           break;
         case ActionOneofCase.Execution:
           if (Execution == null) {
-            Execution = new global::Com.Hedera.Hapi.Node.Hooks.HookExecution();
+            Execution = new global::Hedera.Hashgraph.Proto.HookExecution();
           }
           Execution.MergeFrom(other.Execution);
           break;
@@ -329,7 +330,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.HookId subBuilder = new global::Proto.HookId();
+            global::Hedera.Hashgraph.Proto.HookId subBuilder = new global::Hedera.Hashgraph.Proto.HookId();
             if (actionCase_ == ActionOneofCase.HookIdToDelete) {
               subBuilder.MergeFrom(HookIdToDelete);
             }
@@ -338,7 +339,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 18: {
-            global::Com.Hedera.Hapi.Node.Hooks.HookCreation subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.HookCreation();
+            global::Hedera.Hashgraph.Proto.HookCreation subBuilder = new global::Hedera.Hashgraph.Proto.HookCreation();
             if (actionCase_ == ActionOneofCase.Creation) {
               subBuilder.MergeFrom(Creation);
             }
@@ -347,7 +348,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 26: {
-            global::Com.Hedera.Hapi.Node.Hooks.HookExecution subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.HookExecution();
+            global::Hedera.Hashgraph.Proto.HookExecution subBuilder = new global::Hedera.Hashgraph.Proto.HookExecution();
             if (actionCase_ == ActionOneofCase.Execution) {
               subBuilder.MergeFrom(Execution);
             }
@@ -375,7 +376,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.HookId subBuilder = new global::Proto.HookId();
+            global::Hedera.Hashgraph.Proto.HookId subBuilder = new global::Hedera.Hashgraph.Proto.HookId();
             if (actionCase_ == ActionOneofCase.HookIdToDelete) {
               subBuilder.MergeFrom(HookIdToDelete);
             }
@@ -384,7 +385,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 18: {
-            global::Com.Hedera.Hapi.Node.Hooks.HookCreation subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.HookCreation();
+            global::Hedera.Hashgraph.Proto.HookCreation subBuilder = new global::Hedera.Hashgraph.Proto.HookCreation();
             if (actionCase_ == ActionOneofCase.Creation) {
               subBuilder.MergeFrom(Creation);
             }
@@ -393,7 +394,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 26: {
-            global::Com.Hedera.Hapi.Node.Hooks.HookExecution subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.HookExecution();
+            global::Hedera.Hashgraph.Proto.HookExecution subBuilder = new global::Hedera.Hashgraph.Proto.HookExecution();
             if (actionCase_ == ActionOneofCase.Execution) {
               subBuilder.MergeFrom(Execution);
             }
@@ -427,7 +428,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookDispatchReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.HookDispatchReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -460,14 +461,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "hook_entity_id" field.</summary>
     public const int HookEntityIdFieldNumber = 1;
-    private global::Proto.HookEntityId hookEntityId_;
+    private global::Hedera.Hashgraph.Proto.HookEntityId hookEntityId_;
     /// <summary>
     ///*
     /// The id of the hook's entity.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookEntityId HookEntityId {
+    public global::Hedera.Hashgraph.Proto.HookEntityId HookEntityId {
       get { return hookEntityId_; }
       set {
         hookEntityId_ = value;
@@ -476,14 +477,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "call" field.</summary>
     public const int CallFieldNumber = 2;
-    private global::Proto.HookCall call_;
+    private global::Hedera.Hashgraph.Proto.HookCall call_;
     /// <summary>
     ///*
     /// The details of the call, including which hook id to call.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookCall Call {
+    public global::Hedera.Hashgraph.Proto.HookCall Call {
       get { return call_; }
       set {
         call_ = value;
@@ -590,13 +591,13 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       }
       if (other.hookEntityId_ != null) {
         if (hookEntityId_ == null) {
-          HookEntityId = new global::Proto.HookEntityId();
+          HookEntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
         }
         HookEntityId.MergeFrom(other.HookEntityId);
       }
       if (other.call_ != null) {
         if (call_ == null) {
-          Call = new global::Proto.HookCall();
+          Call = new global::Hedera.Hashgraph.Proto.HookCall();
         }
         Call.MergeFrom(other.Call);
       }
@@ -621,14 +622,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (hookEntityId_ == null) {
-              HookEntityId = new global::Proto.HookEntityId();
+              HookEntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
             }
             input.ReadMessage(HookEntityId);
             break;
           }
           case 18: {
             if (call_ == null) {
-              Call = new global::Proto.HookCall();
+              Call = new global::Hedera.Hashgraph.Proto.HookCall();
             }
             input.ReadMessage(Call);
             break;
@@ -654,14 +655,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (hookEntityId_ == null) {
-              HookEntityId = new global::Proto.HookEntityId();
+              HookEntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
             }
             input.ReadMessage(HookEntityId);
             break;
           }
           case 18: {
             if (call_ == null) {
-              Call = new global::Proto.HookCall();
+              Call = new global::Hedera.Hashgraph.Proto.HookCall();
             }
             input.ReadMessage(Call);
             break;

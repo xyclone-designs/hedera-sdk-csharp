@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_delete.proto</summary>
   public static partial class TokenDeleteReflection {
@@ -26,12 +26,12 @@ namespace Proto {
           string.Concat(
             "ChJ0b2tlbl9kZWxldGUucHJvdG8SBXByb3RvGhFiYXNpY190eXBlcy5wcm90",
             "byI7ChpUb2tlbkRlbGV0ZVRyYW5zYWN0aW9uQm9keRIdCgV0b2tlbhgBIAEo",
-            "CzIOLnByb3RvLlRva2VuSURCIgoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2Rr",
-            "LnByb3RvUAFiBnByb3RvMw=="));
+            "CzIOLnByb3RvLlRva2VuSURCOQoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2Rr",
+            "LnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenDeleteTransactionBody), global::Proto.TokenDeleteTransactionBody.Parser, new[]{ "Token" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody), global::Hedera.Hashgraph.Proto.TokenDeleteTransactionBody.Parser, new[]{ "Token" }, null, null, null, null)
           }));
     }
     #endregion
@@ -81,7 +81,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenDeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenDeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -113,7 +113,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token" field.</summary>
     public const int TokenFieldNumber = 1;
-    private global::Proto.TokenID token_;
+    private global::Hedera.Hashgraph.Proto.TokenID token_;
     /// <summary>
     ///*
     /// A token identifier.
@@ -123,7 +123,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID Token {
+    public global::Hedera.Hashgraph.Proto.TokenID Token {
       get { return token_; }
       set {
         token_ = value;
@@ -217,7 +217,7 @@ namespace Proto {
       }
       if (other.token_ != null) {
         if (token_ == null) {
-          Token = new global::Proto.TokenID();
+          Token = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         Token.MergeFrom(other.Token);
       }
@@ -242,7 +242,7 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;
@@ -268,7 +268,7 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;

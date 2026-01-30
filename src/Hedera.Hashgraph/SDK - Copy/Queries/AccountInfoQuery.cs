@@ -1,14 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -55,33 +50,37 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = CryptoGetInfoQuery.NewBuilder();
+            var builder = new Proto.CryptoGetInfoQuery
+            {
+                Header = header,
+            };
+
             if (accountId != null)
             {
-                builder.AccountID(accountId.ToProtobuf());
+                builder.AccountID = accountId.ToProtobuf();
             }
 
-            queryBuilder.SetCryptoGetInfo(builder.Header(header));
+            queryBuilder.CryptoGetInfo = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetCryptoGetInfo().GetHeader();
+            return response.CryptoGetInfo.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetCryptoGetInfo().GetHeader();
+            return request.CryptoGetInfo.Header;
         }
 
-        override AccountInfo MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override AccountInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return AccountInfo.FromProtobuf(response.GetCryptoGetInfo().GetAccountInfo());
+            return AccountInfo.FromProtobuf(response.CryptoGetInfo.AccountInfo);
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return CryptoServiceGrpc.GetGetAccountInfoMethod();
         }

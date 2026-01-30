@@ -308,7 +308,7 @@ namespace Hedera.Hashgraph.SDK
 					CreateFileAppendTransaction(fileId).Execute(client, timeoutPerTransaction);
 
 				var response = CreateContractCreateTransaction(fileId).Execute(client, timeoutPerTransaction);
-                response.GetReceipt(client, timeoutPerTransaction);
+                response.Receipt(client, timeoutPerTransaction);
                 new FileDeleteTransaction().SetFileId(fileId).Execute(client, timeoutPerTransaction);
                 return response;
             }

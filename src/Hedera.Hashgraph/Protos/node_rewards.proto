@@ -23,8 +23,7 @@ package proto;
  */
 
 option java_package = "com.hedera.hashgraph.sdk.proto";
-// <<<pbj.java_package = "com.hedera.hapi.node.state.token">>> This comment is special code for setting PBJ Compiler java package
-option java_multiple_files = true;
+option csharp_namespace = "Hedera.Hashgraph.Proto";
 
 /**
  * A record of node rewards status.<br/>

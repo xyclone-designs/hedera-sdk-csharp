@@ -1,33 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.FutureConverter;
-using Com.Google.Common.Annotations;
 using Google.Protobuf;
 using Hedera.Hashgraph.SDK.Logging;
-using Io.Grpc;
-using Io.Grpc.Status;
-using Io.Grpc.Stub;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Function;
-using Java.Util.Regex;
-using Javax.Annotation;
-using Org.Bouncycastle.Util.Encoders;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 using Google.Protobuf.WellKnownTypes;
 using System.Text.RegularExpressions;
-using Hedera.Hashgraph.SDK.Transactions.Account;
 using System.Threading.Tasks;
 using System.Threading;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Transactions;
 using Org.BouncyCastle.Utilities.Encoders;
 using Hedera.Hashgraph.SDK.Ids;
+using System.Windows.Markup;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -38,64 +22,34 @@ namespace Hedera.Hashgraph.SDK
     /// <param name="<ProtoRequestT>">the proto request</param>
     /// <param name="<ResponseT>">the response</param>
     /// <param name="<O>">the O type</param>
-    abstract class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> where ProtoRequestT : MessageLite where ResponseT : MessageLite
+    abstract class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> where ProtoRequestT : IMessage where ResponseT : IMessage
     {
-        protected static readonly Random random = new Random();
-        static readonly Regex RST_STREAM = new (".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.DOTALL);
-        /// <summary>
-        /// The maximum times execution will be attempted
-        /// </summary>
-        protected int maxAttempts = null;
+        protected static readonly Random random = new ();
+        static readonly Regex RST_STREAM = new(".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        /// <summary>
-        /// List of account IDs for nodes with which execution will be attempted.
-        /// </summary>
-        protected LockableList<AccountId> nodeAccountIds = new LockableList();
-        /// <summary>
-        /// List of healthy and unhealthy nodes with which execution will be attempted.
-        /// </summary>
-        protected LockableList<Node> nodes = new LockableList();
-        /// <summary>
-        /// Indicates if the request has been attempted to be sent to all nodes
-        /// </summary>
-        protected bool attemptedAllNodes = false;
-        /// <summary>
-        /// The timeout for each execution attempt
-        /// </summary>
-        protected Duration grpcDeadline;
-        protected Logger logger;
-        private Func<ProtoRequestT, ProtoRequestT> requestListener;
-        // Lambda responsible for executing synchronous gRPC requests. Pluggable for unit testing.
-        Func<GrpcRequest, ResponseT> blockingUnaryCall = (grpcRequest) => ClientCalls.BlockingUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest());
-        private Func<ResponseT, ResponseT> responseListener;
-        Executable()
-        {
-            requestListener = (request) =>
-            {
-                if (logger.IsEnabledForLevel(LogLevel.Trace))
-                {
-                    logger.Trace("Sent protobuf {}", Hex.ToHexString(request.ToByteArray()));
-                }
+		/// <summary>
+		/// List of healthy and unhealthy nodes with which execution will be attempted.
+		/// </summary>
+		protected IList<Node> Nodes
+		{
+			get => [.. field ??= new LockableList<Node>()];
+			set
+			{
+				field ??= new LockableList<Node>();
 
-                return request;
-            };
-            responseListener = (response) =>
-            {
-                if (logger.IsEnabledForLevel(LogLevel.Trace))
-                {
-                    logger.Trace("Received protobuf {}", Hex.ToHexString(response.ToByteArray()));
-                }
+				(field as LockableList<AccountId>)!.SetLocked(false);
+			}
+		}
 
-                return response;
-            };
-        }
-
-
-        /// <summary>
-        /// When execution is attempted, a single attempt will timeout when this deadline is reached. (The SDK may
-        /// subsequently retry the execution.)
-        /// </summary>
-        public Duration GrpcDeadline { get; set; }
+		/// <summary>
+		/// Indicates if the request has been attempted to be sent to all nodes
+		/// </summary>
+		public bool AttemptedAllNodes { get; protected set; }
+		/// <summary>
+		/// When execution is attempted, a single attempt will timeout when this deadline is reached. (The SDK may
+		/// subsequently retry the execution.)
+		/// </summary>
+		public Duration GrpcDeadline { get; set; }
         /// <summary>
         /// The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
         /// until it reaches this time.
@@ -103,20 +57,20 @@ namespace Hedera.Hashgraph.SDK
         public Duration MaxBackoff
         {
             get => field ?? Client.DEFAULT_MAX_BACKOFF;
-			set
-			{
-				if (field == null || field.Nanos < 0)
-				{
-					throw new ArgumentException("maxBackoff must be a positive duration");
-				}
-				else if (field.CompareTo(MinBackoff) < 0)
-				{
-					throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
-				}
+            set
+            {
+                if (field == null || field.Nanos < 0)
+                {
+                    throw new ArgumentException("maxBackoff must be a positive duration");
+                }
+                else if (field.CompareTo(MinBackoff) < 0)
+                {
+                    throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
+                }
 
-				field = value;
-			}
-		}
+                field = value;
+            }
+        }
         /// <summary>
         /// The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
         /// exponentially until it reaches the maxBackoff.
@@ -124,92 +78,38 @@ namespace Hedera.Hashgraph.SDK
         public Duration MinBackoff
         {
             get => field ?? Client.DEFAULT_MIN_BACKOFF;
-			set 
-            {
-				if (value == null || value.Nanos < 0)
-				{
-					throw new ArgumentException("minBackoff must be a positive duration");
-				}
-				else if (value.CompareTo(MaxBackoff) > 0)
-				{
-					throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
-				}
-
-				field = value;
-			}
-        }
-
-        public int MaxRetry
-        {
-            get => MaxAttempts;
-            set => MaxAttempts = value;
-		}
-
-        public int MaxAttempts
-        {
-            get;
             set
             {
-                if (maxAttempts <= 0)
+                if (value == null || value.Nanos < 0)
                 {
-                    throw new ArgumentException("maxAttempts must be greater than zero");
+                    throw new ArgumentException("minBackoff must be a positive duration");
+                }
+                else if (value.CompareTo(MaxBackoff) > 0)
+                {
+                    throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
                 }
 
                 field = value;
             }
-        } = Client.DEFAULT_MAX_ATTEMPTS;
-
-        /// <summary>
-        /// Get the list of account IDs for nodes with which execution will be attempted.
-        /// </summary>
-        /// <returns>the list of account IDs</returns>
-        public IList<AccountId> GetNodeAccountIds()
-        {
-            if (!nodeAccountIds.IsEmpty)
-            {
-                return new List<AccountId>(nodeAccountIds.GetList());
-            }
-
-            return null;
         }
-
-        public IList<AccountId> NodeAccountIds
+		/// <summary>
+		/// The maximum times execution will be attempted
+		/// </summary>
+		public int MaxAttempts
         {
-            get => [.. field ??= new LockableList<AccountId>()];
+            get;
             set
             {
-				field ??= new LockableList<AccountId>();
+                if (value <= 0)
+					throw new ArgumentException("maxAttempts must be greater than zero");
 
-				(field as LockableList<AccountId>)!.SetLocked(false);
-				(field as LockableList<AccountId>)!.SetLocked(false);
-
-
-			}
-        }
-
-
-        /// <summary>
-        /// Set a callback that will be called right before the request is sent. As input, the callback will receive the
-        /// protobuf of the request, and the callback should return the request protobuf.  This means the callback has an
-        /// opportunity to read, copy, or modify the request that will be sent.
-        /// </summary>
-        public Func<ProtoRequestT, ProtoRequestT> RequestListener { get; set; }
-        /// <summary>
-        /// Set a callback that will be called right before the response is returned. As input, the callback will receive the
-        /// protobuf of the response, and the callback should return the response protobuf.  This means the callback has an
-        /// opportunity to read, copy, or modify the response that will be read.
-        /// </summary>
-        public Func<ResponseT, ResponseT> ResponseListener { get; set; }
-
-        /// <summary>
-        /// Set the logger
-        /// </summary>
-        /// <param name="logger">the new logger</param>
-        /// <returns>{@code this}</returns>
-        public virtual SdkRequestT SetLogger(Logger logger)
+				field = value;
+            }
+        } = Client.DEFAULT_MAX_ATTEMPTS;
+        public int MaxRetry
         {
-            logger = logger;
-            return (SdkRequestT)this;
+            get => MaxAttempts;
+            set => MaxAttempts = value;
         }
 		/// <summary>
 		/// Set the account IDs of the nodes that this transaction will be submitted to.
@@ -218,18 +118,52 @@ namespace Hedera.Hashgraph.SDK
 		/// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
 		/// reports a fatal error, the SDK will try again with a different node.
 		/// </summary>
-		/// <param name="nodeAccountIds">The list of node AccountIds to be set</param>
-		/// <returns>{@code this}</returns>
-		public virtual SdkRequestT SetNodeAccountIds(IList<AccountId> nodeAccountIds)
-		{
-			nodeAccountIds.SetList(nodeAccountIds).SetLocked(true);
+		public IList<AccountId> NodeAccountIds
+        {
+            get => [.. field ??= new LockableList<AccountId>()];
+            set
+            {
+                field ??= new LockableList<AccountId>();
 
-			// noinspection unchecked
-			return (SdkRequestT)this;
+                (field as LockableList<AccountId>)!.SetLocked(false);
+            }
+        }
+        /// <summary>
+        /// Set a callback that will be called right before the request is sent. As input, the callback will receive the
+        /// protobuf of the request, and the callback should return the request protobuf.  This means the callback has an
+        /// opportunity to read, copy, or modify the request that will be sent.
+        /// </summary>
+        public Func<ProtoRequestT, ProtoRequestT> RequestListener
+		{
+			set; get => field ??= (request) =>
+			{
+				Logger?.Trace("Sent protobuf {}", Hex.ToHexString(request.ToByteArray()));
+
+				return request;
+			};
+		}
+        /// <summary>
+        /// Set a callback that will be called right before the response is returned. As input, the callback will receive the
+        /// protobuf of the response, and the callback should return the response protobuf.  This means the callback has an
+        /// opportunity to read, copy, or modify the response that will be read.
+        /// </summary>
+        public Func<ResponseT, ResponseT> ResponseListener
+        {
+            set; get => field ??= (response) =>
+			{
+				Logger?.Trace("Received protobuf {}", Hex.ToHexString(response.ToByteArray()));
+
+				return response;
+			};
 		}
 
-
-
+        /// <summary>
+        /// Set the logger
+        /// </summary>
+        /// <param name="logger">the new logger</param>
+        /// <returns>{@code this}</returns>
+        public virtual Logger? Logger { get; set; }
+		
 		/// <summary>
 		/// Called to direct the invocation of the query to the appropriate gRPC service.
 		/// </summary>
@@ -238,15 +172,76 @@ namespace Hedera.Hashgraph.SDK
 		public abstract void OnExecute(Client client);
 		public abstract Task OnExecuteAsync(Client client);
 		public abstract ProtoRequestT MakeRequest();
-		public abstract Status MapResponseStatus(ResponseT response);
+		public abstract Status MapResponseStatus(Proto.Response response);
 		/// <summary>
 		/// Called after receiving the query response from Hedera. The derived class should map into its output type.
 		/// </summary>
-		public abstract O MapResponse(ResponseT response, AccountId nodeId, ProtoRequestT request);
+		public abstract O MapResponse(Proto.Response response, AccountId nodeId, ProtoRequestT request);
 
-		
+		public virtual GrpcRequest GetGrpcRequest(int attempt)
+		{
+			return new GrpcRequest(null, attempt, GrpcDeadline);
+		}
+		/// <summary>
+		/// Return the next node for execution. Will select the first node that is deemed healthy. If we cannot find such a
+		/// node and have tried n nodes (n being the size of the node list), we will select the node with the smallest
+		/// remaining delay. All delays MUST be executed in calling layer as this method will be called for sync + async
+		/// scenarios.
+		/// </summary>
+		public virtual Node GetNodeForExecute(int attempt)
+		{
+			Node node = null;
+			Node candidate = null;
+			long smallestDelay = Long.MAX_VALUE;
+			for (int _i = 0; _i < nodes.Count; _i++)
+			{
 
-        public virtual void MergeFromClient(Client client)
+				// NOTE: _i is NOT the index into nodes, it is just keeping track of how many times we've iterated.
+				// In the event of ServerErrors, this method depends on the nodes list to have advanced to
+				// the next node.
+				node = nodes.GetCurrent();
+				if (!node.IsHealthy())
+				{
+
+					// Keep track of the node with the smallest delay seen thus far. If we go through the entire list
+					// (meaning all nodes are unhealthy) then we will select the node with the smallest delay.
+					long backoff = node.GetRemainingTimeForBackoff();
+					if (backoff < smallestDelay)
+					{
+						candidate = node;
+						smallestDelay = backoff;
+					}
+
+					node = null;
+					AdvanceRequest();
+				}
+				else
+				{
+					break; // got a good node, use it
+				}
+			}
+
+			if (node == null)
+			{
+				node = candidate;
+
+				// If we've tried all nodes, index will be +1 too far. Index increment happens outside
+				// this method so try to be consistent with happy path.
+				nodeAccountIds.SetIndex(Math.Max(0, nodeAccountIds.Index()));
+			}
+
+
+			// node won't be null at this point because execute() validates before this method is called.
+			// Add null check here to work around sonar NPE detection.
+			if (node != null && logger != null)
+			{
+				logger.Trace("Using node {} for request #{}: {}", node.AccountId, attempt, this);
+			}
+
+			return node;
+		}
+
+		public virtual void MergeFromClient(Client client)
         {
             MaxAttempts = client.GetMaxAttempts();
             MaxBackoff = client.GetMaxBackoff();
@@ -610,8 +605,6 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        
-
         private ProtoRequestT GetRequestForExecute()
         {
             var request = MakeRequest();
@@ -684,7 +677,7 @@ namespace Hedera.Hashgraph.SDK
                         grpcRequest.HandleResponse(response, status, executionState, client);
                         switch (executionState)
                         {
-                            case RETRY:
+                            case ExecutionState.Retry:
 
                                 // Response is not ready yet from server, need to wait.
                                 // Handle INVALID_NODE_ACCOUNT: mark node as unusable and update network
@@ -705,14 +698,14 @@ namespace Hedera.Hashgraph.SDK
 
                                 Delayer.DelayFor((attempt < maxAttempts) ? grpcRequest.GetDelay() : 0, client.executor).ThenRun(() => ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(Instant.Now(), timeoutTime)));
                                 break;
-                            case SERVER_ERROR:
+                            case ExecutionState.ServerError:
                                 AdvanceRequest(); // Advance to next node before retrying
                                 ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(Instant.Now(), timeoutTime));
                                 break;
-                            case REQUEST_ERROR:
+                            case ExecutionState.RequestError:
                                 returnFuture.CompleteExceptionally(new CompletionException(grpcRequest.MapStatusException()));
                                 break;
-                            case SUCCESS:
+                            case ExecutionState.Success:
                             default:
                                 returnFuture.Complete(grpcRequest.MapResponse());
                                 break;
@@ -732,70 +725,6 @@ namespace Hedera.Hashgraph.SDK
             });
         }
 
-
-		public virtual GrpcRequest GetGrpcRequest(int attempt)
-        {
-            return new GrpcRequest(null, attempt, grpcDeadline);
-        }
-		/// <summary>
-		/// Return the next node for execution. Will select the first node that is deemed healthy. If we cannot find such a
-		/// node and have tried n nodes (n being the size of the node list), we will select the node with the smallest
-		/// remaining delay. All delays MUST be executed in calling layer as this method will be called for sync + async
-		/// scenarios.
-		/// </summary>
-		public virtual Node GetNodeForExecute(int attempt)
-		{
-			Node node = null;
-			Node candidate = null;
-			long smallestDelay = Long.MAX_VALUE;
-			for (int _i = 0; _i < nodes.Count; _i++)
-			{
-
-				// NOTE: _i is NOT the index into nodes, it is just keeping track of how many times we've iterated.
-				// In the event of ServerErrors, this method depends on the nodes list to have advanced to
-				// the next node.
-				node = nodes.GetCurrent();
-				if (!node.IsHealthy())
-				{
-
-					// Keep track of the node with the smallest delay seen thus far. If we go through the entire list
-					// (meaning all nodes are unhealthy) then we will select the node with the smallest delay.
-					long backoff = node.GetRemainingTimeForBackoff();
-					if (backoff < smallestDelay)
-					{
-						candidate = node;
-						smallestDelay = backoff;
-					}
-
-					node = null;
-					AdvanceRequest();
-				}
-				else
-				{
-					break; // got a good node, use it
-				}
-			}
-
-			if (node == null)
-			{
-				node = candidate;
-
-				// If we've tried all nodes, index will be +1 too far. Index increment happens outside
-				// this method so try to be consistent with happy path.
-				nodeAccountIds.SetIndex(Math.Max(0, nodeAccountIds.Index()));
-			}
-
-
-			// node won't be null at this point because execute() validates before this method is called.
-			// Add null check here to work around sonar NPE detection.
-			if (node != null && logger != null)
-			{
-				logger.Trace("Using node {} for request #{}: {}", node.AccountId, attempt, this);
-			}
-
-			return node;
-		}
-
 		public virtual void AdvanceRequest()
         {
             if (nodeAccountIds.Index() + 1 == nodes.Count - 1)
@@ -810,19 +739,6 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-		
-		
-        public virtual bool ShouldRetryExceptionally(Exception error)
-        {
-            if (error is StatusRuntimeException)
-            {
-                var status = statusException.GetStatus().GetCode();
-                var description = statusException.GetStatus().Description;
-                return (status == Code.UNAVAILABLE) || (status == Code.RESOURCE_EXHAUSTED) || (status == Code.INTERNAL && description != null && RST_STREAM.Matcher(description).Matches());
-            }
-
-            return false;
-        }
 
         /// <summary>
         /// Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
@@ -843,5 +759,16 @@ namespace Hedera.Hashgraph.SDK
                 _ => ExecutionState.RequestError, // user error
             };
         }
-    }
+		public virtual bool ShouldRetryExceptionally(Exception error)
+		{
+			if (error is StatusRuntimeException)
+			{
+				var status = statusException.GetStatus().GetCode();
+				var description = statusException.GetStatus().Description;
+				return (status == Code.UNAVAILABLE) || (status == Code.RESOURCE_EXHAUSTED) || (status == Code.INTERNAL && description != null && RST_STREAM.Matcher(description).Matches());
+			}
+
+			return false;
+		}
+	}
 }

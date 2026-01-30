@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from consensus_submit_message.proto</summary>
   public static partial class ConsensusSubmitMessageReflection {
@@ -31,12 +31,13 @@ namespace Proto {
             "bnN1c1N1Ym1pdE1lc3NhZ2VUcmFuc2FjdGlvbkJvZHkSHwoHdG9waWNJRBgB",
             "IAEoCzIOLnByb3RvLlRvcGljSUQSDwoHbWVzc2FnZRgCIAEoDBIzCgljaHVu",
             "a0luZm8YAyABKAsyIC5wcm90by5Db25zZW5zdXNNZXNzYWdlQ2h1bmtJbmZv",
-            "QiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "QjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5I",
+            "YXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ConsensusMessageChunkInfo), global::Proto.ConsensusMessageChunkInfo.Parser, new[]{ "InitialTransactionID", "Total", "Number" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ConsensusSubmitMessageTransactionBody), global::Proto.ConsensusSubmitMessageTransactionBody.Parser, new[]{ "TopicID", "Message", "ChunkInfo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo), global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo.Parser, new[]{ "InitialTransactionID", "Total", "Number" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody), global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageTransactionBody.Parser, new[]{ "TopicID", "Message", "ChunkInfo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -71,7 +72,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ConsensusSubmitMessageReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -105,7 +106,7 @@ namespace Proto {
 
     /// <summary>Field number for the "initialTransactionID" field.</summary>
     public const int InitialTransactionIDFieldNumber = 1;
-    private global::Proto.TransactionID initialTransactionID_;
+    private global::Hedera.Hashgraph.Proto.TransactionID initialTransactionID_;
     /// <summary>
     ///*
     /// The TransactionID of the first chunk.
@@ -114,7 +115,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionID InitialTransactionID {
+    public global::Hedera.Hashgraph.Proto.TransactionID InitialTransactionID {
       get { return initialTransactionID_; }
       set {
         initialTransactionID_ = value;
@@ -267,7 +268,7 @@ namespace Proto {
       }
       if (other.initialTransactionID_ != null) {
         if (initialTransactionID_ == null) {
-          InitialTransactionID = new global::Proto.TransactionID();
+          InitialTransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
         }
         InitialTransactionID.MergeFrom(other.InitialTransactionID);
       }
@@ -298,7 +299,7 @@ namespace Proto {
             break;
           case 10: {
             if (initialTransactionID_ == null) {
-              InitialTransactionID = new global::Proto.TransactionID();
+              InitialTransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(InitialTransactionID);
             break;
@@ -332,7 +333,7 @@ namespace Proto {
             break;
           case 10: {
             if (initialTransactionID_ == null) {
-              InitialTransactionID = new global::Proto.TransactionID();
+              InitialTransactionID = new global::Hedera.Hashgraph.Proto.TransactionID();
             }
             input.ReadMessage(InitialTransactionID);
             break;
@@ -384,7 +385,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ConsensusSubmitMessageReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusSubmitMessageReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -418,14 +419,14 @@ namespace Proto {
 
     /// <summary>Field number for the "topicID" field.</summary>
     public const int TopicIDFieldNumber = 1;
-    private global::Proto.TopicID topicID_;
+    private global::Hedera.Hashgraph.Proto.TopicID topicID_;
     /// <summary>
     ///*
     /// Topic to submit message to.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TopicID TopicID {
+    public global::Hedera.Hashgraph.Proto.TopicID TopicID {
       get { return topicID_; }
       set {
         topicID_ = value;
@@ -454,7 +455,7 @@ namespace Proto {
 
     /// <summary>Field number for the "chunkInfo" field.</summary>
     public const int ChunkInfoFieldNumber = 3;
-    private global::Proto.ConsensusMessageChunkInfo chunkInfo_;
+    private global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo chunkInfo_;
     /// <summary>
     ///*
     /// Information for the current "chunk" in a fragmented message.
@@ -466,7 +467,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusMessageChunkInfo ChunkInfo {
+    public global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo ChunkInfo {
       get { return chunkInfo_; }
       set {
         chunkInfo_ = value;
@@ -586,7 +587,7 @@ namespace Proto {
       }
       if (other.topicID_ != null) {
         if (topicID_ == null) {
-          TopicID = new global::Proto.TopicID();
+          TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
         }
         TopicID.MergeFrom(other.TopicID);
       }
@@ -595,7 +596,7 @@ namespace Proto {
       }
       if (other.chunkInfo_ != null) {
         if (chunkInfo_ == null) {
-          ChunkInfo = new global::Proto.ConsensusMessageChunkInfo();
+          ChunkInfo = new global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo();
         }
         ChunkInfo.MergeFrom(other.ChunkInfo);
       }
@@ -620,7 +621,7 @@ namespace Proto {
             break;
           case 10: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
@@ -631,7 +632,7 @@ namespace Proto {
           }
           case 26: {
             if (chunkInfo_ == null) {
-              ChunkInfo = new global::Proto.ConsensusMessageChunkInfo();
+              ChunkInfo = new global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo();
             }
             input.ReadMessage(ChunkInfo);
             break;
@@ -657,7 +658,7 @@ namespace Proto {
             break;
           case 10: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
@@ -668,7 +669,7 @@ namespace Proto {
           }
           case 26: {
             if (chunkInfo_ == null) {
-              ChunkInfo = new global::Proto.ConsensusMessageChunkInfo();
+              ChunkInfo = new global::Hedera.Hashgraph.Proto.ConsensusMessageChunkInfo();
             }
             input.ReadMessage(ChunkInfo);
             break;

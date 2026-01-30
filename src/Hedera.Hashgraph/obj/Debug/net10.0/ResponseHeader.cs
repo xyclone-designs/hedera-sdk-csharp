@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from response_header.proto</summary>
   public static partial class ResponseHeaderReflection {
@@ -29,12 +29,12 @@ namespace Proto {
             "EjwKG25vZGVUcmFuc2FjdGlvblByZWNoZWNrQ29kZRgBIAEoDjIXLnByb3Rv",
             "LlJlc3BvbnNlQ29kZUVudW0SKQoMcmVzcG9uc2VUeXBlGAIgASgOMhMucHJv",
             "dG8uUmVzcG9uc2VUeXBlEgwKBGNvc3QYAyABKAQSEgoKc3RhdGVQcm9vZhgE",
-            "IAEoDEIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJv",
-            "dG8z"));
+            "IAEoDEI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRl",
+            "cmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseCodeReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseCodeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ResponseHeader), global::Proto.ResponseHeader.Parser, new[]{ "NodeTransactionPrecheckCode", "ResponseType", "Cost", "StateProof" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ResponseHeader), global::Hedera.Hashgraph.Proto.ResponseHeader.Parser, new[]{ "NodeTransactionPrecheckCode", "ResponseType", "Cost", "StateProof" }, null, null, null, null)
           }));
     }
     #endregion
@@ -66,7 +66,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ResponseHeaderReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -101,7 +101,7 @@ namespace Proto {
 
     /// <summary>Field number for the "nodeTransactionPrecheckCode" field.</summary>
     public const int NodeTransactionPrecheckCodeFieldNumber = 1;
-    private global::Proto.ResponseCodeEnum nodeTransactionPrecheckCode_ = global::Proto.ResponseCodeEnum.Ok;
+    private global::Hedera.Hashgraph.Proto.ResponseCodeEnum nodeTransactionPrecheckCode_ = global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok;
     /// <summary>
     ///*
     /// The result code for this query.
@@ -110,7 +110,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseCodeEnum NodeTransactionPrecheckCode {
+    public global::Hedera.Hashgraph.Proto.ResponseCodeEnum NodeTransactionPrecheckCode {
       get { return nodeTransactionPrecheckCode_; }
       set {
         nodeTransactionPrecheckCode_ = value;
@@ -119,7 +119,7 @@ namespace Proto {
 
     /// <summary>Field number for the "responseType" field.</summary>
     public const int ResponseTypeFieldNumber = 2;
-    private global::Proto.ResponseType responseType_ = global::Proto.ResponseType.AnswerOnly;
+    private global::Hedera.Hashgraph.Proto.ResponseType responseType_ = global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly;
     /// <summary>
     ///*
     /// The response type requested for this query.
@@ -128,7 +128,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseType ResponseType {
+    public global::Hedera.Hashgraph.Proto.ResponseType ResponseType {
       get { return responseType_; }
       set {
         responseType_ = value;
@@ -206,8 +206,8 @@ namespace Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (NodeTransactionPrecheckCode != global::Proto.ResponseCodeEnum.Ok) hash ^= NodeTransactionPrecheckCode.GetHashCode();
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) hash ^= ResponseType.GetHashCode();
+      if (NodeTransactionPrecheckCode != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) hash ^= NodeTransactionPrecheckCode.GetHashCode();
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) hash ^= ResponseType.GetHashCode();
       if (Cost != 0UL) hash ^= Cost.GetHashCode();
       if (StateProof.Length != 0) hash ^= StateProof.GetHashCode();
       if (_unknownFields != null) {
@@ -228,11 +228,11 @@ namespace Proto {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (NodeTransactionPrecheckCode != global::Proto.ResponseCodeEnum.Ok) {
+      if (NodeTransactionPrecheckCode != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         output.WriteRawTag(8);
         output.WriteEnum((int) NodeTransactionPrecheckCode);
       }
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         output.WriteRawTag(16);
         output.WriteEnum((int) ResponseType);
       }
@@ -254,11 +254,11 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (NodeTransactionPrecheckCode != global::Proto.ResponseCodeEnum.Ok) {
+      if (NodeTransactionPrecheckCode != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         output.WriteRawTag(8);
         output.WriteEnum((int) NodeTransactionPrecheckCode);
       }
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         output.WriteRawTag(16);
         output.WriteEnum((int) ResponseType);
       }
@@ -280,10 +280,10 @@ namespace Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (NodeTransactionPrecheckCode != global::Proto.ResponseCodeEnum.Ok) {
+      if (NodeTransactionPrecheckCode != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) NodeTransactionPrecheckCode);
       }
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ResponseType);
       }
       if (Cost != 0UL) {
@@ -304,10 +304,10 @@ namespace Proto {
       if (other == null) {
         return;
       }
-      if (other.NodeTransactionPrecheckCode != global::Proto.ResponseCodeEnum.Ok) {
+      if (other.NodeTransactionPrecheckCode != global::Hedera.Hashgraph.Proto.ResponseCodeEnum.Ok) {
         NodeTransactionPrecheckCode = other.NodeTransactionPrecheckCode;
       }
-      if (other.ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (other.ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         ResponseType = other.ResponseType;
       }
       if (other.Cost != 0UL) {
@@ -336,11 +336,11 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            NodeTransactionPrecheckCode = (global::Proto.ResponseCodeEnum) input.ReadEnum();
+            NodeTransactionPrecheckCode = (global::Hedera.Hashgraph.Proto.ResponseCodeEnum) input.ReadEnum();
             break;
           }
           case 16: {
-            ResponseType = (global::Proto.ResponseType) input.ReadEnum();
+            ResponseType = (global::Hedera.Hashgraph.Proto.ResponseType) input.ReadEnum();
             break;
           }
           case 24: {
@@ -371,11 +371,11 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            NodeTransactionPrecheckCode = (global::Proto.ResponseCodeEnum) input.ReadEnum();
+            NodeTransactionPrecheckCode = (global::Hedera.Hashgraph.Proto.ResponseCodeEnum) input.ReadEnum();
             break;
           }
           case 16: {
-            ResponseType = (global::Proto.ResponseType) input.ReadEnum();
+            ResponseType = (global::Hedera.Hashgraph.Proto.ResponseType) input.ReadEnum();
             break;
           }
           case 24: {

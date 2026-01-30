@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from common.proto</summary>
   public static partial class CommonReflection {
@@ -27,13 +27,14 @@ namespace Proto {
             "Cgxjb21tb24ucHJvdG8SBXByb3RvGhFiYXNpY190eXBlcy5wcm90byIiCgxF",
             "bnRpdHlOdW1iZXISDgoGbnVtYmVyGAEgASgDOgIYASJaCgxFbnRpdHlJRFBh",
             "aXISJAoKYWNjb3VudF9pZBgBIAEoCzIQLnByb3RvLkFjY291bnRJRBIgCgh0",
-            "b2tlbl9pZBgCIAEoCzIOLnByb3RvLlRva2VuSUQ6AhgBQiIKHmNvbS5oZWRl",
-            "cmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "b2tlbl9pZBgCIAEoCzIOLnByb3RvLlRva2VuSUQ6AhgBQjkKHmNvbS5oZWRl",
+            "cmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJv",
+            "dG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.EntityNumber), global::Proto.EntityNumber.Parser, new[]{ "Number" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.EntityIDPair), global::Proto.EntityIDPair.Parser, new[]{ "AccountId", "TokenId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EntityNumber), global::Hedera.Hashgraph.Proto.EntityNumber.Parser, new[]{ "Number" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EntityIDPair), global::Hedera.Hashgraph.Proto.EntityIDPair.Parser, new[]{ "AccountId", "TokenId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -63,7 +64,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CommonReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CommonReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -274,7 +275,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CommonReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.CommonReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -307,14 +308,14 @@ namespace Proto {
 
     /// <summary>Field number for the "account_id" field.</summary>
     public const int AccountIdFieldNumber = 1;
-    private global::Proto.AccountID accountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountId_;
     /// <summary>
     ///*
     /// An account identifier for the associated account.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountId {
       get { return accountId_; }
       set {
         accountId_ = value;
@@ -323,14 +324,14 @@ namespace Proto {
 
     /// <summary>Field number for the "token_id" field.</summary>
     public const int TokenIdFieldNumber = 2;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier for the associated token.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -437,13 +438,13 @@ namespace Proto {
       }
       if (other.accountId_ != null) {
         if (accountId_ == null) {
-          AccountId = new global::Proto.AccountID();
+          AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountId.MergeFrom(other.AccountId);
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
@@ -468,14 +469,14 @@ namespace Proto {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
           }
           case 18: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
@@ -501,14 +502,14 @@ namespace Proto {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
           }
           case 18: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;

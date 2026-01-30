@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from transaction_list.proto</summary>
   public static partial class TransactionListReflection {
@@ -26,12 +26,13 @@ namespace Proto {
           string.Concat(
             "ChZ0cmFuc2FjdGlvbl9saXN0LnByb3RvEgVwcm90bxoRdHJhbnNhY3Rpb24u",
             "cHJvdG8iPwoPVHJhbnNhY3Rpb25MaXN0EiwKEHRyYW5zYWN0aW9uX2xpc3QY",
-            "ASADKAsyEi5wcm90by5UcmFuc2FjdGlvbkIiCh5jb20uaGVkZXJhLmhhc2hn",
-            "cmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "ASADKAsyEi5wcm90by5UcmFuc2FjdGlvbkI5Ch5jb20uaGVkZXJhLmhhc2hn",
+            "cmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TransactionReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TransactionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TransactionList), global::Proto.TransactionList.Parser, new[]{ "TransactionList_" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TransactionList), global::Hedera.Hashgraph.Proto.TransactionList.Parser, new[]{ "TransactionList_" }, null, null, null, null)
           }));
     }
     #endregion
@@ -61,7 +62,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TransactionListReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TransactionListReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -93,12 +94,12 @@ namespace Proto {
 
     /// <summary>Field number for the "transaction_list" field.</summary>
     public const int TransactionList_FieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.Transaction> _repeated_transactionList_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.Transaction.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Transaction> transactionList_ = new pbc::RepeatedField<global::Proto.Transaction>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Transaction> _repeated_transactionList_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.Transaction.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Transaction> transactionList_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Transaction>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Transaction> TransactionList_ {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Transaction> TransactionList_ {
       get { return transactionList_; }
     }
 

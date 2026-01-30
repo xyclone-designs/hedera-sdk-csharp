@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from network_get_execution_time.proto</summary>
   public static partial class NetworkGetExecutionTimeReflection {
@@ -31,13 +31,13 @@ namespace Proto {
             "YWN0aW9uX2lkcxgCIAMoCzIULnByb3RvLlRyYW5zYWN0aW9uSUQ6AhgBImUK",
             "H05ldHdvcmtHZXRFeGVjdXRpb25UaW1lUmVzcG9uc2USJQoGaGVhZGVyGAEg",
             "ASgLMhUucHJvdG8uUmVzcG9uc2VIZWFkZXISFwoPZXhlY3V0aW9uX3RpbWVz",
-            "GAIgAygEOgIYAUIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9Q",
-            "AWIGcHJvdG8z"));
+            "GAIgAygEOgIYAUI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+q",
+            "AhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NetworkGetExecutionTimeQuery), global::Proto.NetworkGetExecutionTimeQuery.Parser, new[]{ "Header", "TransactionIds" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NetworkGetExecutionTimeResponse), global::Proto.NetworkGetExecutionTimeResponse.Parser, new[]{ "Header", "ExecutionTimes" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeQuery), global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeQuery.Parser, new[]{ "Header", "TransactionIds" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse), global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse.Parser, new[]{ "Header", "ExecutionTimes" }, null, null, null, null)
           }));
     }
     #endregion
@@ -76,7 +76,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NetworkGetExecutionTimeReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -109,7 +109,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -118,7 +118,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -127,9 +127,9 @@ namespace Proto {
 
     /// <summary>Field number for the "transaction_ids" field.</summary>
     public const int TransactionIdsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.TransactionID> _repeated_transactionIds_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.TransactionID.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TransactionID> transactionIds_ = new pbc::RepeatedField<global::Proto.TransactionID>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TransactionID> _repeated_transactionIds_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.TransactionID.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionID> transactionIds_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionID>();
     /// <summary>
     ///*
     /// A list of transaction identifiers to query.
@@ -140,7 +140,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TransactionID> TransactionIds {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TransactionID> TransactionIds {
       get { return transactionIds_; }
     }
 
@@ -236,7 +236,7 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
@@ -262,7 +262,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -292,7 +292,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -328,7 +328,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NetworkGetExecutionTimeReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -361,7 +361,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -370,7 +370,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -487,7 +487,7 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
@@ -513,7 +513,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -544,7 +544,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;

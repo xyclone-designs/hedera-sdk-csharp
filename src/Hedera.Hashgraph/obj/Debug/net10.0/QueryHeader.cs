@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from query_header.proto</summary>
   public static partial class QueryHeaderReflection {
@@ -29,12 +29,12 @@ namespace Proto {
             "bnNhY3Rpb24SKQoMcmVzcG9uc2VUeXBlGAIgASgOMhMucHJvdG8uUmVzcG9u",
             "c2VUeXBlKmUKDFJlc3BvbnNlVHlwZRIPCgtBTlNXRVJfT05MWRAAEhYKEkFO",
             "U1dFUl9TVEFURV9QUk9PRhABEg8KC0NPU1RfQU5TV0VSEAISGwoXQ09TVF9B",
-            "TlNXRVJfU1RBVEVfUFJPT0YQA0IiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
-            "ZGsucHJvdG9QAWIGcHJvdG8z"));
+            "TlNXRVJfU1RBVEVfUFJPT0YQA0I5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
+            "ZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TransactionReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Proto.ResponseType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.QueryHeader), global::Proto.QueryHeader.Parser, new[]{ "Payment", "ResponseType" }, null, null, null, null)
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TransactionReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Hedera.Hashgraph.Proto.ResponseType), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.QueryHeader), global::Hedera.Hashgraph.Proto.QueryHeader.Parser, new[]{ "Payment", "ResponseType" }, null, null, null, null)
           }));
     }
     #endregion
@@ -107,7 +107,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.QueryHeaderReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -140,7 +140,7 @@ namespace Proto {
 
     /// <summary>Field number for the "payment" field.</summary>
     public const int PaymentFieldNumber = 1;
-    private global::Proto.Transaction payment_;
+    private global::Hedera.Hashgraph.Proto.Transaction payment_;
     /// <summary>
     ///*
     /// A signed `CryptoTransferTransaction` to pay query fees.
@@ -150,7 +150,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Transaction Payment {
+    public global::Hedera.Hashgraph.Proto.Transaction Payment {
       get { return payment_; }
       set {
         payment_ = value;
@@ -159,14 +159,14 @@ namespace Proto {
 
     /// <summary>Field number for the "responseType" field.</summary>
     public const int ResponseTypeFieldNumber = 2;
-    private global::Proto.ResponseType responseType_ = global::Proto.ResponseType.AnswerOnly;
+    private global::Hedera.Hashgraph.Proto.ResponseType responseType_ = global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly;
     /// <summary>
     ///*
     /// A type of query response requested.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseType ResponseType {
+    public global::Hedera.Hashgraph.Proto.ResponseType ResponseType {
       get { return responseType_; }
       set {
         responseType_ = value;
@@ -198,7 +198,7 @@ namespace Proto {
     public override int GetHashCode() {
       int hash = 1;
       if (payment_ != null) hash ^= Payment.GetHashCode();
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) hash ^= ResponseType.GetHashCode();
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) hash ^= ResponseType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -221,7 +221,7 @@ namespace Proto {
         output.WriteRawTag(10);
         output.WriteMessage(Payment);
       }
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         output.WriteRawTag(16);
         output.WriteEnum((int) ResponseType);
       }
@@ -239,7 +239,7 @@ namespace Proto {
         output.WriteRawTag(10);
         output.WriteMessage(Payment);
       }
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         output.WriteRawTag(16);
         output.WriteEnum((int) ResponseType);
       }
@@ -256,7 +256,7 @@ namespace Proto {
       if (payment_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Payment);
       }
-      if (ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ResponseType);
       }
       if (_unknownFields != null) {
@@ -273,11 +273,11 @@ namespace Proto {
       }
       if (other.payment_ != null) {
         if (payment_ == null) {
-          Payment = new global::Proto.Transaction();
+          Payment = new global::Hedera.Hashgraph.Proto.Transaction();
         }
         Payment.MergeFrom(other.Payment);
       }
-      if (other.ResponseType != global::Proto.ResponseType.AnswerOnly) {
+      if (other.ResponseType != global::Hedera.Hashgraph.Proto.ResponseType.AnswerOnly) {
         ResponseType = other.ResponseType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -301,13 +301,13 @@ namespace Proto {
             break;
           case 10: {
             if (payment_ == null) {
-              Payment = new global::Proto.Transaction();
+              Payment = new global::Hedera.Hashgraph.Proto.Transaction();
             }
             input.ReadMessage(Payment);
             break;
           }
           case 16: {
-            ResponseType = (global::Proto.ResponseType) input.ReadEnum();
+            ResponseType = (global::Hedera.Hashgraph.Proto.ResponseType) input.ReadEnum();
             break;
           }
         }
@@ -331,13 +331,13 @@ namespace Proto {
             break;
           case 10: {
             if (payment_ == null) {
-              Payment = new global::Proto.Transaction();
+              Payment = new global::Hedera.Hashgraph.Proto.Transaction();
             }
             input.ReadMessage(Payment);
             break;
           }
           case 16: {
-            ResponseType = (global::Proto.ResponseType) input.ReadEnum();
+            ResponseType = (global::Hedera.Hashgraph.Proto.ResponseType) input.ReadEnum();
             break;
           }
         }

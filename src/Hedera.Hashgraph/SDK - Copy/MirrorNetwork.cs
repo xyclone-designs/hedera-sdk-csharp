@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 SetNetwork(addresses);
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException e)
             {
             }
             catch (TimeoutException e)

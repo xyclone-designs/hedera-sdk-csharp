@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_get_stakers.proto</summary>
   public static partial class CryptoGetStakersReflection {
@@ -34,15 +34,16 @@ namespace Proto {
             "LkFjY291bnRJRBInCgtwcm94eVN0YWtlchgCIAMoCzISLnByb3RvLlByb3h5",
             "U3Rha2VyOgIYASJuChhDcnlwdG9HZXRTdGFrZXJzUmVzcG9uc2USJQoGaGVh",
             "ZGVyGAEgASgLMhUucHJvdG8uUmVzcG9uc2VIZWFkZXISJwoHc3Rha2VycxgD",
-            "IAEoCzIWLnByb3RvLkFsbFByb3h5U3Rha2VyczoCGAFCIgoeY29tLmhlZGVy",
-            "YS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "IAEoCzIWLnByb3RvLkFsbFByb3h5U3Rha2VyczoCGAFCOQoeY29tLmhlZGVy",
+            "YS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90",
+            "b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoGetStakersQuery), global::Proto.CryptoGetStakersQuery.Parser, new[]{ "Header", "AccountID" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ProxyStaker), global::Proto.ProxyStaker.Parser, new[]{ "AccountID", "Amount" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.AllProxyStakers), global::Proto.AllProxyStakers.Parser, new[]{ "AccountID", "ProxyStaker" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoGetStakersResponse), global::Proto.CryptoGetStakersResponse.Parser, new[]{ "Header", "Stakers" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoGetStakersQuery), global::Hedera.Hashgraph.Proto.CryptoGetStakersQuery.Parser, new[]{ "Header", "AccountID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ProxyStaker), global::Hedera.Hashgraph.Proto.ProxyStaker.Parser, new[]{ "AccountID", "Amount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.AllProxyStakers), global::Hedera.Hashgraph.Proto.AllProxyStakers.Parser, new[]{ "AccountID", "ProxyStaker" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse), global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse.Parser, new[]{ "Header", "Stakers" }, null, null, null, null)
           }));
     }
     #endregion
@@ -70,7 +71,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -103,7 +104,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -112,7 +113,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -121,14 +122,14 @@ namespace Proto {
 
     /// <summary>Field number for the "accountID" field.</summary>
     public const int AccountIDFieldNumber = 2;
-    private global::Proto.AccountID accountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountID_;
     /// <summary>
     ///*
     /// The Account ID for which the records should be retrieved
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
       get { return accountID_; }
       set {
         accountID_ = value;
@@ -235,13 +236,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.accountID_ != null) {
         if (accountID_ == null) {
-          AccountID = new global::Proto.AccountID();
+          AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountID.MergeFrom(other.AccountID);
       }
@@ -266,14 +267,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -299,14 +300,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -338,7 +339,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -371,14 +372,14 @@ namespace Proto {
 
     /// <summary>Field number for the "accountID" field.</summary>
     public const int AccountIDFieldNumber = 1;
-    private global::Proto.AccountID accountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountID_;
     /// <summary>
     ///*
     /// The Account ID that is proxy staking
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
       get { return accountID_; }
       set {
         accountID_ = value;
@@ -501,7 +502,7 @@ namespace Proto {
       }
       if (other.accountID_ != null) {
         if (accountID_ == null) {
-          AccountID = new global::Proto.AccountID();
+          AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountID.MergeFrom(other.AccountID);
       }
@@ -529,7 +530,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -559,7 +560,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -596,7 +597,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -629,14 +630,14 @@ namespace Proto {
 
     /// <summary>Field number for the "accountID" field.</summary>
     public const int AccountIDFieldNumber = 1;
-    private global::Proto.AccountID accountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountID_;
     /// <summary>
     ///*
     /// The Account ID that is being proxy staked to
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
       get { return accountID_; }
       set {
         accountID_ = value;
@@ -645,9 +646,9 @@ namespace Proto {
 
     /// <summary>Field number for the "proxyStaker" field.</summary>
     public const int ProxyStakerFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.ProxyStaker> _repeated_proxyStaker_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.ProxyStaker.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ProxyStaker> proxyStaker_ = new pbc::RepeatedField<global::Proto.ProxyStaker>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ProxyStaker> _repeated_proxyStaker_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.ProxyStaker.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ProxyStaker> proxyStaker_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ProxyStaker>();
     /// <summary>
     ///*
     /// Each of the proxy staking accounts, and the amount they are proxy staking
@@ -655,7 +656,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ProxyStaker> ProxyStaker {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ProxyStaker> ProxyStaker {
       get { return proxyStaker_; }
     }
 
@@ -751,7 +752,7 @@ namespace Proto {
       }
       if (other.accountID_ != null) {
         if (accountID_ == null) {
-          AccountID = new global::Proto.AccountID();
+          AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountID.MergeFrom(other.AccountID);
       }
@@ -777,7 +778,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -807,7 +808,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -843,7 +844,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoGetStakersReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -876,7 +877,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -885,7 +886,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -894,7 +895,7 @@ namespace Proto {
 
     /// <summary>Field number for the "stakers" field.</summary>
     public const int StakersFieldNumber = 3;
-    private global::Proto.AllProxyStakers stakers_;
+    private global::Hedera.Hashgraph.Proto.AllProxyStakers stakers_;
     /// <summary>
     ///*
     /// List of accounts proxy staking to this account, and the amount each is
@@ -903,7 +904,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AllProxyStakers Stakers {
+    public global::Hedera.Hashgraph.Proto.AllProxyStakers Stakers {
       get { return stakers_; }
       set {
         stakers_ = value;
@@ -1010,13 +1011,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.stakers_ != null) {
         if (stakers_ == null) {
-          Stakers = new global::Proto.AllProxyStakers();
+          Stakers = new global::Hedera.Hashgraph.Proto.AllProxyStakers();
         }
         Stakers.MergeFrom(other.Stakers);
       }
@@ -1041,14 +1042,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 26: {
             if (stakers_ == null) {
-              Stakers = new global::Proto.AllProxyStakers();
+              Stakers = new global::Hedera.Hashgraph.Proto.AllProxyStakers();
             }
             input.ReadMessage(Stakers);
             break;
@@ -1074,14 +1075,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 26: {
             if (stakers_ == null) {
-              Stakers = new global::Proto.AllProxyStakers();
+              Stakers = new global::Hedera.Hashgraph.Proto.AllProxyStakers();
             }
             input.ReadMessage(Stakers);
             break;

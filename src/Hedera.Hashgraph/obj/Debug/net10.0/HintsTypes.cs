@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.State.Hints {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from hints_types.proto</summary>
   public static partial class HintsTypesReflection {
@@ -54,20 +54,20 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             "LlVJbnQ2NFZhbHVlEi8KFWNvbnRyaWJ1dGlvbl9lbmRfdGltZRgEIAEoCzIQ",
             "LnByb3RvLlRpbWVzdGFtcCpaCghDUlNTdGFnZRIbChdHQVRIRVJJTkdfQ09O",
             "VFJJQlVUSU9OUxAAEiIKHldBSVRJTkdfRk9SX0FET1BUSU5HX0ZJTkFMX0NS",
-            "UxABEg0KCUNPTVBMRVRFRBACQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNk",
-            "ay5wcm90b1ABYgZwcm90bzM="));
+            "UxABEg0KCUNPTVBMRVRFRBACQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNk",
+            "ay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Com.Hedera.Hapi.Node.State.Hints.CRSStage), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.HintsPartyId), global::Com.Hedera.Hapi.Node.State.Hints.HintsPartyId.Parser, new[]{ "PartyId", "NumParties" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.HintsKeySet), global::Com.Hedera.Hapi.Node.State.Hints.HintsKeySet.Parser, new[]{ "NodeId", "AdoptionTime", "Key", "NextKey" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys), global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys.Parser, new[]{ "AggregationKey", "VerificationKey" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVoteId), global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVoteId.Parser, new[]{ "ConstructionId", "NodeId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVote), global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVote.Parser, new[]{ "PreprocessedKeys", "CongruentNodeId" }, new[]{ "Vote" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.NodePartyId), global::Com.Hedera.Hapi.Node.State.Hints.NodePartyId.Parser, new[]{ "NodeId", "PartyId", "PartyWeight" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme), global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme.Parser, new[]{ "PreprocessedKeys", "NodePartyIds" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.HintsConstruction), global::Com.Hedera.Hapi.Node.State.Hints.HintsConstruction.Parser, new[]{ "ConstructionId", "SourceRosterHash", "TargetRosterHash", "GracePeriodEndTime", "PreprocessingStartTime", "HintsScheme" }, new[]{ "PreprocessingState" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hints.CRSState), global::Com.Hedera.Hapi.Node.State.Hints.CRSState.Parser, new[]{ "Crs", "Stage", "NextContributingNodeId", "ContributionEndTime" }, null, null, null, null)
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Hedera.Hashgraph.Proto.CRSStage), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HintsPartyId), global::Hedera.Hashgraph.Proto.HintsPartyId.Parser, new[]{ "PartyId", "NumParties" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HintsKeySet), global::Hedera.Hashgraph.Proto.HintsKeySet.Parser, new[]{ "NodeId", "AdoptionTime", "Key", "NextKey" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.PreprocessedKeys), global::Hedera.Hashgraph.Proto.PreprocessedKeys.Parser, new[]{ "AggregationKey", "VerificationKey" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.PreprocessingVoteId), global::Hedera.Hashgraph.Proto.PreprocessingVoteId.Parser, new[]{ "ConstructionId", "NodeId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.PreprocessingVote), global::Hedera.Hashgraph.Proto.PreprocessingVote.Parser, new[]{ "PreprocessedKeys", "CongruentNodeId" }, new[]{ "Vote" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodePartyId), global::Hedera.Hashgraph.Proto.NodePartyId.Parser, new[]{ "NodeId", "PartyId", "PartyWeight" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HintsScheme), global::Hedera.Hashgraph.Proto.HintsScheme.Parser, new[]{ "PreprocessedKeys", "NodePartyIds" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HintsConstruction), global::Hedera.Hashgraph.Proto.HintsConstruction.Parser, new[]{ "ConstructionId", "SourceRosterHash", "TargetRosterHash", "GracePeriodEndTime", "PreprocessingStartTime", "HintsScheme" }, new[]{ "PreprocessingState" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CRSState), global::Hedera.Hashgraph.Proto.CRSState.Parser, new[]{ "Crs", "Stage", "NextContributingNodeId", "ContributionEndTime" }, null, null, null, null)
           }));
     }
     #endregion
@@ -120,7 +120,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -367,7 +367,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -418,7 +418,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
 
     /// <summary>Field number for the "adoption_time" field.</summary>
     public const int AdoptionTimeFieldNumber = 2;
-    private global::Proto.Timestamp adoptionTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp adoptionTime_;
     /// <summary>
     ///*
     /// The consensus time at which the network adopted the active
@@ -426,7 +426,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp AdoptionTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp AdoptionTime {
       get { return adoptionTime_; }
       set {
         adoptionTime_ = value;
@@ -595,7 +595,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
       }
       if (other.adoptionTime_ != null) {
         if (adoptionTime_ == null) {
-          AdoptionTime = new global::Proto.Timestamp();
+          AdoptionTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         AdoptionTime.MergeFrom(other.AdoptionTime);
       }
@@ -630,7 +630,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
           }
           case 18: {
             if (adoptionTime_ == null) {
-              AdoptionTime = new global::Proto.Timestamp();
+              AdoptionTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(AdoptionTime);
             break;
@@ -668,7 +668,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
           }
           case 18: {
             if (adoptionTime_ == null) {
-              AdoptionTime = new global::Proto.Timestamp();
+              AdoptionTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(AdoptionTime);
             break;
@@ -708,7 +708,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -956,7 +956,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1204,7 +1204,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1250,8 +1250,8 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys PreprocessedKeys {
-      get { return voteCase_ == VoteOneofCase.PreprocessedKeys ? (global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys) vote_ : null; }
+    public global::Hedera.Hashgraph.Proto.PreprocessedKeys PreprocessedKeys {
+      get { return voteCase_ == VoteOneofCase.PreprocessedKeys ? (global::Hedera.Hashgraph.Proto.PreprocessedKeys) vote_ : null; }
       set {
         vote_ = value;
         voteCase_ = value == null ? VoteOneofCase.None : VoteOneofCase.PreprocessedKeys;
@@ -1413,7 +1413,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
       switch (other.VoteCase) {
         case VoteOneofCase.PreprocessedKeys:
           if (PreprocessedKeys == null) {
-            PreprocessedKeys = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys();
+            PreprocessedKeys = new global::Hedera.Hashgraph.Proto.PreprocessedKeys();
           }
           PreprocessedKeys.MergeFrom(other.PreprocessedKeys);
           break;
@@ -1442,7 +1442,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys subBuilder = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys();
+            global::Hedera.Hashgraph.Proto.PreprocessedKeys subBuilder = new global::Hedera.Hashgraph.Proto.PreprocessedKeys();
             if (voteCase_ == VoteOneofCase.PreprocessedKeys) {
               subBuilder.MergeFrom(PreprocessedKeys);
             }
@@ -1474,7 +1474,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys subBuilder = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys();
+            global::Hedera.Hashgraph.Proto.PreprocessedKeys subBuilder = new global::Hedera.Hashgraph.Proto.PreprocessedKeys();
             if (voteCase_ == VoteOneofCase.PreprocessedKeys) {
               subBuilder.MergeFrom(PreprocessedKeys);
             }
@@ -1512,7 +1512,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1800,7 +1800,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1833,14 +1833,14 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
 
     /// <summary>Field number for the "preprocessed_keys" field.</summary>
     public const int PreprocessedKeysFieldNumber = 1;
-    private global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys preprocessedKeys_;
+    private global::Hedera.Hashgraph.Proto.PreprocessedKeys preprocessedKeys_;
     /// <summary>
     ///*
     /// The aggregation and verification keys for the scheme.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys PreprocessedKeys {
+    public global::Hedera.Hashgraph.Proto.PreprocessedKeys PreprocessedKeys {
       get { return preprocessedKeys_; }
       set {
         preprocessedKeys_ = value;
@@ -1849,16 +1849,16 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
 
     /// <summary>Field number for the "node_party_ids" field.</summary>
     public const int NodePartyIdsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.State.Hints.NodePartyId> _repeated_nodePartyIds_codec
-        = pb::FieldCodec.ForMessage(18, global::Com.Hedera.Hapi.Node.State.Hints.NodePartyId.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Hints.NodePartyId> nodePartyIds_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Hints.NodePartyId>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NodePartyId> _repeated_nodePartyIds_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.NodePartyId.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodePartyId> nodePartyIds_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodePartyId>();
     /// <summary>
     ///*
     /// The final party ids assigned to each node in the target roster.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Hints.NodePartyId> NodePartyIds {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodePartyId> NodePartyIds {
       get { return nodePartyIds_; }
     }
 
@@ -1954,7 +1954,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
       }
       if (other.preprocessedKeys_ != null) {
         if (preprocessedKeys_ == null) {
-          PreprocessedKeys = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys();
+          PreprocessedKeys = new global::Hedera.Hashgraph.Proto.PreprocessedKeys();
         }
         PreprocessedKeys.MergeFrom(other.PreprocessedKeys);
       }
@@ -1980,7 +1980,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           case 10: {
             if (preprocessedKeys_ == null) {
-              PreprocessedKeys = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys();
+              PreprocessedKeys = new global::Hedera.Hashgraph.Proto.PreprocessedKeys();
             }
             input.ReadMessage(PreprocessedKeys);
             break;
@@ -2010,7 +2010,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           case 10: {
             if (preprocessedKeys_ == null) {
-              PreprocessedKeys = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessedKeys();
+              PreprocessedKeys = new global::Hedera.Hashgraph.Proto.PreprocessedKeys();
             }
             input.ReadMessage(PreprocessedKeys);
             break;
@@ -2045,7 +2045,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2150,8 +2150,8 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp GracePeriodEndTime {
-      get { return preprocessingStateCase_ == PreprocessingStateOneofCase.GracePeriodEndTime ? (global::Proto.Timestamp) preprocessingState_ : null; }
+    public global::Hedera.Hashgraph.Proto.Timestamp GracePeriodEndTime {
+      get { return preprocessingStateCase_ == PreprocessingStateOneofCase.GracePeriodEndTime ? (global::Hedera.Hashgraph.Proto.Timestamp) preprocessingState_ : null; }
       set {
         preprocessingState_ = value;
         preprocessingStateCase_ = value == null ? PreprocessingStateOneofCase.None : PreprocessingStateOneofCase.GracePeriodEndTime;
@@ -2168,8 +2168,8 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp PreprocessingStartTime {
-      get { return preprocessingStateCase_ == PreprocessingStateOneofCase.PreprocessingStartTime ? (global::Proto.Timestamp) preprocessingState_ : null; }
+    public global::Hedera.Hashgraph.Proto.Timestamp PreprocessingStartTime {
+      get { return preprocessingStateCase_ == PreprocessingStateOneofCase.PreprocessingStartTime ? (global::Hedera.Hashgraph.Proto.Timestamp) preprocessingState_ : null; }
       set {
         preprocessingState_ = value;
         preprocessingStateCase_ = value == null ? PreprocessingStateOneofCase.None : PreprocessingStateOneofCase.PreprocessingStartTime;
@@ -2184,8 +2184,8 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme HintsScheme {
-      get { return preprocessingStateCase_ == PreprocessingStateOneofCase.HintsScheme ? (global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme) preprocessingState_ : null; }
+    public global::Hedera.Hashgraph.Proto.HintsScheme HintsScheme {
+      get { return preprocessingStateCase_ == PreprocessingStateOneofCase.HintsScheme ? (global::Hedera.Hashgraph.Proto.HintsScheme) preprocessingState_ : null; }
       set {
         preprocessingState_ = value;
         preprocessingStateCase_ = value == null ? PreprocessingStateOneofCase.None : PreprocessingStateOneofCase.HintsScheme;
@@ -2378,19 +2378,19 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
       switch (other.PreprocessingStateCase) {
         case PreprocessingStateOneofCase.GracePeriodEndTime:
           if (GracePeriodEndTime == null) {
-            GracePeriodEndTime = new global::Proto.Timestamp();
+            GracePeriodEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
           }
           GracePeriodEndTime.MergeFrom(other.GracePeriodEndTime);
           break;
         case PreprocessingStateOneofCase.PreprocessingStartTime:
           if (PreprocessingStartTime == null) {
-            PreprocessingStartTime = new global::Proto.Timestamp();
+            PreprocessingStartTime = new global::Hedera.Hashgraph.Proto.Timestamp();
           }
           PreprocessingStartTime.MergeFrom(other.PreprocessingStartTime);
           break;
         case PreprocessingStateOneofCase.HintsScheme:
           if (HintsScheme == null) {
-            HintsScheme = new global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme();
+            HintsScheme = new global::Hedera.Hashgraph.Proto.HintsScheme();
           }
           HintsScheme.MergeFrom(other.HintsScheme);
           break;
@@ -2428,7 +2428,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 34: {
-            global::Proto.Timestamp subBuilder = new global::Proto.Timestamp();
+            global::Hedera.Hashgraph.Proto.Timestamp subBuilder = new global::Hedera.Hashgraph.Proto.Timestamp();
             if (preprocessingStateCase_ == PreprocessingStateOneofCase.GracePeriodEndTime) {
               subBuilder.MergeFrom(GracePeriodEndTime);
             }
@@ -2437,7 +2437,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 42: {
-            global::Proto.Timestamp subBuilder = new global::Proto.Timestamp();
+            global::Hedera.Hashgraph.Proto.Timestamp subBuilder = new global::Hedera.Hashgraph.Proto.Timestamp();
             if (preprocessingStateCase_ == PreprocessingStateOneofCase.PreprocessingStartTime) {
               subBuilder.MergeFrom(PreprocessingStartTime);
             }
@@ -2446,7 +2446,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 50: {
-            global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme subBuilder = new global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme();
+            global::Hedera.Hashgraph.Proto.HintsScheme subBuilder = new global::Hedera.Hashgraph.Proto.HintsScheme();
             if (preprocessingStateCase_ == PreprocessingStateOneofCase.HintsScheme) {
               subBuilder.MergeFrom(HintsScheme);
             }
@@ -2486,7 +2486,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 34: {
-            global::Proto.Timestamp subBuilder = new global::Proto.Timestamp();
+            global::Hedera.Hashgraph.Proto.Timestamp subBuilder = new global::Hedera.Hashgraph.Proto.Timestamp();
             if (preprocessingStateCase_ == PreprocessingStateOneofCase.GracePeriodEndTime) {
               subBuilder.MergeFrom(GracePeriodEndTime);
             }
@@ -2495,7 +2495,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 42: {
-            global::Proto.Timestamp subBuilder = new global::Proto.Timestamp();
+            global::Hedera.Hashgraph.Proto.Timestamp subBuilder = new global::Hedera.Hashgraph.Proto.Timestamp();
             if (preprocessingStateCase_ == PreprocessingStateOneofCase.PreprocessingStartTime) {
               subBuilder.MergeFrom(PreprocessingStartTime);
             }
@@ -2504,7 +2504,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 50: {
-            global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme subBuilder = new global::Com.Hedera.Hapi.Node.State.Hints.HintsScheme();
+            global::Hedera.Hashgraph.Proto.HintsScheme subBuilder = new global::Hedera.Hashgraph.Proto.HintsScheme();
             if (preprocessingStateCase_ == PreprocessingStateOneofCase.HintsScheme) {
               subBuilder.MergeFrom(HintsScheme);
             }
@@ -2538,7 +2538,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2590,14 +2590,14 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
 
     /// <summary>Field number for the "stage" field.</summary>
     public const int StageFieldNumber = 2;
-    private global::Com.Hedera.Hapi.Node.State.Hints.CRSStage stage_ = global::Com.Hedera.Hapi.Node.State.Hints.CRSStage.GatheringContributions;
+    private global::Hedera.Hashgraph.Proto.CRSStage stage_ = global::Hedera.Hashgraph.Proto.CRSStage.GatheringContributions;
     /// <summary>
     ///*
     /// The stage of the CRS construction.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.Hints.CRSStage Stage {
+    public global::Hedera.Hashgraph.Proto.CRSStage Stage {
       get { return stage_; }
       set {
         stage_ = value;
@@ -2626,7 +2626,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
 
     /// <summary>Field number for the "contribution_end_time" field.</summary>
     public const int ContributionEndTimeFieldNumber = 4;
-    private global::Proto.Timestamp contributionEndTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp contributionEndTime_;
     /// <summary>
     ///*
     /// The time at which the network should stop waiting for the node's contributions
@@ -2634,7 +2634,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ContributionEndTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp ContributionEndTime {
       get { return contributionEndTime_; }
       set {
         contributionEndTime_ = value;
@@ -2668,7 +2668,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
     public override int GetHashCode() {
       int hash = 1;
       if (Crs.Length != 0) hash ^= Crs.GetHashCode();
-      if (Stage != global::Com.Hedera.Hapi.Node.State.Hints.CRSStage.GatheringContributions) hash ^= Stage.GetHashCode();
+      if (Stage != global::Hedera.Hashgraph.Proto.CRSStage.GatheringContributions) hash ^= Stage.GetHashCode();
       if (nextContributingNodeId_ != null) hash ^= NextContributingNodeId.GetHashCode();
       if (contributionEndTime_ != null) hash ^= ContributionEndTime.GetHashCode();
       if (_unknownFields != null) {
@@ -2693,7 +2693,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
         output.WriteRawTag(10);
         output.WriteBytes(Crs);
       }
-      if (Stage != global::Com.Hedera.Hapi.Node.State.Hints.CRSStage.GatheringContributions) {
+      if (Stage != global::Hedera.Hashgraph.Proto.CRSStage.GatheringContributions) {
         output.WriteRawTag(16);
         output.WriteEnum((int) Stage);
       }
@@ -2718,7 +2718,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
         output.WriteRawTag(10);
         output.WriteBytes(Crs);
       }
-      if (Stage != global::Com.Hedera.Hapi.Node.State.Hints.CRSStage.GatheringContributions) {
+      if (Stage != global::Hedera.Hashgraph.Proto.CRSStage.GatheringContributions) {
         output.WriteRawTag(16);
         output.WriteEnum((int) Stage);
       }
@@ -2742,7 +2742,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
       if (Crs.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeBytesSize(Crs);
       }
-      if (Stage != global::Com.Hedera.Hapi.Node.State.Hints.CRSStage.GatheringContributions) {
+      if (Stage != global::Hedera.Hashgraph.Proto.CRSStage.GatheringContributions) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Stage);
       }
       if (nextContributingNodeId_ != null) {
@@ -2766,7 +2766,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
       if (other.Crs.Length != 0) {
         Crs = other.Crs;
       }
-      if (other.Stage != global::Com.Hedera.Hapi.Node.State.Hints.CRSStage.GatheringContributions) {
+      if (other.Stage != global::Hedera.Hashgraph.Proto.CRSStage.GatheringContributions) {
         Stage = other.Stage;
       }
       if (other.nextContributingNodeId_ != null) {
@@ -2776,7 +2776,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
       }
       if (other.contributionEndTime_ != null) {
         if (contributionEndTime_ == null) {
-          ContributionEndTime = new global::Proto.Timestamp();
+          ContributionEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ContributionEndTime.MergeFrom(other.ContributionEndTime);
       }
@@ -2804,7 +2804,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 16: {
-            Stage = (global::Com.Hedera.Hapi.Node.State.Hints.CRSStage) input.ReadEnum();
+            Stage = (global::Hedera.Hashgraph.Proto.CRSStage) input.ReadEnum();
             break;
           }
           case 26: {
@@ -2816,7 +2816,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
           }
           case 34: {
             if (contributionEndTime_ == null) {
-              ContributionEndTime = new global::Proto.Timestamp();
+              ContributionEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ContributionEndTime);
             break;
@@ -2845,7 +2845,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
             break;
           }
           case 16: {
-            Stage = (global::Com.Hedera.Hapi.Node.State.Hints.CRSStage) input.ReadEnum();
+            Stage = (global::Hedera.Hashgraph.Proto.CRSStage) input.ReadEnum();
             break;
           }
           case 26: {
@@ -2857,7 +2857,7 @@ namespace Com.Hedera.Hapi.Node.State.Hints {
           }
           case 34: {
             if (contributionEndTime_ == null) {
-              ContributionEndTime = new global::Proto.Timestamp();
+              ContributionEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ContributionEndTime);
             break;

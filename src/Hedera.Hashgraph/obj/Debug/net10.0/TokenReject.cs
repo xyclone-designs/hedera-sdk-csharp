@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_reject.proto</summary>
   public static partial class TokenRejectReflection {
@@ -29,13 +29,14 @@ namespace Proto {
             "CzIQLnByb3RvLkFjY291bnRJRBIpCgpyZWplY3Rpb25zGAIgAygLMhUucHJv",
             "dG8uVG9rZW5SZWZlcmVuY2UiawoOVG9rZW5SZWZlcmVuY2USKAoOZnVuZ2li",
             "bGVfdG9rZW4YASABKAsyDi5wcm90by5Ub2tlbklESAASGwoDbmZ0GAIgASgL",
-            "MgwucHJvdG8uTmZ0SURIAEISChB0b2tlbl9pZGVudGlmaWVyQiIKHmNvbS5o",
-            "ZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "MgwucHJvdG8uTmZ0SURIAEISChB0b2tlbl9pZGVudGlmaWVyQjkKHmNvbS5o",
+            "ZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGgu",
+            "UHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenRejectTransactionBody), global::Proto.TokenRejectTransactionBody.Parser, new[]{ "Owner", "Rejections" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenReference), global::Proto.TokenReference.Parser, new[]{ "FungibleToken", "Nft" }, new[]{ "TokenIdentifier" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody), global::Hedera.Hashgraph.Proto.TokenRejectTransactionBody.Parser, new[]{ "Owner", "Rejections" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenReference), global::Hedera.Hashgraph.Proto.TokenReference.Parser, new[]{ "FungibleToken", "Nft" }, new[]{ "TokenIdentifier" }, null, null, null)
           }));
     }
     #endregion
@@ -78,7 +79,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenRejectReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenRejectReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -111,7 +112,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner" field.</summary>
     public const int OwnerFieldNumber = 1;
-    private global::Proto.AccountID owner_;
+    private global::Hedera.Hashgraph.Proto.AccountID owner_;
     /// <summary>
     ///*
     /// An account identifier.&lt;br/>
@@ -124,7 +125,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Owner {
+    public global::Hedera.Hashgraph.Proto.AccountID Owner {
       get { return owner_; }
       set {
         owner_ = value;
@@ -133,9 +134,9 @@ namespace Proto {
 
     /// <summary>Field number for the "rejections" field.</summary>
     public const int RejectionsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.TokenReference> _repeated_rejections_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.TokenReference.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenReference> rejections_ = new pbc::RepeatedField<global::Proto.TokenReference>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenReference> _repeated_rejections_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.TokenReference.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenReference> rejections_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenReference>();
     /// <summary>
     ///*
     /// A list of one or more token rejections.
@@ -152,7 +153,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenReference> Rejections {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenReference> Rejections {
       get { return rejections_; }
     }
 
@@ -248,7 +249,7 @@ namespace Proto {
       }
       if (other.owner_ != null) {
         if (owner_ == null) {
-          Owner = new global::Proto.AccountID();
+          Owner = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Owner.MergeFrom(other.Owner);
       }
@@ -274,7 +275,7 @@ namespace Proto {
             break;
           case 10: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
@@ -304,7 +305,7 @@ namespace Proto {
             break;
           case 10: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
@@ -342,7 +343,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenRejectReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenRejectReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -388,8 +389,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID FungibleToken {
-      get { return tokenIdentifierCase_ == TokenIdentifierOneofCase.FungibleToken ? (global::Proto.TokenID) tokenIdentifier_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenID FungibleToken {
+      get { return tokenIdentifierCase_ == TokenIdentifierOneofCase.FungibleToken ? (global::Hedera.Hashgraph.Proto.TokenID) tokenIdentifier_ : null; }
       set {
         tokenIdentifier_ = value;
         tokenIdentifierCase_ = value == null ? TokenIdentifierOneofCase.None : TokenIdentifierOneofCase.FungibleToken;
@@ -404,8 +405,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NftID Nft {
-      get { return tokenIdentifierCase_ == TokenIdentifierOneofCase.Nft ? (global::Proto.NftID) tokenIdentifier_ : null; }
+    public global::Hedera.Hashgraph.Proto.NftID Nft {
+      get { return tokenIdentifierCase_ == TokenIdentifierOneofCase.Nft ? (global::Hedera.Hashgraph.Proto.NftID) tokenIdentifier_ : null; }
       set {
         tokenIdentifier_ = value;
         tokenIdentifierCase_ = value == null ? TokenIdentifierOneofCase.None : TokenIdentifierOneofCase.Nft;
@@ -536,13 +537,13 @@ namespace Proto {
       switch (other.TokenIdentifierCase) {
         case TokenIdentifierOneofCase.FungibleToken:
           if (FungibleToken == null) {
-            FungibleToken = new global::Proto.TokenID();
+            FungibleToken = new global::Hedera.Hashgraph.Proto.TokenID();
           }
           FungibleToken.MergeFrom(other.FungibleToken);
           break;
         case TokenIdentifierOneofCase.Nft:
           if (Nft == null) {
-            Nft = new global::Proto.NftID();
+            Nft = new global::Hedera.Hashgraph.Proto.NftID();
           }
           Nft.MergeFrom(other.Nft);
           break;
@@ -568,7 +569,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.TokenID subBuilder = new global::Proto.TokenID();
+            global::Hedera.Hashgraph.Proto.TokenID subBuilder = new global::Hedera.Hashgraph.Proto.TokenID();
             if (tokenIdentifierCase_ == TokenIdentifierOneofCase.FungibleToken) {
               subBuilder.MergeFrom(FungibleToken);
             }
@@ -577,7 +578,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.NftID subBuilder = new global::Proto.NftID();
+            global::Hedera.Hashgraph.Proto.NftID subBuilder = new global::Hedera.Hashgraph.Proto.NftID();
             if (tokenIdentifierCase_ == TokenIdentifierOneofCase.Nft) {
               subBuilder.MergeFrom(Nft);
             }
@@ -605,7 +606,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.TokenID subBuilder = new global::Proto.TokenID();
+            global::Hedera.Hashgraph.Proto.TokenID subBuilder = new global::Hedera.Hashgraph.Proto.TokenID();
             if (tokenIdentifierCase_ == TokenIdentifierOneofCase.FungibleToken) {
               subBuilder.MergeFrom(FungibleToken);
             }
@@ -614,7 +615,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.NftID subBuilder = new global::Proto.NftID();
+            global::Hedera.Hashgraph.Proto.NftID subBuilder = new global::Hedera.Hashgraph.Proto.NftID();
             if (tokenIdentifierCase_ == TokenIdentifierOneofCase.Nft) {
               subBuilder.MergeFrom(Nft);
             }

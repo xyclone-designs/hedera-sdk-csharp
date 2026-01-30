@@ -316,7 +316,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 				{
 					nodeAccountIds.setList(client.network.GetNodeAccountIdsForExecute());
 				}
-				catch (InterruptedException e)
+				catch (ThreadInterruptedException e)
 				{
 					throw new RuntimeException(e);
 				}

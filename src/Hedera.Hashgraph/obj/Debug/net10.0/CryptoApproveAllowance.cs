@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_approve_allowance.proto</summary>
   public static partial class CryptoApproveAllowanceReflection {
@@ -40,15 +40,16 @@ namespace Proto {
             "bmdfc3BlbmRlchgGIAEoCzIQLnByb3RvLkFjY291bnRJRCKFAQoOVG9rZW5B",
             "bGxvd2FuY2USHwoHdG9rZW5JZBgBIAEoCzIOLnByb3RvLlRva2VuSUQSHwoF",
             "b3duZXIYAiABKAsyEC5wcm90by5BY2NvdW50SUQSIQoHc3BlbmRlchgDIAEo",
-            "CzIQLnByb3RvLkFjY291bnRJRBIOCgZhbW91bnQYBCABKANCIgoeY29tLmhl",
-            "ZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "CzIQLnByb3RvLkFjY291bnRJRBIOCgZhbW91bnQYBCABKANCOQoeY29tLmhl",
+            "ZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Q",
+            "cm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoApproveAllowanceTransactionBody), global::Proto.CryptoApproveAllowanceTransactionBody.Parser, new[]{ "CryptoAllowances", "NftAllowances", "TokenAllowances" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoAllowance), global::Proto.CryptoAllowance.Parser, new[]{ "Owner", "Spender", "Amount" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NftAllowance), global::Proto.NftAllowance.Parser, new[]{ "TokenId", "Owner", "Spender", "SerialNumbers", "ApprovedForAll", "DelegatingSpender" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenAllowance), global::Proto.TokenAllowance.Parser, new[]{ "TokenId", "Owner", "Spender", "Amount" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody), global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceTransactionBody.Parser, new[]{ "CryptoAllowances", "NftAllowances", "TokenAllowances" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoAllowance), global::Hedera.Hashgraph.Proto.CryptoAllowance.Parser, new[]{ "Owner", "Spender", "Amount" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NftAllowance), global::Hedera.Hashgraph.Proto.NftAllowance.Parser, new[]{ "TokenId", "Owner", "Spender", "SerialNumbers", "ApprovedForAll", "DelegatingSpender" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenAllowance), global::Hedera.Hashgraph.Proto.TokenAllowance.Parser, new[]{ "TokenId", "Owner", "Spender", "Amount" }, null, null, null, null)
           }));
     }
     #endregion
@@ -100,7 +101,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -134,9 +135,9 @@ namespace Proto {
 
     /// <summary>Field number for the "cryptoAllowances" field.</summary>
     public const int CryptoAllowancesFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.CryptoAllowance> _repeated_cryptoAllowances_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.CryptoAllowance.Parser);
-    private readonly pbc::RepeatedField<global::Proto.CryptoAllowance> cryptoAllowances_ = new pbc::RepeatedField<global::Proto.CryptoAllowance>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.CryptoAllowance> _repeated_cryptoAllowances_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.CryptoAllowance.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CryptoAllowance> cryptoAllowances_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CryptoAllowance>();
     /// <summary>
     ///*
     /// List of hbar allowances approved by the account owner.
@@ -146,15 +147,15 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.CryptoAllowance> CryptoAllowances {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CryptoAllowance> CryptoAllowances {
       get { return cryptoAllowances_; }
     }
 
     /// <summary>Field number for the "nftAllowances" field.</summary>
     public const int NftAllowancesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.NftAllowance> _repeated_nftAllowances_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.NftAllowance.Parser);
-    private readonly pbc::RepeatedField<global::Proto.NftAllowance> nftAllowances_ = new pbc::RepeatedField<global::Proto.NftAllowance>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NftAllowance> _repeated_nftAllowances_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.NftAllowance.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftAllowance> nftAllowances_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftAllowance>();
     /// <summary>
     ///*
     /// List of non-fungible token allowances approved by the account owner.
@@ -164,15 +165,15 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.NftAllowance> NftAllowances {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftAllowance> NftAllowances {
       get { return nftAllowances_; }
     }
 
     /// <summary>Field number for the "tokenAllowances" field.</summary>
     public const int TokenAllowancesFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::Proto.TokenAllowance> _repeated_tokenAllowances_codec
-        = pb::FieldCodec.ForMessage(26, global::Proto.TokenAllowance.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenAllowance> tokenAllowances_ = new pbc::RepeatedField<global::Proto.TokenAllowance>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenAllowance> _repeated_tokenAllowances_codec
+        = pb::FieldCodec.ForMessage(26, global::Hedera.Hashgraph.Proto.TokenAllowance.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenAllowance> tokenAllowances_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenAllowance>();
     /// <summary>
     ///*
     /// List of fungible token allowances approved by the account owner.
@@ -182,7 +183,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenAllowance> TokenAllowances {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenAllowance> TokenAllowances {
       get { return tokenAllowances_; }
     }
 
@@ -372,7 +373,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -406,7 +407,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner" field.</summary>
     public const int OwnerFieldNumber = 1;
-    private global::Proto.AccountID owner_;
+    private global::Hedera.Hashgraph.Proto.AccountID owner_;
     /// <summary>
     ///*
     /// An owner account identifier.&lt;br/>
@@ -415,7 +416,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Owner {
+    public global::Hedera.Hashgraph.Proto.AccountID Owner {
       get { return owner_; }
       set {
         owner_ = value;
@@ -424,7 +425,7 @@ namespace Proto {
 
     /// <summary>Field number for the "spender" field.</summary>
     public const int SpenderFieldNumber = 2;
-    private global::Proto.AccountID spender_;
+    private global::Hedera.Hashgraph.Proto.AccountID spender_;
     /// <summary>
     ///*
     /// A spender account identifier.&lt;br/>
@@ -433,7 +434,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Spender {
+    public global::Hedera.Hashgraph.Proto.AccountID Spender {
       get { return spender_; }
       set {
         spender_ = value;
@@ -575,13 +576,13 @@ namespace Proto {
       }
       if (other.owner_ != null) {
         if (owner_ == null) {
-          Owner = new global::Proto.AccountID();
+          Owner = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Owner.MergeFrom(other.Owner);
       }
       if (other.spender_ != null) {
         if (spender_ == null) {
-          Spender = new global::Proto.AccountID();
+          Spender = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Spender.MergeFrom(other.Spender);
       }
@@ -609,14 +610,14 @@ namespace Proto {
             break;
           case 10: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
           }
           case 18: {
             if (spender_ == null) {
-              Spender = new global::Proto.AccountID();
+              Spender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Spender);
             break;
@@ -646,14 +647,14 @@ namespace Proto {
             break;
           case 10: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
           }
           case 18: {
             if (spender_ == null) {
-              Spender = new global::Proto.AccountID();
+              Spender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Spender);
             break;
@@ -698,7 +699,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -735,7 +736,7 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenId" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier.&lt;br/>
@@ -746,7 +747,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -755,7 +756,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner" field.</summary>
     public const int OwnerFieldNumber = 2;
-    private global::Proto.AccountID owner_;
+    private global::Hedera.Hashgraph.Proto.AccountID owner_;
     /// <summary>
     ///*
     /// An owner account identifier.&lt;br/>
@@ -764,7 +765,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Owner {
+    public global::Hedera.Hashgraph.Proto.AccountID Owner {
       get { return owner_; }
       set {
         owner_ = value;
@@ -773,7 +774,7 @@ namespace Proto {
 
     /// <summary>Field number for the "spender" field.</summary>
     public const int SpenderFieldNumber = 3;
-    private global::Proto.AccountID spender_;
+    private global::Hedera.Hashgraph.Proto.AccountID spender_;
     /// <summary>
     ///*
     /// A spender account identifier.&lt;br/>
@@ -782,7 +783,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Spender {
+    public global::Hedera.Hashgraph.Proto.AccountID Spender {
       get { return spender_; }
       set {
         spender_ = value;
@@ -834,7 +835,7 @@ namespace Proto {
 
     /// <summary>Field number for the "delegating_spender" field.</summary>
     public const int DelegatingSpenderFieldNumber = 6;
-    private global::Proto.AccountID delegatingSpender_;
+    private global::Hedera.Hashgraph.Proto.AccountID delegatingSpender_;
     /// <summary>
     ///*
     /// A spender-owner account identifier.&lt;br/>
@@ -853,7 +854,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID DelegatingSpender {
+    public global::Hedera.Hashgraph.Proto.AccountID DelegatingSpender {
       get { return delegatingSpender_; }
       set {
         delegatingSpender_ = value;
@@ -1002,19 +1003,19 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
       if (other.owner_ != null) {
         if (owner_ == null) {
-          Owner = new global::Proto.AccountID();
+          Owner = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Owner.MergeFrom(other.Owner);
       }
       if (other.spender_ != null) {
         if (spender_ == null) {
-          Spender = new global::Proto.AccountID();
+          Spender = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Spender.MergeFrom(other.Spender);
       }
@@ -1026,7 +1027,7 @@ namespace Proto {
       }
       if (other.delegatingSpender_ != null) {
         if (delegatingSpender_ == null) {
-          DelegatingSpender = new global::Proto.AccountID();
+          DelegatingSpender = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         DelegatingSpender.MergeFrom(other.DelegatingSpender);
       }
@@ -1051,21 +1052,21 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
           }
           case 26: {
             if (spender_ == null) {
-              Spender = new global::Proto.AccountID();
+              Spender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Spender);
             break;
@@ -1084,7 +1085,7 @@ namespace Proto {
           }
           case 50: {
             if (delegatingSpender_ == null) {
-              DelegatingSpender = new global::Proto.AccountID();
+              DelegatingSpender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(DelegatingSpender);
             break;
@@ -1110,21 +1111,21 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
           }
           case 26: {
             if (spender_ == null) {
-              Spender = new global::Proto.AccountID();
+              Spender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Spender);
             break;
@@ -1143,7 +1144,7 @@ namespace Proto {
           }
           case 50: {
             if (delegatingSpender_ == null) {
-              DelegatingSpender = new global::Proto.AccountID();
+              DelegatingSpender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(DelegatingSpender);
             break;
@@ -1184,7 +1185,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoApproveAllowanceReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1219,7 +1220,7 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenId" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier.&lt;br/>
@@ -1230,7 +1231,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -1239,7 +1240,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner" field.</summary>
     public const int OwnerFieldNumber = 2;
-    private global::Proto.AccountID owner_;
+    private global::Hedera.Hashgraph.Proto.AccountID owner_;
     /// <summary>
     ///*
     /// An owner account identifier.&lt;br/>
@@ -1248,7 +1249,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Owner {
+    public global::Hedera.Hashgraph.Proto.AccountID Owner {
       get { return owner_; }
       set {
         owner_ = value;
@@ -1257,7 +1258,7 @@ namespace Proto {
 
     /// <summary>Field number for the "spender" field.</summary>
     public const int SpenderFieldNumber = 3;
-    private global::Proto.AccountID spender_;
+    private global::Hedera.Hashgraph.Proto.AccountID spender_;
     /// <summary>
     ///*
     /// A spender account identifier.&lt;br/>
@@ -1266,7 +1267,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Spender {
+    public global::Hedera.Hashgraph.Proto.AccountID Spender {
       get { return spender_; }
       set {
         spender_ = value;
@@ -1421,19 +1422,19 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
       if (other.owner_ != null) {
         if (owner_ == null) {
-          Owner = new global::Proto.AccountID();
+          Owner = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Owner.MergeFrom(other.Owner);
       }
       if (other.spender_ != null) {
         if (spender_ == null) {
-          Spender = new global::Proto.AccountID();
+          Spender = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Spender.MergeFrom(other.Spender);
       }
@@ -1461,21 +1462,21 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
           }
           case 26: {
             if (spender_ == null) {
-              Spender = new global::Proto.AccountID();
+              Spender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Spender);
             break;
@@ -1505,21 +1506,21 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
           }
           case 26: {
             if (spender_ == null) {
-              Spender = new global::Proto.AccountID();
+              Spender = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Spender);
             break;

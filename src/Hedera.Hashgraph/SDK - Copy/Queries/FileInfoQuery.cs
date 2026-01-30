@@ -1,18 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -65,33 +56,37 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = FileGetInfoQuery.NewBuilder();
+            var builder = new Proto.FileGetInfoQuery
+            {
+                Header = header
+            };
+
             if (fileId != null)
             {
-                builder.FileID(fileId.ToProtobuf());
+                builder.FileID = fileId.ToProtobuf();
             }
 
-            queryBuilder.SetFileGetInfo(builder.Header(header));
+            queryBuilder.FileGetInfo = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetFileGetInfo().GetHeader();
+            return response.FileGetInfo.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetFileGetInfo().GetHeader();
+            return request.FileGetInfo.Header;
         }
 
-        override FileInfo MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override FileInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return FileInfo.FromProtobuf(response.GetFileGetInfo().GetFileInfo());
+            return FileInfo.FromProtobuf(response.FileGetInfo.FileInfo);
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return FileServiceGrpc.GetGetFileInfoMethod();
         }

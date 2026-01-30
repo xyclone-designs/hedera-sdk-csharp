@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.State.Blockstream {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from block_stream_info.proto</summary>
   public static partial class BlockStreamInfoReflection {
@@ -40,12 +40,13 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
             "VGltZXN0YW1wEioKEGxhc3RfaGFuZGxlX3RpbWUYDSABKAsyEC5wcm90by5U",
             "aW1lc3RhbXASJwofY29uc2Vuc3VzX2hlYWRlcl90cmVlX3Jvb3RfaGFzaBgO",
             "IAEoDBIhChl0cmFjZV9kYXRhX3RyZWVfcm9vdF9oYXNoGA8gASgMEh0KFW91",
-            "dHB1dF90cmVlX3Jvb3RfaGFzaBgQIAEoDEIiCh5jb20uaGVkZXJhLmhhc2hn",
-            "cmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "dHB1dF90cmVlX3Jvb3RfaGFzaBgQIAEoDEI5Ch5jb20uaGVkZXJhLmhhc2hn",
+            "cmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Blockstream.BlockStreamInfo), global::Com.Hedera.Hapi.Node.State.Blockstream.BlockStreamInfo.Parser, new[]{ "BlockNumber", "BlockTime", "TrailingOutputHashes", "TrailingBlockHashes", "InputTreeRootHash", "StartOfBlockStateHash", "NumPrecedingStateChangesItems", "RightmostPrecedingStateChangesTreeHashes", "BlockEndTime", "PostUpgradeWorkDone", "CreationSoftwareVersion", "LastIntervalProcessTime", "LastHandleTime", "ConsensusHeaderTreeRootHash", "TraceDataTreeRootHash", "OutputTreeRootHash" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.BlockStreamInfo), global::Hedera.Hashgraph.Proto.BlockStreamInfo.Parser, new[]{ "BlockNumber", "BlockTime", "TrailingOutputHashes", "TrailingBlockHashes", "InputTreeRootHash", "StartOfBlockStateHash", "NumPrecedingStateChangesItems", "RightmostPrecedingStateChangesTreeHashes", "BlockEndTime", "PostUpgradeWorkDone", "CreationSoftwareVersion", "LastIntervalProcessTime", "LastHandleTime", "ConsensusHeaderTreeRootHash", "TraceDataTreeRootHash", "OutputTreeRootHash" }, null, null, null, null)
           }));
     }
     #endregion
@@ -84,7 +85,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Blockstream.BlockStreamInfoReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.BlockStreamInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -148,7 +149,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
 
     /// <summary>Field number for the "block_time" field.</summary>
     public const int BlockTimeFieldNumber = 2;
-    private global::Proto.Timestamp blockTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp blockTime_;
     /// <summary>
     ///*
     /// A consensus time for the current block.&lt;br/>
@@ -160,7 +161,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp BlockTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp BlockTime {
       get { return blockTime_; }
       set {
         blockTime_ = value;
@@ -289,7 +290,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
 
     /// <summary>Field number for the "block_end_time" field.</summary>
     public const int BlockEndTimeFieldNumber = 9;
-    private global::Proto.Timestamp blockEndTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp blockEndTime_;
     /// <summary>
     ///*
     /// A block-end consensus time stamp.
@@ -299,7 +300,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp BlockEndTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp BlockEndTime {
       get { return blockEndTime_; }
       set {
         blockEndTime_ = value;
@@ -327,7 +328,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
 
     /// <summary>Field number for the "creation_software_version" field.</summary>
     public const int CreationSoftwareVersionFieldNumber = 11;
-    private global::Proto.SemanticVersion creationSoftwareVersion_;
+    private global::Hedera.Hashgraph.Proto.SemanticVersion creationSoftwareVersion_;
     /// <summary>
     ///*
     /// A version describing the version of application software.
@@ -336,7 +337,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SemanticVersion CreationSoftwareVersion {
+    public global::Hedera.Hashgraph.Proto.SemanticVersion CreationSoftwareVersion {
       get { return creationSoftwareVersion_; }
       set {
         creationSoftwareVersion_ = value;
@@ -345,7 +346,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
 
     /// <summary>Field number for the "last_interval_process_time" field.</summary>
     public const int LastIntervalProcessTimeFieldNumber = 12;
-    private global::Proto.Timestamp lastIntervalProcessTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp lastIntervalProcessTime_;
     /// <summary>
     ///*
     /// The time stamp at which the last interval process was done.
@@ -355,7 +356,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp LastIntervalProcessTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp LastIntervalProcessTime {
       get { return lastIntervalProcessTime_; }
       set {
         lastIntervalProcessTime_ = value;
@@ -364,7 +365,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
 
     /// <summary>Field number for the "last_handle_time" field.</summary>
     public const int LastHandleTimeFieldNumber = 13;
-    private global::Proto.Timestamp lastHandleTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp lastHandleTime_;
     /// <summary>
     ///*
     /// The time stamp at which the last user transaction was handled.
@@ -374,7 +375,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp LastHandleTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp LastHandleTime {
       get { return lastHandleTime_; }
       set {
         lastHandleTime_ = value;
@@ -709,7 +710,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
       }
       if (other.blockTime_ != null) {
         if (blockTime_ == null) {
-          BlockTime = new global::Proto.Timestamp();
+          BlockTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         BlockTime.MergeFrom(other.BlockTime);
       }
@@ -731,7 +732,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
       rightmostPrecedingStateChangesTreeHashes_.Add(other.rightmostPrecedingStateChangesTreeHashes_);
       if (other.blockEndTime_ != null) {
         if (blockEndTime_ == null) {
-          BlockEndTime = new global::Proto.Timestamp();
+          BlockEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         BlockEndTime.MergeFrom(other.BlockEndTime);
       }
@@ -740,19 +741,19 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
       }
       if (other.creationSoftwareVersion_ != null) {
         if (creationSoftwareVersion_ == null) {
-          CreationSoftwareVersion = new global::Proto.SemanticVersion();
+          CreationSoftwareVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
         }
         CreationSoftwareVersion.MergeFrom(other.CreationSoftwareVersion);
       }
       if (other.lastIntervalProcessTime_ != null) {
         if (lastIntervalProcessTime_ == null) {
-          LastIntervalProcessTime = new global::Proto.Timestamp();
+          LastIntervalProcessTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         LastIntervalProcessTime.MergeFrom(other.LastIntervalProcessTime);
       }
       if (other.lastHandleTime_ != null) {
         if (lastHandleTime_ == null) {
-          LastHandleTime = new global::Proto.Timestamp();
+          LastHandleTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         LastHandleTime.MergeFrom(other.LastHandleTime);
       }
@@ -790,7 +791,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
           }
           case 18: {
             if (blockTime_ == null) {
-              BlockTime = new global::Proto.Timestamp();
+              BlockTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(BlockTime);
             break;
@@ -821,7 +822,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
           }
           case 74: {
             if (blockEndTime_ == null) {
-              BlockEndTime = new global::Proto.Timestamp();
+              BlockEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(BlockEndTime);
             break;
@@ -832,21 +833,21 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
           }
           case 90: {
             if (creationSoftwareVersion_ == null) {
-              CreationSoftwareVersion = new global::Proto.SemanticVersion();
+              CreationSoftwareVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(CreationSoftwareVersion);
             break;
           }
           case 98: {
             if (lastIntervalProcessTime_ == null) {
-              LastIntervalProcessTime = new global::Proto.Timestamp();
+              LastIntervalProcessTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastIntervalProcessTime);
             break;
           }
           case 106: {
             if (lastHandleTime_ == null) {
-              LastHandleTime = new global::Proto.Timestamp();
+              LastHandleTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastHandleTime);
             break;
@@ -888,7 +889,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
           }
           case 18: {
             if (blockTime_ == null) {
-              BlockTime = new global::Proto.Timestamp();
+              BlockTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(BlockTime);
             break;
@@ -919,7 +920,7 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
           }
           case 74: {
             if (blockEndTime_ == null) {
-              BlockEndTime = new global::Proto.Timestamp();
+              BlockEndTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(BlockEndTime);
             break;
@@ -930,21 +931,21 @@ namespace Com.Hedera.Hapi.Node.State.Blockstream {
           }
           case 90: {
             if (creationSoftwareVersion_ == null) {
-              CreationSoftwareVersion = new global::Proto.SemanticVersion();
+              CreationSoftwareVersion = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(CreationSoftwareVersion);
             break;
           }
           case 98: {
             if (lastIntervalProcessTime_ == null) {
-              LastIntervalProcessTime = new global::Proto.Timestamp();
+              LastIntervalProcessTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastIntervalProcessTime);
             break;
           }
           case 106: {
             if (lastHandleTime_ == null) {
-              LastHandleTime = new global::Proto.Timestamp();
+              LastHandleTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastHandleTime);
             break;

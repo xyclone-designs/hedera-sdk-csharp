@@ -1,28 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Proto;
-using Hedera.Hashgraph.SDK.Transactions.Account;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -73,13 +55,17 @@ namespace Hedera.Hashgraph.SDK.Queries
 
         public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = ScheduleGetInfoQuery.NewBuilder();
+            var builder = new Proto.ScheduleGetInfoQuery()
+            {
+                Header = header
+            };
+
             if (scheduleId != null)
             {
-                builder.ScheduleID(scheduleId.ToProtobuf());
+                builder.ScheduleID = scheduleId.ToProtobuf();
             }
 
-            queryBuilder.SetScheduleGetInfo(builder.Header(header));
+            queryBuilder.ScheduleGetInfo = builder;
         }
 
         public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
@@ -92,12 +78,12 @@ namespace Hedera.Hashgraph.SDK.Queries
             return request.ScheduleGetInfo.Header;
         }
 
-        public override ScheduleInfo MapResponse(Proto.Response response, AccountId nodeId, Query request)
+        public override ScheduleInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
             return ScheduleInfo.FromProtobuf(response.ScheduleGetInfo.ScheduleInfo);
         }
 
-        public override MethodDescriptor<Query, Proto.Response> GetMethodDescriptor()
+        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return ScheduleServiceGrpc.GetGetScheduleInfoMethod();
         }

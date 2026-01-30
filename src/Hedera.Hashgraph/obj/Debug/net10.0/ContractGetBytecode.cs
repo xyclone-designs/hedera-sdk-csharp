@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from contract_get_bytecode.proto</summary>
   public static partial class ContractGetBytecodeReflection {
@@ -30,13 +30,13 @@ namespace Proto {
             "chgBIAEoCzISLnByb3RvLlF1ZXJ5SGVhZGVyEiUKCmNvbnRyYWN0SUQYAiAB",
             "KAsyES5wcm90by5Db250cmFjdElEIlYKG0NvbnRyYWN0R2V0Qnl0ZWNvZGVS",
             "ZXNwb25zZRIlCgZoZWFkZXIYASABKAsyFS5wcm90by5SZXNwb25zZUhlYWRl",
-            "chIQCghieXRlY29kZRgGIAEoDEIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
-            "ZGsucHJvdG9QAWIGcHJvdG8z"));
+            "chIQCghieXRlY29kZRgGIAEoDEI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5z",
+            "ZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractGetBytecodeQuery), global::Proto.ContractGetBytecodeQuery.Parser, new[]{ "Header", "ContractID" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractGetBytecodeResponse), global::Proto.ContractGetBytecodeResponse.Parser, new[]{ "Header", "Bytecode" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractGetBytecodeQuery), global::Hedera.Hashgraph.Proto.ContractGetBytecodeQuery.Parser, new[]{ "Header", "ContractID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse), global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse.Parser, new[]{ "Header", "Bytecode" }, null, null, null, null)
           }));
     }
     #endregion
@@ -62,7 +62,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractGetBytecodeReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractGetBytecodeReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -95,7 +95,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -104,7 +104,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -113,7 +113,7 @@ namespace Proto {
 
     /// <summary>Field number for the "contractID" field.</summary>
     public const int ContractIDFieldNumber = 2;
-    private global::Proto.ContractID contractID_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractID_;
     /// <summary>
     ///*
     /// A smart contract ID.
@@ -122,7 +122,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
       get { return contractID_; }
       set {
         contractID_ = value;
@@ -229,13 +229,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.contractID_ != null) {
         if (contractID_ == null) {
-          ContractID = new global::Proto.ContractID();
+          ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractID.MergeFrom(other.ContractID);
       }
@@ -260,14 +260,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -293,14 +293,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -332,7 +332,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractGetBytecodeReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractGetBytecodeReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -365,7 +365,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -374,7 +374,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -497,7 +497,7 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
@@ -525,7 +525,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
@@ -555,7 +555,7 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.State.Roster {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from roster_state.proto</summary>
   public static partial class RosterStateReflection {
@@ -30,13 +30,13 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
             "bS5oZWRlcmEuaGFwaS5ub2RlLnN0YXRlLnJvc3Rlci5Sb3VuZFJvc3RlclBh",
             "aXISHgoWdHJhbnNwbGFudF9pbl9wcm9ncmVzcxgDIAEoCCJDCg9Sb3VuZFJv",
             "c3RlclBhaXISFAoMcm91bmRfbnVtYmVyGAEgASgEEhoKEmFjdGl2ZV9yb3N0",
-            "ZXJfaGFzaBgCIAEoDEIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJv",
-            "dG9QAWIGcHJvdG8z"));
+            "ZXJfaGFzaBgCIAEoDEI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJv",
+            "dG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Roster.RosterState), global::Com.Hedera.Hapi.Node.State.Roster.RosterState.Parser, new[]{ "CandidateRosterHash", "RoundRosterPairs", "TransplantInProgress" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Roster.RoundRosterPair), global::Com.Hedera.Hapi.Node.State.Roster.RoundRosterPair.Parser, new[]{ "RoundNumber", "ActiveRosterHash" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.RosterState), global::Hedera.Hashgraph.Proto.RosterState.Parser, new[]{ "CandidateRosterHash", "RoundRosterPairs", "TransplantInProgress" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.RoundRosterPair), global::Hedera.Hashgraph.Proto.RoundRosterPair.Parser, new[]{ "RoundNumber", "ActiveRosterHash" }, null, null, null, null)
           }));
     }
     #endregion
@@ -67,7 +67,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Roster.RosterStateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.RosterStateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -122,9 +122,9 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
 
     /// <summary>Field number for the "round_roster_pairs" field.</summary>
     public const int RoundRosterPairsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.State.Roster.RoundRosterPair> _repeated_roundRosterPairs_codec
-        = pb::FieldCodec.ForMessage(18, global::Com.Hedera.Hapi.Node.State.Roster.RoundRosterPair.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.RoundRosterPair> roundRosterPairs_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.RoundRosterPair>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.RoundRosterPair> _repeated_roundRosterPairs_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.RoundRosterPair.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.RoundRosterPair> roundRosterPairs_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.RoundRosterPair>();
     /// <summary>
     ///*
     /// A list of round numbers and roster hashes.&lt;br/>
@@ -134,7 +134,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.RoundRosterPair> RoundRosterPairs {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.RoundRosterPair> RoundRosterPairs {
       get { return roundRosterPairs_; }
     }
 
@@ -362,7 +362,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Roster.RosterStateReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.RosterStateReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

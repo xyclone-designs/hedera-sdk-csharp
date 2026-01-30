@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from ethereum_transaction.proto</summary>
   public static partial class EthereumTransactionReflection {
@@ -27,12 +27,13 @@ namespace Proto {
             "ChpldGhlcmV1bV90cmFuc2FjdGlvbi5wcm90bxIFcHJvdG8aEWJhc2ljX3R5",
             "cGVzLnByb3RvIm0KF0V0aGVyZXVtVHJhbnNhY3Rpb25Cb2R5EhUKDWV0aGVy",
             "ZXVtX2RhdGEYASABKAwSIAoJY2FsbF9kYXRhGAIgASgLMg0ucHJvdG8uRmls",
-            "ZUlEEhkKEW1heF9nYXNfYWxsb3dhbmNlGAMgASgDQiIKHmNvbS5oZWRlcmEu",
-            "aGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "ZUlEEhkKEW1heF9nYXNfYWxsb3dhbmNlGAMgASgDQjkKHmNvbS5oZWRlcmEu",
+            "aGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9i",
+            "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.EthereumTransactionBody), global::Proto.EthereumTransactionBody.Parser, new[]{ "EthereumData", "CallData", "MaxGasAllowance" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EthereumTransactionBody), global::Hedera.Hashgraph.Proto.EthereumTransactionBody.Parser, new[]{ "EthereumData", "CallData", "MaxGasAllowance" }, null, null, null, null)
           }));
     }
     #endregion
@@ -68,7 +69,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.EthereumTransactionReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.EthereumTransactionReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -126,7 +127,7 @@ namespace Proto {
 
     /// <summary>Field number for the "call_data" field.</summary>
     public const int CallDataFieldNumber = 2;
-    private global::Proto.FileID callData_;
+    private global::Hedera.Hashgraph.Proto.FileID callData_;
     /// <summary>
     ///*
     /// The `callData` for the Ethereum transaction.
@@ -139,7 +140,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID CallData {
+    public global::Hedera.Hashgraph.Proto.FileID CallData {
       get { return callData_; }
       set {
         callData_ = value;
@@ -303,7 +304,7 @@ namespace Proto {
       }
       if (other.callData_ != null) {
         if (callData_ == null) {
-          CallData = new global::Proto.FileID();
+          CallData = new global::Hedera.Hashgraph.Proto.FileID();
         }
         CallData.MergeFrom(other.CallData);
       }
@@ -335,7 +336,7 @@ namespace Proto {
           }
           case 18: {
             if (callData_ == null) {
-              CallData = new global::Proto.FileID();
+              CallData = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(CallData);
             break;
@@ -369,7 +370,7 @@ namespace Proto {
           }
           case 18: {
             if (callData_ == null) {
-              CallData = new global::Proto.FileID();
+              CallData = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(CallData);
             break;

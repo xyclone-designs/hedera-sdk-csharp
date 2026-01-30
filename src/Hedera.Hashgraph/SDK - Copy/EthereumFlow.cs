@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK
                 {
                     var nodeId = response.nodeId;
                     ethereumTransaction.SetNodeAccountIds(Collections.SingletonList(nodeId));
-                    return response.GetReceiptAsync(client, timeoutPerTransaction).ThenCompose((receipt) =>
+                    return response.ReceiptAsync(client, timeoutPerTransaction).ThenCompose((receipt) =>
                     {
                         if (callDataHex.Length > FileAppendTransaction.DEFAULT_CHUNK_SIZE)
                         {

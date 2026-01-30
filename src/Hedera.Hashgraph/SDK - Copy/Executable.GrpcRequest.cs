@@ -39,7 +39,6 @@ namespace Hedera.Hashgraph.SDK
     /// <param name="<ResponseT>">the response</param>
     /// <param name="<O>">the O type</param>
     internal abstract partial class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> 
-
 	{
 		private class GrpcRequest
 		{
@@ -52,6 +51,7 @@ namespace Hedera.Hashgraph.SDK
 			private ResponseT response;
 			private double latency;
 			private Status responseStatus;
+
 			public GrpcRequest(Network network, int attempt, Duration grpcDeadline)
 			{
 				network = network;
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.SDK
 			public virtual Exception ReactToConnectionFailure()
 			{
 				ArgumentNullException.ThrowIfNull(network).IncreaseBackoff(Node);
-				logger.Warn("Retrying in {} ms after channel connection failure with node {} during attempt #{}", Node.GetRemainingTimeForBackoff(), Node.AccountId, attempt);
+				Loger.Warn("Retrying in {} ms after channel connection failure with node {} during attempt #{}", Node.GetRemainingTimeForBackoff(), Node.AccountId, attempt);
 				VerboseLog(Node);
 				return new InvalidOperationException("Failed to connect to node " + Node.AccountId);
 			}
@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.SDK
 				return MapResponse(response, Node.AccountId, request);
 			}
 
-			virtual void HandleResponse(ResponseT response, Status status, ExecutionState executionState, Client client)
+			virtual void HandleResponse(Proto.ResponseT response, Status status, ExecutionState executionState, Client client)
 			{
 
 				// Note: For INVALID_NODE_ACCOUNT, we don't mark the node as unhealthy here

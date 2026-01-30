@@ -27,7 +27,7 @@
 
 using grpc = global::Grpc.Core;
 
-namespace Com.Hedera.Mirror.Api.Proto {
+namespace Hedera.Hashgraph.Proto {
   /// <summary>
   ///*
   /// The Mirror Service provides the ability to query a stream of Hedera Consensus Service (HCS)
@@ -71,12 +71,12 @@ namespace Com.Hedera.Mirror.Api.Proto {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery> __Marshaller_com_hedera_mirror_api_proto_ConsensusTopicQuery = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.ConsensusTopicQuery> __Marshaller_com_hedera_mirror_api_proto_ConsensusTopicQuery = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.ConsensusTopicQuery.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse> __Marshaller_com_hedera_mirror_api_proto_ConsensusTopicResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.ConsensusTopicResponse> __Marshaller_com_hedera_mirror_api_proto_ConsensusTopicResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.ConsensusTopicResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery, global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse> __Method_subscribeTopic = new grpc::Method<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery, global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.ConsensusTopicQuery, global::Hedera.Hashgraph.Proto.ConsensusTopicResponse> __Method_subscribeTopic = new grpc::Method<global::Hedera.Hashgraph.Proto.ConsensusTopicQuery, global::Hedera.Hashgraph.Proto.ConsensusTopicResponse>(
         grpc::MethodType.ServerStreaming,
         __ServiceName,
         "subscribeTopic",
@@ -86,7 +86,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::Com.Hedera.Mirror.Api.Proto.ConsensusServiceReflection.Descriptor.Services[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusServiceReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Base class for server-side implementations of ConsensusService</summary>
@@ -94,7 +94,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     public abstract partial class ConsensusServiceBase
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task subscribeTopic(global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery request, grpc::IServerStreamWriter<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse> responseStream, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task subscribeTopic(global::Hedera.Hashgraph.Proto.ConsensusTopicQuery request, grpc::IServerStreamWriter<global::Hedera.Hashgraph.Proto.ConsensusTopicResponse> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -129,12 +129,12 @@ namespace Com.Hedera.Mirror.Api.Proto {
       }
 
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse> subscribeTopic(global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncServerStreamingCall<global::Hedera.Hashgraph.Proto.ConsensusTopicResponse> subscribeTopic(global::Hedera.Hashgraph.Proto.ConsensusTopicQuery request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return subscribeTopic(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse> subscribeTopic(global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery request, grpc::CallOptions options)
+      public virtual grpc::AsyncServerStreamingCall<global::Hedera.Hashgraph.Proto.ConsensusTopicResponse> subscribeTopic(global::Hedera.Hashgraph.Proto.ConsensusTopicQuery request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_subscribeTopic, null, options, request);
       }
@@ -162,7 +162,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, ConsensusServiceBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_subscribeTopic, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicQuery, global::Com.Hedera.Mirror.Api.Proto.ConsensusTopicResponse>(serviceImpl.subscribeTopic));
+      serviceBinder.AddMethod(__Method_subscribeTopic, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::Hedera.Hashgraph.Proto.ConsensusTopicQuery, global::Hedera.Hashgraph.Proto.ConsensusTopicResponse>(serviceImpl.subscribeTopic));
     }
 
   }

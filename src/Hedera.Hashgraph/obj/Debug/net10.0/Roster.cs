@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.State.Roster {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from roster.proto</summary>
   public static partial class RosterReflection {
@@ -30,13 +30,13 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
             "dGVyLlJvc3RlckVudHJ5IoQBCgtSb3N0ZXJFbnRyeRIPCgdub2RlX2lkGAEg",
             "ASgEEg4KBndlaWdodBgCIAEoBBIdChVnb3NzaXBfY2FfY2VydGlmaWNhdGUY",
             "AyABKAwSLwoPZ29zc2lwX2VuZHBvaW50GAUgAygLMhYucHJvdG8uU2Vydmlj",
-            "ZUVuZHBvaW50SgQIBBAFQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5w",
-            "cm90b1ABYgZwcm90bzM="));
+            "ZUVuZHBvaW50SgQIBBAFQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5w",
+            "cm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Roster.Roster), global::Com.Hedera.Hapi.Node.State.Roster.Roster.Parser, new[]{ "RosterEntries" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Roster.RosterEntry), global::Com.Hedera.Hapi.Node.State.Roster.RosterEntry.Parser, new[]{ "NodeId", "Weight", "GossipCaCertificate", "GossipEndpoint" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Roster), global::Hedera.Hashgraph.Proto.Roster.Parser, new[]{ "RosterEntries" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.RosterEntry), global::Hedera.Hashgraph.Proto.RosterEntry.Parser, new[]{ "NodeId", "Weight", "GossipCaCertificate", "GossipEndpoint" }, null, null, null, null)
           }));
     }
     #endregion
@@ -64,7 +64,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Roster.RosterReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.RosterReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -96,9 +96,9 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
 
     /// <summary>Field number for the "roster_entries" field.</summary>
     public const int RosterEntriesFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.State.Roster.RosterEntry> _repeated_rosterEntries_codec
-        = pb::FieldCodec.ForMessage(10, global::Com.Hedera.Hapi.Node.State.Roster.RosterEntry.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.RosterEntry> rosterEntries_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.RosterEntry>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.RosterEntry> _repeated_rosterEntries_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.RosterEntry.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.RosterEntry> rosterEntries_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.RosterEntry>();
     /// <summary>
     ///*
     /// List of roster entries, one per consensus node.
@@ -108,7 +108,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.State.Roster.RosterEntry> RosterEntries {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.RosterEntry> RosterEntries {
       get { return rosterEntries_; }
     }
 
@@ -266,7 +266,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Roster.RosterReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.RosterReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -361,9 +361,9 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
 
     /// <summary>Field number for the "gossip_endpoint" field.</summary>
     public const int GossipEndpointFieldNumber = 5;
-    private static readonly pb::FieldCodec<global::Proto.ServiceEndpoint> _repeated_gossipEndpoint_codec
-        = pb::FieldCodec.ForMessage(42, global::Proto.ServiceEndpoint.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ServiceEndpoint> gossipEndpoint_ = new pbc::RepeatedField<global::Proto.ServiceEndpoint>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ServiceEndpoint> _repeated_gossipEndpoint_codec
+        = pb::FieldCodec.ForMessage(42, global::Hedera.Hashgraph.Proto.ServiceEndpoint.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> gossipEndpoint_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint>();
     /// <summary>
     ///*
     /// A list of service endpoints for gossip.
@@ -379,7 +379,7 @@ namespace Com.Hedera.Hapi.Node.State.Roster {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ServiceEndpoint> GossipEndpoint {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> GossipEndpoint {
       get { return gossipEndpoint_; }
     }
 

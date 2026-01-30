@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from node_stake_update.proto</summary>
   public static partial class NodeStakeUpdateReflection {
@@ -41,13 +41,13 @@ namespace Proto {
             "b2RlU3Rha2USEQoJbWF4X3N0YWtlGAEgASgDEhEKCW1pbl9zdGFrZRgCIAEo",
             "AxIPCgdub2RlX2lkGAMgASgDEhMKC3Jld2FyZF9yYXRlGAQgASgDEg0KBXN0",
             "YWtlGAUgASgDEhoKEnN0YWtlX25vdF9yZXdhcmRlZBgGIAEoAxIWCg5zdGFr",
-            "ZV9yZXdhcmRlZBgHIAEoA0IiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsu",
-            "cHJvdG9QAWIGcHJvdG8z"));
+            "ZV9yZXdhcmRlZBgHIAEoA0I5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsu",
+            "cHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NodeStakeUpdateTransactionBody), global::Proto.NodeStakeUpdateTransactionBody.Parser, new[]{ "EndOfStakingPeriod", "NodeStake", "MaxStakingRewardRatePerHbar", "NodeRewardFeeFraction", "StakingPeriodsStored", "StakingPeriod", "StakingRewardFeeFraction", "StakingStartThreshold", "StakingRewardRate", "ReservedStakingRewards", "UnreservedStakingRewardBalance", "RewardBalanceThreshold", "MaxStakeRewarded", "MaxTotalReward" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NodeStake), global::Proto.NodeStake.Parser, new[]{ "MaxStake", "MinStake", "NodeId", "RewardRate", "Stake", "StakeNotRewarded", "StakeRewarded" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody), global::Hedera.Hashgraph.Proto.NodeStakeUpdateTransactionBody.Parser, new[]{ "EndOfStakingPeriod", "NodeStake", "MaxStakingRewardRatePerHbar", "NodeRewardFeeFraction", "StakingPeriodsStored", "StakingPeriod", "StakingRewardFeeFraction", "StakingStartThreshold", "StakingRewardRate", "ReservedStakingRewards", "UnreservedStakingRewardBalance", "RewardBalanceThreshold", "MaxStakeRewarded", "MaxTotalReward" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeStake), global::Hedera.Hashgraph.Proto.NodeStake.Parser, new[]{ "MaxStake", "MinStake", "NodeId", "RewardRate", "Stake", "StakeNotRewarded", "StakeRewarded" }, null, null, null, null)
           }));
     }
     #endregion
@@ -84,7 +84,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NodeStakeUpdateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NodeStakeUpdateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -129,7 +129,7 @@ namespace Proto {
 
     /// <summary>Field number for the "end_of_staking_period" field.</summary>
     public const int EndOfStakingPeriodFieldNumber = 1;
-    private global::Proto.Timestamp endOfStakingPeriod_;
+    private global::Hedera.Hashgraph.Proto.Timestamp endOfStakingPeriod_;
     /// <summary>
     ///*
     /// A timestamp indicating the end of the staking period.
@@ -139,7 +139,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp EndOfStakingPeriod {
+    public global::Hedera.Hashgraph.Proto.Timestamp EndOfStakingPeriod {
       get { return endOfStakingPeriod_; }
       set {
         endOfStakingPeriod_ = value;
@@ -148,9 +148,9 @@ namespace Proto {
 
     /// <summary>Field number for the "node_stake" field.</summary>
     public const int NodeStakeFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.NodeStake> _repeated_nodeStake_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.NodeStake.Parser);
-    private readonly pbc::RepeatedField<global::Proto.NodeStake> nodeStake_ = new pbc::RepeatedField<global::Proto.NodeStake>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NodeStake> _repeated_nodeStake_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.NodeStake.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeStake> nodeStake_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeStake>();
     /// <summary>
     ///*
     /// A list of `NodeStake` entries for each node at the beginning of the new
@@ -161,7 +161,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.NodeStake> NodeStake {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NodeStake> NodeStake {
       get { return nodeStake_; }
     }
 
@@ -187,7 +187,7 @@ namespace Proto {
 
     /// <summary>Field number for the "node_reward_fee_fraction" field.</summary>
     public const int NodeRewardFeeFractionFieldNumber = 4;
-    private global::Proto.Fraction nodeRewardFeeFraction_;
+    private global::Hedera.Hashgraph.Proto.Fraction nodeRewardFeeFraction_;
     /// <summary>
     ///*
     /// A fraction of network and service fees paid to
@@ -199,7 +199,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Fraction NodeRewardFeeFraction {
+    public global::Hedera.Hashgraph.Proto.Fraction NodeRewardFeeFraction {
       get { return nodeRewardFeeFraction_; }
       set {
         nodeRewardFeeFraction_ = value;
@@ -256,7 +256,7 @@ namespace Proto {
 
     /// <summary>Field number for the "staking_reward_fee_fraction" field.</summary>
     public const int StakingRewardFeeFractionFieldNumber = 7;
-    private global::Proto.Fraction stakingRewardFeeFraction_;
+    private global::Hedera.Hashgraph.Proto.Fraction stakingRewardFeeFraction_;
     /// <summary>
     ///*
     /// A fraction of network and service fees paid to
@@ -268,7 +268,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Fraction StakingRewardFeeFraction {
+    public global::Hedera.Hashgraph.Proto.Fraction StakingRewardFeeFraction {
       get { return stakingRewardFeeFraction_; }
       set {
         stakingRewardFeeFraction_ = value;
@@ -674,7 +674,7 @@ namespace Proto {
       }
       if (other.endOfStakingPeriod_ != null) {
         if (endOfStakingPeriod_ == null) {
-          EndOfStakingPeriod = new global::Proto.Timestamp();
+          EndOfStakingPeriod = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         EndOfStakingPeriod.MergeFrom(other.EndOfStakingPeriod);
       }
@@ -684,7 +684,7 @@ namespace Proto {
       }
       if (other.nodeRewardFeeFraction_ != null) {
         if (nodeRewardFeeFraction_ == null) {
-          NodeRewardFeeFraction = new global::Proto.Fraction();
+          NodeRewardFeeFraction = new global::Hedera.Hashgraph.Proto.Fraction();
         }
         NodeRewardFeeFraction.MergeFrom(other.NodeRewardFeeFraction);
       }
@@ -696,7 +696,7 @@ namespace Proto {
       }
       if (other.stakingRewardFeeFraction_ != null) {
         if (stakingRewardFeeFraction_ == null) {
-          StakingRewardFeeFraction = new global::Proto.Fraction();
+          StakingRewardFeeFraction = new global::Hedera.Hashgraph.Proto.Fraction();
         }
         StakingRewardFeeFraction.MergeFrom(other.StakingRewardFeeFraction);
       }
@@ -742,7 +742,7 @@ namespace Proto {
             break;
           case 10: {
             if (endOfStakingPeriod_ == null) {
-              EndOfStakingPeriod = new global::Proto.Timestamp();
+              EndOfStakingPeriod = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(EndOfStakingPeriod);
             break;
@@ -757,7 +757,7 @@ namespace Proto {
           }
           case 34: {
             if (nodeRewardFeeFraction_ == null) {
-              NodeRewardFeeFraction = new global::Proto.Fraction();
+              NodeRewardFeeFraction = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(NodeRewardFeeFraction);
             break;
@@ -772,7 +772,7 @@ namespace Proto {
           }
           case 58: {
             if (stakingRewardFeeFraction_ == null) {
-              StakingRewardFeeFraction = new global::Proto.Fraction();
+              StakingRewardFeeFraction = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(StakingRewardFeeFraction);
             break;
@@ -826,7 +826,7 @@ namespace Proto {
             break;
           case 10: {
             if (endOfStakingPeriod_ == null) {
-              EndOfStakingPeriod = new global::Proto.Timestamp();
+              EndOfStakingPeriod = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(EndOfStakingPeriod);
             break;
@@ -841,7 +841,7 @@ namespace Proto {
           }
           case 34: {
             if (nodeRewardFeeFraction_ == null) {
-              NodeRewardFeeFraction = new global::Proto.Fraction();
+              NodeRewardFeeFraction = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(NodeRewardFeeFraction);
             break;
@@ -856,7 +856,7 @@ namespace Proto {
           }
           case 58: {
             if (stakingRewardFeeFraction_ == null) {
-              StakingRewardFeeFraction = new global::Proto.Fraction();
+              StakingRewardFeeFraction = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(StakingRewardFeeFraction);
             break;
@@ -918,7 +918,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NodeStakeUpdateReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.NodeStakeUpdateReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

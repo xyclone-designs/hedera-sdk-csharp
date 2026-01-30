@@ -16,27 +16,28 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The ID of the token
         /// </summary>
-        public readonly TokenId tokenId;
+        public readonly TokenId TokenId;
         /// <summary>
         /// The accountID of the sender
         /// </summary>
-        public readonly AccountId sender;
+        public readonly AccountId Sender;
         /// <summary>
         /// The accountID of the receiver
         /// </summary>
-        public readonly AccountId receiver;
+        public readonly AccountId Receiver;
         /// <summary>
         /// The serial number of the NFT
         /// </summary>
-        public readonly long serial;
+        public readonly long Serial;
         /// <summary>
         /// If true then the transfer is expected to be an approved allowance and the sender is expected to be the owner. The
         /// default is false.
         /// </summary>
-        public bool isApproved;
+        public bool IsApproved;
         // Optional typed hook calls for sender/receiver
-        NftHookCall senderHookCall;
-        NftHookCall receiverHookCall;
+        public NftHookCall SenderHookCall;
+        public NftHookCall ReceiverHookCall;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -45,18 +46,17 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="receiver">the receiver account id</param>
         /// <param name="serial">the serial number</param>
         /// <param name="isApproved">is it approved</param>
-        TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved)
+        public TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved)
         {
             tokenId = tokenId;
             sender = sender;
             receiver = receiver;
             serial = serial;
             isApproved = isApproved;
-            senderHookCall = null;
-            receiverHookCall = null;
+            SenderHookCall = null;
+            ReceiverHookCall = null;
         }
-
-        TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved, NftHookCall senderHookCall, NftHookCall receiverHookCall)
+        public TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved, NftHookCall senderHookCall, NftHookCall receiverHookCall)
         {
             tokenId = tokenId;
             sender = sender;
@@ -69,16 +69,17 @@ namespace Hedera.Hashgraph.SDK.Token
 
         static IList<TokenNftTransfer> FromProtobuf(TokenTransferList tokenTransferList)
         {
-            var token = TokenId.FromProtobuf(tokenTransferList.GetToken);
+            var token = Ids.TokenId.FromProtobuf(tokenTransferList);
+
             var nftTransfers = new List<TokenNftTransfer>();
-            foreach (var transfer in tokenTransferList.GetNftTransfersList())
+            foreach (var transfer in tokenTransferList.NftTransfers)
             {
                 NftHookCall? senderHookCall = null;
                 NftHookCall? receiverHookCall = null;
 
-                if (transfer.HasPreTxSenderAllowanceHook())
+                if (transfer.PreTxSenderAllowanceHook is not null)
                     senderHookCall = ToNftHook(transfer.GetPreTxSenderAllowanceHook(), NftHookType.PreHookSender);
-                else if (transfer.HasPrePostTxSenderAllowanceHook())
+                else if (transfer.PrePostTxSenderAllowanceHook is not null)
 					senderHookCall = ToNftHook(transfer.GetPrePostTxSenderAllowanceHook(), NftHookType.PrePostHookSender);
 
 				if (transfer.HasPreTxReceiverAllowanceHook())
@@ -86,9 +87,10 @@ namespace Hedera.Hashgraph.SDK.Token
                 else if (transfer.HasPrePostTxReceiverAllowanceHook())
                     receiverHookCall = ToNftHook(transfer.GetPrePostTxReceiverAllowanceHook(), NftHookType.PrePostHookReceiver);
 
-                var sender = AccountId.FromProtobuf(transfer.GetSenderAccountID());
-                var receiver = AccountId.FromProtobuf(transfer.GetReceiverAccountID());
-                nftTransfers.Add(new TokenNftTransfer(token, sender, receiver, transfer.GetSerialNumber(), transfer.GetIsApproval(), senderHookCall, receiverHookCall));
+                var sender = AccountId.FromProtobuf(transfer.SenderAccountID());
+                var receiver = AccountId.FromProtobuf(transfer.ReceiverAccountID());
+
+                nftTransfers.Add(new TokenNftTransfer(token, sender, receiver, transfer.SerialNumber, transfer.IsApproved.IsApproval, senderHookCall, receiverHookCall));
             }
 
             return nftTransfers;
@@ -120,31 +122,31 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             Proto.NftTransfer proto = new()
             {
-                SenderAccountID = sender.ToProtobuf(),
-                ReceiverAccountID = receiver.ToProtobuf(),
-                SerialNumber = serial,
-                IsApproval = isApproved,
+                SenderAccountID = Sender.ToProtobuf(),
+                ReceiverAccountID = Receiver.ToProtobuf(),
+                SerialNumber = Serial,
+                IsApproval = IsApproved,
             };
 
-			switch (senderHookCall?.Type)
+			switch (SenderHookCall?.Type)
 			{
 				case NftHookType.PreHookSender:
-					proto.PreTxReceiverAllowanceHook = senderHookCall.ToProtobuf();
+					proto.PreTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
 					break;
 				case NftHookType.PrePostHookSender:
-					proto.PrePostTxReceiverAllowanceHook = senderHookCall.ToProtobuf();
+					proto.PrePostTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
 					break;
 
 				default: break;
 			}
 
-			switch (receiverHookCall?.Type)
+			switch (ReceiverHookCall?.Type)
 			{
 				case NftHookType.PreHookReceiver:
-					proto.PreTxReceiverAllowanceHook = receiverHookCall.ToProtobuf();
+					proto.PreTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
 					break;
 				case NftHookType.PrePostHookReceiver:
-					proto.PrePostTxReceiverAllowanceHook = receiverHookCall.ToProtobuf();
+					proto.PrePostTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
 					break;
 
 				default: break;
@@ -163,23 +165,23 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 		public virtual int CompareTo(TokenNftTransfer? o)
 		{
-			int senderComparison = sender.CompareTo(o?.sender);
+			int senderComparison = Sender.CompareTo(o?.Sender);
 			if (senderComparison != 0)
 			{
 				return senderComparison;
 			}
 
-			int receiverComparison = receiver.CompareTo(o?.receiver);
+			int receiverComparison = Receiver.CompareTo(o?.Receiver);
 			if (receiverComparison != 0)
 			{
 				return receiverComparison;
 			}
 
-			return serial.CompareTo(o?.serial);
+			return Serial.CompareTo(o?.Serial);
 		}
 		public override int GetHashCode()
 		{
-			return HashCode.Combine(tokenId, sender, receiver, serial, isApproved);
+			return HashCode.Combine(TokenId, Sender, Receiver, Serial, IsApproved);
 		}
 		public override bool Equals(object? o)
         {
@@ -195,7 +197,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             TokenNftTransfer that = (TokenNftTransfer)o;
 
-            return serial == that.serial && isApproved == that.isApproved && tokenId.Equals(that.tokenId) && sender.Equals(that.sender) && receiver.Equals(that.receiver);
+            return Serial == that.Serial && IsApproved == that.IsApproved && TokenId.Equals(that.TokenId) && Sender.Equals(that.Sender) && Receiver.Equals(that.Receiver);
         }
     }
 }

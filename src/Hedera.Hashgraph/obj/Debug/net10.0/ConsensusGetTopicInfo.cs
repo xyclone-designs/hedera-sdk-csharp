@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from consensus_get_topic_info.proto</summary>
   public static partial class ConsensusGetTopicInfoReflection {
@@ -32,13 +32,13 @@ namespace Proto {
             "Y0lEIpUBCh1Db25zZW5zdXNHZXRUb3BpY0luZm9SZXNwb25zZRIlCgZoZWFk",
             "ZXIYASABKAsyFS5wcm90by5SZXNwb25zZUhlYWRlchIfCgd0b3BpY0lEGAIg",
             "ASgLMg4ucHJvdG8uVG9waWNJRBIsCgl0b3BpY0luZm8YBSABKAsyGS5wcm90",
-            "by5Db25zZW5zdXNUb3BpY0luZm9CIgoeY29tLmhlZGVyYS5oYXNoZ3JhcGgu",
-            "c2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "by5Db25zZW5zdXNUb3BpY0luZm9COQoeY29tLmhlZGVyYS5oYXNoZ3JhcGgu",
+            "c2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, global::Proto.ConsensusTopicInfoReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ConsensusTopicInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ConsensusGetTopicInfoQuery), global::Proto.ConsensusGetTopicInfoQuery.Parser, new[]{ "Header", "TopicID" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ConsensusGetTopicInfoResponse), global::Proto.ConsensusGetTopicInfoResponse.Parser, new[]{ "Header", "TopicID", "TopicInfo" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoQuery), global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoQuery.Parser, new[]{ "Header", "TopicID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse), global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse.Parser, new[]{ "Header", "TopicID", "TopicInfo" }, null, null, null, null)
           }));
     }
     #endregion
@@ -70,7 +70,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ConsensusGetTopicInfoReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -103,7 +103,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -112,7 +112,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -121,7 +121,7 @@ namespace Proto {
 
     /// <summary>Field number for the "topicID" field.</summary>
     public const int TopicIDFieldNumber = 2;
-    private global::Proto.TopicID topicID_;
+    private global::Hedera.Hashgraph.Proto.TopicID topicID_;
     /// <summary>
     ///*
     /// A topic ID.
@@ -130,7 +130,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TopicID TopicID {
+    public global::Hedera.Hashgraph.Proto.TopicID TopicID {
       get { return topicID_; }
       set {
         topicID_ = value;
@@ -237,13 +237,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.topicID_ != null) {
         if (topicID_ == null) {
-          TopicID = new global::Proto.TopicID();
+          TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
         }
         TopicID.MergeFrom(other.TopicID);
       }
@@ -268,14 +268,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
@@ -301,14 +301,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
@@ -340,7 +340,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ConsensusGetTopicInfoReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -374,7 +374,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -383,7 +383,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -392,14 +392,14 @@ namespace Proto {
 
     /// <summary>Field number for the "topicID" field.</summary>
     public const int TopicIDFieldNumber = 2;
-    private global::Proto.TopicID topicID_;
+    private global::Hedera.Hashgraph.Proto.TopicID topicID_;
     /// <summary>
     ///*
     /// The ID of the topic requested in the query.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TopicID TopicID {
+    public global::Hedera.Hashgraph.Proto.TopicID TopicID {
       get { return topicID_; }
       set {
         topicID_ = value;
@@ -408,14 +408,14 @@ namespace Proto {
 
     /// <summary>Field number for the "topicInfo" field.</summary>
     public const int TopicInfoFieldNumber = 5;
-    private global::Proto.ConsensusTopicInfo topicInfo_;
+    private global::Hedera.Hashgraph.Proto.ConsensusTopicInfo topicInfo_;
     /// <summary>
     ///*
     /// Information describing the current state of the topic.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusTopicInfo TopicInfo {
+    public global::Hedera.Hashgraph.Proto.ConsensusTopicInfo TopicInfo {
       get { return topicInfo_; }
       set {
         topicInfo_ = value;
@@ -535,19 +535,19 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.topicID_ != null) {
         if (topicID_ == null) {
-          TopicID = new global::Proto.TopicID();
+          TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
         }
         TopicID.MergeFrom(other.TopicID);
       }
       if (other.topicInfo_ != null) {
         if (topicInfo_ == null) {
-          TopicInfo = new global::Proto.ConsensusTopicInfo();
+          TopicInfo = new global::Hedera.Hashgraph.Proto.ConsensusTopicInfo();
         }
         TopicInfo.MergeFrom(other.TopicInfo);
       }
@@ -572,21 +572,21 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
           }
           case 42: {
             if (topicInfo_ == null) {
-              TopicInfo = new global::Proto.ConsensusTopicInfo();
+              TopicInfo = new global::Hedera.Hashgraph.Proto.ConsensusTopicInfo();
             }
             input.ReadMessage(TopicInfo);
             break;
@@ -612,21 +612,21 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
           }
           case 42: {
             if (topicInfo_ == null) {
-              TopicInfo = new global::Proto.ConsensusTopicInfo();
+              TopicInfo = new global::Hedera.Hashgraph.Proto.ConsensusTopicInfo();
             }
             input.ReadMessage(TopicInfo);
             break;

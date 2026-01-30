@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -31,9 +27,7 @@ namespace Hedera.Hashgraph.SDK.Queries
     {
         private ContractId contractId = null;
         private long gas = 0;
-        private byte[] functionParameters = new[]
-        {
-        };
+        private byte[] functionParameters = [];
         private long maxResultSize = 0;
         private AccountId senderAccountId = null;
         /// <summary>
@@ -112,7 +106,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <returns>{@code this}</returns>
         public ContractCallQuery SetFunctionParameters(byte[] functionParameters)
         {
-            functionParameters = Array.CopyOf(functionParameters, functionParameters.Length);
+            functionParameters = functionParameters.CopyArray();
             return this;
         }
 
@@ -199,40 +193,45 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = ContractCallLocalQuery.NewBuilder();
+            var builder = new Proto.ContractCallLocalQuery
+            {
+                Header = header
+            };
+
             if (contractId != null)
             {
-                builder.ContractID(contractId.ToProtobuf());
+                builder.ContractID = contractId.ToProtobuf();
             }
 
-            builder.Gas(gas);
-            builder.FunctionParameters(ByteString.CopyFrom(functionParameters));
+            builder.Gas = gas;
+            builder.FunctionParameters = ByteString.CopyFrom(functionParameters);
+            
             if (senderAccountId != null)
             {
-                builder.SenderId(senderAccountId.ToProtobuf());
+                builder.SenderId = senderAccountId.ToProtobuf();
             }
 
-            queryBuilder.SetContractCallLocal(builder.Header(header));
+            queryBuilder.ContractCallLocal = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetContractCallLocal().GetHeader();
+            return response.ContractCallLocal.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetContractCallLocal().GetHeader();
+            return request.ContractCallLocal.Header;
         }
 
-        override ContractFunctionResult MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override ContractFunctionResult MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return new ContractFunctionResult(response.GetContractCallLocal().GetFunctionResult());
+            return new ContractFunctionResult(response.ContractCallLocal.FunctionResult);
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return SmartContractServiceGrpc.GetContractCallLocalMethodMethod();
         }

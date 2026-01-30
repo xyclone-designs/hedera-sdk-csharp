@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from contract_types.proto</summary>
   public static partial class ContractTypesReflection {
@@ -47,16 +47,16 @@ namespace Proto {
             "CglzZW5kZXJfaWQYDSABKAsyEC5wcm90by5BY2NvdW50SUQSMQoPY29udHJh",
             "Y3Rfbm9uY2VzGA4gAygLMhgucHJvdG8uQ29udHJhY3ROb25jZUluZm8SMQoM",
             "c2lnbmVyX25vbmNlGA8gASgLMhsuZ29vZ2xlLnByb3RvYnVmLkludDY0VmFs",
-            "dWVKBAgIEAlCIgoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFi",
-            "BnByb3RvMw=="));
+            "dWVKBAgIEAlCOQoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIW",
+            "SGVkZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.InternalCallContext), global::Proto.InternalCallContext.Parser, new[]{ "Gas", "Value", "CallData" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.EvmTransactionResult), global::Proto.EvmTransactionResult.Parser, new[]{ "SenderId", "ContractId", "ResultData", "ErrorMessage", "GasUsed", "InternalCallContext" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractNonceInfo), global::Proto.ContractNonceInfo.Parser, new[]{ "ContractId", "Nonce" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractLoginfo), global::Proto.ContractLoginfo.Parser, new[]{ "ContractID", "Bloom", "Topic", "Data" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractFunctionResult), global::Proto.ContractFunctionResult.Parser, new[]{ "ContractID", "ContractCallResult", "ErrorMessage", "Bloom", "GasUsed", "LogInfo", "CreatedContractIDs", "EvmAddress", "Gas", "Amount", "FunctionParameters", "SenderId", "ContractNonces", "SignerNonce" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.InternalCallContext), global::Hedera.Hashgraph.Proto.InternalCallContext.Parser, new[]{ "Gas", "Value", "CallData" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EvmTransactionResult), global::Hedera.Hashgraph.Proto.EvmTransactionResult.Parser, new[]{ "SenderId", "ContractId", "ResultData", "ErrorMessage", "GasUsed", "InternalCallContext" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractNonceInfo), global::Hedera.Hashgraph.Proto.ContractNonceInfo.Parser, new[]{ "ContractId", "Nonce" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractLoginfo), global::Hedera.Hashgraph.Proto.ContractLoginfo.Parser, new[]{ "ContractID", "Bloom", "Topic", "Data" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractFunctionResult), global::Hedera.Hashgraph.Proto.ContractFunctionResult.Parser, new[]{ "ContractID", "ContractCallResult", "ErrorMessage", "Bloom", "GasUsed", "LogInfo", "CreatedContractIDs", "EvmAddress", "Gas", "Amount", "FunctionParameters", "SenderId", "ContractNonces", "SignerNonce" }, null, null, null, null)
           }));
     }
     #endregion
@@ -85,7 +85,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractTypesReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractTypesReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -373,7 +373,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractTypesReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractTypesReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -410,14 +410,14 @@ namespace Proto {
 
     /// <summary>Field number for the "sender_id" field.</summary>
     public const int SenderIdFieldNumber = 1;
-    private global::Proto.AccountID senderId_;
+    private global::Hedera.Hashgraph.Proto.AccountID senderId_;
     /// <summary>
     ///*
     /// The Hedera id of the caller.&lt;br/>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID SenderId {
+    public global::Hedera.Hashgraph.Proto.AccountID SenderId {
       get { return senderId_; }
       set {
         senderId_ = value;
@@ -426,14 +426,14 @@ namespace Proto {
 
     /// <summary>Field number for the "contract_id" field.</summary>
     public const int ContractIdFieldNumber = 2;
-    private global::Proto.ContractID contractId_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractId_;
     /// <summary>
     ///*
     /// The Hedera id of the contract receiving the call.&lt;br/>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractId {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractId {
       get { return contractId_; }
       set {
         contractId_ = value;
@@ -492,7 +492,7 @@ namespace Proto {
 
     /// <summary>Field number for the "internal_call_context" field.</summary>
     public const int InternalCallContextFieldNumber = 6;
-    private global::Proto.InternalCallContext internalCallContext_;
+    private global::Hedera.Hashgraph.Proto.InternalCallContext internalCallContext_;
     /// <summary>
     ///*
     /// If not already externalized in a transaction body, the context of the
@@ -500,7 +500,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.InternalCallContext InternalCallContext {
+    public global::Hedera.Hashgraph.Proto.InternalCallContext InternalCallContext {
       get { return internalCallContext_; }
       set {
         internalCallContext_ = value;
@@ -659,13 +659,13 @@ namespace Proto {
       }
       if (other.senderId_ != null) {
         if (senderId_ == null) {
-          SenderId = new global::Proto.AccountID();
+          SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         SenderId.MergeFrom(other.SenderId);
       }
       if (other.contractId_ != null) {
         if (contractId_ == null) {
-          ContractId = new global::Proto.ContractID();
+          ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractId.MergeFrom(other.ContractId);
       }
@@ -680,7 +680,7 @@ namespace Proto {
       }
       if (other.internalCallContext_ != null) {
         if (internalCallContext_ == null) {
-          InternalCallContext = new global::Proto.InternalCallContext();
+          InternalCallContext = new global::Hedera.Hashgraph.Proto.InternalCallContext();
         }
         InternalCallContext.MergeFrom(other.InternalCallContext);
       }
@@ -705,14 +705,14 @@ namespace Proto {
             break;
           case 10: {
             if (senderId_ == null) {
-              SenderId = new global::Proto.AccountID();
+              SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderId);
             break;
           }
           case 18: {
             if (contractId_ == null) {
-              ContractId = new global::Proto.ContractID();
+              ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractId);
             break;
@@ -731,7 +731,7 @@ namespace Proto {
           }
           case 50: {
             if (internalCallContext_ == null) {
-              InternalCallContext = new global::Proto.InternalCallContext();
+              InternalCallContext = new global::Hedera.Hashgraph.Proto.InternalCallContext();
             }
             input.ReadMessage(InternalCallContext);
             break;
@@ -757,14 +757,14 @@ namespace Proto {
             break;
           case 10: {
             if (senderId_ == null) {
-              SenderId = new global::Proto.AccountID();
+              SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderId);
             break;
           }
           case 18: {
             if (contractId_ == null) {
-              ContractId = new global::Proto.ContractID();
+              ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractId);
             break;
@@ -783,7 +783,7 @@ namespace Proto {
           }
           case 50: {
             if (internalCallContext_ == null) {
-              InternalCallContext = new global::Proto.InternalCallContext();
+              InternalCallContext = new global::Hedera.Hashgraph.Proto.InternalCallContext();
             }
             input.ReadMessage(InternalCallContext);
             break;
@@ -820,7 +820,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractTypesReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractTypesReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -853,7 +853,7 @@ namespace Proto {
 
     /// <summary>Field number for the "contract_id" field.</summary>
     public const int ContractIdFieldNumber = 1;
-    private global::Proto.ContractID contractId_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractId_;
     /// <summary>
     ///*
     /// A contract identifier.&lt;br/>
@@ -861,7 +861,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractId {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractId {
       get { return contractId_; }
       set {
         contractId_ = value;
@@ -985,7 +985,7 @@ namespace Proto {
       }
       if (other.contractId_ != null) {
         if (contractId_ == null) {
-          ContractId = new global::Proto.ContractID();
+          ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractId.MergeFrom(other.ContractId);
       }
@@ -1013,7 +1013,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractId_ == null) {
-              ContractId = new global::Proto.ContractID();
+              ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractId);
             break;
@@ -1043,7 +1043,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractId_ == null) {
-              ContractId = new global::Proto.ContractID();
+              ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractId);
             break;
@@ -1081,7 +1081,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractTypesReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractTypesReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1116,7 +1116,7 @@ namespace Proto {
 
     /// <summary>Field number for the "contractID" field.</summary>
     public const int ContractIDFieldNumber = 1;
-    private global::Proto.ContractID contractID_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractID_;
     /// <summary>
     ///*
     /// A contract identifier.&lt;br/>
@@ -1124,7 +1124,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
       get { return contractID_; }
       set {
         contractID_ = value;
@@ -1307,7 +1307,7 @@ namespace Proto {
       }
       if (other.contractID_ != null) {
         if (contractID_ == null) {
-          ContractID = new global::Proto.ContractID();
+          ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractID.MergeFrom(other.ContractID);
       }
@@ -1339,7 +1339,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -1377,7 +1377,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -1424,7 +1424,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractTypesReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractTypesReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1469,7 +1469,7 @@ namespace Proto {
 
     /// <summary>Field number for the "contractID" field.</summary>
     public const int ContractIDFieldNumber = 1;
-    private global::Proto.ContractID contractID_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractID_;
     /// <summary>
     ///*
     /// A contract identifier.&lt;br/>
@@ -1477,7 +1477,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
       get { return contractID_; }
       set {
         contractID_ = value;
@@ -1559,24 +1559,24 @@ namespace Proto {
 
     /// <summary>Field number for the "logInfo" field.</summary>
     public const int LogInfoFieldNumber = 6;
-    private static readonly pb::FieldCodec<global::Proto.ContractLoginfo> _repeated_logInfo_codec
-        = pb::FieldCodec.ForMessage(50, global::Proto.ContractLoginfo.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ContractLoginfo> logInfo_ = new pbc::RepeatedField<global::Proto.ContractLoginfo>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ContractLoginfo> _repeated_logInfo_codec
+        = pb::FieldCodec.ForMessage(50, global::Hedera.Hashgraph.Proto.ContractLoginfo.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractLoginfo> logInfo_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractLoginfo>();
     /// <summary>
     ///*
     /// Any Log events produced by this contract call.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ContractLoginfo> LogInfo {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractLoginfo> LogInfo {
       get { return logInfo_; }
     }
 
     /// <summary>Field number for the "createdContractIDs" field.</summary>
     public const int CreatedContractIDsFieldNumber = 7;
-    private static readonly pb::FieldCodec<global::Proto.ContractID> _repeated_createdContractIDs_codec
-        = pb::FieldCodec.ForMessage(58, global::Proto.ContractID.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ContractID> createdContractIDs_ = new pbc::RepeatedField<global::Proto.ContractID>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ContractID> _repeated_createdContractIDs_codec
+        = pb::FieldCodec.ForMessage(58, global::Hedera.Hashgraph.Proto.ContractID.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractID> createdContractIDs_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractID>();
     /// <summary>
     ///*
     /// Replaced by values in transaction records to support
@@ -1593,7 +1593,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ContractID> CreatedContractIDs {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractID> CreatedContractIDs {
       get { return createdContractIDs_; }
     }
 
@@ -1700,7 +1700,7 @@ namespace Proto {
 
     /// <summary>Field number for the "sender_id" field.</summary>
     public const int SenderIdFieldNumber = 13;
-    private global::Proto.AccountID senderId_;
+    private global::Hedera.Hashgraph.Proto.AccountID senderId_;
     /// <summary>
     ///*
     /// The account that was the "sender" for this contract call.&lt;br/>
@@ -1712,7 +1712,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID SenderId {
+    public global::Hedera.Hashgraph.Proto.AccountID SenderId {
       get { return senderId_; }
       set {
         senderId_ = value;
@@ -1721,9 +1721,9 @@ namespace Proto {
 
     /// <summary>Field number for the "contract_nonces" field.</summary>
     public const int ContractNoncesFieldNumber = 14;
-    private static readonly pb::FieldCodec<global::Proto.ContractNonceInfo> _repeated_contractNonces_codec
-        = pb::FieldCodec.ForMessage(114, global::Proto.ContractNonceInfo.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ContractNonceInfo> contractNonces_ = new pbc::RepeatedField<global::Proto.ContractNonceInfo>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ContractNonceInfo> _repeated_contractNonces_codec
+        = pb::FieldCodec.ForMessage(114, global::Hedera.Hashgraph.Proto.ContractNonceInfo.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractNonceInfo> contractNonces_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractNonceInfo>();
     /// <summary>
     ///*
     /// A list of contract account nonce values.&lt;br/>
@@ -1733,7 +1733,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ContractNonceInfo> ContractNonces {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ContractNonceInfo> ContractNonces {
       get { return contractNonces_; }
     }
 
@@ -1987,7 +1987,7 @@ namespace Proto {
       }
       if (other.contractID_ != null) {
         if (contractID_ == null) {
-          ContractID = new global::Proto.ContractID();
+          ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractID.MergeFrom(other.ContractID);
       }
@@ -2021,7 +2021,7 @@ namespace Proto {
       }
       if (other.senderId_ != null) {
         if (senderId_ == null) {
-          SenderId = new global::Proto.AccountID();
+          SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         SenderId.MergeFrom(other.SenderId);
       }
@@ -2052,7 +2052,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -2102,7 +2102,7 @@ namespace Proto {
           }
           case 106: {
             if (senderId_ == null) {
-              SenderId = new global::Proto.AccountID();
+              SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderId);
             break;
@@ -2139,7 +2139,7 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
@@ -2189,7 +2189,7 @@ namespace Proto {
           }
           case 106: {
             if (senderId_ == null) {
-              SenderId = new global::Proto.AccountID();
+              SenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SenderId);
             break;

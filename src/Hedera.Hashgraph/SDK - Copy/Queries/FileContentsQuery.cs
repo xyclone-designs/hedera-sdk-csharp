@@ -1,19 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -75,33 +68,37 @@ namespace Hedera.Hashgraph.SDK.Queries
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = FileGetContentsQuery.NewBuilder();
+            var builder = new Proto.FileGetContentsQuery
+            {
+                Header = header
+            };
+
             if (fileId != null)
             {
-                builder.FileID(fileId.ToProtobuf());
+                builder.FileID = fileId.ToProtobuf();
             }
 
-            queryBuilder.SetFileGetContents(builder.Header(header));
+            queryBuilder.FileGetContents = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetFileGetContents().GetHeader();
+            return response.FileGetContents.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetFileGetContents().GetHeader();
+            return request.FileGetContents.Header;
         }
 
-        override ByteString MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override ByteString MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return response.GetFileGetContents().GetFileContents().GetContents();
+            return response.FileGetContents.FileContents.Contents;
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return FileServiceGrpc.GetGetFileContentMethod();
         }

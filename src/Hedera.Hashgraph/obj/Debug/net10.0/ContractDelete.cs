@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from contract_delete.proto</summary>
   public static partial class ContractDeleteReflection {
@@ -29,12 +29,13 @@ namespace Proto {
             "dHJhY3RJRBgBIAEoCzIRLnByb3RvLkNvbnRyYWN0SUQSLQoRdHJhbnNmZXJB",
             "Y2NvdW50SUQYAiABKAsyEC5wcm90by5BY2NvdW50SURIABIvChJ0cmFuc2Zl",
             "ckNvbnRyYWN0SUQYAyABKAsyES5wcm90by5Db250cmFjdElESAASGQoRcGVy",
-            "bWFuZW50X3JlbW92YWwYBCABKAhCCwoJb2J0YWluZXJzQiIKHmNvbS5oZWRl",
-            "cmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "bWFuZW50X3JlbW92YWwYBCABKAhCCwoJb2J0YWluZXJzQjkKHmNvbS5oZWRl",
+            "cmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJv",
+            "dG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractDeleteTransactionBody), global::Proto.ContractDeleteTransactionBody.Parser, new[]{ "ContractID", "TransferAccountID", "TransferContractID", "PermanentRemoval" }, new[]{ "Obtainers" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody), global::Hedera.Hashgraph.Proto.ContractDeleteTransactionBody.Parser, new[]{ "ContractID", "TransferAccountID", "TransferContractID", "PermanentRemoval" }, new[]{ "Obtainers" }, null, null, null)
           }));
     }
     #endregion
@@ -84,7 +85,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractDeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractDeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -126,7 +127,7 @@ namespace Proto {
 
     /// <summary>Field number for the "contractID" field.</summary>
     public const int ContractIDFieldNumber = 1;
-    private global::Proto.ContractID contractID_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractID_;
     /// <summary>
     ///*
     /// The id of the contract to be deleted.
@@ -135,7 +136,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
       get { return contractID_; }
       set {
         contractID_ = value;
@@ -153,8 +154,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID TransferAccountID {
-      get { return obtainersCase_ == ObtainersOneofCase.TransferAccountID ? (global::Proto.AccountID) obtainers_ : null; }
+    public global::Hedera.Hashgraph.Proto.AccountID TransferAccountID {
+      get { return obtainersCase_ == ObtainersOneofCase.TransferAccountID ? (global::Hedera.Hashgraph.Proto.AccountID) obtainers_ : null; }
       set {
         obtainers_ = value;
         obtainersCase_ = value == null ? ObtainersOneofCase.None : ObtainersOneofCase.TransferAccountID;
@@ -172,8 +173,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID TransferContractID {
-      get { return obtainersCase_ == ObtainersOneofCase.TransferContractID ? (global::Proto.ContractID) obtainers_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID TransferContractID {
+      get { return obtainersCase_ == ObtainersOneofCase.TransferContractID ? (global::Hedera.Hashgraph.Proto.ContractID) obtainers_ : null; }
       set {
         obtainers_ = value;
         obtainersCase_ = value == null ? ObtainersOneofCase.None : ObtainersOneofCase.TransferContractID;
@@ -351,7 +352,7 @@ namespace Proto {
       }
       if (other.contractID_ != null) {
         if (contractID_ == null) {
-          ContractID = new global::Proto.ContractID();
+          ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractID.MergeFrom(other.ContractID);
       }
@@ -361,13 +362,13 @@ namespace Proto {
       switch (other.ObtainersCase) {
         case ObtainersOneofCase.TransferAccountID:
           if (TransferAccountID == null) {
-            TransferAccountID = new global::Proto.AccountID();
+            TransferAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
           }
           TransferAccountID.MergeFrom(other.TransferAccountID);
           break;
         case ObtainersOneofCase.TransferContractID:
           if (TransferContractID == null) {
-            TransferContractID = new global::Proto.ContractID();
+            TransferContractID = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           TransferContractID.MergeFrom(other.TransferContractID);
           break;
@@ -394,13 +395,13 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
           }
           case 18: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (obtainersCase_ == ObtainersOneofCase.TransferAccountID) {
               subBuilder.MergeFrom(TransferAccountID);
             }
@@ -409,7 +410,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (obtainersCase_ == ObtainersOneofCase.TransferContractID) {
               subBuilder.MergeFrom(TransferContractID);
             }
@@ -442,13 +443,13 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
           }
           case 18: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (obtainersCase_ == ObtainersOneofCase.TransferAccountID) {
               subBuilder.MergeFrom(TransferAccountID);
             }
@@ -457,7 +458,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (obtainersCase_ == ObtainersOneofCase.TransferContractID) {
               subBuilder.MergeFrom(TransferContractID);
             }

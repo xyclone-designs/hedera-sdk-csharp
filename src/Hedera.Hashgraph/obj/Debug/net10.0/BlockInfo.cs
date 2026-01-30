@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from block_info.proto</summary>
   public static partial class BlockInfoReflection {
@@ -33,12 +33,12 @@ namespace Proto {
             "dGltZV9vZl9jdXJyZW50X2Jsb2NrGAYgASgLMhAucHJvdG8uVGltZXN0YW1w",
             "Ei0KE2xhc3RfdXNlZF9jb25zX3RpbWUYByABKAsyEC5wcm90by5UaW1lc3Rh",
             "bXASNAoabGFzdF9pbnRlcnZhbF9wcm9jZXNzX3RpbWUYCCABKAsyEC5wcm90",
-            "by5UaW1lc3RhbXBCIgoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3Rv",
-            "UAFiBnByb3RvMw=="));
+            "by5UaW1lc3RhbXBCOQoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3Rv",
+            "qgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.BlockInfo), global::Proto.BlockInfo.Parser, new[]{ "LastBlockNumber", "FirstConsTimeOfLastBlock", "BlockHashes", "ConsTimeOfLastHandledTxn", "MigrationRecordsStreamed", "FirstConsTimeOfCurrentBlock", "LastUsedConsTime", "LastIntervalProcessTime" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.BlockInfo), global::Hedera.Hashgraph.Proto.BlockInfo.Parser, new[]{ "LastBlockNumber", "FirstConsTimeOfLastBlock", "BlockHashes", "ConsTimeOfLastHandledTxn", "MigrationRecordsStreamed", "FirstConsTimeOfCurrentBlock", "LastUsedConsTime", "LastIntervalProcessTime" }, null, null, null, null)
           }));
     }
     #endregion
@@ -73,7 +73,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.BlockInfoReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.BlockInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -130,7 +130,7 @@ namespace Proto {
 
     /// <summary>Field number for the "first_cons_time_of_last_block" field.</summary>
     public const int FirstConsTimeOfLastBlockFieldNumber = 2;
-    private global::Proto.Timestamp firstConsTimeOfLastBlock_;
+    private global::Hedera.Hashgraph.Proto.Timestamp firstConsTimeOfLastBlock_;
     /// <summary>
     ///*
     /// A consensus timestamp.
@@ -139,7 +139,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp FirstConsTimeOfLastBlock {
+    public global::Hedera.Hashgraph.Proto.Timestamp FirstConsTimeOfLastBlock {
       get { return firstConsTimeOfLastBlock_; }
       set {
         firstConsTimeOfLastBlock_ = value;
@@ -175,7 +175,7 @@ namespace Proto {
 
     /// <summary>Field number for the "cons_time_of_last_handled_txn" field.</summary>
     public const int ConsTimeOfLastHandledTxnFieldNumber = 4;
-    private global::Proto.Timestamp consTimeOfLastHandledTxn_;
+    private global::Hedera.Hashgraph.Proto.Timestamp consTimeOfLastHandledTxn_;
     /// <summary>
     ///*
     /// A consensus timestamp.
@@ -187,7 +187,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ConsTimeOfLastHandledTxn {
+    public global::Hedera.Hashgraph.Proto.Timestamp ConsTimeOfLastHandledTxn {
       get { return consTimeOfLastHandledTxn_; }
       set {
         consTimeOfLastHandledTxn_ = value;
@@ -217,7 +217,7 @@ namespace Proto {
 
     /// <summary>Field number for the "first_cons_time_of_current_block" field.</summary>
     public const int FirstConsTimeOfCurrentBlockFieldNumber = 6;
-    private global::Proto.Timestamp firstConsTimeOfCurrentBlock_;
+    private global::Hedera.Hashgraph.Proto.Timestamp firstConsTimeOfCurrentBlock_;
     /// <summary>
     ///*
     /// A consensus timestamp.
@@ -228,7 +228,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp FirstConsTimeOfCurrentBlock {
+    public global::Hedera.Hashgraph.Proto.Timestamp FirstConsTimeOfCurrentBlock {
       get { return firstConsTimeOfCurrentBlock_; }
       set {
         firstConsTimeOfCurrentBlock_ = value;
@@ -237,7 +237,7 @@ namespace Proto {
 
     /// <summary>Field number for the "last_used_cons_time" field.</summary>
     public const int LastUsedConsTimeFieldNumber = 7;
-    private global::Proto.Timestamp lastUsedConsTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp lastUsedConsTime_;
     /// <summary>
     ///*
     /// The consensus time of the last transaction that was handled by the node.
@@ -248,7 +248,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp LastUsedConsTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp LastUsedConsTime {
       get { return lastUsedConsTime_; }
       set {
         lastUsedConsTime_ = value;
@@ -257,7 +257,7 @@ namespace Proto {
 
     /// <summary>Field number for the "last_interval_process_time" field.</summary>
     public const int LastIntervalProcessTimeFieldNumber = 8;
-    private global::Proto.Timestamp lastIntervalProcessTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp lastIntervalProcessTime_;
     /// <summary>
     ///*
     /// The time stamp at which the last interval process was done.
@@ -267,7 +267,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp LastIntervalProcessTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp LastIntervalProcessTime {
       get { return lastIntervalProcessTime_; }
       set {
         lastIntervalProcessTime_ = value;
@@ -455,7 +455,7 @@ namespace Proto {
       }
       if (other.firstConsTimeOfLastBlock_ != null) {
         if (firstConsTimeOfLastBlock_ == null) {
-          FirstConsTimeOfLastBlock = new global::Proto.Timestamp();
+          FirstConsTimeOfLastBlock = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         FirstConsTimeOfLastBlock.MergeFrom(other.FirstConsTimeOfLastBlock);
       }
@@ -464,7 +464,7 @@ namespace Proto {
       }
       if (other.consTimeOfLastHandledTxn_ != null) {
         if (consTimeOfLastHandledTxn_ == null) {
-          ConsTimeOfLastHandledTxn = new global::Proto.Timestamp();
+          ConsTimeOfLastHandledTxn = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ConsTimeOfLastHandledTxn.MergeFrom(other.ConsTimeOfLastHandledTxn);
       }
@@ -473,19 +473,19 @@ namespace Proto {
       }
       if (other.firstConsTimeOfCurrentBlock_ != null) {
         if (firstConsTimeOfCurrentBlock_ == null) {
-          FirstConsTimeOfCurrentBlock = new global::Proto.Timestamp();
+          FirstConsTimeOfCurrentBlock = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         FirstConsTimeOfCurrentBlock.MergeFrom(other.FirstConsTimeOfCurrentBlock);
       }
       if (other.lastUsedConsTime_ != null) {
         if (lastUsedConsTime_ == null) {
-          LastUsedConsTime = new global::Proto.Timestamp();
+          LastUsedConsTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         LastUsedConsTime.MergeFrom(other.LastUsedConsTime);
       }
       if (other.lastIntervalProcessTime_ != null) {
         if (lastIntervalProcessTime_ == null) {
-          LastIntervalProcessTime = new global::Proto.Timestamp();
+          LastIntervalProcessTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         LastIntervalProcessTime.MergeFrom(other.LastIntervalProcessTime);
       }
@@ -514,7 +514,7 @@ namespace Proto {
           }
           case 18: {
             if (firstConsTimeOfLastBlock_ == null) {
-              FirstConsTimeOfLastBlock = new global::Proto.Timestamp();
+              FirstConsTimeOfLastBlock = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(FirstConsTimeOfLastBlock);
             break;
@@ -525,7 +525,7 @@ namespace Proto {
           }
           case 34: {
             if (consTimeOfLastHandledTxn_ == null) {
-              ConsTimeOfLastHandledTxn = new global::Proto.Timestamp();
+              ConsTimeOfLastHandledTxn = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsTimeOfLastHandledTxn);
             break;
@@ -536,21 +536,21 @@ namespace Proto {
           }
           case 50: {
             if (firstConsTimeOfCurrentBlock_ == null) {
-              FirstConsTimeOfCurrentBlock = new global::Proto.Timestamp();
+              FirstConsTimeOfCurrentBlock = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(FirstConsTimeOfCurrentBlock);
             break;
           }
           case 58: {
             if (lastUsedConsTime_ == null) {
-              LastUsedConsTime = new global::Proto.Timestamp();
+              LastUsedConsTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastUsedConsTime);
             break;
           }
           case 66: {
             if (lastIntervalProcessTime_ == null) {
-              LastIntervalProcessTime = new global::Proto.Timestamp();
+              LastIntervalProcessTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastIntervalProcessTime);
             break;
@@ -580,7 +580,7 @@ namespace Proto {
           }
           case 18: {
             if (firstConsTimeOfLastBlock_ == null) {
-              FirstConsTimeOfLastBlock = new global::Proto.Timestamp();
+              FirstConsTimeOfLastBlock = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(FirstConsTimeOfLastBlock);
             break;
@@ -591,7 +591,7 @@ namespace Proto {
           }
           case 34: {
             if (consTimeOfLastHandledTxn_ == null) {
-              ConsTimeOfLastHandledTxn = new global::Proto.Timestamp();
+              ConsTimeOfLastHandledTxn = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ConsTimeOfLastHandledTxn);
             break;
@@ -602,21 +602,21 @@ namespace Proto {
           }
           case 50: {
             if (firstConsTimeOfCurrentBlock_ == null) {
-              FirstConsTimeOfCurrentBlock = new global::Proto.Timestamp();
+              FirstConsTimeOfCurrentBlock = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(FirstConsTimeOfCurrentBlock);
             break;
           }
           case 58: {
             if (lastUsedConsTime_ == null) {
-              LastUsedConsTime = new global::Proto.Timestamp();
+              LastUsedConsTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastUsedConsTime);
             break;
           }
           case 66: {
             if (lastIntervalProcessTime_ == null) {
-              LastIntervalProcessTime = new global::Proto.Timestamp();
+              LastIntervalProcessTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastIntervalProcessTime);
             break;

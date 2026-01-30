@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from transaction_contents.proto</summary>
   public static partial class TransactionContentsReflection {
@@ -28,11 +28,12 @@ namespace Proto {
             "cGVzLnByb3RvIn0KEVNpZ25lZFRyYW5zYWN0aW9uEhEKCWJvZHlCeXRlcxgB",
             "IAEoDBIjCgZzaWdNYXAYAiABKAsyEy5wcm90by5TaWduYXR1cmVNYXASMAoo",
             "dXNlX3NlcmlhbGl6ZWRfdHhfbWVzc2FnZV9oYXNoX2FsZ29yaXRobRgDIAEo",
-            "CEIiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "CEI5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEu",
+            "SGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SignedTransaction), global::Proto.SignedTransaction.Parser, new[]{ "BodyBytes", "SigMap", "UseSerializedTxMessageHashAlgorithm" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SignedTransaction), global::Hedera.Hashgraph.Proto.SignedTransaction.Parser, new[]{ "BodyBytes", "SigMap", "UseSerializedTxMessageHashAlgorithm" }, null, null, null, null)
           }));
     }
     #endregion
@@ -64,7 +65,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TransactionContentsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TransactionContentsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -116,7 +117,7 @@ namespace Proto {
 
     /// <summary>Field number for the "sigMap" field.</summary>
     public const int SigMapFieldNumber = 2;
-    private global::Proto.SignatureMap sigMap_;
+    private global::Hedera.Hashgraph.Proto.SignatureMap sigMap_;
     /// <summary>
     ///*
     /// A set of cryptographic signatures.
@@ -127,7 +128,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SignatureMap SigMap {
+    public global::Hedera.Hashgraph.Proto.SignatureMap SigMap {
       get { return sigMap_; }
       set {
         sigMap_ = value;
@@ -271,7 +272,7 @@ namespace Proto {
       }
       if (other.sigMap_ != null) {
         if (sigMap_ == null) {
-          SigMap = new global::Proto.SignatureMap();
+          SigMap = new global::Hedera.Hashgraph.Proto.SignatureMap();
         }
         SigMap.MergeFrom(other.SigMap);
       }
@@ -303,7 +304,7 @@ namespace Proto {
           }
           case 18: {
             if (sigMap_ == null) {
-              SigMap = new global::Proto.SignatureMap();
+              SigMap = new global::Hedera.Hashgraph.Proto.SignatureMap();
             }
             input.ReadMessage(SigMap);
             break;
@@ -337,7 +338,7 @@ namespace Proto {
           }
           case 18: {
             if (sigMap_ == null) {
-              SigMap = new global::Proto.SignatureMap();
+              SigMap = new global::Hedera.Hashgraph.Proto.SignatureMap();
             }
             input.ReadMessage(SigMap);
             break;

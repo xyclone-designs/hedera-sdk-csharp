@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from network_staking_rewards.proto</summary>
   public static partial class NetworkStakingRewardsReflection {
@@ -29,12 +29,13 @@ namespace Proto {
             "bmdfcmV3YXJkc19hY3RpdmF0ZWQYASABKAgSIQoZdG90YWxfc3Rha2VkX3Jl",
             "d2FyZF9zdGFydBgCIAEoAxIaChJ0b3RhbF9zdGFrZWRfc3RhcnQYAyABKAMS",
             "FwoPcGVuZGluZ19yZXdhcmRzGAQgASgDEjgKHmxhc3Rfbm9kZV9yZXdhcmRf",
-            "cGF5bWVudHNfdGltZRgFIAEoCzIQLnByb3RvLlRpbWVzdGFtcEIiCh5jb20u",
-            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "cGF5bWVudHNfdGltZRgFIAEoCzIQLnByb3RvLlRpbWVzdGFtcEI5Ch5jb20u",
+            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBo",
+            "LlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NetworkStakingRewards), global::Proto.NetworkStakingRewards.Parser, new[]{ "StakingRewardsActivated", "TotalStakedRewardStart", "TotalStakedStart", "PendingRewards", "LastNodeRewardPaymentsTime" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NetworkStakingRewards), global::Hedera.Hashgraph.Proto.NetworkStakingRewards.Parser, new[]{ "StakingRewardsActivated", "TotalStakedRewardStart", "TotalStakedStart", "PendingRewards", "LastNodeRewardPaymentsTime" }, null, null, null, null)
           }));
     }
     #endregion
@@ -62,7 +63,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NetworkStakingRewardsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NetworkStakingRewardsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -185,7 +186,7 @@ namespace Proto {
 
     /// <summary>Field number for the "last_node_reward_payments_time" field.</summary>
     public const int LastNodeRewardPaymentsTimeFieldNumber = 5;
-    private global::Proto.Timestamp lastNodeRewardPaymentsTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp lastNodeRewardPaymentsTime_;
     /// <summary>
     ///*
     /// The last time a node reward payment was made. This will be set at the
@@ -193,7 +194,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp LastNodeRewardPaymentsTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp LastNodeRewardPaymentsTime {
       get { return lastNodeRewardPaymentsTime_; }
       set {
         lastNodeRewardPaymentsTime_ = value;
@@ -351,7 +352,7 @@ namespace Proto {
       }
       if (other.lastNodeRewardPaymentsTime_ != null) {
         if (lastNodeRewardPaymentsTime_ == null) {
-          LastNodeRewardPaymentsTime = new global::Proto.Timestamp();
+          LastNodeRewardPaymentsTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         LastNodeRewardPaymentsTime.MergeFrom(other.LastNodeRewardPaymentsTime);
       }
@@ -392,7 +393,7 @@ namespace Proto {
           }
           case 42: {
             if (lastNodeRewardPaymentsTime_ == null) {
-              LastNodeRewardPaymentsTime = new global::Proto.Timestamp();
+              LastNodeRewardPaymentsTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastNodeRewardPaymentsTime);
             break;
@@ -434,7 +435,7 @@ namespace Proto {
           }
           case 42: {
             if (lastNodeRewardPaymentsTime_ == null) {
-              LastNodeRewardPaymentsTime = new global::Proto.Timestamp();
+              LastNodeRewardPaymentsTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastNodeRewardPaymentsTime);
             break;

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from file_get_contents.proto</summary>
   public static partial class FileGetContentsReflection {
@@ -32,13 +32,14 @@ namespace Proto {
             "IAEoCzIVLnByb3RvLlJlc3BvbnNlSGVhZGVyEkEKDGZpbGVDb250ZW50cxgC",
             "IAEoCzIrLnByb3RvLkZpbGVHZXRDb250ZW50c1Jlc3BvbnNlLkZpbGVDb250",
             "ZW50cxo/CgxGaWxlQ29udGVudHMSHQoGZmlsZUlEGAEgASgLMg0ucHJvdG8u",
-            "RmlsZUlEEhAKCGNvbnRlbnRzGAIgASgMQiIKHmNvbS5oZWRlcmEuaGFzaGdy",
-            "YXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "RmlsZUlEEhAKCGNvbnRlbnRzGAIgASgMQjkKHmNvbS5oZWRlcmEuaGFzaGdy",
+            "YXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileGetContentsQuery), global::Proto.FileGetContentsQuery.Parser, new[]{ "Header", "FileID" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileGetContentsResponse), global::Proto.FileGetContentsResponse.Parser, new[]{ "Header", "FileContents" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileGetContentsResponse.Types.FileContents), global::Proto.FileGetContentsResponse.Types.FileContents.Parser, new[]{ "FileID", "Contents" }, null, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileGetContentsQuery), global::Hedera.Hashgraph.Proto.FileGetContentsQuery.Parser, new[]{ "Header", "FileID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileGetContentsResponse), global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Parser, new[]{ "Header", "FileContents" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Types.FileContents), global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Types.FileContents.Parser, new[]{ "FileID", "Contents" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -69,7 +70,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FileGetContentsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.FileGetContentsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -102,7 +103,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -111,7 +112,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -120,7 +121,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fileID" field.</summary>
     public const int FileIDFieldNumber = 2;
-    private global::Proto.FileID fileID_;
+    private global::Hedera.Hashgraph.Proto.FileID fileID_;
     /// <summary>
     ///*
     /// A file identifier.
@@ -130,7 +131,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
       get { return fileID_; }
       set {
         fileID_ = value;
@@ -237,13 +238,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.fileID_ != null) {
         if (fileID_ == null) {
-          FileID = new global::Proto.FileID();
+          FileID = new global::Hedera.Hashgraph.Proto.FileID();
         }
         FileID.MergeFrom(other.FileID);
       }
@@ -268,14 +269,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
@@ -301,14 +302,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
@@ -343,7 +344,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FileGetContentsReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.FileGetContentsReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -376,7 +377,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -385,7 +386,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -394,7 +395,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fileContents" field.</summary>
     public const int FileContentsFieldNumber = 2;
-    private global::Proto.FileGetContentsResponse.Types.FileContents fileContents_;
+    private global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Types.FileContents fileContents_;
     /// <summary>
     ///*
     /// A combination of File identifier and content bytes.
@@ -404,7 +405,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileGetContentsResponse.Types.FileContents FileContents {
+    public global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Types.FileContents FileContents {
       get { return fileContents_; }
       set {
         fileContents_ = value;
@@ -511,13 +512,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.fileContents_ != null) {
         if (fileContents_ == null) {
-          FileContents = new global::Proto.FileGetContentsResponse.Types.FileContents();
+          FileContents = new global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Types.FileContents();
         }
         FileContents.MergeFrom(other.FileContents);
       }
@@ -542,14 +543,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileContents_ == null) {
-              FileContents = new global::Proto.FileGetContentsResponse.Types.FileContents();
+              FileContents = new global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Types.FileContents();
             }
             input.ReadMessage(FileContents);
             break;
@@ -575,14 +576,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileContents_ == null) {
-              FileContents = new global::Proto.FileGetContentsResponse.Types.FileContents();
+              FileContents = new global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Types.FileContents();
             }
             input.ReadMessage(FileContents);
             break;
@@ -612,7 +613,7 @@ namespace Proto {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::Proto.FileGetContentsResponse.Descriptor.NestedTypes[0]; }
+          get { return global::Hedera.Hashgraph.Proto.FileGetContentsResponse.Descriptor.NestedTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -645,7 +646,7 @@ namespace Proto {
 
         /// <summary>Field number for the "fileID" field.</summary>
         public const int FileIDFieldNumber = 1;
-        private global::Proto.FileID fileID_;
+        private global::Hedera.Hashgraph.Proto.FileID fileID_;
         /// <summary>
         ///*
         /// A file identifier.
@@ -655,7 +656,7 @@ namespace Proto {
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-        public global::Proto.FileID FileID {
+        public global::Hedera.Hashgraph.Proto.FileID FileID {
           get { return fileID_; }
           set {
             fileID_ = value;
@@ -781,7 +782,7 @@ namespace Proto {
           }
           if (other.fileID_ != null) {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             FileID.MergeFrom(other.FileID);
           }
@@ -809,7 +810,7 @@ namespace Proto {
                 break;
               case 10: {
                 if (fileID_ == null) {
-                  FileID = new global::Proto.FileID();
+                  FileID = new global::Hedera.Hashgraph.Proto.FileID();
                 }
                 input.ReadMessage(FileID);
                 break;
@@ -839,7 +840,7 @@ namespace Proto {
                 break;
               case 10: {
                 if (fileID_ == null) {
-                  FileID = new global::Proto.FileID();
+                  FileID = new global::Hedera.Hashgraph.Proto.FileID();
                 }
                 input.ReadMessage(FileID);
                 break;

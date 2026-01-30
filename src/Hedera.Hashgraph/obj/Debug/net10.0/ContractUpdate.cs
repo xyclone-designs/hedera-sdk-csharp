@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from contract_update.proto</summary>
   public static partial class ContractUpdateReflection {
@@ -42,12 +42,13 @@ namespace Proto {
             "bmVfcmV3YXJkGA8gASgLMhouZ29vZ2xlLnByb3RvYnVmLkJvb2xWYWx1ZRIa",
             "ChJob29rX2lkc190b19kZWxldGUYECADKAMSTgoVaG9va19jcmVhdGlvbl9k",
             "ZXRhaWxzGBEgAygLMi8uY29tLmhlZGVyYS5oYXBpLm5vZGUuaG9va3MuSG9v",
-            "a0NyZWF0aW9uRGV0YWlsc0ILCgltZW1vRmllbGRCCwoJc3Rha2VkX2lkQiIK",
-            "HmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "a0NyZWF0aW9uRGV0YWlsc0ILCgltZW1vRmllbGRCCwoJc3Rha2VkX2lkQjkK",
+            "HmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNo",
+            "Z3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.DurationReflection.Descriptor, global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.DurationReflection.Descriptor, global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ContractUpdateTransactionBody), global::Proto.ContractUpdateTransactionBody.Parser, new[]{ "ContractID", "ExpirationTime", "AdminKey", "ProxyAccountID", "AutoRenewPeriod", "FileID", "Memo", "MemoWrapper", "MaxAutomaticTokenAssociations", "AutoRenewAccountId", "StakedAccountId", "StakedNodeId", "DeclineReward", "HookIdsToDelete", "HookCreationDetails" }, new[]{ "MemoField", "StakedId" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody), global::Hedera.Hashgraph.Proto.ContractUpdateTransactionBody.Parser, new[]{ "ContractID", "ExpirationTime", "AdminKey", "ProxyAccountID", "AutoRenewPeriod", "FileID", "Memo", "MemoWrapper", "MaxAutomaticTokenAssociations", "AutoRenewAccountId", "StakedAccountId", "StakedNodeId", "DeclineReward", "HookIdsToDelete", "HookCreationDetails" }, new[]{ "MemoField", "StakedId" }, null, null, null)
           }));
     }
     #endregion
@@ -86,7 +87,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ContractUpdateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ContractUpdateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -146,7 +147,7 @@ namespace Proto {
 
     /// <summary>Field number for the "contractID" field.</summary>
     public const int ContractIDFieldNumber = 1;
-    private global::Proto.ContractID contractID_;
+    private global::Hedera.Hashgraph.Proto.ContractID contractID_;
     /// <summary>
     ///*
     /// The contact ID that identifies the smart contract to be updated.&lt;br/>
@@ -154,7 +155,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
       get { return contractID_; }
       set {
         contractID_ = value;
@@ -163,7 +164,7 @@ namespace Proto {
 
     /// <summary>Field number for the "expirationTime" field.</summary>
     public const int ExpirationTimeFieldNumber = 2;
-    private global::Proto.Timestamp expirationTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp expirationTime_;
     /// <summary>
     ///*
     /// If set, modify the time at which this contract will expire.&lt;br/>
@@ -177,7 +178,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ExpirationTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp ExpirationTime {
       get { return expirationTime_; }
       set {
         expirationTime_ = value;
@@ -186,7 +187,7 @@ namespace Proto {
 
     /// <summary>Field number for the "adminKey" field.</summary>
     public const int AdminKeyFieldNumber = 3;
-    private global::Proto.Key adminKey_;
+    private global::Hedera.Hashgraph.Proto.Key adminKey_;
     /// <summary>
     ///*
     /// If set, modify the key that authorizes updates to the contract.
@@ -202,7 +203,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key AdminKey {
+    public global::Hedera.Hashgraph.Proto.Key AdminKey {
       get { return adminKey_; }
       set {
         adminKey_ = value;
@@ -211,7 +212,7 @@ namespace Proto {
 
     /// <summary>Field number for the "proxyAccountID" field.</summary>
     public const int ProxyAccountIDFieldNumber = 6;
-    private global::Proto.AccountID proxyAccountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID proxyAccountID_;
     /// <summary>
     ///*
     /// Replaced with `staked_id` alternatives.
@@ -221,7 +222,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID ProxyAccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID ProxyAccountID {
       get { return proxyAccountID_; }
       set {
         proxyAccountID_ = value;
@@ -230,7 +231,7 @@ namespace Proto {
 
     /// <summary>Field number for the "autoRenewPeriod" field.</summary>
     public const int AutoRenewPeriodFieldNumber = 7;
-    private global::Proto.Duration autoRenewPeriod_;
+    private global::Hedera.Hashgraph.Proto.Duration autoRenewPeriod_;
     /// <summary>
     ///*
     /// If set, modify the duration added to expiration time by each
@@ -238,7 +239,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Duration AutoRenewPeriod {
+    public global::Hedera.Hashgraph.Proto.Duration AutoRenewPeriod {
       get { return autoRenewPeriod_; }
       set {
         autoRenewPeriod_ = value;
@@ -247,7 +248,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fileID" field.</summary>
     public const int FileIDFieldNumber = 8;
-    private global::Proto.FileID fileID_;
+    private global::Hedera.Hashgraph.Proto.FileID fileID_;
     /// <summary>
     ///*
     /// This field is unused and SHALL NOT modify the contract state.&lt;br/>
@@ -257,7 +258,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
       get { return fileID_; }
       set {
         fileID_ = value;
@@ -344,7 +345,7 @@ namespace Proto {
 
     /// <summary>Field number for the "auto_renew_account_id" field.</summary>
     public const int AutoRenewAccountIdFieldNumber = 12;
-    private global::Proto.AccountID autoRenewAccountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID autoRenewAccountId_;
     /// <summary>
     ///*
     /// If set, modify the account, in the same shard and realm as this smart
@@ -358,7 +359,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AutoRenewAccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AutoRenewAccountId {
       get { return autoRenewAccountId_; }
       set {
         autoRenewAccountId_ = value;
@@ -380,8 +381,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID StakedAccountId {
-      get { return stakedIdCase_ == StakedIdOneofCase.StakedAccountId ? (global::Proto.AccountID) stakedId_ : null; }
+    public global::Hedera.Hashgraph.Proto.AccountID StakedAccountId {
+      get { return stakedIdCase_ == StakedIdOneofCase.StakedAccountId ? (global::Hedera.Hashgraph.Proto.AccountID) stakedId_ : null; }
       set {
         stakedId_ = value;
         stakedIdCase_ = value == null ? StakedIdOneofCase.None : StakedIdOneofCase.StakedAccountId;
@@ -474,16 +475,16 @@ namespace Proto {
 
     /// <summary>Field number for the "hook_creation_details" field.</summary>
     public const int HookCreationDetailsFieldNumber = 17;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails> _repeated_hookCreationDetails_codec
-        = pb::FieldCodec.ForMessage(138, global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails> hookCreationDetails_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.HookCreationDetails> _repeated_hookCreationDetails_codec
+        = pb::FieldCodec.ForMessage(138, global::Hedera.Hashgraph.Proto.HookCreationDetails.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.HookCreationDetails> hookCreationDetails_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.HookCreationDetails>();
     /// <summary>
     ///*
     /// The hooks to create for the contract.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails> HookCreationDetails {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.HookCreationDetails> HookCreationDetails {
       get { return hookCreationDetails_; }
     }
 
@@ -780,37 +781,37 @@ namespace Proto {
       }
       if (other.contractID_ != null) {
         if (contractID_ == null) {
-          ContractID = new global::Proto.ContractID();
+          ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         ContractID.MergeFrom(other.ContractID);
       }
       if (other.expirationTime_ != null) {
         if (expirationTime_ == null) {
-          ExpirationTime = new global::Proto.Timestamp();
+          ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ExpirationTime.MergeFrom(other.ExpirationTime);
       }
       if (other.adminKey_ != null) {
         if (adminKey_ == null) {
-          AdminKey = new global::Proto.Key();
+          AdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         AdminKey.MergeFrom(other.AdminKey);
       }
       if (other.proxyAccountID_ != null) {
         if (proxyAccountID_ == null) {
-          ProxyAccountID = new global::Proto.AccountID();
+          ProxyAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         ProxyAccountID.MergeFrom(other.ProxyAccountID);
       }
       if (other.autoRenewPeriod_ != null) {
         if (autoRenewPeriod_ == null) {
-          AutoRenewPeriod = new global::Proto.Duration();
+          AutoRenewPeriod = new global::Hedera.Hashgraph.Proto.Duration();
         }
         AutoRenewPeriod.MergeFrom(other.AutoRenewPeriod);
       }
       if (other.fileID_ != null) {
         if (fileID_ == null) {
-          FileID = new global::Proto.FileID();
+          FileID = new global::Hedera.Hashgraph.Proto.FileID();
         }
         FileID.MergeFrom(other.FileID);
       }
@@ -821,7 +822,7 @@ namespace Proto {
       }
       if (other.autoRenewAccountId_ != null) {
         if (autoRenewAccountId_ == null) {
-          AutoRenewAccountId = new global::Proto.AccountID();
+          AutoRenewAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AutoRenewAccountId.MergeFrom(other.AutoRenewAccountId);
       }
@@ -844,7 +845,7 @@ namespace Proto {
       switch (other.StakedIdCase) {
         case StakedIdOneofCase.StakedAccountId:
           if (StakedAccountId == null) {
-            StakedAccountId = new global::Proto.AccountID();
+            StakedAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
           }
           StakedAccountId.MergeFrom(other.StakedAccountId);
           break;
@@ -874,42 +875,42 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
           }
           case 18: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;
           }
           case 26: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 50: {
             if (proxyAccountID_ == null) {
-              ProxyAccountID = new global::Proto.AccountID();
+              ProxyAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(ProxyAccountID);
             break;
           }
           case 58: {
             if (autoRenewPeriod_ == null) {
-              AutoRenewPeriod = new global::Proto.Duration();
+              AutoRenewPeriod = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(AutoRenewPeriod);
             break;
           }
           case 66: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
@@ -931,13 +932,13 @@ namespace Proto {
           }
           case 98: {
             if (autoRenewAccountId_ == null) {
-              AutoRenewAccountId = new global::Proto.AccountID();
+              AutoRenewAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AutoRenewAccountId);
             break;
           }
           case 106: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (stakedIdCase_ == StakedIdOneofCase.StakedAccountId) {
               subBuilder.MergeFrom(StakedAccountId);
             }
@@ -986,42 +987,42 @@ namespace Proto {
             break;
           case 10: {
             if (contractID_ == null) {
-              ContractID = new global::Proto.ContractID();
+              ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(ContractID);
             break;
           }
           case 18: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;
           }
           case 26: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 50: {
             if (proxyAccountID_ == null) {
-              ProxyAccountID = new global::Proto.AccountID();
+              ProxyAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(ProxyAccountID);
             break;
           }
           case 58: {
             if (autoRenewPeriod_ == null) {
-              AutoRenewPeriod = new global::Proto.Duration();
+              AutoRenewPeriod = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(AutoRenewPeriod);
             break;
           }
           case 66: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
@@ -1043,13 +1044,13 @@ namespace Proto {
           }
           case 98: {
             if (autoRenewAccountId_ == null) {
-              AutoRenewAccountId = new global::Proto.AccountID();
+              AutoRenewAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AutoRenewAccountId);
             break;
           }
           case 106: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (stakedIdCase_ == StakedIdOneofCase.StakedAccountId) {
               subBuilder.MergeFrom(StakedAccountId);
             }

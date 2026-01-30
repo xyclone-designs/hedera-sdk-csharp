@@ -16,9 +16,7 @@ package com.hedera.hapi.services.auxiliary.hints;
 import "hints_types.proto";
 
 option java_package = "com.hedera.hapi.services.auxiliary.hints.legacy";
-// <<<pbj.java_package = "com.hedera.hapi.services.auxiliary.hints">>> This comment is special code for setting PBJ Compiler java package
 
-option java_multiple_files = true;
 
 /**
  * A transaction body to publish a node's vote for the results of

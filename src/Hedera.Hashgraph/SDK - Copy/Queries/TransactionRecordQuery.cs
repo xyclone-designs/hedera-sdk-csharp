@@ -1,30 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Proto;
 using Hedera.Hashgraph.SDK.Transactions;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
-using System;
+
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
-using static Hedera.Hashgraph.SDK.TokenKeyValidation;
-using static Hedera.Hashgraph.SDK.TokenSupplyType;
-using static Hedera.Hashgraph.SDK.TokenType;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -84,44 +62,53 @@ namespace Hedera.Hashgraph.SDK.Queries
 
         override void ValidateChecksums(Client client)
         {
-            if (transactionId != null)
+            if (TransactionId.AccountId != null)
             {
-                ArgumentNullException.ThrowIfNull(transactionId.accountId).ValidateChecksum(client);
+				TransactionId.AccountId.ValidateChecksum(client);
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = TransactionGetRecordQuery.NewBuilder().SetIncludeChildRecords(includeChildren).SetIncludeDuplicates(includeDuplicates);
-            if (transactionId != null)
+            var builder = new Proto.TransactionGetRecordQuery
             {
-                builder.TransactionID(transactionId.ToProtobuf());
+                Header = header,
+				IncludeChildRecords = IncludeChildren,
+				IncludeDuplicates = IncludeDuplicates,
+			};           
+
+            if (TransactionId != null)
+            {
+                builder.TransactionID = TransactionId.ToProtobuf();
             }
 
-            queryBuilder.SetTransactionGetRecord(builder.Header(header));
+            queryBuilder.TransactionGetRecord = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetTransactionGetRecord().GetHeader();
+            return response.TransactionGetRecord.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetTransactionGetRecord().GetHeader();
+            return request.TransactionGetRecord.Header;
         }
 
-        override TransactionRecord MapResponse(Response response, AccountId nodeId, Proto.Query request)
+        override TransactionRecord MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            var recordResponse = response.GetTransactionGetRecord();
-            IList<TransactionRecord> children = MapRecordList(recordResponse.GetChildTransactionRecordsList());
-            IList<TransactionRecord> duplicates = MapRecordList(recordResponse.GetDuplicateTransactionRecordsList());
-            return TransactionRecord.FromProtobuf(recordResponse.GetTransactionRecord(), children, duplicates, transactionId);
+            var recordResponse = response.TransactionGetRecord;
+
+            IList<TransactionRecord> children = MapRecordList(recordResponse.ChildTransactionRecords);
+            IList<TransactionRecord> duplicates = MapRecordList(recordResponse.DuplicateTransactionRecords);
+            
+            return TransactionRecord.FromProtobuf(recordResponse.TransactionRecord, children, duplicates, TransactionId);
         }
 
         private IList<TransactionRecord> MapRecordList(List<Proto.TransactionRecord> protoRecordList)
         {
-            IList<TransactionRecord> outList = new List(protoRecordList.Count);
+            IList<TransactionRecord> outList = new List<TransactionRecord>(protoRecordList.Count);
+
             foreach (var protoRecord in protoRecordList)
             {
                 outList.Add(TransactionRecord.FromProtobuf(protoRecord));
@@ -130,32 +117,33 @@ namespace Hedera.Hashgraph.SDK.Queries
             return outList;
         }
 
-        override MethodDescriptor<Proto.Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return CryptoServiceGrpc.GetGetTxRecordByTxIDMethod();
         }
 
-        override ExecutionState GetExecutionState(Status status, Response response)
+        override ExecutionState GetExecutionState(Status status, Proto.Response response)
         {
             var retry = base.GetExecutionState(status, response);
-            if (retry != ExecutionState.SUCCESS)
+
+            if (retry != ExecutionState.Success)
             {
                 return retry;
             }
 
             switch (status)
             {
-                case BUSY:
-                case UNKNOWN:
-                case RECEIPT_NOT_FOUND:
-                case RECORD_NOT_FOUND:
-                    return ExecutionState.RETRY;
-                case OK:
+                case Status.Busy:
+                case Status.Unknown:
+                case Status.ReceiptNotFound:
+                case Status.RecordNotFound:
+                    return ExecutionState.Retry;
+                case Status.Ok:
 
                     // When fetching payment an `OK` in the query header means the cost is in the response
-                    if (paymentTransactions == null || paymentTransactions.IsEmpty)
+                    if (PaymentTransactions == null || PaymentTransactions.Count > 0)
                     {
-                        return ExecutionState.SUCCESS;
+                        return ExecutionState.Success;
                     }
                     else
                     {
@@ -163,23 +151,22 @@ namespace Hedera.Hashgraph.SDK.Queries
                     }
 
                 default:
-                    return ExecutionState.REQUEST_ERROR;
-                    break;
+                    return ExecutionState.RequestError;
             }
 
-            var receiptStatus = Status.ValueOf(response.GetTransactionGetRecord().GetTransactionRecord().GetReceipt().GetStatus());
+            var receiptStatus = (Status)response.TransactionGetRecord.TransactionRecord.Receipt.Status;
+
             switch (receiptStatus)
             {
-                case BUSY:
-                case UNKNOWN:
-                case OK:
-                case RECEIPT_NOT_FOUND:
-                case RECORD_NOT_FOUND:
-                case PLATFORM_NOT_ACTIVE:
-                    return ExecutionState.RETRY;
+                case Status.Busy:
+                case Status.Unknown:
+                case Status.Ok:
+                case Status.ReceiptNotFound:
+                case Status.RecordNotFound:
+                case Status.PlatformNotActive:
+                    return ExecutionState.Retry;
                 default:
-                    return ExecutionState.SUCCESS;
-                    break;
+                    return ExecutionState.Success;
             }
         }
     }

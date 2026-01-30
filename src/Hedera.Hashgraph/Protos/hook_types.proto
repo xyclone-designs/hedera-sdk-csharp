@@ -7,8 +7,7 @@ import "google/protobuf/wrappers.proto";
 
 // SPDX-License-Identifier: Apache-2.0
 option java_package = "com.hedera.hashgraph.sdk.proto";
-// <<<pbj.java_package = "com.hedera.hapi.node.hooks">>> This comment is special code for setting PBJ Compiler java package
-option java_multiple_files = true;
+option csharp_namespace = "Hedera.Hashgraph.Proto";
 
 /***
  * The Hiero extension points that accept a hook.

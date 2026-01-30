@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from smart_contract_service.proto</summary>
   public static partial class SmartContractServiceReflection {
@@ -45,10 +45,10 @@ namespace Proto {
             "aW9uUmVzcG9uc2UiA4gCARI+CgxjYWxsRXRoZXJldW0SEi5wcm90by5UcmFu",
             "c2FjdGlvbhoaLnByb3RvLlRyYW5zYWN0aW9uUmVzcG9uc2USPgoMbGFtYmRh",
             "U1N0b3JlEhIucHJvdG8uVHJhbnNhY3Rpb24aGi5wcm90by5UcmFuc2FjdGlv",
-            "blJlc3BvbnNlQiAKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b2IG",
-            "cHJvdG8z"));
+            "blJlc3BvbnNlQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oC",
+            "FkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TransactionResponseReflection.Descriptor, global::Proto.QueryReflection.Descriptor, global::Proto.ResponseReflection.Descriptor, global::Proto.TransactionReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TransactionResponseReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseReflection.Descriptor, global::Hedera.Hashgraph.Proto.TransactionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, null));
     }
     #endregion

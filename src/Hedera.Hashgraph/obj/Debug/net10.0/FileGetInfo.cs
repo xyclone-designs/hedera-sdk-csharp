@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from file_get_info.proto</summary>
   public static partial class FileGetInfoReflection {
@@ -34,13 +34,14 @@ namespace Proto {
             "CghGaWxlSW5mbxIdCgZmaWxlSUQYASABKAsyDS5wcm90by5GaWxlSUQSDAoE",
             "c2l6ZRgCIAEoAxIoCg5leHBpcmF0aW9uVGltZRgDIAEoCzIQLnByb3RvLlRp",
             "bWVzdGFtcBIPCgdkZWxldGVkGAQgASgIEhwKBGtleXMYBSABKAsyDi5wcm90",
-            "by5LZXlMaXN0EgwKBG1lbW8YBiABKAkSEQoJbGVkZ2VyX2lkGAcgASgMQiIK",
-            "HmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "by5LZXlMaXN0EgwKBG1lbW8YBiABKAkSEQoJbGVkZ2VyX2lkGAcgASgMQjkK",
+            "HmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNo",
+            "Z3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileGetInfoQuery), global::Proto.FileGetInfoQuery.Parser, new[]{ "Header", "FileID" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileGetInfoResponse), global::Proto.FileGetInfoResponse.Parser, new[]{ "Header", "FileInfo" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FileGetInfoResponse.Types.FileInfo), global::Proto.FileGetInfoResponse.Types.FileInfo.Parser, new[]{ "FileID", "Size", "ExpirationTime", "Deleted", "Keys", "Memo", "LedgerId" }, null, null, null, null)})
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileGetInfoQuery), global::Hedera.Hashgraph.Proto.FileGetInfoQuery.Parser, new[]{ "Header", "FileID" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileGetInfoResponse), global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Parser, new[]{ "Header", "FileInfo" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Types.FileInfo), global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Types.FileInfo.Parser, new[]{ "FileID", "Size", "ExpirationTime", "Deleted", "Keys", "Memo", "LedgerId" }, null, null, null, null)})
           }));
     }
     #endregion
@@ -73,7 +74,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FileGetInfoReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.FileGetInfoReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -106,7 +107,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -115,7 +116,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -124,7 +125,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fileID" field.</summary>
     public const int FileIDFieldNumber = 2;
-    private global::Proto.FileID fileID_;
+    private global::Hedera.Hashgraph.Proto.FileID fileID_;
     /// <summary>
     ///*
     /// A file identifier.
@@ -134,7 +135,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
       get { return fileID_; }
       set {
         fileID_ = value;
@@ -241,13 +242,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.fileID_ != null) {
         if (fileID_ == null) {
-          FileID = new global::Proto.FileID();
+          FileID = new global::Hedera.Hashgraph.Proto.FileID();
         }
         FileID.MergeFrom(other.FileID);
       }
@@ -272,14 +273,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
@@ -305,14 +306,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(FileID);
             break;
@@ -343,7 +344,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FileGetInfoReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.FileGetInfoReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -376,7 +377,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -385,7 +386,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -394,7 +395,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fileInfo" field.</summary>
     public const int FileInfoFieldNumber = 2;
-    private global::Proto.FileGetInfoResponse.Types.FileInfo fileInfo_;
+    private global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Types.FileInfo fileInfo_;
     /// <summary>
     ///*
     /// A combination of fields from the requested file metadata.
@@ -404,7 +405,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileGetInfoResponse.Types.FileInfo FileInfo {
+    public global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Types.FileInfo FileInfo {
       get { return fileInfo_; }
       set {
         fileInfo_ = value;
@@ -511,13 +512,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.fileInfo_ != null) {
         if (fileInfo_ == null) {
-          FileInfo = new global::Proto.FileGetInfoResponse.Types.FileInfo();
+          FileInfo = new global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Types.FileInfo();
         }
         FileInfo.MergeFrom(other.FileInfo);
       }
@@ -542,14 +543,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileInfo_ == null) {
-              FileInfo = new global::Proto.FileGetInfoResponse.Types.FileInfo();
+              FileInfo = new global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Types.FileInfo();
             }
             input.ReadMessage(FileInfo);
             break;
@@ -575,14 +576,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (fileInfo_ == null) {
-              FileInfo = new global::Proto.FileGetInfoResponse.Types.FileInfo();
+              FileInfo = new global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Types.FileInfo();
             }
             input.ReadMessage(FileInfo);
             break;
@@ -612,7 +613,7 @@ namespace Proto {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
         public static pbr::MessageDescriptor Descriptor {
-          get { return global::Proto.FileGetInfoResponse.Descriptor.NestedTypes[0]; }
+          get { return global::Hedera.Hashgraph.Proto.FileGetInfoResponse.Descriptor.NestedTypes[0]; }
         }
 
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -650,7 +651,7 @@ namespace Proto {
 
         /// <summary>Field number for the "fileID" field.</summary>
         public const int FileIDFieldNumber = 1;
-        private global::Proto.FileID fileID_;
+        private global::Hedera.Hashgraph.Proto.FileID fileID_;
         /// <summary>
         ///*
         /// A file identifier.
@@ -660,7 +661,7 @@ namespace Proto {
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-        public global::Proto.FileID FileID {
+        public global::Hedera.Hashgraph.Proto.FileID FileID {
           get { return fileID_; }
           set {
             fileID_ = value;
@@ -685,7 +686,7 @@ namespace Proto {
 
         /// <summary>Field number for the "expirationTime" field.</summary>
         public const int ExpirationTimeFieldNumber = 3;
-        private global::Proto.Timestamp expirationTime_;
+        private global::Hedera.Hashgraph.Proto.Timestamp expirationTime_;
         /// <summary>
         ///*
         /// An expiration timestamp.
@@ -697,7 +698,7 @@ namespace Proto {
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-        public global::Proto.Timestamp ExpirationTime {
+        public global::Hedera.Hashgraph.Proto.Timestamp ExpirationTime {
           get { return expirationTime_; }
           set {
             expirationTime_ = value;
@@ -724,7 +725,7 @@ namespace Proto {
 
         /// <summary>Field number for the "keys" field.</summary>
         public const int KeysFieldNumber = 5;
-        private global::Proto.KeyList keys_;
+        private global::Hedera.Hashgraph.Proto.KeyList keys_;
         /// <summary>
         ///*
         /// A KeyList listing all keys that "own" the file.
@@ -739,7 +740,7 @@ namespace Proto {
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-        public global::Proto.KeyList Keys {
+        public global::Hedera.Hashgraph.Proto.KeyList Keys {
           get { return keys_; }
           set {
             keys_ = value;
@@ -949,7 +950,7 @@ namespace Proto {
           }
           if (other.fileID_ != null) {
             if (fileID_ == null) {
-              FileID = new global::Proto.FileID();
+              FileID = new global::Hedera.Hashgraph.Proto.FileID();
             }
             FileID.MergeFrom(other.FileID);
           }
@@ -958,7 +959,7 @@ namespace Proto {
           }
           if (other.expirationTime_ != null) {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             ExpirationTime.MergeFrom(other.ExpirationTime);
           }
@@ -967,7 +968,7 @@ namespace Proto {
           }
           if (other.keys_ != null) {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             Keys.MergeFrom(other.Keys);
           }
@@ -998,7 +999,7 @@ namespace Proto {
                 break;
               case 10: {
                 if (fileID_ == null) {
-                  FileID = new global::Proto.FileID();
+                  FileID = new global::Hedera.Hashgraph.Proto.FileID();
                 }
                 input.ReadMessage(FileID);
                 break;
@@ -1009,7 +1010,7 @@ namespace Proto {
               }
               case 26: {
                 if (expirationTime_ == null) {
-                  ExpirationTime = new global::Proto.Timestamp();
+                  ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
                 }
                 input.ReadMessage(ExpirationTime);
                 break;
@@ -1020,7 +1021,7 @@ namespace Proto {
               }
               case 42: {
                 if (keys_ == null) {
-                  Keys = new global::Proto.KeyList();
+                  Keys = new global::Hedera.Hashgraph.Proto.KeyList();
                 }
                 input.ReadMessage(Keys);
                 break;
@@ -1054,7 +1055,7 @@ namespace Proto {
                 break;
               case 10: {
                 if (fileID_ == null) {
-                  FileID = new global::Proto.FileID();
+                  FileID = new global::Hedera.Hashgraph.Proto.FileID();
                 }
                 input.ReadMessage(FileID);
                 break;
@@ -1065,7 +1066,7 @@ namespace Proto {
               }
               case 26: {
                 if (expirationTime_ == null) {
-                  ExpirationTime = new global::Proto.Timestamp();
+                  ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
                 }
                 input.ReadMessage(ExpirationTime);
                 break;
@@ -1076,7 +1077,7 @@ namespace Proto {
               }
               case 42: {
                 if (keys_ == null) {
-                  Keys = new global::Proto.KeyList();
+                  Keys = new global::Hedera.Hashgraph.Proto.KeyList();
                 }
                 input.ReadMessage(Keys);
                 break;

@@ -31,10 +31,10 @@ namespace Com.Hedera.Hapi.Platform.Event {
             "cmVhdGVkGAMgASgLMhAucHJvdG8uVGltZXN0YW1wEkAKB3BhcmVudHMYBCAD",
             "KAsyLy5jb20uaGVkZXJhLmhhcGkucGxhdGZvcm0uZXZlbnQuRXZlbnREZXNj",
             "cmlwdG9yEicKB3ZlcnNpb24YESABKAsyFi5wcm90by5TZW1hbnRpY1ZlcnNp",
-            "b25CKQolY29tLmhlZGVyYS5oYXBpLnBsYXRmb3JtLmV2ZW50LmxlZ2FjeVAB",
-            "YgZwcm90bzM="));
+            "b25CJwolY29tLmhlZGVyYS5oYXBpLnBsYXRmb3JtLmV2ZW50LmxlZ2FjeWIG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Com.Hedera.Hapi.Platform.Event.EventDescriptorReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Com.Hedera.Hapi.Platform.Event.EventDescriptorReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Platform.Event.EventCore), global::Com.Hedera.Hapi.Platform.Event.EventCore.Parser, new[]{ "CreatorNodeId", "BirthRound", "TimeCreated", "Parents", "Version" }, null, null, null, null)
           }));
@@ -134,7 +134,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
 
     /// <summary>Field number for the "time_created" field.</summary>
     public const int TimeCreatedFieldNumber = 3;
-    private global::Proto.Timestamp timeCreated_;
+    private global::Hedera.Hashgraph.Proto.Timestamp timeCreated_;
     /// <summary>
     ///*
     /// The wall clock time at which the event was created, according to the node creating the event.&lt;br/>
@@ -142,7 +142,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp TimeCreated {
+    public global::Hedera.Hashgraph.Proto.Timestamp TimeCreated {
       get { return timeCreated_; }
       set {
         timeCreated_ = value;
@@ -169,7 +169,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
 
     /// <summary>Field number for the "version" field.</summary>
     public const int VersionFieldNumber = 17;
-    private global::Proto.SemanticVersion version_;
+    private global::Hedera.Hashgraph.Proto.SemanticVersion version_;
     /// <summary>
     ///*
     /// The event specification version.&lt;br/>
@@ -179,7 +179,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SemanticVersion Version {
+    public global::Hedera.Hashgraph.Proto.SemanticVersion Version {
       get { return version_; }
       set {
         version_ = value;
@@ -323,14 +323,14 @@ namespace Com.Hedera.Hapi.Platform.Event {
       }
       if (other.timeCreated_ != null) {
         if (timeCreated_ == null) {
-          TimeCreated = new global::Proto.Timestamp();
+          TimeCreated = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         TimeCreated.MergeFrom(other.TimeCreated);
       }
       parents_.Add(other.parents_);
       if (other.version_ != null) {
         if (version_ == null) {
-          Version = new global::Proto.SemanticVersion();
+          Version = new global::Hedera.Hashgraph.Proto.SemanticVersion();
         }
         Version.MergeFrom(other.Version);
       }
@@ -363,7 +363,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
           }
           case 26: {
             if (timeCreated_ == null) {
-              TimeCreated = new global::Proto.Timestamp();
+              TimeCreated = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(TimeCreated);
             break;
@@ -374,7 +374,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
           }
           case 138: {
             if (version_ == null) {
-              Version = new global::Proto.SemanticVersion();
+              Version = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(Version);
             break;
@@ -408,7 +408,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
           }
           case 26: {
             if (timeCreated_ == null) {
-              TimeCreated = new global::Proto.Timestamp();
+              TimeCreated = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(TimeCreated);
             break;
@@ -419,7 +419,7 @@ namespace Com.Hedera.Hapi.Platform.Event {
           }
           case 138: {
             if (version_ == null) {
-              Version = new global::Proto.SemanticVersion();
+              Version = new global::Hedera.Hashgraph.Proto.SemanticVersion();
             }
             input.ReadMessage(Version);
             break;

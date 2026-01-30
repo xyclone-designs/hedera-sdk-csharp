@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from system_undelete.proto</summary>
   public static partial class SystemUndeleteReflection {
@@ -27,12 +27,13 @@ namespace Proto {
             "ChVzeXN0ZW1fdW5kZWxldGUucHJvdG8SBXByb3RvGhFiYXNpY190eXBlcy5w",
             "cm90byJvCh1TeXN0ZW1VbmRlbGV0ZVRyYW5zYWN0aW9uQm9keRIfCgZmaWxl",
             "SUQYASABKAsyDS5wcm90by5GaWxlSURIABInCgpjb250cmFjdElEGAIgASgL",
-            "MhEucHJvdG8uQ29udHJhY3RJREgAQgQKAmlkQiIKHmNvbS5oZWRlcmEuaGFz",
-            "aGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "MhEucHJvdG8uQ29udHJhY3RJREgAQgQKAmlkQjkKHmNvbS5oZWRlcmEuaGFz",
+            "aGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.SystemUndeleteTransactionBody), global::Proto.SystemUndeleteTransactionBody.Parser, new[]{ "FileID", "ContractID" }, new[]{ "Id" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody), global::Hedera.Hashgraph.Proto.SystemUndeleteTransactionBody.Parser, new[]{ "FileID", "ContractID" }, new[]{ "Id" }, null, null, null)
           }));
     }
     #endregion
@@ -76,7 +77,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.SystemUndeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.SystemUndeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -129,8 +130,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID FileID {
-      get { return idCase_ == IdOneofCase.FileID ? (global::Proto.FileID) id_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileID FileID {
+      get { return idCase_ == IdOneofCase.FileID ? (global::Hedera.Hashgraph.Proto.FileID) id_ : null; }
       set {
         id_ = value;
         idCase_ = value == null ? IdOneofCase.None : IdOneofCase.FileID;
@@ -152,8 +153,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
-      get { return idCase_ == IdOneofCase.ContractID ? (global::Proto.ContractID) id_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
+      get { return idCase_ == IdOneofCase.ContractID ? (global::Hedera.Hashgraph.Proto.ContractID) id_ : null; }
       set {
         id_ = value;
         idCase_ = value == null ? IdOneofCase.None : IdOneofCase.ContractID;
@@ -284,13 +285,13 @@ namespace Proto {
       switch (other.IdCase) {
         case IdOneofCase.FileID:
           if (FileID == null) {
-            FileID = new global::Proto.FileID();
+            FileID = new global::Hedera.Hashgraph.Proto.FileID();
           }
           FileID.MergeFrom(other.FileID);
           break;
         case IdOneofCase.ContractID:
           if (ContractID == null) {
-            ContractID = new global::Proto.ContractID();
+            ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           ContractID.MergeFrom(other.ContractID);
           break;
@@ -316,7 +317,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.FileID subBuilder = new global::Proto.FileID();
+            global::Hedera.Hashgraph.Proto.FileID subBuilder = new global::Hedera.Hashgraph.Proto.FileID();
             if (idCase_ == IdOneofCase.FileID) {
               subBuilder.MergeFrom(FileID);
             }
@@ -325,7 +326,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (idCase_ == IdOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -353,7 +354,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.FileID subBuilder = new global::Proto.FileID();
+            global::Hedera.Hashgraph.Proto.FileID subBuilder = new global::Hedera.Hashgraph.Proto.FileID();
             if (idCase_ == IdOneofCase.FileID) {
               subBuilder.MergeFrom(FileID);
             }
@@ -362,7 +363,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (idCase_ == IdOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }

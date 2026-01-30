@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from exchange_rate.proto</summary>
   public static partial class ExchangeRateReflection {
@@ -29,13 +29,13 @@ namespace Proto {
             "dWl2GAIgASgFEi8KDmV4cGlyYXRpb25UaW1lGAMgASgLMhcucHJvdG8uVGlt",
             "ZXN0YW1wU2Vjb25kcyJiCg9FeGNoYW5nZVJhdGVTZXQSKAoLY3VycmVudFJh",
             "dGUYASABKAsyEy5wcm90by5FeGNoYW5nZVJhdGUSJQoIbmV4dFJhdGUYAiAB",
-            "KAsyEy5wcm90by5FeGNoYW5nZVJhdGVCIgoeY29tLmhlZGVyYS5oYXNoZ3Jh",
-            "cGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "KAsyEy5wcm90by5FeGNoYW5nZVJhdGVCOQoeY29tLmhlZGVyYS5oYXNoZ3Jh",
+            "cGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ExchangeRate), global::Proto.ExchangeRate.Parser, new[]{ "HbarEquiv", "CentEquiv", "ExpirationTime" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ExchangeRateSet), global::Proto.ExchangeRateSet.Parser, new[]{ "CurrentRate", "NextRate" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ExchangeRate), global::Hedera.Hashgraph.Proto.ExchangeRate.Parser, new[]{ "HbarEquiv", "CentEquiv", "ExpirationTime" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ExchangeRateSet), global::Hedera.Hashgraph.Proto.ExchangeRateSet.Parser, new[]{ "CurrentRate", "NextRate" }, null, null, null, null)
           }));
     }
     #endregion
@@ -74,7 +74,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ExchangeRateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ExchangeRateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -140,14 +140,14 @@ namespace Proto {
 
     /// <summary>Field number for the "expirationTime" field.</summary>
     public const int ExpirationTimeFieldNumber = 3;
-    private global::Proto.TimestampSeconds expirationTime_;
+    private global::Hedera.Hashgraph.Proto.TimestampSeconds expirationTime_;
     /// <summary>
     ///*
     /// Expiration time stamp for this exchange rate.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TimestampSeconds ExpirationTime {
+    public global::Hedera.Hashgraph.Proto.TimestampSeconds ExpirationTime {
       get { return expirationTime_; }
       set {
         expirationTime_ = value;
@@ -273,7 +273,7 @@ namespace Proto {
       }
       if (other.expirationTime_ != null) {
         if (expirationTime_ == null) {
-          ExpirationTime = new global::Proto.TimestampSeconds();
+          ExpirationTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
         }
         ExpirationTime.MergeFrom(other.ExpirationTime);
       }
@@ -306,7 +306,7 @@ namespace Proto {
           }
           case 26: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.TimestampSeconds();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
             }
             input.ReadMessage(ExpirationTime);
             break;
@@ -340,7 +340,7 @@ namespace Proto {
           }
           case 26: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.TimestampSeconds();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.TimestampSeconds();
             }
             input.ReadMessage(ExpirationTime);
             break;
@@ -380,7 +380,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ExchangeRateReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ExchangeRateReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -413,7 +413,7 @@ namespace Proto {
 
     /// <summary>Field number for the "currentRate" field.</summary>
     public const int CurrentRateFieldNumber = 1;
-    private global::Proto.ExchangeRate currentRate_;
+    private global::Hedera.Hashgraph.Proto.ExchangeRate currentRate_;
     /// <summary>
     ///*
     /// A current exchange rate.
@@ -423,7 +423,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ExchangeRate CurrentRate {
+    public global::Hedera.Hashgraph.Proto.ExchangeRate CurrentRate {
       get { return currentRate_; }
       set {
         currentRate_ = value;
@@ -432,7 +432,7 @@ namespace Proto {
 
     /// <summary>Field number for the "nextRate" field.</summary>
     public const int NextRateFieldNumber = 2;
-    private global::Proto.ExchangeRate nextRate_;
+    private global::Hedera.Hashgraph.Proto.ExchangeRate nextRate_;
     /// <summary>
     ///*
     /// A future exchange rate.
@@ -442,7 +442,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ExchangeRate NextRate {
+    public global::Hedera.Hashgraph.Proto.ExchangeRate NextRate {
       get { return nextRate_; }
       set {
         nextRate_ = value;
@@ -549,13 +549,13 @@ namespace Proto {
       }
       if (other.currentRate_ != null) {
         if (currentRate_ == null) {
-          CurrentRate = new global::Proto.ExchangeRate();
+          CurrentRate = new global::Hedera.Hashgraph.Proto.ExchangeRate();
         }
         CurrentRate.MergeFrom(other.CurrentRate);
       }
       if (other.nextRate_ != null) {
         if (nextRate_ == null) {
-          NextRate = new global::Proto.ExchangeRate();
+          NextRate = new global::Hedera.Hashgraph.Proto.ExchangeRate();
         }
         NextRate.MergeFrom(other.NextRate);
       }
@@ -580,14 +580,14 @@ namespace Proto {
             break;
           case 10: {
             if (currentRate_ == null) {
-              CurrentRate = new global::Proto.ExchangeRate();
+              CurrentRate = new global::Hedera.Hashgraph.Proto.ExchangeRate();
             }
             input.ReadMessage(CurrentRate);
             break;
           }
           case 18: {
             if (nextRate_ == null) {
-              NextRate = new global::Proto.ExchangeRate();
+              NextRate = new global::Hedera.Hashgraph.Proto.ExchangeRate();
             }
             input.ReadMessage(NextRate);
             break;
@@ -613,14 +613,14 @@ namespace Proto {
             break;
           case 10: {
             if (currentRate_ == null) {
-              CurrentRate = new global::Proto.ExchangeRate();
+              CurrentRate = new global::Hedera.Hashgraph.Proto.ExchangeRate();
             }
             input.ReadMessage(CurrentRate);
             break;
           }
           case 18: {
             if (nextRate_ == null) {
-              NextRate = new global::Proto.ExchangeRate();
+              NextRate = new global::Hedera.Hashgraph.Proto.ExchangeRate();
             }
             input.ReadMessage(NextRate);
             break;

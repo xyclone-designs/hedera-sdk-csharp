@@ -7,13 +7,13 @@ namespace Hedera.Hashgraph.SDK
     /// </summary>
     public enum FreezeType
     {
-        /// <summary>
-        /// An invalid freeze type.
-        /// <p>
-        /// The first value in a protobuf enum is a default value. This default
-        /// is RECOMMENDED to be an invalid value to aid in detecting unset fields.
-        /// </summary>
-		UnknownFreeze_type = Proto.FreezeType.UnknownFreezeType,
+		/// <summary>
+		/// An invalid freeze type.
+		/// <p>
+		/// The first value in a protobuf enum is a default value. This default
+		/// is RECOMMENDED to be an invalid value to aid in detecting unset fields.
+		/// </summary>
+		UnknownFreezeType = Proto.FreezeType.UnknownFreezeType,
 		/// <summary>
 		/// Freeze the network, and take no further action.
 		/// <p>

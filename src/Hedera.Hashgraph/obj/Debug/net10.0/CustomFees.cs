@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from custom_fees.proto</summary>
   public static partial class CustomFeesReflection {
@@ -47,20 +47,21 @@ namespace Proto {
             "dBIjCgRmZWVzGAEgAygLMhUucHJvdG8uRml4ZWRDdXN0b21GZWUiLAoQRmVl",
             "RXhlbXB0S2V5TGlzdBIYCgRrZXlzGAEgAygLMgoucHJvdG8uS2V5IlUKDkN1",
             "c3RvbUZlZUxpbWl0EiQKCmFjY291bnRfaWQYASABKAsyEC5wcm90by5BY2Nv",
-            "dW50SUQSHQoEZmVlcxgCIAMoCzIPLnByb3RvLkZpeGVkRmVlQiIKHmNvbS5o",
-            "ZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "dW50SUQSHQoEZmVlcxgCIAMoCzIPLnByb3RvLkZpeGVkRmVlQjkKHmNvbS5o",
+            "ZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGgu",
+            "UHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FractionalFee), global::Proto.FractionalFee.Parser, new[]{ "FractionalAmount", "MinimumAmount", "MaximumAmount", "NetOfTransfers" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FixedFee), global::Proto.FixedFee.Parser, new[]{ "Amount", "DenominatingTokenId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.RoyaltyFee), global::Proto.RoyaltyFee.Parser, new[]{ "ExchangeValueFraction", "FallbackFee" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CustomFee), global::Proto.CustomFee.Parser, new[]{ "FixedFee", "FractionalFee", "RoyaltyFee", "FeeCollectorAccountId", "AllCollectorsAreExempt" }, new[]{ "Fee" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.AssessedCustomFee), global::Proto.AssessedCustomFee.Parser, new[]{ "Amount", "TokenId", "FeeCollectorAccountId", "EffectivePayerAccountId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FixedCustomFee), global::Proto.FixedCustomFee.Parser, new[]{ "FixedFee", "FeeCollectorAccountId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FixedCustomFeeList), global::Proto.FixedCustomFeeList.Parser, new[]{ "Fees" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FeeExemptKeyList), global::Proto.FeeExemptKeyList.Parser, new[]{ "Keys" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CustomFeeLimit), global::Proto.CustomFeeLimit.Parser, new[]{ "AccountId", "Fees" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FractionalFee), global::Hedera.Hashgraph.Proto.FractionalFee.Parser, new[]{ "FractionalAmount", "MinimumAmount", "MaximumAmount", "NetOfTransfers" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FixedFee), global::Hedera.Hashgraph.Proto.FixedFee.Parser, new[]{ "Amount", "DenominatingTokenId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.RoyaltyFee), global::Hedera.Hashgraph.Proto.RoyaltyFee.Parser, new[]{ "ExchangeValueFraction", "FallbackFee" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CustomFee), global::Hedera.Hashgraph.Proto.CustomFee.Parser, new[]{ "FixedFee", "FractionalFee", "RoyaltyFee", "FeeCollectorAccountId", "AllCollectorsAreExempt" }, new[]{ "Fee" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.AssessedCustomFee), global::Hedera.Hashgraph.Proto.AssessedCustomFee.Parser, new[]{ "Amount", "TokenId", "FeeCollectorAccountId", "EffectivePayerAccountId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FixedCustomFee), global::Hedera.Hashgraph.Proto.FixedCustomFee.Parser, new[]{ "FixedFee", "FeeCollectorAccountId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FixedCustomFeeList), global::Hedera.Hashgraph.Proto.FixedCustomFeeList.Parser, new[]{ "Fees" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FeeExemptKeyList), global::Hedera.Hashgraph.Proto.FeeExemptKeyList.Parser, new[]{ "Keys" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CustomFeeLimit), global::Hedera.Hashgraph.Proto.CustomFeeLimit.Parser, new[]{ "AccountId", "Fees" }, null, null, null, null)
           }));
     }
     #endregion
@@ -109,7 +110,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -144,7 +145,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fractional_amount" field.</summary>
     public const int FractionalAmountFieldNumber = 1;
-    private global::Proto.Fraction fractionalAmount_;
+    private global::Hedera.Hashgraph.Proto.Fraction fractionalAmount_;
     /// <summary>
     ///*
     /// A Fraction of the transferred tokens to assess as a fee.&lt;br/>
@@ -153,7 +154,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Fraction FractionalAmount {
+    public global::Hedera.Hashgraph.Proto.Fraction FractionalAmount {
       get { return fractionalAmount_; }
       set {
         fractionalAmount_ = value;
@@ -364,7 +365,7 @@ namespace Proto {
       }
       if (other.fractionalAmount_ != null) {
         if (fractionalAmount_ == null) {
-          FractionalAmount = new global::Proto.Fraction();
+          FractionalAmount = new global::Hedera.Hashgraph.Proto.Fraction();
         }
         FractionalAmount.MergeFrom(other.FractionalAmount);
       }
@@ -398,7 +399,7 @@ namespace Proto {
             break;
           case 10: {
             if (fractionalAmount_ == null) {
-              FractionalAmount = new global::Proto.Fraction();
+              FractionalAmount = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(FractionalAmount);
             break;
@@ -436,7 +437,7 @@ namespace Proto {
             break;
           case 10: {
             if (fractionalAmount_ == null) {
-              FractionalAmount = new global::Proto.Fraction();
+              FractionalAmount = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(FractionalAmount);
             break;
@@ -486,7 +487,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -538,7 +539,7 @@ namespace Proto {
 
     /// <summary>Field number for the "denominating_token_id" field.</summary>
     public const int DenominatingTokenIdFieldNumber = 2;
-    private global::Proto.TokenID denominatingTokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID denominatingTokenId_;
     /// <summary>
     ///*
     /// The token type used to pay the assessed fee.
@@ -554,7 +555,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID DenominatingTokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID DenominatingTokenId {
       get { return denominatingTokenId_; }
       set {
         denominatingTokenId_ = value;
@@ -664,7 +665,7 @@ namespace Proto {
       }
       if (other.denominatingTokenId_ != null) {
         if (denominatingTokenId_ == null) {
-          DenominatingTokenId = new global::Proto.TokenID();
+          DenominatingTokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         DenominatingTokenId.MergeFrom(other.DenominatingTokenId);
       }
@@ -693,7 +694,7 @@ namespace Proto {
           }
           case 18: {
             if (denominatingTokenId_ == null) {
-              DenominatingTokenId = new global::Proto.TokenID();
+              DenominatingTokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(DenominatingTokenId);
             break;
@@ -723,7 +724,7 @@ namespace Proto {
           }
           case 18: {
             if (denominatingTokenId_ == null) {
-              DenominatingTokenId = new global::Proto.TokenID();
+              DenominatingTokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(DenominatingTokenId);
             break;
@@ -805,7 +806,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -838,7 +839,7 @@ namespace Proto {
 
     /// <summary>Field number for the "exchange_value_fraction" field.</summary>
     public const int ExchangeValueFractionFieldNumber = 1;
-    private global::Proto.Fraction exchangeValueFraction_;
+    private global::Hedera.Hashgraph.Proto.Fraction exchangeValueFraction_;
     /// <summary>
     ///*
     /// The fraction of fungible value exchanged for an NFT to collect
@@ -851,7 +852,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Fraction ExchangeValueFraction {
+    public global::Hedera.Hashgraph.Proto.Fraction ExchangeValueFraction {
       get { return exchangeValueFraction_; }
       set {
         exchangeValueFraction_ = value;
@@ -860,7 +861,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fallback_fee" field.</summary>
     public const int FallbackFeeFieldNumber = 2;
-    private global::Proto.FixedFee fallbackFee_;
+    private global::Hedera.Hashgraph.Proto.FixedFee fallbackFee_;
     /// <summary>
     ///*
     /// A fixed fee to assess if no fungible value is known to be traded
@@ -877,7 +878,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FixedFee FallbackFee {
+    public global::Hedera.Hashgraph.Proto.FixedFee FallbackFee {
       get { return fallbackFee_; }
       set {
         fallbackFee_ = value;
@@ -984,13 +985,13 @@ namespace Proto {
       }
       if (other.exchangeValueFraction_ != null) {
         if (exchangeValueFraction_ == null) {
-          ExchangeValueFraction = new global::Proto.Fraction();
+          ExchangeValueFraction = new global::Hedera.Hashgraph.Proto.Fraction();
         }
         ExchangeValueFraction.MergeFrom(other.ExchangeValueFraction);
       }
       if (other.fallbackFee_ != null) {
         if (fallbackFee_ == null) {
-          FallbackFee = new global::Proto.FixedFee();
+          FallbackFee = new global::Hedera.Hashgraph.Proto.FixedFee();
         }
         FallbackFee.MergeFrom(other.FallbackFee);
       }
@@ -1015,14 +1016,14 @@ namespace Proto {
             break;
           case 10: {
             if (exchangeValueFraction_ == null) {
-              ExchangeValueFraction = new global::Proto.Fraction();
+              ExchangeValueFraction = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(ExchangeValueFraction);
             break;
           }
           case 18: {
             if (fallbackFee_ == null) {
-              FallbackFee = new global::Proto.FixedFee();
+              FallbackFee = new global::Hedera.Hashgraph.Proto.FixedFee();
             }
             input.ReadMessage(FallbackFee);
             break;
@@ -1048,14 +1049,14 @@ namespace Proto {
             break;
           case 10: {
             if (exchangeValueFraction_ == null) {
-              ExchangeValueFraction = new global::Proto.Fraction();
+              ExchangeValueFraction = new global::Hedera.Hashgraph.Proto.Fraction();
             }
             input.ReadMessage(ExchangeValueFraction);
             break;
           }
           case 18: {
             if (fallbackFee_ == null) {
-              FallbackFee = new global::Proto.FixedFee();
+              FallbackFee = new global::Hedera.Hashgraph.Proto.FixedFee();
             }
             input.ReadMessage(FallbackFee);
             break;
@@ -1091,7 +1092,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1146,8 +1147,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FixedFee FixedFee {
-      get { return feeCase_ == FeeOneofCase.FixedFee ? (global::Proto.FixedFee) fee_ : null; }
+    public global::Hedera.Hashgraph.Proto.FixedFee FixedFee {
+      get { return feeCase_ == FeeOneofCase.FixedFee ? (global::Hedera.Hashgraph.Proto.FixedFee) fee_ : null; }
       set {
         fee_ = value;
         feeCase_ = value == null ? FeeOneofCase.None : FeeOneofCase.FixedFee;
@@ -1167,8 +1168,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FractionalFee FractionalFee {
-      get { return feeCase_ == FeeOneofCase.FractionalFee ? (global::Proto.FractionalFee) fee_ : null; }
+    public global::Hedera.Hashgraph.Proto.FractionalFee FractionalFee {
+      get { return feeCase_ == FeeOneofCase.FractionalFee ? (global::Hedera.Hashgraph.Proto.FractionalFee) fee_ : null; }
       set {
         fee_ = value;
         feeCase_ = value == null ? FeeOneofCase.None : FeeOneofCase.FractionalFee;
@@ -1187,8 +1188,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.RoyaltyFee RoyaltyFee {
-      get { return feeCase_ == FeeOneofCase.RoyaltyFee ? (global::Proto.RoyaltyFee) fee_ : null; }
+    public global::Hedera.Hashgraph.Proto.RoyaltyFee RoyaltyFee {
+      get { return feeCase_ == FeeOneofCase.RoyaltyFee ? (global::Hedera.Hashgraph.Proto.RoyaltyFee) fee_ : null; }
       set {
         fee_ = value;
         feeCase_ = value == null ? FeeOneofCase.None : FeeOneofCase.RoyaltyFee;
@@ -1197,14 +1198,14 @@ namespace Proto {
 
     /// <summary>Field number for the "fee_collector_account_id" field.</summary>
     public const int FeeCollectorAccountIdFieldNumber = 3;
-    private global::Proto.AccountID feeCollectorAccountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID feeCollectorAccountId_;
     /// <summary>
     ///*
     /// The account to receive the custom fee.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID FeeCollectorAccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID FeeCollectorAccountId {
       get { return feeCollectorAccountId_; }
       set {
         feeCollectorAccountId_ = value;
@@ -1399,7 +1400,7 @@ namespace Proto {
       }
       if (other.feeCollectorAccountId_ != null) {
         if (feeCollectorAccountId_ == null) {
-          FeeCollectorAccountId = new global::Proto.AccountID();
+          FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         FeeCollectorAccountId.MergeFrom(other.FeeCollectorAccountId);
       }
@@ -1409,19 +1410,19 @@ namespace Proto {
       switch (other.FeeCase) {
         case FeeOneofCase.FixedFee:
           if (FixedFee == null) {
-            FixedFee = new global::Proto.FixedFee();
+            FixedFee = new global::Hedera.Hashgraph.Proto.FixedFee();
           }
           FixedFee.MergeFrom(other.FixedFee);
           break;
         case FeeOneofCase.FractionalFee:
           if (FractionalFee == null) {
-            FractionalFee = new global::Proto.FractionalFee();
+            FractionalFee = new global::Hedera.Hashgraph.Proto.FractionalFee();
           }
           FractionalFee.MergeFrom(other.FractionalFee);
           break;
         case FeeOneofCase.RoyaltyFee:
           if (RoyaltyFee == null) {
-            RoyaltyFee = new global::Proto.RoyaltyFee();
+            RoyaltyFee = new global::Hedera.Hashgraph.Proto.RoyaltyFee();
           }
           RoyaltyFee.MergeFrom(other.RoyaltyFee);
           break;
@@ -1447,7 +1448,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.FixedFee subBuilder = new global::Proto.FixedFee();
+            global::Hedera.Hashgraph.Proto.FixedFee subBuilder = new global::Hedera.Hashgraph.Proto.FixedFee();
             if (feeCase_ == FeeOneofCase.FixedFee) {
               subBuilder.MergeFrom(FixedFee);
             }
@@ -1456,7 +1457,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.FractionalFee subBuilder = new global::Proto.FractionalFee();
+            global::Hedera.Hashgraph.Proto.FractionalFee subBuilder = new global::Hedera.Hashgraph.Proto.FractionalFee();
             if (feeCase_ == FeeOneofCase.FractionalFee) {
               subBuilder.MergeFrom(FractionalFee);
             }
@@ -1466,13 +1467,13 @@ namespace Proto {
           }
           case 26: {
             if (feeCollectorAccountId_ == null) {
-              FeeCollectorAccountId = new global::Proto.AccountID();
+              FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(FeeCollectorAccountId);
             break;
           }
           case 34: {
-            global::Proto.RoyaltyFee subBuilder = new global::Proto.RoyaltyFee();
+            global::Hedera.Hashgraph.Proto.RoyaltyFee subBuilder = new global::Hedera.Hashgraph.Proto.RoyaltyFee();
             if (feeCase_ == FeeOneofCase.RoyaltyFee) {
               subBuilder.MergeFrom(RoyaltyFee);
             }
@@ -1504,7 +1505,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.FixedFee subBuilder = new global::Proto.FixedFee();
+            global::Hedera.Hashgraph.Proto.FixedFee subBuilder = new global::Hedera.Hashgraph.Proto.FixedFee();
             if (feeCase_ == FeeOneofCase.FixedFee) {
               subBuilder.MergeFrom(FixedFee);
             }
@@ -1513,7 +1514,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.FractionalFee subBuilder = new global::Proto.FractionalFee();
+            global::Hedera.Hashgraph.Proto.FractionalFee subBuilder = new global::Hedera.Hashgraph.Proto.FractionalFee();
             if (feeCase_ == FeeOneofCase.FractionalFee) {
               subBuilder.MergeFrom(FractionalFee);
             }
@@ -1523,13 +1524,13 @@ namespace Proto {
           }
           case 26: {
             if (feeCollectorAccountId_ == null) {
-              FeeCollectorAccountId = new global::Proto.AccountID();
+              FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(FeeCollectorAccountId);
             break;
           }
           case 34: {
-            global::Proto.RoyaltyFee subBuilder = new global::Proto.RoyaltyFee();
+            global::Hedera.Hashgraph.Proto.RoyaltyFee subBuilder = new global::Hedera.Hashgraph.Proto.RoyaltyFee();
             if (feeCase_ == FeeOneofCase.RoyaltyFee) {
               subBuilder.MergeFrom(RoyaltyFee);
             }
@@ -1574,7 +1575,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1627,7 +1628,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token_id" field.</summary>
     public const int TokenIdFieldNumber = 2;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// The token transferred to satisfy this fee.
@@ -1636,7 +1637,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -1645,7 +1646,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fee_collector_account_id" field.</summary>
     public const int FeeCollectorAccountIdFieldNumber = 3;
-    private global::Proto.AccountID feeCollectorAccountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID feeCollectorAccountId_;
     /// <summary>
     ///*
     /// An account that received the fee assessed.
@@ -1655,7 +1656,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID FeeCollectorAccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID FeeCollectorAccountId {
       get { return feeCollectorAccountId_; }
       set {
         feeCollectorAccountId_ = value;
@@ -1664,9 +1665,9 @@ namespace Proto {
 
     /// <summary>Field number for the "effective_payer_account_id" field.</summary>
     public const int EffectivePayerAccountIdFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::Proto.AccountID> _repeated_effectivePayerAccountId_codec
-        = pb::FieldCodec.ForMessage(34, global::Proto.AccountID.Parser);
-    private readonly pbc::RepeatedField<global::Proto.AccountID> effectivePayerAccountId_ = new pbc::RepeatedField<global::Proto.AccountID>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.AccountID> _repeated_effectivePayerAccountId_codec
+        = pb::FieldCodec.ForMessage(34, global::Hedera.Hashgraph.Proto.AccountID.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountID> effectivePayerAccountId_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountID>();
     /// <summary>
     ///*
     /// An account that provided the tokens assessed as a fee.
@@ -1680,7 +1681,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.AccountID> EffectivePayerAccountId {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.AccountID> EffectivePayerAccountId {
       get { return effectivePayerAccountId_; }
     }
 
@@ -1805,13 +1806,13 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
       if (other.feeCollectorAccountId_ != null) {
         if (feeCollectorAccountId_ == null) {
-          FeeCollectorAccountId = new global::Proto.AccountID();
+          FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         FeeCollectorAccountId.MergeFrom(other.FeeCollectorAccountId);
       }
@@ -1841,14 +1842,14 @@ namespace Proto {
           }
           case 18: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 26: {
             if (feeCollectorAccountId_ == null) {
-              FeeCollectorAccountId = new global::Proto.AccountID();
+              FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(FeeCollectorAccountId);
             break;
@@ -1882,14 +1883,14 @@ namespace Proto {
           }
           case 18: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 26: {
             if (feeCollectorAccountId_ == null) {
-              FeeCollectorAccountId = new global::Proto.AccountID();
+              FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(FeeCollectorAccountId);
             break;
@@ -1930,7 +1931,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1963,7 +1964,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fixed_fee" field.</summary>
     public const int FixedFeeFieldNumber = 1;
-    private global::Proto.FixedFee fixedFee_;
+    private global::Hedera.Hashgraph.Proto.FixedFee fixedFee_;
     /// <summary>
     ///*
     /// A fixed custom fee.
@@ -1974,7 +1975,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FixedFee FixedFee {
+    public global::Hedera.Hashgraph.Proto.FixedFee FixedFee {
       get { return fixedFee_; }
       set {
         fixedFee_ = value;
@@ -1983,7 +1984,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fee_collector_account_id" field.</summary>
     public const int FeeCollectorAccountIdFieldNumber = 2;
-    private global::Proto.AccountID feeCollectorAccountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID feeCollectorAccountId_;
     /// <summary>
     ///*
     /// A collection account identifier.
@@ -1993,7 +1994,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID FeeCollectorAccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID FeeCollectorAccountId {
       get { return feeCollectorAccountId_; }
       set {
         feeCollectorAccountId_ = value;
@@ -2100,13 +2101,13 @@ namespace Proto {
       }
       if (other.fixedFee_ != null) {
         if (fixedFee_ == null) {
-          FixedFee = new global::Proto.FixedFee();
+          FixedFee = new global::Hedera.Hashgraph.Proto.FixedFee();
         }
         FixedFee.MergeFrom(other.FixedFee);
       }
       if (other.feeCollectorAccountId_ != null) {
         if (feeCollectorAccountId_ == null) {
-          FeeCollectorAccountId = new global::Proto.AccountID();
+          FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         FeeCollectorAccountId.MergeFrom(other.FeeCollectorAccountId);
       }
@@ -2131,14 +2132,14 @@ namespace Proto {
             break;
           case 10: {
             if (fixedFee_ == null) {
-              FixedFee = new global::Proto.FixedFee();
+              FixedFee = new global::Hedera.Hashgraph.Proto.FixedFee();
             }
             input.ReadMessage(FixedFee);
             break;
           }
           case 18: {
             if (feeCollectorAccountId_ == null) {
-              FeeCollectorAccountId = new global::Proto.AccountID();
+              FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(FeeCollectorAccountId);
             break;
@@ -2164,14 +2165,14 @@ namespace Proto {
             break;
           case 10: {
             if (fixedFee_ == null) {
-              FixedFee = new global::Proto.FixedFee();
+              FixedFee = new global::Hedera.Hashgraph.Proto.FixedFee();
             }
             input.ReadMessage(FixedFee);
             break;
           }
           case 18: {
             if (feeCollectorAccountId_ == null) {
-              FeeCollectorAccountId = new global::Proto.AccountID();
+              FeeCollectorAccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(FeeCollectorAccountId);
             break;
@@ -2208,7 +2209,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2240,9 +2241,9 @@ namespace Proto {
 
     /// <summary>Field number for the "fees" field.</summary>
     public const int FeesFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.FixedCustomFee> _repeated_fees_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.FixedCustomFee.Parser);
-    private readonly pbc::RepeatedField<global::Proto.FixedCustomFee> fees_ = new pbc::RepeatedField<global::Proto.FixedCustomFee>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.FixedCustomFee> _repeated_fees_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.FixedCustomFee.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedCustomFee> fees_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedCustomFee>();
     /// <summary>
     ///*
     /// A set of custom fee definitions.&lt;br/>
@@ -2250,7 +2251,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.FixedCustomFee> Fees {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedCustomFee> Fees {
       get { return fees_; }
     }
 
@@ -2410,7 +2411,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2442,9 +2443,9 @@ namespace Proto {
 
     /// <summary>Field number for the "keys" field.</summary>
     public const int KeysFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.Key> _repeated_keys_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.Key.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Key> keys_ = new pbc::RepeatedField<global::Proto.Key>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Key> _repeated_keys_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.Key.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key> keys_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key>();
     /// <summary>
     ///*
     /// A set of keys.&lt;br/>
@@ -2456,7 +2457,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Key> Keys {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Key> Keys {
       get { return keys_; }
     }
 
@@ -2613,7 +2614,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CustomFeesReflection.Descriptor.MessageTypes[8]; }
+      get { return global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2646,14 +2647,14 @@ namespace Proto {
 
     /// <summary>Field number for the "account_id" field.</summary>
     public const int AccountIdFieldNumber = 1;
-    private global::Proto.AccountID accountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountId_;
     /// <summary>
     ///*
     /// A payer account identifier.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountId {
       get { return accountId_; }
       set {
         accountId_ = value;
@@ -2662,16 +2663,16 @@ namespace Proto {
 
     /// <summary>Field number for the "fees" field.</summary>
     public const int FeesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.FixedFee> _repeated_fees_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.FixedFee.Parser);
-    private readonly pbc::RepeatedField<global::Proto.FixedFee> fees_ = new pbc::RepeatedField<global::Proto.FixedFee>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.FixedFee> _repeated_fees_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.FixedFee.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedFee> fees_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedFee>();
     /// <summary>
     ///*
     /// The maximum fees that the user is willing to pay for the message.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.FixedFee> Fees {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.FixedFee> Fees {
       get { return fees_; }
     }
 
@@ -2767,7 +2768,7 @@ namespace Proto {
       }
       if (other.accountId_ != null) {
         if (accountId_ == null) {
-          AccountId = new global::Proto.AccountID();
+          AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountId.MergeFrom(other.AccountId);
       }
@@ -2793,7 +2794,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -2823,7 +2824,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;

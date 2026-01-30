@@ -29,8 +29,8 @@ namespace Com.Hedera.Hapi.Platform.Event {
             "dG8ipgEKEEV2ZW50VHJhbnNhY3Rpb24SIQoXYXBwbGljYXRpb25fdHJhbnNh",
             "Y3Rpb24YASABKAxIABJgChtzdGF0ZV9zaWduYXR1cmVfdHJhbnNhY3Rpb24Y",
             "AiABKAsyOS5jb20uaGVkZXJhLmhhcGkucGxhdGZvcm0uZXZlbnQuU3RhdGVT",
-            "aWduYXR1cmVUcmFuc2FjdGlvbkgAQg0KC3RyYW5zYWN0aW9uQikKJWNvbS5o",
-            "ZWRlcmEuaGFwaS5wbGF0Zm9ybS5ldmVudC5sZWdhY3lQAWIGcHJvdG8z"));
+            "aWduYXR1cmVUcmFuc2FjdGlvbkgAQg0KC3RyYW5zYWN0aW9uQicKJWNvbS5o",
+            "ZWRlcmEuaGFwaS5wbGF0Zm9ybS5ldmVudC5sZWdhY3liBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Com.Hedera.Hapi.Platform.Event.StateSignatureTransactionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

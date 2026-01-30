@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from freeze.proto</summary>
   public static partial class FreezeReflection {
@@ -31,12 +31,12 @@ namespace Proto {
             "IAEoBUICGAESIgoLdXBkYXRlX2ZpbGUYBSABKAsyDS5wcm90by5GaWxlSUQS",
             "EQoJZmlsZV9oYXNoGAYgASgMEiQKCnN0YXJ0X3RpbWUYByABKAsyEC5wcm90",
             "by5UaW1lc3RhbXASJgoLZnJlZXplX3R5cGUYCCABKA4yES5wcm90by5GcmVl",
-            "emVUeXBlQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZw",
-            "cm90bzM="));
+            "emVUeXBlQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhl",
+            "ZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, global::Proto.BasicTypesReflection.Descriptor, global::Proto.FreezeTypeReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.FreezeTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.FreezeTransactionBody), global::Proto.FreezeTransactionBody.Parser, new[]{ "StartHour", "StartMin", "EndHour", "EndMin", "UpdateFile", "FileHash", "StartTime", "FreezeType" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.FreezeTransactionBody), global::Hedera.Hashgraph.Proto.FreezeTransactionBody.Parser, new[]{ "StartHour", "StartMin", "EndHour", "EndMin", "UpdateFile", "FileHash", "StartTime", "FreezeType" }, null, null, null, null)
           }));
     }
     #endregion
@@ -89,7 +89,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.FreezeReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.FreezeReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -202,7 +202,7 @@ namespace Proto {
 
     /// <summary>Field number for the "update_file" field.</summary>
     public const int UpdateFileFieldNumber = 5;
-    private global::Proto.FileID updateFile_;
+    private global::Hedera.Hashgraph.Proto.FileID updateFile_;
     /// <summary>
     ///*
     /// An upgrade file.
@@ -218,7 +218,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileID UpdateFile {
+    public global::Hedera.Hashgraph.Proto.FileID UpdateFile {
       get { return updateFile_; }
       set {
         updateFile_ = value;
@@ -247,7 +247,7 @@ namespace Proto {
 
     /// <summary>Field number for the "start_time" field.</summary>
     public const int StartTimeFieldNumber = 7;
-    private global::Proto.Timestamp startTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp startTime_;
     /// <summary>
     ///*
     /// A start time for the freeze.
@@ -272,7 +272,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp StartTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp StartTime {
       get { return startTime_; }
       set {
         startTime_ = value;
@@ -281,7 +281,7 @@ namespace Proto {
 
     /// <summary>Field number for the "freeze_type" field.</summary>
     public const int FreezeTypeFieldNumber = 8;
-    private global::Proto.FreezeType freezeType_ = global::Proto.FreezeType.UnknownFreezeType;
+    private global::Hedera.Hashgraph.Proto.FreezeType freezeType_ = global::Hedera.Hashgraph.Proto.FreezeType.UnknownFreezeType;
     /// <summary>
     ///*
     /// The type of freeze.
@@ -293,7 +293,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FreezeType FreezeType {
+    public global::Hedera.Hashgraph.Proto.FreezeType FreezeType {
       get { return freezeType_; }
       set {
         freezeType_ = value;
@@ -337,7 +337,7 @@ namespace Proto {
       if (updateFile_ != null) hash ^= UpdateFile.GetHashCode();
       if (FileHash.Length != 0) hash ^= FileHash.GetHashCode();
       if (startTime_ != null) hash ^= StartTime.GetHashCode();
-      if (FreezeType != global::Proto.FreezeType.UnknownFreezeType) hash ^= FreezeType.GetHashCode();
+      if (FreezeType != global::Hedera.Hashgraph.Proto.FreezeType.UnknownFreezeType) hash ^= FreezeType.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -384,7 +384,7 @@ namespace Proto {
         output.WriteRawTag(58);
         output.WriteMessage(StartTime);
       }
-      if (FreezeType != global::Proto.FreezeType.UnknownFreezeType) {
+      if (FreezeType != global::Hedera.Hashgraph.Proto.FreezeType.UnknownFreezeType) {
         output.WriteRawTag(64);
         output.WriteEnum((int) FreezeType);
       }
@@ -426,7 +426,7 @@ namespace Proto {
         output.WriteRawTag(58);
         output.WriteMessage(StartTime);
       }
-      if (FreezeType != global::Proto.FreezeType.UnknownFreezeType) {
+      if (FreezeType != global::Hedera.Hashgraph.Proto.FreezeType.UnknownFreezeType) {
         output.WriteRawTag(64);
         output.WriteEnum((int) FreezeType);
       }
@@ -461,7 +461,7 @@ namespace Proto {
       if (startTime_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(StartTime);
       }
-      if (FreezeType != global::Proto.FreezeType.UnknownFreezeType) {
+      if (FreezeType != global::Hedera.Hashgraph.Proto.FreezeType.UnknownFreezeType) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) FreezeType);
       }
       if (_unknownFields != null) {
@@ -490,7 +490,7 @@ namespace Proto {
       }
       if (other.updateFile_ != null) {
         if (updateFile_ == null) {
-          UpdateFile = new global::Proto.FileID();
+          UpdateFile = new global::Hedera.Hashgraph.Proto.FileID();
         }
         UpdateFile.MergeFrom(other.UpdateFile);
       }
@@ -499,11 +499,11 @@ namespace Proto {
       }
       if (other.startTime_ != null) {
         if (startTime_ == null) {
-          StartTime = new global::Proto.Timestamp();
+          StartTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         StartTime.MergeFrom(other.StartTime);
       }
-      if (other.FreezeType != global::Proto.FreezeType.UnknownFreezeType) {
+      if (other.FreezeType != global::Hedera.Hashgraph.Proto.FreezeType.UnknownFreezeType) {
         FreezeType = other.FreezeType;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -543,7 +543,7 @@ namespace Proto {
           }
           case 42: {
             if (updateFile_ == null) {
-              UpdateFile = new global::Proto.FileID();
+              UpdateFile = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(UpdateFile);
             break;
@@ -554,13 +554,13 @@ namespace Proto {
           }
           case 58: {
             if (startTime_ == null) {
-              StartTime = new global::Proto.Timestamp();
+              StartTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(StartTime);
             break;
           }
           case 64: {
-            FreezeType = (global::Proto.FreezeType) input.ReadEnum();
+            FreezeType = (global::Hedera.Hashgraph.Proto.FreezeType) input.ReadEnum();
             break;
           }
         }
@@ -600,7 +600,7 @@ namespace Proto {
           }
           case 42: {
             if (updateFile_ == null) {
-              UpdateFile = new global::Proto.FileID();
+              UpdateFile = new global::Hedera.Hashgraph.Proto.FileID();
             }
             input.ReadMessage(UpdateFile);
             break;
@@ -611,13 +611,13 @@ namespace Proto {
           }
           case 58: {
             if (startTime_ == null) {
-              StartTime = new global::Proto.Timestamp();
+              StartTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(StartTime);
             break;
           }
           case 64: {
-            FreezeType = (global::Proto.FreezeType) input.ReadEnum();
+            FreezeType = (global::Hedera.Hashgraph.Proto.FreezeType) input.ReadEnum();
             break;
           }
         }

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from freeze_type.proto</summary>
   public static partial class FreezeTypeReflection {
@@ -27,11 +27,12 @@ namespace Proto {
             "ChFmcmVlemVfdHlwZS5wcm90bxIFcHJvdG8qiAEKCkZyZWV6ZVR5cGUSFwoT",
             "VU5LTk9XTl9GUkVFWkVfVFlQRRAAEg8KC0ZSRUVaRV9PTkxZEAESEwoPUFJF",
             "UEFSRV9VUEdSQURFEAISEgoORlJFRVpFX1VQR1JBREUQAxIQCgxGUkVFWkVf",
-            "QUJPUlQQBBIVChFURUxFTUVUUllfVVBHUkFERRAFQiIKHmNvbS5oZWRlcmEu",
-            "aGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "QUJPUlQQBBIVChFURUxFTUVUUllfVVBHUkFERRAFQjkKHmNvbS5oZWRlcmEu",
+            "aGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9i",
+            "BnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Proto.FreezeType), }, null, null));
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Hedera.Hashgraph.Proto.FreezeType), }, null, null));
     }
     #endregion
 

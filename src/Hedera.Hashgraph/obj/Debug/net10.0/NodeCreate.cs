@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.Addressbook {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from node_create.proto</summary>
   public static partial class NodeCreateReflection {
@@ -33,12 +33,13 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
             "X2NhX2NlcnRpZmljYXRlGAUgASgMEh0KFWdycGNfY2VydGlmaWNhdGVfaGFz",
             "aBgGIAEoDBIdCglhZG1pbl9rZXkYByABKAsyCi5wcm90by5LZXkSFgoOZGVj",
             "bGluZV9yZXdhcmQYCCABKAgSMwoTZ3JwY19wcm94eV9lbmRwb2ludBgJIAEo",
-            "CzIWLnByb3RvLlNlcnZpY2VFbmRwb2ludEIiCh5jb20uaGVkZXJhLmhhc2hn",
-            "cmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "CzIWLnByb3RvLlNlcnZpY2VFbmRwb2ludEI5Ch5jb20uaGVkZXJhLmhhc2hn",
+            "cmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody), global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateTransactionBody.Parser, new[]{ "AccountId", "Description", "GossipEndpoint", "ServiceEndpoint", "GossipCaCertificate", "GrpcCertificateHash", "AdminKey", "DeclineReward", "GrpcProxyEndpoint" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody), global::Hedera.Hashgraph.Proto.NodeCreateTransactionBody.Parser, new[]{ "AccountId", "Description", "GossipEndpoint", "ServiceEndpoint", "GossipCaCertificate", "GrpcCertificateHash", "AdminKey", "DeclineReward", "GrpcProxyEndpoint" }, null, null, null, null)
           }));
     }
     #endregion
@@ -88,7 +89,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Addressbook.NodeCreateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NodeCreateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -128,7 +129,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
 
     /// <summary>Field number for the "account_id" field.</summary>
     public const int AccountIdFieldNumber = 1;
-    private global::Proto.AccountID accountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountId_;
     /// <summary>
     ///*
     /// A Node account identifier.
@@ -141,7 +142,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountId {
       get { return accountId_; }
       set {
         accountId_ = value;
@@ -170,9 +171,9 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
 
     /// <summary>Field number for the "gossip_endpoint" field.</summary>
     public const int GossipEndpointFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::Proto.ServiceEndpoint> _repeated_gossipEndpoint_codec
-        = pb::FieldCodec.ForMessage(26, global::Proto.ServiceEndpoint.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ServiceEndpoint> gossipEndpoint_ = new pbc::RepeatedField<global::Proto.ServiceEndpoint>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ServiceEndpoint> _repeated_gossipEndpoint_codec
+        = pb::FieldCodec.ForMessage(26, global::Hedera.Hashgraph.Proto.ServiceEndpoint.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> gossipEndpoint_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint>();
     /// <summary>
     ///*
     /// A list of service endpoints for gossip.
@@ -197,15 +198,15 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ServiceEndpoint> GossipEndpoint {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> GossipEndpoint {
       get { return gossipEndpoint_; }
     }
 
     /// <summary>Field number for the "service_endpoint" field.</summary>
     public const int ServiceEndpointFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::Proto.ServiceEndpoint> _repeated_serviceEndpoint_codec
-        = pb::FieldCodec.ForMessage(34, global::Proto.ServiceEndpoint.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ServiceEndpoint> serviceEndpoint_ = new pbc::RepeatedField<global::Proto.ServiceEndpoint>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ServiceEndpoint> _repeated_serviceEndpoint_codec
+        = pb::FieldCodec.ForMessage(34, global::Hedera.Hashgraph.Proto.ServiceEndpoint.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> serviceEndpoint_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint>();
     /// <summary>
     ///*
     /// A list of service endpoints for gRPC calls.
@@ -220,7 +221,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ServiceEndpoint> ServiceEndpoint {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ServiceEndpoint> ServiceEndpoint {
       get { return serviceEndpoint_; }
     }
 
@@ -271,7 +272,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
 
     /// <summary>Field number for the "admin_key" field.</summary>
     public const int AdminKeyFieldNumber = 7;
-    private global::Proto.Key adminKey_;
+    private global::Hedera.Hashgraph.Proto.Key adminKey_;
     /// <summary>
     ///*
     /// An administrative key controlled by the node op.
@@ -283,7 +284,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key AdminKey {
+    public global::Hedera.Hashgraph.Proto.Key AdminKey {
       get { return adminKey_; }
       set {
         adminKey_ = value;
@@ -312,7 +313,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
 
     /// <summary>Field number for the "grpc_proxy_endpoint" field.</summary>
     public const int GrpcProxyEndpointFieldNumber = 9;
-    private global::Proto.ServiceEndpoint grpcProxyEndpoint_;
+    private global::Hedera.Hashgraph.Proto.ServiceEndpoint grpcProxyEndpoint_;
     /// <summary>
     ///*
     /// A web proxy for gRPC from non-gRPC clients.
@@ -327,7 +328,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ServiceEndpoint GrpcProxyEndpoint {
+    public global::Hedera.Hashgraph.Proto.ServiceEndpoint GrpcProxyEndpoint {
       get { return grpcProxyEndpoint_; }
       set {
         grpcProxyEndpoint_ = value;
@@ -509,7 +510,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
       }
       if (other.accountId_ != null) {
         if (accountId_ == null) {
-          AccountId = new global::Proto.AccountID();
+          AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountId.MergeFrom(other.AccountId);
       }
@@ -526,7 +527,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
       }
       if (other.adminKey_ != null) {
         if (adminKey_ == null) {
-          AdminKey = new global::Proto.Key();
+          AdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         AdminKey.MergeFrom(other.AdminKey);
       }
@@ -535,7 +536,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
       }
       if (other.grpcProxyEndpoint_ != null) {
         if (grpcProxyEndpoint_ == null) {
-          GrpcProxyEndpoint = new global::Proto.ServiceEndpoint();
+          GrpcProxyEndpoint = new global::Hedera.Hashgraph.Proto.ServiceEndpoint();
         }
         GrpcProxyEndpoint.MergeFrom(other.GrpcProxyEndpoint);
       }
@@ -560,7 +561,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -587,7 +588,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
           }
           case 58: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
@@ -598,7 +599,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
           }
           case 74: {
             if (grpcProxyEndpoint_ == null) {
-              GrpcProxyEndpoint = new global::Proto.ServiceEndpoint();
+              GrpcProxyEndpoint = new global::Hedera.Hashgraph.Proto.ServiceEndpoint();
             }
             input.ReadMessage(GrpcProxyEndpoint);
             break;
@@ -624,7 +625,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -651,7 +652,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
           }
           case 58: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
@@ -662,7 +663,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
           }
           case 74: {
             if (grpcProxyEndpoint_ == null) {
-              GrpcProxyEndpoint = new global::Proto.ServiceEndpoint();
+              GrpcProxyEndpoint = new global::Hedera.Hashgraph.Proto.ServiceEndpoint();
             }
             input.ReadMessage(GrpcProxyEndpoint);
             break;

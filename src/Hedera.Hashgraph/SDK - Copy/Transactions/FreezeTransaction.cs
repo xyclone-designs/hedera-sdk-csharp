@@ -1,19 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
@@ -53,10 +43,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
         private int endMinute = 0;
         private Timestamp startTime = null;
         private FileId fileId = null;
-        private byte[] fileHash = new[]
-        {
-        };
-        private FreezeType freezeType = FreezeType.UNKNOWN_FREEZE_TYPE;
+        private byte[] fileHash = [];
+        private FreezeType freezeType = FreezeType.UnknownFreezeType;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -184,7 +172,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <remarks>@deprecatedUse {@link #getFileHash()} instead.</remarks>
         public byte[] GetUpdateFileHash()
         {
-            return Array.CopyOf(fileHash, fileHash.Length);
+            return fileHash.CopyArray();
         }
 
         /// <summary>
@@ -225,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>                         the file's hash</returns>
         public byte[] GetFileHash()
         {
-            return Array.CopyOf(fileHash, fileHash.Length);
+            return fileHash.CopyArray();
         }
 
         /// <summary>
@@ -241,7 +229,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             RequireNotFrozen();
             ArgumentNullException.ThrowIfNull(fileHash);
-            fileHash = Array.CopyOf(fileHash, fileHash.Length);
+            fileHash = fileHash.CopyArray();
             return this;
         }
 
@@ -288,17 +276,20 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.Freeze();
-            freezeType = FreezeType.ValueOf(body.GetFreezeType());
-            if (body.HasUpdateFile())
+            var body = sourceTransactionBody.Freeze;
+
+            freezeType = (FreezeType)body.FreezeType;
+
+            if (body.UpdateFile is not null)
             {
-                fileId = FileId.FromProtobuf(body.GetUpdateFile());
+                fileId = FileId.FromProtobuf(body.UpdateFile);
             }
 
-            fileHash = body.GetFileHash().ToByteArray();
-            if (body.HasStartTime())
+            fileHash = body.FileHash.ToByteArray();
+
+            if (body.StartTime is not null)
             {
-                startTime = Utils.TimestampConverter.FromProtobuf(body.GetStartTime());
+                startTime = Utils.TimestampConverter.FromProtobuf(body.StartTime);
             }
         }
 
@@ -306,19 +297,22 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.FreezeTransactionBody builder }</returns>
-        FreezeTransactionBody.Builder Build()
+        public Proto.FreezeTransactionBody Build()
         {
-            var builder = FreezeTransactionBody.NewBuilder();
-            builder.FreezeType(freezeType.code);
+            var builder = new Proto.FreezeTransactionBody
+            {
+                FreezeType = (Proto.FreezeType)freezeType,
+				FileHash = ByteString.CopyFrom(fileHash),
+			};
+
             if (fileId != null)
             {
-                builder.UpdateFile(fileId.ToProtobuf());
+                builder.UpdateFile = fileId.ToProtobuf();
             }
 
-            builder.FileHash(ByteString.CopyFrom(fileHash));
             if (startTime != null)
             {
-                builder.StartTime(Utils.TimestampConverter.ToProtobuf(startTime));
+                builder.StartTime = Utils.TimestampConverter.ToProtobuf(startTime);
             }
 
             return builder;
@@ -326,12 +320,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetFreeze(Build());
+            bodyBuilder.Freeze = Build();
         }
 
         override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetFreeze(Build());
+            scheduled.Freeze = Build();
         }
     }
 }

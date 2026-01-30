@@ -1,23 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.EntityIdHelper;
-using Com.Google.Gson;
 using Google.Protobuf;
-using Java.Util;
-using Java.Util.Concurrent;
-using Org.Bouncycastle.Util.Encoders;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
+using Hedera.Hashgraph.SDK.Ids;
+using System.Threading.Tasks;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -25,8 +11,7 @@ namespace Hedera.Hashgraph.SDK.Queries
     /// MirrorNodeContractQuery returns a result from EVM execution such as cost-free execution of read-only smart contract
     /// queries, gas estimation, and transient simulation of read-write operations.
     /// </summary>
-    public abstract class MirrorNodeContractQuery<T>
-        where T : MirrorNodeContractQuery<T>
+    public abstract class MirrorNodeContractQuery<T> where T : MirrorNodeContractQuery<T>
     {
         // The contract we are sending the transaction to
         private ContractId contractId = null;
@@ -245,7 +230,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         protected virtual long Estimate(Client client)
         {
             FillEvmAddresses();
-            return GetEstimateGasFromMirrorNodeAsync(client).Get();
+            return GetEstimateGasFromMirrorNodeAsync(client).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -258,8 +243,8 @@ namespace Hedera.Hashgraph.SDK.Queries
         protected virtual string Call(Client client)
         {
             FillEvmAddresses();
-            var blockNum = blockNumber == 0 ? "latest" : String.ValueOf(blockNumber);
-            return GetContractCallResultFromMirrorNodeAsync(client, blockNum).Get();
+            var blockNum = blockNumber == 0 ? "latest" : blockNumber.ToString();
+            return GetContractCallResultFromMirrorNodeAsync(client, blockNum).GetAwaiter().GetResult();
         }
 
         private void FillEvmAddresses()
@@ -323,7 +308,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             jsonObject.AddProperty("blockNumber", blockNumber);
 
             // Conditionally add fields if they are set to non-default values
-            if (senderAddress != null && !senderAddress.IsEmpty)
+            if (senderAddress != null && senderAddress.Length > 0)
             {
                 jsonObject.AddProperty("from", senderAddress);
             }

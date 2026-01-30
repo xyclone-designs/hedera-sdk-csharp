@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from throttle_usage_snapshots.proto</summary>
   public static partial class ThrottleUsageSnapshotsReflection {
@@ -31,13 +31,13 @@ namespace Proto {
             "U25hcHNob3QSPwoZZXZtX29wc19kdXJhdGlvbl90aHJvdHRsZRgDIAEoCzIc",
             "LnByb3RvLlRocm90dGxlVXNhZ2VTbmFwc2hvdCJTChVUaHJvdHRsZVVzYWdl",
             "U25hcHNob3QSDAoEdXNlZBgBIAEoAxIsChJsYXN0X2RlY2lzaW9uX3RpbWUY",
-            "AiABKAsyEC5wcm90by5UaW1lc3RhbXBCIgoeY29tLmhlZGVyYS5oYXNoZ3Jh",
-            "cGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "AiABKAsyEC5wcm90by5UaW1lc3RhbXBCOQoeY29tLmhlZGVyYS5oYXNoZ3Jh",
+            "cGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ThrottleUsageSnapshots), global::Proto.ThrottleUsageSnapshots.Parser, new[]{ "TpsThrottles", "GasThrottle", "EvmOpsDurationThrottle" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ThrottleUsageSnapshot), global::Proto.ThrottleUsageSnapshot.Parser, new[]{ "Used", "LastDecisionTime" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshots), global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshots.Parser, new[]{ "TpsThrottles", "GasThrottle", "EvmOpsDurationThrottle" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot), global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot.Parser, new[]{ "Used", "LastDecisionTime" }, null, null, null, null)
           }));
     }
     #endregion
@@ -67,7 +67,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ThrottleUsageSnapshotsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshotsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -101,9 +101,9 @@ namespace Proto {
 
     /// <summary>Field number for the "tps_throttles" field.</summary>
     public const int TpsThrottlesFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.ThrottleUsageSnapshot> _repeated_tpsThrottles_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.ThrottleUsageSnapshot.Parser);
-    private readonly pbc::RepeatedField<global::Proto.ThrottleUsageSnapshot> tpsThrottles_ = new pbc::RepeatedField<global::Proto.ThrottleUsageSnapshot>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot> _repeated_tpsThrottles_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot> tpsThrottles_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot>();
     /// <summary>
     ///*
     /// A list of snapshots for TPS throttles.
@@ -112,20 +112,20 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.ThrottleUsageSnapshot> TpsThrottles {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot> TpsThrottles {
       get { return tpsThrottles_; }
     }
 
     /// <summary>Field number for the "gas_throttle" field.</summary>
     public const int GasThrottleFieldNumber = 2;
-    private global::Proto.ThrottleUsageSnapshot gasThrottle_;
+    private global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot gasThrottle_;
     /// <summary>
     ///*
     /// A single snapshot for the gas throttle.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ThrottleUsageSnapshot GasThrottle {
+    public global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot GasThrottle {
       get { return gasThrottle_; }
       set {
         gasThrottle_ = value;
@@ -134,14 +134,14 @@ namespace Proto {
 
     /// <summary>Field number for the "evm_ops_duration_throttle" field.</summary>
     public const int EvmOpsDurationThrottleFieldNumber = 3;
-    private global::Proto.ThrottleUsageSnapshot evmOpsDurationThrottle_;
+    private global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot evmOpsDurationThrottle_;
     /// <summary>
     ///*
     /// A single snapshot for evm ops duration throttle.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ThrottleUsageSnapshot EvmOpsDurationThrottle {
+    public global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot EvmOpsDurationThrottle {
       get { return evmOpsDurationThrottle_; }
       set {
         evmOpsDurationThrottle_ = value;
@@ -254,13 +254,13 @@ namespace Proto {
       tpsThrottles_.Add(other.tpsThrottles_);
       if (other.gasThrottle_ != null) {
         if (gasThrottle_ == null) {
-          GasThrottle = new global::Proto.ThrottleUsageSnapshot();
+          GasThrottle = new global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot();
         }
         GasThrottle.MergeFrom(other.GasThrottle);
       }
       if (other.evmOpsDurationThrottle_ != null) {
         if (evmOpsDurationThrottle_ == null) {
-          EvmOpsDurationThrottle = new global::Proto.ThrottleUsageSnapshot();
+          EvmOpsDurationThrottle = new global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot();
         }
         EvmOpsDurationThrottle.MergeFrom(other.EvmOpsDurationThrottle);
       }
@@ -289,14 +289,14 @@ namespace Proto {
           }
           case 18: {
             if (gasThrottle_ == null) {
-              GasThrottle = new global::Proto.ThrottleUsageSnapshot();
+              GasThrottle = new global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot();
             }
             input.ReadMessage(GasThrottle);
             break;
           }
           case 26: {
             if (evmOpsDurationThrottle_ == null) {
-              EvmOpsDurationThrottle = new global::Proto.ThrottleUsageSnapshot();
+              EvmOpsDurationThrottle = new global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot();
             }
             input.ReadMessage(EvmOpsDurationThrottle);
             break;
@@ -326,14 +326,14 @@ namespace Proto {
           }
           case 18: {
             if (gasThrottle_ == null) {
-              GasThrottle = new global::Proto.ThrottleUsageSnapshot();
+              GasThrottle = new global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot();
             }
             input.ReadMessage(GasThrottle);
             break;
           }
           case 26: {
             if (evmOpsDurationThrottle_ == null) {
-              EvmOpsDurationThrottle = new global::Proto.ThrottleUsageSnapshot();
+              EvmOpsDurationThrottle = new global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshot();
             }
             input.ReadMessage(EvmOpsDurationThrottle);
             break;
@@ -368,7 +368,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ThrottleUsageSnapshotsReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.ThrottleUsageSnapshotsReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -417,7 +417,7 @@ namespace Proto {
 
     /// <summary>Field number for the "last_decision_time" field.</summary>
     public const int LastDecisionTimeFieldNumber = 2;
-    private global::Proto.Timestamp lastDecisionTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp lastDecisionTime_;
     /// <summary>
     ///*
     /// The time at which the this snapshot of capacity was calculated.&lt;br/>
@@ -427,7 +427,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp LastDecisionTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp LastDecisionTime {
       get { return lastDecisionTime_; }
       set {
         lastDecisionTime_ = value;
@@ -537,7 +537,7 @@ namespace Proto {
       }
       if (other.lastDecisionTime_ != null) {
         if (lastDecisionTime_ == null) {
-          LastDecisionTime = new global::Proto.Timestamp();
+          LastDecisionTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         LastDecisionTime.MergeFrom(other.LastDecisionTime);
       }
@@ -566,7 +566,7 @@ namespace Proto {
           }
           case 18: {
             if (lastDecisionTime_ == null) {
-              LastDecisionTime = new global::Proto.Timestamp();
+              LastDecisionTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastDecisionTime);
             break;
@@ -596,7 +596,7 @@ namespace Proto {
           }
           case 18: {
             if (lastDecisionTime_ == null) {
-              LastDecisionTime = new global::Proto.Timestamp();
+              LastDecisionTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(LastDecisionTime);
             break;

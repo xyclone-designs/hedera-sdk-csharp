@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_create.proto</summary>
   public static partial class TokenCreateReflection {
@@ -41,12 +41,13 @@ namespace Proto {
             "U3VwcGx5GBMgASgDEiQKEGZlZV9zY2hlZHVsZV9rZXkYFCABKAsyCi5wcm90",
             "by5LZXkSJQoLY3VzdG9tX2ZlZXMYFSADKAsyEC5wcm90by5DdXN0b21GZWUS",
             "HQoJcGF1c2Vfa2V5GBYgASgLMgoucHJvdG8uS2V5EhAKCG1ldGFkYXRhGBcg",
-            "ASgMEiAKDG1ldGFkYXRhX2tleRgYIAEoCzIKLnByb3RvLktleUIiCh5jb20u",
-            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "ASgMEiAKDG1ldGFkYXRhX2tleRgYIAEoCzIKLnByb3RvLktleUI5Ch5jb20u",
+            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBo",
+            "LlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.DurationReflection.Descriptor, global::Proto.BasicTypesReflection.Descriptor, global::Proto.CustomFeesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.DurationReflection.Descriptor, global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.CustomFeesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenCreateTransactionBody), global::Proto.TokenCreateTransactionBody.Parser, new[]{ "Name", "Symbol", "Decimals", "InitialSupply", "Treasury", "AdminKey", "KycKey", "FreezeKey", "WipeKey", "SupplyKey", "FreezeDefault", "Expiry", "AutoRenewAccount", "AutoRenewPeriod", "Memo", "TokenType", "SupplyType", "MaxSupply", "FeeScheduleKey", "CustomFees", "PauseKey", "Metadata", "MetadataKey" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody), global::Hedera.Hashgraph.Proto.TokenCreateTransactionBody.Parser, new[]{ "Name", "Symbol", "Decimals", "InitialSupply", "Treasury", "AdminKey", "KycKey", "FreezeKey", "WipeKey", "SupplyKey", "FreezeDefault", "Expiry", "AutoRenewAccount", "AutoRenewPeriod", "Memo", "TokenType", "SupplyType", "MaxSupply", "FeeScheduleKey", "CustomFees", "PauseKey", "Metadata", "MetadataKey" }, null, null, null, null)
           }));
     }
     #endregion
@@ -115,7 +116,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenCreateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenCreateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -253,7 +254,7 @@ namespace Proto {
 
     /// <summary>Field number for the "treasury" field.</summary>
     public const int TreasuryFieldNumber = 5;
-    private global::Proto.AccountID treasury_;
+    private global::Hedera.Hashgraph.Proto.AccountID treasury_;
     /// <summary>
     ///*
     /// A treasury account identifier.
@@ -268,7 +269,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Treasury {
+    public global::Hedera.Hashgraph.Proto.AccountID Treasury {
       get { return treasury_; }
       set {
         treasury_ = value;
@@ -277,7 +278,7 @@ namespace Proto {
 
     /// <summary>Field number for the "adminKey" field.</summary>
     public const int AdminKeyFieldNumber = 6;
-    private global::Proto.Key adminKey_;
+    private global::Hedera.Hashgraph.Proto.Key adminKey_;
     /// <summary>
     ///*
     /// An Hedera key for token administration.
@@ -289,7 +290,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key AdminKey {
+    public global::Hedera.Hashgraph.Proto.Key AdminKey {
       get { return adminKey_; }
       set {
         adminKey_ = value;
@@ -298,7 +299,7 @@ namespace Proto {
 
     /// <summary>Field number for the "kycKey" field.</summary>
     public const int KycKeyFieldNumber = 7;
-    private global::Proto.Key kycKey_;
+    private global::Hedera.Hashgraph.Proto.Key kycKey_;
     /// <summary>
     ///*
     /// An Hedera key for managing account KYC.
@@ -312,7 +313,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key KycKey {
+    public global::Hedera.Hashgraph.Proto.Key KycKey {
       get { return kycKey_; }
       set {
         kycKey_ = value;
@@ -321,7 +322,7 @@ namespace Proto {
 
     /// <summary>Field number for the "freezeKey" field.</summary>
     public const int FreezeKeyFieldNumber = 8;
-    private global::Proto.Key freezeKey_;
+    private global::Hedera.Hashgraph.Proto.Key freezeKey_;
     /// <summary>
     ///*
     /// An Hedera key for managing asset "freeze".
@@ -336,7 +337,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key FreezeKey {
+    public global::Hedera.Hashgraph.Proto.Key FreezeKey {
       get { return freezeKey_; }
       set {
         freezeKey_ = value;
@@ -345,7 +346,7 @@ namespace Proto {
 
     /// <summary>Field number for the "wipeKey" field.</summary>
     public const int WipeKeyFieldNumber = 9;
-    private global::Proto.Key wipeKey_;
+    private global::Hedera.Hashgraph.Proto.Key wipeKey_;
     /// <summary>
     ///*
     /// An Hedera key for wiping tokens from accounts.
@@ -358,7 +359,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key WipeKey {
+    public global::Hedera.Hashgraph.Proto.Key WipeKey {
       get { return wipeKey_; }
       set {
         wipeKey_ = value;
@@ -367,7 +368,7 @@ namespace Proto {
 
     /// <summary>Field number for the "supplyKey" field.</summary>
     public const int SupplyKeyFieldNumber = 10;
-    private global::Proto.Key supplyKey_;
+    private global::Hedera.Hashgraph.Proto.Key supplyKey_;
     /// <summary>
     ///*
     /// An Hedera key for "minting" and "burning" tokens.
@@ -381,7 +382,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key SupplyKey {
+    public global::Hedera.Hashgraph.Proto.Key SupplyKey {
       get { return supplyKey_; }
       set {
         supplyKey_ = value;
@@ -419,7 +420,7 @@ namespace Proto {
 
     /// <summary>Field number for the "expiry" field.</summary>
     public const int ExpiryFieldNumber = 13;
-    private global::Proto.Timestamp expiry_;
+    private global::Hedera.Hashgraph.Proto.Timestamp expiry_;
     /// <summary>
     ///*
     /// An expiration timestamp.
@@ -436,7 +437,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp Expiry {
+    public global::Hedera.Hashgraph.Proto.Timestamp Expiry {
       get { return expiry_; }
       set {
         expiry_ = value;
@@ -445,7 +446,7 @@ namespace Proto {
 
     /// <summary>Field number for the "autoRenewAccount" field.</summary>
     public const int AutoRenewAccountFieldNumber = 14;
-    private global::Proto.AccountID autoRenewAccount_;
+    private global::Hedera.Hashgraph.Proto.AccountID autoRenewAccount_;
     /// <summary>
     ///*
     /// An identifier for the account to be charged renewal fees at the token's
@@ -467,7 +468,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AutoRenewAccount {
+    public global::Hedera.Hashgraph.Proto.AccountID AutoRenewAccount {
       get { return autoRenewAccount_; }
       set {
         autoRenewAccount_ = value;
@@ -476,7 +477,7 @@ namespace Proto {
 
     /// <summary>Field number for the "autoRenewPeriod" field.</summary>
     public const int AutoRenewPeriodFieldNumber = 15;
-    private global::Proto.Duration autoRenewPeriod_;
+    private global::Hedera.Hashgraph.Proto.Duration autoRenewPeriod_;
     /// <summary>
     ///*
     /// A duration between token automatic renewals.&lt;br/>
@@ -491,7 +492,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Duration AutoRenewPeriod {
+    public global::Hedera.Hashgraph.Proto.Duration AutoRenewPeriod {
       get { return autoRenewPeriod_; }
       set {
         autoRenewPeriod_ = value;
@@ -519,7 +520,7 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenType" field.</summary>
     public const int TokenTypeFieldNumber = 17;
-    private global::Proto.TokenType tokenType_ = global::Proto.TokenType.FungibleCommon;
+    private global::Hedera.Hashgraph.Proto.TokenType tokenType_ = global::Hedera.Hashgraph.Proto.TokenType.FungibleCommon;
     /// <summary>
     ///*
     /// A type for this token, according to IWA classification.
@@ -530,7 +531,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenType TokenType {
+    public global::Hedera.Hashgraph.Proto.TokenType TokenType {
       get { return tokenType_; }
       set {
         tokenType_ = value;
@@ -539,7 +540,7 @@ namespace Proto {
 
     /// <summary>Field number for the "supplyType" field.</summary>
     public const int SupplyTypeFieldNumber = 18;
-    private global::Proto.TokenSupplyType supplyType_ = global::Proto.TokenSupplyType.Infinite;
+    private global::Hedera.Hashgraph.Proto.TokenSupplyType supplyType_ = global::Hedera.Hashgraph.Proto.TokenSupplyType.Infinite;
     /// <summary>
     ///*
     /// A supply type for this token, according to IWA classification.
@@ -551,7 +552,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenSupplyType SupplyType {
+    public global::Hedera.Hashgraph.Proto.TokenSupplyType SupplyType {
       get { return supplyType_; }
       set {
         supplyType_ = value;
@@ -581,7 +582,7 @@ namespace Proto {
 
     /// <summary>Field number for the "fee_schedule_key" field.</summary>
     public const int FeeScheduleKeyFieldNumber = 20;
-    private global::Proto.Key feeScheduleKey_;
+    private global::Hedera.Hashgraph.Proto.Key feeScheduleKey_;
     /// <summary>
     ///*
     /// An Hedera key for managing the token custom fee schedule.
@@ -593,7 +594,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key FeeScheduleKey {
+    public global::Hedera.Hashgraph.Proto.Key FeeScheduleKey {
       get { return feeScheduleKey_; }
       set {
         feeScheduleKey_ = value;
@@ -602,9 +603,9 @@ namespace Proto {
 
     /// <summary>Field number for the "custom_fees" field.</summary>
     public const int CustomFeesFieldNumber = 21;
-    private static readonly pb::FieldCodec<global::Proto.CustomFee> _repeated_customFees_codec
-        = pb::FieldCodec.ForMessage(170, global::Proto.CustomFee.Parser);
-    private readonly pbc::RepeatedField<global::Proto.CustomFee> customFees_ = new pbc::RepeatedField<global::Proto.CustomFee>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.CustomFee> _repeated_customFees_codec
+        = pb::FieldCodec.ForMessage(170, global::Hedera.Hashgraph.Proto.CustomFee.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFee> customFees_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFee>();
     /// <summary>
     ///*
     /// A list of custom fees representing a fee schedule.
@@ -619,13 +620,13 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.CustomFee> CustomFees {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.CustomFee> CustomFees {
       get { return customFees_; }
     }
 
     /// <summary>Field number for the "pause_key" field.</summary>
     public const int PauseKeyFieldNumber = 22;
-    private global::Proto.Key pauseKey_;
+    private global::Hedera.Hashgraph.Proto.Key pauseKey_;
     /// <summary>
     ///*
     /// An Hedera key for managing token "pause".
@@ -639,7 +640,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key PauseKey {
+    public global::Hedera.Hashgraph.Proto.Key PauseKey {
       get { return pauseKey_; }
       set {
         pauseKey_ = value;
@@ -670,7 +671,7 @@ namespace Proto {
 
     /// <summary>Field number for the "metadata_key" field.</summary>
     public const int MetadataKeyFieldNumber = 24;
-    private global::Proto.Key metadataKey_;
+    private global::Hedera.Hashgraph.Proto.Key metadataKey_;
     /// <summary>
     ///*
     /// An Hedera key for managing the token `metadata`.
@@ -682,7 +683,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key MetadataKey {
+    public global::Hedera.Hashgraph.Proto.Key MetadataKey {
       get { return metadataKey_; }
       set {
         metadataKey_ = value;
@@ -749,8 +750,8 @@ namespace Proto {
       if (autoRenewAccount_ != null) hash ^= AutoRenewAccount.GetHashCode();
       if (autoRenewPeriod_ != null) hash ^= AutoRenewPeriod.GetHashCode();
       if (Memo.Length != 0) hash ^= Memo.GetHashCode();
-      if (TokenType != global::Proto.TokenType.FungibleCommon) hash ^= TokenType.GetHashCode();
-      if (SupplyType != global::Proto.TokenSupplyType.Infinite) hash ^= SupplyType.GetHashCode();
+      if (TokenType != global::Hedera.Hashgraph.Proto.TokenType.FungibleCommon) hash ^= TokenType.GetHashCode();
+      if (SupplyType != global::Hedera.Hashgraph.Proto.TokenSupplyType.Infinite) hash ^= SupplyType.GetHashCode();
       if (MaxSupply != 0L) hash ^= MaxSupply.GetHashCode();
       if (feeScheduleKey_ != null) hash ^= FeeScheduleKey.GetHashCode();
       hash ^= customFees_.GetHashCode();
@@ -835,11 +836,11 @@ namespace Proto {
         output.WriteRawTag(130, 1);
         output.WriteString(Memo);
       }
-      if (TokenType != global::Proto.TokenType.FungibleCommon) {
+      if (TokenType != global::Hedera.Hashgraph.Proto.TokenType.FungibleCommon) {
         output.WriteRawTag(136, 1);
         output.WriteEnum((int) TokenType);
       }
-      if (SupplyType != global::Proto.TokenSupplyType.Infinite) {
+      if (SupplyType != global::Hedera.Hashgraph.Proto.TokenSupplyType.Infinite) {
         output.WriteRawTag(144, 1);
         output.WriteEnum((int) SupplyType);
       }
@@ -934,11 +935,11 @@ namespace Proto {
         output.WriteRawTag(130, 1);
         output.WriteString(Memo);
       }
-      if (TokenType != global::Proto.TokenType.FungibleCommon) {
+      if (TokenType != global::Hedera.Hashgraph.Proto.TokenType.FungibleCommon) {
         output.WriteRawTag(136, 1);
         output.WriteEnum((int) TokenType);
       }
-      if (SupplyType != global::Proto.TokenSupplyType.Infinite) {
+      if (SupplyType != global::Hedera.Hashgraph.Proto.TokenSupplyType.Infinite) {
         output.WriteRawTag(144, 1);
         output.WriteEnum((int) SupplyType);
       }
@@ -1018,10 +1019,10 @@ namespace Proto {
       if (Memo.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeStringSize(Memo);
       }
-      if (TokenType != global::Proto.TokenType.FungibleCommon) {
+      if (TokenType != global::Hedera.Hashgraph.Proto.TokenType.FungibleCommon) {
         size += 2 + pb::CodedOutputStream.ComputeEnumSize((int) TokenType);
       }
-      if (SupplyType != global::Proto.TokenSupplyType.Infinite) {
+      if (SupplyType != global::Hedera.Hashgraph.Proto.TokenSupplyType.Infinite) {
         size += 2 + pb::CodedOutputStream.ComputeEnumSize((int) SupplyType);
       }
       if (MaxSupply != 0L) {
@@ -1066,37 +1067,37 @@ namespace Proto {
       }
       if (other.treasury_ != null) {
         if (treasury_ == null) {
-          Treasury = new global::Proto.AccountID();
+          Treasury = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Treasury.MergeFrom(other.Treasury);
       }
       if (other.adminKey_ != null) {
         if (adminKey_ == null) {
-          AdminKey = new global::Proto.Key();
+          AdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         AdminKey.MergeFrom(other.AdminKey);
       }
       if (other.kycKey_ != null) {
         if (kycKey_ == null) {
-          KycKey = new global::Proto.Key();
+          KycKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         KycKey.MergeFrom(other.KycKey);
       }
       if (other.freezeKey_ != null) {
         if (freezeKey_ == null) {
-          FreezeKey = new global::Proto.Key();
+          FreezeKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         FreezeKey.MergeFrom(other.FreezeKey);
       }
       if (other.wipeKey_ != null) {
         if (wipeKey_ == null) {
-          WipeKey = new global::Proto.Key();
+          WipeKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         WipeKey.MergeFrom(other.WipeKey);
       }
       if (other.supplyKey_ != null) {
         if (supplyKey_ == null) {
-          SupplyKey = new global::Proto.Key();
+          SupplyKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         SupplyKey.MergeFrom(other.SupplyKey);
       }
@@ -1105,29 +1106,29 @@ namespace Proto {
       }
       if (other.expiry_ != null) {
         if (expiry_ == null) {
-          Expiry = new global::Proto.Timestamp();
+          Expiry = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         Expiry.MergeFrom(other.Expiry);
       }
       if (other.autoRenewAccount_ != null) {
         if (autoRenewAccount_ == null) {
-          AutoRenewAccount = new global::Proto.AccountID();
+          AutoRenewAccount = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AutoRenewAccount.MergeFrom(other.AutoRenewAccount);
       }
       if (other.autoRenewPeriod_ != null) {
         if (autoRenewPeriod_ == null) {
-          AutoRenewPeriod = new global::Proto.Duration();
+          AutoRenewPeriod = new global::Hedera.Hashgraph.Proto.Duration();
         }
         AutoRenewPeriod.MergeFrom(other.AutoRenewPeriod);
       }
       if (other.Memo.Length != 0) {
         Memo = other.Memo;
       }
-      if (other.TokenType != global::Proto.TokenType.FungibleCommon) {
+      if (other.TokenType != global::Hedera.Hashgraph.Proto.TokenType.FungibleCommon) {
         TokenType = other.TokenType;
       }
-      if (other.SupplyType != global::Proto.TokenSupplyType.Infinite) {
+      if (other.SupplyType != global::Hedera.Hashgraph.Proto.TokenSupplyType.Infinite) {
         SupplyType = other.SupplyType;
       }
       if (other.MaxSupply != 0L) {
@@ -1135,14 +1136,14 @@ namespace Proto {
       }
       if (other.feeScheduleKey_ != null) {
         if (feeScheduleKey_ == null) {
-          FeeScheduleKey = new global::Proto.Key();
+          FeeScheduleKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         FeeScheduleKey.MergeFrom(other.FeeScheduleKey);
       }
       customFees_.Add(other.customFees_);
       if (other.pauseKey_ != null) {
         if (pauseKey_ == null) {
-          PauseKey = new global::Proto.Key();
+          PauseKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         PauseKey.MergeFrom(other.PauseKey);
       }
@@ -1151,7 +1152,7 @@ namespace Proto {
       }
       if (other.metadataKey_ != null) {
         if (metadataKey_ == null) {
-          MetadataKey = new global::Proto.Key();
+          MetadataKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         MetadataKey.MergeFrom(other.MetadataKey);
       }
@@ -1192,42 +1193,42 @@ namespace Proto {
           }
           case 42: {
             if (treasury_ == null) {
-              Treasury = new global::Proto.AccountID();
+              Treasury = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Treasury);
             break;
           }
           case 50: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 58: {
             if (kycKey_ == null) {
-              KycKey = new global::Proto.Key();
+              KycKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(KycKey);
             break;
           }
           case 66: {
             if (freezeKey_ == null) {
-              FreezeKey = new global::Proto.Key();
+              FreezeKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(FreezeKey);
             break;
           }
           case 74: {
             if (wipeKey_ == null) {
-              WipeKey = new global::Proto.Key();
+              WipeKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(WipeKey);
             break;
           }
           case 82: {
             if (supplyKey_ == null) {
-              SupplyKey = new global::Proto.Key();
+              SupplyKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(SupplyKey);
             break;
@@ -1238,21 +1239,21 @@ namespace Proto {
           }
           case 106: {
             if (expiry_ == null) {
-              Expiry = new global::Proto.Timestamp();
+              Expiry = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(Expiry);
             break;
           }
           case 114: {
             if (autoRenewAccount_ == null) {
-              AutoRenewAccount = new global::Proto.AccountID();
+              AutoRenewAccount = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AutoRenewAccount);
             break;
           }
           case 122: {
             if (autoRenewPeriod_ == null) {
-              AutoRenewPeriod = new global::Proto.Duration();
+              AutoRenewPeriod = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(AutoRenewPeriod);
             break;
@@ -1262,11 +1263,11 @@ namespace Proto {
             break;
           }
           case 136: {
-            TokenType = (global::Proto.TokenType) input.ReadEnum();
+            TokenType = (global::Hedera.Hashgraph.Proto.TokenType) input.ReadEnum();
             break;
           }
           case 144: {
-            SupplyType = (global::Proto.TokenSupplyType) input.ReadEnum();
+            SupplyType = (global::Hedera.Hashgraph.Proto.TokenSupplyType) input.ReadEnum();
             break;
           }
           case 152: {
@@ -1275,7 +1276,7 @@ namespace Proto {
           }
           case 162: {
             if (feeScheduleKey_ == null) {
-              FeeScheduleKey = new global::Proto.Key();
+              FeeScheduleKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(FeeScheduleKey);
             break;
@@ -1286,7 +1287,7 @@ namespace Proto {
           }
           case 178: {
             if (pauseKey_ == null) {
-              PauseKey = new global::Proto.Key();
+              PauseKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(PauseKey);
             break;
@@ -1297,7 +1298,7 @@ namespace Proto {
           }
           case 194: {
             if (metadataKey_ == null) {
-              MetadataKey = new global::Proto.Key();
+              MetadataKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(MetadataKey);
             break;
@@ -1339,42 +1340,42 @@ namespace Proto {
           }
           case 42: {
             if (treasury_ == null) {
-              Treasury = new global::Proto.AccountID();
+              Treasury = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Treasury);
             break;
           }
           case 50: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 58: {
             if (kycKey_ == null) {
-              KycKey = new global::Proto.Key();
+              KycKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(KycKey);
             break;
           }
           case 66: {
             if (freezeKey_ == null) {
-              FreezeKey = new global::Proto.Key();
+              FreezeKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(FreezeKey);
             break;
           }
           case 74: {
             if (wipeKey_ == null) {
-              WipeKey = new global::Proto.Key();
+              WipeKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(WipeKey);
             break;
           }
           case 82: {
             if (supplyKey_ == null) {
-              SupplyKey = new global::Proto.Key();
+              SupplyKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(SupplyKey);
             break;
@@ -1385,21 +1386,21 @@ namespace Proto {
           }
           case 106: {
             if (expiry_ == null) {
-              Expiry = new global::Proto.Timestamp();
+              Expiry = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(Expiry);
             break;
           }
           case 114: {
             if (autoRenewAccount_ == null) {
-              AutoRenewAccount = new global::Proto.AccountID();
+              AutoRenewAccount = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AutoRenewAccount);
             break;
           }
           case 122: {
             if (autoRenewPeriod_ == null) {
-              AutoRenewPeriod = new global::Proto.Duration();
+              AutoRenewPeriod = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(AutoRenewPeriod);
             break;
@@ -1409,11 +1410,11 @@ namespace Proto {
             break;
           }
           case 136: {
-            TokenType = (global::Proto.TokenType) input.ReadEnum();
+            TokenType = (global::Hedera.Hashgraph.Proto.TokenType) input.ReadEnum();
             break;
           }
           case 144: {
-            SupplyType = (global::Proto.TokenSupplyType) input.ReadEnum();
+            SupplyType = (global::Hedera.Hashgraph.Proto.TokenSupplyType) input.ReadEnum();
             break;
           }
           case 152: {
@@ -1422,7 +1423,7 @@ namespace Proto {
           }
           case 162: {
             if (feeScheduleKey_ == null) {
-              FeeScheduleKey = new global::Proto.Key();
+              FeeScheduleKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(FeeScheduleKey);
             break;
@@ -1433,7 +1434,7 @@ namespace Proto {
           }
           case 178: {
             if (pauseKey_ == null) {
-              PauseKey = new global::Proto.Key();
+              PauseKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(PauseKey);
             break;
@@ -1444,7 +1445,7 @@ namespace Proto {
           }
           case 194: {
             if (metadataKey_ == null) {
-              MetadataKey = new global::Proto.Key();
+              MetadataKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(MetadataKey);
             break;

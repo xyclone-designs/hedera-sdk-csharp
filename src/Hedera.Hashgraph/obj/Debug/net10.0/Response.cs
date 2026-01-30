@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from response.proto</summary>
   public static partial class ResponseReflection {
@@ -76,12 +76,13 @@ namespace Proto {
             "bkdldE5mdEluZm9zUmVzcG9uc2VIABJKChduZXR3b3JrR2V0RXhlY3V0aW9u",
             "VGltZRidASABKAsyJi5wcm90by5OZXR3b3JrR2V0RXhlY3V0aW9uVGltZVJl",
             "c3BvbnNlSAASOwoOYWNjb3VudERldGFpbHMYngEgASgLMiAucHJvdG8uR2V0",
-            "QWNjb3VudERldGFpbHNSZXNwb25zZUgAQgoKCHJlc3BvbnNlQiIKHmNvbS5o",
-            "ZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "QWNjb3VudERldGFpbHNSZXNwb25zZUgAQgoKCHJlc3BvbnNlQjkKHmNvbS5o",
+            "ZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGgu",
+            "UHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.GetByKeyReflection.Descriptor, global::Proto.GetBySolidityIdReflection.Descriptor, global::Proto.ContractCallLocalReflection.Descriptor, global::Proto.ContractGetBytecodeReflection.Descriptor, global::Proto.ContractGetInfoReflection.Descriptor, global::Proto.ContractGetRecordsReflection.Descriptor, global::Proto.CryptoGetAccountBalanceReflection.Descriptor, global::Proto.CryptoGetAccountRecordsReflection.Descriptor, global::Proto.CryptoGetInfoReflection.Descriptor, global::Proto.CryptoGetLiveHashReflection.Descriptor, global::Proto.CryptoGetStakersReflection.Descriptor, global::Proto.FileGetContentsReflection.Descriptor, global::Proto.FileGetInfoReflection.Descriptor, global::Proto.TransactionGetReceiptReflection.Descriptor, global::Proto.TransactionGetRecordReflection.Descriptor, global::Proto.TransactionGetFastRecordReflection.Descriptor, global::Proto.ConsensusGetTopicInfoReflection.Descriptor, global::Proto.NetworkGetVersionInfoReflection.Descriptor, global::Proto.NetworkGetExecutionTimeReflection.Descriptor, global::Proto.TokenGetAccountNftInfosReflection.Descriptor, global::Proto.TokenGetInfoReflection.Descriptor, global::Proto.TokenGetNftInfoReflection.Descriptor, global::Proto.TokenGetNftInfosReflection.Descriptor, global::Proto.ScheduleGetInfoReflection.Descriptor, global::Proto.GetAccountDetailsReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.GetByKeyReflection.Descriptor, global::Hedera.Hashgraph.Proto.GetBySolidityIdReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractCallLocalReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractGetBytecodeReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractGetInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.ContractGetRecordsReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoGetInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoGetLiveHashReflection.Descriptor, global::Hedera.Hashgraph.Proto.CryptoGetStakersReflection.Descriptor, global::Hedera.Hashgraph.Proto.FileGetContentsReflection.Descriptor, global::Hedera.Hashgraph.Proto.FileGetInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.TransactionGetReceiptReflection.Descriptor, global::Hedera.Hashgraph.Proto.TransactionGetRecordReflection.Descriptor, global::Hedera.Hashgraph.Proto.TransactionGetFastRecordReflection.Descriptor, global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenGetInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenGetNftInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.TokenGetNftInfosReflection.Descriptor, global::Hedera.Hashgraph.Proto.ScheduleGetInfoReflection.Descriptor, global::Hedera.Hashgraph.Proto.GetAccountDetailsReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Response), global::Proto.Response.Parser, new[]{ "GetByKey", "GetBySolidityID", "ContractCallLocal", "ContractGetBytecodeResponse", "ContractGetInfo", "ContractGetRecordsResponse", "CryptogetAccountBalance", "CryptoGetAccountRecords", "CryptoGetInfo", "CryptoGetLiveHash", "CryptoGetProxyStakers", "FileGetContents", "FileGetInfo", "TransactionGetReceipt", "TransactionGetRecord", "TransactionGetFastRecord", "ConsensusGetTopicInfo", "NetworkGetVersionInfo", "TokenGetInfo", "ScheduleGetInfo", "TokenGetAccountNftInfos", "TokenGetNftInfo", "TokenGetNftInfos", "NetworkGetExecutionTime", "AccountDetails" }, new[]{ "Response" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Response), global::Hedera.Hashgraph.Proto.Response.Parser, new[]{ "GetByKey", "GetBySolidityID", "ContractCallLocal", "ContractGetBytecodeResponse", "ContractGetInfo", "ContractGetRecordsResponse", "CryptogetAccountBalance", "CryptoGetAccountRecords", "CryptoGetInfo", "CryptoGetLiveHash", "CryptoGetProxyStakers", "FileGetContents", "FileGetInfo", "TransactionGetReceipt", "TransactionGetRecord", "TransactionGetFastRecord", "ConsensusGetTopicInfo", "NetworkGetVersionInfo", "TokenGetInfo", "ScheduleGetInfo", "TokenGetAccountNftInfos", "TokenGetNftInfo", "TokenGetNftInfos", "NetworkGetExecutionTime", "AccountDetails" }, new[]{ "Response" }, null, null, null)
           }));
     }
     #endregion
@@ -112,7 +113,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ResponseReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ResponseReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -231,8 +232,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.GetByKeyResponse GetByKey {
-      get { return responseCase_ == ResponseOneofCase.GetByKey ? (global::Proto.GetByKeyResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.GetByKeyResponse GetByKey {
+      get { return responseCase_ == ResponseOneofCase.GetByKey ? (global::Hedera.Hashgraph.Proto.GetByKeyResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.GetByKey;
@@ -249,8 +250,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.GetBySolidityIDResponse GetBySolidityID {
-      get { return responseCase_ == ResponseOneofCase.GetBySolidityID ? (global::Proto.GetBySolidityIDResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.GetBySolidityIDResponse GetBySolidityID {
+      get { return responseCase_ == ResponseOneofCase.GetBySolidityID ? (global::Hedera.Hashgraph.Proto.GetBySolidityIDResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.GetBySolidityID;
@@ -269,8 +270,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractCallLocalResponse ContractCallLocal {
-      get { return responseCase_ == ResponseOneofCase.ContractCallLocal ? (global::Proto.ContractCallLocalResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractCallLocalResponse ContractCallLocal {
+      get { return responseCase_ == ResponseOneofCase.ContractCallLocal ? (global::Hedera.Hashgraph.Proto.ContractCallLocalResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.ContractCallLocal;
@@ -286,8 +287,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractGetBytecodeResponse ContractGetBytecodeResponse {
-      get { return responseCase_ == ResponseOneofCase.ContractGetBytecodeResponse ? (global::Proto.ContractGetBytecodeResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse ContractGetBytecodeResponse {
+      get { return responseCase_ == ResponseOneofCase.ContractGetBytecodeResponse ? (global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.ContractGetBytecodeResponse;
@@ -303,8 +304,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractGetInfoResponse ContractGetInfo {
-      get { return responseCase_ == ResponseOneofCase.ContractGetInfo ? (global::Proto.ContractGetInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractGetInfoResponse ContractGetInfo {
+      get { return responseCase_ == ResponseOneofCase.ContractGetInfo ? (global::Hedera.Hashgraph.Proto.ContractGetInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.ContractGetInfo;
@@ -323,8 +324,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractGetRecordsResponse ContractGetRecordsResponse {
-      get { return responseCase_ == ResponseOneofCase.ContractGetRecordsResponse ? (global::Proto.ContractGetRecordsResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractGetRecordsResponse ContractGetRecordsResponse {
+      get { return responseCase_ == ResponseOneofCase.ContractGetRecordsResponse ? (global::Hedera.Hashgraph.Proto.ContractGetRecordsResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.ContractGetRecordsResponse;
@@ -340,8 +341,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoGetAccountBalanceResponse CryptogetAccountBalance {
-      get { return responseCase_ == ResponseOneofCase.CryptogetAccountBalance ? (global::Proto.CryptoGetAccountBalanceResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse CryptogetAccountBalance {
+      get { return responseCase_ == ResponseOneofCase.CryptogetAccountBalance ? (global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.CryptogetAccountBalance;
@@ -357,8 +358,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoGetAccountRecordsResponse CryptoGetAccountRecords {
-      get { return responseCase_ == ResponseOneofCase.CryptoGetAccountRecords ? (global::Proto.CryptoGetAccountRecordsResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsResponse CryptoGetAccountRecords {
+      get { return responseCase_ == ResponseOneofCase.CryptoGetAccountRecords ? (global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.CryptoGetAccountRecords;
@@ -375,8 +376,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoGetInfoResponse CryptoGetInfo {
-      get { return responseCase_ == ResponseOneofCase.CryptoGetInfo ? (global::Proto.CryptoGetInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoGetInfoResponse CryptoGetInfo {
+      get { return responseCase_ == ResponseOneofCase.CryptoGetInfo ? (global::Hedera.Hashgraph.Proto.CryptoGetInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.CryptoGetInfo;
@@ -394,8 +395,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoGetLiveHashResponse CryptoGetLiveHash {
-      get { return responseCase_ == ResponseOneofCase.CryptoGetLiveHash ? (global::Proto.CryptoGetLiveHashResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoGetLiveHashResponse CryptoGetLiveHash {
+      get { return responseCase_ == ResponseOneofCase.CryptoGetLiveHash ? (global::Hedera.Hashgraph.Proto.CryptoGetLiveHashResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.CryptoGetLiveHash;
@@ -414,8 +415,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.CryptoGetStakersResponse CryptoGetProxyStakers {
-      get { return responseCase_ == ResponseOneofCase.CryptoGetProxyStakers ? (global::Proto.CryptoGetStakersResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse CryptoGetProxyStakers {
+      get { return responseCase_ == ResponseOneofCase.CryptoGetProxyStakers ? (global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.CryptoGetProxyStakers;
@@ -431,8 +432,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileGetContentsResponse FileGetContents {
-      get { return responseCase_ == ResponseOneofCase.FileGetContents ? (global::Proto.FileGetContentsResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileGetContentsResponse FileGetContents {
+      get { return responseCase_ == ResponseOneofCase.FileGetContents ? (global::Hedera.Hashgraph.Proto.FileGetContentsResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.FileGetContents;
@@ -448,8 +449,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.FileGetInfoResponse FileGetInfo {
-      get { return responseCase_ == ResponseOneofCase.FileGetInfo ? (global::Proto.FileGetInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.FileGetInfoResponse FileGetInfo {
+      get { return responseCase_ == ResponseOneofCase.FileGetInfo ? (global::Hedera.Hashgraph.Proto.FileGetInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.FileGetInfo;
@@ -465,8 +466,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionGetReceiptResponse TransactionGetReceipt {
-      get { return responseCase_ == ResponseOneofCase.TransactionGetReceipt ? (global::Proto.TransactionGetReceiptResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.TransactionGetReceiptResponse TransactionGetReceipt {
+      get { return responseCase_ == ResponseOneofCase.TransactionGetReceipt ? (global::Hedera.Hashgraph.Proto.TransactionGetReceiptResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.TransactionGetReceipt;
@@ -482,8 +483,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionGetRecordResponse TransactionGetRecord {
-      get { return responseCase_ == ResponseOneofCase.TransactionGetRecord ? (global::Proto.TransactionGetRecordResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse TransactionGetRecord {
+      get { return responseCase_ == ResponseOneofCase.TransactionGetRecord ? (global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.TransactionGetRecord;
@@ -501,8 +502,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TransactionGetFastRecordResponse TransactionGetFastRecord {
-      get { return responseCase_ == ResponseOneofCase.TransactionGetFastRecord ? (global::Proto.TransactionGetFastRecordResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.TransactionGetFastRecordResponse TransactionGetFastRecord {
+      get { return responseCase_ == ResponseOneofCase.TransactionGetFastRecord ? (global::Hedera.Hashgraph.Proto.TransactionGetFastRecordResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.TransactionGetFastRecord;
@@ -518,8 +519,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ConsensusGetTopicInfoResponse ConsensusGetTopicInfo {
-      get { return responseCase_ == ResponseOneofCase.ConsensusGetTopicInfo ? (global::Proto.ConsensusGetTopicInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse ConsensusGetTopicInfo {
+      get { return responseCase_ == ResponseOneofCase.ConsensusGetTopicInfo ? (global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.ConsensusGetTopicInfo;
@@ -535,8 +536,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NetworkGetVersionInfoResponse NetworkGetVersionInfo {
-      get { return responseCase_ == ResponseOneofCase.NetworkGetVersionInfo ? (global::Proto.NetworkGetVersionInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse NetworkGetVersionInfo {
+      get { return responseCase_ == ResponseOneofCase.NetworkGetVersionInfo ? (global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.NetworkGetVersionInfo;
@@ -551,8 +552,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenGetInfoResponse TokenGetInfo {
-      get { return responseCase_ == ResponseOneofCase.TokenGetInfo ? (global::Proto.TokenGetInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenGetInfoResponse TokenGetInfo {
+      get { return responseCase_ == ResponseOneofCase.TokenGetInfo ? (global::Hedera.Hashgraph.Proto.TokenGetInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.TokenGetInfo;
@@ -567,8 +568,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ScheduleGetInfoResponse ScheduleGetInfo {
-      get { return responseCase_ == ResponseOneofCase.ScheduleGetInfo ? (global::Proto.ScheduleGetInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.ScheduleGetInfoResponse ScheduleGetInfo {
+      get { return responseCase_ == ResponseOneofCase.ScheduleGetInfo ? (global::Hedera.Hashgraph.Proto.ScheduleGetInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.ScheduleGetInfo;
@@ -586,8 +587,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenGetAccountNftInfosResponse TokenGetAccountNftInfos {
-      get { return responseCase_ == ResponseOneofCase.TokenGetAccountNftInfos ? (global::Proto.TokenGetAccountNftInfosResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse TokenGetAccountNftInfos {
+      get { return responseCase_ == ResponseOneofCase.TokenGetAccountNftInfos ? (global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.TokenGetAccountNftInfos;
@@ -604,8 +605,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenGetNftInfoResponse TokenGetNftInfo {
-      get { return responseCase_ == ResponseOneofCase.TokenGetNftInfo ? (global::Proto.TokenGetNftInfoResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenGetNftInfoResponse TokenGetNftInfo {
+      get { return responseCase_ == ResponseOneofCase.TokenGetNftInfo ? (global::Hedera.Hashgraph.Proto.TokenGetNftInfoResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.TokenGetNftInfo;
@@ -623,8 +624,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenGetNftInfosResponse TokenGetNftInfos {
-      get { return responseCase_ == ResponseOneofCase.TokenGetNftInfos ? (global::Proto.TokenGetNftInfosResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.TokenGetNftInfosResponse TokenGetNftInfos {
+      get { return responseCase_ == ResponseOneofCase.TokenGetNftInfos ? (global::Hedera.Hashgraph.Proto.TokenGetNftInfosResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.TokenGetNftInfos;
@@ -643,8 +644,8 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NetworkGetExecutionTimeResponse NetworkGetExecutionTime {
-      get { return responseCase_ == ResponseOneofCase.NetworkGetExecutionTime ? (global::Proto.NetworkGetExecutionTimeResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse NetworkGetExecutionTime {
+      get { return responseCase_ == ResponseOneofCase.NetworkGetExecutionTime ? (global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.NetworkGetExecutionTime;
@@ -663,8 +664,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.GetAccountDetailsResponse AccountDetails {
-      get { return responseCase_ == ResponseOneofCase.AccountDetails ? (global::Proto.GetAccountDetailsResponse) response_ : null; }
+    public global::Hedera.Hashgraph.Proto.GetAccountDetailsResponse AccountDetails {
+      get { return responseCase_ == ResponseOneofCase.AccountDetails ? (global::Hedera.Hashgraph.Proto.GetAccountDetailsResponse) response_ : null; }
       set {
         response_ = value;
         responseCase_ = value == null ? ResponseOneofCase.None : ResponseOneofCase.AccountDetails;
@@ -1117,151 +1118,151 @@ namespace Proto {
       switch (other.ResponseCase) {
         case ResponseOneofCase.GetByKey:
           if (GetByKey == null) {
-            GetByKey = new global::Proto.GetByKeyResponse();
+            GetByKey = new global::Hedera.Hashgraph.Proto.GetByKeyResponse();
           }
           GetByKey.MergeFrom(other.GetByKey);
           break;
         case ResponseOneofCase.GetBySolidityID:
           if (GetBySolidityID == null) {
-            GetBySolidityID = new global::Proto.GetBySolidityIDResponse();
+            GetBySolidityID = new global::Hedera.Hashgraph.Proto.GetBySolidityIDResponse();
           }
           GetBySolidityID.MergeFrom(other.GetBySolidityID);
           break;
         case ResponseOneofCase.ContractCallLocal:
           if (ContractCallLocal == null) {
-            ContractCallLocal = new global::Proto.ContractCallLocalResponse();
+            ContractCallLocal = new global::Hedera.Hashgraph.Proto.ContractCallLocalResponse();
           }
           ContractCallLocal.MergeFrom(other.ContractCallLocal);
           break;
         case ResponseOneofCase.ContractGetBytecodeResponse:
           if (ContractGetBytecodeResponse == null) {
-            ContractGetBytecodeResponse = new global::Proto.ContractGetBytecodeResponse();
+            ContractGetBytecodeResponse = new global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse();
           }
           ContractGetBytecodeResponse.MergeFrom(other.ContractGetBytecodeResponse);
           break;
         case ResponseOneofCase.ContractGetInfo:
           if (ContractGetInfo == null) {
-            ContractGetInfo = new global::Proto.ContractGetInfoResponse();
+            ContractGetInfo = new global::Hedera.Hashgraph.Proto.ContractGetInfoResponse();
           }
           ContractGetInfo.MergeFrom(other.ContractGetInfo);
           break;
         case ResponseOneofCase.ContractGetRecordsResponse:
           if (ContractGetRecordsResponse == null) {
-            ContractGetRecordsResponse = new global::Proto.ContractGetRecordsResponse();
+            ContractGetRecordsResponse = new global::Hedera.Hashgraph.Proto.ContractGetRecordsResponse();
           }
           ContractGetRecordsResponse.MergeFrom(other.ContractGetRecordsResponse);
           break;
         case ResponseOneofCase.CryptogetAccountBalance:
           if (CryptogetAccountBalance == null) {
-            CryptogetAccountBalance = new global::Proto.CryptoGetAccountBalanceResponse();
+            CryptogetAccountBalance = new global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse();
           }
           CryptogetAccountBalance.MergeFrom(other.CryptogetAccountBalance);
           break;
         case ResponseOneofCase.CryptoGetAccountRecords:
           if (CryptoGetAccountRecords == null) {
-            CryptoGetAccountRecords = new global::Proto.CryptoGetAccountRecordsResponse();
+            CryptoGetAccountRecords = new global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsResponse();
           }
           CryptoGetAccountRecords.MergeFrom(other.CryptoGetAccountRecords);
           break;
         case ResponseOneofCase.CryptoGetInfo:
           if (CryptoGetInfo == null) {
-            CryptoGetInfo = new global::Proto.CryptoGetInfoResponse();
+            CryptoGetInfo = new global::Hedera.Hashgraph.Proto.CryptoGetInfoResponse();
           }
           CryptoGetInfo.MergeFrom(other.CryptoGetInfo);
           break;
         case ResponseOneofCase.CryptoGetLiveHash:
           if (CryptoGetLiveHash == null) {
-            CryptoGetLiveHash = new global::Proto.CryptoGetLiveHashResponse();
+            CryptoGetLiveHash = new global::Hedera.Hashgraph.Proto.CryptoGetLiveHashResponse();
           }
           CryptoGetLiveHash.MergeFrom(other.CryptoGetLiveHash);
           break;
         case ResponseOneofCase.CryptoGetProxyStakers:
           if (CryptoGetProxyStakers == null) {
-            CryptoGetProxyStakers = new global::Proto.CryptoGetStakersResponse();
+            CryptoGetProxyStakers = new global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse();
           }
           CryptoGetProxyStakers.MergeFrom(other.CryptoGetProxyStakers);
           break;
         case ResponseOneofCase.FileGetContents:
           if (FileGetContents == null) {
-            FileGetContents = new global::Proto.FileGetContentsResponse();
+            FileGetContents = new global::Hedera.Hashgraph.Proto.FileGetContentsResponse();
           }
           FileGetContents.MergeFrom(other.FileGetContents);
           break;
         case ResponseOneofCase.FileGetInfo:
           if (FileGetInfo == null) {
-            FileGetInfo = new global::Proto.FileGetInfoResponse();
+            FileGetInfo = new global::Hedera.Hashgraph.Proto.FileGetInfoResponse();
           }
           FileGetInfo.MergeFrom(other.FileGetInfo);
           break;
         case ResponseOneofCase.TransactionGetReceipt:
           if (TransactionGetReceipt == null) {
-            TransactionGetReceipt = new global::Proto.TransactionGetReceiptResponse();
+            TransactionGetReceipt = new global::Hedera.Hashgraph.Proto.TransactionGetReceiptResponse();
           }
           TransactionGetReceipt.MergeFrom(other.TransactionGetReceipt);
           break;
         case ResponseOneofCase.TransactionGetRecord:
           if (TransactionGetRecord == null) {
-            TransactionGetRecord = new global::Proto.TransactionGetRecordResponse();
+            TransactionGetRecord = new global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse();
           }
           TransactionGetRecord.MergeFrom(other.TransactionGetRecord);
           break;
         case ResponseOneofCase.TransactionGetFastRecord:
           if (TransactionGetFastRecord == null) {
-            TransactionGetFastRecord = new global::Proto.TransactionGetFastRecordResponse();
+            TransactionGetFastRecord = new global::Hedera.Hashgraph.Proto.TransactionGetFastRecordResponse();
           }
           TransactionGetFastRecord.MergeFrom(other.TransactionGetFastRecord);
           break;
         case ResponseOneofCase.ConsensusGetTopicInfo:
           if (ConsensusGetTopicInfo == null) {
-            ConsensusGetTopicInfo = new global::Proto.ConsensusGetTopicInfoResponse();
+            ConsensusGetTopicInfo = new global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse();
           }
           ConsensusGetTopicInfo.MergeFrom(other.ConsensusGetTopicInfo);
           break;
         case ResponseOneofCase.NetworkGetVersionInfo:
           if (NetworkGetVersionInfo == null) {
-            NetworkGetVersionInfo = new global::Proto.NetworkGetVersionInfoResponse();
+            NetworkGetVersionInfo = new global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse();
           }
           NetworkGetVersionInfo.MergeFrom(other.NetworkGetVersionInfo);
           break;
         case ResponseOneofCase.TokenGetInfo:
           if (TokenGetInfo == null) {
-            TokenGetInfo = new global::Proto.TokenGetInfoResponse();
+            TokenGetInfo = new global::Hedera.Hashgraph.Proto.TokenGetInfoResponse();
           }
           TokenGetInfo.MergeFrom(other.TokenGetInfo);
           break;
         case ResponseOneofCase.ScheduleGetInfo:
           if (ScheduleGetInfo == null) {
-            ScheduleGetInfo = new global::Proto.ScheduleGetInfoResponse();
+            ScheduleGetInfo = new global::Hedera.Hashgraph.Proto.ScheduleGetInfoResponse();
           }
           ScheduleGetInfo.MergeFrom(other.ScheduleGetInfo);
           break;
         case ResponseOneofCase.TokenGetAccountNftInfos:
           if (TokenGetAccountNftInfos == null) {
-            TokenGetAccountNftInfos = new global::Proto.TokenGetAccountNftInfosResponse();
+            TokenGetAccountNftInfos = new global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse();
           }
           TokenGetAccountNftInfos.MergeFrom(other.TokenGetAccountNftInfos);
           break;
         case ResponseOneofCase.TokenGetNftInfo:
           if (TokenGetNftInfo == null) {
-            TokenGetNftInfo = new global::Proto.TokenGetNftInfoResponse();
+            TokenGetNftInfo = new global::Hedera.Hashgraph.Proto.TokenGetNftInfoResponse();
           }
           TokenGetNftInfo.MergeFrom(other.TokenGetNftInfo);
           break;
         case ResponseOneofCase.TokenGetNftInfos:
           if (TokenGetNftInfos == null) {
-            TokenGetNftInfos = new global::Proto.TokenGetNftInfosResponse();
+            TokenGetNftInfos = new global::Hedera.Hashgraph.Proto.TokenGetNftInfosResponse();
           }
           TokenGetNftInfos.MergeFrom(other.TokenGetNftInfos);
           break;
         case ResponseOneofCase.NetworkGetExecutionTime:
           if (NetworkGetExecutionTime == null) {
-            NetworkGetExecutionTime = new global::Proto.NetworkGetExecutionTimeResponse();
+            NetworkGetExecutionTime = new global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse();
           }
           NetworkGetExecutionTime.MergeFrom(other.NetworkGetExecutionTime);
           break;
         case ResponseOneofCase.AccountDetails:
           if (AccountDetails == null) {
-            AccountDetails = new global::Proto.GetAccountDetailsResponse();
+            AccountDetails = new global::Hedera.Hashgraph.Proto.GetAccountDetailsResponse();
           }
           AccountDetails.MergeFrom(other.AccountDetails);
           break;
@@ -1287,7 +1288,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.GetByKeyResponse subBuilder = new global::Proto.GetByKeyResponse();
+            global::Hedera.Hashgraph.Proto.GetByKeyResponse subBuilder = new global::Hedera.Hashgraph.Proto.GetByKeyResponse();
             if (responseCase_ == ResponseOneofCase.GetByKey) {
               subBuilder.MergeFrom(GetByKey);
             }
@@ -1296,7 +1297,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.GetBySolidityIDResponse subBuilder = new global::Proto.GetBySolidityIDResponse();
+            global::Hedera.Hashgraph.Proto.GetBySolidityIDResponse subBuilder = new global::Hedera.Hashgraph.Proto.GetBySolidityIDResponse();
             if (responseCase_ == ResponseOneofCase.GetBySolidityID) {
               subBuilder.MergeFrom(GetBySolidityID);
             }
@@ -1305,7 +1306,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.ContractCallLocalResponse subBuilder = new global::Proto.ContractCallLocalResponse();
+            global::Hedera.Hashgraph.Proto.ContractCallLocalResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractCallLocalResponse();
             if (responseCase_ == ResponseOneofCase.ContractCallLocal) {
               subBuilder.MergeFrom(ContractCallLocal);
             }
@@ -1314,7 +1315,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.ContractGetInfoResponse subBuilder = new global::Proto.ContractGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.ContractGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.ContractGetInfo) {
               subBuilder.MergeFrom(ContractGetInfo);
             }
@@ -1323,7 +1324,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.ContractGetBytecodeResponse subBuilder = new global::Proto.ContractGetBytecodeResponse();
+            global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse();
             if (responseCase_ == ResponseOneofCase.ContractGetBytecodeResponse) {
               subBuilder.MergeFrom(ContractGetBytecodeResponse);
             }
@@ -1332,7 +1333,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.ContractGetRecordsResponse subBuilder = new global::Proto.ContractGetRecordsResponse();
+            global::Hedera.Hashgraph.Proto.ContractGetRecordsResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractGetRecordsResponse();
             if (responseCase_ == ResponseOneofCase.ContractGetRecordsResponse) {
               subBuilder.MergeFrom(ContractGetRecordsResponse);
             }
@@ -1341,7 +1342,7 @@ namespace Proto {
             break;
           }
           case 58: {
-            global::Proto.CryptoGetAccountBalanceResponse subBuilder = new global::Proto.CryptoGetAccountBalanceResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse();
             if (responseCase_ == ResponseOneofCase.CryptogetAccountBalance) {
               subBuilder.MergeFrom(CryptogetAccountBalance);
             }
@@ -1350,7 +1351,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.CryptoGetAccountRecordsResponse subBuilder = new global::Proto.CryptoGetAccountRecordsResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetAccountRecords) {
               subBuilder.MergeFrom(CryptoGetAccountRecords);
             }
@@ -1359,7 +1360,7 @@ namespace Proto {
             break;
           }
           case 74: {
-            global::Proto.CryptoGetInfoResponse subBuilder = new global::Proto.CryptoGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetInfo) {
               subBuilder.MergeFrom(CryptoGetInfo);
             }
@@ -1368,7 +1369,7 @@ namespace Proto {
             break;
           }
           case 82: {
-            global::Proto.CryptoGetLiveHashResponse subBuilder = new global::Proto.CryptoGetLiveHashResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetLiveHashResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetLiveHashResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetLiveHash) {
               subBuilder.MergeFrom(CryptoGetLiveHash);
             }
@@ -1377,7 +1378,7 @@ namespace Proto {
             break;
           }
           case 90: {
-            global::Proto.CryptoGetStakersResponse subBuilder = new global::Proto.CryptoGetStakersResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetProxyStakers) {
               subBuilder.MergeFrom(CryptoGetProxyStakers);
             }
@@ -1386,7 +1387,7 @@ namespace Proto {
             break;
           }
           case 98: {
-            global::Proto.FileGetContentsResponse subBuilder = new global::Proto.FileGetContentsResponse();
+            global::Hedera.Hashgraph.Proto.FileGetContentsResponse subBuilder = new global::Hedera.Hashgraph.Proto.FileGetContentsResponse();
             if (responseCase_ == ResponseOneofCase.FileGetContents) {
               subBuilder.MergeFrom(FileGetContents);
             }
@@ -1395,7 +1396,7 @@ namespace Proto {
             break;
           }
           case 106: {
-            global::Proto.FileGetInfoResponse subBuilder = new global::Proto.FileGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.FileGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.FileGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.FileGetInfo) {
               subBuilder.MergeFrom(FileGetInfo);
             }
@@ -1404,7 +1405,7 @@ namespace Proto {
             break;
           }
           case 114: {
-            global::Proto.TransactionGetReceiptResponse subBuilder = new global::Proto.TransactionGetReceiptResponse();
+            global::Hedera.Hashgraph.Proto.TransactionGetReceiptResponse subBuilder = new global::Hedera.Hashgraph.Proto.TransactionGetReceiptResponse();
             if (responseCase_ == ResponseOneofCase.TransactionGetReceipt) {
               subBuilder.MergeFrom(TransactionGetReceipt);
             }
@@ -1413,7 +1414,7 @@ namespace Proto {
             break;
           }
           case 122: {
-            global::Proto.TransactionGetRecordResponse subBuilder = new global::Proto.TransactionGetRecordResponse();
+            global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse subBuilder = new global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse();
             if (responseCase_ == ResponseOneofCase.TransactionGetRecord) {
               subBuilder.MergeFrom(TransactionGetRecord);
             }
@@ -1422,7 +1423,7 @@ namespace Proto {
             break;
           }
           case 130: {
-            global::Proto.TransactionGetFastRecordResponse subBuilder = new global::Proto.TransactionGetFastRecordResponse();
+            global::Hedera.Hashgraph.Proto.TransactionGetFastRecordResponse subBuilder = new global::Hedera.Hashgraph.Proto.TransactionGetFastRecordResponse();
             if (responseCase_ == ResponseOneofCase.TransactionGetFastRecord) {
               subBuilder.MergeFrom(TransactionGetFastRecord);
             }
@@ -1431,7 +1432,7 @@ namespace Proto {
             break;
           }
           case 1202: {
-            global::Proto.ConsensusGetTopicInfoResponse subBuilder = new global::Proto.ConsensusGetTopicInfoResponse();
+            global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse();
             if (responseCase_ == ResponseOneofCase.ConsensusGetTopicInfo) {
               subBuilder.MergeFrom(ConsensusGetTopicInfo);
             }
@@ -1440,7 +1441,7 @@ namespace Proto {
             break;
           }
           case 1210: {
-            global::Proto.NetworkGetVersionInfoResponse subBuilder = new global::Proto.NetworkGetVersionInfoResponse();
+            global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse();
             if (responseCase_ == ResponseOneofCase.NetworkGetVersionInfo) {
               subBuilder.MergeFrom(NetworkGetVersionInfo);
             }
@@ -1449,7 +1450,7 @@ namespace Proto {
             break;
           }
           case 1218: {
-            global::Proto.TokenGetInfoResponse subBuilder = new global::Proto.TokenGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetInfo) {
               subBuilder.MergeFrom(TokenGetInfo);
             }
@@ -1458,7 +1459,7 @@ namespace Proto {
             break;
           }
           case 1226: {
-            global::Proto.ScheduleGetInfoResponse subBuilder = new global::Proto.ScheduleGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.ScheduleGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.ScheduleGetInfo) {
               subBuilder.MergeFrom(ScheduleGetInfo);
             }
@@ -1467,7 +1468,7 @@ namespace Proto {
             break;
           }
           case 1234: {
-            global::Proto.TokenGetAccountNftInfosResponse subBuilder = new global::Proto.TokenGetAccountNftInfosResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetAccountNftInfos) {
               subBuilder.MergeFrom(TokenGetAccountNftInfos);
             }
@@ -1476,7 +1477,7 @@ namespace Proto {
             break;
           }
           case 1242: {
-            global::Proto.TokenGetNftInfoResponse subBuilder = new global::Proto.TokenGetNftInfoResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetNftInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetNftInfoResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetNftInfo) {
               subBuilder.MergeFrom(TokenGetNftInfo);
             }
@@ -1485,7 +1486,7 @@ namespace Proto {
             break;
           }
           case 1250: {
-            global::Proto.TokenGetNftInfosResponse subBuilder = new global::Proto.TokenGetNftInfosResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetNftInfosResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetNftInfosResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetNftInfos) {
               subBuilder.MergeFrom(TokenGetNftInfos);
             }
@@ -1494,7 +1495,7 @@ namespace Proto {
             break;
           }
           case 1258: {
-            global::Proto.NetworkGetExecutionTimeResponse subBuilder = new global::Proto.NetworkGetExecutionTimeResponse();
+            global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse subBuilder = new global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse();
             if (responseCase_ == ResponseOneofCase.NetworkGetExecutionTime) {
               subBuilder.MergeFrom(NetworkGetExecutionTime);
             }
@@ -1503,7 +1504,7 @@ namespace Proto {
             break;
           }
           case 1266: {
-            global::Proto.GetAccountDetailsResponse subBuilder = new global::Proto.GetAccountDetailsResponse();
+            global::Hedera.Hashgraph.Proto.GetAccountDetailsResponse subBuilder = new global::Hedera.Hashgraph.Proto.GetAccountDetailsResponse();
             if (responseCase_ == ResponseOneofCase.AccountDetails) {
               subBuilder.MergeFrom(AccountDetails);
             }
@@ -1531,7 +1532,7 @@ namespace Proto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.GetByKeyResponse subBuilder = new global::Proto.GetByKeyResponse();
+            global::Hedera.Hashgraph.Proto.GetByKeyResponse subBuilder = new global::Hedera.Hashgraph.Proto.GetByKeyResponse();
             if (responseCase_ == ResponseOneofCase.GetByKey) {
               subBuilder.MergeFrom(GetByKey);
             }
@@ -1540,7 +1541,7 @@ namespace Proto {
             break;
           }
           case 18: {
-            global::Proto.GetBySolidityIDResponse subBuilder = new global::Proto.GetBySolidityIDResponse();
+            global::Hedera.Hashgraph.Proto.GetBySolidityIDResponse subBuilder = new global::Hedera.Hashgraph.Proto.GetBySolidityIDResponse();
             if (responseCase_ == ResponseOneofCase.GetBySolidityID) {
               subBuilder.MergeFrom(GetBySolidityID);
             }
@@ -1549,7 +1550,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.ContractCallLocalResponse subBuilder = new global::Proto.ContractCallLocalResponse();
+            global::Hedera.Hashgraph.Proto.ContractCallLocalResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractCallLocalResponse();
             if (responseCase_ == ResponseOneofCase.ContractCallLocal) {
               subBuilder.MergeFrom(ContractCallLocal);
             }
@@ -1558,7 +1559,7 @@ namespace Proto {
             break;
           }
           case 34: {
-            global::Proto.ContractGetInfoResponse subBuilder = new global::Proto.ContractGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.ContractGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.ContractGetInfo) {
               subBuilder.MergeFrom(ContractGetInfo);
             }
@@ -1567,7 +1568,7 @@ namespace Proto {
             break;
           }
           case 42: {
-            global::Proto.ContractGetBytecodeResponse subBuilder = new global::Proto.ContractGetBytecodeResponse();
+            global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractGetBytecodeResponse();
             if (responseCase_ == ResponseOneofCase.ContractGetBytecodeResponse) {
               subBuilder.MergeFrom(ContractGetBytecodeResponse);
             }
@@ -1576,7 +1577,7 @@ namespace Proto {
             break;
           }
           case 50: {
-            global::Proto.ContractGetRecordsResponse subBuilder = new global::Proto.ContractGetRecordsResponse();
+            global::Hedera.Hashgraph.Proto.ContractGetRecordsResponse subBuilder = new global::Hedera.Hashgraph.Proto.ContractGetRecordsResponse();
             if (responseCase_ == ResponseOneofCase.ContractGetRecordsResponse) {
               subBuilder.MergeFrom(ContractGetRecordsResponse);
             }
@@ -1585,7 +1586,7 @@ namespace Proto {
             break;
           }
           case 58: {
-            global::Proto.CryptoGetAccountBalanceResponse subBuilder = new global::Proto.CryptoGetAccountBalanceResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse();
             if (responseCase_ == ResponseOneofCase.CryptogetAccountBalance) {
               subBuilder.MergeFrom(CryptogetAccountBalance);
             }
@@ -1594,7 +1595,7 @@ namespace Proto {
             break;
           }
           case 66: {
-            global::Proto.CryptoGetAccountRecordsResponse subBuilder = new global::Proto.CryptoGetAccountRecordsResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetAccountRecordsResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetAccountRecords) {
               subBuilder.MergeFrom(CryptoGetAccountRecords);
             }
@@ -1603,7 +1604,7 @@ namespace Proto {
             break;
           }
           case 74: {
-            global::Proto.CryptoGetInfoResponse subBuilder = new global::Proto.CryptoGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetInfo) {
               subBuilder.MergeFrom(CryptoGetInfo);
             }
@@ -1612,7 +1613,7 @@ namespace Proto {
             break;
           }
           case 82: {
-            global::Proto.CryptoGetLiveHashResponse subBuilder = new global::Proto.CryptoGetLiveHashResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetLiveHashResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetLiveHashResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetLiveHash) {
               subBuilder.MergeFrom(CryptoGetLiveHash);
             }
@@ -1621,7 +1622,7 @@ namespace Proto {
             break;
           }
           case 90: {
-            global::Proto.CryptoGetStakersResponse subBuilder = new global::Proto.CryptoGetStakersResponse();
+            global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse subBuilder = new global::Hedera.Hashgraph.Proto.CryptoGetStakersResponse();
             if (responseCase_ == ResponseOneofCase.CryptoGetProxyStakers) {
               subBuilder.MergeFrom(CryptoGetProxyStakers);
             }
@@ -1630,7 +1631,7 @@ namespace Proto {
             break;
           }
           case 98: {
-            global::Proto.FileGetContentsResponse subBuilder = new global::Proto.FileGetContentsResponse();
+            global::Hedera.Hashgraph.Proto.FileGetContentsResponse subBuilder = new global::Hedera.Hashgraph.Proto.FileGetContentsResponse();
             if (responseCase_ == ResponseOneofCase.FileGetContents) {
               subBuilder.MergeFrom(FileGetContents);
             }
@@ -1639,7 +1640,7 @@ namespace Proto {
             break;
           }
           case 106: {
-            global::Proto.FileGetInfoResponse subBuilder = new global::Proto.FileGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.FileGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.FileGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.FileGetInfo) {
               subBuilder.MergeFrom(FileGetInfo);
             }
@@ -1648,7 +1649,7 @@ namespace Proto {
             break;
           }
           case 114: {
-            global::Proto.TransactionGetReceiptResponse subBuilder = new global::Proto.TransactionGetReceiptResponse();
+            global::Hedera.Hashgraph.Proto.TransactionGetReceiptResponse subBuilder = new global::Hedera.Hashgraph.Proto.TransactionGetReceiptResponse();
             if (responseCase_ == ResponseOneofCase.TransactionGetReceipt) {
               subBuilder.MergeFrom(TransactionGetReceipt);
             }
@@ -1657,7 +1658,7 @@ namespace Proto {
             break;
           }
           case 122: {
-            global::Proto.TransactionGetRecordResponse subBuilder = new global::Proto.TransactionGetRecordResponse();
+            global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse subBuilder = new global::Hedera.Hashgraph.Proto.TransactionGetRecordResponse();
             if (responseCase_ == ResponseOneofCase.TransactionGetRecord) {
               subBuilder.MergeFrom(TransactionGetRecord);
             }
@@ -1666,7 +1667,7 @@ namespace Proto {
             break;
           }
           case 130: {
-            global::Proto.TransactionGetFastRecordResponse subBuilder = new global::Proto.TransactionGetFastRecordResponse();
+            global::Hedera.Hashgraph.Proto.TransactionGetFastRecordResponse subBuilder = new global::Hedera.Hashgraph.Proto.TransactionGetFastRecordResponse();
             if (responseCase_ == ResponseOneofCase.TransactionGetFastRecord) {
               subBuilder.MergeFrom(TransactionGetFastRecord);
             }
@@ -1675,7 +1676,7 @@ namespace Proto {
             break;
           }
           case 1202: {
-            global::Proto.ConsensusGetTopicInfoResponse subBuilder = new global::Proto.ConsensusGetTopicInfoResponse();
+            global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.ConsensusGetTopicInfoResponse();
             if (responseCase_ == ResponseOneofCase.ConsensusGetTopicInfo) {
               subBuilder.MergeFrom(ConsensusGetTopicInfo);
             }
@@ -1684,7 +1685,7 @@ namespace Proto {
             break;
           }
           case 1210: {
-            global::Proto.NetworkGetVersionInfoResponse subBuilder = new global::Proto.NetworkGetVersionInfoResponse();
+            global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.NetworkGetVersionInfoResponse();
             if (responseCase_ == ResponseOneofCase.NetworkGetVersionInfo) {
               subBuilder.MergeFrom(NetworkGetVersionInfo);
             }
@@ -1693,7 +1694,7 @@ namespace Proto {
             break;
           }
           case 1218: {
-            global::Proto.TokenGetInfoResponse subBuilder = new global::Proto.TokenGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetInfo) {
               subBuilder.MergeFrom(TokenGetInfo);
             }
@@ -1702,7 +1703,7 @@ namespace Proto {
             break;
           }
           case 1226: {
-            global::Proto.ScheduleGetInfoResponse subBuilder = new global::Proto.ScheduleGetInfoResponse();
+            global::Hedera.Hashgraph.Proto.ScheduleGetInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.ScheduleGetInfoResponse();
             if (responseCase_ == ResponseOneofCase.ScheduleGetInfo) {
               subBuilder.MergeFrom(ScheduleGetInfo);
             }
@@ -1711,7 +1712,7 @@ namespace Proto {
             break;
           }
           case 1234: {
-            global::Proto.TokenGetAccountNftInfosResponse subBuilder = new global::Proto.TokenGetAccountNftInfosResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetAccountNftInfosResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetAccountNftInfos) {
               subBuilder.MergeFrom(TokenGetAccountNftInfos);
             }
@@ -1720,7 +1721,7 @@ namespace Proto {
             break;
           }
           case 1242: {
-            global::Proto.TokenGetNftInfoResponse subBuilder = new global::Proto.TokenGetNftInfoResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetNftInfoResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetNftInfoResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetNftInfo) {
               subBuilder.MergeFrom(TokenGetNftInfo);
             }
@@ -1729,7 +1730,7 @@ namespace Proto {
             break;
           }
           case 1250: {
-            global::Proto.TokenGetNftInfosResponse subBuilder = new global::Proto.TokenGetNftInfosResponse();
+            global::Hedera.Hashgraph.Proto.TokenGetNftInfosResponse subBuilder = new global::Hedera.Hashgraph.Proto.TokenGetNftInfosResponse();
             if (responseCase_ == ResponseOneofCase.TokenGetNftInfos) {
               subBuilder.MergeFrom(TokenGetNftInfos);
             }
@@ -1738,7 +1739,7 @@ namespace Proto {
             break;
           }
           case 1258: {
-            global::Proto.NetworkGetExecutionTimeResponse subBuilder = new global::Proto.NetworkGetExecutionTimeResponse();
+            global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse subBuilder = new global::Hedera.Hashgraph.Proto.NetworkGetExecutionTimeResponse();
             if (responseCase_ == ResponseOneofCase.NetworkGetExecutionTime) {
               subBuilder.MergeFrom(NetworkGetExecutionTime);
             }
@@ -1747,7 +1748,7 @@ namespace Proto {
             break;
           }
           case 1266: {
-            global::Proto.GetAccountDetailsResponse subBuilder = new global::Proto.GetAccountDetailsResponse();
+            global::Hedera.Hashgraph.Proto.GetAccountDetailsResponse subBuilder = new global::Hedera.Hashgraph.Proto.GetAccountDetailsResponse();
             if (responseCase_ == ResponseOneofCase.AccountDetails) {
               subBuilder.MergeFrom(AccountDetails);
             }

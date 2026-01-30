@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             throw new System.NotImplementedException();
         }
 
-        public override TopicInfo MapResponse(Proto.Response response, AccountId nodeId, Query request)
+        public override TopicInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
             throw new System.NotImplementedException();
         }

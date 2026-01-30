@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.Hooks {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from lambda_sstore.proto</summary>
   public static partial class LambdaSstoreReflection {
@@ -29,11 +29,12 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             "G0xhbWJkYVNTdG9yZVRyYW5zYWN0aW9uQm9keRIeCgdob29rX2lkGAEgASgL",
             "Mg0ucHJvdG8uSG9va0lkEkgKD3N0b3JhZ2VfdXBkYXRlcxgCIAMoCzIvLmNv",
             "bS5oZWRlcmEuaGFwaS5ub2RlLmhvb2tzLkxhbWJkYVN0b3JhZ2VVcGRhdGVC",
-            "IgoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "OQoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhh",
+            "c2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody), global::Com.Hedera.Hapi.Node.Hooks.LambdaSStoreTransactionBody.Parser, new[]{ "HookId", "StorageUpdates" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody), global::Hedera.Hashgraph.Proto.LambdaSStoreTransactionBody.Parser, new[]{ "HookId", "StorageUpdates" }, null, null, null, null)
           }));
     }
     #endregion
@@ -59,7 +60,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.LambdaSstoreReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.LambdaSstoreReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -92,14 +93,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "hook_id" field.</summary>
     public const int HookIdFieldNumber = 1;
-    private global::Proto.HookId hookId_;
+    private global::Hedera.Hashgraph.Proto.HookId hookId_;
     /// <summary>
     ///*
     /// The id of the lambda EVM hook whose storage is being updated.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookId HookId {
+    public global::Hedera.Hashgraph.Proto.HookId HookId {
       get { return hookId_; }
       set {
         hookId_ = value;
@@ -108,16 +109,16 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "storage_updates" field.</summary>
     public const int StorageUpdatesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate> _repeated_storageUpdates_codec
-        = pb::FieldCodec.ForMessage(18, global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate> storageUpdates_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate> _repeated_storageUpdates_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.LambdaStorageUpdate.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate> storageUpdates_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate>();
     /// <summary>
     ///*
     /// The updates to the storage of the lambda.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate> StorageUpdates {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate> StorageUpdates {
       get { return storageUpdates_; }
     }
 
@@ -213,7 +214,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       }
       if (other.hookId_ != null) {
         if (hookId_ == null) {
-          HookId = new global::Proto.HookId();
+          HookId = new global::Hedera.Hashgraph.Proto.HookId();
         }
         HookId.MergeFrom(other.HookId);
       }
@@ -239,7 +240,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (hookId_ == null) {
-              HookId = new global::Proto.HookId();
+              HookId = new global::Hedera.Hashgraph.Proto.HookId();
             }
             input.ReadMessage(HookId);
             break;
@@ -269,7 +270,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (hookId_ == null) {
-              HookId = new global::Proto.HookId();
+              HookId = new global::Hedera.Hashgraph.Proto.HookId();
             }
             input.ReadMessage(HookId);
             break;

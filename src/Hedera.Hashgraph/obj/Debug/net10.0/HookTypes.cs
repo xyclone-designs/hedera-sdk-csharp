@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.Hooks {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from hook_types.proto</summary>
   public static partial class HookTypesReflection {
@@ -50,19 +50,20 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             "A2tleRgBIAEoDEgAEhIKCHByZWltYWdlGAIgASgMSAASDQoFdmFsdWUYAyAB",
             "KAxCCwoJZW50cnlfa2V5Ii8KEUxhbWJkYVN0b3JhZ2VTbG90EgsKA2tleRgB",
             "IAEoDBINCgV2YWx1ZRgCIAEoDCowChJIb29rRXh0ZW5zaW9uUG9pbnQSGgoW",
-            "QUNDT1VOVF9BTExPV0FOQ0VfSE9PSxAAQiIKHmNvbS5oZWRlcmEuaGFzaGdy",
-            "YXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "QUNDT1VOVF9BTExPV0FOQ0VfSE9PSxAAQjkKHmNvbS5oZWRlcmEuaGFzaGdy",
+            "YXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.HookCreation), global::Com.Hedera.Hapi.Node.Hooks.HookCreation.Parser, new[]{ "EntityId", "Details", "NextHookId" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails), global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails.Parser, new[]{ "ExtensionPoint", "HookId", "LambdaEvmHook", "AdminKey" }, new[]{ "Hook" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook), global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook.Parser, new[]{ "Spec", "StorageUpdates" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.EvmHookSpec), global::Com.Hedera.Hapi.Node.Hooks.EvmHookSpec.Parser, new[]{ "ContractId" }, new[]{ "BytecodeSource" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate), global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate.Parser, new[]{ "StorageSlot", "MappingEntries" }, new[]{ "Update" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries), global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries.Parser, new[]{ "MappingSlot", "Entries" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntry), global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntry.Parser, new[]{ "Key", "Preimage", "Value" }, new[]{ "EntryKey" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot), global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot.Parser, new[]{ "Key", "Value" }, null, null, null, null)
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Hedera.Hashgraph.Proto.HookExtensionPoint), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HookCreation), global::Hedera.Hashgraph.Proto.HookCreation.Parser, new[]{ "EntityId", "Details", "NextHookId" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.HookCreationDetails), global::Hedera.Hashgraph.Proto.HookCreationDetails.Parser, new[]{ "ExtensionPoint", "HookId", "LambdaEvmHook", "AdminKey" }, new[]{ "Hook" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LambdaEvmHook), global::Hedera.Hashgraph.Proto.LambdaEvmHook.Parser, new[]{ "Spec", "StorageUpdates" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EvmHookSpec), global::Hedera.Hashgraph.Proto.EvmHookSpec.Parser, new[]{ "ContractId" }, new[]{ "BytecodeSource" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LambdaStorageUpdate), global::Hedera.Hashgraph.Proto.LambdaStorageUpdate.Parser, new[]{ "StorageSlot", "MappingEntries" }, new[]{ "Update" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LambdaMappingEntries), global::Hedera.Hashgraph.Proto.LambdaMappingEntries.Parser, new[]{ "MappingSlot", "Entries" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LambdaMappingEntry), global::Hedera.Hashgraph.Proto.LambdaMappingEntry.Parser, new[]{ "Key", "Preimage", "Value" }, new[]{ "EntryKey" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LambdaStorageSlot), global::Hedera.Hashgraph.Proto.LambdaStorageSlot.Parser, new[]{ "Key", "Value" }, null, null, null, null)
           }));
     }
     #endregion
@@ -103,7 +104,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -137,14 +138,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "entity_id" field.</summary>
     public const int EntityIdFieldNumber = 1;
-    private global::Proto.HookEntityId entityId_;
+    private global::Hedera.Hashgraph.Proto.HookEntityId entityId_;
     /// <summary>
     ///*
     /// The id of the hook's entity.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookEntityId EntityId {
+    public global::Hedera.Hashgraph.Proto.HookEntityId EntityId {
       get { return entityId_; }
       set {
         entityId_ = value;
@@ -153,14 +154,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "details" field.</summary>
     public const int DetailsFieldNumber = 2;
-    private global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails details_;
+    private global::Hedera.Hashgraph.Proto.HookCreationDetails details_;
     /// <summary>
     ///*
     /// The creation details.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails Details {
+    public global::Hedera.Hashgraph.Proto.HookCreationDetails Details {
       get { return details_; }
       set {
         details_ = value;
@@ -297,13 +298,13 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       }
       if (other.entityId_ != null) {
         if (entityId_ == null) {
-          EntityId = new global::Proto.HookEntityId();
+          EntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
         }
         EntityId.MergeFrom(other.EntityId);
       }
       if (other.details_ != null) {
         if (details_ == null) {
-          Details = new global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails();
+          Details = new global::Hedera.Hashgraph.Proto.HookCreationDetails();
         }
         Details.MergeFrom(other.Details);
       }
@@ -333,14 +334,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (entityId_ == null) {
-              EntityId = new global::Proto.HookEntityId();
+              EntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
             }
             input.ReadMessage(EntityId);
             break;
           }
           case 18: {
             if (details_ == null) {
-              Details = new global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails();
+              Details = new global::Hedera.Hashgraph.Proto.HookCreationDetails();
             }
             input.ReadMessage(Details);
             break;
@@ -373,14 +374,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (entityId_ == null) {
-              EntityId = new global::Proto.HookEntityId();
+              EntityId = new global::Hedera.Hashgraph.Proto.HookEntityId();
             }
             input.ReadMessage(EntityId);
             break;
           }
           case 18: {
             if (details_ == null) {
-              Details = new global::Com.Hedera.Hapi.Node.Hooks.HookCreationDetails();
+              Details = new global::Hedera.Hashgraph.Proto.HookCreationDetails();
             }
             input.ReadMessage(Details);
             break;
@@ -418,7 +419,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -458,14 +459,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "extension_point" field.</summary>
     public const int ExtensionPointFieldNumber = 1;
-    private global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint extensionPoint_ = global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook;
+    private global::Hedera.Hashgraph.Proto.HookExtensionPoint extensionPoint_ = global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook;
     /// <summary>
     ///*
     /// The extension point for the hook.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint ExtensionPoint {
+    public global::Hedera.Hashgraph.Proto.HookExtensionPoint ExtensionPoint {
       get { return extensionPoint_; }
       set {
         extensionPoint_ = value;
@@ -497,8 +498,8 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook LambdaEvmHook {
-      get { return hookCase_ == HookOneofCase.LambdaEvmHook ? (global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook) hook_ : null; }
+    public global::Hedera.Hashgraph.Proto.LambdaEvmHook LambdaEvmHook {
+      get { return hookCase_ == HookOneofCase.LambdaEvmHook ? (global::Hedera.Hashgraph.Proto.LambdaEvmHook) hook_ : null; }
       set {
         hook_ = value;
         hookCase_ = value == null ? HookOneofCase.None : HookOneofCase.LambdaEvmHook;
@@ -507,7 +508,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "admin_key" field.</summary>
     public const int AdminKeyFieldNumber = 4;
-    private global::Proto.Key adminKey_;
+    private global::Hedera.Hashgraph.Proto.Key adminKey_;
     /// <summary>
     ///*
     /// If set, a key that that can be used to remove or replace the hook; or (if
@@ -516,7 +517,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key AdminKey {
+    public global::Hedera.Hashgraph.Proto.Key AdminKey {
       get { return adminKey_; }
       set {
         adminKey_ = value;
@@ -570,7 +571,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) hash ^= ExtensionPoint.GetHashCode();
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) hash ^= ExtensionPoint.GetHashCode();
       if (HookId != 0L) hash ^= HookId.GetHashCode();
       if (hookCase_ == HookOneofCase.LambdaEvmHook) hash ^= LambdaEvmHook.GetHashCode();
       if (adminKey_ != null) hash ^= AdminKey.GetHashCode();
@@ -593,7 +594,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         output.WriteRawTag(8);
         output.WriteEnum((int) ExtensionPoint);
       }
@@ -619,7 +620,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         output.WriteRawTag(8);
         output.WriteEnum((int) ExtensionPoint);
       }
@@ -645,7 +646,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ExtensionPoint);
       }
       if (HookId != 0L) {
@@ -669,7 +670,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       if (other == null) {
         return;
       }
-      if (other.ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (other.ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         ExtensionPoint = other.ExtensionPoint;
       }
       if (other.HookId != 0L) {
@@ -677,14 +678,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       }
       if (other.adminKey_ != null) {
         if (adminKey_ == null) {
-          AdminKey = new global::Proto.Key();
+          AdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         AdminKey.MergeFrom(other.AdminKey);
       }
       switch (other.HookCase) {
         case HookOneofCase.LambdaEvmHook:
           if (LambdaEvmHook == null) {
-            LambdaEvmHook = new global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook();
+            LambdaEvmHook = new global::Hedera.Hashgraph.Proto.LambdaEvmHook();
           }
           LambdaEvmHook.MergeFrom(other.LambdaEvmHook);
           break;
@@ -710,7 +711,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            ExtensionPoint = (global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint) input.ReadEnum();
+            ExtensionPoint = (global::Hedera.Hashgraph.Proto.HookExtensionPoint) input.ReadEnum();
             break;
           }
           case 16: {
@@ -718,7 +719,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 26: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook();
+            global::Hedera.Hashgraph.Proto.LambdaEvmHook subBuilder = new global::Hedera.Hashgraph.Proto.LambdaEvmHook();
             if (hookCase_ == HookOneofCase.LambdaEvmHook) {
               subBuilder.MergeFrom(LambdaEvmHook);
             }
@@ -728,7 +729,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
           }
           case 34: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
@@ -753,7 +754,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            ExtensionPoint = (global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint) input.ReadEnum();
+            ExtensionPoint = (global::Hedera.Hashgraph.Proto.HookExtensionPoint) input.ReadEnum();
             break;
           }
           case 16: {
@@ -761,7 +762,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 26: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaEvmHook();
+            global::Hedera.Hashgraph.Proto.LambdaEvmHook subBuilder = new global::Hedera.Hashgraph.Proto.LambdaEvmHook();
             if (hookCase_ == HookOneofCase.LambdaEvmHook) {
               subBuilder.MergeFrom(LambdaEvmHook);
             }
@@ -771,7 +772,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
           }
           case 34: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
@@ -802,7 +803,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[2]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[2]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -835,14 +836,14 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "spec" field.</summary>
     public const int SpecFieldNumber = 1;
-    private global::Com.Hedera.Hapi.Node.Hooks.EvmHookSpec spec_;
+    private global::Hedera.Hashgraph.Proto.EvmHookSpec spec_;
     /// <summary>
     ///*
     /// The specification for the hook.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.EvmHookSpec Spec {
+    public global::Hedera.Hashgraph.Proto.EvmHookSpec Spec {
       get { return spec_; }
       set {
         spec_ = value;
@@ -851,16 +852,16 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "storage_updates" field.</summary>
     public const int StorageUpdatesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate> _repeated_storageUpdates_codec
-        = pb::FieldCodec.ForMessage(18, global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate> storageUpdates_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate> _repeated_storageUpdates_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.LambdaStorageUpdate.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate> storageUpdates_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate>();
     /// <summary>
     ///*
     /// Initial storage updates for the lambda, if any.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageUpdate> StorageUpdates {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaStorageUpdate> StorageUpdates {
       get { return storageUpdates_; }
     }
 
@@ -956,7 +957,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       }
       if (other.spec_ != null) {
         if (spec_ == null) {
-          Spec = new global::Com.Hedera.Hapi.Node.Hooks.EvmHookSpec();
+          Spec = new global::Hedera.Hashgraph.Proto.EvmHookSpec();
         }
         Spec.MergeFrom(other.Spec);
       }
@@ -982,7 +983,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (spec_ == null) {
-              Spec = new global::Com.Hedera.Hapi.Node.Hooks.EvmHookSpec();
+              Spec = new global::Hedera.Hashgraph.Proto.EvmHookSpec();
             }
             input.ReadMessage(Spec);
             break;
@@ -1012,7 +1013,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           case 10: {
             if (spec_ == null) {
-              Spec = new global::Com.Hedera.Hapi.Node.Hooks.EvmHookSpec();
+              Spec = new global::Hedera.Hashgraph.Proto.EvmHookSpec();
             }
             input.ReadMessage(Spec);
             break;
@@ -1047,7 +1048,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[3]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[3]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1090,8 +1091,8 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractId {
-      get { return bytecodeSourceCase_ == BytecodeSourceOneofCase.ContractId ? (global::Proto.ContractID) bytecodeSource_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID ContractId {
+      get { return bytecodeSourceCase_ == BytecodeSourceOneofCase.ContractId ? (global::Hedera.Hashgraph.Proto.ContractID) bytecodeSource_ : null; }
       set {
         bytecodeSource_ = value;
         bytecodeSourceCase_ = value == null ? BytecodeSourceOneofCase.None : BytecodeSourceOneofCase.ContractId;
@@ -1208,7 +1209,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       switch (other.BytecodeSourceCase) {
         case BytecodeSourceOneofCase.ContractId:
           if (ContractId == null) {
-            ContractId = new global::Proto.ContractID();
+            ContractId = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           ContractId.MergeFrom(other.ContractId);
           break;
@@ -1234,7 +1235,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (bytecodeSourceCase_ == BytecodeSourceOneofCase.ContractId) {
               subBuilder.MergeFrom(ContractId);
             }
@@ -1262,7 +1263,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (bytecodeSourceCase_ == BytecodeSourceOneofCase.ContractId) {
               subBuilder.MergeFrom(ContractId);
             }
@@ -1298,7 +1299,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[4]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1344,8 +1345,8 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot StorageSlot {
-      get { return updateCase_ == UpdateOneofCase.StorageSlot ? (global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot) update_ : null; }
+    public global::Hedera.Hashgraph.Proto.LambdaStorageSlot StorageSlot {
+      get { return updateCase_ == UpdateOneofCase.StorageSlot ? (global::Hedera.Hashgraph.Proto.LambdaStorageSlot) update_ : null; }
       set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.StorageSlot;
@@ -1360,8 +1361,8 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries MappingEntries {
-      get { return updateCase_ == UpdateOneofCase.MappingEntries ? (global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries) update_ : null; }
+    public global::Hedera.Hashgraph.Proto.LambdaMappingEntries MappingEntries {
+      get { return updateCase_ == UpdateOneofCase.MappingEntries ? (global::Hedera.Hashgraph.Proto.LambdaMappingEntries) update_ : null; }
       set {
         update_ = value;
         updateCase_ = value == null ? UpdateOneofCase.None : UpdateOneofCase.MappingEntries;
@@ -1492,13 +1493,13 @@ namespace Com.Hedera.Hapi.Node.Hooks {
       switch (other.UpdateCase) {
         case UpdateOneofCase.StorageSlot:
           if (StorageSlot == null) {
-            StorageSlot = new global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot();
+            StorageSlot = new global::Hedera.Hashgraph.Proto.LambdaStorageSlot();
           }
           StorageSlot.MergeFrom(other.StorageSlot);
           break;
         case UpdateOneofCase.MappingEntries:
           if (MappingEntries == null) {
-            MappingEntries = new global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries();
+            MappingEntries = new global::Hedera.Hashgraph.Proto.LambdaMappingEntries();
           }
           MappingEntries.MergeFrom(other.MappingEntries);
           break;
@@ -1524,7 +1525,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot();
+            global::Hedera.Hashgraph.Proto.LambdaStorageSlot subBuilder = new global::Hedera.Hashgraph.Proto.LambdaStorageSlot();
             if (updateCase_ == UpdateOneofCase.StorageSlot) {
               subBuilder.MergeFrom(StorageSlot);
             }
@@ -1533,7 +1534,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 18: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries();
+            global::Hedera.Hashgraph.Proto.LambdaMappingEntries subBuilder = new global::Hedera.Hashgraph.Proto.LambdaMappingEntries();
             if (updateCase_ == UpdateOneofCase.MappingEntries) {
               subBuilder.MergeFrom(MappingEntries);
             }
@@ -1561,7 +1562,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaStorageSlot();
+            global::Hedera.Hashgraph.Proto.LambdaStorageSlot subBuilder = new global::Hedera.Hashgraph.Proto.LambdaStorageSlot();
             if (updateCase_ == UpdateOneofCase.StorageSlot) {
               subBuilder.MergeFrom(StorageSlot);
             }
@@ -1570,7 +1571,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
             break;
           }
           case 18: {
-            global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries subBuilder = new global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntries();
+            global::Hedera.Hashgraph.Proto.LambdaMappingEntries subBuilder = new global::Hedera.Hashgraph.Proto.LambdaMappingEntries();
             if (updateCase_ == UpdateOneofCase.MappingEntries) {
               subBuilder.MergeFrom(MappingEntries);
             }
@@ -1613,7 +1614,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[5]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1663,16 +1664,16 @@ namespace Com.Hedera.Hapi.Node.Hooks {
 
     /// <summary>Field number for the "entries" field.</summary>
     public const int EntriesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntry> _repeated_entries_codec
-        = pb::FieldCodec.ForMessage(18, global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntry.Parser);
-    private readonly pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntry> entries_ = new pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntry>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.LambdaMappingEntry> _repeated_entries_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.LambdaMappingEntry.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaMappingEntry> entries_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaMappingEntry>();
     /// <summary>
     ///*
     /// The entries in the mapping at the given slot.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Com.Hedera.Hapi.Node.Hooks.LambdaMappingEntry> Entries {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.LambdaMappingEntry> Entries {
       get { return entries_; }
     }
 
@@ -1857,7 +1858,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[6]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2211,7 +2212,7 @@ namespace Com.Hedera.Hapi.Node.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor.MessageTypes[7]; }
+      get { return global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

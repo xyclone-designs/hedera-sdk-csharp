@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from congestion_level_starts.proto</summary>
   public static partial class CongestionLevelStartsReflection {
@@ -27,12 +27,13 @@ namespace Proto {
             "Ch1jb25nZXN0aW9uX2xldmVsX3N0YXJ0cy5wcm90bxIFcHJvdG8aD3RpbWVz",
             "dGFtcC5wcm90byJzChVDb25nZXN0aW9uTGV2ZWxTdGFydHMSLgoUZ2VuZXJp",
             "Y19sZXZlbF9zdGFydHMYASADKAsyEC5wcm90by5UaW1lc3RhbXASKgoQZ2Fz",
-            "X2xldmVsX3N0YXJ0cxgCIAMoCzIQLnByb3RvLlRpbWVzdGFtcEIiCh5jb20u",
-            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "X2xldmVsX3N0YXJ0cxgCIAMoCzIQLnByb3RvLlRpbWVzdGFtcEI5Ch5jb20u",
+            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBo",
+            "LlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CongestionLevelStarts), global::Proto.CongestionLevelStarts.Parser, new[]{ "GenericLevelStarts", "GasLevelStarts" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CongestionLevelStarts), global::Hedera.Hashgraph.Proto.CongestionLevelStarts.Parser, new[]{ "GenericLevelStarts", "GasLevelStarts" }, null, null, null, null)
           }));
     }
     #endregion
@@ -60,7 +61,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CongestionLevelStartsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CongestionLevelStartsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -93,9 +94,9 @@ namespace Proto {
 
     /// <summary>Field number for the "generic_level_starts" field.</summary>
     public const int GenericLevelStartsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.Timestamp> _repeated_genericLevelStarts_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.Timestamp.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Timestamp> genericLevelStarts_ = new pbc::RepeatedField<global::Proto.Timestamp>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Timestamp> _repeated_genericLevelStarts_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.Timestamp.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Timestamp> genericLevelStarts_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Timestamp>();
     /// <summary>
     ///*
     /// Timestamps for each point where "entity utilization" congestion pricing
@@ -106,15 +107,15 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Timestamp> GenericLevelStarts {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Timestamp> GenericLevelStarts {
       get { return genericLevelStarts_; }
     }
 
     /// <summary>Field number for the "gas_level_starts" field.</summary>
     public const int GasLevelStartsFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.Timestamp> _repeated_gasLevelStarts_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.Timestamp.Parser);
-    private readonly pbc::RepeatedField<global::Proto.Timestamp> gasLevelStarts_ = new pbc::RepeatedField<global::Proto.Timestamp>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.Timestamp> _repeated_gasLevelStarts_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.Timestamp.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Timestamp> gasLevelStarts_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Timestamp>();
     /// <summary>
     ///*
     /// Timestamps for each point where "gas utilization" congestion pricing
@@ -125,7 +126,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.Timestamp> GasLevelStarts {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.Timestamp> GasLevelStarts {
       get { return gasLevelStarts_; }
     }
 

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from schedule_create.proto</summary>
   public static partial class ScheduleCreateReflection {
@@ -32,11 +32,12 @@ namespace Proto {
             "bWluS2V5GAMgASgLMgoucHJvdG8uS2V5EigKDnBheWVyQWNjb3VudElEGAQg",
             "ASgLMhAucHJvdG8uQWNjb3VudElEEikKD2V4cGlyYXRpb25fdGltZRgFIAEo",
             "CzIQLnByb3RvLlRpbWVzdGFtcBIXCg93YWl0X2Zvcl9leHBpcnkYDSABKAhC",
-            "IgoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "OQoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhh",
+            "c2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.TimestampReflection.Descriptor, global::Proto.SchedulableTransactionBodyReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Hedera.Hashgraph.Proto.SchedulableTransactionBodyReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ScheduleCreateTransactionBody), global::Proto.ScheduleCreateTransactionBody.Parser, new[]{ "ScheduledTransactionBody", "Memo", "AdminKey", "PayerAccountID", "ExpirationTime", "WaitForExpiry" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody), global::Hedera.Hashgraph.Proto.ScheduleCreateTransactionBody.Parser, new[]{ "ScheduledTransactionBody", "Memo", "AdminKey", "PayerAccountID", "ExpirationTime", "WaitForExpiry" }, null, null, null, null)
           }));
     }
     #endregion
@@ -132,7 +133,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ScheduleCreateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ScheduleCreateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -169,7 +170,7 @@ namespace Proto {
 
     /// <summary>Field number for the "scheduledTransactionBody" field.</summary>
     public const int ScheduledTransactionBodyFieldNumber = 1;
-    private global::Proto.SchedulableTransactionBody scheduledTransactionBody_;
+    private global::Hedera.Hashgraph.Proto.SchedulableTransactionBody scheduledTransactionBody_;
     /// <summary>
     ///*
     /// A scheduled transaction.
@@ -180,7 +181,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.SchedulableTransactionBody ScheduledTransactionBody {
+    public global::Hedera.Hashgraph.Proto.SchedulableTransactionBody ScheduledTransactionBody {
       get { return scheduledTransactionBody_; }
       set {
         scheduledTransactionBody_ = value;
@@ -208,7 +209,7 @@ namespace Proto {
 
     /// <summary>Field number for the "adminKey" field.</summary>
     public const int AdminKeyFieldNumber = 3;
-    private global::Proto.Key adminKey_;
+    private global::Hedera.Hashgraph.Proto.Key adminKey_;
     /// <summary>
     ///*
     /// A `Key` required to delete this schedule.
@@ -218,7 +219,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key AdminKey {
+    public global::Hedera.Hashgraph.Proto.Key AdminKey {
       get { return adminKey_; }
       set {
         adminKey_ = value;
@@ -227,7 +228,7 @@ namespace Proto {
 
     /// <summary>Field number for the "payerAccountID" field.</summary>
     public const int PayerAccountIDFieldNumber = 4;
-    private global::Proto.AccountID payerAccountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID payerAccountID_;
     /// <summary>
     ///*
     /// An account identifier of a `payer` for the scheduled transaction.
@@ -243,7 +244,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID PayerAccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID PayerAccountID {
       get { return payerAccountID_; }
       set {
         payerAccountID_ = value;
@@ -252,7 +253,7 @@ namespace Proto {
 
     /// <summary>Field number for the "expiration_time" field.</summary>
     public const int ExpirationTimeFieldNumber = 5;
-    private global::Proto.Timestamp expirationTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp expirationTime_;
     /// <summary>
     ///*
     /// An expiration time.
@@ -265,7 +266,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp ExpirationTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp ExpirationTime {
       get { return expirationTime_; }
       set {
         expirationTime_ = value;
@@ -449,7 +450,7 @@ namespace Proto {
       }
       if (other.scheduledTransactionBody_ != null) {
         if (scheduledTransactionBody_ == null) {
-          ScheduledTransactionBody = new global::Proto.SchedulableTransactionBody();
+          ScheduledTransactionBody = new global::Hedera.Hashgraph.Proto.SchedulableTransactionBody();
         }
         ScheduledTransactionBody.MergeFrom(other.ScheduledTransactionBody);
       }
@@ -458,19 +459,19 @@ namespace Proto {
       }
       if (other.adminKey_ != null) {
         if (adminKey_ == null) {
-          AdminKey = new global::Proto.Key();
+          AdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         AdminKey.MergeFrom(other.AdminKey);
       }
       if (other.payerAccountID_ != null) {
         if (payerAccountID_ == null) {
-          PayerAccountID = new global::Proto.AccountID();
+          PayerAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         PayerAccountID.MergeFrom(other.PayerAccountID);
       }
       if (other.expirationTime_ != null) {
         if (expirationTime_ == null) {
-          ExpirationTime = new global::Proto.Timestamp();
+          ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         ExpirationTime.MergeFrom(other.ExpirationTime);
       }
@@ -498,7 +499,7 @@ namespace Proto {
             break;
           case 10: {
             if (scheduledTransactionBody_ == null) {
-              ScheduledTransactionBody = new global::Proto.SchedulableTransactionBody();
+              ScheduledTransactionBody = new global::Hedera.Hashgraph.Proto.SchedulableTransactionBody();
             }
             input.ReadMessage(ScheduledTransactionBody);
             break;
@@ -509,21 +510,21 @@ namespace Proto {
           }
           case 26: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 34: {
             if (payerAccountID_ == null) {
-              PayerAccountID = new global::Proto.AccountID();
+              PayerAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(PayerAccountID);
             break;
           }
           case 42: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;
@@ -553,7 +554,7 @@ namespace Proto {
             break;
           case 10: {
             if (scheduledTransactionBody_ == null) {
-              ScheduledTransactionBody = new global::Proto.SchedulableTransactionBody();
+              ScheduledTransactionBody = new global::Hedera.Hashgraph.Proto.SchedulableTransactionBody();
             }
             input.ReadMessage(ScheduledTransactionBody);
             break;
@@ -564,21 +565,21 @@ namespace Proto {
           }
           case 26: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
           }
           case 34: {
             if (payerAccountID_ == null) {
-              PayerAccountID = new global::Proto.AccountID();
+              PayerAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(PayerAccountID);
             break;
           }
           case 42: {
             if (expirationTime_ == null) {
-              ExpirationTime = new global::Proto.Timestamp();
+              ExpirationTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(ExpirationTime);
             break;

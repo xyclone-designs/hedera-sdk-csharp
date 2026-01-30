@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_delete_allowance.proto</summary>
   public static partial class CryptoDeleteAllowanceReflection {
@@ -29,13 +29,14 @@ namespace Proto {
             "aW9uQm9keRIwCg1uZnRBbGxvd2FuY2VzGAIgAygLMhkucHJvdG8uTmZ0UmVt",
             "b3ZlQWxsb3dhbmNlIm8KEk5mdFJlbW92ZUFsbG93YW5jZRIgCgh0b2tlbl9p",
             "ZBgBIAEoCzIOLnByb3RvLlRva2VuSUQSHwoFb3duZXIYAiABKAsyEC5wcm90",
-            "by5BY2NvdW50SUQSFgoOc2VyaWFsX251bWJlcnMYAyADKANCIgoeY29tLmhl",
-            "ZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "by5BY2NvdW50SUQSFgoOc2VyaWFsX251bWJlcnMYAyADKANCOQoeY29tLmhl",
+            "ZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Q",
+            "cm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoDeleteAllowanceTransactionBody), global::Proto.CryptoDeleteAllowanceTransactionBody.Parser, new[]{ "NftAllowances" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.NftRemoveAllowance), global::Proto.NftRemoveAllowance.Parser, new[]{ "TokenId", "Owner", "SerialNumbers" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody), global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceTransactionBody.Parser, new[]{ "NftAllowances" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NftRemoveAllowance), global::Hedera.Hashgraph.Proto.NftRemoveAllowance.Parser, new[]{ "TokenId", "Owner", "SerialNumbers" }, null, null, null, null)
           }));
     }
     #endregion
@@ -75,7 +76,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoDeleteAllowanceReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -107,9 +108,9 @@ namespace Proto {
 
     /// <summary>Field number for the "nftAllowances" field.</summary>
     public const int NftAllowancesFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::Proto.NftRemoveAllowance> _repeated_nftAllowances_codec
-        = pb::FieldCodec.ForMessage(18, global::Proto.NftRemoveAllowance.Parser);
-    private readonly pbc::RepeatedField<global::Proto.NftRemoveAllowance> nftAllowances_ = new pbc::RepeatedField<global::Proto.NftRemoveAllowance>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.NftRemoveAllowance> _repeated_nftAllowances_codec
+        = pb::FieldCodec.ForMessage(18, global::Hedera.Hashgraph.Proto.NftRemoveAllowance.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftRemoveAllowance> nftAllowances_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftRemoveAllowance>();
     /// <summary>
     ///*
     /// List of non-fungible/unique token allowances to remove.
@@ -118,7 +119,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.NftRemoveAllowance> NftAllowances {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.NftRemoveAllowance> NftAllowances {
       get { return nftAllowances_; }
     }
 
@@ -286,7 +287,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoDeleteAllowanceReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoDeleteAllowanceReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -320,7 +321,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token_id" field.</summary>
     public const int TokenIdFieldNumber = 1;
-    private global::Proto.TokenID tokenId_;
+    private global::Hedera.Hashgraph.Proto.TokenID tokenId_;
     /// <summary>
     ///*
     /// A token identifier.
@@ -330,7 +331,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID TokenId {
+    public global::Hedera.Hashgraph.Proto.TokenID TokenId {
       get { return tokenId_; }
       set {
         tokenId_ = value;
@@ -339,7 +340,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner" field.</summary>
     public const int OwnerFieldNumber = 2;
-    private global::Proto.AccountID owner_;
+    private global::Hedera.Hashgraph.Proto.AccountID owner_;
     /// <summary>
     ///*
     /// An `owner` account identifier.
@@ -348,7 +349,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Owner {
+    public global::Hedera.Hashgraph.Proto.AccountID Owner {
       get { return owner_; }
       set {
         owner_ = value;
@@ -477,13 +478,13 @@ namespace Proto {
       }
       if (other.tokenId_ != null) {
         if (tokenId_ == null) {
-          TokenId = new global::Proto.TokenID();
+          TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         TokenId.MergeFrom(other.TokenId);
       }
       if (other.owner_ != null) {
         if (owner_ == null) {
-          Owner = new global::Proto.AccountID();
+          Owner = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Owner.MergeFrom(other.Owner);
       }
@@ -509,14 +510,14 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;
@@ -547,14 +548,14 @@ namespace Proto {
             break;
           case 10: {
             if (tokenId_ == null) {
-              TokenId = new global::Proto.TokenID();
+              TokenId = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(TokenId);
             break;
           }
           case 18: {
             if (owner_ == null) {
-              Owner = new global::Proto.AccountID();
+              Owner = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Owner);
             break;

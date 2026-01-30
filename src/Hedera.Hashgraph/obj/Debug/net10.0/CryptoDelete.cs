@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_delete.proto</summary>
   public static partial class CryptoDeleteReflection {
@@ -27,12 +27,13 @@ namespace Proto {
             "ChNjcnlwdG9fZGVsZXRlLnByb3RvEgVwcm90bxoRYmFzaWNfdHlwZXMucHJv",
             "dG8idQobQ3J5cHRvRGVsZXRlVHJhbnNhY3Rpb25Cb2R5EisKEXRyYW5zZmVy",
             "QWNjb3VudElEGAEgASgLMhAucHJvdG8uQWNjb3VudElEEikKD2RlbGV0ZUFj",
-            "Y291bnRJRBgCIAEoCzIQLnByb3RvLkFjY291bnRJREIiCh5jb20uaGVkZXJh",
-            "Lmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "Y291bnRJRBgCIAEoCzIQLnByb3RvLkFjY291bnRJREI5Ch5jb20uaGVkZXJh",
+            "Lmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3Rv",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoDeleteTransactionBody), global::Proto.CryptoDeleteTransactionBody.Parser, new[]{ "TransferAccountID", "DeleteAccountID" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody), global::Hedera.Hashgraph.Proto.CryptoDeleteTransactionBody.Parser, new[]{ "TransferAccountID", "DeleteAccountID" }, null, null, null, null)
           }));
     }
     #endregion
@@ -72,7 +73,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoDeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoDeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -105,7 +106,7 @@ namespace Proto {
 
     /// <summary>Field number for the "transferAccountID" field.</summary>
     public const int TransferAccountIDFieldNumber = 1;
-    private global::Proto.AccountID transferAccountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID transferAccountID_;
     /// <summary>
     ///*
     /// An account identifier.
@@ -118,7 +119,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID TransferAccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID TransferAccountID {
       get { return transferAccountID_; }
       set {
         transferAccountID_ = value;
@@ -127,7 +128,7 @@ namespace Proto {
 
     /// <summary>Field number for the "deleteAccountID" field.</summary>
     public const int DeleteAccountIDFieldNumber = 2;
-    private global::Proto.AccountID deleteAccountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID deleteAccountID_;
     /// <summary>
     ///*
     /// An account identifier.
@@ -141,7 +142,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID DeleteAccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID DeleteAccountID {
       get { return deleteAccountID_; }
       set {
         deleteAccountID_ = value;
@@ -248,13 +249,13 @@ namespace Proto {
       }
       if (other.transferAccountID_ != null) {
         if (transferAccountID_ == null) {
-          TransferAccountID = new global::Proto.AccountID();
+          TransferAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         TransferAccountID.MergeFrom(other.TransferAccountID);
       }
       if (other.deleteAccountID_ != null) {
         if (deleteAccountID_ == null) {
-          DeleteAccountID = new global::Proto.AccountID();
+          DeleteAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         DeleteAccountID.MergeFrom(other.DeleteAccountID);
       }
@@ -279,14 +280,14 @@ namespace Proto {
             break;
           case 10: {
             if (transferAccountID_ == null) {
-              TransferAccountID = new global::Proto.AccountID();
+              TransferAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(TransferAccountID);
             break;
           }
           case 18: {
             if (deleteAccountID_ == null) {
-              DeleteAccountID = new global::Proto.AccountID();
+              DeleteAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(DeleteAccountID);
             break;
@@ -312,14 +313,14 @@ namespace Proto {
             break;
           case 10: {
             if (transferAccountID_ == null) {
-              TransferAccountID = new global::Proto.AccountID();
+              TransferAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(TransferAccountID);
             break;
           }
           case 18: {
             if (deleteAccountID_ == null) {
-              DeleteAccountID = new global::Proto.AccountID();
+              DeleteAccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(DeleteAccountID);
             break;

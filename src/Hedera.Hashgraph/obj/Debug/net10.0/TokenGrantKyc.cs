@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_grant_kyc.proto</summary>
   public static partial class TokenGrantKycReflection {
@@ -27,12 +27,12 @@ namespace Proto {
             "ChV0b2tlbl9ncmFudF9reWMucHJvdG8SBXByb3RvGhFiYXNpY190eXBlcy5w",
             "cm90byJgChxUb2tlbkdyYW50S3ljVHJhbnNhY3Rpb25Cb2R5Eh0KBXRva2Vu",
             "GAEgASgLMg4ucHJvdG8uVG9rZW5JRBIhCgdhY2NvdW50GAIgASgLMhAucHJv",
-            "dG8uQWNjb3VudElEQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90",
-            "b1ABYgZwcm90bzM="));
+            "dG8uQWNjb3VudElEQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90",
+            "b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenGrantKycTransactionBody), global::Proto.TokenGrantKycTransactionBody.Parser, new[]{ "Token", "Account" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody), global::Hedera.Hashgraph.Proto.TokenGrantKycTransactionBody.Parser, new[]{ "Token", "Account" }, null, null, null, null)
           }));
     }
     #endregion
@@ -70,7 +70,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenGrantKycReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenGrantKycReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -103,7 +103,7 @@ namespace Proto {
 
     /// <summary>Field number for the "token" field.</summary>
     public const int TokenFieldNumber = 1;
-    private global::Proto.TokenID token_;
+    private global::Hedera.Hashgraph.Proto.TokenID token_;
     /// <summary>
     ///*
     /// A token identifier.
@@ -115,7 +115,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TokenID Token {
+    public global::Hedera.Hashgraph.Proto.TokenID Token {
       get { return token_; }
       set {
         token_ = value;
@@ -124,7 +124,7 @@ namespace Proto {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 2;
-    private global::Proto.AccountID account_;
+    private global::Hedera.Hashgraph.Proto.AccountID account_;
     /// <summary>
     ///*
     /// An account identifier.
@@ -136,7 +136,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID Account {
+    public global::Hedera.Hashgraph.Proto.AccountID Account {
       get { return account_; }
       set {
         account_ = value;
@@ -243,13 +243,13 @@ namespace Proto {
       }
       if (other.token_ != null) {
         if (token_ == null) {
-          Token = new global::Proto.TokenID();
+          Token = new global::Hedera.Hashgraph.Proto.TokenID();
         }
         Token.MergeFrom(other.Token);
       }
       if (other.account_ != null) {
         if (account_ == null) {
-          Account = new global::Proto.AccountID();
+          Account = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         Account.MergeFrom(other.Account);
       }
@@ -274,14 +274,14 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;
           }
           case 18: {
             if (account_ == null) {
-              Account = new global::Proto.AccountID();
+              Account = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Account);
             break;
@@ -307,14 +307,14 @@ namespace Proto {
             break;
           case 10: {
             if (token_ == null) {
-              Token = new global::Proto.TokenID();
+              Token = new global::Hedera.Hashgraph.Proto.TokenID();
             }
             input.ReadMessage(Token);
             break;
           }
           case 18: {
             if (account_ == null) {
-              Account = new global::Proto.AccountID();
+              Account = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(Account);
             break;

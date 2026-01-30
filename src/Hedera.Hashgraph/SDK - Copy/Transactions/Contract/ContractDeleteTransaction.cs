@@ -226,7 +226,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link ContractDeleteTransactionBody}</returns>
-        ContractDeleteTransactionBody.Builder Build()
+        ContractDeleteTransactionBody Build()
         {
             var builder = ContractDeleteTransactionBody.NewBuilder();
             if (contractId != null)

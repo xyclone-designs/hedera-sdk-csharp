@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.State.Entity {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from entity_counts.proto</summary>
   public static partial class EntityCountsReflection {
@@ -33,12 +33,13 @@ namespace Com.Hedera.Hapi.Node.State.Entity {
             "BBIRCgludW1fbm9kZXMYCiABKAQSFQoNbnVtX3NjaGVkdWxlcxgLIAEoBBIi",
             "ChpudW1fY29udHJhY3Rfc3RvcmFnZV9zbG90cxgMIAEoBBIeChZudW1fY29u",
             "dHJhY3RfYnl0ZWNvZGVzGA0gASgEEhEKCW51bV9ob29rcxgOIAEoBBIgChhu",
-            "dW1fbGFtYmRhX3N0b3JhZ2Vfc2xvdHMYDyABKARCIgoeY29tLmhlZGVyYS5o",
-            "YXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "dW1fbGFtYmRhX3N0b3JhZ2Vfc2xvdHMYDyABKARCOQoeY29tLmhlZGVyYS5o",
+            "YXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IG",
+            "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Entity.EntityCounts), global::Com.Hedera.Hapi.Node.State.Entity.EntityCounts.Parser, new[]{ "NumAccounts", "NumAliases", "NumTokens", "NumTokenRelations", "NumNfts", "NumAirdrops", "NumStakingInfos", "NumTopics", "NumFiles", "NumNodes", "NumSchedules", "NumContractStorageSlots", "NumContractBytecodes", "NumHooks", "NumLambdaStorageSlots" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EntityCounts), global::Hedera.Hashgraph.Proto.EntityCounts.Parser, new[]{ "NumAccounts", "NumAliases", "NumTokens", "NumTokenRelations", "NumNfts", "NumAirdrops", "NumStakingInfos", "NumTopics", "NumFiles", "NumNodes", "NumSchedules", "NumContractStorageSlots", "NumContractBytecodes", "NumHooks", "NumLambdaStorageSlots" }, null, null, null, null)
           }));
     }
     #endregion
@@ -66,7 +67,7 @@ namespace Com.Hedera.Hapi.Node.State.Entity {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Entity.EntityCountsReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.EntityCountsReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

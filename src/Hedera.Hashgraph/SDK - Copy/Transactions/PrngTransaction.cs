@@ -1,25 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Javax.Annotation;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Transactions
 {
     /// <summary>
     /// Random Number Generator Transaction.
@@ -30,7 +12,7 @@ namespace Hedera.Hashgraph.SDK
         /// If provided and is positive, returns a 32-bit pseudorandom number from the given range in the transaction record.
         /// If not set or set to zero, will return a 384-bit pseudorandom data in the record.
         /// </summary>
-        private int range = null;
+        private int? range = null;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -58,20 +40,19 @@ namespace Hedera.Hashgraph.SDK
             return range;
         }
 
-        public virtual UtilPrngTransactionBody.Builder Build()
+        public virtual Proto.UtilPrngTransactionBody Build()
         {
-            var builder = UtilPrngTransactionBody.NewBuilder();
-            if (range != null)
-            {
-                builder.Range(range);
-            }
+            var builder = new Proto.UtilPrngTransactionBody();
 
-            return builder;
+            if (range != null)
+				builder.Range = range.Value;
+
+			return builder;
         }
 
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetUtilPrng(Build());
+            bodyBuilder.SetUtilPrng = Build();
         }
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {

@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from consensus_delete_topic.proto</summary>
   public static partial class ConsensusDeleteTopicReflection {
@@ -26,12 +26,13 @@ namespace Proto {
           string.Concat(
             "Chxjb25zZW5zdXNfZGVsZXRlX3RvcGljLnByb3RvEgVwcm90bxoRYmFzaWNf",
             "dHlwZXMucHJvdG8iRgojQ29uc2Vuc3VzRGVsZXRlVG9waWNUcmFuc2FjdGlv",
-            "bkJvZHkSHwoHdG9waWNJRBgBIAEoCzIOLnByb3RvLlRvcGljSURCIgoeY29t",
-            "LmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "bkJvZHkSHwoHdG9waWNJRBgBIAEoCzIOLnByb3RvLlRvcGljSURCOQoeY29t",
+            "LmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFw",
+            "aC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ConsensusDeleteTopicTransactionBody), global::Proto.ConsensusDeleteTopicTransactionBody.Parser, new[]{ "TopicID" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody), global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicTransactionBody.Parser, new[]{ "TopicID" }, null, null, null, null)
           }));
     }
     #endregion
@@ -68,7 +69,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ConsensusDeleteTopicReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ConsensusDeleteTopicReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -100,14 +101,14 @@ namespace Proto {
 
     /// <summary>Field number for the "topicID" field.</summary>
     public const int TopicIDFieldNumber = 1;
-    private global::Proto.TopicID topicID_;
+    private global::Hedera.Hashgraph.Proto.TopicID topicID_;
     /// <summary>
     ///*
     /// Topic to be deleted.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.TopicID TopicID {
+    public global::Hedera.Hashgraph.Proto.TopicID TopicID {
       get { return topicID_; }
       set {
         topicID_ = value;
@@ -201,7 +202,7 @@ namespace Proto {
       }
       if (other.topicID_ != null) {
         if (topicID_ == null) {
-          TopicID = new global::Proto.TopicID();
+          TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
         }
         TopicID.MergeFrom(other.TopicID);
       }
@@ -226,7 +227,7 @@ namespace Proto {
             break;
           case 10: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;
@@ -252,7 +253,7 @@ namespace Proto {
             break;
           case 10: {
             if (topicID_ == null) {
-              TopicID = new global::Proto.TopicID();
+              TopicID = new global::Hedera.Hashgraph.Proto.TopicID();
             }
             input.ReadMessage(TopicID);
             break;

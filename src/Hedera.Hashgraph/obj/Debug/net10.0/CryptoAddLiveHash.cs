@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_add_live_hash.proto</summary>
   public static partial class CryptoAddLiveHashReflection {
@@ -30,12 +30,13 @@ namespace Proto {
             "CgRrZXlzGAMgASgLMg4ucHJvdG8uS2V5TGlzdBIhCghkdXJhdGlvbhgFIAEo",
             "CzIPLnByb3RvLkR1cmF0aW9uIkUKIENyeXB0b0FkZExpdmVIYXNoVHJhbnNh",
             "Y3Rpb25Cb2R5EiEKCGxpdmVIYXNoGAMgASgLMg8ucHJvdG8uTGl2ZUhhc2hC",
-            "IgoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "OQoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhh",
+            "c2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.DurationReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.DurationReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.LiveHash), global::Proto.LiveHash.Parser, new[]{ "AccountId", "Hash", "Keys", "Duration" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoAddLiveHashTransactionBody), global::Proto.CryptoAddLiveHashTransactionBody.Parser, new[]{ "LiveHash" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LiveHash), global::Hedera.Hashgraph.Proto.LiveHash.Parser, new[]{ "AccountId", "Hash", "Keys", "Duration" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody), global::Hedera.Hashgraph.Proto.CryptoAddLiveHashTransactionBody.Parser, new[]{ "LiveHash" }, null, null, null, null)
           }));
     }
     #endregion
@@ -65,7 +66,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoAddLiveHashReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoAddLiveHashReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -100,14 +101,14 @@ namespace Proto {
 
     /// <summary>Field number for the "accountId" field.</summary>
     public const int AccountIdFieldNumber = 1;
-    private global::Proto.AccountID accountId_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountId_;
     /// <summary>
     ///*
     /// An account associated via this live hash to the hashed content.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountId {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountId {
       get { return accountId_; }
       set {
         accountId_ = value;
@@ -133,7 +134,7 @@ namespace Proto {
 
     /// <summary>Field number for the "keys" field.</summary>
     public const int KeysFieldNumber = 3;
-    private global::Proto.KeyList keys_;
+    private global::Hedera.Hashgraph.Proto.KeyList keys_;
     /// <summary>
     ///*
     /// A list of keys, all of which MUST sign the transaction to add the
@@ -143,7 +144,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.KeyList Keys {
+    public global::Hedera.Hashgraph.Proto.KeyList Keys {
       get { return keys_; }
       set {
         keys_ = value;
@@ -152,7 +153,7 @@ namespace Proto {
 
     /// <summary>Field number for the "duration" field.</summary>
     public const int DurationFieldNumber = 5;
-    private global::Proto.Duration duration_;
+    private global::Hedera.Hashgraph.Proto.Duration duration_;
     /// <summary>
     ///*
     /// A duration describing how long this Live Hash SHALL remain valid.&lt;br/>
@@ -160,7 +161,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Duration Duration {
+    public global::Hedera.Hashgraph.Proto.Duration Duration {
       get { return duration_; }
       set {
         duration_ = value;
@@ -293,7 +294,7 @@ namespace Proto {
       }
       if (other.accountId_ != null) {
         if (accountId_ == null) {
-          AccountId = new global::Proto.AccountID();
+          AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountId.MergeFrom(other.AccountId);
       }
@@ -302,13 +303,13 @@ namespace Proto {
       }
       if (other.keys_ != null) {
         if (keys_ == null) {
-          Keys = new global::Proto.KeyList();
+          Keys = new global::Hedera.Hashgraph.Proto.KeyList();
         }
         Keys.MergeFrom(other.Keys);
       }
       if (other.duration_ != null) {
         if (duration_ == null) {
-          Duration = new global::Proto.Duration();
+          Duration = new global::Hedera.Hashgraph.Proto.Duration();
         }
         Duration.MergeFrom(other.Duration);
       }
@@ -333,7 +334,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -344,14 +345,14 @@ namespace Proto {
           }
           case 26: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;
           }
           case 42: {
             if (duration_ == null) {
-              Duration = new global::Proto.Duration();
+              Duration = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(Duration);
             break;
@@ -377,7 +378,7 @@ namespace Proto {
             break;
           case 10: {
             if (accountId_ == null) {
-              AccountId = new global::Proto.AccountID();
+              AccountId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountId);
             break;
@@ -388,14 +389,14 @@ namespace Proto {
           }
           case 26: {
             if (keys_ == null) {
-              Keys = new global::Proto.KeyList();
+              Keys = new global::Hedera.Hashgraph.Proto.KeyList();
             }
             input.ReadMessage(Keys);
             break;
           }
           case 42: {
             if (duration_ == null) {
-              Duration = new global::Proto.Duration();
+              Duration = new global::Hedera.Hashgraph.Proto.Duration();
             }
             input.ReadMessage(Duration);
             break;
@@ -439,7 +440,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoAddLiveHashReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoAddLiveHashReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -471,7 +472,7 @@ namespace Proto {
 
     /// <summary>Field number for the "liveHash" field.</summary>
     public const int LiveHashFieldNumber = 3;
-    private global::Proto.LiveHash liveHash_;
+    private global::Hedera.Hashgraph.Proto.LiveHash liveHash_;
     /// <summary>
     ///*
     /// A Live Hash to be added to the ledger and associated with
@@ -479,7 +480,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.LiveHash LiveHash {
+    public global::Hedera.Hashgraph.Proto.LiveHash LiveHash {
       get { return liveHash_; }
       set {
         liveHash_ = value;
@@ -573,7 +574,7 @@ namespace Proto {
       }
       if (other.liveHash_ != null) {
         if (liveHash_ == null) {
-          LiveHash = new global::Proto.LiveHash();
+          LiveHash = new global::Hedera.Hashgraph.Proto.LiveHash();
         }
         LiveHash.MergeFrom(other.LiveHash);
       }
@@ -598,7 +599,7 @@ namespace Proto {
             break;
           case 26: {
             if (liveHash_ == null) {
-              LiveHash = new global::Proto.LiveHash();
+              LiveHash = new global::Hedera.Hashgraph.Proto.LiveHash();
             }
             input.ReadMessage(LiveHash);
             break;
@@ -624,7 +625,7 @@ namespace Proto {
             break;
           case 26: {
             if (liveHash_ == null) {
-              LiveHash = new global::Proto.LiveHash();
+              LiveHash = new global::Hedera.Hashgraph.Proto.LiveHash();
             }
             input.ReadMessage(LiveHash);
             break;

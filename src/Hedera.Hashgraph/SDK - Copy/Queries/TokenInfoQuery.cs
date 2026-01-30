@@ -1,26 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Queries;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -66,33 +51,37 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        override void OnMakeRequest(Proto.Query.Builder queryBuilder, QueryHeader header)
+        override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
         {
-            var builder = TokenGetInfoQuery.NewBuilder();
+            var builder = new Proto.TokenGetInfoQuery()
+            {
+                Header = header
+            };
+
             if (tokenId != null)
             {
-                builder.Token(tokenId.ToProtobuf());
+                builder.Token = tokenId.ToProtobuf();
             }
 
-            queryBuilder.SetTokenGetInfo(builder.Header(header));
+            queryBuilder.TokenGetInfo = builder;
         }
 
-        override ResponseHeader MapResponseHeader(Response response)
+        override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
         {
-            return response.GetTokenGetInfo().GetHeader();
+            return response.TokenGetInfo.Header;
         }
 
-        override QueryHeader MapRequestHeader(Proto.Query request)
+        override Proto.QueryHeader MapRequestHeader(Proto.Query request)
         {
-            return request.GetTokenGetInfo().GetHeader();
+            return request.TokenGetInfo.Header;
         }
 
-        override TokenInfo MapResponse(Response response, AccountId nodeId, Query request)
+        override TokenInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
         {
-            return TokenInfo.FromProtobuf(response.GetTokenGetInfo());
+            return TokenInfo.FromProtobuf(response.TokenGetInfo);
         }
 
-        override MethodDescriptor<Query, Response> GetMethodDescriptor()
+        override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
         {
             return TokenServiceGrpc.GetGetTokenInfoMethod();
         }

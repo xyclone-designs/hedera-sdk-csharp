@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from util_prng.proto</summary>
   public static partial class UtilPrngReflection {
@@ -25,12 +25,12 @@ namespace Proto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg91dGlsX3BybmcucHJvdG8SBXByb3RvIigKF1V0aWxQcm5nVHJhbnNhY3Rp",
-            "b25Cb2R5Eg0KBXJhbmdlGAEgASgFQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBo",
-            "LnNkay5wcm90b1ABYgZwcm90bzM="));
+            "b25Cb2R5Eg0KBXJhbmdlGAEgASgFQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBo",
+            "LnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.UtilPrngTransactionBody), global::Proto.UtilPrngTransactionBody.Parser, new[]{ "Range" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody), global::Hedera.Hashgraph.Proto.UtilPrngTransactionBody.Parser, new[]{ "Range" }, null, null, null, null)
           }));
     }
     #endregion
@@ -62,7 +62,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.UtilPrngReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.UtilPrngReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

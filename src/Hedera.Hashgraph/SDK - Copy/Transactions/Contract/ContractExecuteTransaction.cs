@@ -210,7 +210,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link ContractCallTransactionBody}</returns>
-        ContractCallTransactionBody.Builder Build()
+        ContractCallTransactionBody Build()
         {
             var builder = ContractCallTransactionBody.NewBuilder();
             if (contractId != null)

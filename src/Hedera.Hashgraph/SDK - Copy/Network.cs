@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 SetNetwork(network);
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException e)
             {
             }
             catch (TimeoutException e)

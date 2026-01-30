@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.State.Hooks {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from evm_hook_state.proto</summary>
   public static partial class EvmHookStateReflection {
@@ -38,13 +38,13 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
             "KAsyGy5nb29nbGUucHJvdG9idWYuSW50NjRWYWx1ZRIZChFudW1fc3RvcmFn",
             "ZV9zbG90cxgJIAEoDSI8Cg1MYW1iZGFTbG90S2V5Eh4KB2hvb2tfaWQYASAB",
             "KAsyDS5wcm90by5Ib29rSWQSCwoDa2V5GAIgASgMKhkKC0V2bUhvb2tUeXBl",
-            "EgoKBkxBTUJEQRAAQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90",
-            "b1ABYgZwcm90bzM="));
+            "EgoKBkxBTUJEQRAAQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90",
+            "b6oCFkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Com.Hedera.Hapi.Node.Hooks.HookTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
-          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType), }, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookState), global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookState.Parser, new[]{ "HookId", "Type", "ExtensionPoint", "HookContractId", "AdminKey", "FirstContractStorageKey", "PreviousHookId", "NextHookId", "NumStorageSlots" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.State.Hooks.LambdaSlotKey), global::Com.Hedera.Hapi.Node.State.Hooks.LambdaSlotKey.Parser, new[]{ "HookId", "Key" }, null, null, null, null)
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.HookTypesReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.WrappersReflection.Descriptor, },
+          new pbr::GeneratedClrTypeInfo(new[] {typeof(global::Hedera.Hashgraph.Proto.EvmHookType), }, null, new pbr::GeneratedClrTypeInfo[] {
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.EvmHookState), global::Hedera.Hashgraph.Proto.EvmHookState.Parser, new[]{ "HookId", "Type", "ExtensionPoint", "HookContractId", "AdminKey", "FirstContractStorageKey", "PreviousHookId", "NextHookId", "NumStorageSlots" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.LambdaSlotKey), global::Hedera.Hashgraph.Proto.LambdaSlotKey.Parser, new[]{ "HookId", "Key" }, null, null, null, null)
           }));
     }
     #endregion
@@ -85,7 +85,7 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookStateReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.EvmHookStateReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -125,14 +125,14 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
 
     /// <summary>Field number for the "hook_id" field.</summary>
     public const int HookIdFieldNumber = 1;
-    private global::Proto.HookId hookId_;
+    private global::Hedera.Hashgraph.Proto.HookId hookId_;
     /// <summary>
     ///*
     /// For state proofs, the id of this hook.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookId HookId {
+    public global::Hedera.Hashgraph.Proto.HookId HookId {
       get { return hookId_; }
       set {
         hookId_ = value;
@@ -141,14 +141,14 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
 
     /// <summary>Field number for the "type" field.</summary>
     public const int TypeFieldNumber = 2;
-    private global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType type_ = global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType.Lambda;
+    private global::Hedera.Hashgraph.Proto.EvmHookType type_ = global::Hedera.Hashgraph.Proto.EvmHookType.Lambda;
     /// <summary>
     ///*
     /// The type of the EVM hook.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType Type {
+    public global::Hedera.Hashgraph.Proto.EvmHookType Type {
       get { return type_; }
       set {
         type_ = value;
@@ -157,14 +157,14 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
 
     /// <summary>Field number for the "extension_point" field.</summary>
     public const int ExtensionPointFieldNumber = 3;
-    private global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint extensionPoint_ = global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook;
+    private global::Hedera.Hashgraph.Proto.HookExtensionPoint extensionPoint_ = global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook;
     /// <summary>
     ///*
     /// The type of the extension point the hook implements.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint ExtensionPoint {
+    public global::Hedera.Hashgraph.Proto.HookExtensionPoint ExtensionPoint {
       get { return extensionPoint_; }
       set {
         extensionPoint_ = value;
@@ -173,14 +173,14 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
 
     /// <summary>Field number for the "hook_contract_id" field.</summary>
     public const int HookContractIdFieldNumber = 4;
-    private global::Proto.ContractID hookContractId_;
+    private global::Hedera.Hashgraph.Proto.ContractID hookContractId_;
     /// <summary>
     ///*
     /// The id of the contract with this hook's bytecode.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID HookContractId {
+    public global::Hedera.Hashgraph.Proto.ContractID HookContractId {
       get { return hookContractId_; }
       set {
         hookContractId_ = value;
@@ -189,7 +189,7 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
 
     /// <summary>Field number for the "admin_key" field.</summary>
     public const int AdminKeyFieldNumber = 5;
-    private global::Proto.Key adminKey_;
+    private global::Hedera.Hashgraph.Proto.Key adminKey_;
     /// <summary>
     ///*
     /// If set, a key that that can be used to remove or replace the hook; or (if
@@ -198,7 +198,7 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Key AdminKey {
+    public global::Hedera.Hashgraph.Proto.Key AdminKey {
       get { return adminKey_; }
       set {
         adminKey_ = value;
@@ -311,8 +311,8 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
     public override int GetHashCode() {
       int hash = 1;
       if (hookId_ != null) hash ^= HookId.GetHashCode();
-      if (Type != global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType.Lambda) hash ^= Type.GetHashCode();
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) hash ^= ExtensionPoint.GetHashCode();
+      if (Type != global::Hedera.Hashgraph.Proto.EvmHookType.Lambda) hash ^= Type.GetHashCode();
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) hash ^= ExtensionPoint.GetHashCode();
       if (hookContractId_ != null) hash ^= HookContractId.GetHashCode();
       if (adminKey_ != null) hash ^= AdminKey.GetHashCode();
       if (FirstContractStorageKey.Length != 0) hash ^= FirstContractStorageKey.GetHashCode();
@@ -341,11 +341,11 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
         output.WriteRawTag(10);
         output.WriteMessage(HookId);
       }
-      if (Type != global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType.Lambda) {
+      if (Type != global::Hedera.Hashgraph.Proto.EvmHookType.Lambda) {
         output.WriteRawTag(16);
         output.WriteEnum((int) Type);
       }
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         output.WriteRawTag(24);
         output.WriteEnum((int) ExtensionPoint);
       }
@@ -385,11 +385,11 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
         output.WriteRawTag(10);
         output.WriteMessage(HookId);
       }
-      if (Type != global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType.Lambda) {
+      if (Type != global::Hedera.Hashgraph.Proto.EvmHookType.Lambda) {
         output.WriteRawTag(16);
         output.WriteEnum((int) Type);
       }
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         output.WriteRawTag(24);
         output.WriteEnum((int) ExtensionPoint);
       }
@@ -428,10 +428,10 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
       if (hookId_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(HookId);
       }
-      if (Type != global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType.Lambda) {
+      if (Type != global::Hedera.Hashgraph.Proto.EvmHookType.Lambda) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Type);
       }
-      if (ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ExtensionPoint);
       }
       if (hookContractId_ != null) {
@@ -466,25 +466,25 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
       }
       if (other.hookId_ != null) {
         if (hookId_ == null) {
-          HookId = new global::Proto.HookId();
+          HookId = new global::Hedera.Hashgraph.Proto.HookId();
         }
         HookId.MergeFrom(other.HookId);
       }
-      if (other.Type != global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType.Lambda) {
+      if (other.Type != global::Hedera.Hashgraph.Proto.EvmHookType.Lambda) {
         Type = other.Type;
       }
-      if (other.ExtensionPoint != global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint.AccountAllowanceHook) {
+      if (other.ExtensionPoint != global::Hedera.Hashgraph.Proto.HookExtensionPoint.AccountAllowanceHook) {
         ExtensionPoint = other.ExtensionPoint;
       }
       if (other.hookContractId_ != null) {
         if (hookContractId_ == null) {
-          HookContractId = new global::Proto.ContractID();
+          HookContractId = new global::Hedera.Hashgraph.Proto.ContractID();
         }
         HookContractId.MergeFrom(other.HookContractId);
       }
       if (other.adminKey_ != null) {
         if (adminKey_ == null) {
-          AdminKey = new global::Proto.Key();
+          AdminKey = new global::Hedera.Hashgraph.Proto.Key();
         }
         AdminKey.MergeFrom(other.AdminKey);
       }
@@ -525,29 +525,29 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
             break;
           case 10: {
             if (hookId_ == null) {
-              HookId = new global::Proto.HookId();
+              HookId = new global::Hedera.Hashgraph.Proto.HookId();
             }
             input.ReadMessage(HookId);
             break;
           }
           case 16: {
-            Type = (global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType) input.ReadEnum();
+            Type = (global::Hedera.Hashgraph.Proto.EvmHookType) input.ReadEnum();
             break;
           }
           case 24: {
-            ExtensionPoint = (global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint) input.ReadEnum();
+            ExtensionPoint = (global::Hedera.Hashgraph.Proto.HookExtensionPoint) input.ReadEnum();
             break;
           }
           case 34: {
             if (hookContractId_ == null) {
-              HookContractId = new global::Proto.ContractID();
+              HookContractId = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(HookContractId);
             break;
           }
           case 42: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
@@ -595,29 +595,29 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
             break;
           case 10: {
             if (hookId_ == null) {
-              HookId = new global::Proto.HookId();
+              HookId = new global::Hedera.Hashgraph.Proto.HookId();
             }
             input.ReadMessage(HookId);
             break;
           }
           case 16: {
-            Type = (global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookType) input.ReadEnum();
+            Type = (global::Hedera.Hashgraph.Proto.EvmHookType) input.ReadEnum();
             break;
           }
           case 24: {
-            ExtensionPoint = (global::Com.Hedera.Hapi.Node.Hooks.HookExtensionPoint) input.ReadEnum();
+            ExtensionPoint = (global::Hedera.Hashgraph.Proto.HookExtensionPoint) input.ReadEnum();
             break;
           }
           case 34: {
             if (hookContractId_ == null) {
-              HookContractId = new global::Proto.ContractID();
+              HookContractId = new global::Hedera.Hashgraph.Proto.ContractID();
             }
             input.ReadMessage(HookContractId);
             break;
           }
           case 42: {
             if (adminKey_ == null) {
-              AdminKey = new global::Proto.Key();
+              AdminKey = new global::Hedera.Hashgraph.Proto.Key();
             }
             input.ReadMessage(AdminKey);
             break;
@@ -673,7 +673,7 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.State.Hooks.EvmHookStateReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.EvmHookStateReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -706,14 +706,14 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
 
     /// <summary>Field number for the "hook_id" field.</summary>
     public const int HookIdFieldNumber = 1;
-    private global::Proto.HookId hookId_;
+    private global::Hedera.Hashgraph.Proto.HookId hookId_;
     /// <summary>
     ///*
     /// The id of the lambda EVM hook that owns this slot.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.HookId HookId {
+    public global::Hedera.Hashgraph.Proto.HookId HookId {
       get { return hookId_; }
       set {
         hookId_ = value;
@@ -837,7 +837,7 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
       }
       if (other.hookId_ != null) {
         if (hookId_ == null) {
-          HookId = new global::Proto.HookId();
+          HookId = new global::Hedera.Hashgraph.Proto.HookId();
         }
         HookId.MergeFrom(other.HookId);
       }
@@ -865,7 +865,7 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
             break;
           case 10: {
             if (hookId_ == null) {
-              HookId = new global::Proto.HookId();
+              HookId = new global::Hedera.Hashgraph.Proto.HookId();
             }
             input.ReadMessage(HookId);
             break;
@@ -895,7 +895,7 @@ namespace Com.Hedera.Hapi.Node.State.Hooks {
             break;
           case 10: {
             if (hookId_ == null) {
-              HookId = new global::Proto.HookId();
+              HookId = new global::Hedera.Hashgraph.Proto.HookId();
             }
             input.ReadMessage(HookId);
             break;

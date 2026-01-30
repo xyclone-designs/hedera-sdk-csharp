@@ -1,27 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -73,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
     /// </summary>
     public class TokenCreateTransaction : Transaction<TokenCreateTransaction>
     {
-        private IList<CustomFee> customFees = new ();
+        private IList<CustomFee> customFees = [];
         private AccountId treasuryAccountId = null;
         private AccountId autoRenewAccountId = null;
         private string tokenName = "";
@@ -93,12 +79,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         private Duration expirationTimeDuration = null;
         private Duration autoRenewPeriod = null;
         private string tokenMemo = "";
-        private TokenType tokenType = TokenType.FUNGIBLE_COMMON;
-        private TokenSupplyType tokenSupplyType = TokenSupplyType.INFINITE;
+        private TokenType tokenType = TokenType.FungibleCommon;
+        private TokenSupplyType tokenSupplyType = TokenSupplyType.Infinite;
         private long maxSupply = 0;
-        private byte[] tokenMetadata = new[]
-        {
-        };
+        private byte[] tokenMetadata = [];
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -814,84 +798,88 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenCreateTransactionBody}</returns>
-        public virtual TokenCreateTransactionBody.Builder Build()
+        public virtual Proto.TokenCreateTransactionBody Build()
         {
-            var builder = TokenCreateTransactionBody.NewBuilder();
+            var builder = new Proto.TokenCreateTransactionBody();
+
             if (treasuryAccountId != null)
             {
-                builder.Treasury(treasuryAccountId.ToProtobuf());
+                builder.Treasury = treasuryAccountId.ToProtobuf();
             }
 
             if (autoRenewAccountId != null)
             {
-                builder.AutoRenewAccount(autoRenewAccountId.ToProtobuf());
+                builder.AutoRenewAccount = autoRenewAccountId.ToProtobuf();
             }
 
-            builder.Name(tokenName);
-            builder.Symbol(tokenSymbol);
-            builder.Decimals(decimals);
-            builder.InitialSupply(initialSupply);
+            builder.Name = tokenName;
+            builder.Symbol = tokenSymbol;
+            builder.Decimals = decimals;
+            builder.InitialSupply = initialSupply;
+
             if (adminKey != null)
             {
-                builder.AdminKey(adminKey.ToProtobufKey());
+                builder.AdminKey = adminKey.ToProtobufKey();
             }
 
             if (kycKey != null)
             {
-                builder.KycKey(kycKey.ToProtobufKey());
+                builder.KycKey = kycKey.ToProtobufKey();
             }
 
             if (freezeKey != null)
             {
-                builder.FreezeKey(freezeKey.ToProtobufKey());
+                builder.FreezeKey = freezeKey.ToProtobufKey();
             }
 
             if (wipeKey != null)
             {
-                builder.WipeKey(wipeKey.ToProtobufKey());
+                builder.WipeKey = wipeKey.ToProtobufKey();
             }
 
             if (supplyKey != null)
             {
-                builder.SupplyKey(supplyKey.ToProtobufKey());
+                builder.SupplyKey = supplyKey.ToProtobufKey();
             }
 
             if (feeScheduleKey != null)
             {
-                builder.FeeScheduleKey(feeScheduleKey.ToProtobufKey());
+                builder.FeeScheduleKey = feeScheduleKey.ToProtobufKey();
             }
 
             if (pauseKey != null)
             {
-                builder.PauseKey(pauseKey.ToProtobufKey());
+                builder.PauseKey = pauseKey.ToProtobufKey();
             }
 
             if (metadataKey != null)
             {
-                builder.MetadataKey(metadataKey.ToProtobufKey());
+                builder.MetadataKey = metadataKey.ToProtobufKey();
             }
 
-            builder.FreezeDefault(freezeDefault);
+            builder.FreezeDefault = freezeDefault;
+
             if (expirationTime != null)
             {
-                builder.Expiry(Utils.TimestampConverter.ToProtobuf(expirationTime));
+                builder.Expiry = Utils.TimestampConverter.ToProtobuf(expirationTime);
             }
 
             if (expirationTimeDuration != null)
             {
-                builder.Expiry(Utils.TimestampConverter.ToProtobuf(expirationTimeDuration));
+                builder.Expiry = Utils.TimestampConverter.ToProtobuf(expirationTimeDuration);
             }
 
             if (autoRenewPeriod != null)
             {
-                builder.AutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod));
+                builder.AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(autoRenewPeriod);
             }
 
-            builder.Memo(tokenMemo);
-            builder.TokenType(tokenType.code);
-            builder.SupplyType(tokenSupplyType.code);
-            builder.MaxSupply(maxSupply);
-            builder.Metadata(ByteString.CopyFrom(tokenMetadata));
+            builder.Memo = tokenMemo;
+            builder.TokenType = tokenType.code;
+            builder.SupplyType = tokenSupplyType.code;
+            builder.MaxSupply = maxSupply;
+            builder.Metadata = ByteString.CopyFrom(tokenMetadata);
+
             foreach (var fee in customFees)
             {
                 builder.CustomFees.Add(fee.ToProtobuf());
@@ -905,77 +893,81 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.TokenCreation();
-            if (body.HasTreasury())
+            var body = sourceTransactionBody.TokenCreation;
+
+            if (body.Treasury is not null)
             {
-                treasuryAccountId = AccountId.FromProtobuf(body.GetTreasury());
+                treasuryAccountId = AccountId.FromProtobuf(body.Treasury);
             }
 
-            if (body.HasAutoRenewAccount())
+            if (body.AutoRenewAccount is not null)
             {
-                autoRenewAccountId = AccountId.FromProtobuf(body.GetAutoRenewAccount());
+                autoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccount);
             }
 
-            tokenName = body.GetName();
-            tokenSymbol = body.GetSymbol();
-            decimals = body.GetDecimals();
-            initialSupply = body.GetInitialSupply();
+            tokenName = body.Name;
+            tokenSymbol = body.Symbol;
+            decimals = body.Decimals;
+            initialSupply = body.InitialSupply;
+
             if (body.AdminKey is not null)
             {
                 adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
-            if (body.HasKycKey())
+            if (body.KycKey is not null)
             {
-                kycKey = Key.FromProtobufKey(body.GetKycKey());
+                kycKey = Key.FromProtobufKey(body.KycKey);
             }
 
-            if (body.HasFreezeKey())
+            if (body.FreezeKey is not null)
             {
-                freezeKey = Key.FromProtobufKey(body.GetFreezeKey());
+                freezeKey = Key.FromProtobufKey(body.FreezeKey);
             }
 
-            if (body.HasWipeKey())
+            if (body.WipeKey is not null)
             {
-                wipeKey = Key.FromProtobufKey(body.GetWipeKey());
+                wipeKey = Key.FromProtobufKey(body.WipeKey);
             }
 
-            if (body.HasSupplyKey())
+            if (body.SupplyKey is not null)
             {
-                supplyKey = Key.FromProtobufKey(body.GetSupplyKey());
+                supplyKey = Key.FromProtobufKey(body.SupplyKey);
             }
 
-            if (body.HasFeeScheduleKey())
+            if (body.FeeScheduleKey is not null)
             {
-                feeScheduleKey = Key.FromProtobufKey(body.GetFeeScheduleKey());
+                feeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
             }
 
-            if (body.HasPauseKey())
+            if (body.PauseKey is not null)
             {
-                pauseKey = Key.FromProtobufKey(body.GetPauseKey());
+                pauseKey = Key.FromProtobufKey(body.PauseKey);
             }
 
-            if (body.HasMetadataKey())
+            if (body.MetadataKey is not null)
             {
-                metadataKey = Key.FromProtobufKey(body.GetMetadataKey());
+                metadataKey = Key.FromProtobufKey(body.MetadataKey);
             }
 
-            freezeDefault = body.GetFreezeDefault();
-            if (body.HasExpiry())
+            freezeDefault = body.FreezeDefault;
+
+            if (body.Expiry is not null)
             {
-                expirationTime = Utils.TimestampConverter.FromProtobuf(body.GetExpiry());
+                expirationTime = Utils.TimestampConverter.FromProtobuf(body.Expiry);
             }
 
-            if (body.HasAutoRenewPeriod())
+            if (body.AutoRenewPeriod is not null)
             {
-                autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.GetAutoRenewPeriod());
+                autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
             }
 
-            tokenMemo = body.GetMemo();
-            tokenType = TokenType.ValueOf(body.GetTokenType());
-            tokenSupplyType = TokenSupplyType.ValueOf(body.GetSupplyType());
-            maxSupply = body.GetMaxSupply();
-            tokenMetadata = body.GetMetadata().ToByteArray();
+            tokenMemo = body.Memo;
+            tokenType = (TokenType) body.TokenType;
+            tokenSupplyType = (TokenSupplyType) body.SupplyType;
+            maxSupply = body.MaxSupply;
+            tokenMetadata = body.Metadata.ToByteArray();
+
             foreach (var fee in body.CustomFees)
             {
                 customFees.Add(CustomFee.FromProtobuf(fee));

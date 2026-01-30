@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_get_account_balance.proto</summary>
   public static partial class CryptoGetAccountBalanceReflection {
@@ -33,13 +33,14 @@ namespace Proto {
             "rgEKH0NyeXB0b0dldEFjY291bnRCYWxhbmNlUmVzcG9uc2USJQoGaGVhZGVy",
             "GAEgASgLMhUucHJvdG8uUmVzcG9uc2VIZWFkZXISIwoJYWNjb3VudElEGAIg",
             "ASgLMhAucHJvdG8uQWNjb3VudElEEg8KB2JhbGFuY2UYAyABKAQSLgoNdG9r",
-            "ZW5CYWxhbmNlcxgEIAMoCzITLnByb3RvLlRva2VuQmFsYW5jZUICGAFCIgoe",
-            "Y29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnByb3RvMw=="));
+            "ZW5CYWxhbmNlcxgEIAMoCzITLnByb3RvLlRva2VuQmFsYW5jZUICGAFCOQoe",
+            "Y29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hn",
+            "cmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, global::Proto.QueryHeaderReflection.Descriptor, global::Proto.ResponseHeaderReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, global::Hedera.Hashgraph.Proto.QueryHeaderReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseHeaderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoGetAccountBalanceQuery), global::Proto.CryptoGetAccountBalanceQuery.Parser, new[]{ "Header", "AccountID", "ContractID" }, new[]{ "BalanceSource" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.CryptoGetAccountBalanceResponse), global::Proto.CryptoGetAccountBalanceResponse.Parser, new[]{ "Header", "AccountID", "Balance", "TokenBalances" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceQuery), global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceQuery.Parser, new[]{ "Header", "AccountID", "ContractID" }, new[]{ "BalanceSource" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse), global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceResponse.Parser, new[]{ "Header", "AccountID", "Balance", "TokenBalances" }, null, null, null, null)
           }));
     }
     #endregion
@@ -71,7 +72,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoGetAccountBalanceReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -112,7 +113,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.QueryHeader header_;
+    private global::Hedera.Hashgraph.Proto.QueryHeader header_;
     /// <summary>
     ///*
     /// Standard information sent with every query operation.&lt;br/>
@@ -121,7 +122,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.QueryHeader Header {
+    public global::Hedera.Hashgraph.Proto.QueryHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -139,8 +140,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
-      get { return balanceSourceCase_ == BalanceSourceOneofCase.AccountID ? (global::Proto.AccountID) balanceSource_ : null; }
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
+      get { return balanceSourceCase_ == BalanceSourceOneofCase.AccountID ? (global::Hedera.Hashgraph.Proto.AccountID) balanceSource_ : null; }
       set {
         balanceSource_ = value;
         balanceSourceCase_ = value == null ? BalanceSourceOneofCase.None : BalanceSourceOneofCase.AccountID;
@@ -158,8 +159,8 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ContractID ContractID {
-      get { return balanceSourceCase_ == BalanceSourceOneofCase.ContractID ? (global::Proto.ContractID) balanceSource_ : null; }
+    public global::Hedera.Hashgraph.Proto.ContractID ContractID {
+      get { return balanceSourceCase_ == BalanceSourceOneofCase.ContractID ? (global::Hedera.Hashgraph.Proto.ContractID) balanceSource_ : null; }
       set {
         balanceSource_ = value;
         balanceSourceCase_ = value == null ? BalanceSourceOneofCase.None : BalanceSourceOneofCase.ContractID;
@@ -302,20 +303,20 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.QueryHeader();
+          Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
         }
         Header.MergeFrom(other.Header);
       }
       switch (other.BalanceSourceCase) {
         case BalanceSourceOneofCase.AccountID:
           if (AccountID == null) {
-            AccountID = new global::Proto.AccountID();
+            AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
           }
           AccountID.MergeFrom(other.AccountID);
           break;
         case BalanceSourceOneofCase.ContractID:
           if (ContractID == null) {
-            ContractID = new global::Proto.ContractID();
+            ContractID = new global::Hedera.Hashgraph.Proto.ContractID();
           }
           ContractID.MergeFrom(other.ContractID);
           break;
@@ -342,13 +343,13 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (balanceSourceCase_ == BalanceSourceOneofCase.AccountID) {
               subBuilder.MergeFrom(AccountID);
             }
@@ -357,7 +358,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (balanceSourceCase_ == BalanceSourceOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -386,13 +387,13 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.QueryHeader();
+              Header = new global::Hedera.Hashgraph.Proto.QueryHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
-            global::Proto.AccountID subBuilder = new global::Proto.AccountID();
+            global::Hedera.Hashgraph.Proto.AccountID subBuilder = new global::Hedera.Hashgraph.Proto.AccountID();
             if (balanceSourceCase_ == BalanceSourceOneofCase.AccountID) {
               subBuilder.MergeFrom(AccountID);
             }
@@ -401,7 +402,7 @@ namespace Proto {
             break;
           }
           case 26: {
-            global::Proto.ContractID subBuilder = new global::Proto.ContractID();
+            global::Hedera.Hashgraph.Proto.ContractID subBuilder = new global::Hedera.Hashgraph.Proto.ContractID();
             if (balanceSourceCase_ == BalanceSourceOneofCase.ContractID) {
               subBuilder.MergeFrom(ContractID);
             }
@@ -439,7 +440,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.CryptoGetAccountBalanceReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.CryptoGetAccountBalanceReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -474,7 +475,7 @@ namespace Proto {
 
     /// <summary>Field number for the "header" field.</summary>
     public const int HeaderFieldNumber = 1;
-    private global::Proto.ResponseHeader header_;
+    private global::Hedera.Hashgraph.Proto.ResponseHeader header_;
     /// <summary>
     ///*
     /// The standard response information for queries.&lt;br/>
@@ -483,7 +484,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ResponseHeader Header {
+    public global::Hedera.Hashgraph.Proto.ResponseHeader Header {
       get { return header_; }
       set {
         header_ = value;
@@ -492,7 +493,7 @@ namespace Proto {
 
     /// <summary>Field number for the "accountID" field.</summary>
     public const int AccountIDFieldNumber = 2;
-    private global::Proto.AccountID accountID_;
+    private global::Hedera.Hashgraph.Proto.AccountID accountID_;
     /// <summary>
     ///*
     /// An account identifier.&lt;br/>
@@ -502,7 +503,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID AccountID {
+    public global::Hedera.Hashgraph.Proto.AccountID AccountID {
       get { return accountID_; }
       set {
         accountID_ = value;
@@ -529,9 +530,9 @@ namespace Proto {
 
     /// <summary>Field number for the "tokenBalances" field.</summary>
     public const int TokenBalancesFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::Proto.TokenBalance> _repeated_tokenBalances_codec
-        = pb::FieldCodec.ForMessage(34, global::Proto.TokenBalance.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenBalance> tokenBalances_ = new pbc::RepeatedField<global::Proto.TokenBalance>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenBalance> _repeated_tokenBalances_codec
+        = pb::FieldCodec.ForMessage(34, global::Hedera.Hashgraph.Proto.TokenBalance.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenBalance> tokenBalances_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenBalance>();
     /// <summary>
     ///*
     /// This field became infeasible to support after HIP-367 removed limits on
@@ -547,7 +548,7 @@ namespace Proto {
     [global::System.ObsoleteAttribute]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenBalance> TokenBalances {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenBalance> TokenBalances {
       get { return tokenBalances_; }
     }
 
@@ -669,13 +670,13 @@ namespace Proto {
       }
       if (other.header_ != null) {
         if (header_ == null) {
-          Header = new global::Proto.ResponseHeader();
+          Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
         }
         Header.MergeFrom(other.Header);
       }
       if (other.accountID_ != null) {
         if (accountID_ == null) {
-          AccountID = new global::Proto.AccountID();
+          AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         AccountID.MergeFrom(other.AccountID);
       }
@@ -704,14 +705,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;
@@ -745,14 +746,14 @@ namespace Proto {
             break;
           case 10: {
             if (header_ == null) {
-              Header = new global::Proto.ResponseHeader();
+              Header = new global::Hedera.Hashgraph.Proto.ResponseHeader();
             }
             input.ReadMessage(Header);
             break;
           }
           case 18: {
             if (accountID_ == null) {
-              AccountID = new global::Proto.AccountID();
+              AccountID = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(AccountID);
             break;

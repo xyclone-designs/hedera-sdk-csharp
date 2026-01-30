@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_claim_airdrop.proto</summary>
   public static partial class TokenClaimAirdropReflection {
@@ -27,12 +27,12 @@ namespace Proto {
             "Chl0b2tlbl9jbGFpbV9haXJkcm9wLnByb3RvEgVwcm90bxoRYmFzaWNfdHlw",
             "ZXMucHJvdG8iVQogVG9rZW5DbGFpbUFpcmRyb3BUcmFuc2FjdGlvbkJvZHkS",
             "MQoQcGVuZGluZ19haXJkcm9wcxgBIAMoCzIXLnByb3RvLlBlbmRpbmdBaXJk",
-            "cm9wSWRCIgoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvUAFiBnBy",
-            "b3RvMw=="));
+            "cm9wSWRCOQoeY29tLmhlZGVyYS5oYXNoZ3JhcGguc2RrLnByb3RvqgIWSGVk",
+            "ZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenClaimAirdropTransactionBody), global::Proto.TokenClaimAirdropTransactionBody.Parser, new[]{ "PendingAirdrops" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody), global::Hedera.Hashgraph.Proto.TokenClaimAirdropTransactionBody.Parser, new[]{ "PendingAirdrops" }, null, null, null, null)
           }));
     }
     #endregion
@@ -72,7 +72,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenClaimAirdropReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenClaimAirdropReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -104,9 +104,9 @@ namespace Proto {
 
     /// <summary>Field number for the "pending_airdrops" field.</summary>
     public const int PendingAirdropsFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.PendingAirdropId> _repeated_pendingAirdrops_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.PendingAirdropId.Parser);
-    private readonly pbc::RepeatedField<global::Proto.PendingAirdropId> pendingAirdrops_ = new pbc::RepeatedField<global::Proto.PendingAirdropId>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.PendingAirdropId> _repeated_pendingAirdrops_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.PendingAirdropId.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.PendingAirdropId> pendingAirdrops_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.PendingAirdropId>();
     /// <summary>
     ///*
     /// A list of one or more pending airdrop identifiers.
@@ -118,7 +118,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.PendingAirdropId> PendingAirdrops {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.PendingAirdropId> PendingAirdrops {
       get { return pendingAirdrops_; }
     }
 

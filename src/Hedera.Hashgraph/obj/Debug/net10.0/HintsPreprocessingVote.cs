@@ -29,10 +29,10 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Hints {
             "b3RvIoMBCiVIaW50c1ByZXByb2Nlc3NpbmdWb3RlVHJhbnNhY3Rpb25Cb2R5",
             "EhcKD2NvbnN0cnVjdGlvbl9pZBgBIAEoBBJBCgR2b3RlGAIgASgLMjMuY29t",
             "LmhlZGVyYS5oYXBpLm5vZGUuc3RhdGUuaGludHMuUHJlcHJvY2Vzc2luZ1Zv",
-            "dGVCMwovY29tLmhlZGVyYS5oYXBpLnNlcnZpY2VzLmF1eGlsaWFyeS5oaW50",
-            "cy5sZWdhY3lQAWIGcHJvdG8z"));
+            "dGVCMQovY29tLmhlZGVyYS5oYXBpLnNlcnZpY2VzLmF1eGlsaWFyeS5oaW50",
+            "cy5sZWdhY3liBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Com.Hedera.Hapi.Node.State.Hints.HintsTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.HintsTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsPreprocessingVoteTransactionBody), global::Com.Hedera.Hapi.Services.Auxiliary.Hints.HintsPreprocessingVoteTransactionBody.Parser, new[]{ "ConstructionId", "Vote" }, null, null, null, null)
           }));
@@ -116,7 +116,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Hints {
 
     /// <summary>Field number for the "vote" field.</summary>
     public const int VoteFieldNumber = 2;
-    private global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVote vote_;
+    private global::Hedera.Hashgraph.Proto.PreprocessingVote vote_;
     /// <summary>
     ///*
     /// The vote the node is casting for the aggregation of the hints
@@ -124,7 +124,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Hints {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVote Vote {
+    public global::Hedera.Hashgraph.Proto.PreprocessingVote Vote {
       get { return vote_; }
       set {
         vote_ = value;
@@ -234,7 +234,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Hints {
       }
       if (other.vote_ != null) {
         if (vote_ == null) {
-          Vote = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVote();
+          Vote = new global::Hedera.Hashgraph.Proto.PreprocessingVote();
         }
         Vote.MergeFrom(other.Vote);
       }
@@ -263,7 +263,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Hints {
           }
           case 18: {
             if (vote_ == null) {
-              Vote = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVote();
+              Vote = new global::Hedera.Hashgraph.Proto.PreprocessingVote();
             }
             input.ReadMessage(Vote);
             break;
@@ -293,7 +293,7 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Hints {
           }
           case 18: {
             if (vote_ == null) {
-              Vote = new global::Com.Hedera.Hapi.Node.State.Hints.PreprocessingVote();
+              Vote = new global::Hedera.Hashgraph.Proto.PreprocessingVote();
             }
             input.ReadMessage(Vote);
             break;

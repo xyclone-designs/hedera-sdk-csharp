@@ -28,8 +28,8 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Tss {
             "eGlsaWFyeS50c3MijQEKFlRzc1ZvdGVUcmFuc2FjdGlvbkJvZHkSGgoSc291",
             "cmNlX3Jvc3Rlcl9oYXNoGAEgASgMEhoKEnRhcmdldF9yb3N0ZXJfaGFzaBgC",
             "IAEoDBIRCglsZWRnZXJfaWQYAyABKAwSFgoObm9kZV9zaWduYXR1cmUYBCAB",
-            "KAwSEAoIdHNzX3ZvdGUYBSABKAxCMQotY29tLmhlZGVyYS5oYXBpLnNlcnZp",
-            "Y2VzLmF1eGlsaWFyeS50c3MubGVnYWN5UAFiBnByb3RvMw=="));
+            "KAwSEAoIdHNzX3ZvdGUYBSABKAxCLwotY29tLmhlZGVyYS5oYXBpLnNlcnZp",
+            "Y2VzLmF1eGlsaWFyeS50c3MubGVnYWN5YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

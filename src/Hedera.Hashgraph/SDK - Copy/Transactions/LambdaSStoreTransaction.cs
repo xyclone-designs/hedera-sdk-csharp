@@ -1,21 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
+using Com.Hedera.Hapi.Node.Hooks;
+using Hedera.Hashgraph.SDK.Ids;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
@@ -25,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
     public class LambdaSStoreTransaction : Transaction<LambdaSStoreTransaction>
     {
         private HookId hookId;
-        private IList<LambdaStorageUpdate> storageUpdates = new ();
+        private IList<LambdaStorageUpdate> storageUpdates = [];
         /// <summary>
         /// Create a new empty LambdaSStoreTransaction.
         /// </summary>
@@ -51,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual LambdaSStoreTransaction SetHookId(HookId hookId)
         {
             RequireNotFrozen();
-            hookId = ArgumentNullException.ThrowIfNull(hookId);
+            hookId = hookId;
             return this;
         }
 
@@ -73,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             RequireNotFrozen();
             ArgumentNullException.ThrowIfNull(updates);
-            storageUpdates = new List(updates);
+            storageUpdates = [.. updates];
             return this;
         }
 
@@ -85,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual LambdaSStoreTransaction AddStorageUpdate(LambdaStorageUpdate update)
         {
             RequireNotFrozen();
-            storageUpdates.Add(ArgumentNullException.ThrowIfNull(update));
+            storageUpdates.Add(update);
             return this;
         }
 
@@ -100,30 +87,31 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         public virtual LambdaSStoreTransactionBody Build()
         {
-            var builder = LambdaSStoreTransactionBody.NewBuilder();
+            var builder = new LambdaSStoreTransactionBody();
+
             if (hookId != null)
             {
-                builder.HookId(hookId.ToProtobuf());
+                builder.HookId = hookId.ToProtobuf();
             }
 
             foreach (var update in storageUpdates)
             {
-                builder.AddStorageUpdates(update.ToProtobuf());
+                builder.StorageUpdates.Add(update.ToProtobuf());
             }
 
-            return proto;
+            return builder;
         }
 
         public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.LambdaSstore();
-            if (body.HasHookId())
+            var body = sourceTransactionBody.LambdaSstore;
+            if (body.HookId is not null)
             {
-                hookId = HookId.FromProtobuf(body.GetHookId());
+                hookId = HookId.FromProtobuf(body.HookId);
             }
 
-            storageUpdates = new ();
-            foreach (var protoUpdate in body.GetStorageUpdatesList())
+            storageUpdates = [];
+            foreach (var protoUpdate in body.StorageUpdates)
             {
                 storageUpdates.Add(LambdaStorageUpdate.FromProtobuf(protoUpdate));
             }
@@ -133,14 +121,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             if (hookId != null)
             {
-                var entityId = hookId.GetEntityId();
-                if (entityId.IsAccount())
+                var entityId = hookId.EntityId;
+
+                if (entityId.AccountId is not null)
                 {
                     entityId.AccountId.ValidateChecksum(client);
                 }
-                else if (entityId.IsContract())
+                else if (entityId.ContractId is not null)
                 {
-                    entityId.GetContractId().ValidateChecksum(client);
+                    entityId.ContractId.ValidateChecksum(client);
                 }
             }
         }
@@ -152,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetLambdaSstore(Build());
+            bodyBuilder.SetLambdaSstore = Build();
         }
 
         override void OnScheduled(Proto.SchedulableTransactionBody scheduled)

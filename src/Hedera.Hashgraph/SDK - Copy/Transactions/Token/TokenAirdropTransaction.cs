@@ -1,25 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using System;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Token;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
-using static Hedera.Hashgraph.SDK.HookExtensionPoint;
-using static Hedera.Hashgraph.SDK.NetworkName;
-using static Hedera.Hashgraph.SDK.NftHookType;
-using static Hedera.Hashgraph.SDK.RequestType;
-using static Hedera.Hashgraph.SDK.Status;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Token
 {
@@ -64,13 +48,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenAirdropTransactionBody}</returns>
-        public virtual TokenAirdropTransactionBody.Builder Build()
+        public virtual Proto.TokenAirdropTransactionBody Build()
         {
             var transfers = SortTransfersAndBuild();
-            var builder = TokenAirdropTransactionBody.NewBuilder();
+            var builder = new Proto.TokenAirdropTransactionBody();
             foreach (var transfer in transfers)
             {
-                builder.AddTokenTransfers(transfer.ToProtobuf());
+                builder.TokenTransfers.Add(transfer.ToProtobuf());
             }
 
             return builder;
@@ -96,18 +80,29 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// </summary>
         public virtual void InitFromTransactionBody()
         {
-            var body = sourceTransactionBody.TokenAirdrop();
-            foreach (var tokenTransferList in body.GetTokenTransfersList())
+            var body = sourceTransactionBody.TokenAirdrop;
+
+            foreach (var tokenTransferList in body.TokenTransfers)
             {
-                var token = TokenId.FromProtobuf(tokenTransferList.GetToken());
-                foreach (var transfer in tokenTransferList.GetTransfersList())
+                var token = TokenId.FromProtobuf(tokenTransferList.Token);
+                foreach (var transfer in tokenTransferList.Transfers)
                 {
-                    tokenTransfers.Add(new TokenTransfer(token, AccountId.FromProtobuf(transfer.GetAccountID()), transfer.GetAmount(), tokenTransferList.HasExpectedDecimals() ? tokenTransferList.GetExpectedDecimals().GetValue() : null, transfer.GetIsApproval()));
+                    tokenTransfers.Add(new TokenTransfer(
+                        token, 
+                        AccountId.FromProtobuf(transfer.AccountID), 
+                        transfer.Amount, 
+                        tokenTransferList.ExpectedDecimals, 
+                        transfer.IsApproval));
                 }
 
-                foreach (var transfer in tokenTransferList.GetNftTransfersList())
+                foreach (var transfer in tokenTransferList.NftTransfers)
                 {
-                    nftTransfers.Add(new TokenNftTransfer(token, AccountId.FromProtobuf(transfer.GetSenderAccountID()), AccountId.FromProtobuf(transfer.GetReceiverAccountID()), transfer.GetSerialNumber(), transfer.GetIsApproval()));
+                    nftTransfers.Add(new TokenNftTransfer(
+                        token, 
+                        AccountId.FromProtobuf(transfer.SenderAccountID), 
+                        AccountId.FromProtobuf(transfer.ReceiverAccountID), 
+                        transfer.SerialNumber, 
+                        transfer.IsApproval));
                 }
             }
         }

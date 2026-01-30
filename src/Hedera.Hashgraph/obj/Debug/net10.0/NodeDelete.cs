@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Com.Hedera.Hapi.Node.Addressbook {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from node_delete.proto</summary>
   public static partial class NodeDeleteReflection {
@@ -26,12 +26,12 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
           string.Concat(
             "ChFub2RlX2RlbGV0ZS5wcm90bxIgY29tLmhlZGVyYS5oYXBpLm5vZGUuYWRk",
             "cmVzc2Jvb2siLAoZTm9kZURlbGV0ZVRyYW5zYWN0aW9uQm9keRIPCgdub2Rl",
-            "X2lkGAEgASgEQiIKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1AB",
-            "YgZwcm90bzM="));
+            "X2lkGAEgASgEQjkKHmNvbS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oC",
+            "FkhlZGVyYS5IYXNoZ3JhcGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody), global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteTransactionBody.Parser, new[]{ "NodeId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody), global::Hedera.Hashgraph.Proto.NodeDeleteTransactionBody.Parser, new[]{ "NodeId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -71,7 +71,7 @@ namespace Com.Hedera.Hapi.Node.Addressbook {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Com.Hedera.Hapi.Node.Addressbook.NodeDeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NodeDeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

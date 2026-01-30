@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from timestamp.proto</summary>
   public static partial class TimestampReflection {
@@ -26,13 +26,13 @@ namespace Proto {
           string.Concat(
             "Cg90aW1lc3RhbXAucHJvdG8SBXByb3RvIisKCVRpbWVzdGFtcBIPCgdzZWNv",
             "bmRzGAEgASgDEg0KBW5hbm9zGAIgASgFIiMKEFRpbWVzdGFtcFNlY29uZHMS",
-            "DwoHc2Vjb25kcxgBIAEoA0IiCh5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsu",
-            "cHJvdG9QAWIGcHJvdG8z"));
+            "DwoHc2Vjb25kcxgBIAEoA0I5Ch5jb20uaGVkZXJhLmhhc2hncmFwaC5zZGsu",
+            "cHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Timestamp), global::Proto.Timestamp.Parser, new[]{ "Seconds", "Nanos" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TimestampSeconds), global::Proto.TimestampSeconds.Parser, new[]{ "Seconds" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Timestamp), global::Hedera.Hashgraph.Proto.Timestamp.Parser, new[]{ "Seconds", "Nanos" }, null, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TimestampSeconds), global::Hedera.Hashgraph.Proto.TimestampSeconds.Parser, new[]{ "Seconds" }, null, null, null, null)
           }));
     }
     #endregion
@@ -63,7 +63,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TimestampReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -319,7 +319,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TimestampReflection.Descriptor.MessageTypes[1]; }
+      get { return global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

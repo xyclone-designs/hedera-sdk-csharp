@@ -27,7 +27,7 @@
 
 using grpc = global::Grpc.Core;
 
-namespace Com.Hedera.Mirror.Api.Proto {
+namespace Hedera.Hashgraph.Proto {
   /// <summary>
   ///*
   /// Provides cross network APIs like address book queries
@@ -70,12 +70,12 @@ namespace Com.Hedera.Mirror.Api.Proto {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery> __Marshaller_com_hedera_mirror_api_proto_AddressBookQuery = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.AddressBookQuery> __Marshaller_com_hedera_mirror_api_proto_AddressBookQuery = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.AddressBookQuery.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::Proto.NodeAddress> __Marshaller_proto_NodeAddress = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Proto.NodeAddress.Parser));
+    static readonly grpc::Marshaller<global::Hedera.Hashgraph.Proto.NodeAddress> __Marshaller_proto_NodeAddress = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::Hedera.Hashgraph.Proto.NodeAddress.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery, global::Proto.NodeAddress> __Method_getNodes = new grpc::Method<global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery, global::Proto.NodeAddress>(
+    static readonly grpc::Method<global::Hedera.Hashgraph.Proto.AddressBookQuery, global::Hedera.Hashgraph.Proto.NodeAddress> __Method_getNodes = new grpc::Method<global::Hedera.Hashgraph.Proto.AddressBookQuery, global::Hedera.Hashgraph.Proto.NodeAddress>(
         grpc::MethodType.ServerStreaming,
         __ServiceName,
         "getNodes",
@@ -85,7 +85,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::Com.Hedera.Mirror.Api.Proto.MirrorNetworkServiceReflection.Descriptor.Services[0]; }
+      get { return global::Hedera.Hashgraph.Proto.MirrorNetworkServiceReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Base class for server-side implementations of NetworkService</summary>
@@ -103,7 +103,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>A task indicating completion of the handler.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task getNodes(global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery request, grpc::IServerStreamWriter<global::Proto.NodeAddress> responseStream, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task getNodes(global::Hedera.Hashgraph.Proto.AddressBookQuery request, grpc::IServerStreamWriter<global::Hedera.Hashgraph.Proto.NodeAddress> responseStream, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -149,7 +149,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
       /// <param name="cancellationToken">An optional token for canceling the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::Proto.NodeAddress> getNodes(global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      public virtual grpc::AsyncServerStreamingCall<global::Hedera.Hashgraph.Proto.NodeAddress> getNodes(global::Hedera.Hashgraph.Proto.AddressBookQuery request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
       {
         return getNodes(request, new grpc::CallOptions(headers, deadline, cancellationToken));
       }
@@ -163,7 +163,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
       /// <param name="options">The options for the call.</param>
       /// <returns>The call object.</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual grpc::AsyncServerStreamingCall<global::Proto.NodeAddress> getNodes(global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery request, grpc::CallOptions options)
+      public virtual grpc::AsyncServerStreamingCall<global::Hedera.Hashgraph.Proto.NodeAddress> getNodes(global::Hedera.Hashgraph.Proto.AddressBookQuery request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncServerStreamingCall(__Method_getNodes, null, options, request);
       }
@@ -191,7 +191,7 @@ namespace Com.Hedera.Mirror.Api.Proto {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, NetworkServiceBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_getNodes, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::Com.Hedera.Mirror.Api.Proto.AddressBookQuery, global::Proto.NodeAddress>(serviceImpl.getNodes));
+      serviceBinder.AddMethod(__Method_getNodes, serviceImpl == null ? null : new grpc::ServerStreamingServerMethod<global::Hedera.Hashgraph.Proto.AddressBookQuery, global::Hedera.Hashgraph.Proto.NodeAddress>(serviceImpl.getNodes));
     }
 
   }

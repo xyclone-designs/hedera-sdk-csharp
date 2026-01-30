@@ -361,7 +361,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 return mirrorNetwork.GetRestBaseUrl();
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException e)
             {
                 Thread.CurrentThread().Interrupt();
                 throw new InvalidOperationException("Interrupted while retrieving mirror base URL", e);
@@ -1591,7 +1591,7 @@ namespace Hedera.Hashgraph.SDK
                             }
                         }
                     }
-                    catch (InterruptedException ex)
+                    catch (ThreadInterruptedException ex)
                     {
                         executor.ShutdownNow();
                         Thread.CurrentThread().Interrupt();

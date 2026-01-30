@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from token_airdrop.proto</summary>
   public static partial class TokenAirdropReflection {
@@ -26,12 +26,13 @@ namespace Proto {
           string.Concat(
             "ChN0b2tlbl9haXJkcm9wLnByb3RvEgVwcm90bxoRYmFzaWNfdHlwZXMucHJv",
             "dG8iUAobVG9rZW5BaXJkcm9wVHJhbnNhY3Rpb25Cb2R5EjEKD3Rva2VuX3Ry",
-            "YW5zZmVycxgBIAMoCzIYLnByb3RvLlRva2VuVHJhbnNmZXJMaXN0QiIKHmNv",
-            "bS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b1ABYgZwcm90bzM="));
+            "YW5zZmVycxgBIAMoCzIYLnByb3RvLlRva2VuVHJhbnNmZXJMaXN0QjkKHmNv",
+            "bS5oZWRlcmEuaGFzaGdyYXBoLnNkay5wcm90b6oCFkhlZGVyYS5IYXNoZ3Jh",
+            "cGguUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.TokenAirdropTransactionBody), global::Proto.TokenAirdropTransactionBody.Parser, new[]{ "TokenTransfers" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody), global::Hedera.Hashgraph.Proto.TokenAirdropTransactionBody.Parser, new[]{ "TokenTransfers" }, null, null, null, null)
           }));
     }
     #endregion
@@ -115,7 +116,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.TokenAirdropReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.TokenAirdropReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -147,9 +148,9 @@ namespace Proto {
 
     /// <summary>Field number for the "token_transfers" field.</summary>
     public const int TokenTransfersFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::Proto.TokenTransferList> _repeated_tokenTransfers_codec
-        = pb::FieldCodec.ForMessage(10, global::Proto.TokenTransferList.Parser);
-    private readonly pbc::RepeatedField<global::Proto.TokenTransferList> tokenTransfers_ = new pbc::RepeatedField<global::Proto.TokenTransferList>();
+    private static readonly pb::FieldCodec<global::Hedera.Hashgraph.Proto.TokenTransferList> _repeated_tokenTransfers_codec
+        = pb::FieldCodec.ForMessage(10, global::Hedera.Hashgraph.Proto.TokenTransferList.Parser);
+    private readonly pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenTransferList> tokenTransfers_ = new pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenTransferList>();
     /// <summary>
     ///*
     /// A list of token transfers representing one or more airdrops.
@@ -166,7 +167,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::RepeatedField<global::Proto.TokenTransferList> TokenTransfers {
+    public pbc::RepeatedField<global::Hedera.Hashgraph.Proto.TokenTransferList> TokenTransfers {
       get { return tokenTransfers_; }
     }
 

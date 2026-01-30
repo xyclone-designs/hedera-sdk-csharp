@@ -26,9 +26,9 @@ namespace Com.Hedera.Hapi.Services.Auxiliary.Tss {
           string.Concat(
             "Chh0c3NfZW5jcnlwdGlvbl9rZXkucHJvdG8SJmNvbS5oZWRlcmEuaGFwaS5z",
             "ZXJ2aWNlcy5hdXhpbGlhcnkudHNzIkEKH1Rzc0VuY3J5cHRpb25LZXlUcmFu",
-            "c2FjdGlvbkJvZHkSHgoWcHVibGljVHNzRW5jcnlwdGlvbktleRgBIAEoDEIx",
+            "c2FjdGlvbkJvZHkSHgoWcHVibGljVHNzRW5jcnlwdGlvbktleRgBIAEoDEIv",
             "Ci1jb20uaGVkZXJhLmhhcGkuc2VydmljZXMuYXV4aWxpYXJ5LnRzcy5sZWdh",
-            "Y3lQAWIGcHJvdG8z"));
+            "Y3liBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

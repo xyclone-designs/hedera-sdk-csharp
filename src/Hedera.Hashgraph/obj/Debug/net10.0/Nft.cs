@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from nft.proto</summary>
   public static partial class NftReflection {
@@ -30,12 +30,13 @@ namespace Proto {
             "bmRlcl9pZBgDIAEoCzIQLnByb3RvLkFjY291bnRJRBIjCgltaW50X3RpbWUY",
             "BCABKAsyEC5wcm90by5UaW1lc3RhbXASEAoIbWV0YWRhdGEYBSABKAwSKwoV",
             "b3duZXJfcHJldmlvdXNfbmZ0X2lkGAYgASgLMgwucHJvdG8uTmZ0SUQSJwoR",
-            "b3duZXJfbmV4dF9uZnRfaWQYByABKAsyDC5wcm90by5OZnRJREIiCh5jb20u",
-            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "b3duZXJfbmV4dF9uZnRfaWQYByABKAsyDC5wcm90by5OZnRJREI5Ch5jb20u",
+            "aGVkZXJhLmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBo",
+            "LlByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.TimestampReflection.Descriptor, global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.TimestampReflection.Descriptor, global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.Nft), global::Proto.Nft.Parser, new[]{ "NftId", "OwnerId", "SpenderId", "MintTime", "Metadata", "OwnerPreviousNftId", "OwnerNextNftId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.Nft), global::Hedera.Hashgraph.Proto.Nft.Parser, new[]{ "NftId", "OwnerId", "SpenderId", "MintTime", "Metadata", "OwnerPreviousNftId", "OwnerNextNftId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -70,7 +71,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.NftReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.NftReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -108,14 +109,14 @@ namespace Proto {
 
     /// <summary>Field number for the "nft_id" field.</summary>
     public const int NftIdFieldNumber = 1;
-    private global::Proto.NftID nftId_;
+    private global::Hedera.Hashgraph.Proto.NftID nftId_;
     /// <summary>
     ///*
     /// The id of this NFT, consisting of a Token ID and serial number.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NftID NftId {
+    public global::Hedera.Hashgraph.Proto.NftID NftId {
       get { return nftId_; }
       set {
         nftId_ = value;
@@ -124,7 +125,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner_id" field.</summary>
     public const int OwnerIdFieldNumber = 2;
-    private global::Proto.AccountID ownerId_;
+    private global::Hedera.Hashgraph.Proto.AccountID ownerId_;
     /// <summary>
     ///*
     /// The account or contract id that owns this NFT.
@@ -134,7 +135,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID OwnerId {
+    public global::Hedera.Hashgraph.Proto.AccountID OwnerId {
       get { return ownerId_; }
       set {
         ownerId_ = value;
@@ -143,7 +144,7 @@ namespace Proto {
 
     /// <summary>Field number for the "spender_id" field.</summary>
     public const int SpenderIdFieldNumber = 3;
-    private global::Proto.AccountID spenderId_;
+    private global::Hedera.Hashgraph.Proto.AccountID spenderId_;
     /// <summary>
     ///*
     /// The account or contract id approved to spend this NFT.
@@ -152,7 +153,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.AccountID SpenderId {
+    public global::Hedera.Hashgraph.Proto.AccountID SpenderId {
       get { return spenderId_; }
       set {
         spenderId_ = value;
@@ -161,7 +162,7 @@ namespace Proto {
 
     /// <summary>Field number for the "mint_time" field.</summary>
     public const int MintTimeFieldNumber = 4;
-    private global::Proto.Timestamp mintTime_;
+    private global::Hedera.Hashgraph.Proto.Timestamp mintTime_;
     /// <summary>
     ///*
     /// The consensus time of the TokenMint that created this NFT as
@@ -171,7 +172,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.Timestamp MintTime {
+    public global::Hedera.Hashgraph.Proto.Timestamp MintTime {
       get { return mintTime_; }
       set {
         mintTime_ = value;
@@ -198,7 +199,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner_previous_nft_id" field.</summary>
     public const int OwnerPreviousNftIdFieldNumber = 6;
-    private global::Proto.NftID ownerPreviousNftId_;
+    private global::Hedera.Hashgraph.Proto.NftID ownerPreviousNftId_;
     /// <summary>
     ///*
     /// The NFT ID of the previous entry in the current owner's "virtual
@@ -208,7 +209,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NftID OwnerPreviousNftId {
+    public global::Hedera.Hashgraph.Proto.NftID OwnerPreviousNftId {
       get { return ownerPreviousNftId_; }
       set {
         ownerPreviousNftId_ = value;
@@ -217,7 +218,7 @@ namespace Proto {
 
     /// <summary>Field number for the "owner_next_nft_id" field.</summary>
     public const int OwnerNextNftIdFieldNumber = 7;
-    private global::Proto.NftID ownerNextNftId_;
+    private global::Hedera.Hashgraph.Proto.NftID ownerNextNftId_;
     /// <summary>
     ///*
     /// The NFT ID of the next entry in the current owner's "virtual
@@ -227,7 +228,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.NftID OwnerNextNftId {
+    public global::Hedera.Hashgraph.Proto.NftID OwnerNextNftId {
       get { return ownerNextNftId_; }
       set {
         ownerNextNftId_ = value;
@@ -399,25 +400,25 @@ namespace Proto {
       }
       if (other.nftId_ != null) {
         if (nftId_ == null) {
-          NftId = new global::Proto.NftID();
+          NftId = new global::Hedera.Hashgraph.Proto.NftID();
         }
         NftId.MergeFrom(other.NftId);
       }
       if (other.ownerId_ != null) {
         if (ownerId_ == null) {
-          OwnerId = new global::Proto.AccountID();
+          OwnerId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         OwnerId.MergeFrom(other.OwnerId);
       }
       if (other.spenderId_ != null) {
         if (spenderId_ == null) {
-          SpenderId = new global::Proto.AccountID();
+          SpenderId = new global::Hedera.Hashgraph.Proto.AccountID();
         }
         SpenderId.MergeFrom(other.SpenderId);
       }
       if (other.mintTime_ != null) {
         if (mintTime_ == null) {
-          MintTime = new global::Proto.Timestamp();
+          MintTime = new global::Hedera.Hashgraph.Proto.Timestamp();
         }
         MintTime.MergeFrom(other.MintTime);
       }
@@ -426,13 +427,13 @@ namespace Proto {
       }
       if (other.ownerPreviousNftId_ != null) {
         if (ownerPreviousNftId_ == null) {
-          OwnerPreviousNftId = new global::Proto.NftID();
+          OwnerPreviousNftId = new global::Hedera.Hashgraph.Proto.NftID();
         }
         OwnerPreviousNftId.MergeFrom(other.OwnerPreviousNftId);
       }
       if (other.ownerNextNftId_ != null) {
         if (ownerNextNftId_ == null) {
-          OwnerNextNftId = new global::Proto.NftID();
+          OwnerNextNftId = new global::Hedera.Hashgraph.Proto.NftID();
         }
         OwnerNextNftId.MergeFrom(other.OwnerNextNftId);
       }
@@ -457,28 +458,28 @@ namespace Proto {
             break;
           case 10: {
             if (nftId_ == null) {
-              NftId = new global::Proto.NftID();
+              NftId = new global::Hedera.Hashgraph.Proto.NftID();
             }
             input.ReadMessage(NftId);
             break;
           }
           case 18: {
             if (ownerId_ == null) {
-              OwnerId = new global::Proto.AccountID();
+              OwnerId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(OwnerId);
             break;
           }
           case 26: {
             if (spenderId_ == null) {
-              SpenderId = new global::Proto.AccountID();
+              SpenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SpenderId);
             break;
           }
           case 34: {
             if (mintTime_ == null) {
-              MintTime = new global::Proto.Timestamp();
+              MintTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(MintTime);
             break;
@@ -489,14 +490,14 @@ namespace Proto {
           }
           case 50: {
             if (ownerPreviousNftId_ == null) {
-              OwnerPreviousNftId = new global::Proto.NftID();
+              OwnerPreviousNftId = new global::Hedera.Hashgraph.Proto.NftID();
             }
             input.ReadMessage(OwnerPreviousNftId);
             break;
           }
           case 58: {
             if (ownerNextNftId_ == null) {
-              OwnerNextNftId = new global::Proto.NftID();
+              OwnerNextNftId = new global::Hedera.Hashgraph.Proto.NftID();
             }
             input.ReadMessage(OwnerNextNftId);
             break;
@@ -522,28 +523,28 @@ namespace Proto {
             break;
           case 10: {
             if (nftId_ == null) {
-              NftId = new global::Proto.NftID();
+              NftId = new global::Hedera.Hashgraph.Proto.NftID();
             }
             input.ReadMessage(NftId);
             break;
           }
           case 18: {
             if (ownerId_ == null) {
-              OwnerId = new global::Proto.AccountID();
+              OwnerId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(OwnerId);
             break;
           }
           case 26: {
             if (spenderId_ == null) {
-              SpenderId = new global::Proto.AccountID();
+              SpenderId = new global::Hedera.Hashgraph.Proto.AccountID();
             }
             input.ReadMessage(SpenderId);
             break;
           }
           case 34: {
             if (mintTime_ == null) {
-              MintTime = new global::Proto.Timestamp();
+              MintTime = new global::Hedera.Hashgraph.Proto.Timestamp();
             }
             input.ReadMessage(MintTime);
             break;
@@ -554,14 +555,14 @@ namespace Proto {
           }
           case 50: {
             if (ownerPreviousNftId_ == null) {
-              OwnerPreviousNftId = new global::Proto.NftID();
+              OwnerPreviousNftId = new global::Hedera.Hashgraph.Proto.NftID();
             }
             input.ReadMessage(OwnerPreviousNftId);
             break;
           }
           case 58: {
             if (ownerNextNftId_ == null) {
-              OwnerNextNftId = new global::Proto.NftID();
+              OwnerNextNftId = new global::Hedera.Hashgraph.Proto.NftID();
             }
             input.ReadMessage(OwnerNextNftId);
             break;

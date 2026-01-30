@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from crypto_service.proto</summary>
   public static partial class CryptoServiceReflection {
@@ -45,10 +45,11 @@ namespace Proto {
             "bnNlEi8KDmdldEFjY291bnRJbmZvEgwucHJvdG8uUXVlcnkaDy5wcm90by5S",
             "ZXNwb25zZRI3ChZnZXRUcmFuc2FjdGlvblJlY2VpcHRzEgwucHJvdG8uUXVl",
             "cnkaDy5wcm90by5SZXNwb25zZRIyChFnZXRUeFJlY29yZEJ5VHhJRBIMLnBy",
-            "b3RvLlF1ZXJ5Gg8ucHJvdG8uUmVzcG9uc2VCIAoeY29tLmhlZGVyYS5oYXNo",
-            "Z3JhcGguc2RrLnByb3RvYgZwcm90bzM="));
+            "b3RvLlF1ZXJ5Gg8ucHJvdG8uUmVzcG9uc2VCOQoeY29tLmhlZGVyYS5oYXNo",
+            "Z3JhcGguc2RrLnByb3RvqgIWSGVkZXJhLkhhc2hncmFwaC5Qcm90b2IGcHJv",
+            "dG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.QueryReflection.Descriptor, global::Proto.ResponseReflection.Descriptor, global::Proto.TransactionResponseReflection.Descriptor, global::Proto.TransactionReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.QueryReflection.Descriptor, global::Hedera.Hashgraph.Proto.ResponseReflection.Descriptor, global::Hedera.Hashgraph.Proto.TransactionResponseReflection.Descriptor, global::Hedera.Hashgraph.Proto.TransactionReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, null));
     }
     #endregion

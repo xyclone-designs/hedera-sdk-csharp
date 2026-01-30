@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Proto {
+namespace Hedera.Hashgraph.Proto {
 
   /// <summary>Holder for reflection information generated from schedule_delete.proto</summary>
   public static partial class ScheduleDeleteReflection {
@@ -26,12 +26,13 @@ namespace Proto {
           string.Concat(
             "ChVzY2hlZHVsZV9kZWxldGUucHJvdG8SBXByb3RvGhFiYXNpY190eXBlcy5w",
             "cm90byJGCh1TY2hlZHVsZURlbGV0ZVRyYW5zYWN0aW9uQm9keRIlCgpzY2hl",
-            "ZHVsZUlEGAEgASgLMhEucHJvdG8uU2NoZWR1bGVJREIiCh5jb20uaGVkZXJh",
-            "Lmhhc2hncmFwaC5zZGsucHJvdG9QAWIGcHJvdG8z"));
+            "ZHVsZUlEGAEgASgLMhEucHJvdG8uU2NoZWR1bGVJREI5Ch5jb20uaGVkZXJh",
+            "Lmhhc2hncmFwaC5zZGsucHJvdG+qAhZIZWRlcmEuSGFzaGdyYXBoLlByb3Rv",
+            "YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Proto.BasicTypesReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Hedera.Hashgraph.Proto.BasicTypesReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Proto.ScheduleDeleteTransactionBody), global::Proto.ScheduleDeleteTransactionBody.Parser, new[]{ "ScheduleID" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody), global::Hedera.Hashgraph.Proto.ScheduleDeleteTransactionBody.Parser, new[]{ "ScheduleID" }, null, null, null, null)
           }));
     }
     #endregion
@@ -68,7 +69,7 @@ namespace Proto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Proto.ScheduleDeleteReflection.Descriptor.MessageTypes[0]; }
+      get { return global::Hedera.Hashgraph.Proto.ScheduleDeleteReflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -100,7 +101,7 @@ namespace Proto {
 
     /// <summary>Field number for the "scheduleID" field.</summary>
     public const int ScheduleIDFieldNumber = 1;
-    private global::Proto.ScheduleID scheduleID_;
+    private global::Hedera.Hashgraph.Proto.ScheduleID scheduleID_;
     /// <summary>
     ///*
     /// A schedule identifier.
@@ -109,7 +110,7 @@ namespace Proto {
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Proto.ScheduleID ScheduleID {
+    public global::Hedera.Hashgraph.Proto.ScheduleID ScheduleID {
       get { return scheduleID_; }
       set {
         scheduleID_ = value;
@@ -203,7 +204,7 @@ namespace Proto {
       }
       if (other.scheduleID_ != null) {
         if (scheduleID_ == null) {
-          ScheduleID = new global::Proto.ScheduleID();
+          ScheduleID = new global::Hedera.Hashgraph.Proto.ScheduleID();
         }
         ScheduleID.MergeFrom(other.ScheduleID);
       }
@@ -228,7 +229,7 @@ namespace Proto {
             break;
           case 10: {
             if (scheduleID_ == null) {
-              ScheduleID = new global::Proto.ScheduleID();
+              ScheduleID = new global::Hedera.Hashgraph.Proto.ScheduleID();
             }
             input.ReadMessage(ScheduleID);
             break;
@@ -254,7 +255,7 @@ namespace Proto {
             break;
           case 10: {
             if (scheduleID_ == null) {
-              ScheduleID = new global::Proto.ScheduleID();
+              ScheduleID = new global::Hedera.Hashgraph.Proto.ScheduleID();
             }
             input.ReadMessage(ScheduleID);
             break;

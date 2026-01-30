@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
     {
         private TokenId tokenId = null;
         private AccountId accountId = null;
-        private long amount = 0;
+        private ulong amount = 0;
         private IList<long> serials = [];
         /// <summary>
         /// Constructor.

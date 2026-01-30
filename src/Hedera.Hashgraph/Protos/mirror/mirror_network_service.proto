@@ -24,6 +24,7 @@ package com.hedera.mirror.api.proto;
 
 option java_multiple_files = true; // Required for the reactor-grpc generator to work correctly
 option java_package = "com.hedera.hashgraph.sdk.proto.mirror";
+option csharp_namespace = "Hedera.Hashgraph.Proto";
 
 import "basic_types.proto";
 import "timestamp.proto";
@@ -52,6 +53,6 @@ service NetworkService {
      * response is not guaranteed to be a byte-for-byte equivalent to the NodeAddress in the Hedera file on
      * the network since it is reconstructed from a normalized database table.
      */
-    rpc getNodes (AddressBookQuery) returns (stream .proto.NodeAddress);
+    rpc getNodes (AddressBookQuery) returns (stream.proto.NodeAddress);
 }
 

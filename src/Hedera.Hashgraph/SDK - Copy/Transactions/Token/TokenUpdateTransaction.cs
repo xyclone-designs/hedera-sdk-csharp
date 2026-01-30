@@ -839,7 +839,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
                 builder.Metadata = ByteString.CopyFrom(tokenMetadata);
             }
 
-            builder.KeyVerificationMode = tokenKeyVerificationMode.code;
+            builder.KeyVerificationMode = tokenKeyVerificationMode.Code;
            
             return builder;
         }
