@@ -11,7 +11,6 @@
     <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
     <PackageReference Include="Google.Protobuf" Version="3.33.4" />
     <PackageReference Include="Grpc" Version="2.46.6" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.76.0" />
     <PackageReference Include="Grpc.Tools" Version="2.76.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,24 +22,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="SDK - Copy - Copy\**" />
-    <EmbeddedResource Remove="SDK - Copy - Copy\**" />
-    <None Remove="SDK - Copy - Copy\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SDK\Contract\" />
-    <Folder Include="SDK\Queries\" />
-    <Folder Include="SDK\Token\" />
-    <Folder Include="SDK\Transactions\Account\" />
-    <Folder Include="SDK\Transactions\Contract\" />
-    <Folder Include="SDK\Transactions\Ethereum\" />
-    <Folder Include="SDK\Transactions\File\" />
-    <Folder Include="SDK\Transactions\LiveHash\" />
-    <Folder Include="SDK\Transactions\Node\" />
-    <Folder Include="SDK\Transactions\System\" />
-    <Folder Include="SDK\Transactions\Token\" />
-    <Folder Include="SDK\Transactions\Topic\" />
+    <Folder Include="SDK - Copy\Queries\" />
+    <Folder Include="SDK - Copy\Transactions\Account\" />
+    <Folder Include="SDK - Copy\Transactions\Contract\" />
+    <Folder Include="SDK - Copy\Transactions\Ethereum\" />
+    <Folder Include="SDK - Copy\Transactions\File\" />
+    <Folder Include="SDK - Copy\Transactions\LiveHash\" />
+    <Folder Include="SDK - Copy\Transactions\Node\" />
+    <Folder Include="SDK - Copy\Transactions\System\" />
+    <Folder Include="SDK - Copy\Transactions\Token\" />
+    <Folder Include="SDK - Copy\Transactions\Topic\" />
+    <Folder Include="SDK\Topics\" />
+    <Folder Include="SDK\Accounts\" />
   </ItemGroup>
 
 </Project>

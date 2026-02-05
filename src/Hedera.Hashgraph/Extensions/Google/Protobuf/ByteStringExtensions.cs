@@ -1,4 +1,6 @@
 ﻿
+using System.Text;
+
 namespace Google.Protobuf
 {
     public static class ByteStringExtensions
@@ -11,5 +13,17 @@ namespace Google.Protobuf
         {
             return ByteString.CopyFrom([.. bytes, ..value]);
         }
+        public static ByteString Substring(this ByteString bytes, int startIndex, Encoding? encoding = null)
+		{
+            string substring = bytes.ToString(encoding ?? Encoding.UTF8)[startIndex..];
+
+            return ByteString.CopyFrom(substring, encoding ?? Encoding.UTF8);
+        }
+		public static ByteString Substring(this ByteString bytes, int startIndex, int endIndex, Encoding? encoding = null)
+		{
+			string substring = bytes.ToString(encoding ?? Encoding.UTF8)[startIndex..endIndex];
+
+			return ByteString.CopyFrom(substring, encoding ?? Encoding.UTF8);
+		}
 	}
 }

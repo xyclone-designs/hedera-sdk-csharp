@@ -31,21 +31,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// Constructs a new Hbar of the specified value.
         /// </summary>
         /// <param name="amount">The amount of Hbar</param>
-        public Hbar(long amount) : this(amount, HbarUnit.HBAR)
-        {
-        }
-
-        /// <summary>
-        /// Constructs a new hbar of the specified value in the specified unit.
-        /// {@link HbarUnit}
-        /// </summary>
-        /// <param name="amount">the amount</param>
-        /// <param name="unit">the unit for amount</param>
-        Hbar(long amount, HbarUnit unit)
-        {
-            valueInTinybar = amount * unit.Tinybar;
-        }
-
+        public Hbar(long amount) : this(amount, HbarUnit.HBAR) { }
         /// <summary>
         /// Constructs a new Hbar of the specified, possibly fractional value.
         /// <p>
@@ -54,10 +40,17 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// E.g., {@code 1.23456789} is a valid amount of hbar but {@code 0.123456789} is not.
         /// </summary>
         /// <param name="amount">The amount of Hbar</param>
-        public Hbar(BigDecimal amount) : this(amount, HbarUnit.HBAR)
+        public Hbar(BigDecimal amount) : this(amount, HbarUnit.HBAR) { }
+		/// <summary>
+		/// Constructs a new hbar of the specified value in the specified unit.
+		/// {@link HbarUnit}
+		/// </summary>
+		/// <param name="amount">the amount</param>
+		/// <param name="unit">the unit for amount</param>
+		Hbar(long amount, HbarUnit unit)
         {
+            valueInTinybar = amount * unit.Tinybar;
         }
-
         /// <summary>
         /// Constructs a new hbar of the specified value in the specified unit.
         /// {@link HbarUnit}
@@ -67,6 +60,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         Hbar(BigDecimal amount, HbarUnit unit)
         {
             var Tinybars = amount.Multiply(BigDecimal.ValueOf(unit.Tinybar));
+
             if (Tinybars.DoubleValue() % 1 != 0)
             {
                 throw new ArgumentException("Amount and Unit combination results in a fractional value for Tinybar.  Ensure Tinybar value is a whole number.");
@@ -154,10 +148,20 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// </summary>
         /// <param name="Tinybars">The long representing the amount of Tinybar</param>
         /// <returns>{@link Hbar}</returns>
-        public static Hbar FromTinybars(long Tinybars)
+        public static Hbar FromTinybars(long tinybars)
         {
-            return new Hbar(Tinybars, HbarUnit.TINYBAR);
+            return new Hbar(tinybars, HbarUnit.TINYBAR);
         }
+        /// <summary>
+        /// Returns an Hbar converted from the specified number of Tinybars.
+        /// </summary>
+        /// <param name="Tinybars">The long representing the amount of Tinybar</param>
+        /// <returns>{@link Hbar}</returns>
+        public static Hbar FromTinybars(ulong tinybars)
+        {
+            return new Hbar((long)tinybars, HbarUnit.TINYBAR);
+        }
+
 
         /// <summary>
         /// Convert this hbar value to a different unit.

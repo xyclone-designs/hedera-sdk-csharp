@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         public static readonly int SOLIDITY_ADDRESS_LEN_HEX = SOLIDITY_ADDRESS_LEN * 2;
         private static readonly Pattern ENTITY_ID_REGEX = Pattern.Compile("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([a-z]{5}))?$");
-        public static readonly Duration MIRROR_NODE_CONNECTION_TIMEOUT = Duration.OfSeconds(30);
+        public static readonly Duration MIRROR_NODE_CONNECTION_TIMEOUT = Duration.FromTimeSpan(TimeSpan.FromSeconds(30);
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -210,7 +210,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
             if (checksum != null)
             {
-                string expectedChecksum = Utils.EntityIdHelper.Checksum(client.GetLedgerId(), Utils.EntityIdHelper.ToString(shard, realm, num));
+                string expectedChecksum = Utils.EntityIdHelper.Checksum(client.LedgerId, Utils.EntityIdHelper.ToString(shard, realm, num));
                 if (!checksum.Equals(expectedChecksum))
                 {
                     throw new BadEntityIdException(shard, realm, num, checksum, expectedChecksum);
@@ -241,9 +241,9 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// <returns>the string representation with checksum</returns>
         public static string ToStringWithChecksum(long shard, long realm, long num, Client client, string? checksum)
         {
-            if (client.GetLedgerId() != null)
+            if (client.LedgerId != null)
             {
-                return "" + shard + "." + realm + "." + num + "-" + Checksum(client.GetLedgerId(), Utils.EntityIdHelper.ToString(shard, realm, num));
+                return "" + shard + "." + realm + "." + num + "-" + Checksum(client.LedgerId, Utils.EntityIdHelper.ToString(shard, realm, num));
             }
             else
             {

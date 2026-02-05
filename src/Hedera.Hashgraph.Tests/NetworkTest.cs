@@ -1,0 +1,109 @@
+// SPDX-License-Identifier: Apache-2.0
+using Org.Assertj.Core.Api.Assertions;
+using Java.Util;
+using Java.Util.Concurrent;
+using Org.Junit.Jupiter.Api;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+
+namespace Com.Hedera.Hashgraph.Sdk
+{
+    class NetworkTest
+    {
+        private ExecutorService executor;
+        virtual void SetUp()
+        {
+            executor = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), new CallerRunsPolicy());
+        }
+
+        virtual void TearDown()
+        {
+            if (executor != null)
+            {
+                executor.Shutdown();
+            }
+        }
+
+        virtual void GetNumberOfNodesForRequestReturnsFullNetworkSizeWhenNotSet()
+        {
+            Network network = CreateNetwork(3);
+
+            // When maxNodesPerRequest is not set, should return full network size
+            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            Assert.Equal(numberOfNodes, 3);
+        }
+
+        virtual void GetNumberOfNodesForRequestReturnsMaxWhenSetAndLessThanNetworkSize()
+        {
+            Network network = CreateNetwork(5);
+
+            // Set maxNodesPerRequest to 2
+            network.SetMaxNodesPerRequest(2);
+
+            // Should return 2
+            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            Assert.Equal(numberOfNodes, 2);
+        }
+
+        virtual void GetNumberOfNodesForRequestReturnsNetworkSizeWhenMaxIsGreater()
+        {
+            Network network = CreateNetwork(2);
+
+            // Set maxNodesPerRequest to 10 (greater than network size)
+            network.SetMaxNodesPerRequest(10);
+
+            // Should return 2 (the network size, not 10)
+            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            Assert.Equal(numberOfNodes, 2);
+        }
+
+        virtual void GetNumberOfNodesForRequestReturnsNetworkSizeWhenMaxEqualsNetworkSize()
+        {
+            Network network = CreateNetwork(4);
+
+            // Set maxNodesPerRequest to 4 (equals network size)
+            network.SetMaxNodesPerRequest(4);
+
+            // Should return 4
+            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            Assert.Equal(numberOfNodes, 4);
+        }
+
+        virtual void GetNumberOfNodesForRequestReturnsOneForSingleNodeNetwork()
+        {
+            Network network = CreateNetwork(1);
+
+            // Should return 1
+            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            Assert.Equal(numberOfNodes, 1);
+        }
+
+        virtual void GetNumberOfNodesForRequestReturnsZeroForEmptyNetwork()
+        {
+            Network network = CreateNetwork(0);
+
+            // Should return 0
+            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            Assert.Equal(numberOfNodes, 0);
+        }
+
+        /// <summary>
+        /// Helper method to generate a network of a specific size.
+        /// </summary>
+        private Network CreateNetwork(int nodeCount)
+        {
+            Dictionary<string, AccountId> networkMap = new HashMap();
+            for (int i = 0; i < nodeCount; i++)
+            {
+
+                // Generate dummy node addresses and IDs
+                networkMap.Put(i + ".testnet.hedera.com:50211", new AccountId(0, 0, 3 + i));
+            }
+
+            return Network.ForNetwork(executor, networkMap);
+        }
+    }
+}
