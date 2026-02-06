@@ -514,7 +514,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         /// <returns>{@link
         ///         Proto.ConsensusUpdateTopicTransactionBody}</returns>
-        Proto.ConsensusUpdateTopicTransactionBody Build()
+        public Proto.ConsensusUpdateTopicTransactionBody ToProtobuf()
         {
             var builder = new Proto.ConsensusUpdateTopicTransactionBody();
 
@@ -600,20 +600,17 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
                 autoRenewAccountId.ValidateChecksum(client);
             }
         }
-
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		{
+			bodyBuilder.ConsensusUpdateTopic = ToProtobuf();
+		}
+		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		{
+			scheduled.ConsensusUpdateTopic = ToProtobuf();
+		}
+		public override MethodDescriptor<Proto.Transaction, TransactionResponse<TopicUpdateTransaction>> GetMethodDescriptor()
         {
             return ConsensusServiceGrpc.GetUpdateTopicMethod();
-        }
-
-        override void OnFreeze(Proto.TransactionBody bodyBuilder)
-        {
-            bodyBuilder.ConsensusUpdateTopic = Build();
-        }
-
-        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
-        {
-            scheduled.ConsensusUpdateTopic = Build();
         }
     }
 }

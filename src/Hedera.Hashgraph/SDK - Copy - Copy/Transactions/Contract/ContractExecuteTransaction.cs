@@ -1,19 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Proto;
-using Io.Grpc;
-using Java.Util;
-using Javax.Annotation;
+using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Contract
+namespace Hedera.Hashgraph.SDK.Contract
 {
     /// <summary>
     /// Call a function of the given smart contract instance, giving it parameters as its inputs.
@@ -26,8 +21,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
     /// </summary>
     public sealed class ContractExecuteTransaction : Transaction<ContractExecuteTransaction>
     {
-        private byte[] functionParameters = [];
-
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -72,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             {
 				RequireNotFrozen();
 
-				if (gas < 0)
+				if (value < 0)
 					throw new ArgumentException("Gas must be non-negative");
 
 				field = value;
@@ -116,11 +109,11 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
 		/// </summary>
 		public ByteString FunctionParameters
         {
-            get => ByteString.CopyFrom(functionParameters);
+            get => field ??= ByteString.CopyFrom([]);
             set
             {
 				RequireNotFrozen();
-				functionParameters = value.ToByteArray();
+				field = ByteString.CopyFrom(value.ToByteArray());
 			}
 		}
 
@@ -146,7 +139,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         {
             ArgumentNullException.ThrowIfNull(@params);
 
-            return functionParameters = @params.ToBytes(name);
+            FunctionParameters = ByteString.CopyFrom(@params.ToBytes(name).ToByteArray());
+
+            return this;
         }
 
         /// <summary>
@@ -154,16 +149,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = SourceTransactionBody.ContractCall();
+            var body = SourceTransactionBody.ContractCall;
 
-            if (body.HasContractID())
-            {
-                contractId = ContractId.FromProtobuf(body.GetContractID());
-            }
-
-            gas = body.GetGas();
-            payableAmount = Hbar.FromTinybars(body.GetAmount());
-            functionParameters = body.GetFunctionParameters().ToByteArray();
+			ContractId = ContractId.FromProtobuf(body.ContractID);
+			Gas = body.Gas;
+            PayableAmount = Hbar.FromTinybars(body.Amount);
+            FunctionParameters = body.FunctionParameters;
         }
 
         /// <summary>

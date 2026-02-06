@@ -1,11 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Esaulpaugh.Headlong.Rlp;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
 {
@@ -16,9 +10,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
     /// </summary>
     public abstract class EthereumTransactionData
     {
-        EthereumTransactionData(byte[] callData)
+        public EthereumTransactionData(byte[] callData)
         {
-            callData = callData;
+            CallData = callData;
         }
 
         public static EthereumTransactionData FromBytes(byte[] bytes)

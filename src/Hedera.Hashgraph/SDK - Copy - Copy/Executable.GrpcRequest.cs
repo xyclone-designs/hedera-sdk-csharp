@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK
     /// <param name="<ProtoRequestT>">the proto request</param>
     /// <param name="<ResponseT>">the response</param>
     /// <param name="<O>">the O type</param>
-    internal abstract partial class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> 
+    public abstract partial class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> 
 	{
 		public class GrpcRequest
 		{

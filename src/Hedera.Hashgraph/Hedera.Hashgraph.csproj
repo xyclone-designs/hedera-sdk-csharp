@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="SDK - Copy\Networking\NetworkName.cs~RF495f3eb.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="SDK - Copy\Queries\" />
     <Folder Include="SDK - Copy\Transactions\Account\" />
     <Folder Include="SDK - Copy\Transactions\Contract\" />
@@ -33,7 +37,6 @@
     <Folder Include="SDK - Copy\Transactions\Token\" />
     <Folder Include="SDK - Copy\Transactions\Topic\" />
     <Folder Include="SDK\Topics\" />
-    <Folder Include="SDK\Accounts\" />
   </ItemGroup>
 
 </Project>

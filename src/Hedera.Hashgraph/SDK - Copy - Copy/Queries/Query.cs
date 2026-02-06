@@ -1,9 +1,11 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -86,7 +88,6 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * List of payment transactions
 		 */
 		public List<Proto.Transaction>? PaymentTransactions { get; internal set; }
-
 		/**
 		 * Set an explicit payment amount for this query.
 		 * <p>

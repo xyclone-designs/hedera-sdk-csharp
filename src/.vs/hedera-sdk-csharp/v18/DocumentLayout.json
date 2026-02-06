@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}|Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph.tests\\hedera.hashgraph.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}|Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj|solutionrelative:hedera.hashgraph.tests\\hedera.hashgraph.tests.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}|Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph.tests\\accountallowanceapprovetransactiontest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}|Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj|solutionrelative:hedera.hashgraph.tests\\accountallowanceapprovetransactiontest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}|Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph.tests\\accountallowancedeletetransactiontest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}|Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj|solutionrelative:hedera.hashgraph.tests\\accountallowancedeletetransactiontest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy\\networking\\basenetwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy\\networking\\basenetwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,40 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Hedera.Hashgraph.Tests",
-              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj",
-              "RelativeDocumentMoniker": "Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj",
-              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj",
-              "RelativeToolTip": "Hedera.Hashgraph.Tests\\Hedera.Hashgraph.Tests.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-02-05T14:09:03.774Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AccountAllowanceApproveTransactionTest.cs",
-              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests\\AccountAllowanceApproveTransactionTest.cs",
-              "RelativeDocumentMoniker": "Hedera.Hashgraph.Tests\\AccountAllowanceApproveTransactionTest.cs",
-              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests\\AccountAllowanceApproveTransactionTest.cs",
-              "RelativeToolTip": "Hedera.Hashgraph.Tests\\AccountAllowanceApproveTransactionTest.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA4AAAAMAAAAAAAAAA==",
+              "Title": "BaseNetwork.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Networking\\BaseNetwork.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy\\Networking\\BaseNetwork.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy\\Networking\\BaseNetwork.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy\\Networking\\BaseNetwork.cs",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAawMsAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T14:04:45.876Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AccountAllowanceDeleteTransactionTest.cs",
-              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests\\AccountAllowanceDeleteTransactionTest.cs",
-              "RelativeDocumentMoniker": "Hedera.Hashgraph.Tests\\AccountAllowanceDeleteTransactionTest.cs",
-              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests\\AccountAllowanceDeleteTransactionTest.cs",
-              "RelativeToolTip": "Hedera.Hashgraph.Tests\\AccountAllowanceDeleteTransactionTest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T14:04:41.737Z",
+              "WhenOpened": "2026-02-06T23:50:56.506Z",
               "EditorCaption": ""
             }
           ]

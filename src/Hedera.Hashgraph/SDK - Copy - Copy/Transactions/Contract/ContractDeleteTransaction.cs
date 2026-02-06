@@ -2,10 +2,10 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Ids;
-
+using Hedera.Hashgraph.SDK.Transactions;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Contract
+namespace Hedera.Hashgraph.SDK.Contract
 {
     /// <summary>
     /// Delete a smart contract, and transfer any remaining HBAR balance to a
@@ -177,6 +177,19 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.ContractDeleteInstance = ToProtobuf();
+        }
+
+        public override void OnExecute(Client client)
+        {
+            throw new System.NotImplementedException();
+        }
+        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        {
+            throw new System.NotImplementedException();
+        }
+        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         /// <returns>                         the token id</returns>
         public virtual TokenId TokenId
         {
-            return tokenId;
+            get => tokenId;
         }
 
         /// <summary>

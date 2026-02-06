@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Ids;
 
 using System;
@@ -48,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		SystemDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		public SystemDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -58,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		SystemDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		public SystemDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -153,33 +155,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
         {
 			var body = SourceTransactionBody.SystemDelete;
 
-            if (body.HasFileID())
-            {
-                FileId = FileId.FromProtobuf(body.GetFileID());
-            }
-
-            if (body.HasContractID())
-            {
-                ContractId = ContractId.FromProtobuf(body.GetContractID());
-            }
-
-            if (body.HasExpirationTime())
-            {
-                ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.GetExpirationTime());
-            }
-        }
+			FileId = FileId.FromProtobuf(body.FileID);
+			ContractId = ContractId.FromProtobuf(body.ContractID);
+			ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+		}
 
         public override void ValidateChecksums(Client client)
         {
-            if (FileId != null)
-            {
-                FileId.ValidateChecksum(client);
-            }
-
-            if (ContractId != null)
-            {
-                ContractId.ValidateChecksum(client);
-            }
+            FileId?.ValidateChecksum(client);
+            ContractId?.ValidateChecksum(client);
         }
         public override Task OnExecuteAsync(Client client)
         {
@@ -188,6 +172,8 @@ namespace Hedera.Hashgraph.SDK.Transactions.System
             {
                 throw new InvalidOperationException("SystemDeleteTransaction must have exactly 1 of the following fields set: ContractId, FileId");
             }
+
+            return Task.CompletedTask;
         }
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {

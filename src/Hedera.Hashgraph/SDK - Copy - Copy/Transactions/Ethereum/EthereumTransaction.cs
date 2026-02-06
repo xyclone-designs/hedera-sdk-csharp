@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
 
@@ -35,6 +35,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
         }
 
         private FileId CallDataFileId { get; set; }
+
 		/// <summary>
 		/// Sets the raw Ethereum transaction (RLP encoded type 0, 1, and 2). Complete
 		/// unless the callDataFileId is set.
@@ -112,16 +113,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
         {
             throw new NotSupportedException("Cannot schedule EthereumTransaction");
         }
-		private public override void ValidateChecksums(Client client)
+		public override void ValidateChecksums(Client client)
         {
             CallDataFileId?.ValidateChecksum(client);
         }
-
-        private public override void ValidateChecksums(Client client)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void OnExecute(Client client)
         {
             throw new NotImplementedException();

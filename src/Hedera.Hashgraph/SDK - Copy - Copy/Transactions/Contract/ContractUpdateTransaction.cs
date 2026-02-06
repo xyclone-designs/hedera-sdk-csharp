@@ -1,7 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Hook;
+using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Proto;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Utils;
 using Io.Grpc;
 using Java.Time;
 using Java.Util;
@@ -13,7 +20,7 @@ using System.Linq;
 using System.Text;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Contract
+namespace Hedera.Hashgraph.SDK.Contract
 {
     /// <summary>
     /// Modify a smart contract instance to have the given parameter values.
@@ -40,144 +47,150 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
     /// </summary>
     public sealed class ContractUpdateTransaction : Transaction<ContractUpdateTransaction>
     {
-        private ContractId contractId = null;
-        private AccountId proxyAccountId = null;
-        private FileId bytecodeFileId = null;
-        private Timestamp expirationTime = null;
-        private Duration expirationTimeDuration = null;
-        private Key adminKey = null;
-        private int maxAutomaticTokenAssociations = null;
-        private Duration autoRenewPeriod = null;
-        private string contractMemo = null;
-        private AccountId stakedAccountId = null;
-        private long stakedNodeId = null;
-        private bool declineStakingReward = null;
-        private AccountId autoRenewAccountId = null;
-        private IList<long> hookIdsToDelete = new ();
-        private IList<HookCreationDetails> hookCreationDetails = new ();
-        /// <summary>
-        /// Contract.
-        /// </summary>
-        public ContractUpdateTransaction()
-        {
+        
+        private AccountId? ProxyAccountId 
+        { 
+            get;
+            set;
+        }
+        private FileId? BytecodeFileId 
+        { 
+            get;
+            set;
         }
 
+        
+        public int? MaxAutomaticTokenAssociations 
+        { 
+            get;
+            set;
+        }
+        public Duration? AutoRenewPeriod 
+        { 
+            get;
+            set;
+        }
+        public string? ContractMemo 
+        { 
+            get;
+            set;
+        }
+        public AccountId? StakedAccountId 
+        { 
+            get;
+            set;
+        }
+        public long? StakedNodeId 
+        { 
+            get;
+            set;
+        }
+        public bool? DeclineStakingReward 
+        { 
+            get;
+            set;
+        }
+        private AccountId? AutoRenewAccountId 
+        { 
+            get;
+            set;
+        }
+        private IList<long> hookIdsToDelete = [];
+        private IList<HookCreationDetails> hookCreationDetails = [];
+        
         /// <summary>
         /// Contract.
         /// </summary>
-        /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) record</param>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        ContractUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+        public ContractUpdateTransaction() { }
+		/// <summary>
+		/// Contract.
+		/// </summary>
+		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) record</param>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public ContractUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="txBody">protobuf TransactionBody</param>
-        ContractUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+        public ContractUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// Extract the contract id.
-        /// </summary>
-        /// <returns>                         the contract id</returns>
-        public ContractId GetContractId()
-        {
-            return contractId;
-        }
 
-        /// <summary>
-        /// Sets the Contract ID instance to update.
-        /// </summary>
-        /// <param name="contractId">The ContractId to be set</param>
-        /// <returns>{@code this}</returns>
-        public ContractUpdateTransaction SetContractId(ContractId contractId)
-        {
-            ArgumentNullException.ThrowIfNull(contractId);
-            RequireNotFrozen();
-            contractId = contractId;
-            return this;
-        }
+		/// <summary>
+		/// Sets the Contract ID instance to update.
+		/// </summary>
+		public ContractId? ContractId
+		{
+			get;
+			set
+			{
+				RequireNotFrozen();
+				field = value;
+			}
+		}
 
-        /// <summary>
-        /// Extract the contract expiration time.
-        /// </summary>
-        /// <returns>                         the contract expiration time</returns>
-        public Timestamp GetExpirationTime()
-        {
-            return expirationTime;
-        }
 
-        /// <summary>
-        /// If set, modify the time at which this contract will expire.<br/>
-        /// An expired contract requires a rent payment to "renew" the contract.
-        /// A transaction to update this field is how that rent payment is made.
-        /// <p>
-        /// This value MUST NOT be less than the current `expirationTime`
-        /// of the contract. If this value is earlier than the current
-        /// value, the transaction SHALL fail with response
-        /// code `EXPIRATION_REDUCTION_NOT_ALLOWED`.
-        /// </summary>
-        /// <param name="expirationTime">The Timestamp to be set for expiration time</param>
-        /// <returns>{@code this}</returns>
-        public ContractUpdateTransaction SetExpirationTime(Timestamp expirationTime)
-        {
-            ArgumentNullException.ThrowIfNull(expirationTime);
-            RequireNotFrozen();
-            expirationTime = expirationTime;
-            expirationTimeDuration = null;
-            return this;
-        }
+		/// <summary>
+		/// If set, modify the time at which this contract will expire.<br/>
+		/// An expired contract requires a rent payment to "renew" the contract.
+		/// A transaction to update this field is how that rent payment is made.
+		/// <p>
+		/// This value MUST NOT be less than the current `expirationTime`
+		/// of the contract. If this value is earlier than the current
+		/// value, the transaction SHALL fail with response
+		/// code `EXPIRATION_REDUCTION_NOT_ALLOWED`.
+		/// </summary>
+		public Timestamp? ExpirationTime
+		{
+			get;
+			set
+			{
+				RequireNotFrozen();
+				field = value;
+				ExpirationTimeDuration = null;
+			}
+		}
+		public Duration? ExpirationTimeDuration
+		{
+			get;
+			set
+			{
+				RequireNotFrozen();
+				field = value;
+				ExpirationTime = null;
+			}
+		}
 
-        public ContractUpdateTransaction SetExpirationTime(Duration expirationTime)
-        {
-            ArgumentNullException.ThrowIfNull(expirationTime);
-            RequireNotFrozen();
-            expirationTime = null;
-            expirationTimeDuration = expirationTime;
-            return this;
-        }
+		/// <summary>
+		/// If set, modify the key that authorizes updates to the contract.
+		/// <p>
+		/// If this field is set to a valid Key, this key and the previously set key
+		/// MUST both sign this transaction.<br/>
+		/// If this value is an empty `KeyList`, the prior key MUST sign this
+		/// transaction, and the smart contract SHALL be immutable after this
+		/// transaction completes, except for expiration and renewal.<br/>
+		/// If this value is not an empty `KeyList`, but does not contain any
+		/// cryptographic keys, or is otherwise malformed, this transaction SHALL
+		/// fail with response code `INVALID_ADMIN_KEY`.
+		/// </summary>
+		/// <param name="adminKey">The Key to be set</param>
+		/// <returns>{@code this}</returns>
+		public Key? AdminKey
+		{
+			get;
+			set;
+		}
 
-        /// <summary>
-        /// Extract the administrator key.
-        /// </summary>
-        /// <returns>                         the administrator key</returns>
-        public Key GetAdminKey()
-        {
-            return adminKey;
-        }
-
-        /// <summary>
-        /// If set, modify the key that authorizes updates to the contract.
-        /// <p>
-        /// If this field is set to a valid Key, this key and the previously set key
-        /// MUST both sign this transaction.<br/>
-        /// If this value is an empty `KeyList`, the prior key MUST sign this
-        /// transaction, and the smart contract SHALL be immutable after this
-        /// transaction completes, except for expiration and renewal.<br/>
-        /// If this value is not an empty `KeyList`, but does not contain any
-        /// cryptographic keys, or is otherwise malformed, this transaction SHALL
-        /// fail with response code `INVALID_ADMIN_KEY`.
-        /// </summary>
-        /// <param name="adminKey">The Key to be set</param>
-        /// <returns>{@code this}</returns>
-        public ContractUpdateTransaction SetAdminKey(Key adminKey)
-        {
-            ArgumentNullException.ThrowIfNull(adminKey);
-            RequireNotFrozen();
-            adminKey = adminKey;
-            return this;
-        }
-
-        /// <summary>
-        /// Extract the proxy account id.
-        /// </summary>
-        /// <returns>                         the proxy account id</returns>
-        public AccountId GetProxyAccountId()
+		/// <summary>
+		/// Extract the proxy account id.
+		/// </summary>
+		/// <returns>                         the proxy account id</returns>
+		public AccountId GetProxyAccountId()
         {
             return proxyAccountId;
         }
@@ -556,61 +569,25 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = SourceTransactionBody.ContractUpdateInstance();
-            if (body.HasContractID())
-            {
-                contractId = ContractId.FromProtobuf(body.GetContractID());
-            }
+            var body = SourceTransactionBody.ContractUpdateInstance;
 
-            if (body.HasProxyAccountID())
-            {
-                proxyAccountId = AccountId.FromProtobuf(body.GetProxyAccountID());
-            }
-
-            if (body.HasExpirationTime())
-            {
-                expirationTime = TimestampConverter.FromProtobuf(body.GetExpirationTime());
-            }
+            contractId = ContractId.FromProtobuf(body.ContractID);
+            proxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
+            expirationTime = TimestampConverter.FromProtobuf(body.ExpirationTime);
 
             if (body.AdminKey is not null)
             {
                 adminKey = Key.FromProtobufKey(body.AdminKey);
             }
 
-            if (body.HasMaxAutomaticTokenAssociations())
-            {
-                maxAutomaticTokenAssociations = body.GetMaxAutomaticTokenAssociations().GetValue();
-            }
+            maxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
+            autoRenewPeriod = DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+            contractMemo = body.MemoWrapper;
+            declineStakingReward = body.DeclineReward;
+            stakedAccountId = AccountId.FromProtobuf(body.StakedAccountId);
+            stakedNodeId = body.StakedNodeId;
 
-            if (body.HasAutoRenewPeriod())
-            {
-                autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.GetAutoRenewPeriod());
-            }
-
-            if (body.HasMemoWrapper())
-            {
-                contractMemo = body.GetMemoWrapper().GetValue();
-            }
-
-            if (body.HasDeclineReward())
-            {
-                declineStakingReward = body.DeclineReward.GetValue();
-            }
-
-            if (body.HasStakedAccountId())
-            {
-                stakedAccountId = AccountId.FromProtobuf(body.GetStakedAccountId());
-            }
-
-            if (body.HasStakedNodeId())
-            {
-                stakedNodeId = body.GetStakedNodeId();
-            }
-
-            if (body.HasAutoRenewAccountId())
-            {
-                autoRenewAccountId = AccountId.FromProtobuf(body.GetAutoRenewAccountId());
-            }
+            autoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccountId);
 
             hookCreationDetails.Clear();
             foreach (var protoHookDetails in body.GetHookCreationDetailsList())
@@ -619,14 +596,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             }
 
             hookIdsToDelete.Clear();
-            hookIdsToDelete.AddRange(body.GetHookIdsToDeleteList());
+            hookIdsToDelete.AddRange(body.HookIdsToDelete);
         }
 
-        /// <summary>
-        /// Build the correct transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.ContractUpdateTransactionBody builder }</returns>
-        ContractUpdateTransactionBody Build()
+		/// <summary>
+		/// Build the correct transaction body.
+		/// </summary>
+		/// <returns>{@link Proto.ContractUpdateTransactionBody builder }</returns>
+		public Proto.ContractUpdateTransactionBody ToProtobuf()
         {
             var builder = ContractUpdateTransactionBody.NewBuilder();
             if (contractId != null)
@@ -732,19 +709,18 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             }
         }
 
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
             return SmartContractServiceGrpc.GetUpdateContractMethod();
         }
 
-        override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SetContractUpdateInstance(Build());
+            bodyBuilder.ContractUpdateInstance = ToProtobuf();
         }
-
-        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SetContractUpdateInstance(Build());
+            scheduled.ContractUpdateInstance = ToProtobuf();
         }
     }
 }

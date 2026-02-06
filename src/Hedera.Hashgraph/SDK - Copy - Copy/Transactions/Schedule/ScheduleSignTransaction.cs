@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
+
 using System;
 using System.Collections.Generic;
 
@@ -22,7 +24,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
     /// </summary>
     public sealed class ScheduleSignTransaction : Transaction<ScheduleSignTransaction>
     {
-        private ScheduleId scheduleId = null;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -30,52 +31,31 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         {
             defaultMaxTransactionFee = new Hbar(5);
         }
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
         ///            records</param>
         /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        ScheduleSignTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+        public ScheduleSignTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// Extract the schedule id.
-        /// </summary>
-        /// <returns>                         the schedule id</returns>
-        public ScheduleId GetScheduleId()
-        {
-            return scheduleId;
-        }
-
-        /// <summary>
-        /// A schedule identifier.
-        /// <p>
-        /// This MUST identify the schedule which SHALL be deleted.
-        /// </summary>
-        /// <param name="scheduleId">the schedule id</param>
-        /// <returns>{@code this}</returns>
-        public ScheduleSignTransaction SetScheduleId(ScheduleId scheduleId)
-        {
-            ArgumentNullException.ThrowIfNull(scheduleId);
-            RequireNotFrozen();
-            scheduleId = scheduleId;
-            return this;
-        }
-
-        /// <summary>
-        /// Clears the schedule id
-        /// </summary>
-        /// <returns>{@code this}</returns>
-        public ScheduleSignTransaction ClearScheduleId()
-        {
-            RequireNotFrozen();
-            scheduleId = null;
-            return this;
-        }
+		/// <summary>
+		/// A schedule identifier.
+		/// <p>
+		/// This MUST identify the schedule which SHALL be deleted.
+		/// </summary>
+		public ScheduleId ScheduleId
+		{
+			get;
+			set
+			{
+				RequireNotFrozen();
+				field = value;
+			}
+		}
 
         /// <summary>
         /// Build the correct transaction body.
@@ -83,12 +63,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         /// <returns>{@link
         ///         Proto.ScheduleSignTransactionBody
         ///         builder }</returns>
-        public Proto.ScheduleSignTransactionBody Build()
+        public Proto.ScheduleSignTransactionBody ToProtobuf()
         {
             var builder = new Proto.ScheduleSignTransactionBody();
-            if (scheduleId != null)
+            
+            if (ScheduleId != null)
             {
-                builder.ScheduleID = scheduleId.ToProtobuf();
+                builder.ScheduleID = ScheduleId.ToProtobuf();
             }
 
             return builder;
@@ -100,29 +81,27 @@ namespace Hedera.Hashgraph.SDK.Transactions.Schedule
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ScheduleSign;
+
             if (body.ScheduleID is not null)
             {
-                scheduleId = ScheduleId.FromProtobuf(body.ScheduleID);
+                ScheduleId = ScheduleId.FromProtobuf(body.ScheduleID);
             }
         }
 
         public override void ValidateChecksums(Client client)
         {
-            if (scheduleId != null)
-            {
-                scheduleId.ValidateChecksum(client);
-            }
-        }
+			ScheduleId?.ValidateChecksum(client);
+		}
 
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
             return ScheduleServiceGrpc.SignScheduleMethod;
         }
-        override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.ScheduleSign = Build();
+            bodyBuilder.ScheduleSign = ToProtobuf();
         }
-        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("cannot schedule ScheduleSignTransaction");
         }

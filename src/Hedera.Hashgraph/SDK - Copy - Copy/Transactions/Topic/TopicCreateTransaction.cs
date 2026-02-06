@@ -476,7 +476,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         {
             if (client != null && client.GetOperatorAccountId() != null && autoRenewAccountId == null)
             {
-                autoRenewAccountId = transactionIds != null && !transactionIds.Length == 0 && transactionIds.GetCurrent() != null ? transactionIds.GetCurrent().AccountId : client.GetOperatorAccountId();
+                autoRenewAccountId = TransactionIds != null && !TransactionIds.Length == 0 && TransactionIds.GetCurrent() != null ? TransactionIds.GetCurrent().AccountId : client.GetOperatorAccountId();
             }
 
             return base.FreezeWith(client);

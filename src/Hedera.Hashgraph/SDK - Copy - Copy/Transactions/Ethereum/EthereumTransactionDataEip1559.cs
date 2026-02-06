@@ -106,7 +106,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
 
         public virtual byte[] ToBytes()
         {
-            return RLPEncoder.Sequence(Integers.ToBytes(0x02), [chainId, nonce, maxPriorityGas, maxGas, gasLimit, to, value, callData, new List<string>(), recoveryId, r, s]);
+            return RLPEncoder.Sequence(Integers.ToBytes(0x02), [chainId, nonce, maxPriorityGas, maxGas, gasLimit, to, value, CallData, new List<string>(), recoveryId, r, s]);
         }
     }
 }

@@ -1,22 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Mirror.Api.Proto;
 using Google.Protobuf.WellKnownTypes;
+
 using Grpc.Core;
+
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Proto.Mirror;
+using Hedera.Hashgraph.SDK.Networking;
 using Io.Grpc;
 using Io.Grpc.Stub;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
+
 using Org.Slf4j;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -90,25 +85,30 @@ namespace Hedera.Hashgraph.SDK.Queries
         public virtual NodeAddressBook Execute(Client client, Duration timeout)
         {
             var deadline = Deadline.After(timeout.ToMillis(), TimeUnit.MILLISECONDS);
+
             for (int attempt = 1; true; attempt++)
             {
                 try
                 {
                     var addressProtoIter = ClientCalls.BlockingServerStreamingCall(BuildCall(client, deadline), BuildQuery());
-                    IList<NodeAddress> addresses = new ();
+
+                    IList<NodeAddress> addresses = [];
                     while (addressProtoIter.HasNext())
                     {
                         addresses.Add(NodeAddress.FromProtobuf(addressProtoIter.Next()));
                     }
 
-                    return new NodeAddressBook().SetNodeAddresses(addresses);
+                    return new NodeAddressBook
+                    {
+						NodeAddresses = addresses
+					};
                 }
                 catch (Exception error)
                 {
-                    if (!ShouldRetry(error) || attempt >= maxAttempts)
+                    if (!ShouldRetry(error) || attempt >= MaxAttempts)
                     {
-                        LOGGER.Error("Error attempting to get address book at FileId {}", fileId, error);
-                        throw error;
+                        LOGGER.Error("Error attempting to get address book at FileId {}", FileId, error);
+                        throw;
                     }
 
                     WarnAndDelay(attempt, error);
@@ -133,8 +133,11 @@ namespace Hedera.Hashgraph.SDK.Queries
         public virtual Task<NodeAddressBook> ExecuteAsync(Client client, Duration timeout)
         {
             var deadline = Deadline.After(timeout.ToMillis(), TimeUnit.MILLISECONDS);
-            Task<NodeAddressBook> returnFuture = new Task();
+
+            Task<NodeAddressBook> returnFuture = Task.FromResult<NodeAddressBook>(default);
+            
             ExecuteAsync(client, deadline, returnFuture, 1);
+
             return returnFuture;
         }
         /// <summary>
@@ -146,7 +149,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <param name="attempt">maximum number of attempts</param>
         public virtual void ExecuteAsync(Client client, Deadline deadline, Task<NodeAddressBook> returnFuture, int attempt)
         {
-            IList<NodeAddress> addresses = new ();
+            IList<NodeAddress> addresses = [];
             ClientCalls.AsyncServerStreamingCall(BuildCall(client, deadline), BuildQuery(), new AnonymousStreamObserver(this));
         }
 

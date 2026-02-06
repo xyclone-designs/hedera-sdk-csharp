@@ -8,6 +8,7 @@ using Hedera.Hashgraph.SDK.Queries;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
@@ -19,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
     /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/miscellaneous/transactionresponse">Hedera
     /// Documentation</a>
     /// </summary>
-    public sealed class TransactionResponse<T> where T : Transaction<T>
+    public sealed class TransactionResponse
     {
         /// <summary>
         /// The maximum number of retry attempts for throttled transactions
@@ -75,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// regenerate the transaction id
 			Transaction.RegenerateTransactionId(client);
 
-			TransactionResponse<T> transactionResponse = (TransactionResponse<T>)Transaction.Execute(client);
+			TransactionResponse transactionResponse = Transaction.Execute(client);
 
 			return new TransactionReceiptQuery
 			{
@@ -165,9 +166,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 }
             }
 
+			// If we've exhausted all retries, throw the last exception
 
-            // If we've exhausted all retries, throw the last exception
-            if (lastException is not null) throw lastException;
+			if (lastException is not null)
+                throw lastException;
+
+			throw new TransactionException("Could not get receipt");
         }
 
         /// <summary>

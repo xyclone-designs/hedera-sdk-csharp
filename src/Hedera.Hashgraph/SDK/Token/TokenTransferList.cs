@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Ids;
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,11 +9,11 @@ namespace Hedera.Hashgraph.SDK.Token
     internal class TokenTransferList
     {
         public readonly TokenId TokenId;
-        public readonly uint ExpectDecimals;
+        public readonly uint? ExpectDecimals;
         public IList<TokenTransfer> Transfers = [];
         public IList<TokenNftTransfer> NftTransfers = [];
 
-        public TokenTransferList(TokenId tokenId, uint expectDecimals, TokenTransfer transfer, TokenNftTransfer nftTransfer)
+        public TokenTransferList(TokenId tokenId, uint? expectDecimals, TokenTransfer? transfer, TokenNftTransfer? nftTransfer)
         {
             TokenId = tokenId;
             ExpectDecimals = expectDecimals;
@@ -42,10 +43,13 @@ namespace Hedera.Hashgraph.SDK.Token
 			Proto.TokenTransferList proto = new()
             {
                 Token = TokenId.ToProtobuf(),
-				ExpectedDecimals = ExpectDecimals
 			};
 
-            proto.Transfers.AddRange(transfers);
+            if (ExpectDecimals.HasValue)
+                proto.ExpectedDecimals = ExpectDecimals;
+
+
+			proto.Transfers.AddRange(transfers);
             proto.NftTransfers.AddRange(nftTransfers);
 
             return proto;

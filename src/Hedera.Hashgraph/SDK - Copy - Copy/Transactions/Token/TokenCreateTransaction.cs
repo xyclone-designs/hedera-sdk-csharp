@@ -788,7 +788,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Token
         {
             if (autoRenewAccountId == null && client != null && client.GetOperatorAccountId() != null && autoRenewPeriod != null && !autoRenewPeriod.IsZero())
             {
-                autoRenewAccountId = transactionIds != null && !transactionIds.Length == 0 && transactionIds.GetCurrent() != null ? transactionIds.GetCurrent().accountId : client.GetOperatorAccountId();
+                autoRenewAccountId = TransactionIds != null && !TransactionIds.Length == 0 && TransactionIds.GetCurrent() != null ? TransactionIds.GetCurrent().accountId : client.GetOperatorAccountId();
             }
 
             return base.FreezeWith(client);

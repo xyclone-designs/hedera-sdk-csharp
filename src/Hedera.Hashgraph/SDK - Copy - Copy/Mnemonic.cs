@@ -32,6 +32,7 @@ using System.Text.RegularExpressions;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Crypto.Parameters;
+using System.IO;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -236,6 +237,7 @@ namespace Hedera.Hashgraph.SDK
             if (isLegacy)
             {
                 InputStream wordStream = typeof(Mnemonic).GetClassLoader().GetResourceAsStream("legacy-english.txt");
+
                 try
                 {
                     using (BufferedReader reader = new BufferedReader(new InputStreamReader(ArgumentNullException.ThrowIfNull(wordStream), UTF_8)))
@@ -257,6 +259,7 @@ namespace Hedera.Hashgraph.SDK
             else
             {
                 InputStream wordStream = typeof(Mnemonic).GetClassLoader().GetResourceAsStream("bip39-english.txt");
+
                 try
                 {
                     using (BufferedReader reader = new BufferedReader(new InputStreamReader(ArgumentNullException.ThrowIfNull(wordStream), UTF_8)))
@@ -395,7 +398,7 @@ namespace Hedera.Hashgraph.SDK
                 }
             }
 
-            if (unknownIndices.Length == 0)
+            if (unknownIndices.Count == 0)
             {
                 throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, unknownIndices);
             }
@@ -442,7 +445,7 @@ namespace Hedera.Hashgraph.SDK
             string salt = Normalizer.Normalize("mnemonic" + passphrase, Normalizer.Form.NFKD);
 
             // BIP-39 seed generation
-            Pkcs5S2ParametersGenerator pbkdf2 = new Pkcs5S2ParametersGenerator(new Sha512Digest());
+            Pkcs5S2ParametersGenerator pbkdf2 = new (new Sha512Digest());
             pbkdf2.Init(ToString().GetBytes(UTF_8), salt.GetBytes(UTF_8), 2048);
             KeyParameter key = (KeyParameter)pbkdf2.GenerateDerivedParameters(512);
             return key.GetKey();
@@ -578,7 +581,7 @@ namespace Hedera.Hashgraph.SDK
 
             var digest = new Sha256Digest();
             byte[] hash = new byte[entropy.Length];
-            digest.Update(entropy, 0, entropy.Length);
+            digest.BlockUpdate(entropy, 0, entropy.Length);
             digest.DoFinal(hash, 0);
             var hashBits = BytesToBits(hash);
             for (int i = 0; i < checksumBitsLen; i++)
@@ -642,12 +645,10 @@ namespace Hedera.Hashgraph.SDK
 			// Parse the derivation path from string into values
 			Regex pattern = new ("m/(\\d+'?)/(\\d+'?)/(\\d+'?)/(\\d+'?)/(\\d+'?)");
             MatchCollection matcher = pattern.Matches(derivationPath);
-            if (matcher.Length == 0)
-            {
-                throw new ArgumentException("Invalid derivation path format");
-            }
+            if (matcher.Count == 0)
+				throw new ArgumentException("Invalid derivation path format");
 
-            int[] numbers = new int[5];
+			int[] numbers = new int[5];
             bool[] isHardened = new bool[5];
             try
             {

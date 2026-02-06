@@ -3,12 +3,14 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Contract
+namespace Hedera.Hashgraph.SDK.Contract
 {
     /// <summary>
     /// Start a new smart contract instance.
@@ -55,8 +57,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
     /// changed after the smart contract is created.
     /// </summary>
     public sealed class ContractCreateTransaction : Transaction<ContractCreateTransaction>
-    {
-        
+    {        
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -65,7 +66,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
             AutoRenewPeriod = DEFAULT_AUTO_RENEW_PERIOD;
             defaultMaxTransactionFee = new Hbar(20);
         }
-
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -208,18 +208,19 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
 		/// <summary>Constructor parameters as raw bytes.</summary>
 		public ByteString ConstructorParameters
 		{
-			get => field == null ? ByteString.Empty : ByteString.CopyFrom(value);
+			set => field = value.Copy();
+			get => field ?? ByteString.Empty;
 		}
 		public ContractFunctionParameters ConstructorParameters_Function
 		{
-			set => SetConstructorParameters(value.ToBytes(null).ToByteArray());
+			set => ConstructorParameters_Bytes = value.ToBytes(null).ToByteArray();
 		}
 		public byte[] ConstructorParameters_Bytes
 		{
 			set
 			{
 				RequireNotFrozen();
-				ConstructorParameters = value.CopyArray();
+				ConstructorParameters = ByteString.CopyFrom(value);
 			}
 		}
 
@@ -393,47 +394,23 @@ namespace Hedera.Hashgraph.SDK.Transactions.Contract
         {
             var body = SourceTransactionBody.ContractCreateInstance;
 
-            if (body.FileID is not null)
-            {
-                bytecodeFileId = FileId.FromProtobuf(body.FileID);
-            }
+			bytecodeFileId = FileId.FromProtobuf(body.FileID);
+			bytecode = body.Initcode.ToByteArray();
+			proxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
+			adminKey = Key.FromProtobufKey(body.AdminKey);
 
-            if (body.Initcode is not null)
-            {
-                bytecode = body.Initcode.ToByteArray();
-            }
-
-            if (body.ProxyAccountID is not null)
-            {
-                proxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
-            }
-
-            if (body.AdminKey is not null)
-            {
-                adminKey = Key.FromProtobufKey(body.AdminKey);
-            }
-
-            maxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
-
-            if (body.AutoRenewPeriod is not null)
-				autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+			maxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
+			autoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
 
 			gas = body.Gas;
             initialBalance = Hbar.FromTinybars(body.InitialBalance);
             constructorParameters = body.ConstructorParameters.ToByteArray();
             contractMemo = body.Memo;
             declineStakingReward = body.DeclineReward;
-            if (body.StakedAccountId is not null)
-            {
-                stakedAccountId = AccountId.FromProtobuf(body.StakedAccountId);
-            }
 
 			stakedNodeId = body.StakedNodeId;
-
-			if (body.AutoRenewAccountId is not null)
-            {
-                autoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccountId);
-            }
+			stakedAccountId = AccountId.FromProtobuf(body.StakedAccountId);
+			autoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccountId);
 
 
             // Initialize hook creation details

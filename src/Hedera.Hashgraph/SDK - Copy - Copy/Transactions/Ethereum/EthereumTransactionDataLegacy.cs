@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Ethereum
         /// </summary>
         public byte[] s;
 
-        EthereumTransactionDataLegacy(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] v, byte[] r, byte[] s) : base(callData)
+        public EthereumTransactionDataLegacy(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] v, byte[] r, byte[] s) : base(callData)
         {
             nonce = nonce;
             gasPrice = gasPrice;

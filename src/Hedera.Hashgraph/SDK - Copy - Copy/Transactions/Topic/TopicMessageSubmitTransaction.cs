@@ -174,13 +174,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
                 topicId = TopicId.FromProtobuf(body.TopicID);
             }
 
-            if (innerSignedTransactions.Count != 0)
+            if (InnerSignedTransactions.Count != 0)
             {
                 try
                 {
-                    for (var i = 0; i < innerSignedTransactions.Count; i += nodeAccountIds.Length == 0 ? 1 : nodeAccountIds.Count)
+                    for (var i = 0; i < InnerSignedTransactions.Count; i += nodeAccountIds.Length == 0 ? 1 : nodeAccountIds.Count)
                     {
-                        data = data.Concat(Proto.TransactionBody.Parser.ParseFrom(innerSignedTransactions[i].BodyBytes).ConsensusSubmitMessage.Message);
+                        data = data.Concat(Proto.TransactionBody.Parser.ParseFrom(InnerSignedTransactions[i].BodyBytes).ConsensusSubmitMessage.Message);
                     }
                 }
                 catch (InvalidProtocolBufferException exc)

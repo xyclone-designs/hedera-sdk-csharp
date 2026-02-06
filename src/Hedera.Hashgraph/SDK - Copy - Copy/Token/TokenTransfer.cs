@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using System.Collections.Generic;
-
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Transactions;
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -15,10 +15,10 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         public readonly TokenId TokenId;
         public readonly AccountId AccountId;
-        public int ExpectedDecimals;
+        public int? ExpectedDecimals;
         public long Amount;
         public bool IsApproved;
-        public FungibleHookCall HookCall;
+        public FungibleHookCall? HookCall;
 
 		/// <summary>
 		/// Constructor.
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <param name="amount">the amount</param>
 		/// <param name="expectedDecimals">the expected decimals</param>
 		/// <param name="isApproved">is it approved</param>
-		public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, int expectedDecimals, bool isApproved)
+		public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, int? expectedDecimals, bool isApproved)
         {
             TokenId = tokenId;
             AccountId = accountId;
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Token
             HookCall = null;
         }
 
-        public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, int expectedDecimals, bool isApproved, FungibleHookCall? hookCall)
+        public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, int? expectedDecimals, bool isApproved, FungibleHookCall? hookCall)
         {
             TokenId = tokenId;
             AccountId = accountId;
@@ -63,18 +63,19 @@ namespace Hedera.Hashgraph.SDK.Token
             var tokenTransfers = new List<TokenTransfer>();
             foreach (var transfer in tokenTransferList.Transfers)
             {
-                FungibleHookCall typedHook = null;
+                FungibleHookCall? typedHook = null;
+
                 if (transfer.PreTxAllowanceHook is not null)
                 {
-                    typedHook = new ToFungibleHook(transfer.PreTxAllowanceHook, FungibleHookType.PreTxAllowanceHook);
+                    typedHook = TransferTransaction.ToFungibleHook(transfer.PreTxAllowanceHook, FungibleHookType.PreTxAllowanceHook);
                 }
                 else if (transfer.PrePostTxAllowanceHook is not null)
                 {
-                    typedHook = ToFungibleHook(transfer.PrePostTxAllowanceHook, FungibleHookType.PrePostTxAllowanceHook);
+                    typedHook = TransferTransaction.ToFungibleHook(transfer.PrePostTxAllowanceHook, FungibleHookType.PrePostTxAllowanceHook);
                 }
 
                 var acctId = AccountId.FromProtobuf(transfer.AccountID);
-                int expectedDecimals = (int)tokenTransferList.ExpectedDecimals;
+                int? expectedDecimals = (int?)tokenTransferList.ExpectedDecimals;
                 tokenTransfers.Add(new TokenTransfer(token, acctId, transfer.Amount, expectedDecimals, transfer.IsApproval, typedHook));
             }
 

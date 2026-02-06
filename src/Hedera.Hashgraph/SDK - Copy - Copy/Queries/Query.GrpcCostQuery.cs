@@ -1,5 +1,6 @@
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Networking;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {

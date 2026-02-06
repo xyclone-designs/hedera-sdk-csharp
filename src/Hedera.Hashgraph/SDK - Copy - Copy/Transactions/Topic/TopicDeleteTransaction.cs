@@ -16,41 +16,29 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
     /// </summary>
     public sealed class TopicDeleteTransaction : Transaction<TopicDeleteTransaction>
     {
-        private TopicId topicId = null;
         /// <summary>
         /// Constructor.
         /// </summary>
         public TopicDeleteTransaction()
         {
         }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-        ///            records</param>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        TopicDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="txBody">protobuf TransactionBody</param>
+		public TopicDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		{
+			InitFromTransactionBody();
+		}
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+		///            records</param>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public TopicDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txBody">protobuf TransactionBody</param>
-        TopicDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
-        {
-            InitFromTransactionBody();
-        }
-
-        /// <summary>
-        /// Extract the topic id.
-        /// </summary>
-        /// <returns>                         the topic id</returns>
-        public TopicId GetTopicId()
-        {
-            return topicId;
         }
 
         /// <summary>
@@ -58,18 +46,15 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         /// <param name="topicId">The TopicId to be set</param>
         /// <returns>{@code this}</returns>
-        public TopicDeleteTransaction SetTopicId(TopicId topicId)
+        public TopicId TopicId
         {
-            ArgumentNullException.ThrowIfNull(topicId);
-            RequireNotFrozen();
-            topicId = topicId;
-            return this;
+            get; set { RequireNotFrozen(); field = value; }
         }
 
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        void InitFromTransactionBody()
+        private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusDeleteTopic;
             if (body.TopicID is not null)
@@ -83,38 +68,31 @@ namespace Hedera.Hashgraph.SDK.Transactions.Topic
         /// </summary>
         /// <returns>{@link
         ///         Proto.ConsensusDeleteTopicTransactionBody}</returns>
-        Proto.ConsensusDeleteTopicTransactionBody Build()
+        public Proto.ConsensusDeleteTopicTransactionBody ToProtobuf()
         {
             var builder = new Proto.ConsensusDeleteTopicTransactionBody();
-            if (topicId != null)
-            {
-                builder.TopicID = topicId.ToProtobuf();
-            }
 
-            return builder;
+            if (topicId != null)
+				builder.TopicID = topicId.ToProtobuf();
+
+			return builder;
         }
 
         public override void ValidateChecksums(Client client)
         {
-            if (topicId != null)
-            {
-                topicId.ValidateChecksum(client);
-            }
-        }
-
-        override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+			topicId?.ValidateChecksum(client);
+		}
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            return ConsensusServiceGrpc.GetDeleteTopicMethod();
+            bodyBuilder.ConsensusDeleteTopic = ToProtobuf();
         }
-
-        override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            bodyBuilder.ConsensusDeleteTopic = Build();
+            scheduled.ConsensusDeleteTopic = ToProtobuf();
         }
-
-        override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
-        {
-            scheduled.ConsensusDeleteTopic = Build();
-        }
-    }
+		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		{
+			return ConsensusServiceGrpc.GetDeleteTopicMethod();
+		}
+	}
 }

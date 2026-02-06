@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Google.Gson;
+using Hedera.Hashgraph.SDK.Evm;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Ids;
 using Java.Net;
 using Java.Net.Http;
 using Java.Nio;
@@ -15,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Utils
@@ -203,14 +207,15 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// <exception cref="BadEntityIdException"></exception>
         public static void Validate(long shard, long realm, long num, Client client, string? checksum)
         {
-            if (client.GetNetworkName() == null)
+            if (client.NetworkName == null)
             {
                 throw new InvalidOperationException("Can't validate checksum without knowing which network the ID is for.  Ensure client's network name is set.");
             }
 
             if (checksum != null)
             {
-                string expectedChecksum = Utils.EntityIdHelper.Checksum(client.LedgerId, Utils.EntityIdHelper.ToString(shard, realm, num));
+                string expectedChecksum = Checksum(client.LedgerId, ToString(shard, realm, num));
+
                 if (!checksum.Equals(expectedChecksum))
                 {
                     throw new BadEntityIdException(shard, realm, num, checksum, expectedChecksum);
@@ -243,7 +248,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         {
             if (client.LedgerId != null)
             {
-                return "" + shard + "." + realm + "." + num + "-" + Checksum(client.LedgerId, Utils.EntityIdHelper.ToString(shard, realm, num));
+                return "" + shard + "." + realm + "." + num + "-" + Checksum(client.LedgerId, ToString(shard, realm, num));
             }
             else
             {
@@ -277,10 +282,12 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         /// <param name="client"></param>
         /// <param name="evmAddress"></param>
-        public static Task<long> GetAccountNumFromMirrorNodeAsync(Client client, string evmAddress)
+        public static async Task<long> GetAccountNumFromMirrorNodeAsync(Client client, string evmAddress)
         {
             string apiEndpoint = "/accounts/" + evmAddress;
-            return PerformQueryToMirrorNodeAsync(client, apiEndpoint, null).ThenApply((response) => ParseNumFromMirrorNodeResponse(response, "account"));
+            string _ = await PerformQueryToMirrorNodeAsync(client, apiEndpoint, null);
+
+			return ParseNumFromMirrorNodeResponse(_, "account");
         }
 
         /// <summary>
@@ -291,10 +298,12 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         /// <param name="client"></param>
         /// <param name="num"></param>
-        public static Task<EvmAddress> GetEvmAddressFromMirrorNodeAsync(Client client, long num)
+        public static async Task<EvmAddress> GetEvmAddressFromMirrorNodeAsync(Client client, long num)
         {
             string apiEndpoint = "/accounts/" + num;
-            return PerformQueryToMirrorNodeAsync(client, apiEndpoint, null).ThenApply((response) => EvmAddress.FromString(ParseStringMirrorNodeResponse(response, "evm_address")));
+            string _ = await PerformQueryToMirrorNodeAsync(client, apiEndpoint, null);
+
+			return EvmAddress.FromString(ParseStringMirrorNodeResponse(_, "evm_address"));
         }
 
         /// <summary>
@@ -305,19 +314,20 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         /// <param name="client"></param>
         /// <param name="evmAddress"></param>
-        public static Task<long> GetContractNumFromMirrorNodeAsync(Client client, string evmAddress)
+        public static async Task<long> GetContractNumFromMirrorNodeAsync(Client client, string evmAddress)
         {
             string apiEndpoint = "/contracts/" + evmAddress;
-            Task<string> responseFuture = PerformQueryToMirrorNodeAsync(client, apiEndpoint, null);
-            return responseFuture.ThenApply((response) => ParseNumFromMirrorNodeResponse(response, "contract_id"));
+            string responseFuture = await PerformQueryToMirrorNodeAsync(client, apiEndpoint, null);
+
+            return ParseNumFromMirrorNodeResponse(responseFuture, "contract_id");
         }
 
-        public static Task<string> PerformQueryToMirrorNodeAsync(Client client, string apiEndpoint, string jsonBody)
+        public static async Task<string> PerformQueryToMirrorNodeAsync(Client client, string apiEndpoint, string jsonBody)
         {
             return PerformQueryToMirrorNodeAsync(client.GetMirrorRestBaseUrl(), apiEndpoint, jsonBody);
         }
 
-        public static Task<string> PerformQueryToMirrorNodeAsync(string baseUrl, string apiEndpoint, string jsonBody)
+        public static async Task<string> PerformQueryToMirrorNodeAsync(string baseUrl, string apiEndpoint, string jsonBody)
         {
             string apiUrl = baseUrl + apiEndpoint;
             HttpClient httpClient = HttpClient.NewHttpClient();

@@ -1,16 +1,24 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+
+using Grpc.Core;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Networking;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Google.Protobuf.WellKnownTypes;
+using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Threading;
-using Hedera.Hashgraph.SDK.Exceptions;
-using Org.BouncyCastle.Utilities.Encoders;
-using Hedera.Hashgraph.SDK.Ids;
+using System.Threading.Tasks;
 using System.Windows.Markup;
 
 namespace Hedera.Hashgraph.SDK
@@ -180,6 +188,26 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		public abstract O MapResponse(Proto.Response response, AccountId nodeId, ProtoRequestT request);
 
+		protected virtual void CheckNodeAccountIds()
+		{
+			if (NodeAccountIds.Count == 0)
+				throw new InvalidOperationException("Request node account IDs were not set before executing");
+		}
+		protected virtual bool IsBatchedAndNotBatchTransaction()
+		{
+			return false;
+		}
+
+		public virtual void AdvanceRequest()
+		{
+			if (NodeAccountIds.Index + 1 == Nodes.Count - 1)
+				AttemptedAllNodes = true;
+
+			Nodes.Advance();
+
+			if (NodeAccountIds.Count > 1)
+				NodeAccountIds.Advance();
+		}
 		public virtual GrpcRequest GetGrpcRequest(int attempt)
 		{
 			return new GrpcRequest(null, attempt, GrpcDeadline);
@@ -240,7 +268,25 @@ namespace Hedera.Hashgraph.SDK
 
 			return node;
 		}
+		/// <summary>
+		/// Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
+		/// the query response from Hedera. By default it triggers a retry when the pre-check status is {@code BUSY}.
+		/// </summary>
+		public virtual ExecutionState GetExecutionState(ResponseStatus status, ResponseT response)
+		{
+			return status switch
+			{
+				ResponseStatus.PlatformTransactionNotCreated or
+				ResponseStatus.PlatformNotActive => ExecutionState.ServerError,
 
+				ResponseStatus.Busy or
+				ResponseStatus.InvalidNodeAccount => ExecutionState.Retry, // INVALID_NODE_ACCOUNT retries with special handling for node account update
+
+				ResponseStatus.Ok => ExecutionState.Success,
+
+				_ => ExecutionState.RequestError, // user error
+			};
+		}
 		public virtual void MergeFromClient(Client client)
         {
             MaxAttempts = client.MaxAttempts;
@@ -248,56 +294,56 @@ namespace Hedera.Hashgraph.SDK
             MinBackoff = client.MinBackoff;
             GrpcDeadline = client.GrpcDeadline;
         }
-		protected virtual void CheckNodeAccountIds()
+		public virtual void SetNodesFromNodeAccountIds(Client client)
 		{
-			if (NodeAccountIds.Length == 0)
-				throw new InvalidOperationException("Request node account IDs were not set before executing");
+			Nodes.Clear();
+
+			// When a single node is explicitly set we get all of its proxies so in case of
+			// failure the system can retry with different proxy on each attempt
+			if (NodeAccountIds.Count == 1)
+			{
+				var nodeProxies = client.Network.GetNodeProxies(NodeAccountIds[0]);
+				if (nodeProxies == null || nodeProxies.Length == 0)
+				{
+					throw new InvalidOperationException("Account ID did not map to valid node in the client's network");
+				}
+
+				Nodes.AddRange(nodeProxies).Shuffle();
+				return;
+			}
+
+
+			// When multiple nodes are available the system retries with different node on each attempt
+			// instead of different proxy of the same node
+			foreach (var accountId in NodeAccountIds)
+			{
+				var nodeProxies = client.Network.GetNodeProxies(accountId);
+				if (nodeProxies == null || nodeProxies.Length == 0)
+				{
+					Logger.Warn("Attempting to fetch node {} proxy which is not included in the Client's network. Please review your Client config.", accountId.ToString());
+					continue;
+				}
+
+				var node = nodeProxies[random.Next(nodeProxies.Count)];
+
+				Nodes.Add(ArgumentNullException.ThrowIfNull(node));
+			}
+
+			if (Nodes.Length == 0)
+				throw new InvalidOperationException("All node account IDs did not map to valid nodes in the client's network");
 		}
-		protected virtual bool IsBatchedAndNotBatchTransaction()
+		public virtual bool ShouldRetryExceptionally(Exception error)
 		{
+			if (error is RpcException)
+			{
+				var status = statusException.GetStatus().GetCode();
+				var description = statusException.GetStatus().Description;
+				return (status == Code.UNAVAILABLE) || (status == Code.RESOURCE_EXHAUSTED) || (status == Code.INTERNAL && description != null && RST_STREAM.Matcher(description).Matches());
+			}
+
 			return false;
 		}
-
-		private void Delay(long delay)
-        {
-            if (delay <= 0)
-            {
-                return;
-            }
-
-            try
-            {
-                if (delay > 0)
-                {
-					Logger?.Debug("Sleeping for: " + delay + " | Thread name: " + Thread.CurrentThread.Name);
-
-					Thread.Sleep((int)delay);
-                }
-            }
-            catch (ThreadInterruptedException e)
-            {
-                throw new Exception(string.Empty, e);
-            }
-        }
-
-        /// <summary>
-        /// Updates the client's network from the address book if a mirror network is configured.
-        /// Logs any errors at TRACE level without throwing exceptions.
-        /// </summary>
-        /// <param name="client">The client whose network should be updated</param>
-        private void UpdateNetworkFromAddressBook(Client client)
-        {
-            try
-            {
-                if (client.MirrorNetwork?.Count > 0)
-					client.UpdateNetworkFromAddressBook();
-			}
-            catch (Exception updateError)
-            {
-				Logger?.Trace("failed to update client address book after INVALID_NODE_ACCOUNT_ID: {}", updateError.Message);
-			}
-        }
-
+		
         /// <summary>
         /// Execute this transaction or query
         /// </summary>
@@ -540,203 +586,158 @@ namespace Hedera.Hashgraph.SDK
 				Logger?.Trace(" - Error: {}", error.Message);
 		}
 
-        public virtual void SetNodesFromNodeAccountIds(Client client)
-        {
-            Nodes.Clear();
+		private void Delay(long delay)
+		{
+			if (delay <= 0)
+			{
+				return;
+			}
 
-            // When a single node is explicitly set we get all of its proxies so in case of
-            // failure the system can retry with different proxy on each attempt
-            if (NodeAccountIds.Count == 1)
-            {
-                var nodeProxies = client.Network.GetNodeProxies(NodeAccountIds[0]);
-                if (nodeProxies == null || nodeProxies.Length == 0)
-                {
-                    throw new InvalidOperationException("Account ID did not map to valid node in the client's network");
-                }
+			try
+			{
+				if (delay > 0)
+				{
+					Logger?.Debug("Sleeping for: " + delay + " | Thread name: " + Thread.CurrentThread.Name);
 
-				Nodes.AddRange(nodeProxies).Shuffle();
-                return;
-            }
-
-
-            // When multiple nodes are available the system retries with different node on each attempt
-            // instead of different proxy of the same node
-            foreach (var accountId in NodeAccountIds)
-            {
-                var nodeProxies = client.Network.GetNodeProxies(accountId);
-                if (nodeProxies == null || nodeProxies.Length == 0)
-                {
-                    Logger.Warn("Attempting to fetch node {} proxy which is not included in the Client's network. Please review your Client config.", accountId.ToString());
-                    continue;
-                }
-
-                var node = nodeProxies[random.Next(nodeProxies.Count)];
-
-				Nodes.Add(ArgumentNullException.ThrowIfNull(node));
-            }
-
-            if (Nodes.Length == 0)
-				throw new InvalidOperationException("All node account IDs did not map to valid nodes in the client's network");
+					Thread.Sleep((int)delay);
+				}
+			}
+			catch (ThreadInterruptedException e)
+			{
+				throw new Exception(string.Empty, e);
+			}
 		}
-
-        private ProtoRequestT GetRequestForExecute()
-        {
-            var request = MakeRequest();
-            return request;
-        }
-
-        private void ExecuteAsyncInternal(Client client, int attempt, Exception lastException, Task<O> returnFuture, Duration timeout)
-        {
+		private ProtoRequestT GetRequestForExecute()
+		{
+			var request = MakeRequest();
+			return request;
+		}
+		private void ExecuteAsyncInternal(Client client, int attempt, Exception lastException, Task<O> returnFuture, Duration timeout)
+		{
 
 			// If the logger on the request is not set, use the logger in client
 			// (if set, otherwise do not use logger)
 			Logger ??= client.GetLogger();
 
 			if (returnFuture.IsCancelled() || returnFuture.IsCompletedExceptionally() || returnFuture.IsDone())
-            {
-                return;
-            }
-
-            if (attempt > MaxAttempts)
-            {
-                returnFuture.CompleteExceptionally(new CompletionException(new MaxAttemptsExceededException(lastException)));
-                return;
-            }
-
-            var timeoutTime = Instant.Now().Plus(timeout);
-            GrpcRequest grpcRequest = new GrpcRequest(client.network, attempt, Duration.Between(Instant.Now(), timeoutTime));
-            Func<Task> afterUnhealthyDelay = () =>
-            {
-                return grpcRequest.GetNode().IsHealthy() 
-                    ? Task.CompletedTask 
-                    : Delayer.DelayFor(grpcRequest.GetNode().GetRemainingTimeForBackoff(), client.executor);
-            };
-            afterUnhealthyDelay.Get().ThenRun(() =>
-            {
-                grpcRequest.GetNode().ChannelFailedToConnectAsync().ThenAccept((connectionFailed) =>
-                {
-                    if (connectionFailed)
-                    {
-                        var connectionException = grpcRequest.ReactToConnectionFailure();
-                        AdvanceRequest(); // Advance to next node before retrying
-                        ExecuteAsyncInternal(client, attempt + 1, connectionException, returnFuture, Duration.Between(Instant.Now(), timeoutTime));
-                        return;
-                    }
-
-                    ToTask(ClientCalls.FutureUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest())).Handle((response, error) =>
-                    {
-                        LogTransaction(TransactionIdInternal(), client, grpcRequest.GetNode(), true, attempt, response, error);
-                        if (grpcRequest.ShouldRetryExceptionally(error))
-                        {
-
-                            // the transaction had a network failure reaching Hedera
-                            AdvanceRequest(); // Advance to next node before retrying
-                            ExecuteAsyncInternal(client, attempt + 1, error, returnFuture, Duration.Between(Instant.Now(), timeoutTime));
-                            return null;
-                        }
-
-                        if (error != null)
-                        {
-
-                            // not a network failure, some other weirdness going on; just fail fast
-                            returnFuture.CompleteExceptionally(new CompletionException(error));
-                            return null;
-                        }
-
-                        var status = MapResponseStatus(response);
-                        var executionState = GetExecutionState(status, response);
-                        grpcRequest.HandleResponse(response, status, executionState, client);
-                        switch (executionState)
-                        {
-                            case ExecutionState.Retry:
-
-                                // Response is not ready yet from server, need to wait.
-                                // Handle INVALID_NODE_ACCOUNT: mark node as unusable and update network
-                                if (status == ResponseStatus.INVALID_NODE_ACCOUNT)
-                                {
-                                    if (logger.IsEnabledForLevel(LogLevel.TRACE))
-                                    {
-                                        logger.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", grpcRequest.GetNode().AccountId, attempt);
-                                    }
-
-
-                                    // Schedule async address book update
-                                    UpdateNetworkFromAddressBook(client);
-
-                                    // Mark this node as unhealthy
-                                    client.network.IncreaseBackoff(grpcRequest.GetNode());
-                                }
-
-                                Delayer.DelayFor((attempt < MaxAttempts) ? grpcRequest.GetDelay() : 0, client.executor).ThenRun(() => ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(Instant.Now(), timeoutTime)));
-                                break;
-                            case ExecutionState.ServerError:
-                                AdvanceRequest(); // Advance to next node before retrying
-                                ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(Instant.Now(), timeoutTime));
-                                break;
-                            case ExecutionState.RequestError:
-                                returnFuture.CompleteExceptionally(new CompletionException(grpcRequest.MapStatusException()));
-                                break;
-                            case ExecutionState.Success:
-                            default:
-                                returnFuture.Complete(grpcRequest.MapResponse());
-                                break;
-                        }
-
-                        return null;
-                    }).Exceptionally((error) =>
-                    {
-                        returnFuture.CompleteExceptionally(error);
-                        return null;
-                    });
-                }).Exceptionally((error) =>
-                {
-                    returnFuture.CompleteExceptionally(error);
-                    return null;
-                });
-            });
-        }
-
-		public virtual void AdvanceRequest()
-        {
-            if (NodeAccountIds.Index + 1 == Nodes.Count - 1)
-				AttemptedAllNodes = true;
-
-			Nodes.Advance();
-
-            if (NodeAccountIds.Count > 1)
-				NodeAccountIds.Advance();
-		}
-
-
-        /// <summary>
-        /// Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
-        /// the query response from Hedera. By default it triggers a retry when the pre-check status is {@code BUSY}.
-        /// </summary>
-        public virtual ExecutionState GetExecutionState(ResponseStatus status, ResponseT response)
-        {
-            return status switch
-            {
-                ResponseStatus.PlatformTransactionNotCreated or
-                ResponseStatus.PlatformNotActive => ExecutionState.ServerError,
-
-                ResponseStatus.Busy or 
-                ResponseStatus.InvalidNodeAccount => ExecutionState.Retry, // INVALID_NODE_ACCOUNT retries with special handling for node account update
-                
-                ResponseStatus.Ok => ExecutionState.Success,
-
-                _ => ExecutionState.RequestError, // user error
-            };
-        }
-		public virtual bool ShouldRetryExceptionally(Exception error)
-		{
-			if (error is RpcException)
 			{
-				var status = statusException.GetStatus().GetCode();
-				var description = statusException.GetStatus().Description;
-				return (status == Code.UNAVAILABLE) || (status == Code.RESOURCE_EXHAUSTED) || (status == Code.INTERNAL && description != null && RST_STREAM.Matcher(description).Matches());
+				return;
 			}
 
-			return false;
+			if (attempt > MaxAttempts)
+			{
+				returnFuture.CompleteExceptionally(new CompletionException(new MaxAttemptsExceededException(lastException)));
+				return;
+			}
+
+			var timeoutTime = Instant.Now().Plus(timeout);
+			GrpcRequest grpcRequest = new GrpcRequest(client.network, attempt, Duration.Between(Instant.Now(), timeoutTime));
+			Func<Task> afterUnhealthyDelay = () =>
+			{
+				return grpcRequest.GetNode().IsHealthy()
+					? Task.CompletedTask
+					: Delayer.DelayFor(grpcRequest.GetNode().GetRemainingTimeForBackoff(), client.executor);
+			};
+			afterUnhealthyDelay.Get().ThenRun(() =>
+			{
+				grpcRequest.GetNode().ChannelFailedToConnectAsync().ThenAccept((connectionFailed) =>
+				{
+					if (connectionFailed)
+					{
+						var connectionException = grpcRequest.ReactToConnectionFailure();
+						AdvanceRequest(); // Advance to next node before retrying
+						ExecuteAsyncInternal(client, attempt + 1, connectionException, returnFuture, Duration.Between(Instant.Now(), timeoutTime));
+						return;
+					}
+
+					ToTask(ClientCalls.FutureUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest())).Handle((response, error) =>
+					{
+						LogTransaction(TransactionIdInternal(), client, grpcRequest.GetNode(), true, attempt, response, error);
+						if (grpcRequest.ShouldRetryExceptionally(error))
+						{
+
+							// the transaction had a network failure reaching Hedera
+							AdvanceRequest(); // Advance to next node before retrying
+							ExecuteAsyncInternal(client, attempt + 1, error, returnFuture, Duration.Between(Instant.Now(), timeoutTime));
+							return null;
+						}
+
+						if (error != null)
+						{
+
+							// not a network failure, some other weirdness going on; just fail fast
+							returnFuture.CompleteExceptionally(new CompletionException(error));
+							return null;
+						}
+
+						var status = MapResponseStatus(response);
+						var executionState = GetExecutionState(status, response);
+						grpcRequest.HandleResponse(response, status, executionState, client);
+						switch (executionState)
+						{
+							case ExecutionState.Retry:
+
+								// Response is not ready yet from server, need to wait.
+								// Handle INVALID_NODE_ACCOUNT: mark node as unusable and update network
+								if (status == ResponseStatus.INVALID_NODE_ACCOUNT)
+								{
+									if (logger.IsEnabledForLevel(LogLevel.TRACE))
+									{
+										logger.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", grpcRequest.GetNode().AccountId, attempt);
+									}
+
+
+									// Schedule async address book update
+									UpdateNetworkFromAddressBook(client);
+
+									// Mark this node as unhealthy
+									client.network.IncreaseBackoff(grpcRequest.GetNode());
+								}
+
+								Delayer.DelayFor((attempt < MaxAttempts) ? grpcRequest.GetDelay() : 0, client.executor).ThenRun(() => ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(Instant.Now(), timeoutTime)));
+								break;
+							case ExecutionState.ServerError:
+								AdvanceRequest(); // Advance to next node before retrying
+								ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(Instant.Now(), timeoutTime));
+								break;
+							case ExecutionState.RequestError:
+								returnFuture.CompleteExceptionally(new CompletionException(grpcRequest.MapStatusException()));
+								break;
+							case ExecutionState.Success:
+							default:
+								returnFuture.Complete(grpcRequest.MapResponse());
+								break;
+						}
+
+						return null;
+					}).Exceptionally((error) =>
+					{
+						returnFuture.CompleteExceptionally(error);
+						return null;
+					});
+				}).Exceptionally((error) =>
+				{
+					returnFuture.CompleteExceptionally(error);
+					return null;
+				});
+			});
 		}
+		/// <summary>
+		/// Updates the client's network from the address book if a mirror network is configured.
+		/// Logs any errors at TRACE level without throwing exceptions.
+		/// </summary>
+		/// <param name="client">The client whose network should be updated</param>
+		private void UpdateNetworkFromAddressBook(Client client)
+		{
+			try
+			{
+				if (client.MirrorNetwork?.Count > 0)
+					client.UpdateNetworkFromAddressBook();
+			}
+			catch (Exception updateError)
+			{
+				Logger?.Trace("failed to update client address book after INVALID_NODE_ACCOUNT_ID: {}", updateError.Message);
+			}
+		}	
 	}
 }

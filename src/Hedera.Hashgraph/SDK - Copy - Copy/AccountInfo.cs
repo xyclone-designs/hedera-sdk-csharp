@@ -1,18 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-using Java.Util.Stream.Collectors;
-using Com.Google.Common.Base;
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Proto;
-using Java.Time;
-using Java.Util;
-using Javax.Annotation;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Account
 {
     /// <summary>
     /// Current information about an account, including the balance.
@@ -173,13 +170,22 @@ namespace Hedera.Hashgraph.SDK
             tokenNftAllowances = [];
             stakingInfo = stakingInfo;
         }
-
-        /// <summary>
-        /// Retrieve the account info from a protobuf.
-        /// </summary>
-        /// <param name="accountInfo">the account info protobuf</param>
-        /// <returns>the account info object</returns>
-        static AccountInfo FromProtobuf(CryptoGetInfoResponse.AccountInfo accountInfo)
+		/// <summary>
+		/// Retrieve the account info from a protobuf byte array.
+		/// </summary>
+		/// <param name="bytes">a byte array representing the protobuf</param>
+		/// <returns>the account info object</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static AccountInfo FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Retrieve the account info from a protobuf.
+		/// </summary>
+		/// <param name="accountInfo">the account info protobuf</param>
+		/// <returns>the account info object</returns>
+		public static AccountInfo FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo accountInfo)
         {
             var accountId = AccountId.FromProtobuf(accountInfo.GetAccountID());
             var proxyAccountId = accountInfo.GetProxyAccountID().GetAccountNum() > 0 ? AccountId.FromProtobuf(accountInfo.GetProxyAccountID()) : null;
@@ -195,22 +201,19 @@ namespace Hedera.Hashgraph.SDK
             return new AccountInfo(accountId, accountInfo.GetContractAccountID(), accountInfo.GetDeleted(), proxyAccountId, accountInfo.GetProxyReceived(), Key.FromProtobufKey(accountInfo.GetKey()), accountInfo.Balance, accountInfo.GetGenerateSendRecordThreshold(), accountInfo.GetGenerateReceiveRecordThreshold(), accountInfo.GetReceiverSigRequired(), Utils.TimestampConverter.FromProtobuf(accountInfo.GetExpirationTime()), Utils.DurationConverter.FromProtobuf(accountInfo.GetAutoRenewPeriod()), liveHashes, relationships, accountInfo.GetMemo(), accountInfo.GetOwnedNfts(), accountInfo.GetMaxAutomaticTokenAssociations(), aliasKey, LedgerId.FromByteString(accountInfo.LedgerId), accountInfo.GetEthereumNonce(), accountInfo.HasStakingInfo() ? StakingInfo.FromProtobuf(accountInfo.GetStakingInfo()) : null);
         }
 
-        /// <summary>
-        /// Retrieve the account info from a protobuf byte array.
-        /// </summary>
-        /// <param name="bytes">a byte array representing the protobuf</param>
-        /// <returns>the account info object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static AccountInfo FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(CryptoGetInfoResponse.AccountInfo.Parser.ParseFrom(bytes));
-        }
-
-        /// <summary>
-        /// Convert an account info object into a protobuf.
-        /// </summary>
-        /// <returns>the protobuf object</returns>
-        CryptoGetInfoResponse.AccountInfo ToProtobuf()
+		/// <summary>
+		/// Extract a byte array representation.
+		/// </summary>
+		/// <returns>a byte array representation</returns>
+		public byte[] ToBytes()
+		{
+			return ToProtobuf().ToByteArray();
+		}
+		/// <summary>
+		/// Convert an account info object into a protobuf.
+		/// </summary>
+		/// <returns>the protobuf object</returns>
+		public Proto.CryptoGetInfoResponse.Types.AccountInfo ToProtobuf()
         {
             var hashes = Array.Stream(liveHashes.ToArray()).Map((liveHash) => ((LiveHash)liveHash).ToProtobuf()).Collect(ToList());
             var accountInfoBuilder = CryptoGetInfoResponse.AccountInfo.NewBuilder().SetAccountID(accountId.ToProtobuf()).SetDeleted(isDeleted).SetProxyReceived(proxyReceived.ToTinybars()).SetKey(key.ToProtobufKey()).SetBalance(balance.ToTinybars()).SetGenerateSendRecordThreshold(sendRecordThreshold.ToTinybars()).SetGenerateReceiveRecordThreshold(receiveRecordThreshold.ToTinybars()).SetReceiverSigRequired(isReceiverSignatureRequired).SetExpirationTime(Utils.TimestampConverter.ToProtobuf(expirationTime)).SetAutoRenewPeriod(Utils.DurationConverter.ToProtobuf(autoRenewPeriod)).AddAllLiveHashes(hashes).SetMemo(accountMemo).SetOwnedNfts(ownedNfts).SetMaxAutomaticTokenAssociations(maxAutomaticTokenAssociations).SetLedgerId(ledgerId.ToByteString()).SetEthereumNonce(ethereumNonce);
@@ -240,15 +243,6 @@ namespace Hedera.Hashgraph.SDK
         public override string ToString()
         {
             return MoreObjects.ToStringHelper(this).Add("accountId", accountId).Add("contractAccountId", contractAccountId).Add("deleted", isDeleted).Add("proxyAccountId", proxyAccountId).Add("proxyReceived", proxyReceived).Add("key", key).Add("balance", balance).Add("sendRecordThreshold", sendRecordThreshold).Add("receiveRecordThreshold", receiveRecordThreshold).Add("receiverSignatureRequired", isReceiverSignatureRequired).Add("expirationTime", expirationTime).Add("autoRenewPeriod", autoRenewPeriod).Add("liveHashes", liveHashes).Add("tokenRelationships", tokenRelationships).Add("accountMemo", accountMemo).Add("ownedNfts", ownedNfts).Add("maxAutomaticTokenAssociations", maxAutomaticTokenAssociations).Add("aliasKey", aliasKey).Add("ledgerId", ledgerId).Add("ethereumNonce", ethereumNonce).Add("stakingInfo", stakingInfo).ToString();
-        }
-
-        /// <summary>
-        /// Extract a byte array representation.
-        /// </summary>
-        /// <returns>a byte array representation</returns>
-        public byte[] ToBytes()
-        {
-            return ToProtobuf().ToByteArray();
         }
     }
 }
