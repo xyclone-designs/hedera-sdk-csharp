@@ -1,2 +1,0 @@
-obj\Debug\net10.0/HistoryTypes.cs: Protos/timestamp.proto\
- Protos/history_types.proto

@@ -1,4 +1,0 @@
-obj\Debug\net10.0/AccountPendingAirdrop.cs: Protos/timestamp.proto\
- C:/Users/Thando Ndlovu/.nuget/packages/grpc.tools/2.76.0/build/native/include/google/protobuf/wrappers.proto\
- Protos/basic_types.proto\
- Protos/account_pending_airdrop.proto

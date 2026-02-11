@@ -1,3 +1,0 @@
-obj\Debug\net10.0/HistoryProofVote.cs: Protos/timestamp.proto\
- Protos/history_types.proto\
- Protos/history_proof_vote.proto

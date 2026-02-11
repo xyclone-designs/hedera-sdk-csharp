@@ -1,4 +1,0 @@
-obj\Debug\net10.0/HintsKeyPublication.cs: Protos/timestamp.proto\
- C:/Users/Thando Ndlovu/.nuget/packages/grpc.tools/2.76.0/build/native/include/google/protobuf/wrappers.proto\
- Protos/hints_types.proto\
- Protos/hints_key_publication.proto
