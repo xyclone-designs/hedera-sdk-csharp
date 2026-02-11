@@ -1,7 +1,7 @@
-/src/.vs
-/src/Hedera.Hashgraph/bin
-/src/Hedera.Hashgraph/obj
-/src/Hedera.Hashgraph.Tests/bin
-/src/Hedera.Hashgraph.Tests/obj
-/src/Hedera.Hashgraph.Tests.Intergration/bin
-/src/Hedera.Hashgraph.Tests.Intergration/obj
+/src/.vs/
+/src/Hedera.Hashgraph/bin/
+/src/Hedera.Hashgraph/obj/
+/src/Hedera.Hashgraph.Tests/bin/
+/src/Hedera.Hashgraph.Tests/obj/
+/src/Hedera.Hashgraph.Tests.Intergration/bin/
+/src/Hedera.Hashgraph.Tests.Intergration/obj/
