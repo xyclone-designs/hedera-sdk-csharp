@@ -13,13 +13,13 @@ namespace Hedera.Hashgraph.SDK
 {
 	internal class ActionHelper
     {
-		internal static void Action(Task future, Action<Exception> Action)
+		internal static async void Action(Task future, Action<Exception> action)
         {
-            future.WhenComplete(Action);
+            await future;
         }
-		internal static void Action<T>(Task<T> future, Action<T, Exception> Action)
+		internal static void Action<T>(Task<T> future, Action<T, Exception> action)
         {
-            future.WhenComplete(Action);
+            future.Run(Action);
         }
 
         internal static void TwoActions(Task future, Action onSuccess, Action<Exception> onFailure)

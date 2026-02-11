@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 using Hedera.Hashgraph.SDK.Transactions.Contract;
 using Hedera.Hashgraph.SDK.Transactions.Ethereum;
@@ -29,11 +30,11 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// Base class for all transactions that may be built and submitted to Hedera.
-    /// </summary>
-    /// <param name="<T>">The type of the transaction. Used to enable chaining.</param>
-    public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse> where T : Transaction<T>
+	/// <summary>
+	/// Base class for all transactions that may be built and submitted to Hedera.
+	/// </summary>
+	/// <param name="<T>">The type of the transaction. Used to enable chaining.</param>
+	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse> where T : Transaction<T>
     {
         /// <summary>
         /// Default auto renew duration for accounts, contracts, topics, and files (entities)
@@ -88,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// The maximum transaction fee the client is willing to pay
         /// </summary>
-        protected Hbar defaultMaxTransactionFee = new (2);
+        protected Hbar DefaultMaxTransactionFee = new (2);
         /// <summary>
         /// Should the transaction id be regenerated
         /// </summary>
@@ -230,7 +231,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="bytes">the byte array</param>
 		/// <returns>the hash</returns>
-		protected static byte[] Hash(byte[] bytes)
+		protected static byte[] GenerateHash(byte[] bytes)
 		{
 			var digest = new Sha384Digest();
 			var hash = new byte[digest.GetDigestSize()];
@@ -893,7 +894,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		protected virtual Proto.TransactionBody SpawnBodyBuilder(Client client)
 		{
 			var clientDefaultFee = client != null ? client.DefaultMaxTransactionFee : null;
-			var defaultFee = clientDefaultFee != null ? clientDefaultFee : defaultMaxTransactionFee;
+			var defaultFee = clientDefaultFee != null ? clientDefaultFee : DefaultMaxTransactionFee;
 			var feeHbars = maxTransactionFee != null ? maxTransactionFee : defaultFee;
 			var builder = new Proto.TransactionBody
 			{
@@ -1193,7 +1194,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			BuildTransaction(index);
 
-			return Hash(OuterTransactions[index].SignedTransactionBytes.ToByteArray());
+			return GenerateHash(OuterTransactions[index].SignedTransactionBytes.ToByteArray());
 		}
 		/// <summary>
 		/// Extract the list of account id and hash records.
@@ -1210,7 +1211,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			var hashes = new Dictionary<AccountId, byte[]>();
 			for (var i = 0; i < OuterTransactions.Count; i++)
 			{
-				hashes.Add(NodeAccountIds[i], Hash(OuterTransactions[i].SignedTransactionBytes.ToByteArray()));
+				hashes.Add(NodeAccountIds[i], GenerateHash(OuterTransactions[i].SignedTransactionBytes.ToByteArray()));
 			}
 
 			return hashes;
@@ -1253,6 +1254,20 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		public virtual bool IsFrozen()
 		{
 			return FrozenBodyBuilder != null;
+		}
+		public virtual TransactionResponse MapResponse(Proto.TransactionResponse transactionResponse, AccountId nodeId, Proto.Transaction request)
+		{
+			var transactionId = TransactionIdInternal;
+			var hash = GenerateHash(request.SignedTransactionBytes.ToByteArray());
+
+			// advance is needed for chunked transactions
+			TransactionIds.Advance();
+
+			return new TransactionResponse(nodeId, transactionId, hash, null, this);
+		}
+		public virtual ResponseStatus MapResponseStatus(Proto.TransactionResponse transactionResponse)
+		{
+			return (ResponseStatus)transactionResponse.NodeTransactionPrecheckCode;
 		}
 		public virtual Transaction<T> RegenerateTransactionId(Client client)
 		{
@@ -1512,20 +1527,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
             BuildTransaction(index);
             return OuterTransactions[index];
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse transactionResponse, AccountId nodeId, Proto.Transaction request)
-        {
-            var transactionId = TransactionIdInternal;
-            var hash = Hash(request.SignedTransactionBytes.ToByteArray());
-
-            // advance is needed for chunked transactions
-            TransactionIds.Advance();
-
-            return new TransactionResponse(nodeId, transactionId, hash, null, this);
-        }
-        public override ResponseStatus MapResponseStatus(Proto.TransactionResponse transactionResponse)
-        {
-            return (ResponseStatus)transactionResponse.NodeTransactionPrecheckCode;
-        }
 		/// <summary>
 		/// Set the account IDs of the nodes that this transaction will be submitted to.
 		/// <p>
@@ -1535,7 +1536,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="NodeAccountIds">The list of node AccountIds to be set</param>
 		/// <returns>{@code this}</returns>
-		public override T SetNodeAccountIds(IList<AccountId> NodeAccountIds)
+		public virtual T SetNodeAccountIds(IList<AccountId> NodeAccountIds)
 		{
 			RequireNotFrozen();
 

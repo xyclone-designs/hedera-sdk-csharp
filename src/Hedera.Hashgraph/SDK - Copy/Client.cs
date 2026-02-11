@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Queries;
 
 using System;
@@ -44,7 +46,7 @@ namespace Hedera.Hashgraph.SDK
         private readonly HashSet<SubscriptionHandle> subscriptions = ConcurrentDictionary.NewKeySet();
         Hbar? defaultMaxTransactionFee = null;
         Hbar defaultMaxQueryPayment = DEFAULT_MAX_QUERY_PAYMENT;
-        protected Network network;
+      
         MirrorNetwork mirrorNetwork;
         private int maxAttempts = DEFAULT_MAX_ATTEMPTS;
         private volatile Duration maxBackoff = DEFAULT_MAX_BACKOFF;
@@ -343,6 +345,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
+		public Network Network { get; internal set; }
 		/// <summary>
 		/// Current name of the network; corresponds to ledger ID in entity ID checksum calculations.
 		/// </summary>

@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.File
         /// </summary>
         public FileAppendTransaction() : base()
         {
-            defaultMaxTransactionFee = new Hbar(5);
+            DefaultMaxTransactionFee = new Hbar(5);
             SetChunkSize(2048);
         }
 		/// <summary>

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
@@ -63,8 +63,8 @@ namespace Hedera.Hashgraph.SDK.File
         /// </summary
         public FileCreateTransaction()
         {
-            ExpirationTime = Timestamp.FromDateTime(DateTime.UtcNow.Add(DEFAULT_AUTO_RENEW_PERIOD));
-            defaultMaxTransactionFee = new Hbar(5);
+            ExpirationTime = Timestamp.FromDateTime(DateTime.UtcNow.Add(DEFAULT_AUTO_RENEW_PERIOD.ToTimeSpan()));
+            DefaultMaxTransactionFee = new Hbar(5);
         }
 		/// <summary>
 		/// Constructor.
@@ -271,7 +271,7 @@ namespace Hedera.Hashgraph.SDK.File
 			return builder;
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse<FileCreateTransaction>> GetMethodDescriptor()
+		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
         {
             return FileServiceGrpc.CreateFileMethod;
         }

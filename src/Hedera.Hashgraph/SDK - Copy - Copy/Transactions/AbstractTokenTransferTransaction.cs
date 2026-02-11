@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Token;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    abstract class AbstractTokenTransferTransaction<T> : Transaction<T> where T : AbstractTokenTransferTransaction<T>
+    public abstract class AbstractTokenTransferTransaction<T> : Transaction<T> where T : AbstractTokenTransferTransaction<T>
     {
         protected List<TokenTransfer> tokenTransfers = [];
         protected List<TokenNftTransfer> nftTransfers = [];
@@ -151,9 +152,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// Extract the list of token id decimals.
 		/// </summary>
 		/// <returns>the list of token id decimals</returns>
-		public virtual Dictionary<TokenId, int> GetTokenIdDecimals()
+		public virtual Dictionary<TokenId, int?> GetTokenIdDecimals()
         {
-            Dictionary<TokenId, int> decimalsMap = [];
+            Dictionary<TokenId, int?> decimalsMap = [];
             foreach (var transfer in tokenTransfers)
             {
                 decimalsMap.Add(transfer.TokenId, transfer.ExpectedDecimals);

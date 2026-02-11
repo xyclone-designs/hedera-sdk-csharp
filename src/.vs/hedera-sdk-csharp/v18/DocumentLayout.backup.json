@@ -3,8 +3,84 @@
   "WorkspaceRootPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\nodeaddress.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\nodeaddress.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenupdatenftstransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenupdatenftstransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenupdatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenupdatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenwipetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenwipetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenunpausetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenunpausetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenunfreezetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenunfreezetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenrevokekyctransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenrevokekyctransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenrejecttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenrejecttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenpausetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenpausetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenminttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenminttransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokengrantkyctransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokengrantkyctransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenfreezetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenfreezetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenfeescheduleupdatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenfeescheduleupdatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokendissociatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokendissociatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokendeletetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokendeletetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokencreatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokencreatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenclaimairdroptransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenclaimairdroptransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokencancelairdroptransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokencancelairdroptransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenburntransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenburntransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenassociatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenassociatetransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|c:\\users\\thando ndlovu\\desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenairdroptransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72614977-63FD-CF38-3BB3-F6628DFCE599}|Hedera.Hashgraph\\Hedera.Hashgraph.csproj|solutionrelative:hedera.hashgraph\\sdk - copy - copy\\transactions\\token\\tokenairdroptransaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +90,266 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "NodeAddress.cs",
-              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\NodeAddress.cs",
-              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\NodeAddress.cs",
-              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\NodeAddress.cs",
-              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\NodeAddress.cs",
-              "ViewState": "AgIAAEUAAAAAzszMzMwMwFUAAAAPAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "TokenWipeTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenWipeTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenWipeTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenWipeTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenWipeTransaction.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T20:04:38.068Z",
+              "WhenOpened": "2026-02-09T19:21:49.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TokenUpdateTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateTransaction.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.698Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TokenUpdateNftsTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateNftsTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateNftsTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateNftsTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUpdateNftsTransaction.cs",
+              "ViewState": "AgIAAEUAAABAmZmZmZkwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.602Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TokenUnpauseTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnpauseTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnpauseTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnpauseTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnpauseTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.507Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TokenUnfreezeTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnfreezeTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnfreezeTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnfreezeTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenUnfreezeTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.413Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TokenRevokeKycTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRevokeKycTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRevokeKycTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRevokeKycTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRevokeKycTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.319Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TokenRejectTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRejectTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRejectTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRejectTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenRejectTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.229Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TokenPauseTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenPauseTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenPauseTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenPauseTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenPauseTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.133Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TokenMintTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenMintTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenMintTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenMintTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenMintTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:49.038Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "TokenGrantKycTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenGrantKycTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenGrantKycTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenGrantKycTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenGrantKycTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.945Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "TokenFreezeTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFreezeTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFreezeTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFreezeTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFreezeTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.852Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TokenFeeScheduleUpdateTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFeeScheduleUpdateTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFeeScheduleUpdateTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFeeScheduleUpdateTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenFeeScheduleUpdateTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.773Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TokenDissociateTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDissociateTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDissociateTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDissociateTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDissociateTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TokenDeleteTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDeleteTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDeleteTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDeleteTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenDeleteTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "TokenCreateTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCreateTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCreateTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCreateTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCreateTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "TokenClaimAirdropTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenClaimAirdropTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenClaimAirdropTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenClaimAirdropTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenClaimAirdropTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "TokenCancelAirdropTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCancelAirdropTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCancelAirdropTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCancelAirdropTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenCancelAirdropTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.319Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "TokenBurnTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenBurnTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenBurnTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenBurnTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenBurnTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.226Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "TokenAssociateTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAssociateTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAssociateTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAssociateTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAssociateTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "TokenAirdropTransaction.cs",
+              "DocumentMoniker": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAirdropTransaction.cs",
+              "RelativeDocumentMoniker": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAirdropTransaction.cs",
+              "ToolTip": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAirdropTransaction.cs",
+              "RelativeToolTip": "Hedera.Hashgraph\\SDK - Copy - Copy\\Transactions\\Token\\TokenAirdropTransaction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T19:21:48.038Z",
               "EditorCaption": ""
             }
           ]

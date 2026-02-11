@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Google.Common.Io;
 using Google.Protobuf;
-
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions.Account;
 using Java.Io;
@@ -235,39 +235,13 @@ namespace Hedera.Hashgraph.SDK.Networking
 
             return this;
         }
-
         
-
-		
-
-        
-
         protected override Node CreateNodeFromNetworkEntry(KeyValuePair<string, AccountId> entry)
         {
             var addressBookEntry = addressBook != null ? addressBook[entry.GetValue()] : null;
             return new Node(entry.GetValue(), entry.GetKey(), executor).SetAddressBookEntry(addressBookEntry).SetVerifyCertificates(verifyCertificates);
         }
-
-
-        /// <summary>
-        /// Pick 1/3 of the nodes sorted by health and expected delay from the network.
-        /// This is used by Query and Transaction for selecting node AccountId's.
-        /// </summary>
-        /// <returns>{@link java.util.List<AccountId>}</returns>
-        public virtual IList<AccountId> GetNodeAccountIdsForExecute()
-        {
-            lock (this)
-            {
-                var nodes = GetNumberOfMostHealthyNodes(NumberOfNodesForRequest);
-                var nodeAccountIds = new List<AccountId>(nodes.Count);
-                foreach (var node in nodes)
-                {
-                    nodeAccountIds.Add(node.AccountId);
-                }
-
-                return nodeAccountIds;
-            }
-        }
+        
 		/// <summary>
 		/// Extract the of network records.
 		/// </summary>
@@ -283,6 +257,25 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 
 				return returnMap;
+			}
+		}
+		/// <summary>
+		/// Pick 1/3 of the nodes sorted by health and expected delay from the network.
+		/// This is used by Query and Transaction for selecting node AccountId's.
+		/// </summary>
+		/// <returns>{@link java.util.List<AccountId>}</returns>
+		public virtual IList<AccountId> GetNodeAccountIdsForExecute()
+		{
+			lock (this)
+			{
+				var nodes = GetNumberOfMostHealthyNodes(NumberOfNodesForRequest);
+				var nodeAccountIds = new List<AccountId>(nodes.Count);
+				foreach (var node in nodes)
+				{
+					nodeAccountIds.Add(node.AccountId);
+				}
+
+				return nodeAccountIds;
 			}
 		}
 		public virtual void SetAddressBook(NodeAddressBook addressBook)

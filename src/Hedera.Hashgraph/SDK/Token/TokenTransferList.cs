@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    internal class TokenTransferList
+    public class TokenTransferList
     {
         public readonly TokenId TokenId;
         public readonly uint? ExpectDecimals;

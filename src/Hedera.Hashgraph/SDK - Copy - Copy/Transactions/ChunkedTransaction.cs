@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Queries;
-using Hedera.Hashgraph.SDK.Transactions.Schedule;
+using Hedera.Hashgraph.SDK.Schedule;
 
 using System;
 using System.Collections.Generic;
@@ -142,7 +142,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				var offset = txIndex * nodeCount;
 				for (var nodeIndex = 0; nodeIndex < nodeCount; ++nodeIndex)
 				{
-					hashes.Add(NodeAccountIds[nodeIndex], Hash(OuterTransactions[offset + nodeIndex].SignedTransactionBytes.ToByteArray()));
+					hashes.Add(NodeAccountIds[nodeIndex], GenerateHash(OuterTransactions[offset + nodeIndex].SignedTransactionBytes.ToByteArray()));
 				}
 
 				transactionHashes.Add(hashes);
@@ -392,10 +392,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual Task<IList<TransactionResponse>> ExecuteAllAsync(Client client, Duration timeoutPerChunk)
         {
             FreezeAndSign(client);
-            Task<List<TransactionResponse>> future = Task.Run(() => new List<TransactionResponse>(TransactionIds.Count));
+
+			Task<List<TransactionResponse>> future = Task.Run(() => new List<TransactionResponse>(TransactionIds.Count));
             for (var i = 0; i < TransactionIds.Count; i++)
             {
-                future = future.ThenCompose((list) =>
+				future = future.ThenCompose((list) =>
                 {
                     var responseFuture = base.ExecuteAsync(client, timeoutPerChunk);
                     Func<TransactionResponse, TWildcardTodoCompletionStage<TransactionResponse>> receiptFuture = (TransactionResponse response) => response.ReceiptAsync(client, timeoutPerChunk).ThenApply((receipt) => response);

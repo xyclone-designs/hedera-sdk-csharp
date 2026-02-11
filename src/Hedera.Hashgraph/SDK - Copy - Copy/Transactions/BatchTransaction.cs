@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Proto;
 using Io.Grpc;
@@ -125,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					SignedTransactionBytes = atomicTransactionBytes
 				};
 
-				InnerTransactions.Add(FromBytes(transaction.ToByteArray()));
+				InnerTransactions.Add(Transaction<T>.FromBytes(transaction.ToByteArray()));
 			}
 		}
 		/// <summary>
@@ -225,7 +226,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             foreach (var transaction in InnerTransactions)
             {
-                builder.Transactions.Add(transaction.MakeRequest().GetSignedTransactionBytes());
+                builder.Transactions.Add(transaction.MakeRequest().SignedTransactionBytes);
             }
 
             return builder;
@@ -248,5 +249,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			return UtilServiceGrpc.GetAtomicBatchMethod();
 		}
-	}
+
+        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

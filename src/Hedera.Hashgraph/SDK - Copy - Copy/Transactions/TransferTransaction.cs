@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Evm;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Token;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +30,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         public TransferTransaction()
         {
-            defaultMaxTransactionFee = new Hbar(1);
+            DefaultMaxTransactionFee = new Hbar(1);
         }
 		/// <summary>
 		/// Constructor.
@@ -240,7 +243,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			}
 
 			hbarTransfers.Add(new HbarTransfer(accountId, value, isApproved, hookCall));
+
 			return this;
+		}
+
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		{
+			throw new NotImplementedException();
+		}
+		public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

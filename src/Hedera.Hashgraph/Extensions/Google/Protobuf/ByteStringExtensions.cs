@@ -9,7 +9,11 @@ namespace Google.Protobuf
         {
             return ByteString.CopyFrom(bytes.ToByteArray());
         }
-        public static ByteString Concat(this ByteString bytes, ByteString value) 
+		public static ByteString Copy(this ByteString bytes, int start, int end)
+		{
+			return ByteString.CopyFrom(bytes.ToByteArray()[start .. end]);
+		}
+		public static ByteString Concat(this ByteString bytes, ByteString value) 
         {
             return ByteString.CopyFrom([.. bytes, ..value]);
         }

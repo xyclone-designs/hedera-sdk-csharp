@@ -22,11 +22,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\AddressBook\mainnet.pb" />
+    <None Remove="Resources\AddressBook\previewnet.pb" />
+    <None Remove="Resources\AddressBook\testnet.pb" />
+    <None Remove="Resources\bip39-english.txt" />
+    <None Remove="Resources\legacy-english.txt" />
     <None Remove="SDK - Copy\Networking\NetworkName.cs~RF495f3eb.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SDK - Copy\Queries\" />
+    <EmbeddedResource Include="Resources\AddressBook\mainnet.pb" />
+    <EmbeddedResource Include="Resources\AddressBook\previewnet.pb" />
+    <EmbeddedResource Include="Resources\AddressBook\testnet.pb" />
+    <EmbeddedResource Include="Resources\bip39-english.txt" />
+    <EmbeddedResource Include="Resources\legacy-english.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="SDK - Copy\Transactions\Account\" />
     <Folder Include="SDK - Copy\Transactions\Contract\" />
     <Folder Include="SDK - Copy\Transactions\Ethereum\" />
@@ -36,7 +48,6 @@
     <Folder Include="SDK - Copy\Transactions\System\" />
     <Folder Include="SDK - Copy\Transactions\Token\" />
     <Folder Include="SDK - Copy\Transactions\Topic\" />
-    <Folder Include="SDK\Topics\" />
   </ItemGroup>
 
 </Project>

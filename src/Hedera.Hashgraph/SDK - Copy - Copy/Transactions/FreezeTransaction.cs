@@ -2,6 +2,7 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Ids;
 
@@ -167,5 +168,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			return FreezeServiceGrpc.GetFreezeMethod();
 		}
-	}
+
+        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
