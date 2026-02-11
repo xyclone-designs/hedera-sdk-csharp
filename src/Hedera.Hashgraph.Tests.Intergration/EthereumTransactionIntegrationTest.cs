@@ -41,9 +41,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // wrap in signature object
                 byte[] r = new byte[32];
-                System.Arraycopy(signedBytes, 0, r, 0, 32);
+                Array.Copy(signedBytes, 0, r, 0, 32);
                 byte[] s = new byte[32];
-                System.Arraycopy(signedBytes, 32, s, 0, 32);
+                Array.Copy(signedBytes, 32, s, 0, 32);
                 int recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, sequence);
                 byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.ZERO), callData, List.Of(), Integers.ToBytes(recId), r, s));
                 EthereumTransaction ethereumTransaction = new EthereumTransaction().SetEthereumData(ethereumData);
@@ -80,9 +80,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // wrap in signature object
                 byte[] r = new byte[32];
-                System.Arraycopy(signedBytes, 0, r, 0, 32);
+                Array.Copy(signedBytes, 0, r, 0, 32);
                 byte[] s = new byte[32];
-                System.Arraycopy(signedBytes, 32, s, 0, 32);
+                Array.Copy(signedBytes, 32, s, 0, 32);
                 int recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, sequence);
                 byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, gasLimitBytes, to, Integers.ToBytesUnsigned(BigInteger.ZERO), callData, List.Of(), Integers.ToBytes(recId), r, s));
                 EthereumTransaction ethereumTransaction = new EthereumTransaction().SetEthereumData(ethereumData);

@@ -1950,7 +1950,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             byte[] testBytes = "Test".GetBytes();
             byte[] testBytesLen32 = new byte[32];
-            System.Arraycopy(testBytes, 0, testBytesLen32, 0, testBytes.Length);
+            Array.Copy(testBytes, 0, testBytesLen32, 0, testBytes.Length);
             var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes32", new ContractFunctionParameters().AddBytes32(testBytesLen32)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
             Assert.Equal(response.GetBytes32(0), testBytesLen32);
         }
@@ -1960,8 +1960,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             byte[] testBytes = "Test".GetBytes();
             byte[] testBytes2 = "Test2".GetBytes();
             byte[, ] testBytesLen32 = new byte[2, 32];
-            System.Arraycopy(testBytes, 0, testBytesLen32[0], 0, testBytes.Length);
-            System.Arraycopy(testBytes2, 0, testBytesLen32[1], 0, testBytes2.Length);
+            Array.Copy(testBytes, 0, testBytesLen32[0], 0, testBytes.Length);
+            Array.Copy(testBytes2, 0, testBytesLen32[1], 0, testBytes2.Length);
             var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes32Arr", new ContractFunctionParameters().AddBytes32Array(testBytesLen32)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
             var responseResult = (byte[][])response.GetResult("(bytes32[])")[0];
             Assert.Equal(responseResult, testBytesLen32);

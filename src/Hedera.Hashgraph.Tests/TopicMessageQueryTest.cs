@@ -380,8 +380,8 @@ namespace Com.Hedera.Hashgraph.Sdk
         private byte[] Combine(byte[] array1, byte[] array2)
         {
             byte[] joinedArray = new byte[array1.Length + array2.Length];
-            System.Arraycopy(array1, 0, joinedArray, 0, array1.Length);
-            System.Arraycopy(array2, 0, joinedArray, array1.Length, array2.Length);
+            Array.Copy(array1, 0, joinedArray, 0, array1.Length);
+            Array.Copy(array2, 0, joinedArray, array1.Length, array2.Length);
             return joinedArray;
         }
     }

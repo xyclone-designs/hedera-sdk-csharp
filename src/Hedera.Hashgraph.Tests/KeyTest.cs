@@ -50,9 +50,9 @@ namespace Com.Hedera.Hashgraph.Sdk
 
             // wrap in signature object
             byte[] r = new byte[32];
-            System.Arraycopy(signature, 0, r, 0, 32);
+            Array.Copy(signature, 0, r, 0, 32);
             byte[] s = new byte[32];
-            System.Arraycopy(signature, 32, s, 0, 32);
+            Array.Copy(signature, 32, s, 0, 32);
             var recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, message);
             AssertThat(recId).IsBetween(0, 1);
         }
@@ -65,9 +65,9 @@ namespace Com.Hedera.Hashgraph.Sdk
             var privateKey = PrivateKey.GenerateECDSA();
             var signature = privateKey.Sign(message);
             byte[] r = new byte[32];
-            System.Arraycopy(signature, 0, r, 0, 32);
+            Array.Copy(signature, 0, r, 0, 32);
             byte[] s = new byte[32];
-            System.Arraycopy(signature, 32, s, 0, 32);
+            Array.Copy(signature, 32, s, 0, 32);
 
             // recover public key with recId > 1
             AssertThatExceptionOfType(typeof(ArgumentException)).IsThrownBy(() => Crypto.RecoverPublicKeyECDSAFromSignature(2, BigInteger.ONE, BigInteger.ONE, Crypto.CalcKeccak256(message)));

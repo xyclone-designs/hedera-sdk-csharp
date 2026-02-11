@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hedera.Hashgraph")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+33b77d7434216e1bcb37ae8060bc14a5aade14f9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d66683028c07b9e0defe3092f4488f84d3c14f42")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hedera.Hashgraph")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hedera.Hashgraph")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

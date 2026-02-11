@@ -67,8 +67,8 @@ namespace Com.Hedera.Hashgraph.Sdk
             var consensusTopicResponse2 = ConsensusTopicResponse.NewBuilder().SetConsensusTimestamp(Timestamp.NewBuilder().SetSeconds(testTimestamp.GetEpochSecond() + 1)).SetMessage(ByteString.CopyFrom(testContents)).SetRunningHash(ByteString.CopyFrom(testRunningHash)).SetSequenceNumber(testSequenceNumber + 1).SetChunkInfo(ConsensusMessageChunkInfo.NewBuilder().SetNumber(2).SetTotal(2).Build()).Build();
             TopicMessage topicMessage = TopicMessage.OfMany(List.Of(consensusTopicResponse1, consensusTopicResponse2));
             byte[] totalContents = new byte[testContents.Length * 2];
-            System.Arraycopy(testContents, 0, totalContents, 0, testContents.Length);
-            System.Arraycopy(testContents, 0, totalContents, testContents.Length, testContents.Length);
+            Array.Copy(testContents, 0, totalContents, 0, testContents.Length);
+            Array.Copy(testContents, 0, totalContents, testContents.Length, testContents.Length);
             Assert.Equal(topicMessage.consensusTimestamp, testTimestamp.PlusSeconds(1));
             Assert.Equal(topicMessage.contents, totalContents);
             Assert.Equal(topicMessage.runningHash, testRunningHash);
