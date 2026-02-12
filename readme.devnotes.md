@@ -6,7 +6,7 @@ C# ported files are [located here](https://github.com/xyclone-designs/hedera-sdk
 File checklist shows which files have been ported, checked and cleaned, ready for unit tests
 
 ## SDK
-- [ ] [AbstractTokenTransferTransaction.java](https://github.com/hiero-ledger/hiero-sdk-java/tree/main/sdk/src/main/java/com/hedera/hashgraph/sdk/AbstractTokenTransferTransaction.java) -> Token/AbstractTokenTransferTransaction.cs
+- [ ] [AbstractTokenTransferTransaction.java](https://github.com/hiero-ledger/hiero-sdk-java/tree/main/sdk/src/main/java/com/hedera/hashgraph/sdk/AbstractTokenTransferTransaction.java) -> [Token/AbstractTokenTransferTransaction.cs](SDK/Token/AbstractTokenTransferTransaction.cs)
 - [X] [AccountAllowanceAdjustTransaction.java](https://github.com/hiero-ledger/hiero-sdk-java/tree/main/sdk/src/main/java/com/hedera/hashgraph/sdk/AccountAllowanceAdjustTransaction.java) -> Account/AccountAllowanceAdjustTransaction.cs
 - [X] [AccountAllowanceApproveTransaction.java](https://github.com/hiero-ledger/hiero-sdk-java/tree/main/sdk/src/main/java/com/hedera/hashgraph/sdk/AccountAllowanceApproveTransaction.java) -> Account/AccountAllowanceApproveTransaction.cs
 - [X] [AccountAllowanceDeleteTransaction.java](https://github.com/hiero-ledger/hiero-sdk-java/tree/main/sdk/src/main/java/com/hedera/hashgraph/sdk/AccountAllowanceDeleteTransaction.java) -> Account/AccountAllowanceDeleteTransaction.cs
