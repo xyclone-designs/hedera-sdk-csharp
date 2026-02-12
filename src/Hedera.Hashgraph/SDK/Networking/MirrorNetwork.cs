@@ -9,9 +9,9 @@ namespace Hedera.Hashgraph.SDK.Networking
     /// <summary>
     /// Utility class.
     /// </summary>
-    internal class MirrorNetwork : BaseNetwork<MirrorNetwork, BaseNodeAddress, MirrorNode>
+    public class MirrorNetwork : BaseNetwork<MirrorNetwork, BaseNodeAddress, MirrorNode>
     {
-        private MirrorNetwork(ExecutorService executor, IList<string> addresses) : base(executor)
+		internal MirrorNetwork(ExecutorService executor, IList<string> addresses) : base(executor)
         {
             TransportSecurity = true;
 

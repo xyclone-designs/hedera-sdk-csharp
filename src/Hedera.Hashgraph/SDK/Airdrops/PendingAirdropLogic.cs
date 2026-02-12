@@ -2,7 +2,6 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System.Collections.Generic;

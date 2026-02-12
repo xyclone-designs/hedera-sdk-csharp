@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
@@ -34,7 +35,7 @@ namespace Hedera.Hashgraph.SDK
 	{
 		internal static readonly Regex RST_STREAM = new(".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 	}
-    public abstract partial class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> : Executable where ProtoRequestT : IMessage where ResponseT : IMessage
+    public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> : Executable where TProtoRequest : IMessage where TProtoResponse : IMessage
     {
         protected static readonly Random random = new ();
 
@@ -146,7 +147,7 @@ namespace Hedera.Hashgraph.SDK
         /// protobuf of the request, and the callback should return the request protobuf.  This means the callback has an
         /// opportunity to read, copy, or modify the request that will be sent.
         /// </summary>
-        public Func<ProtoRequestT, ProtoRequestT> RequestListener
+        public Func<TProtoRequest, TProtoRequest> RequestListener
 		{
 			set; get => field ??= (request) =>
 			{
@@ -160,7 +161,7 @@ namespace Hedera.Hashgraph.SDK
         /// protobuf of the response, and the callback should return the response protobuf.  This means the callback has an
         /// opportunity to read, copy, or modify the response that will be read.
         /// </summary>
-        public Func<ResponseT, ResponseT> ResponseListener
+        public Func<TProtoResponse, TProtoResponse> ResponseListener
         {
             set; get => field ??= (response) =>
 			{
@@ -180,16 +181,17 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// Called to direct the invocation of the query to the appropriate gRPC service.
 		/// </summary>
-		public abstract MethodDescriptor<ProtoRequestT, ResponseT> GetMethodDescriptor();
+		public abstract Method<TProtoRequest, TProtoResponse> GetMethod();
+		public abstract MethodDescriptor GetMethodDescriptor();
 		public abstract TransactionId TransactionIdInternal { get; }
 		public abstract void OnExecute(Client client);
 		public abstract Task OnExecuteAsync(Client client);
-		public abstract ProtoRequestT MakeRequest();
+		public abstract TProtoRequest MakeRequest();
 		public abstract ResponseStatus MapResponseStatus(Proto.Response response);
 		/// <summary>
 		/// Called after receiving the query response from Hedera. The derived class should map into its output type.
 		/// </summary>
-		public abstract O MapResponse(Proto.Response response, AccountId nodeId, ProtoRequestT request);
+		public abstract TTransactionResponse MapResponse(Proto.Response response, AccountId nodeId, TProtoRequest request);
 
 		protected virtual void CheckNodeAccountIds()
 		{
@@ -199,7 +201,7 @@ namespace Hedera.Hashgraph.SDK
 		protected virtual bool IsBatchedAndNotBatchTransaction()
 		{
 			return false;
-		}
+		}		
 
 		public virtual void AdvanceRequest()
 		{
@@ -263,19 +265,18 @@ namespace Hedera.Hashgraph.SDK
 				NodeAccountIds.SetIndex(Math.Max(0, NodeAccountIds.Index));
 			}
 
-
 			// node won't be null at this point because execute() validates before this method is called.
 			// Add null check here to work around sonar NPE detection.
 			if (node != null)
 				Logger?.Trace("Using node {} for request #{}: {}", node.AccountId, attempt, this);
 
-			return node;
+			return node!;
 		}
 		/// <summary>
 		/// Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
 		/// the query response from Hedera. By default it triggers a retry when the pre-check status is {@code BUSY}.
 		/// </summary>
-		public virtual ExecutionState GetExecutionState(ResponseStatus status, ResponseT response)
+		public virtual ExecutionState GetExecutionState(ResponseStatus status, TProtoResponse response)
 		{
 			return status switch
 			{
@@ -305,7 +306,7 @@ namespace Hedera.Hashgraph.SDK
 			// failure the system can retry with different proxy on each attempt
 			if (NodeAccountIds.Count == 1)
 			{
-				var nodeProxies = client.Network.GetNodeProxies(NodeAccountIds[0]);
+				var nodeProxies = client.Network_.GetNodeProxies(NodeAccountIds[0]);
 				if (nodeProxies == null || nodeProxies.Count == 0)
 				{
 					throw new InvalidOperationException("Account ID did not map to valid node in the client's network");
@@ -321,10 +322,10 @@ namespace Hedera.Hashgraph.SDK
 			// instead of different proxy of the same node
 			foreach (var accountId in NodeAccountIds)
 			{
-				var nodeProxies = client.Network.GetNodeProxies(accountId);
+				var nodeProxies = client.Network_.GetNodeProxies(accountId);
 				if (nodeProxies == null || nodeProxies.Count == 0)
 				{
-					Logger.Warn("Attempting to fetch node {} proxy which is not included in the Client's network. Please review your Client config.", accountId.ToString());
+					Logger?.Warn("Attempting to fetch node {} proxy which is not included in the Client's network. Please review your Client config.", accountId.ToString());
 					continue;
 				}
 
@@ -359,7 +360,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>Result of execution</returns>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual O Execute(Client client)
+        public virtual TTransactionResponse Execute(Client client)
         {
             return Execute(client, client.RequestTimeout);
         }
@@ -371,18 +372,18 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>Result of execution</returns>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual O Execute(Client client, Duration timeout)
+        public virtual TTransactionResponse Execute(Client client, Duration timeout)
         {
-            Exception lastException = null;
+            Exception? lastException = null;
+
             if (IsBatchedAndNotBatchTransaction())
             {
                 throw new ArgumentException("Cannot execute batchified transaction outside of BatchTransaction");
             }
 
-
 			// If the Logger on the request is not set, use the Logger in client
 			// (if set, otherwise do not use Logger)
-			Logger ??= client.Logger;
+			Logger ??= client.Logger_;
 
 			MergeFromClient(client);
             OnExecute(client);
@@ -400,9 +401,9 @@ namespace Hedera.Hashgraph.SDK
                     throw new TimeoutException();
                 }
 
-                GrpcRequest grpcRequest = new (this, client.Network, attempt, currentTimeout);
+                GrpcRequest grpcRequest = new (this, client.Network_, attempt, currentTimeout);
 
-                ResponseT? response = default;
+                TProtoResponse? response = default;
 
                 // If we get an unhealthy node here, we've cycled through all the "good" nodes that have failed
                 // and have no choice but to try a bad one.
@@ -411,7 +412,7 @@ namespace Hedera.Hashgraph.SDK
                     Delay(grpcRequest.Node.GetRemainingTimeForBackoff());
                 }
 
-                if (grpcRequest.Node.ChannelFailedToConnect(timeoutTime))
+                if (grpcRequest.Node.ChannelFailedTosConnect(timeoutTime))
                 {
                     Logger.Trace("Failed to connect channel for node {} for request #{}", grpcRequest.Node.AccountId, attempt);
                     lastException = grpcRequest.ReactToConnectionFailure();
@@ -472,7 +473,7 @@ namespace Hedera.Hashgraph.SDK
 							UpdateNetworkFromAddressBook(client);
 
                             // Mark this node as unhealthy
-                            client.Network.IncreaseBackoff(grpcRequest.Node);
+                            client.Network_.IncreaseBackoff(grpcRequest.Node);
                         }
 
                         lastException = grpcRequest.MapStatusException();
@@ -500,7 +501,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <returns>Future result of execution</returns>
-        public virtual Task<O> ExecuteAsync(Client client)
+        public virtual Task<TTransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.RequestTimeout);
         }
@@ -510,9 +511,9 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>Future result of execution</returns>
-        public virtual async Task<O> ExecuteAsync(Client client, Duration timeout)
+        public virtual async Task<TTransactionResponse> ExecuteAsync(Client client, Duration timeout)
         {
-			Task<O> retval = Task.WhenAll<O>(Task.FromResult(default), Task.Delay(timeout.ToTimeSpan()));
+			Task<TTransactionResponse> retval = Task.WhenAll<TTransactionResponse>(Task.FromResult(default), Task.Delay(timeout.ToTimeSpan()));
 
 			MergeFromClient(client);
 
@@ -528,30 +529,51 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Action<O, Exception> callback)
+        public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client), callback);
-        }
+            TTransactionResponse? ttransactionresponse = default;
+			Exception? exception = null;
+
+			try { ttransactionresponse = await ExecuteAsync(client); }
+			catch (Exception _exception) { exception = _exception; }
+
+			callback.Invoke(ttransactionresponse, exception);
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeout, Action<O, Exception> callback)
+        public virtual async void ExecuteAsync(Client client, Duration timeout, Action<TTransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client, timeout), callback);
-        }
+			TTransactionResponse? ttransactionresponse = default;
+			Exception? exception = null;
+
+			try { ttransactionresponse = await ExecuteAsync(client, timeout); }
+			catch (Exception _exception) { exception = _exception; }
+
+			callback.Invoke(ttransactionresponse, exception);
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Action<O> onSuccess, Action<Exception> onFailure)
+        public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
-        }
+			TTransactionResponse ttransactionresponse;
+
+			try { ttransactionresponse = await ExecuteAsync(client); }
+			catch (Exception exception)
+			{
+				onFailure.Invoke(exception);
+				return;
+			}
+
+			onSuccess.Invoke(ttransactionresponse);
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
@@ -559,10 +581,19 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeout, Action<O> onSuccess, Action<Exception> onFailure)
+        public virtual async void ExecuteAsync(Client client, Duration timeout, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client, timeout), onSuccess, onFailure);
-        }
+			TTransactionResponse ttransactionresponse;
+
+			try { ttransactionresponse = await ExecuteAsync(client, timeout); }
+			catch (Exception exception)
+			{
+				onFailure.Invoke(exception);
+				return;
+			}
+
+			onSuccess.Invoke(ttransactionresponse);
+		}
 
         /// <summary>
         /// Logs the transaction's parameters
@@ -574,9 +605,9 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="attempt">the attempt number</param>
         /// <param name="response">the transaction response if the transaction was successful</param>
         /// <param name="error">the error if the transaction was not successful</param>
-        protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, ResponseT response, Exception error)
+        protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, TProtoResponse response, Exception error)
         {
-            Logger.Trace("Execute{} Transaction ID: {}, submit to {}, node: {}, attempt: {}", isAsync ? "Async" : "", transactionId, client.Network, node.AccountId, attempt);
+            Logger?.Trace("Execute{} Transaction ID: {}, submit to {}, node: {}, attempt: {}", isAsync ? "Async" : "", transactionId, client.Network_, node.AccountId, attempt);
             
             if (response != null)
 				Logger?.Trace(" - Response: {}", response);
@@ -606,16 +637,16 @@ namespace Hedera.Hashgraph.SDK
 				throw new Exception(string.Empty, e);
 			}
 		}
-		private ProtoRequestT GetRequestForExecute()
+		private TProtoRequest GetRequestForExecute()
 		{
 			var request = MakeRequest();
 			return request;
 		}
-		private void ExecuteAsyncInternal(Client client, int attempt, Exception? lastException, Task<O> returnFuture, Duration timeout)
+		private void ExecuteAsyncInternal(Client client, int attempt, Exception? lastException, Task<TTransactionResponse> returnFuture, Duration timeout)
 		{
 			// If the Logger on the request is not set, use the Logger in client
 			// (if set, otherwise do not use Logger)
-			Logger ??= client.Logger;
+			Logger ??= client.Logger_;
 
 			if (returnFuture.IsCanceled || returnFuture.IsCompleted || returnFuture.IsCompletedSuccessfully)
 			{
@@ -628,7 +659,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 
 			var timeoutTime = DateTimeOffset.UtcNow.Add(timeout.ToTimeSpan());
-			GrpcRequest grpcRequest = new (client.Network, attempt, Duration.FromTimeSpan((DateTimeOffset.UtcNow, timeoutTime)));
+			GrpcRequest grpcRequest = new (client.Network_, attempt, Duration.FromTimeSpan((DateTimeOffset.UtcNow - timeoutTime)));
 			Func<Task> afterUnhealthyDelay = () =>
 			{
 				return grpcRequest.Node.IsHealthy()
@@ -728,7 +759,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			try
 			{
-				if (client.MirrorNetwork_?.Count > 0)
+				if (client.MirrorNetwork_?.Network.Count > 0)
 					client.UpdateNetworkFromAddressBook();
 			}
 			catch (Exception updateError)

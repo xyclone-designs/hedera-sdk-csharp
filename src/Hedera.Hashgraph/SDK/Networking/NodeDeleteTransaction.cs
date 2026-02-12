@@ -120,12 +120,14 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return base.FreezeWith(client);
 		}
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return AddressBookServiceGrpc.GetDeleteNodeMethod();
+			string methodname = nameof(Proto.AddressBookService.AddressBookServiceClient.deleteNode);
+
+			return Proto.AddressBookService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

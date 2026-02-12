@@ -1,13 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Account;
+using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Account
+namespace Hedera.Hashgraph.SDK.Account
 {
     /// <summary>
     /// </summary>
@@ -34,9 +37,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             InitFromTransactionBody();
         }
 
-		private static string OwnerToString(AccountId ownerAccountId)
+		private static string OwnerToString(AccountId? ownerAccountId)
 		{
-			return ownerAccountId != null ? ownerAccountId.ToString() : "FEE_PAYER";
+			return ownerAccountId?.ToString() ?? "FEE_PAYER";
 		}
 
 		private void InitFromTransactionBody()
@@ -44,13 +47,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             throw new NotSupportedException("Cannot construct AccountAllowanceAdjustTransaction from bytes");
         }
 
-        private AccountAllowanceAdjustTransaction AdjustHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
+        private AccountAllowanceAdjustTransaction AdjustHbarAllowance(AccountId? ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
             RequireNotFrozen();
             HbarAllowances.Add(new HbarAllowance(ownerAccountId, spenderAccountId, amount));
             return this;
         }
-		private AccountAllowanceAdjustTransaction AdjustTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
+		private AccountAllowanceAdjustTransaction AdjustTokenAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId spenderAccountId, long amount)
 		{
 			RequireNotFrozen();
 			TokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount));
@@ -102,7 +105,6 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 
             return AdjustHbarAllowance(ownerAccountId, spenderAccountId, amount.Negated());
         }
-
         /// <summary>
         /// </summary>
         /// <param name="tokenId">the token's id</param>
@@ -164,29 +166,22 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// <returns>a copy of {@link #NftAllowances}</returns>
 		public virtual IList<TokenNftAllowance> GetTokenNftAllowances()
 		{
-			IList<TokenNftAllowance> retval = new List<TokenNftAllowance>(NftAllowances.Count);
-			foreach (var allowance in NftAllowances)
-			{
-				retval.Add(TokenNftAllowance.CopyFrom(allowance));
-			}
-
-			return retval;
+            return [.. NftAllowances.Select(_ => TokenNftAllowance.CopyFrom(_))];
 		}
 
-        private IList<long> GetNftSerials(AccountId ownerAccountId, AccountId spenderAccountId, TokenId tokenId)
+        private IList<long> GetNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, TokenId tokenId)
         {
             var key = OwnerToString(ownerAccountId) + ":" + spenderAccountId;
-            if (nftMap.ContainsKey(key))
-            {
-                var innerMap = nftMap[key];
 
-                if (innerMap.ContainsKey(tokenId))
+            if (nftMap.TryGetValue(key, out Dictionary<TokenId, int>? nftInnerMap))
+            {
+                if (nftInnerMap.TryGetValue(tokenId, out int value))
                 {
-                    return NftAllowances[innerMap[tokenId]].SerialNumbers;
+                    return NftAllowances[value].SerialNumbers;
                 }
                 else
                 {
-                    return NewNftSerials(ownerAccountId, spenderAccountId, tokenId, innerMap);
+                    return NewNftSerials(ownerAccountId, spenderAccountId, tokenId, nftInnerMap);
                 }
             }
             else
@@ -196,7 +191,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
                 return NewNftSerials(ownerAccountId, spenderAccountId, tokenId, innerMap);
             }
         }
-        private IList<long> NewNftSerials(AccountId ownerAccountId, AccountId spenderAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
+        private IList<long> NewNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
         {
             innerMap.Add(tokenId, NftAllowances.Count);
             TokenNftAllowance newAllowance = new (tokenId, ownerAccountId, spenderAccountId, null, [], default);
@@ -204,13 +199,13 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             return newAllowance.SerialNumbers;
         }
 
-        private AccountAllowanceAdjustTransaction AdjustNftAllowance(TokenId tokenId, long serial, AccountId ownerAccountId, AccountId spenderAccountId)
+        private AccountAllowanceAdjustTransaction AdjustNftAllowance(TokenId tokenId, long serial, AccountId? ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
             GetNftSerials(ownerAccountId, spenderAccountId, tokenId).Add(serial);
             return this;
         }
-        private AccountAllowanceAdjustTransaction AdjustNftAllowanceAllSerials(TokenId tokenId, bool allSerials, AccountId ownerAccountId, AccountId spenderAccountId)
+        private AccountAllowanceAdjustTransaction AdjustNftAllowanceAllSerials(TokenId tokenId, bool allSerials, AccountId? ownerAccountId, AccountId spenderAccountId)
         {
             RequireNotFrozen();
 			NftAllowances.Add(new TokenNftAllowance(tokenId, ownerAccountId, spenderAccountId, null, [], allSerials));
@@ -313,7 +308,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             throw new NotSupportedException("Cannot schedule AccountAllowanceAdjustTransaction");
         }
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+        public override MethodDescriptor GetMethodDescriptor()
 		{
 			throw new NotSupportedException("Cannot get method descriptor for AccountAllowanceAdjustTransaction");
 		}

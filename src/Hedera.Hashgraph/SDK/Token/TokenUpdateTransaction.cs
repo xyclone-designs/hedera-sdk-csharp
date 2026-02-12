@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -414,7 +415,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenUpdateTransactionBody}</returns>
-        public virtual Proto.TokenUpdateTransactionBody Build()
+        public virtual Proto.TokenUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenUpdateTransactionBody
             {
@@ -482,19 +483,21 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenUpdate = Build();
+            bodyBuilder.TokenUpdate = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenUpdate = Build();
+            scheduled.TokenUpdate = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetUpdateTokenMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.updateToken);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

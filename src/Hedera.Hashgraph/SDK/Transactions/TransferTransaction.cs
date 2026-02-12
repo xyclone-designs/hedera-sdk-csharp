@@ -6,6 +6,7 @@ using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 
 using System;
@@ -223,9 +224,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             scheduled.CryptoTransfer = ToProtobuf();
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+        public override MethodDescriptor GetMethodDescriptor()
 		{
-			return CryptoServiceGrpc.GetCryptoTransferMethod();
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoDelete);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
 		private TransferTransaction DoAddHbarTransfer(AccountId accountId, Hbar value, bool isApproved, FungibleHookCall? hookCall)

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -46,23 +46,13 @@ namespace Hedera.Hashgraph.SDK.File
         public FileAppendTransaction() : base()
         {
             DefaultMaxTransactionFee = new Hbar(5);
-            SetChunkSize(2048);
+            ChunkSize = 2048;
         }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public FileAppendTransaction(Proto.TransactionBody txBody) : base(txBody)
-		{
-			InitFromTransactionBody();
-		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public FileAppendTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal FileAppendTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -93,8 +83,8 @@ namespace Hedera.Hashgraph.SDK.File
 		/// <param name="contents">the contents to append to the file.</param>
 		public ByteString Contents
         {
-            get => GetData();
-            set => SetData(value);
+            get => Data;
+            set => Data = value;
 		}
 		/// <summary>
 		/// An array of bytes to append.<br/>
@@ -107,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// <param name="contents">the contents to append to the file.</param>
 		public byte[] Contents_Bytes
 		{
-			set => SetData(value);
+			set => Data = ByteString.CopyFrom(value);
 		}
 		/// <summary>
 		/// <p>Encode the given {@link String} as UTF-8 and append it to file as identified by
@@ -121,7 +111,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// <param name="text">The String to be set as the contents of the file</param>
 		public string Contents_String
 		{
-			set => SetData(value);
+			set => Data = ByteString.CopyFromUtf8(value);
 		}
 
 		/// <summary>
@@ -141,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.File
 				{
 					for (var i = 0; i < InnerSignedTransactions.Count; i += NodeAccountIds.Count == 0 ? 1 : NodeAccountIds.Count)
 					{
-						data = data.Concat(Proto.TransactionBody.Parser.ParseFrom(InnerSignedTransactions[i].BodyBytes).FileAppend.Contents);
+						Data = Data.Concat(Proto.TransactionBody.Parser.ParseFrom(InnerSignedTransactions[i].BodyBytes).FileAppend.Contents);
 					}
 				}
 				catch (InvalidProtocolBufferException exc)
@@ -151,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.File
 			}
 			else
 			{
-				data = body.Contents;
+				Data = body.Contents;
 			}
 		}
 
@@ -163,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.File
 		{
 			var builder = new Proto.FileAppendTransactionBody
 			{
-				Contents = data
+				Contents = Data
 			};
 
             if (FileId != null)
@@ -187,17 +177,19 @@ namespace Hedera.Hashgraph.SDK.File
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.FileAppend = ToProtobuf();
-            scheduled.FileAppend.Contents = data;
+            scheduled.FileAppend.Contents = Data;
         }
-		public override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total)
-		{
+        public override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total)
+        {
 			body.FileAppend = ToProtobuf();
-			body.FileAppend.Contents = ByteString.CopyFrom(data.Span[startIndex..endIndex]);
+			body.FileAppend.Contents = ByteString.CopyFrom(Data.Span[startIndex..endIndex]);
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return FileServiceGrpc.AppendContentMethod;
+			string methodname = nameof(Proto.FileService.FileServiceClient.appendContent);
+
+			return Proto.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void OnExecute(Client client)

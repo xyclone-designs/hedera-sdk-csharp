@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
-using Hedera.Hashgraph.SDK.Account;
+
 using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Account
+namespace Hedera.Hashgraph.SDK.Account
 {
     /*
      * Create a new Hedera™ account.
@@ -282,7 +284,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// Build the transaction body.
 		/// </summary>
 		/// <returns>{@link Proto.CryptoCreateTransactionBody}</returns>
-		public Proto.CryptoCreateTransactionBody Build()
+		public Proto.CryptoCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.CryptoCreateTransactionBody
             {
@@ -381,18 +383,20 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             }
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return CryptoServiceGrpc.GetCreateAccountMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.createAccount);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+		}
 
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.CryptoCreateAccount = Build();
+            bodyBuilder.CryptoCreateAccount = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.CryptoCreateAccount = Build();
+            scheduled.CryptoCreateAccount = ToProtobuf();
         }
 
         public override ResponseStatus MapResponseStatus(Proto.Response response)

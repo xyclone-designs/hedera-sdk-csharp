@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -153,6 +154,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return builder;
 		}
 
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.FreezeService.FreezeServiceClient.freezeAsync);
+
+			return Proto.FreezeService.Descriptor.FindMethodByName(methodname);
+		}
 		public override void ValidateChecksums(Client client)
 		{ }
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
@@ -163,12 +170,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			scheduled.Freeze = ToProtobuf();
 		}
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-		{
-			return FreezeServiceGrpc.GetFreezeMethod();
-		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

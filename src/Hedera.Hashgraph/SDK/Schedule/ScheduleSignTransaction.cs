@@ -101,12 +101,14 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             throw new NotSupportedException("cannot schedule ScheduleSignTransaction");
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return ScheduleServiceGrpc.SignScheduleMethod;
+			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.signSchedule);
+
+			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

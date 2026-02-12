@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Token;
 
 using System;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// The (non-fungible) token of which this NFT is an instance
-    /// </summary>
-    public class NftId : IComparable<NftId>
+	/// <summary>
+	/// The (non-fungible) token of which this NFT is an instance
+	/// </summary>
+	public class NftId : IComparable<NftId>
     {
         /// <summary>
         /// The (non-fungible) token of which this NFT is an instance

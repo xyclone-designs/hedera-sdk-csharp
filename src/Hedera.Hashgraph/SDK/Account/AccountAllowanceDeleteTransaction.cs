@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Account;
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Account
+namespace Hedera.Hashgraph.SDK.Account
 {
     /// <summary>
     /// Delete one or more allowances.
@@ -56,29 +58,14 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             InitFromTransactionBody();
         }
 
-        
-
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoDeleteAllowance;
             foreach (var allowanceProto in body.NftAllowances)
-            {
-                GetNftSerials(AccountId.FromProtobuf(allowanceProto.Owner), TokenId.FromProtobuf(allowanceProto.TokenId))
-                    .Add(allowanceProto.SerialNumbers);
-            }
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="ownerAccountId">the owner's account id</param>
-        /// <returns>{@code this}</returns>
-        /// <remarks>@deprecatedwith no replacement</remarks>
-        public virtual AccountAllowanceDeleteTransaction DeleteAllHbarAllowances(AccountId ownerAccountId)
-        {
-            RequireNotFrozen();
-            HbarAllowances.Add(new HbarAllowance(ownerAccountId, null, null));
-            return this;
-        }
+                if (GetNftSerials(AccountId.FromProtobuf(allowanceProto.Owner), TokenId.FromProtobuf(allowanceProto.TokenId)) is IList<long> nftserials)
+                    foreach (long serialnumber in allowanceProto.SerialNumbers)
+						nftserials.Add(serialnumber);
+		}
 
         /// <summary>
         /// </summary>
@@ -88,29 +75,96 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         {
             return [.. HbarAllowances];
         }
+		/// <summary>
+		/// </summary>
+		/// <returns>                         a list of token allowance records</returns>
+		/// <remarks>@deprecatedwith no replacement</remarks>
+		public virtual IList<TokenAllowance> GetTokenAllowanceDeletions()
+		{
+			return [.. TokenAllowances];
+		}
+		/// <summary>
+		/// Return list of nft tokens to be deleted.
+		/// </summary>
+		/// <returns>                         list of token nft allowances</returns>
+		public virtual IList<TokenNftAllowance> GetTokenNftAllowanceDeletions()
+		{
+			List<TokenNftAllowance> retval = new(NftAllowances.Count);
 
-        /// <summary>
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <param name="ownerAccountId">the owner's account id</param>
-        /// <returns>{@code this}</returns>
-        /// <remarks>@deprecatedwith no replacement</remarks>
-        public virtual AccountAllowanceDeleteTransaction DeleteAllTokenAllowances(TokenId tokenId, AccountId ownerAccountId)
+			foreach (var allowance in NftAllowances)
+			{
+				retval.Add(TokenNftAllowance.CopyFrom(allowance));
+			}
+
+			return retval;
+		}
+
+		/// <summary>
+		/// Return list of nft serial numbers.
+		/// </summary>
+		/// <param name="ownerAccountId">owner's account id</param>
+		/// <param name="tokenId">the token's id</param>
+		/// <returns>                         list of nft serial numbers</returns>
+		private IList<long> GetNftSerials(AccountId ownerAccountId, TokenId tokenId)
+		{
+			var key = ownerAccountId;
+
+			if (nftMap.TryGetValue(key, out Dictionary<TokenId, int>? nftmap))
+			{
+				if (nftmap.TryGetValue(tokenId, out int value))
+				{
+					return NftAllowances[value].SerialNumbers;
+				}
+				else
+				{
+					return NewNftSerials(ownerAccountId, tokenId, nftmap);
+				}
+			}
+			else
+			{
+				Dictionary<TokenId, int> innerMap = [];
+				nftMap.Add(key, innerMap);
+				return NewNftSerials(ownerAccountId, tokenId, innerMap);
+			}
+		}
+		/// <summary>
+		/// Return serial numbers of new nft's.
+		/// </summary>
+		/// <param name="ownerAccountId">owner's account id</param>
+		/// <param name="tokenId">the token's id</param>
+		/// <param name="innerMap">list of token id's and serial number records</param>
+		/// <returns>                         list of nft serial numbers</returns>
+		private IList<long> NewNftSerials(AccountId ownerAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
+		{
+			innerMap.Add(tokenId, NftAllowances.Count);
+			TokenNftAllowance newAllowance = new(tokenId, ownerAccountId, null, null, [], default);
+			NftAllowances.Add(newAllowance);
+			return newAllowance.SerialNumbers;
+		}
+
+		/// <summary>
+		/// </summary>
+		/// <param name="ownerAccountId">the owner's account id</param>
+		/// <returns>{@code this}</returns>
+		/// <remarks>@deprecatedwith no replacement</remarks>
+		public virtual AccountAllowanceDeleteTransaction DeleteAllHbarAllowances(AccountId ownerAccountId)
+		{
+			RequireNotFrozen();
+			HbarAllowances.Add(new HbarAllowance(ownerAccountId, null, null));
+			return this;
+		}
+		/// <summary>
+		/// </summary>
+		/// <param name="tokenId">the token id</param>
+		/// <param name="ownerAccountId">the owner's account id</param>
+		/// <returns>{@code this}</returns>
+		/// <remarks>@deprecatedwith no replacement</remarks>
+		public virtual AccountAllowanceDeleteTransaction DeleteAllTokenAllowances(TokenId tokenId, AccountId ownerAccountId)
         {
             RequireNotFrozen();
             TokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, null, 0));
             return this;
         }
-
-        /// <summary>
-        /// </summary>
-        /// <returns>                         a list of token allowance records</returns>
-        /// <remarks>@deprecatedwith no replacement</remarks>
-        public virtual IList<TokenAllowance> GetTokenAllowanceDeletions()
-        {
-            return [.. TokenAllowances];
-        }
-
         /// <summary>
         /// Remove all nft token allowances.
         /// </summary>
@@ -126,69 +180,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         }
 
         /// <summary>
-        /// Return list of nft tokens to be deleted.
-        /// </summary>
-        /// <returns>                         list of token nft allowances</returns>
-        public virtual IList<TokenNftAllowance> GetTokenNftAllowanceDeletions()
-        {
-            IList<TokenNftAllowance> retval = new List<TokenNftAllowance>(NftAllowances.Count);
-            foreach (var allowance in NftAllowances)
-            {
-                retval.Add(TokenNftAllowance.CopyFrom(allowance));
-            }
-
-            return retval;
-        }
-
-        /// <summary>
-        /// Return list of nft serial numbers.
-        /// </summary>
-        /// <param name="ownerAccountId">owner's account id</param>
-        /// <param name="tokenId">the token's id</param>
-        /// <returns>                         list of nft serial numbers</returns>
-        private IList<long> GetNftSerials(AccountId ownerAccountId, TokenId tokenId)
-        {
-            var key = ownerAccountId;
-            if (nftMap.ContainsKey(key))
-            {
-                var innerMap = nftMap[key];
-                if (innerMap.ContainsKey(tokenId))
-                {
-                    return NftAllowances[innerMap[tokenId]].SerialNumbers;
-                }
-                else
-                {
-                    return NewNftSerials(ownerAccountId, tokenId, innerMap);
-                }
-            }
-            else
-            {
-                Dictionary<TokenId, int> innerMap = [];
-                nftMap.Add(key, innerMap);
-                return NewNftSerials(ownerAccountId, tokenId, innerMap);
-            }
-        }
-
-        /// <summary>
-        /// Return serial numbers of new nft's.
-        /// </summary>
-        /// <param name="ownerAccountId">owner's account id</param>
-        /// <param name="tokenId">the token's id</param>
-        /// <param name="innerMap">list of token id's and serial number records</param>
-        /// <returns>                         list of nft serial numbers</returns>
-        private IList<long> NewNftSerials(AccountId ownerAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
-        {
-            innerMap.Add(tokenId, NftAllowances.Count);
-            TokenNftAllowance newAllowance = new TokenNftAllowance(tokenId, ownerAccountId, null, null, [], default);
-            NftAllowances.Add(newAllowance);
-            return newAllowance.SerialNumbers;
-        }
-
-        /// <summary>
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link CryptoDeleteAllowanceTransactionBody}</returns>
-        public virtual Proto.CryptoDeleteAllowanceTransactionBody Build()
+        public virtual Proto.CryptoDeleteAllowanceTransactionBody ToProtobuf()
         {
             var builder = new Proto.CryptoDeleteAllowanceTransactionBody();
             foreach (var allowance in NftAllowances)
@@ -199,6 +194,12 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
             return builder;
         }
 
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.deleteAllowances);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+		}
 		public override void ValidateChecksums(Client client)
 		{
 			foreach (var allowance in NftAllowances)
@@ -208,23 +209,17 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.CryptoDeleteAllowance = Build();
+            bodyBuilder.CryptoDeleteAllowance = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.CryptoDeleteAllowance = Build();
+            scheduled.CryptoDeleteAllowance = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-		{
-			return CryptoServiceGrpc.GetDeleteAllowancesMethod();
-		}
-
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }
-
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();

@@ -215,7 +215,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Create the builder.
         /// </summary>
         /// <returns>the transaction builder</returns>
-        public Proto.AtomicBatchTransactionBody Build()
+        public Proto.AtomicBatchTransactionBody ToProtobuf()
         {
             var builder = new Proto.AtomicBatchTransactionBody();
 
@@ -234,18 +234,20 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.AtomicBatch = Build();
+            bodyBuilder.AtomicBatch = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule Atomic Batch");
         }
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return UtilServiceGrpc.GetAtomicBatchMethod();
+			string methodname = nameof(Proto.UtilService.UtilServiceClient.atomicBatch);
+
+			return Proto.UtilService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

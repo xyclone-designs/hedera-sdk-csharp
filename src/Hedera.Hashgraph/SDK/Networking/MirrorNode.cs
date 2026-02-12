@@ -7,20 +7,20 @@ namespace Hedera.Hashgraph.SDK.Networking
 	/// <summary>
 	/// An individual mirror node.
 	/// </summary>
-	internal class MirrorNode : BaseNode<MirrorNode, BaseNodeAddress>
+	public class MirrorNode : BaseNode<MirrorNode, BaseNodeAddress>
     {
 		/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="address">the node address as a managed node address</param>
 		/// <param name="executor">the executor service</param>
-		public MirrorNode(BaseNodeAddress address, ExecutorService executor) : base(address, executor) { }
+		internal MirrorNode(BaseNodeAddress address, ExecutorService executor) : base(address, executor) { }
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="address">the node address as a string</param>
         /// <param name="executor">the executor service</param>
-        public MirrorNode(string address, ExecutorService executor) : this(BaseNodeAddress.FromString(address), executor) { }
+        internal MirrorNode(string address, ExecutorService executor) : this(BaseNodeAddress.FromString(address), executor) { }
 
         public override string? Authority
         {

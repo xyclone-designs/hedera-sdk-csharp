@@ -2,18 +2,18 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Hook;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Token
+namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// Internal utility class.
-    /// </summary>
-    public class TokenNftTransfer : IComparable<TokenNftTransfer>
+	/// <summary>
+	/// Internal utility class.
+	/// </summary>
+	public class TokenNftTransfer : IComparable<TokenNftTransfer>
     {
         /// <summary>
         /// The ID of the token

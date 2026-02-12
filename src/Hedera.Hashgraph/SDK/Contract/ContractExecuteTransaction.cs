@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
@@ -161,7 +162,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link ContractCallTransactionBody}</returns>
-        public Proto.ContractCallTransactionBody Build()
+        public Proto.ContractCallTransactionBody ToProtobuf()
         {
             var builder = new Proto.ContractCallTransactionBody
             {
@@ -182,18 +183,20 @@ namespace Hedera.Hashgraph.SDK.Contract
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.ContractCall = Build();
+            bodyBuilder.ContractCall = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.ContractCall = Build();
+            scheduled.ContractCall = ToProtobuf();
 		}
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return SmartContractServiceGrpc.GetContractCallMethodMethod();
+			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.contractCallMethod);
+
+			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

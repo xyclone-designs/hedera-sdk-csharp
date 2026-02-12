@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The account ID of the spender of the hbar allowance
         /// </summary>
-        public readonly AccountId SpenderAccountId;
+        public readonly AccountId? SpenderAccountId;
         /// <summary>
         /// The amount of the spender's token allowance
         /// </summary>
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="ownerAccountId">the grantor account id</param>
         /// <param name="spenderAccountId">the spender account id</param>
         /// <param name="amount">the token allowance</param>
-        internal TokenAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId spenderAccountId, long amount)
+        internal TokenAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId? spenderAccountId, long amount)
         {
             TokenId = tokenId;
             OwnerAccountId = ownerAccountId;
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
 		public virtual void ValidateChecksums(Client client)
         {
-            TokenId?.ValidateChecksum(client);
+            TokenId.ValidateChecksum(client);
             OwnerAccountId?.ValidateChecksum(client);
             SpenderAccountId?.ValidateChecksum(client);
         }
@@ -107,11 +107,9 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             Proto.TokenAllowance proto = new()
             {
-				Amount = Amount
+				Amount = Amount,
+				TokenId = TokenId.ToProtobuf()
 			};
-
-            if (TokenId != null)
-                proto.TokenId = TokenId.ToProtobuf();
 
             if (OwnerAccountId != null)
                 proto.Owner = OwnerAccountId.ToProtobuf();
@@ -129,12 +127,10 @@ namespace Hedera.Hashgraph.SDK.Token
         {
 			Proto.GrantedTokenAllowance proto = new()
             {
-				Amount = Amount
+				Amount = Amount,
+				TokenId = TokenId.ToProtobuf()
 			};
-            
-            if (TokenId != null)
-                proto.TokenId = TokenId.ToProtobuf();
-            
+                        
             if (SpenderAccountId != null)
                 proto.Spender = SpenderAccountId.ToProtobuf();
 

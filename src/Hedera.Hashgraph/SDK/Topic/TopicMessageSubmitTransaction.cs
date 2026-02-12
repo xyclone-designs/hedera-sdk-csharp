@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Ids;
@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// </summary>
         /// <returns>{@link
         ///         Proto.ConsensusSubmitMessageTransactionBody}</returns>
-        public Proto.ConsensusSubmitMessageTransactionBody Build()
+        public Proto.ConsensusSubmitMessageTransactionBody ToProtobuf()
         {
             var builder = new Proto.ConsensusSubmitMessageTransactionBody();
 
@@ -127,23 +127,23 @@ namespace Hedera.Hashgraph.SDK.Topic
         }
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.ConsensusSubmitMessage = Build();
+            bodyBuilder.ConsensusSubmitMessage = ToProtobuf();
         }
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
 		{
-			scheduled.ConsensusSubmitMessage = Build();
+			scheduled.ConsensusSubmitMessage = ToProtobuf();
 			scheduled.ConsensusSubmitMessage.Message = Data;
 		}
 		public override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total)
         {
             if (total == 1)
             {
-                body.ConsensusSubmitMessage = Build();
+                body.ConsensusSubmitMessage = ToProtobuf();
                 body.ConsensusSubmitMessage.Message = Data.Copy(startIndex, endIndex);
             }
             else
             {
-                body.ConsensusSubmitMessage = Build();
+                body.ConsensusSubmitMessage = ToProtobuf();
 				body.ConsensusSubmitMessage.Message = Data.Copy(startIndex, endIndex);
                 body.ConsensusSubmitMessage.ChunkInfo = new Proto.ConsensusMessageChunkInfo
                 {
@@ -154,12 +154,14 @@ namespace Hedera.Hashgraph.SDK.Topic
             }
         }
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return ConsensusServiceGrpc.GetSubmitMessageMethod();
+			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.submitMessage);
+
+			return Proto.ConsensusService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

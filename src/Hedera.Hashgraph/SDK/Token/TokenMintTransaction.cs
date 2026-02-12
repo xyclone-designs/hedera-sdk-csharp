@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenMintTransactionBody}</returns>
-        public virtual Proto.TokenMintTransactionBody Build()
+        public virtual Proto.TokenMintTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenMintTransactionBody();
 
@@ -152,19 +152,21 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
 		{
-			bodyBuilder.TokenMint = Build();
+			bodyBuilder.TokenMint = ToProtobuf();
 		}
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
 		{
-			scheduled.TokenMint = Build();
+			scheduled.TokenMint = ToProtobuf();
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return TokenServiceGrpc.GetMintTokenMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.mintToken);
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+		}
+
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

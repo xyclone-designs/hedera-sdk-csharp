@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.HBar;
@@ -62,9 +63,11 @@ namespace Hedera.Hashgraph.SDK.Queries
 		{
 			return ContractInfo.FromProtobuf(response.ContractGetInfo.ContractInfo);
 		}
-		public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return SmartContractServiceGrpc.GetGetContractInfoMethod();
-        }
-    }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.getContractInfo);
+
+			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+		}
+	}
 }

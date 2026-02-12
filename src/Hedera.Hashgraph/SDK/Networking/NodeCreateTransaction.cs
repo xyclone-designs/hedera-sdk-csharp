@@ -393,10 +393,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 			AccountId?.ValidateChecksum(client);
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return AddressBookServiceGrpc.GetCreateNodeMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.AddressBookService.AddressBookServiceClient.createNode);
+
+			return Proto.AddressBookService.Descriptor.FindMethodByName(methodname);
+		}
 
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {

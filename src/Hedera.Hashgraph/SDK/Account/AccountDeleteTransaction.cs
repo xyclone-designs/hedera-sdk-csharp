@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
+using Google.Protobuf.Reflection;
+using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Account
+namespace Hedera.Hashgraph.SDK.Account
 {
     /// <summary>
     /// Delete an account.<br/>
@@ -79,7 +80,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// Build the transaction body.
 		/// </summary>
 		/// <returns>{@link CryptoDeleteTransactionBody}</returns>
-		public Proto.CryptoDeleteTransactionBody Build()
+		public Proto.CryptoDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.CryptoDeleteTransactionBody();
 
@@ -113,18 +114,20 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.CryptoDelete = Build();
+            bodyBuilder.CryptoDelete = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.CryptoDelete = Build();
+            scheduled.CryptoDelete = ToProtobuf();
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return CryptoServiceGrpc.CryptoDeleteMethod;
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoDelete);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Queries;
@@ -65,10 +66,12 @@ namespace Hedera.Hashgraph.SDK.File
             return FileInfo.FromProtobuf(response.FileGetInfo.FileInfo);
         }
 
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return FileServiceGrpc.GetGetFileInfoMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.FileService.FileServiceClient.getFileInfo);
+
+			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+		}
 
 		public override async Task<Hbar> GetCostAsync(Client client)
 		{

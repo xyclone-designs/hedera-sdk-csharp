@@ -2,29 +2,30 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Token
+namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// Modify the metadata field for an individual non-fungible/unique token (NFT).
-    /// 
-    /// Updating the metadata of an NFT SHALL NOT affect ownership or
-    /// the ability to transfer that NFT.<br/>
-    /// This transaction SHALL affect only the specific serial numbered tokens
-    /// identified.
-    /// This transaction SHALL modify individual token metadata.<br/>
-    /// This transaction MUST be signed by the token `metadata_key`.<br/>
-    /// The token `metadata_key` MUST be a valid `Key`.<br/>
-    /// The token `metadata_key` MUST NOT be an empty `KeyList`.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
-    public class TokenUpdateNftsTransaction : Transaction<TokenUpdateNftsTransaction>
+	/// <summary>
+	/// Modify the metadata field for an individual non-fungible/unique token (NFT).
+	/// 
+	/// Updating the metadata of an NFT SHALL NOT affect ownership or
+	/// the ability to transfer that NFT.<br/>
+	/// This transaction SHALL affect only the specific serial numbered tokens
+	/// identified.
+	/// This transaction SHALL modify individual token metadata.<br/>
+	/// This transaction MUST be signed by the token `metadata_key`.<br/>
+	/// The token `metadata_key` MUST be a valid `Key`.<br/>
+	/// The token `metadata_key` MUST NOT be an empty `KeyList`.
+	/// 
+	/// ### Block Stream Effects
+	/// None
+	/// </summary>
+	public class TokenUpdateNftsTransaction : Transaction<TokenUpdateNftsTransaction>
     {
         /// <summary>
         /// Constructor.
@@ -94,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenUpdateNftsTransactionBody}</returns>
-        public virtual Proto.TokenUpdateNftsTransactionBody Build()
+        public virtual Proto.TokenUpdateNftsTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenUpdateNftsTransactionBody();
 
@@ -116,19 +117,21 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenUpdateNfts = Build();
+            bodyBuilder.TokenUpdateNfts = ToProtobuf();
         }
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenUpdateNfts = Build();
+            scheduled.TokenUpdateNfts = ToProtobuf();
         }
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetUpdateNftsMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.updateNfts);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

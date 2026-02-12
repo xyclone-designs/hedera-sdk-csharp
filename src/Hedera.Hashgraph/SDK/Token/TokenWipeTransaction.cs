@@ -152,7 +152,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenWipeAccountTransactionBody}</returns>
-        public virtual Proto.TokenWipeAccountTransactionBody Build()
+        public virtual Proto.TokenWipeAccountTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenWipeAccountTransactionBody
             {
@@ -178,19 +178,21 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenWipe = Build();
+            bodyBuilder.TokenWipe = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenWipe = Build();
+            scheduled.TokenWipe = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetWipeTokenAccountMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.wipeTokenAccount);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

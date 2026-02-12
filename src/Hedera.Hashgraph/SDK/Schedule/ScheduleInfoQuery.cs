@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
@@ -62,10 +63,12 @@ namespace Hedera.Hashgraph.SDK.Schedule
             return ScheduleInfo.FromProtobuf(response.ScheduleGetInfo.ScheduleInfo);
         }
 
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return ScheduleServiceGrpc.GetGetScheduleInfoMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.getScheduleInfo);
+
+			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
+		}
 
 		public override async Task<Hbar> GetCostAsync(Client client)
 		{

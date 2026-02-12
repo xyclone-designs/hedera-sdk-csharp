@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenRevokeKycTransactionBody}</returns>
-        public virtual Proto.TokenRevokeKycTransactionBody Build()
+        public virtual Proto.TokenRevokeKycTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenRevokeKycTransactionBody();
 
@@ -109,19 +109,20 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenRevokeKyc = Build();
+            bodyBuilder.TokenRevokeKyc = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenRevokeKyc = Build();
+            scheduled.TokenRevokeKyc = ToProtobuf();
         }
-
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetFreezeTokenAccountMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

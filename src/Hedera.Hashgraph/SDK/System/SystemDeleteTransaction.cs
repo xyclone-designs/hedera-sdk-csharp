@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -126,7 +127,7 @@ namespace Hedera.Hashgraph.SDK.System
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.SystemDeleteTransactionBody}</returns>
-        public Proto.SystemDeleteTransactionBody Build()
+        public Proto.SystemDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.SystemDeleteTransactionBody();
 
@@ -177,25 +178,29 @@ namespace Hedera.Hashgraph.SDK.System
         }
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SystemDelete = Build();
+            bodyBuilder.SystemDelete = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-			scheduled.SystemDelete = Build();
+			scheduled.SystemDelete = ToProtobuf();
 		}
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			if (FileId != null)
-			{
-				return FileServiceGrpc.SystemDeleteMethod;
-			}
-			else
-			{
-				return SmartContractServiceGrpc.SystemDeleteMethod;
+            if (FileId is not null)
+            {
+                string methodname = nameof(Proto.FileService.FileServiceClient.systemDelete);
+
+                return Proto.FileService.Descriptor.FindMethodByName(methodname);
+            }
+            else
+            {
+				string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.systemDelete);
+
+				return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 			}
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

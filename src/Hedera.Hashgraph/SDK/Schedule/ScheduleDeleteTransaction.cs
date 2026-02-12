@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.ScheduleDeleteTransactionBody builder }</returns>
-        public Proto.ScheduleDeleteTransactionBody Build()
+        public Proto.ScheduleDeleteTransactionBody ToProtobuf()
         {
 			Proto.ScheduleDeleteTransactionBody proto =  new ();
             
@@ -99,15 +99,17 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		}
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.ScheduleDelete = Build();
+            bodyBuilder.ScheduleDelete = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.ScheduleDelete = Build();
+            scheduled.ScheduleDelete = ToProtobuf();
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return ScheduleServiceGrpc.DeleteScheduleMethod;
+			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.deleteSchedule);
+
+			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void OnExecute(Client client)

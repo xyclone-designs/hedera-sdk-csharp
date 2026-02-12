@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@code @link
         ///         Proto.TokenUnfreezeAccountTransactionBody}</returns>
-        public virtual Proto.TokenUnfreezeAccountTransactionBody Build()
+        public virtual Proto.TokenUnfreezeAccountTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenUnfreezeAccountTransactionBody();
 
@@ -117,19 +117,23 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenUnfreeze = Build();
+            bodyBuilder.TokenUnfreeze = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenUnfreeze = Build();
+            scheduled.TokenUnfreeze = ToProtobuf();
         }
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetFreezeTokenAccountMethod();
+            // TODO. Check 
+			//string methodname = nameof(Proto.TokenService.TokenServiceClient.unfreezeTokenAccount);
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

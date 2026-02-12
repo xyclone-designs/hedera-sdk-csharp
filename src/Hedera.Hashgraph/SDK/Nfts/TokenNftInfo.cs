@@ -2,16 +2,17 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Networking;
 
-namespace Hedera.Hashgraph.SDK.Token
+namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// 
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/token-service/tokengetnftinfo#tokennftinfo">Hedera Documentation</a>
-    /// </summary>
-    public class TokenNftInfo
+	/// <summary>
+	/// 
+	/// 
+	/// See <a href="https://docs.hedera.com/guides/docs/hedera-api/token-service/tokengetnftinfo#tokennftinfo">Hedera Documentation</a>
+	/// </summary>
+	public class TokenNftInfo
     {
         /// <summary>
         /// The ID of the NFT

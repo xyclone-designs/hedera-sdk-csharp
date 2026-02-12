@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-namespace Hedera.Hashgraph.SDK.Hook
+namespace Hedera.Hashgraph.SDK.Nfts
 {
     /// <summary>
     /// Hook type for NFT transfers, indicating side (sender/receiver) and timing (pre / pre-post).

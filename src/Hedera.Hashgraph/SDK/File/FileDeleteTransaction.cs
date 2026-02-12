@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 
+using System;
 using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.File
@@ -28,7 +29,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public FileDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal FileDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -38,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public FileDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal FileDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -83,9 +84,11 @@ namespace Hedera.Hashgraph.SDK.File
 			return builder;
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse<FileDeleteTransaction>> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return FileServiceGrpc.DeleteFileMethod;
+			string methodname = nameof(Proto.FileService.FileServiceClient.deleteFile);
+
+			return Proto.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void ValidateChecksums(Client client)
@@ -99,6 +102,16 @@ namespace Hedera.Hashgraph.SDK.File
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.FileDelete = ToProtobuf();
+        }
+
+        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Transactions.TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             try
             {
-                SetNetwork(network);
+                SetNetwork = network);
             }
             catch (ThreadInterruptedException e)
             {

@@ -1,5 +1,8 @@
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+
+using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
@@ -48,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		private static Client.Operator GetOperatorFromClient(Client client)
 		{
 			return
-				client.Oper8r ??
+				client.Operator_ ??
 				throw new InvalidOperationException("`client` must have an `op` or an explicit payment transaction must be provided");
 		}
 		/**
@@ -144,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 				// Get a list of node AccountId's if the user has not set them manually.
 				try
 				{
-					NodeAccountIds.SetList(client.Network.GetNodeAccountIdsForExecute());
+					NodeAccountIds.SetList(client.Network_.GetNodeAccountIdsForExecute());
 				}
 				catch (ThreadInterruptedException e)
 				{
@@ -174,6 +177,11 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 */
 		public abstract void ValidateChecksums(Client client);
 		/**
+		 * Called in {@link #makeRequest} just before the query is built. The intent is for the derived
+		 * class to assign their data variant to the query.
+		 */
+		public abstract void OnMakeRequest(Proto.Query query, Proto.QueryHeader header);
+		/**
 		 * The derived class should access its request header and return.
 		 */
 		public abstract Proto.QueryHeader MapRequestHeader(Proto.Query request);
@@ -181,11 +189,21 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * The derived class should access its response header and return.
 		 */
 		public abstract Proto.ResponseHeader MapResponseHeader(Proto.Response response);
-		/**
-		 * Called in {@link #makeRequest} just before the query is built. The intent is for the derived
-		 * class to assign their data variant to the query.
-		 */
-		public abstract void OnMakeRequest(Proto.Query query, Proto.QueryHeader header);
+
+		public override Method<Proto.Query, Proto.Response> GetMethod()
+		{
+			MethodDescriptor methoddescriptor = GetMethodDescriptor();
+
+			IMessage input = (IMessage)Activator.CreateInstance(methoddescriptor.InputType.ClrType)!;
+			IMessage output = (IMessage)Activator.CreateInstance(methoddescriptor.OutputType.ClrType)!;
+
+			return new Method<Proto.Query, Proto.Response>(
+				type: MethodType.Unary,
+				name: methoddescriptor.Name,
+				serviceName: methoddescriptor.Service.FullName,
+				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Query.Parser.ParseFrom(data)),
+				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Response.Parser.ParseFrom(data)));
+		}
 
 		/**
 		 * Fetch the expected cost.
@@ -249,6 +267,16 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * Fetch the expected cost asynchronously.
 		 *
 		 * @param client                    the client
+		 * @param callback a BiConsumer which handles the result or error.
+		 */
+		public virtual void GetCostAsync(Client client, Action<Hbar, Exception> callback)
+		{
+			ActionHelper.Action(GetCostAsync(client), callback);
+		}
+		/**
+		 * Fetch the expected cost asynchronously.
+		 *
+		 * @param client                    the client
 		 * @param timeout The timeout after which the execution attempt will be cancelled.
 		 * @param callback a BiConsumer which handles the result or error.
 		 */
@@ -260,11 +288,12 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * Fetch the expected cost asynchronously.
 		 *
 		 * @param client                    the client
-		 * @param callback a BiConsumer which handles the result or error.
+		 * @param onSuccess a Consumer which consumes the result on success.
+		 * @param onFailure a Consumer which consumes the error on failure.
 		 */
-		public virtual void GetCostAsync(Client client, Action<Hbar, Exception> callback)
+		public virtual void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
-			ActionHelper.Action(GetCostAsync(client), callback);
+			ActionHelper.TwoActions(GetCostAsync(client), onSuccess, onFailure);
 		}
 		/**
 		 * Fetch the expected cost asynchronously.
@@ -277,17 +306,6 @@ namespace Hedera.Hashgraph.SDK.Queries
 		public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
 			ActionHelper.TwoActions(GetCostAsync(client, timeout), onSuccess, onFailure);
-		}
-		/**
-		 * Fetch the expected cost asynchronously.
-		 *
-		 * @param client                    the client
-		 * @param onSuccess a Consumer which consumes the result on success.
-		 * @param onFailure a Consumer which consumes the error on failure.
-		 */
-		public virtual void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
-		{
-			ActionHelper.TwoActions(GetCostAsync(client), onSuccess, onFailure);
 		}
 
 		public override Proto.Query MakeRequest()

@@ -121,9 +121,11 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             throw new NotImplementedException();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return SmartContractServiceGrpc.GetCallEthereumMethod();
+			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.callEthereum);
+
+			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override ResponseStatus MapResponseStatus(Proto.Response response)

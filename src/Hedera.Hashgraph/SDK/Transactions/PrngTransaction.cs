@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 
 using System;
@@ -19,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <returns>{@code this}</returns>
 		public virtual int? Range { get; set; }
 
-        public virtual Proto.UtilPrngTransactionBody Build()
+        public virtual Proto.UtilPrngTransactionBody ToProtobuf()
         {
             var builder = new Proto.UtilPrngTransactionBody();
 
@@ -31,19 +32,21 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.UtilPrng = Build();
+            bodyBuilder.UtilPrng = ToProtobuf();
         }
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("cannot schedule RngTransaction");
         }
         public override void ValidateChecksums(Client client) { }
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return UtilServiceGrpc.GetPrngMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.UtilService.UtilServiceClient.prng);
 
-        public override void OnExecute(Client client)
+			return Proto.UtilService.Descriptor.FindMethodByName(methodname);
+		}
+
+		public override void OnExecute(Client client)
         {
             throw new NotImplementedException();
         }

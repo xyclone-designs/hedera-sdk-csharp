@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Queries;
 
@@ -29,9 +30,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 		{
 			return NetworkVersionInfo.FromProtobuf(response.NetworkGetVersionInfo);
 		}
-		public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return NetworkServiceGrpc.GetGetVersionInfoMethod();
-        }
-    }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.NetworkService.NetworkServiceClient.getVersionInfo);
+
+			return Proto.NetworkService.Descriptor.FindMethodByName(methodname);
+		}
+	}
 }

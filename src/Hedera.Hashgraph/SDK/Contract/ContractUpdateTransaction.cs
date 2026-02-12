@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -8,7 +9,7 @@ using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -429,18 +430,20 @@ namespace Hedera.Hashgraph.SDK.Contract
             scheduled.ContractUpdateInstance = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return SmartContractServiceGrpc.GetUpdateContractMethod();
+			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.updateContract);
+
+			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -433,8 +433,8 @@ namespace Hedera.Hashgraph.SDK
 		/// <returns>{@code this}</returns>
 		public virtual ContractCreateFlow SignWithOperator(Client client)
 		{
-			SignPublicKey = client.Oper8r.PublicKey;
-			TransactionSigner = client.Oper8r.TransactionSigner;
+			SignPublicKey = client.Operator_.PublicKey;
+			TransactionSigner = client.Operator_.TransactionSigner;
 			SignPrivateKey = null;
 
 			return this;

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -197,12 +197,14 @@ namespace Hedera.Hashgraph.SDK.Token
             scheduled.TokenReject = ToProtobuf();
         }
 	
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetRejectTokenMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.rejectToken);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

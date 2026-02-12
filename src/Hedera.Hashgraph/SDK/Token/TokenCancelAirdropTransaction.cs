@@ -2,6 +2,7 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -55,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenCancelAirdropTransactionBody}</returns>
-        public virtual Proto.TokenCancelAirdropTransactionBody Build()
+        public virtual Proto.TokenCancelAirdropTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenCancelAirdropTransactionBody();
 
@@ -82,19 +83,21 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
 		{
-			bodyBuilder.TokenCancelAirdrop = Build();
+			bodyBuilder.TokenCancelAirdrop = ToProtobuf();
 		}
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
 		{
-			scheduled.TokenCancelAirdrop = Build();
+			scheduled.TokenCancelAirdrop = ToProtobuf();
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return TokenServiceGrpc.GetCancelAirdropMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.cancelAirdrop);
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+		}
+
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new global::System.NotImplementedException();
         }

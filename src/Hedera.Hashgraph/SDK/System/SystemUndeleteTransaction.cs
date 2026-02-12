@@ -4,8 +4,8 @@ using Google.Protobuf;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.System
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.SystemUndeleteTransactionBody}</returns>
-        public Proto.SystemUndeleteTransactionBody Build()
+        public Proto.SystemUndeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.SystemUndeleteTransactionBody();
 
@@ -150,23 +150,34 @@ namespace Hedera.Hashgraph.SDK.System
         }
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SystemUndelete = Build();
+            bodyBuilder.SystemUndelete = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SystemUndelete = Build();
+            scheduled.SystemUndelete = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			if (FileId != null)
+			if (FileId is not null)
 			{
-				return FileServiceGrpc.GetSystemUndeleteMethod();
+				string methodname = nameof(Proto.FileService.FileServiceClient.systemUndelete);
+
+				return Proto.FileService.Descriptor.FindMethodByName(methodname);
 			}
 			else
 			{
-				return SmartContractServiceGrpc.GetSystemUndeleteMethod();
+				string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.systemUndelete);
+
+				return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 			}
+		}
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override ResponseStatus MapResponseStatus(Proto.Response response)

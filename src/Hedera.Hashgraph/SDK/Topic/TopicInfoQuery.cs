@@ -1,7 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
+using Grpc.Core;
+
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Queries;
+
+using System;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
@@ -30,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		}
 		public override ResponseStatus MapResponseStatus(Proto.Response response)
 		{
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
 		{
@@ -44,9 +48,13 @@ namespace Hedera.Hashgraph.SDK.Topic
         {
 			return TopicInfo.FromProtobuf(response.ConsensusGetTopicInfo);
 		}
-		public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
+        public override Method<Proto.Query, Proto.Response> GetMethod()
         {
-            throw new System.NotImplementedException();
+			throw new NotImplementedException();
+        }
+        public override MethodDescriptor GetMethodDescriptor()
+        {
+            throw new NotImplementedException();
         }
     }
 }

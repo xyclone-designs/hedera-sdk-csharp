@@ -69,10 +69,11 @@ namespace Hedera.Hashgraph.SDK.File
         {
             return response.FileGetContents.FileContents.Contents;
         }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.FileService.FileServiceClient.getFileContent);
 
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return FileServiceGrpc.GetGetFileContentMethod();
-        }
-    }
+			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+		}
+	}
 }

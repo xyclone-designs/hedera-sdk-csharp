@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -397,11 +398,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 				HookCreationDetails_.Add(HookCreationDetails.FromProtobuf(protoHookDetails));
 		}
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return SmartContractServiceGrpc.GetCreateContractMethod;
-        }
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.createContract);
+
+			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+		}
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.ContractCreateInstance = ToProtobuf();
         }

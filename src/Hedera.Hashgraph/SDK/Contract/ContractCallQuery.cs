@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Queries
             return new ContractFunctionResult(response.ContractCallLocal.FunctionResult);
         }
 
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
+        public override Method<Proto.Query, Proto.Response> GetMethod()
         {
             return SmartContractServiceGrpc.GetContractCallLocalMethodMethod();
         }

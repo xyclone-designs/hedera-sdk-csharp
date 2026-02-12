@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK.Account;
+using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
-namespace Hedera.Hashgraph.SDK.Transactions.Account
+namespace Hedera.Hashgraph.SDK.Account
 {
     /// <summary>
     /// # Approve Allowance
@@ -29,12 +29,10 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         private readonly IList<TokenAllowance> TokenAllowances = [];
         private readonly IList<TokenNftAllowance> NftAllowances = [];
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public AccountAllowanceApproveTransaction()
-        {
-        }
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		public AccountAllowanceApproveTransaction() { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -58,9 +56,9 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// <param name="ownerAccountId">owner's account id</param>
 		/// <returns>                         a string representation of the account id
 		///                                  or FEE_PAYER</returns>
-		private static string OwnerToString(AccountId ownerAccountId)
+		private static string OwnerToString(AccountId? ownerAccountId)
 		{
-			return ownerAccountId != null ? ownerAccountId.ToString() : "FEE_PAYER";
+			return ownerAccountId?.ToString() ?? "FEE_PAYER";
 		}
 
 		private void InitFromTransactionBody()
@@ -102,19 +100,19 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// <param name="delegatingSpender">delegating spender's account id</param>
 		/// <param name="tokenId">the token's id</param>
 		/// <returns>list of NFT serial numbers</returns>
-		private IList<long> GetNftSerials(AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender, TokenId tokenId)
+		private IList<long> GetNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId)
 		{
 			var key = OwnerToString(ownerAccountId) + ":" + spenderAccountId;
-			if (NftMap.ContainsKey(key))
+
+			if (NftMap.TryGetValue(key, out Dictionary<TokenId, int>? nftmap))
 			{
-				var innerMap = NftMap[key];
-				if (innerMap.ContainsKey(tokenId))
+                if (nftmap.TryGetValue(tokenId, out int value))
 				{
-					return NftAllowances[innerMap[tokenId]].SerialNumbers;
+					return NftAllowances[value].SerialNumbers;
 				}
 				else
 				{
-					return NewNftSerials(ownerAccountId, spenderAccountId, delegatingSpender, tokenId, innerMap);
+					return NewNftSerials(ownerAccountId, spenderAccountId, delegatingSpender, tokenId, nftmap);
 				}
 			}
 			else
@@ -133,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// <param name="tokenId">the token's id</param>
 		/// <param name="innerMap">list of token id's and serial number records</param>
 		/// <returns>list of NFT serial numbers</returns>
-		private IList<long> NewNftSerials(AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender, TokenId tokenId, Dictionary<TokenId, int> innerMap)
+		private IList<long> NewNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId, Dictionary<TokenId, int> innerMap)
 		{
 			innerMap.Add(tokenId, NftAllowances.Count);
 			TokenNftAllowance newAllowance = new (tokenId, ownerAccountId, spenderAccountId, delegatingSpender, [], default);
@@ -248,7 +246,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// <param name="spenderAccountId">spender's account id</param>
 		/// <param name="amount">amount of hbar add</param>
 		/// <returns>{@code this}</returns>
-		public virtual AccountAllowanceApproveTransaction ApproveHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
+		public virtual AccountAllowanceApproveTransaction ApproveHbarAllowance(AccountId? ownerAccountId, AccountId spenderAccountId, Hbar amount)
 		{
 			RequireNotFrozen();
 			ArgumentNullException.ThrowIfNull(amount);
@@ -263,7 +261,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		/// <param name="spenderAccountId">spender's account id</param>
 		/// <param name="amount">amount of tokens</param>
 		/// <returns>{@code this}</returns>
-		public virtual AccountAllowanceApproveTransaction ApproveTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
+		public virtual AccountAllowanceApproveTransaction ApproveTokenAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId spenderAccountId, long amount)
 		{
 			RequireNotFrozen();
 			TokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount));
@@ -329,7 +327,7 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
         /// Build the correct transaction body.
         /// </summary>
         /// <returns>{@link Proto.CryptoApproveAllowanceTransactionBody builder }</returns>
-        public virtual Proto.CryptoApproveAllowanceTransactionBody Build()
+        public virtual Proto.CryptoApproveAllowanceTransactionBody ToProtobuf()
         {
             var builder = new Proto.CryptoApproveAllowanceTransactionBody();
 
@@ -370,19 +368,20 @@ namespace Hedera.Hashgraph.SDK.Transactions.Account
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.CryptoApproveAllowance = Build();
+            bodyBuilder.CryptoApproveAllowance = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.CryptoApproveAllowance = Build();
+            scheduled.CryptoApproveAllowance = ToProtobuf();
         }
-
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return CryptoServiceGrpc.ApproveAllowancesMethod;
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.approveAllowances);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

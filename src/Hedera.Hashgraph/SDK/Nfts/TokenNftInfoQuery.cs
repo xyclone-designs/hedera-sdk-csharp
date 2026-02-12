@@ -1,23 +1,25 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Queries;
+using Hedera.Hashgraph.SDK.Token;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hedera.Hashgraph.SDK.Token
+namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// A query that returns information about a non-fungible token (NFT).
-    /// 
-    /// You request the info for an NFT by specifying the NFT ID.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/get-nft-token-info#methods">Hedera Documentation</a>
-    /// </summary>
-    public class TokenNftInfoQuery : Query<IList<TokenNftInfo>, TokenNftInfoQuery>
+	/// <summary>
+	/// A query that returns information about a non-fungible token (NFT).
+	/// 
+	/// You request the info for an NFT by specifying the NFT ID.
+	/// 
+	/// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/get-nft-token-info#methods">Hedera Documentation</a>
+	/// </summary>
+	public class TokenNftInfoQuery : Query<IList<TokenNftInfo>, TokenNftInfoQuery>
     {
         /// <summary>
         /// Sets the NFT ID for which information is requested.
@@ -116,11 +118,12 @@ namespace Hedera.Hashgraph.SDK.Token
             return [TokenNftInfo.FromProtobuf(response.TokenGetNftInfo.Nft)];
         }
 
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return TokenServiceGrpc.GetGetTokenNftInfoMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.getTokenNftInfo);
 
-        
-    }
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+		}
+
+	}
 }

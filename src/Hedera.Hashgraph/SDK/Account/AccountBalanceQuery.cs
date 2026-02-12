@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Ids;
 using System;
@@ -63,9 +64,11 @@ namespace Hedera.Hashgraph.SDK.Queries
         {
             return response.CryptogetAccountBalance.Header;
         }
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return CryptoServiceGrpc.GetCryptoGetBalanceMethod();
-        }
-    }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoGetBalance);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+		}
+	}
 }

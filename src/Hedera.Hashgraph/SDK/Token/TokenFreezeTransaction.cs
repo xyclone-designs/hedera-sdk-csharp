@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenFreezeAccountTransactionBody}</returns>
-        public virtual Proto.TokenFreezeAccountTransactionBody Build()
+        public virtual Proto.TokenFreezeAccountTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenFreezeAccountTransactionBody();
 
@@ -118,19 +118,22 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenFreeze = Build();
+            bodyBuilder.TokenFreeze = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenFreeze = Build();
+            scheduled.TokenFreeze = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetFreezeTokenAccountMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

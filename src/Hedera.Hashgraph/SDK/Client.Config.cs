@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
-
+using Hedera.Hashgraph.SDK.Networking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -24,25 +27,24 @@ namespace Hedera.Hashgraph.SDK
                 private string privateKey;
             }
 
-            private static Config FromString(string json)
+            internal static Config FromString(string json)
             {
                 return new Gson().FromJson((Reader)new StringReader(json), typeof(Config));
             }
 
-            private static Config FromJson(Reader json)
+			internal static Config FromJson(Io json)
             {
                 return new Gson().FromJson(json, typeof(Config));
             }
 
-            private Client ToClient()
+			internal Client ToClient()
             {
                 Client client = InitializeWithNetwork();
                 SetOperatorOn(client);
                 SetMirrorNetworkOn(client);
                 return client;
             }
-
-            private Client InitializeWithNetwork()
+			internal Client InitializeWithNetwork()
             {
                 if (network == null)
                 {
@@ -61,14 +63,15 @@ namespace Hedera.Hashgraph.SDK
 
                 return client;
             }
-
-            private Client ClientFromNetworkJson()
+			internal Client ClientFromNetworkJson()
             {
                 Client client;
                 var networkJson = network.GetAsJsonObject();
-                Dictionary<string, AccountId> nodes = Client.GetNetworkNodes(networkJson);
-                
-                Executor executor = CreateExecutor();
+                Dictionary<string, AccountId> nodes = networkJson.AsEnumerable()
+					.Where(_ => _.Value is not null)
+					.ToDictionary(_ => _.Value.ToString().Replace("\"", ""), _ => AccountId.FromString(_.Key.Replace("\"", ""))); 
+
+				Executor executor = CreateExecutor();
 				Network network = Network.ForNetwork(executor, nodes);
                 MirrorNetwork mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
                 long shardValue = shard?.GetAsLong() ?? 0;
@@ -80,24 +83,7 @@ namespace Hedera.Hashgraph.SDK
 
                 return client;
             }
-
-            private void SetNetworkNameOn(Client client)
-            {
-                if (networkName != null)
-                {
-                    var networkNameString = networkName.GetAsString();
-                    try
-                    {
-                        client.SetNetworkName(NetworkName.Parse(networkNameString));
-                    }
-                    catch (Exception)
-                    {
-                        throw new ArgumentException("networkName in config was \"" + networkNameString + "\", expected either \"mainnet\", \"testnet\" or \"previewnet\"");
-                    }
-                }
-            }
-
-            private Client ClientFromNetworkString()
+            internal Client ClientFromNetworkString()
             {
                 return network.GetAsString() switch
                 {
@@ -105,18 +91,31 @@ namespace Hedera.Hashgraph.SDK
                     TESTNET => ForTestnet(),
                     PREVIEWNET => ForPreviewnet(),
 
-                    _ => new JsonParseException("Illegal argument for network.")};
+                    _ => new JsonException("Illegal argument for network.")};
             }
-
-            private void SetMirrorNetworkOn(Client client)
+			internal void SetNetworkNameOn(Client client)
+			{
+				if (networkName != null)
+				{
+					var networkNameString = networkName.GetAsString();
+					try
+					{
+						client.SetNetworkName(NetworkName.Parse(networkNameString));
+					}
+					catch (Exception)
+					{
+						throw new ArgumentException("networkName in config was \"" + networkNameString + "\", expected either \"mainnet\", \"testnet\" or \"previewnet\"");
+					}
+				}
+			}
+			internal void SetMirrorNetworkOn(Client client)
             {
                 if (mirrorNetwork != null)
                 {
                     SetMirrorNetwork(client);
                 }
             }
-
-            private void SetMirrorNetwork(Client client)
+            internal void SetMirrorNetwork(Client client)
             {
                 if (mirrorNetwork.IsJsonArray())
                 {
@@ -127,45 +126,40 @@ namespace Hedera.Hashgraph.SDK
                     SetMirrorNetworkFromString(client);
                 }
             }
-
-            private void SetMirrorNetworkFromString(Client client)
+            internal void SetMirrorNetworkFromString(Client client)
             {
-                string mirror = mirrorNetwork.GetAsString();
-                client.mirrorNetwork = mirror switch
+                client.MirrorNetwork_ = mirrorNetwork.GetString() switch
                 {
                     MAINNET => MirrorNetwork.ForMainnet(client.executor),
                     TESTNET => MirrorNetwork.ForTestnet(client.executor),
                     PREVIEWNET => MirrorNetwork.ForPreviewnet(client.executor),
 
-                    _ => throw new JsonParseException("Illegal argument for mirrorNetwork."),
+                    _ => throw new JsonException("Illegal argument for mirrorNetwork."),
                 };
             }
-
-            private void SetMirrorNetworksFromJsonArray(Client client)
+            internal void SetMirrorNetworksFromJsonArray(Client client)
             {
                 var mirrors = mirrorNetwork.GetAsJsonArray();
                 IList<string> listMirrors = GetListMirrors(mirrors);
                 client.SetMirrorNetwork(listMirrors);
             }
-
-            private IList<string> GetListMirrors(JsonArray mirrors)
+            internal IList<string> GetListMirrors(JsonArray mirrors)
             {
                 IList<string> listMirrors = new (mirrors.Count);
                 for (var i = 0; i < mirrors.Count; i++)
                 {
-                    listMirrors.Add(mirrors[i].GetAsString().Replace("\"", ""));
+                    listMirrors.Add(mirrors[i].ToString().Replace("\"", ""));
                 }
 
                 return listMirrors;
             }
-
-            private void SetOperatorOn(Client client)
+            internal void SetOperatorOn(Client client)
             {
                 if (oper8r != null)
                 {
                     AccountId operatorAccount = AccountId.FromString(oper8r.AccountId);
                     PrivateKey privateKey = PrivateKey.FromString(oper8r.PrivateKey);
-                    client.SetOperator(operatorAccount, privateKey);
+                    client.OperatorSet(operatorAccount, privateKey);
                 }
             }
         }

@@ -160,12 +160,14 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             scheduled.TokenDissociate = ToProtobuf();
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetDissociateTokensMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.dissociateTokens);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

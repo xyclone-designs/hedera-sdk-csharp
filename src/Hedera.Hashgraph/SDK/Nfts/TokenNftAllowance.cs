@@ -1,43 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Token;
 
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Token
+namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// Class to encapsulate the nft methods for token allowance's.
-    /// </summary>
-    public class TokenNftAllowance
+	/// <summary>
+	/// Class to encapsulate the nft methods for token allowance's.
+	/// </summary>
+	public class TokenNftAllowance
     {
-        /// <summary>
-        /// The NFT token type that the allowance pertains to
-        /// </summary>
-        public readonly TokenId TokenId;
-        /// <summary>
-        /// The account ID of the token owner (ie. the grantor of the allowance)
-        /// </summary>
-        public readonly AccountId OwnerAccountId;
-        /// <summary>
-        /// The account ID of the token allowance spender
-        /// </summary>
-        public readonly AccountId SpenderAccountId;
-        /// <summary>
-        /// The account ID of the spender who is granted approvedForAll allowance and granting
-        /// approval on an NFT serial to another spender.
-        /// </summary>
-        public readonly AccountId DelegatingSpender;
-        /// <summary>
-        /// The list of serial numbers that the spender is permitted to transfer.
-        /// </summary>
-        public readonly IList<long> SerialNumbers;
-        /// <summary>
-        /// If true, the spender has access to all of the owner's NFT units of type tokenId (currently
-        /// owned and any in the future).
-        /// </summary>
-        public readonly bool? AllSerials;
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -47,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="delegatingSpender">the delegating spender's account id</param>
         /// <param name="serialNumbers">the list of serial numbers</param>
         /// <param name="allSerials">grant for all serial's</param>
-        internal TokenNftAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, AccountId delegatingSpender, IEnumerable<long> serialNumbers, bool? allSerials)
+        internal TokenNftAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId? spenderAccountId, AccountId? delegatingSpender, IEnumerable<long> serialNumbers, bool? allSerials)
         {
             TokenId = tokenId;
             OwnerAccountId = ownerAccountId;
@@ -56,6 +31,33 @@ namespace Hedera.Hashgraph.SDK.Token
             SerialNumbers = [.. serialNumbers];
             AllSerials = allSerials;
         }
+
+		/// <summary>
+		/// The NFT token type that the allowance pertains to
+		/// </summary>
+		public readonly TokenId TokenId;
+		/// <summary>
+		/// The account ID of the token owner (ie. the grantor of the allowance)
+		/// </summary>
+		public readonly AccountId? OwnerAccountId;
+		/// <summary>
+		/// The account ID of the token allowance spender
+		/// </summary>
+		public readonly AccountId? SpenderAccountId;
+		/// <summary>
+		/// The account ID of the spender who is granted approvedForAll allowance and granting
+		/// approval on an NFT serial to another spender.
+		/// </summary>
+		public readonly AccountId? DelegatingSpender;
+		/// <summary>
+		/// The list of serial numbers that the spender is permitted to transfer.
+		/// </summary>
+		public readonly IList<long> SerialNumbers;
+		/// <summary>
+		/// If true, the spender has access to all of the owner's NFT units of type tokenId (currently
+		/// owned and any in the future).
+		/// </summary>
+		public readonly bool? AllSerials;
 
 		/// <summary>
 		/// Create a copy of a nft token allowance object.
@@ -92,22 +94,34 @@ namespace Hedera.Hashgraph.SDK.Token
                 allowanceProto.ApprovedForAll);
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
-        public virtual Proto.NftAllowance ToProtobuf()
+		/// <summary>
+		/// Create the byte array.
+		/// </summary>
+		/// <returns>                         the byte array representation</returns>
+		public virtual byte[] ToBytes()
+		{
+			return ToProtobuf().ToByteArray();
+		}
+		/// <summary>
+		/// Create the protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf representation</returns>
+		public virtual Proto.NftAllowance ToProtobuf()
         {
             Proto.NftAllowance proto = new()
             {
 				ApprovedForAll = AllSerials,
 				TokenId = TokenId.ToProtobuf(),
-				Owner = OwnerAccountId.ToProtobuf(),
-				Spender = SpenderAccountId.ToProtobuf(),
-				DelegatingSpender = DelegatingSpender.ToProtobuf(),
 			};
 
-            proto.SerialNumbers.AddRange(SerialNumbers);
+			if (OwnerAccountId?.ToProtobuf() is Proto.AccountID owneraccountid)
+				proto.Owner = owneraccountid;
+			if (SpenderAccountId?.ToProtobuf() is Proto.AccountID spenderaccountid)
+				proto.Spender = spenderaccountid;
+			if (DelegatingSpender?.ToProtobuf() is Proto.AccountID delegatingspender)
+				proto.DelegatingSpender = delegatingspender;
+
+			proto.SerialNumbers.AddRange(SerialNumbers);
 
             return proto;
         }
@@ -120,21 +134,14 @@ namespace Hedera.Hashgraph.SDK.Token
 			Proto.NftRemoveAllowance proto = new()
             {
 				TokenId = TokenId.ToProtobuf(),
-				Owner = OwnerAccountId.ToProtobuf(),
 			};
-            
-            proto.SerialNumbers.AddRange(SerialNumbers);
+
+			if (OwnerAccountId?.ToProtobuf() is Proto.AccountID owneraccountid)
+				proto.Owner = owneraccountid;
+
+			proto.SerialNumbers.AddRange(SerialNumbers);
 			
             return proto;
-        }
-
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
-		public virtual byte[] ToBytes()
-        {
-            return ToProtobuf().ToByteArray();
         }
 
 		/// <summary>
@@ -145,9 +152,9 @@ namespace Hedera.Hashgraph.SDK.Token
 		public virtual void ValidateChecksums(Client client)
 		{
 			TokenId.ValidateChecksum(client);
-			OwnerAccountId.ValidateChecksum(client);
-			SpenderAccountId.ValidateChecksum(client);
-			DelegatingSpender.ValidateChecksum(client);
+			OwnerAccountId?.ValidateChecksum(client);
+			SpenderAccountId?.ValidateChecksum(client);
+			DelegatingSpender?.ValidateChecksum(client);
 		}
 	}
 }

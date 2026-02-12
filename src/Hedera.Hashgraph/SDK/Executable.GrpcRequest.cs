@@ -18,11 +18,11 @@ namespace Hedera.Hashgraph.SDK
     /// <param name="<ProtoRequestT>">the proto request</param>
     /// <param name="<ResponseT>">the response</param>
     /// <param name="<O>">the O type</param>
-    public abstract partial class Executable<SdkRequestT, ProtoRequestT, ResponseT, O> 
+    public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> 
 	{
 		public class GrpcRequest
 		{
-			public GrpcRequest(Executable<SdkRequestT, ProtoRequestT, ResponseT, O> parent, Network? network, int attempt, Duration grpcDeadline)
+			public GrpcRequest(Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> parent, Network? network, int attempt, Duration grpcDeadline)
 			{
 				Parent = parent;
 				Network = network;
@@ -36,13 +36,13 @@ namespace Hedera.Hashgraph.SDK
 				Delay = (long)Math.Min(Parent.MinBackoff.ToTimeSpan().TotalMilliseconds * Math.Pow(2, attempt - 1), Parent.MaxBackoff.ToTimeSpan().TotalMilliseconds);
 			}
 
-			private readonly Executable<SdkRequestT, ProtoRequestT, ResponseT, O> Parent;
+			private readonly Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> Parent;
 			private readonly Network? Network;
 			private readonly int Attempt;
-			private readonly ProtoRequestT Request;
+			private readonly TProtoRequest Request;
 			private readonly long StartAt;
 
-			private ResponseT? Response;
+			private TProtoResponse? Response;
 			private double Latency;
 			private ResponseStatus ResponseStatus;
 
@@ -60,18 +60,18 @@ namespace Hedera.Hashgraph.SDK
 					return CallOptions.WithDeadline(DateTime.Now.AddMilliseconds(deadline));
 				}
 			}
-			public virtual ClientCall<ProtoRequestT, ResponseT> CreateCall()
+			public virtual ClientCall<TProtoRequest, TProtoResponse> CreateCall()
 			{
 				VerboseLog(Node);
 
 				return Node.Channel.NewCall(Parent.GetMethodDescriptor(), CallOptions);
 			}
 
-			public virtual ProtoRequestT GetRequest()
+			public virtual TProtoRequest GetRequest()
 			{
 				return Parent.RequestListener.Invoke(Request);
 			}
-			public virtual O MapResponse()
+			public virtual TTransactionResponse MapResponse()
 			{
 				// successful response from Hedera
 				return MapResponse(Response, Node.AccountId, Request);
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK
 
 				return retry;
 			}
-			public virtual void HandleResponse(ResponseT responseT, ResponseStatus status, ExecutionState executionState, Client? client)
+			public virtual void HandleResponse(TProtoResponse responseT, ResponseStatus status, ExecutionState executionState, Client? client)
 			{
 
 				// Note: For INVALID_NODE_ACCOUNT, we don't mark the node as unhealthy here

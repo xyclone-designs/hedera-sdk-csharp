@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -495,7 +496,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// Build the transaction body.
 		/// </summary>
 		/// <returns>{@link Proto.TokenCreateTransactionBody}</returns>
-		public virtual Proto.TokenCreateTransactionBody Build()
+		public virtual Proto.TokenCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenCreateTransactionBody
 			{
@@ -566,11 +567,11 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenCreation = Build();
+            bodyBuilder.TokenCreation = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenCreation = Build();
+            scheduled.TokenCreation = ToProtobuf();
         }
 		public override TokenCreateTransaction FreezeWith(Client client)
 		{
@@ -582,12 +583,14 @@ namespace Hedera.Hashgraph.SDK.Token
 			return base.FreezeWith(client);
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetCreateTokenMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.createToken);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -136,12 +137,14 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             throw new NotSupportedException("Cannot schedule LiveHashAddTransaction");
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return CryptoServiceGrpc.AddLiveHashMethod;
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.addLiveHash);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

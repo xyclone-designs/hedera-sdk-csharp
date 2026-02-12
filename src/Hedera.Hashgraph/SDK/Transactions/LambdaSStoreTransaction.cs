@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Hook;
 
@@ -66,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		public virtual IList<LambdaStorageUpdate> StorageUpdates { get; private set; } = [];
 
-		public virtual Proto.LambdaSStoreTransactionBody Build()
+		public virtual Proto.LambdaSStoreTransactionBody ToProtobuf()
 		{
 			var builder = new Proto.LambdaSStoreTransactionBody();
 
@@ -113,18 +114,20 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
 		{
-			bodyBuilder.LambdaSstore = Build();
+			bodyBuilder.LambdaSstore = ToProtobuf();
 		}
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
 		{
 			throw new NotSupportedException("cannot schedule LambdaSStoreTransaction");
 		}
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return SmartContractServiceGrpc.GetLambdaSStoreMethod();
+			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.lambdaSStore);
+
+			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override void OnExecute(Client client)
+		public override void OnExecute(Client client)
         {
             throw new NotImplementedException();
         }

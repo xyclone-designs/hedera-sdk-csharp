@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenDeleteTransactionBody}</returns>
-        public virtual Proto.TokenDeleteTransactionBody Build()
+        public virtual Proto.TokenDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenDeleteTransactionBody();
 
@@ -86,16 +86,18 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenDeletion = Build();
+            bodyBuilder.TokenDeletion = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenDeletion = Build();
+            scheduled.TokenDeletion = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+        public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetDeleteTokenMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.deleteToken);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
         public override ResponseStatus MapResponseStatus(Proto.Response response)

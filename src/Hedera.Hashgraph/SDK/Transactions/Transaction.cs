@@ -1,25 +1,23 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.LiveHashes;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Schedule;
-using Hedera.Hashgraph.SDK.Transactions.Account;
-using Hedera.Hashgraph.SDK.Transactions.Contract;
-using Hedera.Hashgraph.SDK.Transactions.Ethereum;
-using Hedera.Hashgraph.SDK.Transactions.File;
-using Hedera.Hashgraph.SDK.Transactions.LiveHash;
-using Hedera.Hashgraph.SDK.Transactions.Node;
-using Hedera.Hashgraph.SDK.Transactions.Schedule;
-using Hedera.Hashgraph.SDK.Transactions.System;
-using Hedera.Hashgraph.SDK.Transactions.Token;
-using Hedera.Hashgraph.SDK.Transactions.Topic;
+using Hedera.Hashgraph.SDK.System;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Topic;
 using Org.BouncyCastle.Crypto.Digests;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,10 +34,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 	/// <param name="<T>">The type of the transaction. Used to enable chaining.</param>
 	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse> where T : Transaction<T>
     {
-        /// <summary>
-        /// Default auto renew duration for accounts, contracts, topics, and files (entities)
-        /// </summary>
-        protected static readonly Duration DEFAULT_AUTO_RENEW_PERIOD = Duration.FromTimeSpan(TimeSpan.FromDays(90));
+		/// <summary>
+		/// Default auto renew duration for accounts, contracts, topics, and files (entities)
+		/// </summary>
+		protected static readonly Duration DEFAULT_AUTO_RENEW_PERIOD = Duration.FromTimeSpan(TimeSpan.FromDays(90));
         /// <summary>
         /// Dummy account ID used to assist in deserializing incomplete Transactions.
         /// </summary>
@@ -95,11 +93,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
 		/// 
         protected bool? regenerateTransactionId = null;
-        private Duration transactionValidDuration;
-        private Hbar maxTransactionFee = null;
-        private string memo = "";
+        private string Memo = "";
         protected IList<CustomFeeLimit> customFeeLimits = [];
-        private Key batchKey = null;
 
 		/// <summary>
 		/// Constructor.
@@ -113,7 +108,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// This constructor is used to construct from a scheduled transaction body
 		/// </summary>
 		/// <param name="txBody"></param>
-		protected Transaction(Proto.TransactionBody txBody)
+		internal Transaction(Proto.TransactionBody txBody)
 		{
 			TransactionValidDuration = DEFAULT_TRANSACTION_VALID_DURATION;
 			MaxTransactionFee = Hbar.FromTinybars((long)txBody.TransactionFee);
@@ -124,11 +119,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// This constructor is used to construct via fromBytes
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		protected Transaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
+		internal Transaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
         {
             LinkedDictionary<AccountId, Proto.Transaction> transactionMap = txs.Values.Iterator().Next();
 
-            if (!transactionMap.Length == 0 && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && batchKey != null)
+            if (transactionMap.Length != 0 && transactionMap.KeySet().Iterator().Next().Equals(DUMMY_ACCOUNT_ID) && BatchKey != null)
             {
 
                 // If the first account ID is a dummy account ID, then only the source TransactionBody needs to be copied.
@@ -198,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             TransactionMemo = SourceTransactionBody.Memo;
             
 			customFeeLimits = [.. SourceTransactionBody.MaxCustomFees.Select(_ => CustomFeeLimit.FromProtobuf(_))];
-            batchKey = Key.FromProtobufKey(SourceTransactionBody.BatchKey);
+            BatchKey = Key.FromProtobufKey(SourceTransactionBody.BatchKey);
 
 			// The presence of signatures implies the Transaction should be frozen.
 			if (PublicKeys.Count != 0)
@@ -235,7 +230,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			var digest = new Sha384Digest();
 			var hash = new byte[digest.GetDigestSize()];
-			digest.Update(bytes, 0, bytes.Length);
+			digest.BlockUpdate(bytes, 0, bytes.Length);
 			digest.DoFinal(hash, 0);
 			return hash;
 		}
@@ -702,7 +697,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// The maximum transaction fee the operator (paying account) is willing to pay.
         /// </summary>
-        public Hbar MaxTransactionFee
+        public Hbar? MaxTransactionFee
         {
             get;
             set
@@ -752,7 +747,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <summary>
 		/// The key that will sign the batch of which this Transaction is a part of.
 		/// </summary>
-		public Key BatchKey 
+		public Key? BatchKey 
 		{ 
 			get;
 			set 
@@ -812,7 +807,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		protected override bool IsBatchedAndNotBatchTransaction()
 		{
-			return batchKey != null && this is not BatchTransaction;
+			return BatchKey != null && this is not BatchTransaction;
 		}
 
 		/// <summary>
@@ -895,13 +890,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			var clientDefaultFee = client != null ? client.DefaultMaxTransactionFee : null;
 			var defaultFee = clientDefaultFee != null ? clientDefaultFee : DefaultMaxTransactionFee;
-			var feeHbars = maxTransactionFee != null ? maxTransactionFee : defaultFee;
+			var feeHbars = MaxTransactionFee != null ? MaxTransactionFee : defaultFee;
 			var builder = new Proto.TransactionBody
 			{
-				Memo = memo,
-				BatchKey = batchKey.ToProtobufKey(),
+				Memo = Memo,
+				BatchKey = BatchKey.ToProtobufKey(),
 				TransactionFee = (ulong)feeHbars.ToTinybars(),
-				TransactionValidDuration = Utils.DurationConverter.ToProtobuf(transactionValidDuration),
+				TransactionValidDuration = Utils.DurationConverter.ToProtobuf(TransactionValidDuration),
 			};
 
 			builder.MaxCustomFees.AddRange(customFeeLimits.Select(_ => _.ToProtobuf()));
@@ -1039,7 +1034,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			{
 				if (client != null)
 				{
-					var @operator = client.Oper8r;
+					var @operator = client.Operator_;
 
 					if (@operator != null)
 					{
@@ -1069,9 +1064,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 				try
 				{
-					if (batchKey == null)
+					if (BatchKey == null)
 					{
-						NodeAccountIds.SetList(client.Network.GetNodeAccountIdsForExecute());
+						NodeAccountIds.SetList(client.Network_.GetNodeAccountIdsForExecute());
 					}
 					else
 					{
@@ -1462,6 +1457,21 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			}
 		}
 
+		public override Method<Proto.Transaction, Proto.TransactionResponse> GetMethod()
+		{
+			MethodDescriptor methoddescriptor = GetMethodDescriptor();
+
+			IMessage input = (IMessage)Activator.CreateInstance(methoddescriptor.InputType.ClrType)!;
+			IMessage output = (IMessage)Activator.CreateInstance(methoddescriptor.OutputType.ClrType)!;
+
+			return new Method<Proto.Transaction, Proto.TransactionResponse>(
+				type: MethodType.Unary,
+				name: methoddescriptor.Name,
+				serviceName: methoddescriptor.Service.FullName,
+				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Transaction.Parser.ParseFrom(data)),
+				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.TransactionResponse.Parser.ParseFrom(data)));
+		}
+
 		public override ExecutionState GetExecutionState(ResponseStatus status, Proto.TransactionResponse response)
 		{
 			if (status == ResponseStatus.TransactionExpired)
@@ -1482,7 +1492,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return base.GetExecutionState(status, response);
 		}
-
 		public override void OnExecute(Client client)
 		{
 			if (!IsFrozen())
@@ -1540,7 +1549,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			RequireNotFrozen();
 
-			return base.SetNodeAccountIds(NodeAccountIds);
+			base.NodeAccountIds = NodeAccountIds;
 		}
 		public override string ToString()
 		{
@@ -1574,7 +1583,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			RequireNotFrozen();
 			ArgumentNullException.ThrowIfNull(batchKey);
-			this.batchKey = batchKey;
+			this.BatchKey = batchKey;
 			SignWithOperator(client);
 
 			// noinspection unchecked

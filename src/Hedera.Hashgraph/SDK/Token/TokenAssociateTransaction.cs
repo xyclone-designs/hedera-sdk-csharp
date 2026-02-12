@@ -108,7 +108,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// Build the transaction body.
 		/// </summary>
 		/// <returns>{@link Proto.TokenAssociateTransactionBody}</returns>
-		public virtual Proto.TokenAssociateTransactionBody Build()
+		public virtual Proto.TokenAssociateTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenAssociateTransactionBody();
 
@@ -132,16 +132,18 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenAssociate = Build();
+            bodyBuilder.TokenAssociate = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenAssociate = Build();
+            scheduled.TokenAssociate = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetAssociateTokensMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.associateTokens);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override ResponseStatus MapResponseStatus(Proto.Response response)

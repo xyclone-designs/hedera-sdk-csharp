@@ -101,7 +101,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// Build the transaction body.
 		/// </summary>
 		/// <returns>{@link Proto.TokenBurnTransactionBody}</returns>
-		public virtual Proto.TokenBurnTransactionBody Build()
+		public virtual Proto.TokenBurnTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenBurnTransactionBody
 			{
@@ -139,16 +139,18 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenBurn = Build();
+            bodyBuilder.TokenBurn = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenBurn = Build();
+            scheduled.TokenBurn = ToProtobuf();
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetBurnTokenMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.burnToken);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
         public override ResponseStatus MapResponseStatus(Proto.Response response)

@@ -27,7 +27,6 @@ namespace Hedera.Hashgraph.SDK.Networking
         where BaseNetworkT : BaseNetwork<BaseNetworkT, KeyT, BaseNodeT> 
         where BaseNodeT : BaseNode<BaseNodeT, KeyT>
         where KeyT : notnull
-
 	{
         protected static readonly int DEFAULT_MAX_NODE_ATTEMPTS = -1;
         protected static readonly Random random = new ();

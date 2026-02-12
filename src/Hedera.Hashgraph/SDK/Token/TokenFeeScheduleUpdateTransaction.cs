@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenFeeScheduleUpdateTransactionBody}</returns>
-        public virtual Proto.TokenFeeScheduleUpdateTransactionBody Build()
+        public virtual Proto.TokenFeeScheduleUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenFeeScheduleUpdateTransactionBody();
 
@@ -125,19 +125,20 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenFeeScheduleUpdate = Build();
+            bodyBuilder.TokenFeeScheduleUpdate = ToProtobuf();
         }
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule TokenFeeScheduleUpdateTransaction");
         }
-
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetUpdateTokenFeeScheduleMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.updateTokenFeeSchedule);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

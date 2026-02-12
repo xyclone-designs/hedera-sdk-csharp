@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
+
+using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -37,22 +40,20 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             DefaultMaxTransactionFee = Hbar.From(1);
         }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        TokenClaimAirdropTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
-        {
-            InitFromTransactionBody();
-        }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txBody">protobuf TransactionBody</param>
-        TokenClaimAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="txBody">protobuf TransactionBody</param>
+		internal TokenClaimAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
+		{
+			InitFromTransactionBody();
+		}
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		internal TokenClaimAirdropTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -61,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// Build the transaction body.
         /// </summary>
         /// <returns>{@link Proto.TokenClaimAirdropTransactionBody}</returns>
-        public virtual Proto.TokenClaimAirdropTransactionBody Build()
+        public virtual Proto.TokenClaimAirdropTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenClaimAirdropTransactionBody();
 
@@ -86,18 +87,20 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+        public override MethodDescriptor GetMethodDescriptor()
         {
-            return TokenServiceGrpc.GetClaimAirdropMethod();
-        }
+            string methodname = nameof(Proto.TokenService.TokenServiceClient.claimAirdrop);
+			
+            return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+		}
 
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenClaimAirdrop = Build();
+            bodyBuilder.TokenClaimAirdrop = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenClaimAirdrop = Build();
+            scheduled.TokenClaimAirdrop = ToProtobuf();
         }
 
         public override ResponseStatus MapResponseStatus(Proto.Response response)

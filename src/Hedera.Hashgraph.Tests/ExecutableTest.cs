@@ -559,7 +559,7 @@ namespace Com.Hedera.Hashgraph.Sdk
                 return Status.OK;
             }
 
-            override MethodDescriptor<com.hedera.hashgraph.sdk.proto.Transaction, com.hedera.hashgraph.sdk.proto.TransactionResponse> GetMethodDescriptor()
+            override MethodDescriptor<com.hedera.hashgraph.sdk.proto.Transaction, com.hedera.hashgraph.sdk.proto.TransactionResponse> GetMethod()
             {
                 return null;
             }
@@ -586,7 +586,7 @@ namespace Com.Hedera.Hashgraph.Sdk
                 return Status.OK;
             }
 
-            override MethodDescriptor<com.hedera.hashgraph.sdk.proto.Query, Response> GetMethodDescriptor()
+            override MethodDescriptor<com.hedera.hashgraph.sdk.proto.Query, Response> GetMethod()
             {
                 return null;
             }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 
 namespace Hedera.Hashgraph.SDK.HBar
 {
@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// <param name="ownerAccountId">the owner granting the allowance</param>
         /// <param name="spenderAccountId">the spender</param>
         /// <param name="amount">the amount of hbar</param>
-        internal HbarAllowance(AccountId? ownerAccountId, AccountId spenderAccountId, Hbar amount)
+        internal HbarAllowance(AccountId? ownerAccountId, AccountId? spenderAccountId, Hbar? amount)
         {
             OwnerAccountId = ownerAccountId;
             SpenderAccountId = spenderAccountId;
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.HBar
 		/// <summary>
 		/// The amount of the spender's allowance in Tinybars
 		/// </summary>
-		public Hbar Amount { get; init; }
+		public Hbar? Amount { get; init; }
 		/// <summary>
 		/// The account ID of the hbar owner (ie. the grantor of the allowance)
 		/// </summary>
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.HBar
 		/// <summary>
 		/// The account ID of the spender of the hbar allowance
 		/// </summary>
-		public AccountId SpenderAccountId { get; init; }
+		public AccountId? SpenderAccountId { get; init; }
 
 		/// <summary>
 		/// Validate that the client is configured correctly.
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.HBar
 		public virtual void ValidateChecksums(Client client)
         {
             OwnerAccountId?.ValidateChecksum(client);
-			SpenderAccountId.ValidateChecksum(client);
+			SpenderAccountId?.ValidateChecksum(client);
 		}
 
         /// <summary>
@@ -92,14 +92,16 @@ namespace Hedera.Hashgraph.SDK.HBar
 		/// <returns>                         the protobuf</returns>
 		public virtual Proto.CryptoAllowance ToProtobuf()
 		{
-			Proto.CryptoAllowance proto = new()
-			{
-				Amount = Amount.ToTinybars(),
-				Spender = SpenderAccountId.ToProtobuf()
-			};
+			Proto.CryptoAllowance proto = new();
 
 			if (OwnerAccountId != null)
 				proto.Owner = OwnerAccountId.ToProtobuf();
+
+			if (Amount != null)
+				proto.Amount = Amount.ToTinybars();
+
+			if (SpenderAccountId != null)
+				proto.Spender = SpenderAccountId.ToProtobuf();
 
 			return proto;
 		}
@@ -109,11 +111,15 @@ namespace Hedera.Hashgraph.SDK.HBar
 		/// <returns>                         the granted crypto allowance</returns>
 		public virtual Proto.GrantedCryptoAllowance ToGrantedProtobuf()
 		{
-			return new Proto.GrantedCryptoAllowance
-			{
-				Amount = Amount.ToTinybars(),
-				Spender = SpenderAccountId.ToProtobuf()
-			};
+			Proto.GrantedCryptoAllowance proto = new();
+
+			if (Amount != null)
+				proto.Amount = Amount.ToTinybars();
+
+			if (SpenderAccountId != null)
+				proto.Spender = SpenderAccountId.ToProtobuf();
+
+			return proto;
 		}
 	}
 }

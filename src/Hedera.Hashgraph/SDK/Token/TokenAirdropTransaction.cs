@@ -5,6 +5,7 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Transactions;
 
+using System;
 using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
@@ -24,33 +25,64 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             DefaultMaxTransactionFee = new Hbar(1);
         }
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-        ///            records</param>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        TokenAirdropTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="txBody">protobuf TransactionBody</param>
+		internal TokenAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
+		{
+			InitFromTransactionBody();
+		}
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+		///            records</param>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		internal TokenAirdropTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txBody">protobuf TransactionBody</param>
-        TokenAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
-        {
-            InitFromTransactionBody();
-        }
+		/// <summary>
+		/// Initialize from the transaction body.
+		/// </summary>
+		public virtual void InitFromTransactionBody()
+		{
+			var body = SourceTransactionBody.TokenAirdrop;
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.TokenAirdropTransactionBody}</returns>
-        public virtual Proto.TokenAirdropTransactionBody Build()
+			foreach (var tokenTransferList in body.TokenTransfers)
+			{
+				var token = TokenId.FromProtobuf(tokenTransferList.Token);
+				foreach (var transfer in tokenTransferList.Transfers)
+				{
+					tokenTransfers.Add(new TokenTransfer(
+						token,
+						AccountId.FromProtobuf(transfer.AccountID),
+						transfer.Amount,
+						tokenTransferList.ExpectedDecimals,
+						transfer.IsApproval));
+				}
+
+				foreach (var transfer in tokenTransferList.NftTransfers)
+				{
+					nftTransfers.Add(new TokenNftTransfer(
+						token,
+						AccountId.FromProtobuf(transfer.SenderAccountID),
+						AccountId.FromProtobuf(transfer.ReceiverAccountID),
+						transfer.SerialNumber,
+						transfer.IsApproval,
+						null,
+						null));
+				}
+			}
+		}
+		/// <summary>
+		/// Build the transaction body.
+		/// </summary>
+		/// <returns>{@link
+		///         Proto.TokenAirdropTransactionBody}</returns>
+		public virtual Proto.TokenAirdropTransactionBody ToProtobuf()
         {
             var transfers = SortTransfersAndBuild();
             var builder = new Proto.TokenAirdropTransactionBody();
@@ -62,58 +94,28 @@ namespace Hedera.Hashgraph.SDK.Token
             return builder;
         }
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.airdropTokens);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+		}
+		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            return TokenServiceGrpc.GetAirdropTokensMethod();
-        }
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
-        {
-            bodyBuilder.TokenAirdrop = Build();
+            bodyBuilder.TokenAirdrop = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenAirdrop = Build();
-        }
-
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
-        public virtual void InitFromTransactionBody()
-        {
-            var body = SourceTransactionBody.TokenAirdrop;
-
-            foreach (var tokenTransferList in body.TokenTransfers)
-            {
-                var token = TokenId.FromProtobuf(tokenTransferList.Token);
-                foreach (var transfer in tokenTransferList.Transfers)
-                {
-                    tokenTransfers.Add(new TokenTransfer(
-                        token, 
-                        AccountId.FromProtobuf(transfer.AccountID), 
-                        transfer.Amount, 
-                        tokenTransferList.ExpectedDecimals, 
-                        transfer.IsApproval));
-                }
-
-                foreach (var transfer in tokenTransferList.NftTransfers)
-                {
-                    nftTransfers.Add(new TokenNftTransfer(
-                        token, 
-                        AccountId.FromProtobuf(transfer.SenderAccountID), 
-                        AccountId.FromProtobuf(transfer.ReceiverAccountID), 
-                        transfer.SerialNumber, 
-                        transfer.IsApproval));
-                }
-            }
+            scheduled.TokenAirdrop = ToProtobuf();
         }
 
         public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
-            throw new global::System.NotImplementedException();
+            throw new NotImplementedException();
         }
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
-            throw new global::System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

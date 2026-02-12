@@ -63,10 +63,12 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         {
             return response.CryptoGetLiveHash.Header;
         }
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return CryptoServiceGrpc.GetCryptoGetBalanceMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoGetBalance);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+		}
 		public override LiveHash MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
 		{
 			return LiveHash.FromProtobuf(response.CryptoGetLiveHash.LiveHash);

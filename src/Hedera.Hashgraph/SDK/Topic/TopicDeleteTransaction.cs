@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
-
+using System;
 using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Topic
@@ -89,18 +90,19 @@ namespace Hedera.Hashgraph.SDK.Topic
         {
             scheduled.ConsensusDeleteTopic = ToProtobuf();
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return ConsensusServiceGrpc.GetDeleteTopicMethod();
-		}
+			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.deleteTopic);
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+			return Proto.ConsensusService.Descriptor.FindMethodByName(methodname);
+		}
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

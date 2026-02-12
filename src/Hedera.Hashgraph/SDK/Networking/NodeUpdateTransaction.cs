@@ -449,12 +449,14 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             scheduled.NodeUpdate = ToProtobuf();
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return AddressBookServiceGrpc.GetUpdateNodeMethod();
+			string methodname = nameof(Proto.AddressBookService.AddressBookServiceClient.updateNode);
+
+			return Proto.AddressBookService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

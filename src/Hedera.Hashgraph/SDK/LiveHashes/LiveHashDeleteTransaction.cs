@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -88,10 +89,12 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             }
         }
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return CryptoServiceGrpc.DeleteLiveHashMethod;
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.deleteLiveHash);
+
+			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
 

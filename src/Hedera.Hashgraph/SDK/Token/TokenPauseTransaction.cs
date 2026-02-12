@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenPauseTransactionBody}</returns>
-        public virtual Proto.TokenPauseTransactionBody Build()
+        public virtual Proto.TokenPauseTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenPauseTransactionBody();
 
@@ -87,19 +87,21 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
 		{
-			bodyBuilder.TokenPause = Build();
+			bodyBuilder.TokenPause = ToProtobuf();
 		}
 		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
 		{
-			scheduled.TokenPause = Build();
+			scheduled.TokenPause = ToProtobuf();
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return TokenServiceGrpc.GetPauseTokenMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.pauseToken);
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+		}
+
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

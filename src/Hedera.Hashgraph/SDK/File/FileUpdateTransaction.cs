@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.File
 {
@@ -47,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public FileUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal FileUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -57,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public FileUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal FileUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -253,12 +252,14 @@ namespace Hedera.Hashgraph.SDK.File
         {
             scheduled.FileUpdate = ToProtobuf();
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return FileServiceGrpc.GetUpdateFileMethod();
+			string methodname = nameof(Proto.FileService.FileServiceClient.updateFile);
+
+			return Proto.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override void OnExecute(Client client)
+		public override void OnExecute(Client client)
         {
             throw new NotImplementedException();
         }

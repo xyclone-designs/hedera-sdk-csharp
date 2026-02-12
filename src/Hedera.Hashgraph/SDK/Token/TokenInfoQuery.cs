@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Queries;
@@ -54,13 +55,14 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             return TokenInfo.FromProtobuf(response.TokenGetInfo);
         }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.getTokenInfo);
 
-        public override MethodDescriptor<Proto.Query, Proto.Response> GetMethodDescriptor()
-        {
-            return TokenServiceGrpc.GetGetTokenInfoMethod();
-        }
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+		}
 
-        public override async Task<Hbar> GetCostAsync(Client client)
+		public override async Task<Hbar> GetCostAsync(Client client)
         {
             // deleted accounts return a COST_ANSWER of zero which triggers `INSUFFICIENT_TX_FEE`
             // if you set that as the query payment; 25 tinybar seems to be enough to get

@@ -91,7 +91,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <returns>{@link
         ///         Proto.TokenGrantKycTransactionBody}</returns>
-        public virtual Proto.TokenGrantKycTransactionBody Build()
+        public virtual Proto.TokenGrantKycTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenGrantKycTransactionBody();
 
@@ -111,19 +111,21 @@ namespace Hedera.Hashgraph.SDK.Token
         }
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.TokenGrantKyc = Build();
+            bodyBuilder.TokenGrantKyc = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.TokenGrantKyc = Build();
+            scheduled.TokenGrantKyc = ToProtobuf();
         }
 
-        public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return TokenServiceGrpc.GetFreezeTokenAccountMethod();
+			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
+
+			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }

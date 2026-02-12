@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
@@ -271,10 +272,12 @@ namespace Hedera.Hashgraph.SDK.File
 			return builder;
 		}
 
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return FileServiceGrpc.CreateFileMethod;
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.FileService.FileServiceClient.createFile);
+
+			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+		}
 
 		public override void ValidateChecksums(Client client) { }
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)

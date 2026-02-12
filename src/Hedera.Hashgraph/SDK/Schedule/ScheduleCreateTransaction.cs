@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -273,9 +274,11 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             throw new NotSupportedException("Cannot schedule ScheduleCreateTransaction");
         }
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
+		public override MethodDescriptor GetMethodDescriptor()
 		{
-			return ScheduleServiceGrpc.CreateScheduleMethod;
+			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.createSchedule);
+
+			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override ResponseStatus MapResponseStatus(Proto.Response response)

@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -273,12 +274,14 @@ namespace Hedera.Hashgraph.SDK.Topic
 		{
 			scheduled.ConsensusUpdateTopic = ToProtobuf();
 		}
-		public override MethodDescriptor<Proto.Transaction, TransactionResponse> GetMethodDescriptor()
-        {
-            return ConsensusServiceGrpc.GetUpdateTopicMethod();
-        }
+		public override MethodDescriptor GetMethodDescriptor()
+		{
+			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.updateTopic);
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+			return Proto.ConsensusService.Descriptor.FindMethodByName(methodname);
+		}
+
+		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
             throw new NotImplementedException();
         }
