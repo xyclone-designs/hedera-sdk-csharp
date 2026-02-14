@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 
@@ -41,9 +42,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <summary>
         /// Constructor.
         /// </summary>
-        public ContractDeleteTransaction()
-        {
-        }
+        public ContractDeleteTransaction() { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -58,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// Constructor.
         /// </summary>
         /// <param name="txBody">protobuf TransactionBody</param>
-        public ContractDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+        internal ContractDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
         {
             InitFromTransactionBody();
         }

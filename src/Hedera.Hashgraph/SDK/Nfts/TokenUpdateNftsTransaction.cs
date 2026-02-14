@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Token;
@@ -45,6 +46,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
             InitFromTransactionBody();
         }
 
+		private IList<long> _Serials = [];
+
 		/// <summary>
 		/// A token identifier.<br/>
 		/// This is the token type (i.e. collection) for which to update NFTs.
@@ -65,7 +68,20 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// </summary>
 		/// <param name="serials">the list of serial numbers</param>
 		/// <returns>{@code this}</returns>
-		public virtual IList<long> Serials { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
+		public virtual IList<long> Serials 
+		{
+			get 
+			{ 
+				RequireNotFrozen(); 
+				return _Serials;
+			} 
+			set 
+			{ 
+				RequireNotFrozen();
+				_Serials = [.. value];
+			} 
+		}
+		public virtual IReadOnlyList<long> Serials_Read { get => _Serials.AsReadOnly(); }
         /// <summary>
         /// A new value for the metadata.
         /// <p>
@@ -74,12 +90,12 @@ namespace Hedera.Hashgraph.SDK.Nfts
         /// </summary>
         /// <param name="metadata">the metadata</param>
         /// <returns>{@code this}</returns>
-        public virtual byte[] Metadata { get; set { RequireNotFrozen(); field = value; } } = [];
+        public virtual byte[]? Metadata { get; set { RequireNotFrozen(); field = value; } } = [];
 
 		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUpdateNfts;
 
@@ -91,6 +107,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             if (body.Metadata is not null)
                 Metadata = body.Metadata.ToByteArray();
         }
+
         /// <summary>
         /// Build the transaction body.
         /// </summary>

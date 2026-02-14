@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -72,7 +72,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// The maximum custom fee that the user is willing to pay for the message. If left empty, the user is willing to pay any custom fee.
 		/// If used with a transaction type that does not support custom fee limits, the transaction will fail.
 		/// </summary>
-		public IList<CustomFixedFee> CustomFees { get { RequireNotFrozen(); return _CustomFees; } set { RequireNotFrozen(); _CustomFees = value; } }
+		public IList<CustomFixedFee> CustomFees 
+        { 
+            get { RequireNotFrozen(); return _CustomFees; } 
+            set { RequireNotFrozen(); _CustomFees = value; } 
+        }
 		public IReadOnlyList<CustomFixedFee> CustomFees_Read { get => _CustomFees.AsReadOnly(); }
 
 		/// <summary>
@@ -134,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 			scheduled.ConsensusSubmitMessage = ToProtobuf();
 			scheduled.ConsensusSubmitMessage.Message = Data;
 		}
-		public override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID initialTransactionId, int startIndex, int endIndex, int chunk, int total)
+        public override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total)
         {
             if (total == 1)
             {
@@ -165,7 +169,6 @@ namespace Hedera.Hashgraph.SDK.Topic
         {
             throw new NotImplementedException();
         }
-
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();

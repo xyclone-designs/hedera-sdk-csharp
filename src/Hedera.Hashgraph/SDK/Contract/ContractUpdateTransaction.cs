@@ -6,9 +6,9 @@ using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +40,6 @@ namespace Hedera.Hashgraph.SDK.Contract
     /// </summary>
     public sealed class ContractUpdateTransaction : Transaction<ContractUpdateTransaction>
     {
-		public IList<HookCreationDetails> _HookCreationDetails = [];
-		public IList<long> _HookIdsToDelete = [];
-
 		/// <summary>
 		/// Contract.
 		/// </summary>
@@ -64,6 +61,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             InitFromTransactionBody();
         }
+
+		private List<HookCreationDetails> _HookCreationDetails = [];
+		private List<long> _HookIdsToDelete = [];
 
 		/// <summary>
 		/// Sets the Contract ID instance to update.
@@ -333,11 +333,9 @@ namespace Hedera.Hashgraph.SDK.Contract
             ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
 
             if (body.AdminKey is not null)
-            {
-                AdminKey = Key.FromProtobufKey(body.AdminKey);
-            }
+				AdminKey = Key.FromProtobufKey(body.AdminKey);
 
-            MaxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
+			MaxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
             AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
             ContractMemo = body.MemoWrapper;
             DeclineStakingReward = body.DeclineReward;
@@ -346,15 +344,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             AutoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccountId);
 
-            HookCreationDetails_.Clear();
+			_HookCreationDetails.Clear();
+			_HookCreationDetails.AddRange(body.HookCreationDetails.Select(_ => HookCreationDetails.FromProtobuf(_)));
 
-            foreach (var protoHookDetails in body.HookCreationDetails)
-            {
-				HookCreationDetails_.Add(HookCreationDetails.FromProtobuf(protoHookDetails));
-            }
-
-            HookIdsToDelete.Clear();
-            HookIdsToDelete.AddRange(body.HookIdsToDelete);
+			_HookIdsToDelete.Clear();
+            _HookIdsToDelete.AddRange(body.HookIdsToDelete);
         }
 
 		/// <summary>

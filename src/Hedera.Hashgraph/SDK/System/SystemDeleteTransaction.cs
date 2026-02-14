@@ -6,8 +6,8 @@ using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.System
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public SystemDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal SystemDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.System
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public SystemDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal SystemDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.System
             {
 				RequireNotFrozen();
 				field = value;
-				FileId = null; // Reset ContractId
+				FileId = null; // Reset FileIds
 			}
         }
 		/// <summary>

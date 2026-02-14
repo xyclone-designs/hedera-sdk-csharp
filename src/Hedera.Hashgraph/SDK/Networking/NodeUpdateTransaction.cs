@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -40,9 +40,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <summary>
 		/// Constructor.
 		/// </summary>
-		public NodeUpdateTransaction()
-        {
-        }
+		public NodeUpdateTransaction() { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -70,14 +68,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// </summary>
 		/// <param name="nodeId">the consensus node identifier in the network state.</param>
 		/// <returns>{@code this}</returns>
-		/// <exception cref="IllegalArgumentException">if nodeId is negative</exception>
-		public ulong NodeId
+		public ulong? NodeId
 		{
 			get;
 			set
 			{
 				RequireNotFrozen();
-				if (value < 0) throw new ArgumentException("nodeId must be non-negative");
 				field = value;
 			}
 		}
@@ -334,7 +330,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.NodeUpdate;
 
@@ -375,9 +371,11 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             var builder = new Proto.NodeUpdateTransactionBody
 			{
-				NodeId = NodeId,
 				DeclineReward = DeclineReward,
 			};
+
+			if (NodeId != null)
+				builder.NodeId = NodeId.Value;
 
 			if (AccountId != null)
 				builder.AccountId = AccountId.ToProtobuf();

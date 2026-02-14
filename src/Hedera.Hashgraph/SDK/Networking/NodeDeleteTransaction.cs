@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -64,8 +65,6 @@ namespace Hedera.Hashgraph.SDK.Networking
             set
             {
 				RequireNotFrozen();
-				if (field < 0)
-					throw new ArgumentException("NodeDeleteTransaction: 'nodeId' must be non-negative");
                 field = value;
 			}
         }
@@ -73,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        public virtual void InitFromTransactionBody()
+        private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.NodeDelete;
             
@@ -93,9 +92,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return builder;
 		}
 
-		public override void ValidateChecksums(Client client)
-        {
-        }
+		public override void ValidateChecksums(Client client) { /* No op */ }
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.NodeDelete = ToProtobuf();
@@ -131,7 +128,6 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             throw new NotImplementedException();
         }
-
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();

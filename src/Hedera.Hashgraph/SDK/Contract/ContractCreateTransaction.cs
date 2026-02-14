@@ -7,7 +7,6 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -107,7 +106,6 @@ namespace Hedera.Hashgraph.SDK.Contract
 			get;
 			set
 			{
-				ArgumentNullException.ThrowIfNull(value);
 				RequireNotFrozen();
 				Bytecode = null;
 				field = value;
@@ -121,16 +119,15 @@ namespace Hedera.Hashgraph.SDK.Contract
 			get => field?.CopyArray();
 			set
 			{
-				ArgumentNullException.ThrowIfNull(value);
 				RequireNotFrozen();
 				BytecodeFileId = null;
-				field = value.CopyArray();
+				field = value?.CopyArray();
 			}
 		}
 		/// <summary>
 		/// Admin key controlling contract mutability.
 		/// </summary>
-		public Key AdminKey
+		public Key? AdminKey
 		{
 			get;
 			set
@@ -163,21 +160,20 @@ namespace Hedera.Hashgraph.SDK.Contract
 			get;
 			set
 			{
-				ArgumentNullException.ThrowIfNull(value);
 				RequireNotFrozen();
 				field = value;
 			}
-		}
+		} = new Hbar(0);
 		/// <summary>
 		/// @deprecated — no replacement.
 		/// Proxy staking account.
 		/// </summary>
-		public AccountId ProxyAccountId
+		[Obsolete]
+		public AccountId? ProxyAccountId
 		{
 			get;
 			set
 			{
-				ArgumentNullException.ThrowIfNull(value);
 				RequireNotFrozen();
 				field = value;
 			}
@@ -197,12 +193,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <summary>
 		/// Auto-renew period for the contract.
 		/// </summary>
-		public Duration AutoRenewPeriod
+		public Duration? AutoRenewPeriod
 		{
 			get;
 			set
 			{
-				ArgumentNullException.ThrowIfNull(value);
 				RequireNotFrozen();
 				field = value;
 			}
@@ -238,7 +233,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				RequireNotFrozen();
 				field = value;
 			}
-		}
+		} = string.Empty;
 		/// <summary>
 		/// Account this contract stakes to.
 		/// </summary>
@@ -280,7 +275,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <summary>
 		/// Auto-renew account.
 		/// </summary>
-		public AccountId AutoRenewAccountId
+		public AccountId? AutoRenewAccountId
 		{
 			get;
 			set
@@ -290,7 +285,6 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-
 
 		/// <summary>
 		/// Get the list of hooks to be created.
@@ -305,14 +299,15 @@ namespace Hedera.Hashgraph.SDK.Contract
 				_HookCreationDetails = [.. value];
 			}
 		}
-		
-        /// <summary>
+		public IList<HookCreationDetails> HookCreationDedtails_Read { get => _HookCreationDetails.AsReadOnly(); }
+
+		/// <summary>
 		/// 
-        /// Build the transaction body.
-        /// 
+		/// Build the transaction body.
+		/// 
 		/// </summary>
-        /// <returns>{@link ContractCreateTransactionBody}</returns>
-        public Proto.ContractCreateTransactionBody ToProtobuf()
+		/// <returns>{@link ContractCreateTransactionBody}</returns>
+		public Proto.ContractCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.ContractCreateTransactionBody();
             
@@ -348,11 +343,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 				builder.AutoRenewAccountId = AutoRenewAccountId.ToProtobuf();
 
 			foreach (HookCreationDetails hookDetails in HookCreationDetails_)
-            {
-                builder.HookCreationDetails.Add(hookDetails.ToProtobuf());
-            }
+				builder.HookCreationDetails.Add(hookDetails.ToProtobuf());
 
-            return builder;
+			return builder;
         }
 
         public override void ValidateChecksums(Client client)
@@ -389,7 +382,6 @@ namespace Hedera.Hashgraph.SDK.Contract
 			StakedNodeId = body.StakedNodeId;
 			StakedAccountId = AccountId.FromProtobuf(body.StakedAccountId);
 			AutoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccountId);
-
 
             // Initialize hook creation details
             HookCreationDetails_.Clear();

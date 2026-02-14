@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.File;
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.System
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public SystemUndeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal SystemUndeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.System
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public SystemUndeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal SystemUndeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -157,7 +157,6 @@ namespace Hedera.Hashgraph.SDK.System
             scheduled.SystemUndelete = ToProtobuf();
         }
 
-
 		public override MethodDescriptor GetMethodDescriptor()
 		{
 			if (FileId is not null)
@@ -172,12 +171,6 @@ namespace Hedera.Hashgraph.SDK.System
 
 				return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 			}
-		}
-		public override MethodDescriptor GetMethodDescriptor()
-		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
-
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override ResponseStatus MapResponseStatus(Proto.Response response)

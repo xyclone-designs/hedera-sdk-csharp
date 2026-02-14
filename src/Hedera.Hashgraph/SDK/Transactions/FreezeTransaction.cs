@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// Constructor.
 		/// </summary>
 		public FreezeTransaction() { }
-		public FreezeTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal FreezeTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}

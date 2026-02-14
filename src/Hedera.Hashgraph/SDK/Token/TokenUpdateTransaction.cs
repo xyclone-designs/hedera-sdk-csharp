@@ -41,9 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// Constructor.
         /// </summary>
-        public TokenUpdateTransaction()
-        {
-        }
+        public TokenUpdateTransaction() { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -248,7 +246,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="expirationTime">the expiration time</param>
         /// <returns>{@code this}</returns>
-        public virtual Duration? ExpirationTime
+        public virtual Timestamp? ExpirationTime
 		{
             get; 
             set 
@@ -354,7 +352,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUpdate;
 

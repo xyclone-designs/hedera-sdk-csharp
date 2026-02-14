@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -34,12 +35,10 @@ namespace Hedera.Hashgraph.SDK.Token
     /// </summary>
     public class TokenMintTransaction : Transaction<TokenMintTransaction>
     {
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		public TokenMintTransaction()
-        {
-        }
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public TokenMintTransaction() { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -102,7 +101,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenMint;
 
@@ -145,11 +144,8 @@ namespace Hedera.Hashgraph.SDK.Token
 
         public override void ValidateChecksums(Client client)
         {
-            if (TokenId != null)
-            {
-                TokenId.ValidateChecksum(client);
-            }
-        }
+			TokenId?.ValidateChecksum(client);
+		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
 		{
 			bodyBuilder.TokenMint = ToProtobuf();

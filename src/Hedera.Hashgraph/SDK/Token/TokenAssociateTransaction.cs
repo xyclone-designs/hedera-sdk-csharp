@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
@@ -85,12 +86,12 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="tokens">the list of token id's</param>
         /// <returns>{@code this}</returns>
-        public virtual IList<TokenId> TokenIds { get; set { RequireNotFrozen(); field = value; } } = [];
+        public virtual IList<TokenId> TokenIds { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
 
 		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenAssociate;
 
@@ -129,7 +130,6 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (var token in TokenIds)
 				token?.ValidateChecksum(client);
 		}
-
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenAssociate = ToProtobuf();

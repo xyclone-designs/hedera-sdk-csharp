@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public TransferTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal TransferTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public TransferTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal TransferTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -63,14 +63,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.CryptoTransfer;
 
 			foreach (var transfer in body.Transfers.AccountAmounts)
-			{
 				hbarTransfers.Add(HbarTransfer.FromProtobuf(transfer));
-			}
 
 			foreach (var tokenTransferList in body.TokenTransfers)
 			{
@@ -80,6 +78,25 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				nftTransfers.AddRange(nftTokenTransfers);
 			}
 		}
+		private TransferTransaction DoAddHbarTransfer(AccountId accountId, Hbar value, bool isApproved, FungibleHookCall? hookCall)
+		{
+			RequireNotFrozen();
+			foreach (var transfer in hbarTransfers)
+			{
+				if (transfer.AccountId.Equals(accountId))
+				{
+					long combinedTinybars = transfer.Amount.ToTinybars() + value.ToTinybars();
+					transfer.Amount = Hbar.FromTinybars(combinedTinybars);
+					transfer.IsApproved = transfer.IsApproved || isApproved;
+					return this;
+				}
+			}
+
+			hbarTransfers.Add(new HbarTransfer(accountId, value, isApproved, hookCall));
+
+			return this;
+		}
+
 		/// <summary>
 		/// Extract the of hbar transfers.
 		/// </summary>
@@ -224,30 +241,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             scheduled.CryptoTransfer = ToProtobuf();
         }
+
         public override MethodDescriptor GetMethodDescriptor()
 		{
 			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoDelete);
 
 			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
-		}
-
-		private TransferTransaction DoAddHbarTransfer(AccountId accountId, Hbar value, bool isApproved, FungibleHookCall? hookCall)
-		{
-			RequireNotFrozen();
-			foreach (var transfer in hbarTransfers)
-			{
-				if (transfer.AccountId.Equals(accountId))
-				{
-					long combinedTinybars = transfer.Amount.ToTinybars() + value.ToTinybars();
-					transfer.Amount = Hbar.FromTinybars(combinedTinybars);
-					transfer.IsApproved = transfer.IsApproved || isApproved;
-					return this;
-				}
-			}
-
-			hbarTransfers.Add(new HbarTransfer(accountId, value, isApproved, hookCall));
-
-			return this;
 		}
 
 		public override ResponseStatus MapResponseStatus(Proto.Response response)

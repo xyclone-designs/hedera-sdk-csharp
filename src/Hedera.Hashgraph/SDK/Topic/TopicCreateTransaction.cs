@@ -161,7 +161,6 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// <returns>{@code this}</returns>
 		public IList<Key> FeeExemptKeys { get { RequireNotFrozen(); return _FeeExemptKeys; } set { RequireNotFrozen(); _FeeExemptKeys = value; } }
 		public IReadOnlyList<Key> FeeExemptKeys_Read { get => _FeeExemptKeys.AsReadOnly(); }
-
 		/// <summary>
 		/// Sets the fixed fees to assess when a message is submitted to the new topic.
 		/// </summary>
@@ -204,7 +203,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 
             if (body.FeeExemptKeyList is not null)
             {
-                FeeExemptKeys = [.. body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_))];
+                FeeExemptKeys = [.. body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>()];
             }
 
             if (body.CustomFees is not null)

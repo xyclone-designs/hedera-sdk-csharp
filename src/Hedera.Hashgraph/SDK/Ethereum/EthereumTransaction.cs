@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -28,16 +28,14 @@ namespace Hedera.Hashgraph.SDK.Ethereum
     public class EthereumTransaction : Transaction<EthereumTransaction>
     {
         public EthereumTransaction() { }
-		public EthereumTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal EthereumTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		public EthereumTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal EthereumTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
-
-        private FileId CallDataFileId { get; set; }
 
 		/// <summary>
 		/// Sets the raw Ethereum transaction (RLP encoded type 0, 1, and 2). Complete
@@ -47,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         {
             get;
             set { RequireNotFrozen(); field = value.CopyArray(); }
-        }
+        } = [];
 		/// <summary>
 		/// For large transactions (for example contract create) this should be used to
 		/// set the FileId of an HFS file containing the callData
@@ -56,7 +54,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 		/// the referenced file at time of execution. The ethereumData will need to be
 		/// "rehydrated" with the callData for signature validation to pass.
 		/// </summary>
-		public virtual FileId FileId
+		public virtual FileId? CallDataFileId
 		{
 			get;
 			set { RequireNotFrozen(); field = value; }
@@ -77,11 +75,11 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         /// </summary>
         public virtual Hbar MaxGasAllowanceHbar
         {
-            get => field ?? Hbar.ZERO;
-			set { RequireNotFrozen(); field = value; }
-        }
+            get;
+            set { RequireNotFrozen(); field = value; }
+        } = Hbar.ZERO;
 
-        private void InitFromTransactionBody()
+		private void InitFromTransactionBody()
         {
             if (SourceTransactionBody.EthereumTransaction.CallData is not null)
 				CallDataFileId = FileId.FromProtobuf(SourceTransactionBody.EthereumTransaction.CallData);

@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
+using System;
 using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
@@ -71,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        public virtual void InitFromTransactionBody()
+        private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenCancelAirdrop;
 
@@ -99,11 +100,11 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		public override ResponseStatus MapResponseStatus(Proto.Response response)
         {
-            throw new global::System.NotImplementedException();
+            throw new NotImplementedException();
         }
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
-            throw new global::System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -49,6 +49,9 @@ namespace Hedera.Hashgraph.SDK.Topic
             InitFromTransactionBody();
         }
 
+		private IList<Key>? _FeeExemptKeys = null;
+		private IList<CustomFixedFee>? _CustomFees = null;
+
 		/// <summary>
 		/// The topic ID specifying the topic to update.
 		/// <p>
@@ -145,19 +148,29 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="feeExemptKeys">List of feeExemptKeys</param>
 		/// <returns>{@code this}</returns>
-		public IList<Key>? FeeExemptKeys { get { RequireNotFrozen(); return field; } set { RequireNotFrozen(); field = value; } } = [];
+		public IList<Key>? FeeExemptKeys 
+		{
+			get { RequireNotFrozen(); return _FeeExemptKeys; } 
+			set { RequireNotFrozen(); _FeeExemptKeys = value is null ? null : [.. value]; }
+		}
+		public IReadOnlyList<Key>? FeeExemptKeys_Read { get => _FeeExemptKeys?.AsReadOnly(); }
 		/// <summary>
 		/// Sets the fixed fees to assess when a message is submitted to the new topic.
 		/// </summary>
 		/// <param name="customFees">List of CustomFixedFee customFees</param>
 		/// <returns>{@code this}</returns>
-		public IList<CustomFixedFee>? CustomFees { get { RequireNotFrozen(); return field; } set { RequireNotFrozen(); field = value; } } = [];
+		public IList<CustomFixedFee>? CustomFees
+		{
+			get { RequireNotFrozen(); return _CustomFees; }
+			set { RequireNotFrozen(); _CustomFees = value is null ? null : [.. value]; }
+		}
+		public IReadOnlyList<CustomFixedFee>? CustomFees_Read { get => _CustomFees?.AsReadOnly(); }
 
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
-        void InitFromTransactionBody()
+		/// <summary>
+		/// Initialize from the transaction body.
+		/// </summary>
+		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusUpdateTopic;
             if (body.TopicID is not null)
@@ -185,7 +198,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 FeeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
 
             if (body.FeeExemptKeyList is not null)
-                FeeExemptKeys = [.. body.FeeExemptKeyList.Keys.Select(_ => Key.FromProtobufKey(_))];
+                FeeExemptKeys = [.. body.FeeExemptKeyList.Keys.Select(_ => Key.FromProtobufKey(_)).OfType<Key>()];
 
             if (body.CustomFees is not null)
                 CustomFees = [..body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee))];
@@ -256,16 +269,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 
         public override void ValidateChecksums(Client client)
         {
-            if (TopicId != null)
-            {
-                TopicId.ValidateChecksum(client);
-            }
+			TopicId?.ValidateChecksum(client);
 
-            if ((AutoRenewAccountId != null) && !AutoRenewAccountId.Equals(new AccountId(0, 0, 0)))
-            {
-                AutoRenewAccountId.ValidateChecksum(client);
-            }
-        }
+			if ((AutoRenewAccountId != null) && !AutoRenewAccountId.Equals(new AccountId(0, 0, 0)))
+				AutoRenewAccountId.ValidateChecksum(client);
+		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
 		{
 			bodyBuilder.ConsensusUpdateTopic = ToProtobuf();

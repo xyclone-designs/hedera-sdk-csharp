@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
@@ -48,6 +49,14 @@ namespace Hedera.Hashgraph.SDK.File
             DefaultMaxTransactionFee = new Hbar(5);
             ChunkSize = 2048;
         }
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		/// <param name="txBody">protobuf TransactionBody</param>
+		internal FileAppendTransaction(Proto.TransactionBody txBody) : base(txBody)
+		{
+			InitFromTransactionBody();
+		}
 		/// <summary>
 		/// Constructor.
 		/// </summary>

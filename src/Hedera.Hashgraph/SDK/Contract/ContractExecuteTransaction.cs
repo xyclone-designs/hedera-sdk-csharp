@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public ContractExecuteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal ContractExecuteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public ContractExecuteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal ContractExecuteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -77,13 +77,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// </summary>
 		public Hbar PayableAmount
         {
-            get => field ??= new Hbar(0);
+            get;
             set
             {
 				RequireNotFrozen();
 				field = value;
 			}
-        }
+        } = new Hbar(0);
 		/// <summary>
 		/// Sets the contract instance to call.
 		/// </summary>
@@ -98,35 +98,35 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Sets the function parameters as their raw bytes.
-		/// <p>
-		/// Use this instead of {@link #setFunction(String, ContractFunctionParameters)} if you have already
-		/// pre-encoded a solidity function call.
-		/// 
-		/// This MUST contain The application binary interface (ABI) encoding of the
-		/// function call per the Ethereum contract ABI standard, giving the
-		/// function signature and arguments being passed to the function.
-		/// </summary>
-		public ByteString FunctionParameters
+        /// <summary>
+        /// Sets the function parameters as their raw bytes.
+        /// <p>
+        /// Use this instead of {@link #setFunction(String, ContractFunctionParameters)} if you have already
+        /// pre-encoded a solidity function call.
+        /// 
+        /// This MUST contain The application binary interface (ABI) encoding of the
+        /// function call per the Ethereum contract ABI standard, giving the
+        /// function signature and arguments being passed to the function.
+        /// </summary>
+        public ByteString FunctionParameters
         {
-            get => field ??= ByteString.CopyFrom([]);
+            get;
             set
             {
-				RequireNotFrozen();
-				field = ByteString.CopyFrom(value.ToByteArray());
-			}
-		}
+                RequireNotFrozen();
+                field = ByteString.CopyFrom(value.ToByteArray());
+            }
+        } = ByteString.CopyFrom([]);
 
-        /// <summary>
-        /// Sets the function name to call.
-        /// <p>
-        /// The function will be called with no parameters. Use {@link #setFunction(String, ContractFunctionParameters)}
-        /// to call a function with parameters.
-        /// </summary>
-        /// <param name="name">The String to be set as the function name</param>
-        /// <returns>{@code this}</returns>
-        public ContractExecuteTransaction SetFunction(string name)
+		/// <summary>
+		/// Sets the function name to call.
+		/// <p>
+		/// The function will be called with no parameters. Use {@link #setFunction(String, ContractFunctionParameters)}
+		/// to call a function with parameters.
+		/// </summary>
+		/// <param name="name">The String to be set as the function name</param>
+		/// <returns>{@code this}</returns>
+		public ContractExecuteTransaction SetFunction(string name)
         {
             return SetFunction(name, new ContractFunctionParameters());
         }
@@ -138,8 +138,6 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>{@code this}</returns>
         public ContractExecuteTransaction SetFunction(string name, ContractFunctionParameters @params)
         {
-            ArgumentNullException.ThrowIfNull(@params);
-
             FunctionParameters = ByteString.CopyFrom(@params.ToBytes(name).ToByteArray());
 
             return this;

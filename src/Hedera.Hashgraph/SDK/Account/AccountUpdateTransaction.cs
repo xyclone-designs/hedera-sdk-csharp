@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="receiverSignatureRequired">The bool to be set</param>
 		/// <returns>{@code this}</returns>
-		public bool ReceiverSigRequired { get; set { RequireNotFrozen(); field = value; } }
+		public bool? ReceiverSigRequired { get; set { RequireNotFrozen(); field = value; } }
 		/// <summary>
 		/// A maximum number of tokens that can be auto-associated
 		/// with this account.<br/>
@@ -262,7 +262,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (body.AutoRenewPeriod is not null)
             {
-                AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+                AutoRenewPeriod = DurationConverter.FromProtobuf(body.AutoRenewPeriod);
             }
 
             if (body.ReceiverSigRequiredWrapper is not null)

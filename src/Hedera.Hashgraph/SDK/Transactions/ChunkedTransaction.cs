@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Queries;
 using Hedera.Hashgraph.SDK.Schedule;
@@ -27,13 +27,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public ChunkedTransaction(Proto.TransactionBody txBody) : base(txBody) { }
+		internal ChunkedTransaction(Proto.TransactionBody txBody) : base(txBody) { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public ChunkedTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs) { }
+		internal ChunkedTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs) { }
 
 		/// <summary>
 		/// Assign the Data via a byte string.
@@ -204,6 +204,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			SigPairLists = new List<Proto.SignatureMap>(requiredChunks * NodeAccountIds.Count);
 			OuterTransactions = new List<Proto.Transaction>(requiredChunks * NodeAccountIds.Count);
 			InnerSignedTransactions = new List<Proto.SignedTransaction>(requiredChunks * NodeAccountIds.Count);
+
 			for (int i = 0; i < requiredChunks; i++)
 			{
 				if (TransactionIds.Count != 0)
@@ -215,7 +216,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 						endIndex = Data.Length;
 					}
 
-					FrozenBodyBuilder.TransactionID = TransactionIds[i].ToProtobuf();
+					FrozenBodyBuilder!.TransactionID = TransactionIds[i].ToProtobuf();
 
 					OnFreezeChunk(FrozenBodyBuilder, TransactionIds[0].ToProtobuf(), startIndex, endIndex, i, requiredChunks);
 				}
@@ -225,8 +226,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				foreach (var nodeId in NodeAccountIds)
 				{
 					SigPairLists.Add(new Proto.SignatureMap());
-					FrozenBodyBuilder.NodeAccountID = nodeId.ToProtobuf();
-					FrozenBodyBuilder.ToByteString();
+					FrozenBodyBuilder!.NodeAccountID = nodeId.ToProtobuf();
+					FrozenBodyBuilder!.ToByteString();
 					OuterTransactions.Add(null);
 					InnerSignedTransactions.Add(new Proto.SignedTransaction
 					{
@@ -412,30 +413,60 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>, Exception> callback)
+        public virtual async void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAllAsync(client), callback);
-        }
+			IList<TransactionResponse>? response = null;
+			Exception? exception = null;
+
+			try
+			{
+				response = await ExecuteAllAsync(client);
+			}
+			catch (Exception _exception) { exception = _exception; }
+
+			callback.Invoke(response, exception);
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>, Exception> callback)
+        public virtual async void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAllAsync(client, timeout), callback);
-        }
+			IList<TransactionResponse>? response = null;
+			Exception? exception = null;
+
+			try
+			{
+				response = await ExecuteAllAsync(client, timeout);
+			}
+			catch (Exception _exception) { exception = _exception; }
+
+			callback.Invoke(response, exception);
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
+        public virtual async void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAllAsync(client), onSuccess, onFailure);
-        }
+			IList<TransactionResponse> response;
+
+			try
+			{
+				response = await ExecuteAllAsync(client);
+			}
+			catch (Exception exception)
+			{
+				onFailure(exception);
+				return;
+			}
+
+			onSuccess.Invoke(response);
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
@@ -443,9 +474,21 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
+        public virtual async void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAllAsync(client, timeout), onSuccess, onFailure);
+			IList<TransactionResponse> response;
+
+			try
+			{
+				response = await ExecuteAllAsync(client, timeout);
+			}
+			catch (Exception exception) 
+			{ 
+				onFailure(exception);
+				return;
+			}
+
+			onSuccess.Invoke(response);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -80,7 +81,6 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="accountId">the account id</param>
         /// <returns>{@code this}</returns>
         public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-
 		/// <summary>
 		/// An amount of fungible/common tokens to wipe.
 		/// <p>
@@ -102,7 +102,6 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <param name="amount">the amount</param>
 		/// <returns>{@code this}</returns>
 		public virtual ulong Amount { get; set { RequireNotFrozen(); field = value; } }
-
         /// <summary>
         /// A list of serial numbers to wipe.<br/>
         /// The non-fungible/unique tokens with these serial numbers will be
@@ -133,7 +132,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        public virtual void InitFromTransactionBody()
+        private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenWipe;
 

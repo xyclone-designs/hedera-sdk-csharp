@@ -99,13 +99,14 @@ namespace Hedera.Hashgraph.SDK.File
 		/// </summary>
 		public KeyList? Keys
 		{
-			get => field.CopyArray();
+			private get;
 			set
 			{
 				RequireNotFrozen();
-				field = value.CopyArray();
+				field = value is null ? null : KeyList.Of(null, value);
 			}
 		}
+		public IReadOnlyList<Key>? Keys_Read { get => Keys?.AsReadOnly(); }
 
 		/// <summary>
 		/// Extract the files contents as a byte string.
@@ -198,6 +199,7 @@ namespace Hedera.Hashgraph.SDK.File
 			{
 				RequireNotFrozen();
 				field = value;
+				ExpirationTimeDuration = null;
 			}
 		}
 		public Duration? ExpirationTimeDuration

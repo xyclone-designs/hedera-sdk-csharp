@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Hook;
 
@@ -17,11 +18,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// Create a new empty LambdaSStoreTransaction.
 		/// </summary>
 		public LambdaSStoreTransaction() { }
-		public LambdaSStoreTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal LambdaSStoreTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		public LambdaSStoreTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal LambdaSStoreTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
 		{
 			InitFromTransactionBody();
 		}
@@ -84,7 +85,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return builder;
 		}
 
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.LambdaSstore;
 			if (body.HookId is not null)

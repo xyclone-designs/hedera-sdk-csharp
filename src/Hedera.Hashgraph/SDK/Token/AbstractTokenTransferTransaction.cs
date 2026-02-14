@@ -3,7 +3,7 @@ using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -16,18 +16,19 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         protected List<TokenTransfer> tokenTransfers = [];
         protected List<TokenNftTransfer> nftTransfers = [];
+
         protected AbstractTokenTransferTransaction() { }
 		/// <summary>
 		 /// Constructor.
 		 /// </summary>
 		 /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		 /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public AbstractTokenTransferTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs) { }
+		internal AbstractTokenTransferTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs) { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public AbstractTokenTransferTransaction(Proto.TransactionBody txBody) : base(txBody) { }
+		internal AbstractTokenTransferTransaction(Proto.TransactionBody txBody) : base(txBody) { }
 
 		protected virtual List<TokenTransferList> SortTransfersAndBuild()
 		{
@@ -85,12 +86,12 @@ namespace Hedera.Hashgraph.SDK.Token
 						continue;
 					}
 
-					transferLists.Add(new TokenTransferList(iTokenId, (uint?)tokenTransfers[i].ExpectedDecimals, tokenTransfers[i++], null));
+					transferLists.Add(new TokenTransferList(iTokenId, tokenTransfers[i].ExpectedDecimals, tokenTransfers[i++], null));
 				}
 				else
 				{
 					var jTokenId = nftTransfers[j].TokenId;
-					var last = !transferLists.Any() ? transferLists[transferLists.Count - 1] : null;
+					var last = !transferLists.Any() ? transferLists[^1] : null;
 					var lastTokenId = last != null ? last.TokenId : null;
 					if (last != null && jTokenId.CompareTo(lastTokenId) == 0)
 					{
@@ -104,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
 			return transferLists;
 		}
-		protected virtual T DoAddTokenTransfer(TokenId tokenId, AccountId accountId, long amount, bool isApproved, int? expectedDecimals, FungibleHookCall? hookCall)
+		protected virtual T DoAddTokenTransfer(TokenId tokenId, AccountId accountId, long amount, bool isApproved, uint? expectedDecimals, FungibleHookCall? hookCall)
 		{
 			RequireNotFrozen();
 			foreach (var transfer in tokenTransfers)
@@ -153,9 +154,9 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// Extract the list of token id decimals.
 		/// </summary>
 		/// <returns>the list of token id decimals</returns>
-		public virtual Dictionary<TokenId, int?> GetTokenIdDecimals()
+		public virtual Dictionary<TokenId, uint?> GetTokenIdDecimals()
         {
-            Dictionary<TokenId, int?> decimalsMap = [];
+            Dictionary<TokenId, uint?> decimalsMap = [];
             foreach (var transfer in tokenTransfers)
             {
                 decimalsMap.Add(transfer.TokenId, transfer.ExpectedDecimals);
@@ -226,7 +227,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="value">the value</param>
         /// <param name="decimals">the decimals</param>
         /// <returns>the updated transaction</returns>
-        public virtual T AddTokenTransferWithDecimals(TokenId tokenId, AccountId accountId, long value, int decimals)
+        public virtual T AddTokenTransferWithDecimals(TokenId tokenId, AccountId accountId, long value, uint decimals)
         {
             return DoAddTokenTransfer(tokenId, accountId, value, false, decimals, null);
         }
@@ -238,7 +239,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="value">the value</param>
         /// <param name="decimals">the decimals</param>
         /// <returns>the updated transaction</returns>
-        public virtual T AddApprovedTokenTransferWithDecimals(TokenId tokenId, AccountId accountId, long value, int decimals)
+        public virtual T AddApprovedTokenTransferWithDecimals(TokenId tokenId, AccountId accountId, long value, uint decimals)
         {
             return DoAddTokenTransfer(tokenId, accountId, value, true, decimals, null);
         }

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -73,7 +74,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <returns>{@code this}</returns>
 		public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
 
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenRevokeKyc;
 

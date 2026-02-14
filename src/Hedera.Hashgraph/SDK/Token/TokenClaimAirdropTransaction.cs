@@ -2,8 +2,6 @@
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
-using Grpc.Core;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.HBar;
@@ -77,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        public virtual void InitFromTransactionBody()
+        private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenClaimAirdrop;
 

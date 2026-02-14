@@ -2,9 +2,9 @@
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -57,8 +57,6 @@ namespace Hedera.Hashgraph.SDK.File
     /// </summary>
     public sealed class FileCreateTransaction : Transaction<FileCreateTransaction>
     {
-        private KeyList? keys = null;
-
         /// <summary>
         /// Constructor.
         /// </summary
@@ -71,7 +69,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public FileCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal FileCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -102,6 +100,7 @@ namespace Hedera.Hashgraph.SDK.File
 			{
 				RequireNotFrozen();
 				field = value;
+				ExpirationTimeDuration = null;
 			}
 		}
 		/// <summary>
@@ -152,17 +151,18 @@ namespace Hedera.Hashgraph.SDK.File
 		/// <p>The network currently requires a file to have at least one key (or key list or threshold key)
 		/// but this requirement may be lifted in the future.
 		/// </summary>
-		public IList<Key> Keys
+		public KeyList? Keys
         {
-            get => keys?.AsReadOnly() ?? [];
-            set => keys = KeyList.Of(null, [.. value]);
+			private get;
+            set => field = value is null ? null : KeyList.Of(null, value);
         }
+		public IReadOnlyList<Key>? Keys_Read { get => Keys?.AsReadOnly(); }
 
-        /// <summary>
-        /// Create the byte string.
-        /// </summary>
-        /// <returns>                         byte string representation</returns>
-        public byte[] Contents 
+		/// <summary>
+		/// Create the byte string.
+		/// </summary>
+		/// <returns>                         byte string representation</returns>
+		public byte[] Contents 
         {
             get => field.CopyArray();
             set => field = value.CopyArray(); 
@@ -222,9 +222,9 @@ namespace Hedera.Hashgraph.SDK.File
 			set
 			{
 				RequireNotFrozen();
-                field = value;
+				field = value;
 			}
-		}
+		} = string.Empty;
 
 		/// <summary>
 		/// Initialize from transaction body.
@@ -237,7 +237,7 @@ namespace Hedera.Hashgraph.SDK.File
 				ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
 
 			if (body.Keys is not null)
-				keys = KeyList.FromProtobuf(body.Keys, null);
+				Keys = KeyList.FromProtobuf(body.Keys, null);
 
 			Contents = body.Contents.ToByteArray();
 			FileMemo = body.Memo;
@@ -261,9 +261,9 @@ namespace Hedera.Hashgraph.SDK.File
 				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTimeDuration);
 			}
 
-			if (keys != null)
+			if (Keys != null)
 			{
-				builder.Keys = keys.ToProtobuf();
+				builder.Keys = Keys.ToProtobuf();
 			}
 
 			builder.Contents = ByteString.CopyFrom(Contents);
@@ -287,6 +287,15 @@ namespace Hedera.Hashgraph.SDK.File
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.FileCreate = ToProtobuf();
+        }
+
+        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        {
+            throw new NotImplementedException();
+        }
+        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

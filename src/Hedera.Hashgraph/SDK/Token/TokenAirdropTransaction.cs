@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -45,9 +47,26 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
 		/// <summary>
+		/// Build the transaction body.
+		/// </summary>
+		/// <returns>{@link
+		///         Proto.TokenAirdropTransactionBody}</returns>
+		public Proto.TokenAirdropTransactionBody ToProtobuf()
+		{
+			var transfers = SortTransfersAndBuild();
+			var builder = new Proto.TokenAirdropTransactionBody();
+			foreach (var transfer in transfers)
+			{
+				builder.TokenTransfers.Add(transfer.ToProtobuf());
+			}
+
+			return builder;
+		}
+
+		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenAirdrop;
 
@@ -77,22 +96,6 @@ namespace Hedera.Hashgraph.SDK.Token
 				}
 			}
 		}
-		/// <summary>
-		/// Build the transaction body.
-		/// </summary>
-		/// <returns>{@link
-		///         Proto.TokenAirdropTransactionBody}</returns>
-		public virtual Proto.TokenAirdropTransactionBody ToProtobuf()
-        {
-            var transfers = SortTransfersAndBuild();
-            var builder = new Proto.TokenAirdropTransactionBody();
-            foreach (var transfer in transfers)
-            {
-                builder.TokenTransfers.Add(transfer.ToProtobuf());
-            }
-
-            return builder;
-        }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{

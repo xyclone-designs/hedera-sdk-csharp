@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
@@ -51,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public TokenDissociateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal TokenDissociateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -115,7 +116,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// Initialize from the transaction body.
         /// </summary>
-        public virtual void InitFromTransactionBody()
+        private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenDissociate;
 
@@ -160,6 +161,7 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             scheduled.TokenDissociate = ToProtobuf();
         }
+
 		public override MethodDescriptor GetMethodDescriptor()
 		{
 			string methodname = nameof(Proto.TokenService.TokenServiceClient.dissociateTokens);

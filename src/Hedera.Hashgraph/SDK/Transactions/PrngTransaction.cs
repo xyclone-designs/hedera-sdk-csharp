@@ -30,6 +30,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return builder;
         }
 
+		public override void ValidateChecksums(Client client) { }
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.UtilPrng = ToProtobuf();
@@ -38,7 +39,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             throw new NotSupportedException("cannot schedule RngTransaction");
         }
-        public override void ValidateChecksums(Client client) { }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
 			string methodname = nameof(Proto.UtilService.UtilServiceClient.prng);

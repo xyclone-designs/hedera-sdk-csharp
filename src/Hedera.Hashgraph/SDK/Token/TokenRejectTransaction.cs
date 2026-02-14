@@ -3,6 +3,7 @@ using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -40,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		public TokenRejectTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal TokenRejectTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -72,11 +73,9 @@ namespace Hedera.Hashgraph.SDK.Token
 				field = value;
 			}
         }
-        public IList<TokenId> TokenIds { protected get; init; } = [];
-		public IList<NftId> NftIds { protected get; init; } = [];
 
+        public IList<TokenId> TokenIds { protected get; init; } = [];
 		public IReadOnlyList<TokenId> TokenIds_Read { get => TokenIds.AsReadOnly(); }
-		public IReadOnlyList<NftId> NftIds_Read { get => NftIds.AsReadOnly(); }
 
 		/// <summary>
 		/// Add a token to the list of tokens.
@@ -102,6 +101,9 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (TokenId tokenId in tokenIds) TokenIds.Add(tokenId);
             return this;
         }
+
+		public IList<NftId> NftIds { protected get; init; } = [];
+		public IReadOnlyList<NftId> NftIds_Read { get => NftIds.AsReadOnly(); }
 
 		/// <summary>
 		/// Add a nft to the list of nfts.
@@ -131,7 +133,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <summary>
 		/// Initialize from the transaction body.
 		/// </summary>
-		public virtual void InitFromTransactionBody()
+		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenReject;
 

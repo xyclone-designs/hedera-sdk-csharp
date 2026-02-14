@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -75,6 +76,19 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <returns>{@code this}</returns>
 		public AccountId? TransferAccountId { get; set { RequireNotFrozen(); field = value; } }
 
+		/// <summary>
+		/// Initialize from the transaction body.
+		/// </summary>
+		private void InitFromTransactionBody()
+		{
+			var body = SourceTransactionBody.CryptoDelete;
+
+			if (body.DeleteAccountID is not null)
+				AccountId = AccountId.FromProtobuf(body.DeleteAccountID);
+
+			if (body.TransferAccountID is not null)
+				TransferAccountId = AccountId.FromProtobuf(body.TransferAccountID);
+		}
 
 		/// <summary>
 		/// Build the transaction body.
@@ -91,20 +105,6 @@ namespace Hedera.Hashgraph.SDK.Account
                 builder.TransferAccountID = TransferAccountId.ToProtobuf();
 
             return builder;
-        }
-
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
-        void InitFromTransactionBody()
-        {
-            var body = SourceTransactionBody.CryptoDelete;
-
-            if (body.DeleteAccountID is not null)
-                AccountId = AccountId.FromProtobuf(body.DeleteAccountID);
-
-            if (body.TransferAccountID is not null)
-                TransferAccountId = AccountId.FromProtobuf(body.TransferAccountID);
         }
 
 		public override void ValidateChecksums(Client client)

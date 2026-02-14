@@ -2,7 +2,6 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Token;
 using System.Collections.Generic;
 
@@ -38,6 +37,7 @@ namespace Hedera.Hashgraph.SDK
         public static AccountBalance FromProtobuf(Proto.CryptoGetAccountBalanceResponse protobuf)
         {
             var balanceList = protobuf.TokenBalances;
+
             Dictionary<TokenId, ulong> map = [];
             Dictionary<TokenId, uint> decimalMap = [];
             for (int i = 0; i < protobuf.TokenBalances.Count; i++)

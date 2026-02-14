@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -278,6 +278,47 @@ namespace Hedera.Hashgraph.SDK.Networking
 		}
 
 		/// <summary>
+		/// Initialize from the transaction body.
+		/// </summary>
+		private void InitFromTransactionBody()
+		{
+			var body = SourceTransactionBody.NodeCreate;
+
+			if (body.AccountId is not null)
+			{
+				AccountId = AccountId.FromProtobuf(body.AccountId);
+			}
+
+			Description = body.Description;
+			foreach (var gossipEndpoint in body.GossipEndpoint)
+			{
+				GossipEndpoints.Add(Endpoint.FromProtobuf(gossipEndpoint));
+			}
+
+			foreach (var serviceEndpoint in body.ServiceEndpoint)
+			{
+				ServiceEndpoints.Add(Endpoint.FromProtobuf(serviceEndpoint));
+			}
+
+			var protobufGossipCert = body.GossipCaCertificate;
+			GossipCaCertificate = protobufGossipCert.Equals(ByteString.Empty) ? null : protobufGossipCert.ToByteArray();
+
+			var protobufGrpcCert = body.GrpcCertificateHash;
+			GrpcCertificateHash = protobufGrpcCert.Equals(ByteString.Empty) ? null : protobufGrpcCert.ToByteArray();
+
+			if (body.AdminKey is not null)
+			{
+				AdminKey = Key.FromProtobufKey(body.AdminKey);
+			}
+
+			DeclineReward = body.DeclineReward;
+
+			if (body.GrpcProxyEndpoint is not null)
+			{
+				GrpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GrpcProxyEndpoint);
+			}
+		}
+		/// <summary>
 		/// Build the transaction body.
 		/// </summary>
 		/// <returns>{@link Proto.NodeCreateTransactionBody}</returns>
@@ -346,65 +387,20 @@ namespace Hedera.Hashgraph.SDK.Networking
             return builder;
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
-        public virtual void InitFromTransactionBody()
-        {
-            var body = SourceTransactionBody.NodeCreate;
-
-            if (body.AccountId is not null)
-            {
-                AccountId = AccountId.FromProtobuf(body.AccountId);
-            }
-
-            Description = body.Description;
-            foreach (var gossipEndpoint in body.GossipEndpoint)
-            {
-                GossipEndpoints.Add(Endpoint.FromProtobuf(gossipEndpoint));
-            }
-
-            foreach (var serviceEndpoint in body.ServiceEndpoint)
-            {
-                ServiceEndpoints.Add(Endpoint.FromProtobuf(serviceEndpoint));
-            }
-
-            var protobufGossipCert = body.GossipCaCertificate;
-            GossipCaCertificate = protobufGossipCert.Equals(ByteString.Empty) ? null : protobufGossipCert.ToByteArray();
-            
-			var protobufGrpcCert = body.GrpcCertificateHash;
-            GrpcCertificateHash = protobufGrpcCert.Equals(ByteString.Empty) ? null : protobufGrpcCert.ToByteArray();
-            
-			if (body.AdminKey is not null)
-            {
-                AdminKey = Key.FromProtobufKey(body.AdminKey);
-            }
-
-            DeclineReward = body.DeclineReward;
-            
-			if (body.GrpcProxyEndpoint is not null)
-            {
-                GrpcWebProxyEndpoint = Endpoint.FromProtobuf(body.GrpcProxyEndpoint);
-            }
-        }
-
-        public override void ValidateChecksums(Client client)
-        {
-			AccountId?.ValidateChecksum(client);
-		}
-
 		public override MethodDescriptor GetMethodDescriptor()
 		{
 			string methodname = nameof(Proto.AddressBookService.AddressBookServiceClient.createNode);
 
 			return Proto.AddressBookService.Descriptor.FindMethodByName(methodname);
 		}
-
+		public override void ValidateChecksums(Client client)
+        {
+			AccountId?.ValidateChecksum(client);
+		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
             bodyBuilder.NodeCreate = ToProtobuf();
         }
-
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             scheduled.NodeCreate = ToProtobuf();
@@ -414,7 +410,6 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             throw new NotImplementedException();
         }
-
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();

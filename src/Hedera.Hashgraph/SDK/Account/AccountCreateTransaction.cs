@@ -12,6 +12,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
@@ -55,18 +56,15 @@ namespace Hedera.Hashgraph.SDK.Account
             InitFromTransactionBody();
         }
 
-
-		private EvmAddress ExtractAlias(Key key)
+		private static EvmAddress ExtractAlias(Key key)
 		{
-			var isPrivateEcdsaKey = key is PrivateKeyECDSA;
-			var isPublicEcdsaKey = key is PublicKeyECDSA;
-			if (isPrivateEcdsaKey)
+			if (key is PrivateKeyECDSA privatekeyecdsa)
 			{
-				return ((PrivateKeyECDSA)key).GetPublicKey().ToEvmAddress();
+				return privatekeyecdsa.GetPublicKey().ToEvmAddress();
 			}
-			else if (isPublicEcdsaKey)
+			else if (key is PublicKeyECDSA publickeyecdsa)
 			{
-				return ((PublicKeyECDSA)key).ToEvmAddress();
+				return publickeyecdsa.ToEvmAddress();
 			}
 			else
 			{
@@ -83,9 +81,8 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <returns>this</returns>
 		public AccountCreateTransaction SetKeyWithAlias(Key key)
         {
-            ArgumentNullException.ThrowIfNull(key);
             RequireNotFrozen();
-            key = key;
+			Key = key;
             Alias = ExtractAlias(key);
             return this;
         }
@@ -96,9 +93,8 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <returns>this</returns>
 		public AccountCreateTransaction SetKeyWithoutAlias(Key key)
 		{
-			ArgumentNullException.ThrowIfNull(key);
 			RequireNotFrozen();
-			key = key;
+			Key = key;
 			return this;
 		}
 		/// <summary>
@@ -110,9 +106,8 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <returns>this</returns>
 		public AccountCreateTransaction SetKeyWithAlias(Key key, Key ecdsaKey)
         {
-            ArgumentNullException.ThrowIfNull(key);
             RequireNotFrozen();
-            key = key;
+            Key = key;
             Alias = ExtractAlias(ecdsaKey);
             return this;
         }
@@ -330,16 +325,9 @@ namespace Hedera.Hashgraph.SDK.Account
 
         public override void ValidateChecksums(Client client)
         {
-            if (ProxyAccountId != null)
-            {
-                ProxyAccountId.ValidateChecksum(client);
-            }
-
-            if (StakedAccountId != null)
-            {
-                StakedAccountId.ValidateChecksum(client);
-            }
-        }
+			ProxyAccountId?.ValidateChecksum(client);
+			StakedAccountId?.ValidateChecksum(client);
+		}
 
         /// <summary>
         /// Initialize from the transaction body.
@@ -347,6 +335,7 @@ namespace Hedera.Hashgraph.SDK.Account
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoCreateAccount;
+
             if (body.ProxyAccountID is not null)
             {
                 ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
@@ -375,12 +364,8 @@ namespace Hedera.Hashgraph.SDK.Account
 			StakedNodeId = body.StakedNodeId;
             Alias = EvmAddress.FromAliasBytes(body.Alias);
 
-            // Initialize hook creation details
-            HookCreationDetails.Clear();
-            foreach (var protoHookDetails in body.HookCreationDetails)
-            {
-                HookCreationDetails.Add(Hook.HookCreationDetails.FromProtobuf(protoHookDetails));
-            }
+			// Initialize hook creation details
+			_HookCreationDetails = [.. body.HookCreationDetails.Select(_ => Hook.HookCreationDetails.FromProtobuf(_))];
         }
 
 		public override MethodDescriptor GetMethodDescriptor()

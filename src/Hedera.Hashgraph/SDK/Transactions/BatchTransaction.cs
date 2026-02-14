@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Account;
 
@@ -66,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public BatchTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal BatchTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -75,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public BatchTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal BatchTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -137,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <param name="transaction">The transaction to validate</param>
 		/// <exception cref="IllegalArgumentException">if the transaction is blacklisted</exception>
 		/// <exception cref="IllegalStateException">if the transaction is not frozen or missing a batch key</exception>
-		private void ValidateInnerTransaction(Transaction<T> transaction)
+		private void ValidateInnerTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
 		{
 			if (BLACKLISTED_TRANSACTIONS.Contains(transaction.GetType()))
 			{
@@ -171,7 +172,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <exception cref="IllegalStateException">if this transaction is frozen</exception>
 		/// <exception cref="IllegalStateException">if the inner transaction is not frozen or missing a batch key</exception>
 		/// <exception cref="IllegalArgumentException">if the transaction is of a blacklisted type</exception>
-		public BatchTransaction AddInnerTransaction<T>(Transaction<T> transaction)
+		public BatchTransaction AddInnerTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
 		{
 			ArgumentNullException.ThrowIfNull(transaction);
 			RequireNotFrozen();
@@ -197,8 +198,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <exception cref="IllegalStateException">if this transaction is frozen</exception>
 		/// <exception cref="IllegalStateException">if any inner transaction is not frozen or missing a batch key</exception>
 		/// <exception cref="IllegalArgumentException">if any transaction is of a blacklisted type</exception>
-		public BatchTransaction SetInnerTransactions(IList<Transaction<T>> transactions)
-        {
+		public BatchTransaction SetInnerTransactions<T>(IList<Transaction<T>> transactions) where T : Transaction<T>
+		{
             ArgumentNullException.ThrowIfNull(transactions);
             RequireNotFrozen();
 
