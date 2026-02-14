@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
-using Hedera.Hashgraph.SDK.Ids;
+
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Utilities.Encoders;
 
