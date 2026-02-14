@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 
 using System;
 using System.Threading.Tasks;
@@ -88,8 +88,8 @@ namespace Hedera.Hashgraph.SDK.Queries
 		/// <returns>{@code this}</returns>
 		public ContractCallQuery SetFunction(string name, ContractFunctionParameters @params)
 		{
-			ArgumentNullException.ThrowIfNull(@params);
-			SetFunctionParameters(@params.ToBytes(name).ToByteArray());
+			FunctionParameters = @params.ToBytes(name).ToByteArray();
+
 			return this;
 		}
 
@@ -137,9 +137,11 @@ namespace Hedera.Hashgraph.SDK.Queries
             return new ContractFunctionResult(response.ContractCallLocal.FunctionResult);
         }
 
-        public override Method<Proto.Query, Proto.Response> GetMethod()
+        public override MethodDescriptor GetMethodDescriptor()
         {
-            return SmartContractServiceGrpc.GetContractCallLocalMethodMethod();
-        }
+			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.contractCallLocalMethod);
+
+			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+		}
     }
 }

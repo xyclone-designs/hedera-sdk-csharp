@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
+
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
+
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Queries
@@ -23,11 +24,8 @@ namespace Hedera.Hashgraph.SDK.Queries
 
         public override void ValidateChecksums(Client client)
         {
-            if (accountId != null)
-            {
-                accountId.ValidateChecksum(client);
-            }
-        }
+			AccountId?.ValidateChecksum(client);
+		}
 		public override async Task<Hbar> GetCostAsync(Client client)
 		{
 			// deleted accounts return a COST_ANSWER of zero which triggers `INSUFFICIENT_TX_FEE`
@@ -53,9 +51,9 @@ namespace Hedera.Hashgraph.SDK.Queries
 				Header = header,
 			};
 
-			if (accountId != null)
+			if (AccountId != null)
 			{
-				builder.AccountID = accountId.ToProtobuf();
+				builder.AccountID = AccountId.ToProtobuf();
 			}
 
 			queryBuilder.CryptoGetInfo = builder;

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Queries;
@@ -7,7 +8,6 @@ using Hedera.Hashgraph.SDK.Token;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Nfts
@@ -124,6 +124,5 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
 			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
 		}
-
 	}
 }

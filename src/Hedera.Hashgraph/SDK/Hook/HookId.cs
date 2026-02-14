@@ -8,27 +8,21 @@ namespace Hedera.Hashgraph.SDK.Hook
     /// This class represents the HookId protobuf message, which contains the hook's creating entity ID
     /// and an arbitrary 64-bit identifier.
     /// </summary>
-    public class HookId
+    /// <remarks>
+    /// Create a new HookId.
+    /// </remarks>
+    /// <param name="entityId">the hook's creating entity ID</param>
+    /// <param name="hookId">the arbitrary 64-bit identifier</param>
+    public class HookId(HookEntityId entityId, long hookId)
     {
+        public HookEntityId EntityId { get; } = entityId;
+        public long HookId_ { get; } = hookId;
+
         /// <summary>
-        /// Create a new HookId.
+        /// Convert this HookId to a protobuf message.
         /// </summary>
-        /// <param name="entityId">the hook's creating entity ID</param>
-        /// <param name="hookId">the arbitrary 64-bit identifier</param>
-        public HookId(HookEntityId entityId, long hookId)
-        {
-            EntityId = entityId;
-			HookId_ = hookId;
-        }
-
-		public HookEntityId EntityId { get; }
-		public long HookId_ { get; }
-
-		/// <summary>
-		/// Convert this HookId to a protobuf message.
-		/// </summary>
-		/// <returns>the protobuf HookId</returns>
-		public virtual Proto.HookId ToProtobuf()
+        /// <returns>the protobuf HookId</returns>
+        public virtual Proto.HookId ToProtobuf()
         {
             return new Proto.HookId
             {
@@ -51,6 +45,7 @@ namespace Hedera.Hashgraph.SDK.Hook
         {
             if (this == o)
                 return true;
+
             if (o == null || GetType() != o?.GetType())
                 return false;
             

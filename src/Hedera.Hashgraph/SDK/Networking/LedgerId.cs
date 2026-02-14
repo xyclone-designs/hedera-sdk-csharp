@@ -10,9 +10,13 @@ namespace Hedera.Hashgraph.SDK.Networking
     /// <summary>
     /// Internal utility class for ledger id manipulation.
     /// </summary>
-    public class LedgerId
+    /// <remarks>
+    /// Constructor.
+    /// </remarks>
+    /// <param name="idBytes">the id (0=mainnet, 1=testnet, 2=previewnet, ...)</param>
+    public class LedgerId(byte[] idBytes)
     {
-        private readonly byte[] IdBytes;
+        private readonly byte[] IdBytes = idBytes;
         /// <summary>
         /// The mainnet ledger id
         /// </summary>
@@ -25,15 +29,6 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// The previewnet ledger id
         /// </summary>
         public static readonly LedgerId PREVIEWNET = new ([ 2 ]);
-
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="idBytes">the id (0=mainnet, 1=testnet, 2=previewnet, ...)</param>
-        public LedgerId(byte[] idBytes)
-        {
-            IdBytes = idBytes;
-        }
 
         /// <summary>
         /// Assign the ledger id via a string name or Hex encoded String.

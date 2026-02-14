@@ -7,8 +7,6 @@ using Grpc.Core;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -269,9 +267,15 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param client                    the client
 		 * @param callback a BiConsumer which handles the result or error.
 		 */
-		public virtual void GetCostAsync(Client client, Action<Hbar, Exception> callback)
+		public virtual async void GetCostAsync(Client client, Action<Hbar?, Exception?> callback)
 		{
-			ActionHelper.Action(GetCostAsync(client), callback);
+			Hbar? cost = null;
+			Exception? exception = null;
+
+			try { cost = await GetCostAsync(client); }
+			catch (Exception _exception) { exception = _exception; }
+
+			callback.Invoke(cost, exception);
 		}
 		/**
 		 * Fetch the expected cost asynchronously.
@@ -280,9 +284,15 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param timeout The timeout after which the execution attempt will be cancelled.
 		 * @param callback a BiConsumer which handles the result or error.
 		 */
-		public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar, Exception> callback)
+		public virtual async void GetCostAsync(Client client, Duration timeout, Action<Hbar?, Exception?> callback)
 		{
-			ActionHelper.Action(GetCostAsync(client, timeout), callback);
+			Hbar? cost = null;
+			Exception? exception = null;
+
+			try { cost = await GetCostAsync(client, timeout); }
+			catch (Exception _exception) { exception = _exception; }
+
+			callback.Invoke(cost, exception);
 		}
 		/**
 		 * Fetch the expected cost asynchronously.
@@ -291,9 +301,18 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param onSuccess a Consumer which consumes the result on success.
 		 * @param onFailure a Consumer which consumes the error on failure.
 		 */
-		public virtual void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
+		public virtual async void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
-			ActionHelper.TwoActions(GetCostAsync(client), onSuccess, onFailure);
+			Hbar cost;
+			
+			try { cost = await GetCostAsync(client); }
+			catch (Exception exception) 
+			{ 
+				onFailure.Invoke(exception);
+				return;
+			}
+
+			onSuccess.Invoke(cost);
 		}
 		/**
 		 * Fetch the expected cost asynchronously.
@@ -303,9 +322,18 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param onSuccess a Consumer which consumes the result on success.
 		 * @param onFailure a Consumer which consumes the error on failure.
 		 */
-		public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
+		public virtual async void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
-			ActionHelper.TwoActions(GetCostAsync(client, timeout), onSuccess, onFailure);
+			Hbar cost;
+
+			try { cost = await GetCostAsync(client, timeout); }
+			catch (Exception exception)
+			{
+				onFailure.Invoke(exception);
+				return;
+			}
+
+			onSuccess.Invoke(cost);
 		}
 
 		public override Proto.Query MakeRequest()
