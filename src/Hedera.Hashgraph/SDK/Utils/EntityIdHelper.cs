@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Com.Google.Gson;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Evm;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Networking;
 using Java.Net;
 using Java.Net.Http;
 using Java.Nio;
@@ -14,10 +17,12 @@ using Javax.Annotation;
 using Org.Bouncycastle.Util.Encoders;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
@@ -28,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Utils
     /// </summary>
     public class EntityIdHelper
     {
-		public delegate R WithIdNums<out R>(long shard, long realm, long num, string? Checksum);
+		public delegate R WithIdNums<out R>(long shard, long realm, long num, string? checksum);
 
 		/// <summary>
 		/// The length of a Solidity address in bytes.
@@ -38,8 +43,8 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// The length of a hexadecimal-encoded Solidity address, in ASCII characters (bytes).
         /// </summary>
         public static readonly int SOLIDITY_ADDRESS_LEN_HEX = SOLIDITY_ADDRESS_LEN * 2;
-        private static readonly Pattern ENTITY_ID_REGEX = Pattern.Compile("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([a-z]{5}))?$");
-        public static readonly Duration MIRROR_NODE_CONNECTION_TIMEOUT = Duration.FromTimeSpan(TimeSpan.FromSeconds(30);
+        private static readonly Regex ENTITY_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([a-z]{5}))?$");
+        public static readonly Duration MIRROR_NODE_CONNECTION_TIMEOUT = Duration.FromTimeSpan(TimeSpan.FromSeconds(30));
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -56,13 +61,14 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// <returns>the R type object</returns>
         public static R FromString<R>(string idString, WithIdNums<R> constructObjectWithIdNums)
         {
-            var match = ENTITY_ID_REGEX.Matcher(idString);
-            if (!match.Find())
+            MatchCollection match = ENTITY_ID_REGEX.Matches(idString);
+
+            if (match.Count == 0)
             {
                 throw new ArgumentException("Invalid ID \"" + idString + "\": format should look like 0.0.123 or 0.0.123-vfmkw");
             }
 
-            return constructObjectWithIdNums.Invoke(long.Parse(match.Group(1)), long.Parse(match.Group(2)), long.Parse(match.Group(3)), match.Group(4));
+            return constructObjectWithIdNums.Invoke(long.Parse(match[1].Value), long.Parse(match[2].Value), long.Parse(match[3].Value), match[4]?.Value);
         }
 
         /// <summary>
@@ -80,13 +86,15 @@ namespace Hedera.Hashgraph.SDK.Utils
         private static R FromSolidityAddress<R>(byte[] address, WithIdNums<R> withAddress)
         {
             if (address.Length != SOLIDITY_ADDRESS_LEN)
-            {
-                throw new ArgumentException("Solidity addresses must be 20 bytes or 40 hex chars");
-            }
+				throw new ArgumentException("Solidity addresses must be 20 bytes or 40 hex chars");
 
-            var buf = ByteBuffer.Wrap(address);
-            
-            return withAddress.Invoke(buf.GetInt(), buf.GetLong(), buf.GetLong(), null);
+			var span = address.AsSpan();
+
+			return withAddress.Invoke(
+				BinaryPrimitives.ReadInt32BigEndian(span.Slice(00, 4)), 
+                BinaryPrimitives.ReadInt64BigEndian(span.Slice(04, 8)),
+                BinaryPrimitives.ReadInt64BigEndian(span.Slice(12, 8)),
+                null);
         }
 
         /// <summary>
@@ -97,16 +105,15 @@ namespace Hedera.Hashgraph.SDK.Utils
         public static byte[] DecodeEvmAddress(string address)
         {
             address = address.StartsWith("0x") ? address.Substring(2) : address;
-            if (address.Length != SOLIDITY_ADDRESS_LEN_HEX)
-            {
-                throw new ArgumentException("Solidity addresses must be 20 bytes or 40 hex chars");
-            }
 
-            try
+            if (address.Length != SOLIDITY_ADDRESS_LEN_HEX)
+				throw new ArgumentException("Solidity addresses must be 20 bytes or 40 hex chars");
+
+			try
             {
                 return Hex.Decode(address);
             }
-            catch (DecoderException e)
+            catch (Exception e)
             {
                 throw new ArgumentException("failed to decode Solidity address as hex", e);
             }
@@ -138,7 +145,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         public static string Checksum(LedgerId ledgerId, string addr)
         {
             StringBuilder answer = new ();
-            IList<int> d = []; // Digits with 10 for ".", so if addr == "0.0.123" then d == [0, 10, 0, 10, 1, 2, 3]
+            List<int> d = []; // Digits with 10 for ".", so if addr == "0.0.123" then d == [0, 10, 0, 10, 1, 2, 3]
             long s0 = 0; // Sum of even positions (mod 11)
             long s1 = 0; // Sum of odd positions (mod 11)
             long s = 0; // Weighted sum of all positions (mod p3)
@@ -149,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Utils
             long asciiA = Character.CodePointAt("a", 0); // 97
             long m = 1000003; // min prime greater than a million. Used for the final permutation.
             long w = 31; // Sum s of digit values weights them by powers of w. Should be coprime to p5.
-            IList<Byte> h = new List(ledgerId.ToBytes().Length + 6);
+            List<byte> h = new (ledgerId.ToBytes().Length + 6);
             foreach (byte b in ledgerId.ToBytes())
             {
                 h.Add(b);
@@ -276,13 +283,10 @@ namespace Hedera.Hashgraph.SDK.Utils
 
         /// <summary>
         /// Get AccountId num from mirror node using evm address.
-        /// 
-        /// <p>Note: This method requires API level 33 or higher. It will not work on devices running API versions below 33
-        /// because it uses features introduced in API level 33 (Android 13).</p>*
         /// </summary>
         /// <param name="client"></param>
         /// <param name="evmAddress"></param>
-        public static async Task<long> GetAccountNumFromMirrorNodeAsync(Client client, string evmAddress)
+        public static async Task<long> GetAccountNumFromMirrorNodeAsync(Client client, string? evmAddress)
         {
             string apiEndpoint = "/accounts/" + evmAddress;
             string _ = await PerformQueryToMirrorNodeAsync(client, apiEndpoint, null);
@@ -292,9 +296,6 @@ namespace Hedera.Hashgraph.SDK.Utils
 
         /// <summary>
         /// Get EvmAddress from mirror node using account num.
-        /// 
-        /// <p>Note: This method requires API level 33 or higher. It will not work on devices running API versions below 33
-        /// because it uses features introduced in API level 33 (Android 13).</p>*
         /// </summary>
         /// <param name="client"></param>
         /// <param name="num"></param>
@@ -322,9 +323,9 @@ namespace Hedera.Hashgraph.SDK.Utils
             return ParseNumFromMirrorNodeResponse(responseFuture, "contract_id");
         }
 
-        public static async Task<string> PerformQueryToMirrorNodeAsync(Client client, string apiEndpoint, string jsonBody)
+        public static Task<string> PerformQueryToMirrorNodeAsync(Client client, string apiEndpoint, string? jsonBody)
         {
-            return PerformQueryToMirrorNodeAsync(client.GetMirrorRestBaseUrl(), apiEndpoint, jsonBody);
+            return PerformQueryToMirrorNodeAsync(client.MirrorRestBaseUrl, apiEndpoint, jsonBody);
         }
 
         public static async Task<string> PerformQueryToMirrorNodeAsync(string baseUrl, string apiEndpoint, string jsonBody)

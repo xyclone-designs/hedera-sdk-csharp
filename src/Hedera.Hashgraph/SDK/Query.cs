@@ -269,13 +269,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 */
 		public virtual async void GetCostAsync(Client client, Action<Hbar?, Exception?> callback)
 		{
-			Hbar? cost = null;
-			Exception? exception = null;
-
-			try { cost = await GetCostAsync(client); }
-			catch (Exception _exception) { exception = _exception; }
-
-			callback.Invoke(cost, exception);
+			Utils.ActionHelper.Action(GetCostAsync(client), callback);
 		}
 		/**
 		 * Fetch the expected cost asynchronously.
@@ -286,13 +280,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 */
 		public virtual async void GetCostAsync(Client client, Duration timeout, Action<Hbar?, Exception?> callback)
 		{
-			Hbar? cost = null;
-			Exception? exception = null;
-
-			try { cost = await GetCostAsync(client, timeout); }
-			catch (Exception _exception) { exception = _exception; }
-
-			callback.Invoke(cost, exception);
+			Utils.ActionHelper.Action(GetCostAsync(client), callback);
 		}
 		/**
 		 * Fetch the expected cost asynchronously.
@@ -303,16 +291,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 */
 		public virtual async void GetCostAsync(Client client, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
-			Hbar cost;
-			
-			try { cost = await GetCostAsync(client); }
-			catch (Exception exception) 
-			{ 
-				onFailure.Invoke(exception);
-				return;
-			}
-
-			onSuccess.Invoke(cost);
+			Utils.ActionHelper.TwoActions(GetCostAsync(client), onSuccess, onFailure);
 		}
 		/**
 		 * Fetch the expected cost asynchronously.
@@ -322,18 +301,9 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param onSuccess a Consumer which consumes the result on success.
 		 * @param onFailure a Consumer which consumes the error on failure.
 		 */
-		public virtual async void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
+		public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
-			Hbar cost;
-
-			try { cost = await GetCostAsync(client, timeout); }
-			catch (Exception exception)
-			{
-				onFailure.Invoke(exception);
-				return;
-			}
-
-			onSuccess.Invoke(cost);
+			Utils.ActionHelper.TwoActions(GetCostAsync(client, timeout), onSuccess, onFailure);
 		}
 
 		public override Proto.Query MakeRequest()

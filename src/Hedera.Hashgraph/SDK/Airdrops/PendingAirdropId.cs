@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 
 using System;
@@ -59,7 +59,6 @@ namespace Hedera.Hashgraph.SDK.Airdrops
 			{
 				SenderId = Sender.ToProtobuf(),
 				ReceiverId = Receiver.ToProtobuf(),
-
 			};
 
 			if (TokenId != null)

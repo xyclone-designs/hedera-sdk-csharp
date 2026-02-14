@@ -3,7 +3,7 @@ using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.Ids;
+
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X9;

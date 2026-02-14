@@ -163,7 +163,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             else
             {
                 var callDataFileId = CreateFile(EthereumData.CallData, client, timeoutPerTransaction, ethereumTransaction);
-				ethereumTransaction.FileId = callDataFileId;
+				ethereumTransaction.CallDataFileId = callDataFileId;
 				ethereumTransaction.EthereumData = EthereumData.ToBytes();
 			}
 
@@ -215,7 +215,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             {
                 FileId fileid = await CreateFileAsync(ethereumDataBytes, client, timeoutPerTransaction, ethereumTransaction);
 
-				ethereumTransaction.FileId = fileid;
+				ethereumTransaction.CallDataFileId = fileid;
 				ethereumTransaction.EthereumData = EthereumData.ToBytes();
 
                 return await ethereumTransaction.ExecuteAsync(client, timeoutPerTransaction);
@@ -227,9 +227,9 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Action<TransactionResponse, Exception> callback)
+        public virtual void ExecuteAsync(Client client, Action<TransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client), callback);
+            Utils.ActionHelper.Action(ExecuteAsync(client), callback);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -237,9 +237,9 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse, Exception> callback)
+        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
+            Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -249,7 +249,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -260,7 +260,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
         }
     }
 }

@@ -2,9 +2,10 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Utils;
 
 using System.Collections.Generic;
@@ -46,27 +47,27 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The key which can perform update/delete operations on the token. If empty, the token can be perceived as immutable (not being able to be updated/deleted)
         /// </summary>
-        public readonly Key AdminKey;
+        public readonly Key? AdminKey;
         /// <summary>
         /// The key which can grant or revoke KYC of an account for the token's transactions. If empty, KYC is not required, and KYC grant or revoke operations are not possible.
         /// </summary>
-        public readonly Key KycKey;
+        public readonly Key? KycKey;
         /// <summary>
         /// The key which can freeze or unfreeze an account for token transactions. If empty, freezing is not possible
         /// </summary>
-        public readonly Key FreezeKey;
+        public readonly Key? FreezeKey;
         /// <summary>
         /// The key which can wipe token balance of an account. If empty, wipe is not possible
         /// </summary>
-        public readonly Key WipeKey;
+        public readonly Key? WipeKey;
         /// <summary>
         /// The key which can change the supply of a token. The key is used to sign Token Mint/Burn operations
         /// </summary>
-        public readonly Key SupplyKey;
+        public readonly Key? SupplyKey;
         /// <summary>
         /// The key which can change the custom fees of the token; if not set, the fees are immutable
         /// </summary>
-        public readonly Key FeeScheduleKey;
+        public readonly Key? FeeScheduleKey;
         /// <summary>
         /// The default Freeze status (not applicable, frozen or unfrozen) of Hedera accounts relative to this token. FreezeNotApplicable is returned if Token Freeze Key is empty. Frozen is returned if Token Freeze Key is set and defaultFreeze is set to true. Unfrozen is returned if Token Freeze Key is set and defaultFreeze is set to false
         /// </summary>
@@ -116,7 +117,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The Key which can pause and unpause the Token.
         /// </summary>
-        public readonly Key PauseKey;
+        public readonly Key? PauseKey;
         /// <summary>
         /// Specifies whether the token is paused or not. Null if pauseKey is not set.
         /// </summary>
@@ -129,13 +130,13 @@ namespace Hedera.Hashgraph.SDK.Token
         /// The key which can change the metadata of a token
         /// (token definition and individual NFTs).
         /// </summary>
-        public readonly Key MetadataKey;
+        public readonly Key? MetadataKey;
         /// <summary>
         /// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
         /// </summary>
         public readonly LedgerId LedgerId;
         
-        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key adminKey, Key kycKey, Key freezeKey, Key wipeKey, Key supplyKey, Key feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, Duration autoRenewPeriod, Timestamp expirationTime, string tokenMemo, IList<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key pauseKey, bool pauseStatus, byte[] metadata, Key metadataKey, LedgerId ledgerId)
+        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, Duration autoRenewPeriod, Timestamp expirationTime, string tokenMemo, IList<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
         {
             TokenId = tokenId;
             Name = name;
@@ -269,7 +270,6 @@ namespace Hedera.Hashgraph.SDK.Token
 		{
             Proto.TokenInfo proto = new()
             {
-				AdminKey = AdminKey.ToProtobufKey(),
 				AutoRenewAccount = AutoRenewAccount.ToProtobuf(),
 				AutoRenewPeriod = DurationConverter.ToProtobuf(AutoRenewPeriod),
 				Decimals = Decimals,
@@ -277,26 +277,36 @@ namespace Hedera.Hashgraph.SDK.Token
 				DefaultKycStatus = KycStatusToProtobuf(DefaultKycStatus),
 				Deleted = IsDeleted,
 				Expiry = TimestampConverter.ToProtobuf(ExpirationTime),
-				FeeScheduleKey = FeeScheduleKey.ToProtobufKey(),
-				FreezeKey = FreezeKey.ToProtobufKey(),
-				KycKey = KycKey.ToProtobufKey(),
 				LedgerId = LedgerId.ToByteString(),
-				PauseKey = PauseKey.ToProtobufKey(),
 				PauseStatus = PauseStatusToProtobuf(PauseStatus),
 				MaxSupply = MaxSupply,
 				Memo = TokenMemo,
 				Metadata = ByteString.CopyFrom(Metadata),
-				MetadataKey = MetadataKey.ToProtobufKey(),
 				Name = Name,
 				TokenId = TokenId.ToProtobuf(),
 				TotalSupply = TotalSupply,
 				TokenType = (Proto.TokenType)TokenType,
 				Treasury = TreasuryAccountId.ToProtobuf(),
-				SupplyKey = SupplyKey.ToProtobufKey(),
 				SupplyType = (Proto.TokenSupplyType)SupplyType,
 				Symbol = Symbol,
-				WipeKey = WipeKey.ToProtobufKey(),
 			};
+
+            if (AdminKey is not null) 
+                proto.AdminKey = AdminKey.ToProtobufKey();
+            if (FeeScheduleKey is not null) 
+                proto.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
+            if (FreezeKey is not null) 
+                proto.FreezeKey = FreezeKey.ToProtobufKey();
+            if (KycKey is not null) 
+                proto.KycKey = KycKey.ToProtobufKey();
+            if (PauseKey is not null) 
+                proto.PauseKey = PauseKey.ToProtobufKey();
+            if (MetadataKey is not null) 
+                proto.MetadataKey = MetadataKey.ToProtobufKey();
+            if (SupplyKey is not null) 
+                proto.SupplyKey = SupplyKey.ToProtobufKey();
+            if (WipeKey is not null) 
+                proto.WipeKey = WipeKey.ToProtobufKey();
 
 			proto.CustomFees.AddRange(CustomFees.Select(_ => _.ToProtobuf()));
 

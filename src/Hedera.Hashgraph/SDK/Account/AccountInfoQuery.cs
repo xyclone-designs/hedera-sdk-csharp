@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
 
-using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Queries;
 
 using System;
 using System.Threading.Tasks;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// Get all the information about an account, including the balance.
-    /// This does not get the list of account records.
-    /// </summary>
-    public sealed class AccountInfoQuery : Query<AccountInfo, AccountInfoQuery>
+	/// <summary>
+	/// Get all the information about an account, including the balance.
+	/// This does not get the list of account records.
+	/// </summary>
+	public sealed class AccountInfoQuery : Query<AccountInfo, AccountInfoQuery>
     {
         /// <summary>
         /// Sets the account ID for which information is requested.

@@ -3,13 +3,14 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.LiveHashes;
+using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
@@ -38,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// network, but without earning payments. If the proxyAccountID account refuses to accept proxy staking , or if it
         /// is not currently running a node, then it will behave as if proxyAccountID was null.
         /// </summary>
-        public readonly AccountId ProxyAccountId;
+        public readonly AccountId? ProxyAccountId;
         /// <summary>
         /// The total proxy staked to this account.
         /// </summary>
@@ -96,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <summary>
         /// The public key which aliases to this account.
         /// </summary>
-        public readonly PublicKey AliasKey;
+        public readonly PublicKey? AliasKey;
         /// <summary>
         /// The ledger ID the response was returned from; please see <a
         /// href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the
@@ -122,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <summary>
         /// Staking metadata for this account.
         /// </summary>
-        public readonly StakingInfo StakingInfo;
+        public readonly StakingInfo? StakingInfo;
         
         /// <summary>
         /// Constructor.
@@ -146,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <param name="maxAutomaticTokenAssociations">max number of token associations</param>
         /// <param name="aliasKey">public alias key</param>
         /// <param name="ledgerId">the ledger id</param>
-        private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, Timestamp expirationTime, Duration autoRenewPeriod, IList<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo stakingInfo)
+        private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId? proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, Timestamp expirationTime, Duration autoRenewPeriod, IList<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey? aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo? stakingInfo)
         {
             AccountId = accountId;
             ContractAccountId = contractAccountId;

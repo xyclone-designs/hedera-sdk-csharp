@@ -25,17 +25,17 @@ namespace Hedera.Hashgraph.SDK.Keys
     /// </summary>
     class PrivateKeyED25519 : PrivateKey
     {
-        private readonly byte[] keyData;
-        private readonly KeyParameter chainCode;
+        private readonly byte[] KeyData;
+        private readonly KeyParameter? ChainCode;
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="keyData">the key data</param>
         /// <param name="chainCode">the chain code</param>
-        internal PrivateKeyED25519(byte[] keyData, KeyParameter chainCode)
+        internal PrivateKeyED25519(byte[] keyData, KeyParameter? chainCode)
         {
-            keyData = keyData;
-            chainCode = chainCode;
+            KeyData = keyData;
+            ChainCode = chainCode;
         }
 
 		/// <summary>
@@ -72,11 +72,9 @@ namespace Hedera.Hashgraph.SDK.Keys
 		{
 			if ((privateKey.Length == Ed25519.SecretKeySize) || (privateKey.Length == Ed25519.SecretKeySize + Ed25519.PublicKeySize))
 			{
-
 				// If this is a 32 or 64 byte string, assume an Ed25519 private key
 				return new PrivateKeyED25519(privateKey[0..Ed25519.SecretKeySize], null);
 			}
-
 
 			// Assume a DER-encoded private key descriptor
 			return FromPrivateKeyInfoInternal(PrivateKeyInfo.GetInstance(privateKey));
@@ -173,11 +171,11 @@ namespace Hedera.Hashgraph.SDK.Keys
 
 		public override bool IsDerivable()
 		{
-			return chainCode != null;
+			return ChainCode != null;
 		}
 		public override PrivateKey Derive(int index)
 		{
-			if (chainCode == null)
+			if (ChainCode == null)
 			{
 				throw new InvalidOperationException("this private key does not support derivation");
 			}
@@ -191,9 +189,9 @@ namespace Hedera.Hashgraph.SDK.Keys
 			// SLIP-10 child key derivation
 			// https://github.com/satoshilabs/slips/blob/master/slip-0010.md#master-key-generation
 			var hmacSha512 = new HMac(new Sha512Digest());
-			hmacSha512.Init(chainCode);
+			hmacSha512.Init(ChainCode);
 			hmacSha512.Update((byte)0);
-			hmacSha512.BlockUpdate(keyData, 0, Ed25519.SecretKeySize);
+			hmacSha512.BlockUpdate(KeyData, 0, Ed25519.SecretKeySize);
 
 			// write the index in big-endian order, setting the 31st bit to mark it "hardened"
 			var indexBytes = new byte[4];
@@ -206,7 +204,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 		}
 		public override PrivateKey LegacyDerive(long index)
         {
-            var keyBytes = LegacyDeriveChildKey(keyData, index);
+            var keyBytes = LegacyDeriveChildKey(KeyData, index);
             return FromBytesInternal(keyBytes);
         }
         public override PublicKey GetPublicKey()
@@ -217,13 +215,13 @@ namespace Hedera.Hashgraph.SDK.Keys
             }
 
             byte[] publicKeyData = new byte[Ed25519.PublicKeySize];
-            Ed25519.GeneratePublicKey(keyData, 0, publicKeyData, 0);
+            Ed25519.GeneratePublicKey(KeyData, 0, publicKeyData, 0);
             publicKey = PublicKeyED25519.FromBytesInternal(publicKeyData);
             return publicKey;
         }
         public override KeyParameter GetChainCode()
         {
-            return chainCode;
+            return ChainCode;
         }
 
 		public override bool IsECDSA()
@@ -238,7 +236,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 		public override byte[] Sign(byte[] message)
         {
             byte[] signature = new byte[Ed25519.SignatureSize];
-            Ed25519.Sign(keyData, 0, message, 0, message.Length, signature, 0);
+            Ed25519.Sign(KeyData, 0, message, 0, message.Length, signature, 0);
             return signature;
         }
 
@@ -248,13 +246,13 @@ namespace Hedera.Hashgraph.SDK.Keys
         }
         public override byte[] ToBytesRaw()
         {
-            return keyData;
+            return KeyData;
         }
         public override byte[] ToBytesDER()
         {
             try
             {
-                return new PrivateKeyInfo(new AlgorithmIdentifier(ID_ED25519), new DerOctetString(keyData)).GetEncoded("DER");
+                return new PrivateKeyInfo(new AlgorithmIdentifier(ID_ED25519), new DerOctetString(KeyData)).GetEncoded("DER");
             }
             catch (IOException e)
             {

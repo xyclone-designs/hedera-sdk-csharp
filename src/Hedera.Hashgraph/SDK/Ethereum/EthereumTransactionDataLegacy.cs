@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
+using Nethereum.RLP;
+
 using Org.BouncyCastle.Math;
+
 using System;
-using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
@@ -74,24 +76,45 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 		/// </summary>
 		/// <param name="bytes">the byte array</param>
 		/// <returns>                         the ethereum transaction data</returns>
-		public new static EthereumTransactionDataLegacy FromBytes(byte[] bytes)
-        {
-            var decoder = RLPDecoder.RLP_STRICT.SequenceIterator(bytes);
-            var rlpItem = decoder.Next();
-            IList<RLPItem> rlpList = rlpItem.AsRLPList().Elements();
-            if (rlpList.Count != 9)
-            {
-                throw new ArgumentException("expected 9 RLP encoded elements, found " + rlpList.Count);
-            }
+        public new static EthereumTransactionDataLegacy FromBytes(byte[] bytes)
+	    {
+		    if (bytes == null || bytes.Length == 0)
+			    throw new ArgumentException(null, nameof(bytes));
 
-            return new EthereumTransactionDataLegacy(rlpList[0].Data(), rlpList[1].AsBytes(), rlpList[2].Data(), rlpList[3].Data(), rlpList[4].Data(), rlpList[5].Data(), rlpList[6].AsBytes(), rlpList[7].Data(), rlpList[8].Data());
-        }
+		    if (RLP.Decode(bytes) is not RLPCollection rlpList)
+			    throw new ArgumentException("Expected RLP list for legacy transaction.");
 
-        public override byte[] ToBytes()
-        {
-            return RLPEncoder.List(Nonce, GasPrice, GasLimit, To, Value, callData, V, R, S);
-        }
-        public override string ToString()
+		    if (rlpList.Count != 9)
+			    throw new ArgumentException($"expected 9 RLP encoded elements, found {rlpList.Count}");
+
+		    return new EthereumTransactionDataLegacy(
+				nonce: rlpList[0].RLPData,
+			    gasPrice: rlpList[1].RLPData,
+			    gasLimit: rlpList[2].RLPData,
+			    to: rlpList[3].RLPData,
+			    value: rlpList[4].RLPData,
+			    callData: rlpList[5].RLPData,
+			    v: rlpList[6].RLPData,
+			    r: rlpList[7].RLPData,
+			    s: rlpList[8].RLPData 
+		    );
+	    }
+
+		public override byte[] ToBytes()
+		{
+			return RLP.EncodeList(
+				RLP.EncodeElement(Nonce),
+				RLP.EncodeElement(GasPrice),
+				RLP.EncodeElement(GasLimit),
+				RLP.EncodeElement(To),
+				RLP.EncodeElement(Value),
+				RLP.EncodeElement(CallData),
+				RLP.EncodeElement(V),
+				RLP.EncodeElement(R),
+				RLP.EncodeElement(S)
+			);
+		}
+		public override string ToString()
         {
             throw new NotImplementedException();
         }

@@ -13,11 +13,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 	public class NodeAddressBook
     {
 		/// <summary>
-	 /// Create a node address book from a byte string.
-	 /// </summary>
-	 /// <param name="bytes">the byte string</param>
-	 /// <returns>                         the new node address book</returns>
-	 /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		 /// Create a node address book from a byte string.
+		 /// </summary>
+		 /// <param name="bytes">the byte string</param>
+		 /// <returns>                         the new node address book</returns>
+		 /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
 		public static NodeAddressBook FromBytes(ByteString bytes)
 		{
 			return FromProtobuf(Proto.NodeAddressBook.Parser.ParseFrom(bytes));

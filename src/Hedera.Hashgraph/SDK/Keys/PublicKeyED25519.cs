@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Ethereum;
+
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math.EC.Rfc8032;
 
 using System;
 using System.IO;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
@@ -36,7 +37,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             if (publicKey.Length == Ed25519.PublicKeySize)
             {
-
                 // Validate the key if it's not all zero public key, see HIP-540
                 if (!Equals(publicKey, new byte[32]))
 					// Will throw if the key is invalid

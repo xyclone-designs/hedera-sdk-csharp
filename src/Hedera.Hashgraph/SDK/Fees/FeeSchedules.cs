@@ -15,6 +15,9 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// </summary>
         public FeeSchedules() { }
 
+		private FeeSchedule? _Current;
+		private FeeSchedule? _Next;
+
 		/// <summary>
 		/// Create a fee schedules object from a byte array.
 		/// </summary>
@@ -41,13 +44,13 @@ namespace Hedera.Hashgraph.SDK.Fees
 
 		public virtual FeeSchedule? Current
 		{
-			get => field?.Clone() as FeeSchedule;
-			set => field = value?.Clone() as FeeSchedule;
+			get => _Current?.Clone() as FeeSchedule;
+			set => _Current = value?.Clone() as FeeSchedule;
 		}
 		public virtual FeeSchedule? Next
 		{
-			get => field?.Clone() as FeeSchedule;
-			set => field = value?.Clone() as FeeSchedule;
+			get => _Next?.Clone() as FeeSchedule;
+			set => _Next = value?.Clone() as FeeSchedule;
 		}
 
 		/// <summary>
@@ -66,8 +69,8 @@ namespace Hedera.Hashgraph.SDK.Fees
         {
 			Proto.CurrentAndNextFeeSchedule protobuf = new ();
 
-            if (Current != null) protobuf.CurrentFeeSchedule = Current.ToProtobuf();
-            if (Next != null) protobuf.NextFeeSchedule = Next.ToProtobuf();
+            if (_Current != null) protobuf.CurrentFeeSchedule = _Current.ToProtobuf();
+            if (_Next != null) protobuf.NextFeeSchedule = _Next.ToProtobuf();
 
             return protobuf;
         }

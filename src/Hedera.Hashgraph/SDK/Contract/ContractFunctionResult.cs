@@ -2,12 +2,13 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -115,16 +116,12 @@ namespace Hedera.Hashgraph.SDK.Contract
             // https://solidity.readthedocs.io/en/v0.6.2/control-structures.html#revert
             if (errorMessage != null && callResult.StartsWith(errorPrefix))
             {
-
                 // trim off the function selector bytes
                 RawResult = callResult.Substring(4);
             }
-            else
-            {
-                RawResult = callResult;
-            }
+            else RawResult = callResult;
 
-            bloom = inner.Bloom;
+			bloom = inner.Bloom;
             GasUsed = inner.GasUsed;
             logs = inner.LogInfo.Select(_ => ContractLogInfo.FromProtobuf(_)).ToList();
             createdContractIds = inner.CreatedContractIDs.Select(_ => ContractId.FromProtobuf(_)).ToList();
@@ -263,7 +260,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         public long GetInt64(int valIndex)
         {
             return GetByteBuffer(valIndex * 32 + 24).GetLong();
-        }
+		}
 
         /// <summary>
         /// Get the nth returned value as a 256-bit integer.
@@ -411,7 +408,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 
             if (evmAddress != null)
-				proto.EvmAddress = ByteString.CopyFrom(evmAddress.EvmAddress); // BytesValue.Parser.Par SetValue(.Build());
+				proto.EvmAddress = ByteString.CopyFrom(evmAddress.EVMAddress); // BytesValue.Parser.Par SetValue(.Build());
 
 			if (errorMessage != null)
 				proto.ErrorMessage = errorMessage;

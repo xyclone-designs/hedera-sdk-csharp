@@ -2,15 +2,14 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Queries;
 using Hedera.Hashgraph.SDK.Transactions;
-using Hedera.Hashgraph.SDK.Transactions.Contract;
-using Hedera.Hashgraph.SDK.Transactions.File;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
@@ -213,7 +212,7 @@ namespace Hedera.Hashgraph.SDK
 			};
 
             if (MaxChunks != null)
-                fileAppendTx.SetMaxChunks(MaxChunks.Value);
+                fileAppendTx.MaxChunks = MaxChunks.Value;
 
             if (NodeAccountIds != null)
 				fileAppendTx.SetNodeAccountIds(NodeAccountIds);
@@ -234,12 +233,13 @@ namespace Hedera.Hashgraph.SDK
 				ProxyAccountId = ProxyAccountId,
 				AutoRenewPeriod = AutoRenewPeriod,
 				AutoRenewAccountId = AutoRenewAccountId,
-				ContractMemo = ContractMemo,
 				NodeAccountIds = [.. NodeAccountIds],
 				StakedAccountId = StakedAccountId,
 				StakedNodeId = StakedNodeId
-
 			};
+
+			if (ContractMemo is not null)
+				transaction.ContractMemo = ContractMemo;
 
 			if (FreezeWithClient != null)
 				transaction.FreezeWith(FreezeWithClient);
@@ -297,7 +297,11 @@ namespace Hedera.Hashgraph.SDK
 
 				var response = CreateContractCreateTransaction(fileId).Execute(client, timeoutPerTransaction);
                 response.GetReceipt(client, timeoutPerTransaction);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(client, timeoutPerTransaction);
+                new FileDeleteTransaction
+				{
+					FileId = fileId,
+
+				}.Execute(client, timeoutPerTransaction);
                 return response;
             }
             catch (ReceiptStatusException e)
@@ -334,7 +338,11 @@ namespace Hedera.Hashgraph.SDK
             TransactionResponse createContractCreateResponse = await CreateContractCreateTransaction(createFileCreateReceipt.FileId).ExecuteAsync(client, timeoutPerTransaction);
             TransactionReceipt createContractCreateReceipt = await CreateTransactionReceiptQuery(createContractCreateResponse).ExecuteAsync(client, timeoutPerTransaction);
 
-            await new FileDeleteTransaction().SetFileId(createFileCreateReceipt.FileId).ExecuteAsync(client, timeoutPerTransaction);
+            await new FileDeleteTransaction
+			{
+				FileId = createFileCreateReceipt.FileId
+
+			}.ExecuteAsync(client, timeoutPerTransaction);
 
             return createContractCreateResponse;
         }
@@ -343,9 +351,9 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Action<TransactionResponse, Exception> callback)
+        public virtual void ExecuteAsync(Client client, Action<TransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client), callback);
+            Utils.ActionHelper.Action(ExecuteAsync(client), callback);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -353,9 +361,9 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse, Exception> callback)
+        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
+            Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -365,7 +373,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -376,7 +384,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
         }
 		/// <summary>
 		/// Sets the constructor parameters as their raw bytes.

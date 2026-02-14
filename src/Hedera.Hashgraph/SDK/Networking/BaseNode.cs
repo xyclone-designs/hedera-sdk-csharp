@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <summary>
 		/// Timestamp of when this node will be considered healthy again
 		/// </summary>
-		public Instant ReadmitTime { get; set; }
+		public Timestamp ReadmitTime { get; set; }
 
 		/// <summary>
 		/// The current backoff duration. Uses exponential backoff so think 1s, 2s, 4s, 8s, etc until maxBackoff is hit

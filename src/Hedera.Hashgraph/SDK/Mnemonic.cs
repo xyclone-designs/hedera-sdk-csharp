@@ -24,8 +24,8 @@ namespace Hedera.Hashgraph.SDK
     {
         // by storing our word list in a WeakReference, the GC is free to evict it at its discretion
         // but the implementation is meant to wait until free space is needed
-        private static WeakReference<IList<string>>? Bip39WordList = null;
-        private static WeakReference<IList<string>>? LegacyWordList = null;
+        private static WeakReference<IList<string>>? Bip39WordList;
+        private static WeakReference<IList<string>>? LegacyWordList;
         
         private string? AsString = null;
 
@@ -277,11 +277,12 @@ namespace Hedera.Hashgraph.SDK
 				return GetSpecificWordList(() => Bip39WordList, () => ReadWordList(false), (newWordList) => Bip39WordList = newWordList);
 			}
 		}
-		internal static IList<string> GetSpecificWordList(Func<WeakReference<IList<string>>> getCurrentWordList, Func<IList<string>> getNewWordList, Action<WeakReference<IList<string>>> setCurrentWordList)
+		internal static IList<string> GetSpecificWordList(Func<WeakReference<IList<string>>?> getCurrentWordList, Func<IList<string>> getNewWordList, Action<WeakReference<IList<string>>> setCurrentWordList)
 		{
 			lock (typeof(Mnemonic))
 			{
-				if (getCurrentWordList.Invoke().TryGetTarget(out IList<string>? _localwords) is false || _localwords is null)
+				if (getCurrentWordList.Invoke() is not WeakReference<IList<string>> reference) return getNewWordList.Invoke();
+				if (reference.TryGetTarget(out IList<string>? _localwords) is false || _localwords is null)
 				{
 					IList<string> words = getNewWordList.Invoke();
 					setCurrentWordList.Invoke(new WeakReference<IList<string>>(words));

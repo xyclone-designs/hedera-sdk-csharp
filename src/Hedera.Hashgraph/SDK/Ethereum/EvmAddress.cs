@@ -15,6 +15,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
     public sealed class EvmAddress : Key
     {
         private readonly byte[] bytes = [];
+
         /// <summary>
         /// Constructor
         /// </summary>

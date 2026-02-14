@@ -61,7 +61,7 @@
           "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[17.14.1, )"
+              "version": "[18.0.1, )"
             },
             "coverlet.collector": {
               "target": "Package",
@@ -72,8 +72,10 @@
               "version": "[2.9.3, )"
             },
             "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.4, )"
+              "version": "[3.1.5, )"
             }
           },
           "imports": [
@@ -427,7 +429,7 @@
             },
             "Google.Protobuf": {
               "target": "Package",
-              "version": "[3.33.4, )"
+              "version": "[3.33.5, )"
             },
             "Grpc": {
               "target": "Package",
@@ -437,7 +439,11 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[2.76.0, )"
+              "version": "[2.78.0, )"
+            },
+            "Nethereum.RLP": {
+              "target": "Package",
+              "version": "[5.8.0, )"
             }
           },
           "imports": [

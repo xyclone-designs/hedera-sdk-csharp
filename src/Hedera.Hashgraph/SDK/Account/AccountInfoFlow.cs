@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Queries;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -13,7 +12,11 @@ namespace Hedera.Hashgraph.SDK.Account
     /// </summary>
     public class AccountInfoFlow
     {
-        private static PublicKey GetAccountPublicKey(Client client, AccountId accountId)
+		private static PublicKey RequirePublicKey(AccountId accountId, Key key)
+		{
+			return key as PublicKey ?? throw new NotSupportedException("Account " + accountId + " has a KeyList key, which is not supported");
+		}
+		private static PublicKey GetAccountPublicKey(Client client, AccountId accountId)
         {
             AccountInfo accountinfo = new AccountInfoQuery
             {
@@ -21,9 +24,8 @@ namespace Hedera.Hashgraph.SDK.Account
 
             }.Execute(client);
 
-			return RequirePublicKey(accountId, accountinfo.key);
+			return RequirePublicKey(accountId, accountinfo.Key);
         }
-
         private static async Task<PublicKey> GetAccountPublicKeyAsync(Client client, AccountId accountId)
         {
 			AccountInfo accountinfo = await new AccountInfoQuery
@@ -32,12 +34,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
 			}.ExecuteAsync(client);
 
-			return RequirePublicKey(accountId, accountinfo.key);
-        }
-
-        private static PublicKey RequirePublicKey(AccountId accountId, Key key)
-        {
-            return key as PublicKey ?? throw new NotSupportedException("Account " + accountId + " has a KeyList key, which is not supported");
+			return RequirePublicKey(accountId, accountinfo.Key);
         }
 
         /// <summary>
@@ -54,7 +51,6 @@ namespace Hedera.Hashgraph.SDK.Account
         {
             return GetAccountPublicKey(client, accountId).Verify(message, signature);
         }
-
         /// <summary>
         /// Is the transaction signature valid.
         /// </summary>
@@ -68,7 +64,6 @@ namespace Hedera.Hashgraph.SDK.Account
 		{
             return GetAccountPublicKey(client, accountId).VerifyTransaction(transaction);
         }
-
         /// <summary>
         /// Asynchronously determine if the signature is valid.
         /// </summary>
@@ -83,7 +78,6 @@ namespace Hedera.Hashgraph.SDK.Account
 
 			return publickey.Verify(message, signature);
         }
-
         /// <summary>
         /// Asynchronously determine if the signature is valid.
         /// </summary>

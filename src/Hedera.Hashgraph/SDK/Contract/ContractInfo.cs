@@ -2,9 +2,10 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Utils;
 
@@ -40,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// administrator to authorize changing the admin keys, so there can never be any admin keys
         /// for that instance.
         /// </summary>
-        public readonly Key adminKey;
+        public readonly Key? adminKey;
         /// <summary>
         /// The current time at which this contract instance (and its account) is set to expire.
         /// </summary>
@@ -102,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="isDeleted">does it still exist</param>
         /// <param name="tokenRelationships">list of compound token id and relationship records</param>
         /// <param name="ledgerId">the ledger id</param>
-        private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key adminKey, Timestamp expirationTime, Duration autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
+        private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, Timestamp expirationTime, Duration autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
         {
             this.contractId = contractId;
             this.accountId = accountId;
@@ -169,7 +170,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				AccountID = accountId.ToProtobuf(),
 				ContractAccountID = contractAccountId,
 				ExpirationTime = TimestampConverter.ToProtobuf(expirationTime),
-				AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(autoRenewPeriod),
+				AutoRenewPeriod = DurationConverter.ToProtobuf(autoRenewPeriod),
 				Storage = storage,
 				Memo = contractMemo,
 				Balance = (ulong)balance.ToTinybars(),

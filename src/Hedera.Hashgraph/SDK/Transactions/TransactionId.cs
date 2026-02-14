@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Queries;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Threading.Tasks;
@@ -142,10 +142,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <returns>                         the new transaction id</returns>
 		public static TransactionId FromProtobuf(Proto.TransactionID transactionID)
 		{
-			var accountId = transactionID.AccountID is not null ? AccountId.FromProtobuf(transactionID.AccountID) : null;
-			var ValidStart = transactionID.TransactionValidStart is not null ? Utils.TimestampConverter.FromProtobuf(transactionID.TransactionValidStart) : null;
-
-			return new TransactionId(accountId, ValidStart)
+			return new TransactionId(AccountId.FromProtobuf(transactionID.AccountID), Utils.TimestampConverter.FromProtobuf(transactionID.TransactionValidStart))
 			{
 				Scheduled = transactionID.Scheduled,
 				Nonce = transactionID.Nonce != 0 ? transactionID.Nonce : null
@@ -244,9 +241,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void GetReceiptAsync(Client client, Action<TransactionReceipt, Exception> callback)
+        public void GetReceiptAsync(Client client, Action<TransactionReceipt?, Exception?> callback)
         {
-            ActionHelper.Action(GetReceiptAsync(client), callback);
+            Utils.ActionHelper.Action(GetReceiptAsync(client), callback);
         }
         /// <summary>
         /// Fetch the receipt of the transaction asynchronously.
@@ -254,9 +251,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void GetReceiptAsync(Client client, Duration timeout, Action<TransactionReceipt, Exception> callback)
+        public void GetReceiptAsync(Client client, Duration timeout, Action<TransactionReceipt?, Exception?> callback)
         {
-            ActionHelper.Action(GetReceiptAsync(client, timeout), callback);
+            Utils.ActionHelper.Action(GetReceiptAsync(client, timeout), callback);
         }
         /// <summary>
         /// Fetch the receipt of the transaction asynchronously.
@@ -266,7 +263,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public void GetReceiptAsync(Client client, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(GetReceiptAsync(client), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(GetReceiptAsync(client), onSuccess, onFailure);
         }
         /// <summary>
         /// Fetch the receipt of the transaction asynchronously.
@@ -277,7 +274,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public void GetReceiptAsync(Client client, Duration timeout, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(GetReceiptAsync(client, timeout), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(GetReceiptAsync(client, timeout), onSuccess, onFailure);
         }
 
         /// <summary>
@@ -342,9 +339,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void GetRecordAsync(Client client, Action<TransactionRecord, Exception> callback)
+        public void GetRecordAsync(Client client, Action<TransactionRecord?, Exception?> callback)
         {
-            ActionHelper.Action(GetRecordAsync(client), callback);
+            Utils.ActionHelper.Action(GetRecordAsync(client), callback);
         }
         /// <summary>
         /// Fetch the record of the transaction asynchronously.
@@ -352,9 +349,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void GetRecordAsync(Client client, Duration timeout, Action<TransactionRecord, Exception> callback)
+        public void GetRecordAsync(Client client, Duration timeout, Action<TransactionRecord?, Exception?> callback)
         {
-            ActionHelper.Action(GetRecordAsync(client, timeout), callback);
+            Utils.ActionHelper.Action(GetRecordAsync(client, timeout), callback);
         }
         /// <summary>
         /// Fetch the record of the transaction asynchronously.
@@ -364,7 +361,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public void GetRecordAsync(Client client, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(GetRecordAsync(client), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(GetRecordAsync(client), onSuccess, onFailure);
         }
         /// <summary>
         /// Fetch the record of the transaction asynchronously.
@@ -375,7 +372,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public void GetRecordAsync(Client client, Duration timeout, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(GetRecordAsync(client, timeout), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(GetRecordAsync(client, timeout), onSuccess, onFailure);
         }
 
 		public int CompareTo(TransactionId? o)

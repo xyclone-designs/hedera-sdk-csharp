@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
-using Hedera.Hashgraph.SDK.Ids;
-
 using System;
 
 namespace Hedera.Hashgraph.SDK.Contract
@@ -27,25 +25,24 @@ namespace Hedera.Hashgraph.SDK.Contract
             Nonce = nonce;
         }
 
-        /// <summary>
-        /// Extract the contractNonce from the protobuf.
-        /// </summary>
-        /// <param name="contractNonceInfo">the protobuf</param>
-        /// <returns>the contract object</returns>
-        public static ContractNonceInfo FromProtobuf(Proto.ContractNonceInfo contractNonceInfo)
+		/// <summary>
+		/// Extract the contractNonce from a byte array.
+		/// </summary>
+		/// <param name="bytes">the byte array</param>
+		/// <returns>the extracted contract</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static ContractNonceInfo FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.ContractNonceInfo.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Extract the contractNonce from the protobuf.
+		/// </summary>
+		/// <param name="contractNonceInfo">the protobuf</param>
+		/// <returns>the contract object</returns>
+		public static ContractNonceInfo FromProtobuf(Proto.ContractNonceInfo contractNonceInfo)
         {
             return new ContractNonceInfo(ContractId.FromProtobuf(contractNonceInfo.ContractId), contractNonceInfo.Nonce);
-        }
-
-        /// <summary>
-        /// Extract the contractNonce from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>the extracted contract</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static ContractNonceInfo FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(Proto.ContractNonceInfo.Parser.ParseFrom(bytes));
         }
 
         /// <summary>

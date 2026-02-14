@@ -3,10 +3,9 @@ using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Transactions;
-using Hedera.Hashgraph.SDK.Transactions.Token;
 
 using System;
 using System.Collections.Generic;
@@ -200,9 +199,9 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Action<TransactionResponse, Exception> callback)
+        public virtual void ExecuteAsync(Client client, Action<TransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client), callback);
+            Utils.ActionHelper.Action(ExecuteAsync(client), callback);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -210,9 +209,9 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse, Exception> callback)
+        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
-            ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
+            Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -222,7 +221,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
         /// <summary>
         /// Execute the transactions in the flow with the passed in client asynchronously.
@@ -233,7 +232,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
         }
     }
 }

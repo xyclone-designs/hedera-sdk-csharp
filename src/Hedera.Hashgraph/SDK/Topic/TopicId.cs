@@ -31,19 +31,14 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// 
         /// Constructor that uses shard, realm and num should be used instead
         /// as shard and realm should not assume 0 value</param>
-        public TopicId(long num) : this(0, 0, num)
-        {
-        }
-
+        public TopicId(long num) : this(0, 0, num) { }
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="shard">the shard part</param>
         /// <param name="realm">the realm part</param>
         /// <param name="num">the num part</param>
-        public TopicId(long shard, long realm, long num) : this(shard, realm, num, null)
-        {
-        }
+        public TopicId(long shard, long realm, long num) : this(shard, realm, num, null) { }
 
         /// <summary>
         /// Constructor.

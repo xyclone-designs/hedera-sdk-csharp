@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 	public static class FeeAssessmentMethodExtensions
 	{
         public static bool ToBool(this FeeAssessmentMethod _feeassessmentmethod) => _feeassessmentmethod == FeeAssessmentMethod.Exclusive;
-        public static FeeAssessmentMethod ToFeeAssessmentMethod(this bool _bool) => _bool ? FeeAssessmentMethod.Exclusive : FeeAssessmentMethod.Exclusive;
+        public static FeeAssessmentMethod ToFeeAssessmentMethod(this bool _bool) => _bool ? FeeAssessmentMethod.Inclusive : FeeAssessmentMethod.Exclusive;
 	}
 }
 

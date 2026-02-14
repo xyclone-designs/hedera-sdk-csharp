@@ -27,7 +27,6 @@ namespace Hedera.Hashgraph.SDK.Nfts
         /// <param name="NftId">The NftId to be set</param>
         /// <returns>{@code this}</returns>
         public virtual NftId? NftId { get; set; }
-
 		/// <summary>
 		/// Sets the Token ID and the index range for which information is requested.
 		/// </summary>
@@ -35,7 +34,6 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// <returns>{@code this}</returns>
 		/// <remarks>@deprecatedwith no replacement</remarks>
 		public virtual TokenId? TokenId { get; set; }
-
 		/// <summary>
 		/// Sets the Account ID for which information is requested.
 		/// </summary>

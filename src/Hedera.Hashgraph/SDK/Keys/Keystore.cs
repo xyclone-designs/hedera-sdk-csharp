@@ -45,7 +45,6 @@ namespace Hedera.Hashgraph.SDK.Keys
 				throw;
 			}
 		}
-
 		private static Keystore FromJson(JsonElement root, string passphrase)
 		{
 			int version = ExpectInt(root, "version");
@@ -57,7 +56,6 @@ namespace Hedera.Hashgraph.SDK.Keys
 				_ => throw new BadKeyException("unsupported keystore version: " + version)
 			};
 		}
-
 		private static Keystore ParseKeystoreV1(JsonElement crypto, string passphrase)
 		{
 			string ciphertext = ExpectString(crypto, "ciphertext");
@@ -89,17 +87,13 @@ namespace Hedera.Hashgraph.SDK.Keys
 			KeyParameter cipherKey =
 				Crypto.DeriveKeySha256(passphrase, salt, count, dkLen);
 
-			byte[] testHmac =
-				Crypto.CalcHmacSha384(cipherKey, null, cipherBytes);
+			byte[] testHmac = Crypto.CalcHmacSha384(cipherKey, null, cipherBytes);
 
 			if (!CryptographicOperations.FixedTimeEquals(mac, testHmac))
 				throw new BadKeyException("HMAC mismatch; passphrase is incorrect");
 
-			return new Keystore(
-				Crypto.DecryptAesCtr128(cipherKey, iv, cipherBytes)
-			);
+			return new Keystore(Crypto.DecryptAesCtr128(cipherKey, iv, cipherBytes));
 		}
-
 		private static Keystore ParseKeystoreV2(JsonElement crypto, string passphrase)
 		{
 			string ciphertext = ExpectString(crypto, "ciphertext");
@@ -142,17 +136,6 @@ namespace Hedera.Hashgraph.SDK.Keys
 			);
 		}
 
-		private static JsonElement ExpectObject(JsonElement obj, string key)
-		{
-			if (!obj.TryGetProperty(key, out JsonElement value) ||
-				value.ValueKind != JsonValueKind.Object)
-			{
-				throw new Exception($"expected key '{key}' to be an object");
-			}
-
-			return value;
-		}
-
 		private static int ExpectInt(JsonElement obj, string key)
 		{
 			if (!obj.TryGetProperty(key, out JsonElement value) ||
@@ -164,7 +147,6 @@ namespace Hedera.Hashgraph.SDK.Keys
 
 			return result;
 		}
-
 		private static string ExpectString(JsonElement obj, string key)
 		{
 			if (!obj.TryGetProperty(key, out JsonElement value) ||
@@ -174,6 +156,17 @@ namespace Hedera.Hashgraph.SDK.Keys
 			}
 
 			return value.GetString()!;
+		}
+
+		private static JsonElement ExpectObject(JsonElement obj, string key)
+		{
+			if (!obj.TryGetProperty(key, out JsonElement value) ||
+				value.ValueKind != JsonValueKind.Object)
+			{
+				throw new Exception($"expected key '{key}' to be an object");
+			}
+
+			return value;
 		}
 
 		public PrivateKey GetEd25519()
@@ -191,7 +184,6 @@ namespace Hedera.Hashgraph.SDK.Keys
 			WriteExportJson(writer, passphrase);
 			writer.Flush();
 		}
-
 		private void WriteExportJson(Utf8JsonWriter writer, string passphrase)
 		{
 			writer.WriteStartObject();

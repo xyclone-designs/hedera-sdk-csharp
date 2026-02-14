@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 
-using Hedera.Hashgraph.SDK.Evm;
-
 namespace Hedera.Hashgraph.SDK.Hook
 {
     /// <summary>

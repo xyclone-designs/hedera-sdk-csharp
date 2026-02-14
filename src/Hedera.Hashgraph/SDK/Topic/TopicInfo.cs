@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Networking;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Topic
     /// </summary>
     public sealed class TopicInfo
     {
-        private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, Timestamp expirationTime, Key adminKey, Key submitKey, Duration autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key feeScheduleKey, IList<Key> feeExemptKeys, IList<CustomFixedFee> customFees)
+        private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, Timestamp expirationTime, Key? adminKey, Key? submitKey, Duration autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key? feeScheduleKey, IList<Key> feeExemptKeys, IList<CustomFixedFee> customFees)
         {
             TopicId = topicId;
             TopicMemo = topicMemo;
@@ -62,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 				AccountId.FromProtobuf(topicInfoResponse.TopicInfo.AutoRenewAccount), 
                 LedgerId.FromByteString(topicInfoResponse.TopicInfo.LedgerId),
 				Key.FromProtobufKey(topicInfoResponse.TopicInfo.FeeScheduleKey), 
-                [.. topicInfoResponse.TopicInfo.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_))], 
+                [.. topicInfoResponse.TopicInfo.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>()], 
                 [.. topicInfoResponse.TopicInfo.CustomFees.Select(_ => CustomFixedFee.FromProtobuf(_.FixedFee))]);
         }
 
@@ -89,11 +90,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// <summary>
 		/// Access control for update/delete of the topic. Null if there is no key.
 		/// </summary>
-		public Key AdminKey { get; }
+		public Key? AdminKey { get; }
 		/// <summary>
 		/// Access control for ConsensusService.submitMessage. Null if there is no key.
 		/// </summary>
-		public Key SubmitKey { get; }
+		public Key? SubmitKey { get; }
 		/// <summary>
 		/// If an auto-renew account is specified, when the topic expires, its lifetime will be extended
 		/// by up to this duration (depending on the solvency of the auto-renew account). If the
@@ -108,7 +109,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
 		/// </summary>
 		public LedgerId LedgerId { get; }
-		public Key FeeScheduleKey { get; }
+		public Key? FeeScheduleKey { get; }
 		public IList<Key> FeeExemptKeys { get; }
 		public IList<CustomFixedFee> CustomFees { get; }
 
@@ -137,12 +138,18 @@ namespace Hedera.Hashgraph.SDK.Topic
 					ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime),
 					AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod),
 					LedgerId = LedgerId.ToByteString(),
-					AdminKey = AdminKey.ToProtobufKey(),
-					SubmitKey = SubmitKey.ToProtobufKey(),
 					AutoRenewAccount = AutoRenewAccountId.ToProtobuf(),
-					FeeScheduleKey = FeeScheduleKey.ToProtobufKey(),
 				}
 			};
+
+			if (AdminKey is not null)
+				proto.TopicInfo.AdminKey = AdminKey.ToProtobufKey();
+
+			if (SubmitKey is not null)
+				proto.TopicInfo.SubmitKey = SubmitKey.ToProtobufKey();
+
+			if (FeeScheduleKey is not null)
+				proto.TopicInfo.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
 
 			proto.TopicInfo.CustomFees.AddRange(CustomFees.Select(_ => _.ToFixedCustomFeeProtobuf()));
 			proto.TopicInfo.FeeExemptKeyList.AddRange(FeeExemptKeys.Select(_ => _.ToProtobufKey()));

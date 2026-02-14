@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Transactions.Account;
 
 namespace Hedera.Hashgraph.SDK
 {

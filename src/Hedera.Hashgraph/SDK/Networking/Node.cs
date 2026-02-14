@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 
         public override ChannelCredentials GetChannelCredentials()
         {
-            return TlsChannelCredentials.NewBuilder().TrustManager(new HederaTrustManager(AddressBookEntry.CertHash, VerifyCertificates)).Build();
+            return Proto. TlsChannelCredentials.NewBuilder().TrustManager(new HederaTrustManager(AddressBookEntry.CertHash, VerifyCertificates)).Build();
         }
     }
 }

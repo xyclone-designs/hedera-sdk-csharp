@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
 
-using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Queries;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// Get the balance of a Hedera™ crypto-currency account. This returns only the balance, so it is a
-    /// smaller and faster reply than {@link AccountInfoQuery}.
-    /// 
-    /// <p>This query is free.
-    /// </summary>
-    public sealed class AccountBalanceQuery : Query<AccountBalance, AccountBalanceQuery>
+	/// <summary>
+	/// Get the balance of a Hedera™ crypto-currency account. This returns only the balance, so it is a
+	/// smaller and faster reply than {@link AccountInfoQuery}.
+	/// 
+	/// <p>This query is free.
+	/// </summary>
+	public sealed class AccountBalanceQuery : Query<AccountBalance, AccountBalanceQuery>
     {
         /// <summary>
         /// The account ID for which the balance is being requested.

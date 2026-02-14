@@ -3,8 +3,7 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Keys;
-
-using System.Collections.Generic;
+using Hedera.Hashgraph.SDK.Networking;
 
 namespace Hedera.Hashgraph.SDK.File
 {
@@ -95,22 +94,16 @@ namespace Hedera.Hashgraph.SDK.File
 		/// </summary>
 		public Proto.FileGetInfoResponse.Types.FileInfo ToProtobuf()
         {
-            Proto.FileGetInfoResponse.Types.FileInfo proto = new()
-            {
+            return new Proto.FileGetInfoResponse.Types.FileInfo
+			{
 				FileID = FileId.ToProtobuf(),
 				Size = Size,
 				ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime),
 				Deleted = IsDeleted,
 				Memo = FileMemo,
 				LedgerId = LedgerId.ToByteString(),
-                Keys = new Proto.KeyList(),
+                Keys = Keys.ToProtobuf(),
 			};
-
-			if (Keys.Iterator() is IEnumerator<Key> keys)
-				while (keys.MoveNext())
-					proto.Keys.Keys.Add(keys.Current.ToProtobufKey());
-
-			return proto;
         }
     }
 }

@@ -3,8 +3,8 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Schedule
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
         /// <param name="deleted">the time it was deleted</param>
         /// <param name="ledgerId">the ledger id</param>
         /// <param name="waitForExpiry">the wait for expiry field</param>
-        protected ScheduleInfo(ScheduleId scheduleId, AccountId creatorAccountId, AccountId payerAccountId, Proto.SchedulableTransactionBody transactionBody, KeyList signers, Key adminKey, TransactionId scheduledTransactionId, string memo, Timestamp expirationTime, Timestamp executed, Timestamp deleted, LedgerId ledgerId, bool waitForExpiry)
+        public ScheduleInfo(ScheduleId scheduleId, AccountId creatorAccountId, AccountId payerAccountId, Proto.SchedulableTransactionBody transactionBody, KeyList signers, Key? adminKey, TransactionId scheduledTransactionId, string memo, Timestamp expirationTime, Timestamp executed, Timestamp deleted, LedgerId ledgerId, bool waitForExpiry)
         {
             ScheduleId = scheduleId;
             CreatorAccountId = creatorAccountId;
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// <summary>
 		/// The Key which is able to delete the schedule transaction if set
 		/// </summary>
-		public Key AdminKey { get; }
+		public Key? AdminKey { get; }
 		/// <summary>
 		/// The scheduled transaction
 		/// </summary>

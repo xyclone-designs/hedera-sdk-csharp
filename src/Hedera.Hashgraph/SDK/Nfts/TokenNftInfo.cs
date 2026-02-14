@@ -8,8 +8,6 @@ using Hedera.Hashgraph.SDK.Networking;
 namespace Hedera.Hashgraph.SDK.Nfts
 {
 	/// <summary>
-	/// 
-	/// 
 	/// See <a href="https://docs.hedera.com/guides/docs/hedera-api/token-service/tokengetnftinfo#tokennftinfo">Hedera Documentation</a>
 	/// </summary>
 	public class TokenNftInfo

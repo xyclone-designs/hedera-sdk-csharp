@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             try
             {
-                SetNetwork = network);
+                Network = network;
             }
             catch (ThreadInterruptedException e)
             {
@@ -142,7 +142,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			{
 				lock (this)
 				{
-					if (field != value)
+					if (base.TransportSecurity != value)
 					{
 						Network.Clear();
 						for (int i = 0; i < Nodes.Count; i++)
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 					}
 
 					HealthyNodes = [.. Nodes];
-					field = value;
+					base.TransportSecurity = value;
 				}
 			}
 		}
@@ -211,11 +211,9 @@ namespace Hedera.Hashgraph.SDK.Networking
             AddressBook = addressBook;
 
             foreach (var node in Nodes)
-            {
-                node.AddressBookEntry = addressBook == null ? null : addressBook[node.AccountId];
-            }
+				node.AddressBookEntry = addressBook[node.AccountId];
 
-            return this;
+			return this;
         }
         
         protected override Node CreateNodeFromNetworkEntry(KeyValuePair<string, AccountId> entry)

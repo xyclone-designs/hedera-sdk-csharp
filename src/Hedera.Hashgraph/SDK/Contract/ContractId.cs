@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Keys;
 
 using Org.BouncyCastle.Utilities.Encoders;
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		{
 			Shard = shard;
 			Realm = realm;
-			EvmAddress = evmAddress;
+			EVMAddress = evmAddress;
 			Num = 0;
 			Checksum = null;
 		}
@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             Realm = realm;
             Num = num;
             Checksum = checksum;
-            EvmAddress = null;
+            EVMAddress = null;
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <summary>
 		/// The 20-byte EVM address of the contract to call.
 		/// </summary>
-		public byte[]? EvmAddress { get; }
+		public byte[]? EVMAddress { get; }
 		/// <summary>
 		/// The checksum.
 		/// </summary>
@@ -160,9 +160,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
 		public virtual string ToSolidityAddress()
         {
-            if (EvmAddress != null)
+            if (EVMAddress != null)
             {
-                return Hex.ToHexString(EvmAddress);
+                return Hex.ToHexString(EVMAddress);
             }
             else
             {
@@ -176,9 +176,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns></returns>
         public virtual string ToEvmAddress()
         {
-            if (EvmAddress != null)
+            if (EVMAddress != null)
             {
-                return Hex.ToHexString(EvmAddress);
+                return Hex.ToHexString(EVMAddress);
             }
             else
             {
@@ -199,7 +199,7 @@ namespace Hedera.Hashgraph.SDK.Contract
                 ContractNum = Num,
 			};
 
-            if (EvmAddress != null) proto.EvmAddress = ByteString.CopyFrom(EvmAddress);
+            if (EVMAddress != null) proto.EvmAddress = ByteString.CopyFrom(EVMAddress);
 
             return proto;
         }
@@ -226,11 +226,11 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="client"></param>
         /// <returns>populated ContractId instance</returns>
         /// <remarks>@deprecatedUse 'populateContractNum' instead due to its nearly identical operation.</remarks>
-        public virtual Task<ContractId> PopulateContractNumAsync(Client client)
+        public virtual async Task<ContractId> PopulateContractNumAsync(Client client)
         {
-            EvmAddress address = new (EvmAddress);
+			long contractnum = await Utils.EntityIdHelper.GetContractNumFromMirrorNodeAsync(client, EvmAddress.FromBytes(EVMAddress).ToString());
 
-            return Utils.EntityIdHelper.GetContractNumFromMirrorNodeAsync(client, address.ToString()).ThenApply((contractNumFromMirrorNode) => new ContractId(Shard, Realm, contractNumFromMirrorNode, Checksum));
+			return new ContractId(Shard, Realm, contractnum, Checksum);
         }
 
         /// <summary>
@@ -268,9 +268,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         public override string ToString()
         {
-            if (EvmAddress != null)
+            if (EVMAddress != null)
             {
-                return "" + Shard + "." + Realm + "." + Hex.ToHexString(EvmAddress);
+                return "" + Shard + "." + Realm + "." + Hex.ToHexString(EVMAddress);
             }
             else
             {
@@ -285,7 +285,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>                         the string representation with the checksum</returns>
         public virtual string ToStringWithChecksum(Client client)
         {
-            if (EvmAddress != null)
+            if (EVMAddress != null)
             {
                 throw new InvalidOperationException("toStringWithChecksum cannot be applied to ContractId with evmAddress");
             }
@@ -297,7 +297,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Shard, Realm, Num, HashCode.Combine(EvmAddress));
+            return HashCode.Combine(Shard, Realm, Num, HashCode.Combine(EVMAddress));
         }
 
         public override bool Equals(object? o)
@@ -318,14 +318,14 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         private bool EvmAddressMatches(ContractId otherId)
         {
-            if ((EvmAddress == null) != (otherId.EvmAddress == null))
+            if ((EVMAddress == null) != (otherId.EVMAddress == null))
             {
                 return false;
             }
 
-            if (EvmAddress != null)
+            if (EVMAddress != null)
             {
-                return Equals(EvmAddress, otherId.EvmAddress);
+                return Equals(EVMAddress, otherId.EVMAddress);
             }
 
 
@@ -358,15 +358,15 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         private int EvmAddressCompare(ContractId? o)
         {
-            int nullCompare = (EvmAddress == null ? 0 : 1) - (o?.EvmAddress == null ? 0 : 1);
+            int nullCompare = (EVMAddress == null ? 0 : 1) - (o?.EVMAddress == null ? 0 : 1);
             if (nullCompare != 0)
             {
                 return nullCompare;
             }
 
-            if (EvmAddress != null)
+            if (EVMAddress != null)
             {
-                return Hex.ToHexString(EvmAddress).CompareTo(Hex.ToHexString(o?.EvmAddress));
+                return Hex.ToHexString(EVMAddress).CompareTo(Hex.ToHexString(o?.EVMAddress));
             }
 
 

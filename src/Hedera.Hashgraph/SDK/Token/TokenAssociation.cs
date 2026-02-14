@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Transactions.Account;
+
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
@@ -20,11 +20,12 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The token involved in the association
         /// </summary>
-        public readonly TokenId tokenId;
+        public readonly TokenId TokenId;
         /// <summary>
         /// The account involved in the association
         /// </summary>
-        public readonly AccountId accountId;
+        public readonly AccountId AccountId;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -32,8 +33,8 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="accountId">the account id</param>
         TokenAssociation(TokenId tokenId, AccountId accountId)
         {
-            this.tokenId = tokenId;
-            this.accountId = accountId;
+            this.TokenId = tokenId;
+            this.AccountId = accountId;
         }
 
 		/// <summary>
@@ -78,8 +79,8 @@ namespace Hedera.Hashgraph.SDK.Token
 		{
 			return new Proto.TokenAssociation
 			{
-				TokenId = tokenId.ToProtobuf(),
-				AccountId = accountId.ToProtobuf(),
+				TokenId = TokenId.ToProtobuf(),
+				AccountId = AccountId.ToProtobuf(),
 			};
 		}
 	}

@@ -10,6 +10,7 @@ using Hedera.Hashgraph.SDK.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
@@ -221,7 +222,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					OnFreezeChunk(FrozenBodyBuilder, TransactionIds[0].ToProtobuf(), startIndex, endIndex, i, requiredChunks);
 				}
 
-
 				// For each node we add a transaction with that node
 				foreach (var nodeId in NodeAccountIds)
 				{
@@ -415,16 +415,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="callback">a Action which handles the result or error.</param>
         public virtual async void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>?, Exception?> callback)
         {
-			IList<TransactionResponse>? response = null;
-			Exception? exception = null;
-
-			try
-			{
-				response = await ExecuteAllAsync(client);
-			}
-			catch (Exception _exception) { exception = _exception; }
-
-			callback.Invoke(response, exception);
+			Utils.ActionHelper.Action(ExecuteAllAsync(client), callback);
 		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
@@ -434,38 +425,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="callback">a Action which handles the result or error.</param>
         public virtual async void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>?, Exception?> callback)
         {
-			IList<TransactionResponse>? response = null;
-			Exception? exception = null;
-
-			try
-			{
-				response = await ExecuteAllAsync(client, timeout);
-			}
-			catch (Exception _exception) { exception = _exception; }
-
-			callback.Invoke(response, exception);
+			Utils.ActionHelper.Action(ExecuteAllAsync(client, timeout), callback);
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual async void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
+		/// <summary>
+		/// Execute this transaction or query asynchronously.
+		/// </summary>
+		/// <param name="client">The client with which this will be executed.</param>
+		/// <param name="onSuccess">a Action which consumes the result on success.</param>
+		/// <param name="onFailure">a Action which consumes the error on failure.</param>
+		public virtual async void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
-			IList<TransactionResponse> response;
-
-			try
-			{
-				response = await ExecuteAllAsync(client);
-			}
-			catch (Exception exception)
-			{
-				onFailure(exception);
-				return;
-			}
-
-			onSuccess.Invoke(response);
+			Utils.ActionHelper.TwoActions(ExecuteAllAsync(client), onSuccess, onFailure);
 		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
@@ -476,20 +446,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual async void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
-			IList<TransactionResponse> response;
-
-			try
-			{
-				response = await ExecuteAllAsync(client, timeout);
-			}
-			catch (Exception exception) 
-			{ 
-				onFailure(exception);
-				return;
-			}
-
-			onSuccess.Invoke(response);
-        }
+			Utils.ActionHelper.TwoActions(ExecuteAllAsync(client, timeout), onSuccess, onFailure);
+		}
 
         /// <summary>
         /// A common base for file and topic message transactions.

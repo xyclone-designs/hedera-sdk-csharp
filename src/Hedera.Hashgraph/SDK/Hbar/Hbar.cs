@@ -59,14 +59,14 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// <param name="unit">the unit for amount</param>
         Hbar(BigDecimal amount, HbarUnit unit)
         {
-            var Tinybars = amount.Multiply(BigDecimal.ValueOf(unit.Tinybar));
+            var tinybars = amount.Multiply(BigDecimal.ValueOf(unit.Tinybar));
 
-            if (Tinybars.DoubleValue() % 1 != 0)
+            if (tinybars.DoubleValue() % 1 != 0)
             {
                 throw new ArgumentException("Amount and Unit combination results in a fractional value for Tinybar.  Ensure Tinybar value is a whole number.");
             }
 
-            valueInTinybar = Tinybars.LongValue();
+            valueInTinybar = tinybars.LongValue();
         }
 
         private static HbarUnit GetUnit(string symbolString)
@@ -162,7 +162,6 @@ namespace Hedera.Hashgraph.SDK.HBar
             return new Hbar((long)tinybars, HbarUnit.TINYBAR);
         }
 
-
         /// <summary>
         /// Convert this hbar value to a different unit.
         /// </summary>
@@ -218,11 +217,9 @@ namespace Hedera.Hashgraph.SDK.HBar
 		public override string ToString()
         {
             if (valueInTinybar < 10000 && valueInTinybar > -10000)
-            {
-                return valueInTinybar.ToString() + " " + HbarUnit.TINYBAR.Symbol;
-            }
+				return valueInTinybar.ToString() + " " + HbarUnit.TINYBAR.Symbol;
 
-            return To(HbarUnit.HBAR).ToString() + " " + HbarUnit.HBAR.Symbol;
+			return To(HbarUnit.HBAR).ToString() + " " + HbarUnit.HBAR.Symbol;
         }
         public override bool Equals(object? o)
         {

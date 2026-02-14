@@ -2,10 +2,13 @@
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Token;
 
 using System.Collections.Generic;
@@ -54,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Record of the value returned by the smart contract
         /// function or constructor.
         /// </summary>
-        public readonly ContractFunctionResult ContractFunctionResult;
+        public readonly ContractFunctionResult? ContractFunctionResult;
         /// <summary>
         /// All hbar transfers as a result of this transaction, such as fees, or
         /// transfers performed by the transaction, or by a smart contract it calls,
@@ -90,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// In the record of an internal CryptoCreate transaction triggered by a user
         /// transaction with a (previously unused) alias, the new account's alias.
         /// </summary>
-        public readonly PublicKey AliasKey;
+        public readonly PublicKey? AliasKey;
         /// <summary>
         /// The records of processing all child transaction spawned by the transaction with the given
         /// top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
@@ -153,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         public readonly IList<PendingAirdropRecord> PendingAirdropRecords;
 
-        TransactionRecord(TransactionReceipt transactionReceipt, ByteString transactionHash, Timestamp consensusTimestamp, TransactionId transactionId, string transactionMemo, long transactionFee, ContractFunctionResult contractFunctionResult, IList<Transfer> transfers, Dictionary<TokenId, Dictionary<AccountId, long>> tokenTransfers, IList<TokenTransfer> tokenTransferList, Dictionary<TokenId, IList<TokenNftTransfer>> tokenNftTransfers, ScheduleId scheduleRef, IList<AssessedCustomFee> assessedCustomFees, IList<TokenAssociation> automaticTokenAssociations, PublicKey aliasKey, IList<TransactionRecord> children, IList<TransactionRecord> duplicates, Timestamp parentConsensusTimestamp, ByteString ethereumHash, IList<Transfer> paidStakingRewards, ByteString prngBytes, int prngNumber, ByteString evmAddress, IList<PendingAirdropRecord> pendingAirdropRecords)
+        TransactionRecord(TransactionReceipt transactionReceipt, ByteString transactionHash, Timestamp consensusTimestamp, TransactionId transactionId, string transactionMemo, long transactionFee, ContractFunctionResult? contractFunctionResult, IList<Transfer> transfers, Dictionary<TokenId, Dictionary<AccountId, long>> tokenTransfers, IList<TokenTransfer> tokenTransferList, Dictionary<TokenId, IList<TokenNftTransfer>> tokenNftTransfers, ScheduleId scheduleRef, IList<AssessedCustomFee> assessedCustomFees, IList<TokenAssociation> automaticTokenAssociations, PublicKey? aliasKey, IList<TransactionRecord> children, IList<TransactionRecord> duplicates, Timestamp parentConsensusTimestamp, ByteString ethereumHash, IList<Transfer> paidStakingRewards, ByteString prngBytes, int prngNumber, ByteString evmAddress, IList<PendingAirdropRecord> pendingAirdropRecords)
         {
             Receipt = transactionReceipt;
             TransactionHash = transactionHash;

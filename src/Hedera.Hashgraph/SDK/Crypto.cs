@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <param name="iv">the initialization vector</param>
 		/// <param name="input">the byte array</param>
 		/// <returns>                         the hmac using sha 384</returns>
-		internal static byte[] CalcHmacSha384(KeyParameter cipherKey, byte[] iv, byte[] input)
+		internal static byte[] CalcHmacSha384(KeyParameter cipherKey, byte[]? iv, byte[] input)
 		{
 			HMac hmac = new (new Sha384Digest());
 			byte[] output = new byte[hmac.GetMacSize()];
@@ -197,7 +197,7 @@ namespace Hedera.Hashgraph.SDK
 			if (r.SignValue < 0 || s.SignValue < 0) throw new ArgumentException("'r' and 's' must be positive.");
 
 			// 1.1 - 1.3 calculate point R
-			ECPoint R = DecompressKey(r, (recId & 1) == 1);
+			ECPoint? R = DecompressKey(r, (recId & 1) == 1);
 
 			// 1.4 nR should be a point at infinity
 			if (R == null || !R.Multiply(ECDSA_SECP256K1_DOMAIN.N).IsInfinity) return null;
@@ -228,12 +228,17 @@ namespace Hedera.Hashgraph.SDK
 			return q.GetEncoded(true);
 		}
 
-		private static ECPoint DecompressKey(BigInteger xBN, bool yBit)
+		private static ECPoint? DecompressKey(BigInteger xBN, bool yBit)
 		{
 			byte[] compEnc = X9IntegerConverter.IntegerToBytes(xBN, 1 + X9IntegerConverter.GetByteLength(ECDSA_SECP256K1_DOMAIN.Curve));
 			compEnc[0] = (byte)(yBit ? 0x03 : 0x02);
-			try { return ECDSA_SECP256K1_DOMAIN.Curve.DecodePoint(compEnc); }
-			catch (ArgumentException) { return null; }
+			try 
+			{
+				return ECDSA_SECP256K1_DOMAIN.Curve.DecodePoint(compEnc);
+			}
+			catch (ArgumentException) { }
+
+			return null;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+
 using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Account;
@@ -19,8 +20,10 @@ using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.System;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Topic;
+
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Utilities;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -140,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 NodeAccountIds.EnsureCapacity(nodeCount);
                 
 				SigPairLists = new List<Proto.SignatureMap>(nodeCount * txCount);
-                OuterTransactions = new List<Proto.Transaction?>(nodeCount * txCount);
+                OuterTransactions = new List<Proto.Transaction>(nodeCount * txCount);
                 InnerSignedTransactions = new List<Proto.SignedTransaction>(nodeCount * txCount);
 
                 TransactionIds.EnsureCapacity(txCount);

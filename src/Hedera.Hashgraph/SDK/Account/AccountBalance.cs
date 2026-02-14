@@ -3,9 +3,10 @@ using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Token;
+
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Account
 {
     /// <summary>
     /// This class represents the account balance object
@@ -29,12 +30,22 @@ namespace Hedera.Hashgraph.SDK
             tokenDecimals = @decimal;
         }
 
-        /// <summary>
-        /// Convert the protobuf object to an account balance object.
-        /// </summary>
-        /// <param name="protobuf">protobuf response object</param>
-        /// <returns>                         the converted account balance object</returns>
-        public static AccountBalance FromProtobuf(Proto.CryptoGetAccountBalanceResponse protobuf)
+		/// <summary>
+		/// Convert a byte array to an account balance object.
+		/// </summary>
+		/// <param name="data">the byte array</param>
+		/// <returns>                         the converted account balance object</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static AccountBalance FromBytes(byte[] data)
+		{
+			return FromProtobuf(Proto.CryptoGetAccountBalanceResponse.Parser.ParseFrom(data));
+		}
+		/// <summary>
+		/// Convert the protobuf object to an account balance object.
+		/// </summary>
+		/// <param name="protobuf">protobuf response object</param>
+		/// <returns>                         the converted account balance object</returns>
+		public static AccountBalance FromProtobuf(Proto.CryptoGetAccountBalanceResponse protobuf)
         {
             var balanceList = protobuf.TokenBalances;
 
@@ -49,22 +60,19 @@ namespace Hedera.Hashgraph.SDK
             return new AccountBalance(Hbar.FromTinybars(protobuf.Balance), map, decimalMap);
         }
 
-        /// <summary>
-        /// Convert a byte array to an account balance object.
-        /// </summary>
-        /// <param name="data">the byte array</param>
-        /// <returns>                         the converted account balance object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static AccountBalance FromBytes(byte[] data)
-        {
-            return FromProtobuf(Proto.CryptoGetAccountBalanceResponse.Parser.ParseFrom(data));
-        }
-
-        /// <summary>
-        /// Convert an account balance object into a protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf object</returns>
-        public virtual Proto.CryptoGetAccountBalanceResponse ToProtobuf()
+		/// <summary>
+		/// Convert the account balance object to a byte array.
+		/// </summary>
+		/// <returns>                         the converted account balance object</returns>
+		public virtual ByteString ToBytes()
+		{
+			return ToProtobuf().ToByteString();
+		}
+		/// <summary>
+		/// Convert an account balance object into a protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf object</returns>
+		public virtual Proto.CryptoGetAccountBalanceResponse ToProtobuf()
         {
             var protobuf = new Proto.CryptoGetAccountBalanceResponse
             {
@@ -81,15 +89,6 @@ namespace Hedera.Hashgraph.SDK
             }
 
             return protobuf;
-        }
-
-        /// <summary>
-        /// Convert the account balance object to a byte array.
-        /// </summary>
-        /// <returns>                         the converted account balance object</returns>
-        public virtual ByteString ToBytes()
-        {
-            return ToProtobuf().ToByteString();
         }
     }
 }

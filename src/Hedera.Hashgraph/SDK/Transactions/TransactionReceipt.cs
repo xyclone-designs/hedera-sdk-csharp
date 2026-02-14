@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Ids;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Schedule;
+using Hedera.Hashgraph.SDK.Topic;
+using Hedera.Hashgraph.SDK.Token;
 
 using System.Collections.Generic;
 
@@ -17,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// The transaction's ID
         /// </summary>
-        public readonly TransactionId TransactionId;
+        public readonly TransactionId? TransactionId;
         /// <summary>
         /// Whether the transaction succeeded or failed (or is unknown).
         /// </summary>
@@ -59,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// Updated running hash for a consensus service topic.
         /// Set for {@link TopicMessageSubmitTransaction}.
         /// </summary>
-        public readonly ByteString TopicRunningHash;
+        public readonly ByteString? TopicRunningHash;
         /// <summary>
         /// In the receipt of TokenMint, TokenWipe, TokenBurn, For fungible tokens - the current total
         /// supply of this token. For non fungible tokens - the total number of NFTs issued for a given
@@ -99,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// given top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
         /// </summary>
         public readonly IList<TransactionReceipt> Children;
-        TransactionReceipt(TransactionId transactionId, ResponseStatus status, ExchangeRate exchangeRate, ExchangeRate nextExchangeRate, AccountId accountId, FileId fileId, ContractId contractId, TopicId topicId, TokenId tokenId, ulong topicSequenceNumber, ByteString topicRunningHash, ulong totalSupply, ScheduleId scheduleId, TransactionId scheduledTransactionId, IList<long> serials, ulong nodeId, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children)
+        TransactionReceipt(TransactionId? transactionId, ResponseStatus status, ExchangeRate exchangeRate, ExchangeRate nextExchangeRate, AccountId accountId, FileId fileId, ContractId contractId, TopicId topicId, TokenId tokenId, ulong topicSequenceNumber, ByteString? topicRunningHash, ulong totalSupply, ScheduleId scheduleId, TransactionId scheduledTransactionId, IList<long> serials, ulong nodeId, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children)
         {
             TransactionId = transactionId;
             Status = status;
@@ -134,16 +139,16 @@ namespace Hedera.Hashgraph.SDK.Transactions
             var rate = transactionReceipt.ExchangeRate;
             var exchangeRate = ExchangeRate.FromProtobuf(rate.CurrentRate);
             var nextExchangeRate = ExchangeRate.FromProtobuf(rate.NextRate);
-            var accountId = transactionReceipt.AccountID is not null ? AccountId.FromProtobuf(transactionReceipt.AccountID) : null;
-            var fileId = transactionReceipt.FileID is not null ? FileId.FromProtobuf(transactionReceipt.FileID) : null;
-            var contractId = transactionReceipt.ContractID is not null ? ContractId.FromProtobuf(transactionReceipt.ContractID) : null;
-            var topicId = transactionReceipt.TopicID is not null ? TopicId.FromProtobuf(transactionReceipt.TopicID) : null;
-            var tokenId = transactionReceipt.TokenID is not null ? TokenId.FromProtobuf(transactionReceipt.TokenID) : null;
+            var accountId = AccountId.FromProtobuf(transactionReceipt.AccountID);
+            var fileId = FileId.FromProtobuf(transactionReceipt.FileID);
+            var contractId = ContractId.FromProtobuf(transactionReceipt.ContractID);
+            var topicId = TopicId.FromProtobuf(transactionReceipt.TopicID);
+            var tokenId = TokenId.FromProtobuf(transactionReceipt.TokenID);
             var topicSequenceNumber = transactionReceipt.TopicSequenceNumber;
             var topicRunningHash = transactionReceipt.TopicRunningHash.Length == 0 ? null : transactionReceipt.TopicRunningHash;
             var totalSupply = transactionReceipt.NewTotalSupply;
-            var scheduleId = transactionReceipt.ScheduleID is not null ? ScheduleId.FromProtobuf(transactionReceipt.ScheduleID) : null;
-            var scheduledTransactionId = transactionReceipt.ScheduledTransactionID is not null ? TransactionId.FromProtobuf(transactionReceipt.ScheduledTransactionID) : null;
+            var scheduleId = ScheduleId.FromProtobuf(transactionReceipt.ScheduleID);
+            var scheduledTransactionId = TransactionId.FromProtobuf(transactionReceipt.ScheduledTransactionID);
             var serials = transactionReceipt.SerialNumbers;
             var nodeId = transactionReceipt.NodeId;
 
@@ -159,8 +164,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             return FromProtobuf(transactionReceipt, [], [], null);
         }
-
-        static TransactionReceipt FromProtobuf(Proto.TransactionReceipt transactionReceipt, TransactionId transactionId)
+        public static TransactionReceipt FromProtobuf(Proto.TransactionReceipt transactionReceipt, TransactionId transactionId)
         {
             return FromProtobuf(transactionReceipt, [], [], transactionId);
         }

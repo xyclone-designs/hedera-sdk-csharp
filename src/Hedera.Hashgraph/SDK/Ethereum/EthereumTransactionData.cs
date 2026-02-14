@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Esaulpaugh.Headlong.Rlp;
+using Nethereum.RLP;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
@@ -17,17 +17,13 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 
         public static EthereumTransactionData FromBytes(byte[] bytes)
         {
-            var decoder = RLPDecoder.RLP_STRICT.SequenceIterator(bytes);
-            var rlpItem = decoder.Next();
-            if (rlpItem.IsList())
-            {
-                return EthereumTransactionDataLegacy.FromBytes(bytes);
-            }
-            else
-            {
-                return EthereumTransactionDataEip1559.FromBytes(bytes);
-            }
-        }
+			IRLPElement decoded = RLP.Decode(bytes);
+
+			if (decoded is RLPCollection)
+				return EthereumTransactionDataLegacy.FromBytes(bytes);
+			else
+				return EthereumTransactionDataEip1559.FromBytes(bytes);
+		}
 
 		/// <summary>
 		/// The raw call data.

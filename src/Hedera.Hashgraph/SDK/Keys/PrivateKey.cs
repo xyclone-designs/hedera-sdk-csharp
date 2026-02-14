@@ -11,6 +11,7 @@ using Org.BouncyCastle.Utilities.Encoders;
 using Org.BouncyCastle.Utilities.IO.Pem;
 
 using System;
+using System.IO;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
@@ -22,7 +23,8 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <summary>
         /// The public key derived from the private key
         /// </summary>
-        protected PublicKey publicKey = null; // Cache the derivation of the public key
+        protected PublicKey? publicKey = null; // Cache the derivation of the public key
+
         /// <summary>
         /// Generates a new <a href="https://ed25519.cr.yp.to/">Ed25519</a> private key.
         /// </summary>
@@ -32,7 +34,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return GenerateED25519();
         }
-
         /// <summary>
         /// Extract the new ED25519 private key.
         /// </summary>
@@ -41,7 +42,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PrivateKeyED25519.GenerateInternal();
         }
-
         /// <summary>
         /// Extract the new ECDSA private key.
         /// </summary>
@@ -50,7 +50,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PrivateKeyECDSA.GenerateInternal();
         }
-
         /// <summary>
         /// Extract the ED25519 private key from a seed.
         /// </summary>
@@ -60,7 +59,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PrivateKeyED25519.FromSeed(seed);
         }
-
         /// <summary>
         /// Extract the ECDSA private key from a seed.
         /// </summary>
@@ -70,7 +68,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PrivateKeyECDSA.FromSeed(seed);
         }
-
         /// <summary>
         /// </summary>
         /// <param name="mnemonic">the mnemonic phrase which should be a 24 byte list of words.</param>
@@ -111,7 +108,6 @@ namespace Hedera.Hashgraph.SDK.Keys
 
             return derivedKey;
         }
-
         /// <summary>
         /// </summary>
         /// <param name="mnemonic">the mnemonic phrase which should be a 24 byte list of words.</param>
@@ -128,7 +124,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromMnemonic(mnemonic, "");
         }
-
         /// <summary>
         /// Retrieve a private key from a string.
         /// </summary>
@@ -138,7 +133,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromBytes(Hex.Decode(privateKey.StartsWith("0x") ? privateKey.Substring(2) : privateKey));
         }
-
         /// <summary>
         /// Retrieve a private key from a DER encoded string.
         /// </summary>
@@ -148,7 +142,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromBytesDER(Hex.Decode(privateKey));
         }
-
         /// <summary>
         /// Retrieve a private key from an ED25519 encoded string.
         /// </summary>
@@ -158,7 +151,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromBytesED25519(Hex.Decode(privateKey));
         }
-
         /// <summary>
         /// Retrieve a private key from an ECDSA encoded string.
         /// </summary>
@@ -168,26 +160,22 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return FromBytesECDSA(Hex.Decode(privateKey));
         }
-
         /// <summary>
         /// Retrieve a private key from a byte array.
         /// </summary>
         /// <param name="privateKey">byte array representing a private key</param>
         /// <returns>                         the private key</returns>
-        public static PrivateKey FromBytes(byte[] privateKey)
+        public new static PrivateKey FromBytes(byte[] privateKey)
         {
             if ((privateKey.Length == Ed25519.SecretKeySize) || (privateKey.Length == Ed25519.SecretKeySize + Ed25519.PublicKeySize))
             {
-
                 // If this is a 32 or 64 byte string, assume an Ed25519 private key
                 return new PrivateKeyED25519(privateKey.CopyArray()[0 .. Ed25519.SecretKeySize], null);
             }
 
-
             // Assume a DER-encoded private key descriptor
             return FromBytesDER(privateKey);
         }
-
         /// <summary>
         /// Retrieve a private key from an ED25519 encoded byte array.
         /// </summary>
@@ -197,7 +185,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PrivateKeyED25519.FromBytesInternal(privateKey);
         }
-
         /// <summary>
         /// Retrieve a private key from an ECDSA encoded byte array.
         /// </summary>
@@ -207,7 +194,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return PrivateKeyECDSA.FromBytesInternal(privateKey);
         }
-
         /// <summary>
         /// Retrieve a private key from a DER encoded byte array.
         /// </summary>
@@ -228,7 +214,6 @@ namespace Hedera.Hashgraph.SDK.Keys
                 return PrivateKeyECDSA.FromECPrivateKeyInternal(ECPrivateKeyStructure.GetInstance(privateKey));
             }
         }
-
         /// <summary>
         /// Retrieve a private key from a private key info object.
         /// </summary>
@@ -247,7 +232,6 @@ namespace Hedera.Hashgraph.SDK.Keys
                 return PrivateKeyECDSA.FromPrivateKeyInfoInternal(privateKeyInfo);
             }
         }
-
         /// <summary>
         /// Parse a private key from a PEM encoded reader.
         /// <p>
@@ -262,7 +246,6 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             return ReadPem(pemFile, null);
         }
-
         /// <summary>
         /// Parse a private key from a PEM encoded stream. The key may be encrypted, e.g. if it was
         /// generated by OpenSSL.
@@ -288,11 +271,10 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <exception cref="IOException">if one occurred while reading the PEM file</exception>
         /// <exception cref="BadKeyException">if no "ENCRYPTED PRIVATE KEY" or "PRIVATE KEY" section was found,
         ///                         if the passphrase is wrong or the key was not an Ed25519 private key.</exception>
-        public static PrivateKey ReadPem(PemReader pemFile, string password)
+        public static PrivateKey ReadPem(PemReader pemFile, string? password)
         {
             return FromPrivateKeyInfo(Pem.ReadPrivateKey(pemFile.Reader, password));
         }
-
         /// <summary>
         /// Parse a private key from a PEM encoded string.
         /// </summary>
@@ -304,9 +286,8 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <remarks>@see#readPem(Reader)</remarks>
         public static PrivateKey FromPem(string pemEncoded)
         {
-            return ReadPem(new StringReader(pemEncoded));
+            return ReadPem(new PemReader(new StringReader(pemEncoded)));
         }
-
         /// <summary>
         /// Parse a private key from a PEM encoded string.
         /// <p>
@@ -321,8 +302,8 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <remarks>@see#readPem(Reader, String)</remarks>
         public static PrivateKey FromPem(string encodedPem, string password)
         {
-            return ReadPem(new StringReader(encodedPem), password);
-        }
+			return ReadPem(new PemReader(new StringReader(encodedPem)), password);
+		}
 
         /// <summary>
         /// Derive a child key based on the index.

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.BouncyCastle.Utilities;
+using Nethereum.RLP;
+
 using System;
-using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
@@ -79,36 +79,71 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         /// <returns>the ethereum transaction data</returns>
         public new static EthereumTransactionDataEip1559 FromBytes(byte[] bytes)
         {
-            var decoder = RLPDecoder.RLP_STRICT.SequenceIterator(bytes);
-            var rlpItem = decoder.Next();
+            if (bytes == null || bytes.Length == 0)
+                throw new ArgumentException(null, nameof(bytes));
 
-            // typed transaction?
-            byte typeByte = rlpItem.AsByte();
-            if (typeByte != 2)
-            {
-                throw new ArgumentException("rlp type byte " + typeByte + "is not supported");
-            }
+			// typed transaction?
+			byte typeByte = bytes[0];
+            if (typeByte != 0x02)
+                throw new ArgumentException($"rlp type byte {typeByte} is not supported");
 
-            rlpItem = decoder.Next();
-            if (!rlpItem.IsList())
-            {
+            // --- 2. Decode the RLP payload (after type byte) ---
+            var payload = new byte[bytes.Length - 1];
+            Buffer.BlockCopy(bytes, 1, payload, 0, payload.Length);
+
+            var decoded = RLP.Decode(payload);
+
+            if (decoded is not RLPCollection rlpList)
                 throw new ArgumentException("expected RLP element list");
-            }
 
-            IList<RLPItem> rlpList = rlpItem.AsRLPList().Elements();
             if (rlpList.Count != 12)
-            {
-                throw new ArgumentException("expected 12 RLP encoded elements, found " + rlpList.Count);
-            }
+                throw new ArgumentException($"expected 12 RLP encoded elements, found {rlpList.Count}");
 
-            return new EthereumTransactionDataEip1559(rlpList[0].Data(), rlpList[1].Data(), rlpList[2].Data(), rlpList[3].Data(), rlpList[4].Data(), rlpList[5].Data(), rlpList[6].Data(), rlpList[7].Data(), rlpList[8].Data(), rlpList[9].Data(), rlpList[10].Data(), rlpList[11].Data());
+            return new EthereumTransactionDataEip1559(
+				chainId: rlpList[0].RLPData,
+                nonce: rlpList[1].RLPData,
+                maxPriorityGas: rlpList[2].RLPData,
+                maxGas: rlpList[3].RLPData,
+                gasLimit: rlpList[4].RLPData,
+                to: rlpList[5].RLPData,
+                value: rlpList[6].RLPData,
+                callData: rlpList[7].RLPData,
+                accessList : rlpList[8].RLPData,   // (raw RLP)
+                recoveryId : rlpList[9].RLPData,   // (v)
+                r: rlpList[10].RLPData,
+                s: rlpList[11].RLPData
+            );
         }
 
-        public override byte[] ToBytes()
-        {
-            return RLPEncoder.Sequence(byte.Parse("0x02"), [ChainId, Nonce, MaxPriorityGas, MaxGas, GasLimit, To, Value, CallData, new List<string>(), RecoveryId, R, S]);
-        }
-        public override string ToString()
+
+		public override byte[] ToBytes()
+		{
+			// Java Code 'RLPEncoder.Sequence(byte.Parse("0x02"), [ChainId, Nonce, MaxPriorityGas, MaxGas, GasLimit, To, Value, CallData, new List<string>(), RecoveryId, R, S]);'
+
+			var rlpList = RLP.EncodeList(
+				RLP.EncodeElement(ChainId),
+				RLP.EncodeElement(Nonce),
+				RLP.EncodeElement(MaxPriorityGas),
+				RLP.EncodeElement(MaxGas),
+				RLP.EncodeElement(GasLimit),
+				RLP.EncodeElement(To),
+				RLP.EncodeElement(Value),
+				RLP.EncodeElement(CallData),
+				RLP.EncodeList(), // empty access list
+				RLP.EncodeElement(RecoveryId),
+				RLP.EncodeElement(R),
+				RLP.EncodeElement(S)
+			);
+
+			// Prefix with transaction type 0x02
+			var result = new byte[1 + rlpList.Length];
+			result[0] = 0x02;
+			Buffer.BlockCopy(rlpList, 0, result, 1, rlpList.Length);
+
+			return result;
+		}
+
+		public override string ToString()
         {
             throw new NotImplementedException();
         }

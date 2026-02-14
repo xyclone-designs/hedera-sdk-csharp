@@ -7,20 +7,17 @@ using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Markup;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -531,13 +528,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="callback">a Action which handles the result or error.</param>
         public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse?, Exception?> callback)
         {
-            TTransactionResponse? ttransactionresponse = default;
-			Exception? exception = null;
-
-			try { ttransactionresponse = await ExecuteAsync(client); }
-			catch (Exception _exception) { exception = _exception; }
-
-			callback.Invoke(ttransactionresponse, exception);
+			Utils.ActionHelper.Action(ExecuteAsync(client), callback);
 		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
@@ -547,13 +538,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="callback">a Action which handles the result or error.</param>
         public virtual async void ExecuteAsync(Client client, Duration timeout, Action<TTransactionResponse?, Exception?> callback)
         {
-			TTransactionResponse? ttransactionresponse = default;
-			Exception? exception = null;
-
-			try { ttransactionresponse = await ExecuteAsync(client, timeout); }
-			catch (Exception _exception) { exception = _exception; }
-
-			callback.Invoke(ttransactionresponse, exception);
+			Utils.ActionHelper.Action(ExecuteAsync(client, timeout), callback);
 		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
@@ -563,16 +548,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-			TTransactionResponse ttransactionresponse;
-
-			try { ttransactionresponse = await ExecuteAsync(client); }
-			catch (Exception exception)
-			{
-				onFailure.Invoke(exception);
-				return;
-			}
-
-			onSuccess.Invoke(ttransactionresponse);
+			Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
 		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
@@ -583,16 +559,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public virtual async void ExecuteAsync(Client client, Duration timeout, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
-			TTransactionResponse ttransactionresponse;
-
-			try { ttransactionresponse = await ExecuteAsync(client, timeout); }
-			catch (Exception exception)
-			{
-				onFailure.Invoke(exception);
-				return;
-			}
-
-			onSuccess.Invoke(ttransactionresponse);
+			Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeout), onSuccess, onFailure);
 		}
 
         /// <summary>

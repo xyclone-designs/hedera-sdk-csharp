@@ -2,9 +2,7 @@
 using Google.Protobuf;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Transactions;
-using Hedera.Hashgraph.SDK.Transactions.Account;
 
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.Math.EC.Rfc8032;
@@ -28,19 +26,16 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             if (publicKey.Length == Ed25519.PublicKeySize)
             {
-
                 // If this is a 32 byte string, assume an Ed25519 public key
                 return PublicKeyED25519.FromBytesInternal(publicKey);
             }
             else if (publicKey.Length == 33)
             {
-
                 // compressed 33 byte raw form
                 return PublicKeyECDSA.FromBytesInternal(publicKey);
             }
             else if (publicKey.Length == 65)
             {
-
                 // compress the 65 byte form
                 return PublicKeyECDSA.FromBytesInternal(ECDSA_SECP256K1_CURVE.Curve.DecodePoint(publicKey).GetEncoded(true));
             }
@@ -160,7 +155,6 @@ namespace Hedera.Hashgraph.SDK.Keys
                 return PublicKeyECDSA.FromSubjectKeyInfoInternal(subjectPublicKeyInfo);
             }
         }
-
 
 		/// <summary>
 		/// Is this an ECDSA key?

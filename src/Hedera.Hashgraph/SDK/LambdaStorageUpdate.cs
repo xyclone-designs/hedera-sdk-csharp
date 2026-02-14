@@ -111,8 +111,8 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         public class LambdaMappingEntries : LambdaStorageUpdate
         {
-            private readonly byte[] mappingSlot;
-            private readonly IList<LambdaMappingEntry> entries;
+            private readonly byte[] MappingSlot;
+            private readonly IList<LambdaMappingEntry> Entries;
             /// <summary>
             /// Create a new mapping entries update.
             /// </summary>
@@ -120,8 +120,8 @@ namespace Hedera.Hashgraph.SDK
             /// <param name="entries">the entries to update in the mapping</param>
             public LambdaMappingEntries(byte[] mappingSlot, IEnumerable<LambdaMappingEntry> entries)
             {
-                mappingSlot = mappingSlot.CopyArray();
-                entries = [.. entries];
+                MappingSlot = mappingSlot.CopyArray();
+                Entries = [.. entries];
             }
 
             /// <summary>
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.SDK
             /// <returns>a copy of the mapping slot bytes</returns>
             public virtual byte[] GetMappingSlot()
             {
-                return mappingSlot.CopyArray();
+                return MappingSlot.CopyArray();
             }
 
             /// <summary>
@@ -139,17 +139,17 @@ namespace Hedera.Hashgraph.SDK
             /// <returns>a copy of the entries list</returns>
             public virtual List<LambdaMappingEntry> GetEntries()
             {
-                return [.. entries];
+                return [.. Entries];
             }
 
 			public override Proto.LambdaStorageUpdate ToProtobuf()
             {
                 var builder = new Proto.LambdaMappingEntries
                 {
-					MappingSlot = ByteString.CopyFrom(mappingSlot),
+					MappingSlot = ByteString.CopyFrom(MappingSlot),
 				};
 
-				builder.Entries.AddRange(entries.Select(_ => _.ToProtobuf()));
+				builder.Entries.AddRange(Entries.Select(_ => _.ToProtobuf()));
 
 				return new Proto.LambdaStorageUpdate
                 {
@@ -177,11 +177,11 @@ namespace Hedera.Hashgraph.SDK
 
                 LambdaMappingEntries that = (LambdaMappingEntries)o;
 
-                return Equals(mappingSlot, that.mappingSlot) && entries.Equals(that.entries);
+                return Equals(MappingSlot, that.MappingSlot) && Entries.Equals(that.Entries);
             }
             public override int GetHashCode()
             {
-                return HashCode.Combine(HashCode.Combine(mappingSlot), entries);
+                return HashCode.Combine(HashCode.Combine(MappingSlot), Entries);
             }
         }
     }

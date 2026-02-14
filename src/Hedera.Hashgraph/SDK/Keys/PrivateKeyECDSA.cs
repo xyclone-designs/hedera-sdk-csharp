@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.SDK.Keys
     /// </summary>
     public class PrivateKeyECDSA : PrivateKey
     {
-        private readonly BigInteger? KeyData;
+        private readonly BigInteger KeyData;
         private readonly KeyParameter? ChainCode;
         /// <summary>
         /// Constructor.
@@ -62,9 +62,8 @@ namespace Hedera.Hashgraph.SDK.Keys
                 var privateKey = ECPrivateKeyStructure.GetInstance(privateKeyInfo.ParsePrivateKey());
                 return FromECPrivateKeyInternal(privateKey);
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
-
                 // Try legacy import
                 try
                 {
@@ -113,7 +112,7 @@ namespace Hedera.Hashgraph.SDK.Keys
         /// <param name="entropy">entropy byte array</param>
         /// <param name="index">the child key index</param>
         /// <returns>                         the new key</returns>
-        static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
+        public static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
         {
             throw new InvalidOperationException("ECDSA secp256k1 keys do not currently support derivation");
         }
@@ -148,8 +147,8 @@ namespace Hedera.Hashgraph.SDK.Keys
             else dataArray = [.. GetPublicKey().ToBytesRaw(), (byte)index];
 
             HMac hmacSha512 = new (new Sha512Digest());
-            hmacSha512.Init(new KeyParameter(ChainCode.GetKey()));
-            hmacSha512.BlockUpdate(dataArray, 0, dataArray.Length);
+            hmacSha512.Init(new KeyParameter(ChainCode!.GetKey())); // IsDerivable above validates CshainCode
+			hmacSha512.BlockUpdate(dataArray, 0, dataArray.Length);
             byte[] i = new byte[64];
             hmacSha512.DoFinal(i, 0);
             var il = i.CopyArray(0, 32);

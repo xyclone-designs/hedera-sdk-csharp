@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Exceptions;
+
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Asn1.Nist;
 using Org.BouncyCastle.Asn1.Pkcs;
@@ -40,7 +41,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <param name="passphrase">Optional passphrase</param>
 		/// <returns>PrivateKeyInfo</returns>
 		/// <exception cref="BadKeyException">If the key is invalid or unsupported</exception>
-		public static PrivateKeyInfo ReadPrivateKey(TextReader input, string passphrase)
+		public static PrivateKeyInfo ReadPrivateKey(TextReader input, string? passphrase)
 		{
 			try
 			{
@@ -81,7 +82,7 @@ namespace Hedera.Hashgraph.SDK
 				throw new Exception("Failed to read PEM file", e);
 			}
 		}
-		static void WriteEncryptedPrivateKey(PrivateKeyInfo pkInfo, PemWriter @out, string passphrase)
+		public static void WriteEncryptedPrivateKey(PrivateKeyInfo pkInfo, PemWriter @out, string passphrase)
 		{
 			byte[] salt = Crypto.RandomBytes(Crypto.SALT_LEN);
 			KeyParameter derivedKey = Crypto.DeriveKeySha256(passphrase, salt, Crypto.ITERATIONS, Crypto.CBC_DK_LEN);

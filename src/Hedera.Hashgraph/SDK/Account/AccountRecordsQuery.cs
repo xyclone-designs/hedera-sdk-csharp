@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
 
-using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Queries;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// Get all the records for an account for any transfers into it and out of it,
-    /// that were above the threshold, during the last 25 hours.
-    /// </summary>
-    public sealed class AccountRecordsQuery : Query<IList<TransactionRecord>, AccountRecordsQuery>
+	/// <summary>
+	/// Get all the records for an account for any transfers into it and out of it,
+	/// that were above the threshold, during the last 25 hours.
+	/// </summary>
+	public sealed class AccountRecordsQuery : Query<IList<TransactionRecord>, AccountRecordsQuery>
     {
         /// <summary>
         /// Sets the account ID for which the records should be retrieved.

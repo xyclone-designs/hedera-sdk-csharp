@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="callback">a Action which handles the result or error.</param>
         public void PingAsync(AccountId nodeAccountId, Action<Exception> callback)
         {
-            ActionHelper.Action(PingAsync(nodeAccountId), callback);
+            Utils.ActionHelper.Action(PingAsync(nodeAccountId), callback);
         }
         /// <summary>
         /// Send a ping to the given node asynchronously.
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="callback">a Action which handles the result or error.</param>
         public void PingAsync(AccountId nodeAccountId, Duration timeout, Action<Exception> callback)
         {
-            ActionHelper.Action(PingAsync(nodeAccountId, timeout), callback);
+            Utils.ActionHelper.Action(PingAsync(nodeAccountId, timeout), callback);
         }
         /// <summary>
         /// Send a ping to the given node asynchronously.
@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public void PingAsync(AccountId nodeAccountId, Action onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(PingAsync(nodeAccountId), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(PingAsync(nodeAccountId), onSuccess, onFailure);
         }
         /// <summary>
         /// Send a ping to the given node asynchronously.
@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public void PingAsync(AccountId nodeAccountId, Duration timeout, Action onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(PingAsync(nodeAccountId, timeout), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(PingAsync(nodeAccountId, timeout), onSuccess, onFailure);
         }
         /// <summary>
         /// Sends pings to all nodes in the client's Network. Combines well with setMaxAttempts(1) to remove all dead nodes
@@ -181,7 +181,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="callback">a Action which handles the result or error.</param>
         public void PingAllAsync(Action<Exception> callback)
         {
-            ActionHelper.Action(PingAllAsync(), callback);
+            Utils.ActionHelper.Action(PingAllAsync(), callback);
         }
 		/// <summary>
 		/// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
@@ -191,7 +191,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <param name="onFailure">a Action which consumes the error on failure.</param>
 		public void PingAllAsync(Action onSuccess, Action<Exception> onFailure)
 		{
-			ActionHelper.TwoActions(PingAllAsync(), onSuccess, onFailure);
+			Utils.ActionHelper.TwoActions(PingAllAsync(), onSuccess, onFailure);
 		}
 		/// <summary>
 		/// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
@@ -201,7 +201,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <param name="callback">a Action which handles the result or error.</param>
 		public void PingAllAsync(Duration timeoutPerPing, Action<Exception> callback)
         {
-            ActionHelper.Action(PingAllAsync(timeoutPerPing), callback);
+            Utils.ActionHelper.Action(PingAllAsync(timeoutPerPing), callback);
         }
         /// <summary>
         /// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
@@ -212,7 +212,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
         public void PingAllAsync(Duration timeoutPerPing, Action onSuccess, Action<Exception> onFailure)
         {
-            ActionHelper.TwoActions(PingAllAsync(timeoutPerPing), onSuccess, onFailure);
+            Utils.ActionHelper.TwoActions(PingAllAsync(timeoutPerPing), onSuccess, onFailure);
         }
     }
 }
