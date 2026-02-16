@@ -1,15 +1,13 @@
 using Google.Protobuf;
-using Google.Protobuf.Collections;
-using Microsoft.VisualBasic;
-using Org.BouncyCastle.Utilities;
+
 using Org.BouncyCastle.Utilities.Encoders;
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Contract
 {
 	// an implementation of function selector and parameter encoding as specified here:
 	// https://solidity.readthedocs.io/en/v0.5.7/abi-spec.html#

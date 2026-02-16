@@ -14,21 +14,17 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <summary>
-    /// MirrorNodeContractQuery returns a result from EVM execution such as cost-free execution of read-only smart Contract
-    /// queries, Gas estimation, and transient simulation of read-write operations.
-    /// </summary>
-    public abstract class MirrorNodeContractQuery<T> where T : MirrorNodeContractQuery<T>
-    {
-		private static long ParseHexEstimateToLong(string responseBody)
+	public abstract class MirrorNodeContractQuery
+	{
+		public static long ParseHexEstimateToLong(string responseBody)
 		{
 			return int.Parse(ParseContractCallResult(responseBody).Substring(2), NumberStyles.HexNumber);
 		}
-		private static string ParseContractCallResult(string responseBody)
+		public static string ParseContractCallResult(string responseBody)
 		{
 			return JsonObject.Parse(responseBody)?["result"].ToString();
 		}
-		private static string CreateJsonPayload(byte[] data, string senderaddress, string contractaddress, long gas, long gasprice, long value, string blocknumber, bool estimate)
+		public static string CreateJsonPayload(byte[] data, string senderaddress, string contractaddress, long gas, long gasprice, long value, string blocknumber, bool estimate)
 		{
 			string hexData = Convert.ToHexString(data).ToLowerInvariant();
 
@@ -66,11 +62,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 		public virtual string? ContractEvmAddress
 		{
 			get;
-            set
-            {
-                field = value;
-                ContractId = null;
-            }
+			set
+			{
+				field = value;
+				ContractId = null;
+			}
 		}
 		/// <summary>
 		/// Sets the Sender of the transaction simulation.
@@ -90,17 +86,17 @@ namespace Hedera.Hashgraph.SDK.Networking
 		public virtual string? SenderEvmAddress
 		{
 			get;
-            set
-            {
-                field = value;
-                Sender = null;
-            }
+			set
+			{
+				field = value;
+				Sender = null;
+			}
 		}
 		public virtual byte[] CallData
 		{
 			get;
 			set;
-		}
+		} = [];
 		/// <summary>
 		/// Sets the amount of Value (in tinybars or wei) to be sent to the Contract in the transaction.
 		/// <p>
@@ -108,11 +104,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// </summary>
 		/// <param name="Value">the amount of Value to send, in tinybars or wei</param>
 		/// <returns>{@code this}</returns>
-		public virtual long Value 
-        { 
-            get;
-            set;
-        }
+		public virtual long Value
+		{
+			get;
+			set;
+		}
 		/// <summary>
 		/// Sets the Gas limit for the Contract call.
 		/// <p>
@@ -120,11 +116,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// </summary>
 		/// <param name="GasLimit">the maximum Gas allowed for the transaction</param>
 		/// <returns>{@code this}</returns>
-		public virtual long GasLimit 
-        { 
-            get;
-            set;
-        }
+		public virtual long GasLimit
+		{
+			get;
+			set;
+		}
 		/// <summary>
 		/// Sets the Gas price to be used for the Contract call.
 		/// <p>
@@ -132,11 +128,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// </summary>
 		/// <param name="GasPrice">the Gas price, in tinybars or wei, for each unit of Gas</param>
 		/// <returns>{@code this}</returns>
-		public virtual long GasPrice 
-        { 
-            get;
-            set;
-        }
+		public virtual long GasPrice
+		{
+			get;
+			set;
+		}
 		/// <summary>
 		/// Sets the block number for the simulation of the Contract call.
 		/// <p>
@@ -144,11 +140,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// </summary>
 		/// <param name="BlockNumber">the block number at which to simulate the Contract call</param>
 		/// <returns>{@code this}</returns>
-		public virtual long BlockNumber 
-        { 
-            get;
-            set;
-        }
+		public virtual long BlockNumber
+		{
+			get;
+			set;
+		}
 
 		private void FillEvmAddresses()
 		{
@@ -195,11 +191,36 @@ namespace Hedera.Hashgraph.SDK.Networking
 		}
 		private async Task<string> GetContractCallResultFromMirrorNodeAsync(Client client, string blockNumber)
 		{
-			string _ = await  ExecuteMirrorNodeRequest(client, blockNumber, false);
+			string _ = await ExecuteMirrorNodeRequest(client, blockNumber, false);
 
 			return ParseContractCallResult(_);
 		}
 
+		protected virtual string Call(Client client)
+		{
+			FillEvmAddresses();
+			var blockNum = BlockNumber == 0 ? "latest" : BlockNumber.ToString();
+			return GetContractCallResultFromMirrorNodeAsync(client, blockNum).GetAwaiter().GetResult();
+		}
+		/// <summary>
+		/// Returns Gas estimation for the EVM execution
+		/// </summary>
+		/// <param name="client"></param>
+		/// <exception cref="ExecutionException"></exception>
+		/// <exception cref="InterruptedException"></exception>
+		protected virtual long Estimate(Client client)
+		{
+			FillEvmAddresses();
+			return GetEstimateGasFromMirrorNodeAsync(client).GetAwaiter().GetResult();
+		}
+	}
+
+	/// <summary>
+	/// MirrorNodeContractQuery returns a result from EVM execution such as cost-free execution of read-only smart Contract
+	/// queries, Gas estimation, and transient simulation of read-write operations.
+	/// </summary>
+	public abstract class MirrorNodeContractQuery<T> : MirrorNodeContractQuery where T : MirrorNodeContractQuery<T>
+    {
 		/// <summary>
 		/// Sets the function name to call.
 		/// <p>
@@ -249,22 +270,6 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <param name="client"></param>
 		/// <exception cref="ExecutionException"></exception>
 		/// <exception cref="InterruptedException"></exception>
-		protected virtual string Call(Client client)
-		{
-			FillEvmAddresses();
-			var blockNum = BlockNumber == 0 ? "latest" : BlockNumber.ToString();
-			return GetContractCallResultFromMirrorNodeAsync(client, blockNum).GetAwaiter().GetResult();
-		}
-		/// <summary>
-		/// Returns Gas estimation for the EVM execution
-		/// </summary>
-		/// <param name="client"></param>
-		/// <exception cref="ExecutionException"></exception>
-		/// <exception cref="InterruptedException"></exception>
-		protected virtual long Estimate(Client client)
-        {
-            FillEvmAddresses();
-            return GetEstimateGasFromMirrorNodeAsync(client).GetAwaiter().GetResult();
-        }
+		
     }
 }

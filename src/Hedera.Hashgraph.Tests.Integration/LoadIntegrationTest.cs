@@ -13,7 +13,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     class LoadIntegrationTest
     {
-        virtual void LoadTest()
+        public virtual void LoadTest()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {

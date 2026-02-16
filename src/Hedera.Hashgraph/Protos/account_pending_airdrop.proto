@@ -16,7 +16,7 @@ package proto;
 // SPDX-License-Identifier: Apache-2.0
 import "basic_types.proto";
 
-option java_package = "com.hedera.hashgraph.sdk.proto";
+option java_package = "Proto";
 option csharp_namespace = "Hedera.Hashgraph.Proto";
 
 

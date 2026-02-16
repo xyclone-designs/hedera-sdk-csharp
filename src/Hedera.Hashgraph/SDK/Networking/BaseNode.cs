@@ -190,7 +190,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			{
 				for (int i = 0; i < GET_STATE_MAX_ATTEMPTS && !hasConnected; i++)
 				{
-					Duration currentTimeout = Duration.Between(Instant.Now(), timeoutTime);
+					Duration currentTimeout = Duration.Between(DateTimeOffset.UtcNow, timeoutTime);
 					if (currentTimeout.IsNegative() || currentTimeout.IsZero())
 					{
 						return false;
@@ -229,7 +229,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         is the node healthy</returns>
 		public virtual bool IsHealthy()
         {
-            return ReadmitTime.ToEpochMilli() < Instant.Now().ToEpochMilli();
+            return ReadmitTime.ToEpochMilli() < DateTimeOffset.UtcNow.ToEpochMilli();
         }
         /// <summary>
         /// Used when a node has received a bad gRPC status
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             lock (this)
             {
                 BadGrpcStatusCount++;
-                ReadmitTime = Instant.Now().Plus(CurrentBackoff);
+                ReadmitTime = DateTimeOffset.UtcNow.Plus(CurrentBackoff);
                 CurrentBackoff = CurrentBackoff.MultipliedBy(2);
                 CurrentBackoff = CurrentBackoff.CompareTo(MaxBackoff) < 0 ? CurrentBackoff : MaxBackoff;
             }

@@ -14,5 +14,5 @@ com.hedera.hashgraph.sdk.ContractLogInfoTest.toBytes=[
 
 
 com.hedera.hashgraph.sdk.ContractLogInfoTest.toProtobuf=[
-  "# com.hedera.hashgraph.sdk.proto.ContractLoginfo@cb39e330\nbloom: \"bloom\"\ncontract_i_d {\n  contract_num: 10\n  realm_num: 0\n  shard_num: 0\n}\ntopic: \"bloom\""
+  "# Proto.ContractLoginfo@cb39e330\nbloom: \"bloom\"\ncontract_i_d {\n  contract_num: 10\n  realm_num: 0\n  shard_num: 0\n}\ntopic: \"bloom\""
 ]

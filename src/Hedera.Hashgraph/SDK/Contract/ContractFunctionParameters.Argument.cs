@@ -2,11 +2,11 @@ using Google.Protobuf;
 
 using System;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Contract
 {
 	public sealed partial class ContractFunctionParameters
 	{
-		private sealed class Argument
+		public sealed class Argument
 		{
 			public readonly string Type;
 			public readonly bool IsDynamic;

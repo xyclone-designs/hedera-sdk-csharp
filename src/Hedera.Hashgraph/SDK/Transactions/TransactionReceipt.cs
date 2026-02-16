@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// given top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
         /// </summary>
         public readonly IList<TransactionReceipt> Children;
-        TransactionReceipt(TransactionId? transactionId, ResponseStatus status, ExchangeRate exchangeRate, ExchangeRate nextExchangeRate, AccountId accountId, FileId fileId, ContractId contractId, TopicId topicId, TokenId tokenId, ulong topicSequenceNumber, ByteString? topicRunningHash, ulong totalSupply, ScheduleId scheduleId, TransactionId scheduledTransactionId, IList<long> serials, ulong nodeId, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children)
+        public TransactionReceipt(TransactionId? transactionId, ResponseStatus status, ExchangeRate exchangeRate, ExchangeRate nextExchangeRate, AccountId accountId, FileId fileId, ContractId contractId, TopicId topicId, TokenId tokenId, ulong topicSequenceNumber, ByteString? topicRunningHash, ulong totalSupply, ScheduleId scheduleId, TransactionId scheduledTransactionId, IList<long> serials, ulong nodeId, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children)
         {
             TransactionId = transactionId;
             Status = status;

@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class ReceiptQueryIntegrationTest
     {
-        virtual void CanGetTransactionReceipt()
+        public virtual void CanGetTransactionReceipt()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
-        virtual void CanGetTransactionRecord()
+        public virtual void CanGetTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
-        virtual void GetCostTransactionRecord()
+        public virtual void GetCostTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
-        virtual void GetCostBigMaxTransactionRecord()
+        public virtual void GetCostBigMaxTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
-        virtual void GetCostSmallMaxTransactionRecord()
+        public virtual void GetCostSmallMaxTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -68,14 +68,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var receipt = new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
                 var recordQuery = new TransactionRecordQuery().SetTransactionId(response.transactionId).SetMaxQueryPayment(Hbar.FromTinybars(1));
                 var cost = recordQuery.GetCost(testEnv.client);
-                AssertThatExceptionOfType(typeof(Exception)).IsThrownBy(() =>
+                Assert.Throws(typeof(Exception), () =>
                 {
                     recordQuery.Execute(testEnv.client);
                 }).WithMessage("cost for TransactionRecordQuery, of " + cost.ToString() + ", without explicit payment is greater than the maximum allowed payment of 1 tℏ");
             }
         }
 
-        virtual void GetCostInsufficientTxFeeTransactionRecord()
+        public virtual void GetCostInsufficientTxFeeTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
                 var receipt = new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
                 var recordQuery = new TransactionRecordQuery().SetTransactionId(response.transactionId);
-                AssertThatExceptionOfType(typeof(PrecheckStatusException)).IsThrownBy(() =>
+                Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
                     recordQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.client);
                 }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));

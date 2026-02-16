@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			InitFromTransactionBody();
 		}
-		public FreezeTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal FreezeTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
 		{
 			InitFromTransactionBody();
 		}

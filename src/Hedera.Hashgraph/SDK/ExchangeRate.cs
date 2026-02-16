@@ -8,7 +8,7 @@ namespace Hedera.Hashgraph.SDK
     /// </summary>
     public sealed class ExchangeRate
     {
-        ExchangeRate(int hbars, int cents, DateTimeOffset expirationTime)
+        public ExchangeRate(int hbars, int cents, DateTimeOffset expirationTime)
         {
             Hbars = hbars;
             Cents = cents;

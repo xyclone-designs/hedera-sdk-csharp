@@ -19,7 +19,7 @@ import "basic_types.proto";
 import "transaction_record.proto";
 import "response_code.proto";
 
-option java_package = "com.hedera.hashgraph.sdk.proto";
+option java_package = "Proto";
 option csharp_namespace = "Hedera.Hashgraph.Proto";
 
 /**

@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		/// </summary>
 		/// <param name="value">The value that includeChildren should be set to; true to include children, false to exclude</param>
 		/// <returns>{@code this}</returns>
-		public bool IncludeChildren { get; }
+		public bool IncludeChildren { get; set; }
 		/// <summary>
 		/// Whether records of processing duplicate transactions should be returned along with the record
 		/// of processing the first consensus transaction with the given id whose status was neither
@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		/// record exists, the record of processing the first transaction to reach consensus with the
 		/// given transaction id.
 		/// </summary>
-		public bool IncludeDuplicates { get; }
+		public bool IncludeDuplicates { get; set; }
 		/// <summary>
 		/// Set the ID of the transaction for which the record is requested.
 		/// </summary>
