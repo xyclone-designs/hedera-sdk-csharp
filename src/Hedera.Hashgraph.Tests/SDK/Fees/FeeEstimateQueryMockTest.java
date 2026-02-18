@@ -144,7 +144,7 @@ class FeeEstimateQueryMockTest {
                 assertThat(exchange.getRequestHeaders().getFirst("Content-Type"))
                         .isEqualTo("application/protobuf");
                 var queryParams = exchange.getRequestURI().getQuery();
-                assertThat(queryParams).contains("mode=");
+                Assert.Contains(queryParams, "mode=");
 
                 byte[] requestBody = exchange.getRequestBody().readAllBytes();
                 assertThat(requestBody.length).isGreaterThan(0);

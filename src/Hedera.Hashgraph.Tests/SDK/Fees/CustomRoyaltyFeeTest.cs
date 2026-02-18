@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         public virtual void GetSetFallbackFee()
         {
             var customRoyaltyFee = new CustomRoyaltyFee().SetFallbackFee(fallbackFee);
-            AssertThat(customRoyaltyFee.GetFallbackFee()).IsNotNull();
+            Assert.NotNull(customRoyaltyFee.GetFallbackFee());
             Assert.Equal(customRoyaltyFee.GetFallbackFee().GetAmount(), fallbackFee.GetAmount());
         }
     }

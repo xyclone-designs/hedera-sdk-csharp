@@ -1,24 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Java.Util;
-using Java.Util.Concurrent;
-using Org.Junit.Jupiter.Api;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     class NetworkTest
     {
         private ExecutorService executor;
+
         public virtual void SetUp()
         {
             executor = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), new CallerRunsPolicy());
         }
-
         public virtual void TearDown()
         {
             if (executor != null)
@@ -32,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Network network = CreateNetwork(3);
 
             // When maxNodesPerRequest is not set, should return full network size
-            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 3);
         }
 
@@ -41,10 +36,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Network network = CreateNetwork(5);
 
             // Set maxNodesPerRequest to 2
-            network.SetMaxNodesPerRequest(2);
+            network.MaxNodesPerRequest = 2;
 
             // Should return 2
-            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 2);
         }
 
@@ -53,10 +48,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Network network = CreateNetwork(2);
 
             // Set maxNodesPerRequest to 10 (greater than network size)
-            network.SetMaxNodesPerRequest(10);
+            network.MaxNodesPerRequest = 10;
 
             // Should return 2 (the network size, not 10)
-            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 2);
         }
 
@@ -65,10 +60,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Network network = CreateNetwork(4);
 
             // Set maxNodesPerRequest to 4 (equals network size)
-            network.SetMaxNodesPerRequest(4);
+            network.MaxNodesPerRequest = 4;
 
             // Should return 4
-            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 4);
         }
 
@@ -77,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Network network = CreateNetwork(1);
 
             // Should return 1
-            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 1);
         }
 
@@ -86,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Network network = CreateNetwork(0);
 
             // Should return 0
-            int numberOfNodes = network.GetNumberOfNodesForRequest();
+            int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 0);
         }
 
@@ -95,12 +90,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         /// </summary>
         private Network CreateNetwork(int nodeCount)
         {
-            Dictionary<string, AccountId> networkMap = new HashMap();
+            Dictionary<string, AccountId> networkMap = new ();
             for (int i = 0; i < nodeCount; i++)
             {
-
                 // Generate dummy node addresses and IDs
-                networkMap.Put(i + ".testnet.hedera.com:50211", new AccountId(0, 0, 3 + i));
+                networkMap.Add(i + ".testnet.hedera.com:50211", new AccountId(0, 0, 3 + i));
             }
 
             return Network.ForNetwork(executor, networkMap);

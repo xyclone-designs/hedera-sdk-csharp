@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             var testEnv = new IntegrationTestEnv(1);
             if ("localhost".Equals(System.GetProperty("HEDERA_NETWORK")))
             {
-                testEnv.client.SetMirrorNetwork(List.Of("127.0.0.1:8084"));
+                testEnv.Client.SetMirrorNetwork(List.Of("127.0.0.1:8084"));
             }
 
             return testEnv;
@@ -33,11 +33,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 
                 // Given: A TokenCreateTransaction is created
-                var transaction = new TokenCreateTransaction().SetTokenName("Test Token").SetTokenSymbol("TEST").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new TokenCreateTransaction().SetTokenName("Test Token").SetTokenSymbol("TEST")Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,.FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 WaitForMirrorNodeSync();
 
                 // When: A fee estimate is requested
-                FeeEstimateResponse response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.client);
+                FeeEstimateResponse response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client);
 
                 // Then: The response includes appropriate fees
                 AssertFeeComponentsPresent(response);
@@ -50,9 +50,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.operatorId, Hbar.FromTinybars(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 Assert.Equal(response.GetMode(), FeeEstimateMode.STATE);
                 AssertComponentTotalsConsistent(response);
@@ -63,9 +63,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.operatorId, Hbar.FromTinybars(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).FreezeWith(testEnv.client);
+                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).FreezeWith(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 Assert.Equal(response.GetMode(), FeeEstimateMode.INTRINSIC);
                 AssertComponentTotalsConsistent(response);
@@ -76,9 +76,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.operatorId, Hbar.FromTinybars(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 Assert.Equal(response.GetMode(), FeeEstimateMode.STATE);
                 AssertComponentTotalsConsistent(response);
@@ -89,11 +89,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new TokenMintTransaction().SetTokenId(TokenId.FromString("0.0.1234")).SetAmount(10).FreezeWith(testEnv.client);
+                var transaction = new TokenMintTransaction().SetTokenId(TokenId.FromString("0.0.1234")).SetAmount(10).FreezeWith(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
-                AssertThat(response.GetNodeFee().GetExtras()).IsNotNull();
+                Assert.NotNull(response.GetNodeFee().GetExtras());
                 AssertComponentTotalsConsistent(response);
             }
         }
@@ -102,9 +102,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new TopicCreateTransaction().SetTopicMemo("integration test topic").FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new TopicCreateTransaction().SetTopicMemo("integration test topic").FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 AssertComponentTotalsConsistent(response);
             }
@@ -114,9 +114,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new ContractCreateTransaction().SetBytecode(new byte[] { 1, 2, 3 }).SetGas(1000).SetAdminKey(testEnv.operatorKey).FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new ContractCreateTransaction().SetBytecode(new byte[] { 1, 2, 3 }).SetGas(1000)AdminKey = testEnv.OperatorKey,.FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 AssertComponentTotalsConsistent(response);
             }
@@ -126,9 +126,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("integration test file").FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("integration test file").FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 AssertComponentTotalsConsistent(response);
             }
@@ -138,9 +138,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new FileAppendTransaction().SetFileId(FileId.FromString("0.0.1234")).SetContents(new byte[5000]).FreezeWith(testEnv.client);
+                var transaction = new FileAppendTransaction().SetFileId(FileId.FromString("0.0.1234")).SetContents(new byte[5000]).FreezeWith(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 AssertComponentTotalsConsistent(response);
             }
@@ -150,9 +150,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new TopicMessageSubmitTransaction().SetTopicId(TopicId.FromString("0.0.1234")).SetMessage(new byte[128]).FreezeWith(testEnv.client);
+                var transaction = new TopicMessageSubmitTransaction().SetTopicId(TopicId.FromString("0.0.1234")).SetMessage(new byte[128]).FreezeWith(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 AssertComponentTotalsConsistent(response);
             }
@@ -162,9 +162,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                var transaction = new TopicMessageSubmitTransaction().SetTopicId(TopicId.FromString("0.0.1234")).SetMessage(new byte[5000]).FreezeWith(testEnv.client);
+                var transaction = new TopicMessageSubmitTransaction().SetTopicId(TopicId.FromString("0.0.1234")).SetMessage(new byte[5000]).FreezeWith(testEnv.Client);
                 WaitForMirrorNodeSync();
-                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.client);
+                var response = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.INTRINSIC).Execute(testEnv.Client);
                 AssertFeeComponentsPresent(response);
                 AssertComponentTotalsConsistent(response);
             }
@@ -181,7 +181,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 WaitForMirrorNodeSync();
 
                 // When/Then: Executing the fee estimate query should throw INVALID_ARGUMENT
-                AssertThatThrownBy(() => new FeeEstimateQuery().SetTransaction(malformedTransaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.client)).IsInstanceOf(typeof(Exception)).HasMessageContaining("HTTP status");
+                AssertThatThrownBy(() => new FeeEstimateQuery().SetTransaction(malformedTransaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client)).IsInstanceOf(typeof(Exception)).HasMessageContaining("HTTP status");
             }
         }
 
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
             {
-                AssertThatThrownBy(() => new FeeEstimateQuery().SetMode(FeeEstimateMode.STATE).Execute(testEnv.client)).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction must be set");
+                AssertThatThrownBy(() => new FeeEstimateQuery().SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client)).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction must be set");
             }
         }
 
@@ -199,15 +199,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 
                 // Create and freeze transaction
-                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.operatorId, Hbar.FromTinybars(-1000)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1000)).FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(-1000)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1000)).FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
 
                 // Get estimate
-                var estimate = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.client);
+                var estimate = new FeeEstimateQuery().SetTransaction(transaction).SetMode(FeeEstimateMode.STATE).Execute(testEnv.Client);
 
                 // Execute transaction
-                var response = transaction.Execute(testEnv.client);
-                var receipt = response.GetReceipt(testEnv.client);
-                var record = response.GetRecord(testEnv.client);
+                var response = transaction.Execute(testEnv.Client);
+                var receipt = response.GetReceipt(testEnv.Client);
+                var record = response.GetRecord(testEnv.Client);
                 long actualFee = record.transactionFee.ToTinybars();
                 long estimatedFee = estimate.GetTotal();
 
@@ -233,25 +233,25 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // TODO adjust when NetworkService.getFeeEstimate has actual implementation
-            AssertThat(response).IsNotNull();
+            Assert.NotNull(response);
 
             // Network fee validations
-            AssertThat(response.GetNetworkFee()).IsNotNull();
+            Assert.NotNull(response.GetNetworkFee());
             AssertThat(response.GetNetworkFee().GetMultiplier()).IsGreaterThan(0);
             AssertThat(response.GetNetworkFee().GetSubtotal()).IsGreaterThanOrEqualTo(0);
 
             // Node fee validations
-            AssertThat(response.GetNodeFee()).IsNotNull();
+            Assert.NotNull(response.GetNodeFee());
             AssertThat(response.GetNodeFee().GetBase()).IsGreaterThanOrEqualTo(0);
-            AssertThat(response.GetNodeFee().GetExtras()).IsNotNull();
+            Assert.NotNull(response.GetNodeFee().GetExtras());
 
             // Service fee validations
-            AssertThat(response.GetServiceFee()).IsNotNull();
+            Assert.NotNull(response.GetServiceFee());
             AssertThat(response.GetServiceFee().GetBase()).IsGreaterThanOrEqualTo(0);
-            AssertThat(response.GetServiceFee().GetExtras()).IsNotNull();
+            Assert.NotNull(response.GetServiceFee().GetExtras());
 
             // Notes and total
-            AssertThat(response.GetNotes()).IsNotNull();
+            Assert.NotNull(response.GetNotes());
             AssertThat(response.GetTotal()).IsGreaterThan(0);
         }
 

@@ -1,12 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
+namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
     class EvmHookMappingEntryTest
     {
@@ -93,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
             var c = EvmHookMappingEntry.OfKey(new byte[] { 0x03 }, new byte[] { 0x04 });
             Assert.Equal(a, b);
             Assert.Equal(a.GetHashCode(), b.GetHashCode());
-            AssertNotEquals(a, c);
+            Assert.NotEqual(a, c);
             var s = a.ToString();
             Assert.True(s.Contains("key") || s.Contains("preimage"));
             Assert.True(s.Contains("value"));

@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Token
             InitFromTransactionBody();
         }
 
-		private IList<long> _Serials = [];
+		private List<long> _Serials = [];
 
 		/// <summary>
 		/// A token identifier.
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="serials">list of token serials</param>
 		/// <returns>{@code this}</returns>
-		public virtual IList<long> Serials { get { RequireNotFrozen(); return _Serials; } set { RequireNotFrozen(); _Serials = value; } }
+		public virtual List<long> Serials { get { RequireNotFrozen(); return _Serials; } set { RequireNotFrozen(); _Serials = value; } }
 		public virtual IReadOnlyList<long> Serials_Read { get => _Serials.AsReadOnly(); }
 
 		/// <summary>

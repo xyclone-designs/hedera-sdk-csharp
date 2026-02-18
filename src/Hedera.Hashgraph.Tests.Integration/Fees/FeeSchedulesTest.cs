@@ -20,12 +20,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // note: is flaky in localnode env
                 testEnv.AssumeNotLocalNode();
-                ByteString feeSchedulesBytes = new FileContentsQuery().SetFileId(new FileId(0, 0, 111)).Execute(testEnv.client);
+                ByteString feeSchedulesBytes = new FileContentsQuery().SetFileId(new FileId(0, 0, 111)).Execute(testEnv.Client);
                 FeeSchedules feeSchedules = FeeSchedules.FromBytes(feeSchedulesBytes.ToByteArray());
                 /*
              * Test whether the file 0.0.111 actually contains stuff
              */
-                AssertThat(feeSchedules.GetCurrent()).IsNotNull();
+                Assert.NotNull(feeSchedules.GetCurrent());
             }
         }
     }

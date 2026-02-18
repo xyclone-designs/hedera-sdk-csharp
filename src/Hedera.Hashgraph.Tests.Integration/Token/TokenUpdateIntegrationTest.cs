@@ -17,51 +17,51 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetPauseKey(testEnv.operatorKey).SetMetadataKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,.SetPauseKey(testEnv.OperatorKey).SetMetadataKey(testEnv.OperatorKey)FreezeDefault = false,.Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(info.tokenId, tokenId);
                 Assert.Equal(info.name, "ffff");
                 Assert.Equal(info.symbol, "F");
                 Assert.Equal(info.decimals, 3);
-                Assert.Equal(info.treasuryAccountId, testEnv.operatorId);
-                AssertThat(info.adminKey).IsNotNull();
-                AssertThat(info.freezeKey).IsNotNull();
-                AssertThat(info.wipeKey).IsNotNull();
-                AssertThat(info.kycKey).IsNotNull();
-                AssertThat(info.supplyKey).IsNotNull();
-                Assert.Equal(info.adminKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.freezeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.wipeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.kycKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.supplyKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.pauseKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.metadataKey.ToString(), testEnv.operatorKey.ToString());
-                AssertThat(info.defaultFreezeStatus).IsNotNull().IsFalse();
-                AssertThat(info.defaultKycStatus).IsNotNull().IsFalse();
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenName("aaaa").SetTokenSymbol("A").Execute(testEnv.client).GetReceipt(testEnv.client);
-                info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                Assert.Equal(info.treasuryAccountId, testEnv.OperatorId);
+                Assert.NotNull(info.adminKey);
+                Assert.NotNull(info.freezeKey);
+                Assert.NotNull(info.wipeKey);
+                Assert.NotNull(info.kycKey);
+                Assert.NotNull(info.supplyKey);
+                Assert.Equal(info.adminKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.freezeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.wipeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.kycKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.supplyKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.pauseKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.metadataKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.False(info.defaultFreezeStatus).IsNotNull();
+                Assert.False(info.defaultKycStatus).IsNotNull();
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenName("aaaa").SetTokenSymbol("A").Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(info.tokenId, tokenId);
                 Assert.Equal(info.name, "aaaa");
                 Assert.Equal(info.symbol, "A");
                 Assert.Equal(info.decimals, 3);
-                Assert.Equal(info.treasuryAccountId, testEnv.operatorId);
-                AssertThat(info.adminKey).IsNotNull();
-                AssertThat(info.freezeKey).IsNotNull();
-                AssertThat(info.wipeKey).IsNotNull();
-                AssertThat(info.kycKey).IsNotNull();
-                AssertThat(info.supplyKey).IsNotNull();
-                Assert.Equal(info.adminKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.freezeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.wipeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.kycKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.supplyKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.pauseKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.metadataKey.ToString(), testEnv.operatorKey.ToString());
-                AssertThat(info.defaultFreezeStatus).IsNotNull();
-                AssertThat(info.defaultFreezeStatus).IsFalse();
-                AssertThat(info.defaultKycStatus).IsNotNull();
-                AssertThat(info.defaultKycStatus).IsFalse();
+                Assert.Equal(info.treasuryAccountId, testEnv.OperatorId);
+                Assert.NotNull(info.adminKey);
+                Assert.NotNull(info.freezeKey);
+                Assert.NotNull(info.wipeKey);
+                Assert.NotNull(info.kycKey);
+                Assert.NotNull(info.supplyKey);
+                Assert.Equal(info.adminKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.freezeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.wipeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.kycKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.supplyKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.pauseKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.metadataKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.NotNull(info.defaultFreezeStatus);
+                Assert.False(info.defaultFreezeStatus);
+                Assert.NotNull(info.defaultKycStatus);
+                Assert.False(info.defaultKycStatus);
             }
         }
 
@@ -69,11 +69,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
+                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",TreasuryAccountId = testEnv.OperatorId,FreezeDefault = false,.Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenName("aaaa").SetTokenSymbol("A").Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenName("aaaa").SetTokenSymbol("A").Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
             }
         }
@@ -100,13 +100,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a fungible token with metadata
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON)Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
 
                 // update token's metadata
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterMetadataUpdate.metadata, updatedTokenMetadata);
             }
         }
@@ -133,13 +133,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a non fungible token with metadata
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
 
                 // update token's metadata
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterMetadataUpdate.metadata, updatedTokenMetadata);
             }
         }
@@ -167,14 +167,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // create a fungible token with metadata and metadata key
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetMetadataKey(metadataKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON)Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,.SetMetadataKey(metadataKey)FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
                 Assert.Equal(tokenInfoAfterCreation.metadataKey.ToString(), metadataKey.GetPublicKey().ToString());
 
                 // update token's metadata
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).FreezeWith(testEnv.client).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterMetadataUpdate.metadata, updatedTokenMetadata);
             }
         }
@@ -202,14 +202,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // create a non fungible token with metadata and metadata key
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetSupplyKey(testEnv.operatorKey).SetMetadataKey(metadataKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,SupplyKey = testEnv.OperatorKey,.SetMetadataKey(metadataKey)FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
                 Assert.Equal(tokenInfoAfterCreation.metadataKey.ToString(), metadataKey.GetPublicKey().ToString());
 
                 // update token's metadata
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).FreezeWith(testEnv.client).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterMetadataUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterMetadataUpdate.metadata, updatedTokenMetadata);
             }
         }
@@ -228,13 +228,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a fungible token with metadata
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON)Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
 
                 // update token, but don't update metadata
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMemo("abc").Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterMemoUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMemo("abc").Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterMemoUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterMemoUpdate.metadata, initialTokenMetadata);
             }
         }
@@ -253,13 +253,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a non fungible token with metadata
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
 
                 // update token, but don't update metadata
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMemo("abc").Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterMemoUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMemo("abc").Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterMemoUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterMemoUpdate.metadata, initialTokenMetadata);
             }
         }
@@ -281,13 +281,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a fungible token with metadata
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON)Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
 
                 // erase token metadata (update token with empty metadata)
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(emptyTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterSettingEmptyMetadata = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(emptyTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterSettingEmptyMetadata = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterSettingEmptyMetadata.metadata, emptyTokenMetadata);
             }
         }
@@ -309,13 +309,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a non fungible token with metadata
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoAfterCreation = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterCreation.metadata, initialTokenMetadata);
 
                 // erase token metadata (update token with empty metadata)
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(emptyTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterSettingEmptyMetadata = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(emptyTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterSettingEmptyMetadata = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterSettingEmptyMetadata.metadata, emptyTokenMetadata);
             }
         }
@@ -344,10 +344,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // create a fungible token with metadata and metadata key
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetTreasuryAccountId(testEnv.operatorId).SetDecimals(3).SetInitialSupply(1000000).SetAdminKey(adminKey).SetMetadataKey(metadataKey).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON)TreasuryAccountId = testEnv.OperatorId,Decimals = 3,InitialSupply = 1000000,.SetAdminKey(adminKey).SetMetadataKey(metadataKey).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -376,10 +376,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // create a non fungible token with metadata and metadata key
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey).SetSupplyKey(testEnv.operatorKey).SetMetadataKey(metadataKey).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey)SupplyKey = testEnv.OperatorKey,.SetMetadataKey(metadataKey).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -406,10 +406,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a fungible token with metadata and without a metadata key and admin key
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON).SetTreasuryAccountId(testEnv.operatorId).SetDecimals(3).SetInitialSupply(1000000).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.FUNGIBLE_COMMON)TreasuryAccountId = testEnv.OperatorId,Decimals = 3,InitialSupply = 1000000,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
             }
         }
@@ -436,10 +436,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a non fungible token with metadata and without a metadata key and admin key
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetSupplyKey(testEnv.operatorKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenMetadata(initialTokenMetadata).SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,SupplyKey = testEnv.OperatorKey,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetTokenMetadata(updatedTokenMetadata).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
             }
         }
@@ -460,8 +460,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.adminKey.ToString(), adminKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
@@ -474,16 +474,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Make a token immutable by removing all of its keys when updating them to an empty KeyList,
                 // signing with an Admin Key, and setting the key verification mode to NO_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKycKey(emptyKeyList).SetFreezeKey(emptyKeyList).SetPauseKey(emptyKeyList).SetSupplyKey(emptyKeyList).SetFeeScheduleKey(emptyKeyList).SetMetadataKey(emptyKeyList).SetAdminKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                AssertThat(tokenInfoAfterUpdate.adminKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.wipeKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.kycKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.freezeKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.pauseKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.supplyKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.feeScheduleKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.metadataKey).IsNull();
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKycKey(emptyKeyList).SetFreezeKey(emptyKeyList).SetPauseKey(emptyKeyList).SetSupplyKey(emptyKeyList).SetFeeScheduleKey(emptyKeyList).SetMetadataKey(emptyKeyList).SetAdminKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
+                Assert.Null(tokenInfoAfterUpdate.adminKey);
+                Assert.Null(tokenInfoAfterUpdate.wipeKey);
+                Assert.Null(tokenInfoAfterUpdate.kycKey);
+                Assert.Null(tokenInfoAfterUpdate.freezeKey);
+                Assert.Null(tokenInfoAfterUpdate.pauseKey);
+                Assert.Null(tokenInfoAfterUpdate.supplyKey);
+                Assert.Null(tokenInfoAfterUpdate.feeScheduleKey);
+                Assert.Null(tokenInfoAfterUpdate.metadataKey);
             }
         }
 
@@ -503,8 +503,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.adminKey.ToString(), adminKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
@@ -517,15 +517,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Remove all of token’s lower-privilege keys when updating them to an empty KeyList,
                 // signing with an Admin Key, and setting the key verification mode to FULL_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKycKey(emptyKeyList).SetFreezeKey(emptyKeyList).SetPauseKey(emptyKeyList).SetSupplyKey(emptyKeyList).SetFeeScheduleKey(emptyKeyList).SetMetadataKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                AssertThat(tokenInfoAfterUpdate.wipeKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.kycKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.freezeKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.pauseKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.supplyKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.feeScheduleKey).IsNull();
-                AssertThat(tokenInfoAfterUpdate.metadataKey).IsNull();
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKycKey(emptyKeyList).SetFreezeKey(emptyKeyList).SetPauseKey(emptyKeyList).SetSupplyKey(emptyKeyList).SetFeeScheduleKey(emptyKeyList).SetMetadataKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
+                Assert.Null(tokenInfoAfterUpdate.wipeKey);
+                Assert.Null(tokenInfoAfterUpdate.kycKey);
+                Assert.Null(tokenInfoAfterUpdate.freezeKey);
+                Assert.Null(tokenInfoAfterUpdate.pauseKey);
+                Assert.Null(tokenInfoAfterUpdate.supplyKey);
+                Assert.Null(tokenInfoAfterUpdate.feeScheduleKey);
+                Assert.Null(tokenInfoAfterUpdate.metadataKey);
             }
         }
 
@@ -545,8 +545,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.adminKey.ToString(), adminKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
@@ -558,8 +558,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Update all of token’s lower-privilege keys to an unusable key (i.e., all-zeros key),
                 // signing with an Admin Key, and setting the key verification mode to FULL_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKycKey(PublicKey.UnusableKey()).SetFreezeKey(PublicKey.UnusableKey()).SetPauseKey(PublicKey.UnusableKey()).SetSupplyKey(PublicKey.UnusableKey()).SetFeeScheduleKey(PublicKey.UnusableKey()).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKycKey(PublicKey.UnusableKey()).SetFreezeKey(PublicKey.UnusableKey()).SetPauseKey(PublicKey.UnusableKey()).SetSupplyKey(PublicKey.UnusableKey()).SetFeeScheduleKey(PublicKey.UnusableKey()).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterUpdate.wipeKey.ToString(), PublicKey.UnusableKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.kycKey.ToString(), PublicKey.UnusableKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.freezeKey.ToString(), PublicKey.UnusableKey().ToString());
@@ -570,8 +570,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Set all lower-privilege keys back by signing with an Admin Key,
                 // and setting key verification mode to NO_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterRevert = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterRevert = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterRevert.adminKey.ToString(), adminKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterRevert.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterRevert.kycKey.ToString(), kycKey.GetPublicKey().ToString());
@@ -608,8 +608,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newMetadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.adminKey.ToString(), adminKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
@@ -622,8 +622,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Update all of token’s lower-privilege keys when signing with an Admin Key and new respective
                 // lower-privilege key,
                 // and setting key verification mode to FULL_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey.GetPublicKey()).SetKycKey(newKycKey.GetPublicKey()).SetFreezeKey(newFreezeKey.GetPublicKey()).SetPauseKey(newPauseKey.GetPublicKey()).SetSupplyKey(newSupplyKey.GetPublicKey()).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).SetMetadataKey(newMetadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(adminKey).Sign(newWipeKey).Sign(newKycKey).Sign(newFreezeKey).Sign(newPauseKey).Sign(newSupplyKey).Sign(newFeeScheduleKey).Sign(newMetadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey.GetPublicKey()).SetKycKey(newKycKey.GetPublicKey()).SetFreezeKey(newFreezeKey.GetPublicKey()).SetPauseKey(newPauseKey.GetPublicKey()).SetSupplyKey(newSupplyKey.GetPublicKey()).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).SetMetadataKey(newMetadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(adminKey).Sign(newWipeKey).Sign(newKycKey).Sign(newFreezeKey).Sign(newPauseKey).Sign(newSupplyKey).Sign(newFeeScheduleKey).Sign(newMetadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterUpdate.wipeKey.ToString(), newWipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.kycKey.ToString(), newKycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.freezeKey.ToString(), newFreezeKey.GetPublicKey().ToString());
@@ -650,8 +650,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.adminKey.ToString(), adminKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
@@ -668,35 +668,35 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting the key verification mode to NO_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetAdminKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetAdminKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -717,8 +717,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey.GetPublicKey()).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.adminKey.ToString(), adminKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
@@ -734,35 +734,35 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting the key verification mode to NO_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetAdminKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetAdminKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -777,15 +777,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var supplyKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(adminKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(adminKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.adminKey.ToString(), adminKey.GetPublicKey().ToString());
 
                 // Update the Admin Key to an unusable key (i.e., all-zeros key),
                 // signing with an Admin Key, and setting the key verification mode to NO_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetAdminKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetAdminKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -805,8 +805,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -818,8 +818,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Update all of token’s lower-privilege keys to an unusable key (i.e., all-zeros key),
                 // when signing with a respective lower-privilege key,
                 // and setting the key verification mode to NO_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKycKey(PublicKey.UnusableKey()).SetFreezeKey(PublicKey.UnusableKey()).SetPauseKey(PublicKey.UnusableKey()).SetSupplyKey(PublicKey.UnusableKey()).SetFeeScheduleKey(PublicKey.UnusableKey()).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Sign(kycKey).Sign(freezeKey).Sign(pauseKey).Sign(supplyKey).Sign(feeScheduleKey).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKycKey(PublicKey.UnusableKey()).SetFreezeKey(PublicKey.UnusableKey()).SetPauseKey(PublicKey.UnusableKey()).SetSupplyKey(PublicKey.UnusableKey()).SetFeeScheduleKey(PublicKey.UnusableKey()).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Sign(kycKey).Sign(freezeKey).Sign(pauseKey).Sign(supplyKey).Sign(feeScheduleKey).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterUpdate.wipeKey.ToString(), PublicKey.UnusableKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.kycKey.ToString(), PublicKey.UnusableKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.freezeKey.ToString(), PublicKey.UnusableKey().ToString());
@@ -854,8 +854,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newMetadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -866,8 +866,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Update all of token’s lower-privilege keys when signing with an old respective lower-privilege key,
                 // and setting key verification mode to NO_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey.GetPublicKey()).SetKycKey(newKycKey.GetPublicKey()).SetFreezeKey(newFreezeKey.GetPublicKey()).SetPauseKey(newPauseKey.GetPublicKey()).SetSupplyKey(newSupplyKey.GetPublicKey()).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).SetMetadataKey(newMetadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Sign(newWipeKey).Sign(kycKey).Sign(newKycKey).Sign(freezeKey).Sign(newFreezeKey).Sign(pauseKey).Sign(newPauseKey).Sign(supplyKey).Sign(newSupplyKey).Sign(feeScheduleKey).Sign(newFeeScheduleKey).Sign(metadataKey).Sign(newMetadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey.GetPublicKey()).SetKycKey(newKycKey.GetPublicKey()).SetFreezeKey(newFreezeKey.GetPublicKey()).SetPauseKey(newPauseKey.GetPublicKey()).SetSupplyKey(newSupplyKey.GetPublicKey()).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).SetMetadataKey(newMetadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Sign(newWipeKey).Sign(kycKey).Sign(newKycKey).Sign(freezeKey).Sign(newFreezeKey).Sign(pauseKey).Sign(newPauseKey).Sign(supplyKey).Sign(newSupplyKey).Sign(feeScheduleKey).Sign(newFeeScheduleKey).Sign(metadataKey).Sign(newMetadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterUpdate.wipeKey.ToString(), newWipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.kycKey.ToString(), newKycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.freezeKey.ToString(), newFreezeKey.GetPublicKey().ToString());
@@ -902,8 +902,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newMetadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -914,8 +914,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Update all of token’s lower-privilege keys when signing with an old respective lower-privilege key,
                 // and setting key verification mode to NO_VALIDATION
-                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey.GetPublicKey()).SetKycKey(newKycKey.GetPublicKey()).SetFreezeKey(newFreezeKey.GetPublicKey()).SetPauseKey(newPauseKey.GetPublicKey()).SetSupplyKey(newSupplyKey.GetPublicKey()).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).SetMetadataKey(newMetadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Sign(kycKey).Sign(freezeKey).Sign(pauseKey).Sign(supplyKey).Sign(feeScheduleKey).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey.GetPublicKey()).SetKycKey(newKycKey.GetPublicKey()).SetFreezeKey(newFreezeKey.GetPublicKey()).SetPauseKey(newPauseKey.GetPublicKey()).SetSupplyKey(newSupplyKey.GetPublicKey()).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).SetMetadataKey(newMetadataKey.GetPublicKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Sign(kycKey).Sign(freezeKey).Sign(pauseKey).Sign(supplyKey).Sign(feeScheduleKey).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenInfoAfterUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoAfterUpdate.wipeKey.ToString(), newWipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.kycKey.ToString(), newKycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoAfterUpdate.freezeKey.ToString(), newFreezeKey.GetPublicKey().ToString());
@@ -941,8 +941,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -958,31 +958,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting the key verification mode to NO_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(kycKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(kycKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(freezeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(freezeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(pauseKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(pauseKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(supplyKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(supplyKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(feeScheduleKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(feeScheduleKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(emptyKeyList).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_IS_IMMUTABLE.ToString());
             }
         }
@@ -1002,8 +1002,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -1019,31 +1019,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting the key verification mode to NO_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -1063,8 +1063,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -1079,31 +1079,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting the key verification mode to FULL_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(kycKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(kycKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(freezeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(freezeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(pauseKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(pauseKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(supplyKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(supplyKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(feeScheduleKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(feeScheduleKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -1132,8 +1132,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newMetadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -1148,31 +1148,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting the key verification mode to FULL_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Sign(newWipeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Sign(newWipeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(kycKey).Sign(newKycKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(kycKey).Sign(newKycKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(freezeKey).Sign(newFreezeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(freezeKey).Sign(newFreezeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(pauseKey).Sign(newPauseKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(pauseKey).Sign(newPauseKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(supplyKey).Sign(newSupplyKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(supplyKey).Sign(newSupplyKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(feeScheduleKey).Sign(newFeeScheduleKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(feeScheduleKey).Sign(newFeeScheduleKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(metadataKey).Sign(newMetadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(PublicKey.UnusableKey()).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(metadataKey).Sign(newMetadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -1201,8 +1201,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newMetadataKey = PrivateKey.GenerateED25519();
 
                 // Create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -1217,31 +1217,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting the key verification mode to FULL_VALIDATION
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(newWipeKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(newKycKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(kycKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(newKycKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(kycKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(newFreezeKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(freezeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(newFreezeKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(freezeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(newPauseKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(pauseKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(newPauseKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(pauseKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(newSupplyKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(supplyKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(newSupplyKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(supplyKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(newFeeScheduleKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(feeScheduleKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(newFeeScheduleKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(feeScheduleKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(newMetadataKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.client).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(newMetadataKey).SetKeyVerificationMode(TokenKeyValidation.FULL_VALIDATION).FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -1261,8 +1261,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
 
                 // create a non-fungible token
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
+                var tokenId = new TokenCreateTransaction().SetTokenName("Test NFT").SetTokenSymbol("TNFT").SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,.SetWipeKey(wipeKey.GetPublicKey()).SetKycKey(kycKey.GetPublicKey()).SetFreezeKey(freezeKey.GetPublicKey()).SetPauseKey(pauseKey.GetPublicKey()).SetSupplyKey(supplyKey.GetPublicKey()).SetFeeScheduleKey(feeScheduleKey.GetPublicKey()).SetMetadataKey(metadataKey.GetPublicKey()).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var tokenInfoBeforeUpdate = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.Client);
                 Assert.Equal(tokenInfoBeforeUpdate.wipeKey.ToString(), wipeKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.kycKey.ToString(), kycKey.GetPublicKey().ToString());
                 Assert.Equal(tokenInfoBeforeUpdate.freezeKey.ToString(), freezeKey.GetPublicKey().ToString());
@@ -1280,31 +1280,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // and setting key verification mode to NO_VALIDATION
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(wipeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetWipeKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(wipeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_WIPE_KEY.ToString());
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(kycKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetKycKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(kycKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_KYC_KEY.ToString());
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(freezeKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFreezeKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(freezeKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_FREEZE_KEY.ToString());
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(pauseKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetPauseKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(pauseKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_PAUSE_KEY.ToString());
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(supplyKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetSupplyKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(supplyKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SUPPLY_KEY.ToString());
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(feeScheduleKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetFeeScheduleKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(feeScheduleKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_CUSTOM_FEE_SCHEDULE_KEY.ToString());
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.client).Sign(metadataKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUpdateTransaction().SetTokenId(tokenId).SetMetadataKey(ecdsaKey).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_METADATA_KEY.ToString());
             }
         }

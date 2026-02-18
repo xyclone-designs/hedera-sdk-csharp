@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// All the livehashes attached to the account (each of which is a hash along with the keys that authorized it and
         /// can delete it)
         /// </summary>
-        public readonly IList<LiveHash> LiveHashes;
+        public readonly List<LiveHash> LiveHashes;
         public readonly Dictionary<TokenId, TokenRelationship> TokenRelationships;
         /// <summary>
         /// The memo associated with the account
@@ -111,15 +111,15 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <summary>
         /// List of Hbar allowances
         /// </summary>
-        public readonly IList<HbarAllowance> HbarAllowances;
+        public readonly List<HbarAllowance> HbarAllowances;
         /// <summary>
         /// List of token allowances
         /// </summary>
-        public readonly IList<TokenAllowance> TokenAllowances;
+        public readonly List<TokenAllowance> TokenAllowances;
         /// <summary>
         /// List of NFT allowances
         /// </summary>
-        public readonly IList<TokenNftAllowance> TokenNftAllowances;
+        public readonly List<TokenNftAllowance> TokenNftAllowances;
         /// <summary>
         /// Staking metadata for this account.
         /// </summary>

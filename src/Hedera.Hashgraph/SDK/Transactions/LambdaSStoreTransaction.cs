@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return this;
 		}
 
-		public virtual IList<LambdaStorageUpdate> StorageUpdates { get; private set; } = [];
+		public virtual List<LambdaStorageUpdate> StorageUpdates { get; private set; } = [];
 
 		public virtual Proto.LambdaSStoreTransactionBody ToProtobuf()
 		{

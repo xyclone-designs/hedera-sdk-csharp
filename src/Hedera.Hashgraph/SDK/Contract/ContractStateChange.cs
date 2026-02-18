@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <summary>
         /// The list of storage changes
         /// </summary>
-        public readonly IList<StorageChange> StorageChanges;
+        public readonly List<StorageChange> StorageChanges;
         /// <summary>
         /// Constructor.
         /// </summary>

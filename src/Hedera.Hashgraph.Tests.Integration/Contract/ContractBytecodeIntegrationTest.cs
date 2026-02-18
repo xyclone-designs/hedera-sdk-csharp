@@ -18,14 +18,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
-                var bytecode = new ContractByteCodeQuery().SetContractId(contractId).Execute(testEnv.client);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
+                var bytecode = new ContractByteCodeQuery().SetContractId(contractId).Execute(testEnv.Client);
                 Assert.Equal(bytecode.Count, 798);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -33,16 +33,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
                 var bytecodeQuery = new ContractByteCodeQuery().SetContractId(contractId).SetMaxQueryPayment(new Hbar(1000));
-                var cost = bytecodeQuery.GetCost(testEnv.client);
-                var bytecode = bytecodeQuery.SetQueryPayment(cost).Execute(testEnv.client);
+                var cost = bytecodeQuery.GetCost(testEnv.Client);
+                var bytecode = bytecodeQuery.SetQueryPayment(cost).Execute(testEnv.Client);
                 Assert.Equal(bytecode.Count, 798);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -50,17 +50,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
                 var bytecodeQuery = new ContractByteCodeQuery().SetContractId(contractId).SetMaxQueryPayment(Hbar.FromTinybars(1));
                 Assert.Throws(typeof(MaxQueryPaymentExceededException), () =>
                 {
-                    bytecodeQuery.Execute(testEnv.client);
+                    bytecodeQuery.Execute(testEnv.Client);
                 });
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -68,17 +68,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
                 var bytecodeQuery = new ContractByteCodeQuery().SetContractId(contractId).SetMaxQueryPayment(new Hbar(100));
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    bytecodeQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.client);
+                    bytecodeQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.Client);
                 }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new ContractByteCodeQuery().Execute(testEnv.client);
+                    new ContractByteCodeQuery().Execute(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_CONTRACT_ID.ToString());
             }
         }

@@ -79,8 +79,8 @@ namespace Hedera.Hashgraph.SDK.Topic
             InitFromTransactionBody();
         }
 
-        private IList<CustomFixedFee> _CustomFees = [];
-        private IList<Key> _FeeExemptKeys = [];
+        private List<CustomFixedFee> _CustomFees = [];
+        private List<Key> _FeeExemptKeys = [];
 
 		/// <summary>
 		/// Set a short publicly visible memo on the new topic.

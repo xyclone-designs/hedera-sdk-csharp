@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Exceptions
         /// <p>
         /// If {@code reason == BadMnemonicReason.UnknownWords} then this will be not null.
         /// </summary>
-        public readonly IList<int>? UnknownWordIndices;
+        public readonly List<int>? UnknownWordIndices;
 		/// <summary>
 		/// Constructor.
 		/// </summary>

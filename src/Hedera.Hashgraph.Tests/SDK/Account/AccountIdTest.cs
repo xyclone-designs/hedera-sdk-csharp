@@ -216,7 +216,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             string evmAddress = "302a300506032b6570032100114e6abc371b82da";
             var id = AccountId.FromEvmAddress(evmAddress, 5, 9);
-            AssertThat(id.evmAddress).HasToString(evmAddress);
+            Assert.Equal(id.evmAddress.ToString(), evmAddress);
             Assert.Equal(id.Shard, 5);
             Assert.Equal(id.Realm, 9);
         }

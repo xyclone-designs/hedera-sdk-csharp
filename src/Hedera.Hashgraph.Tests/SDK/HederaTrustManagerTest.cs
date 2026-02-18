@@ -66,14 +66,14 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual void ProperlyChecksCertificateAgainstCurrentNetworkAddressBook()
         {
             var client = Client.ForNetwork(Map.Of("0.previewnet.hedera.com:50211", new AccountId(0, 0, 3))).SetTransportSecurity(true).SetVerifyCertificates(true).SetLedgerId(LedgerId.PREVIEWNET);
-            var nodeAddress = Objects.RequireNonNull(Objects.RequireNonNull(client.network.addressBook)[new AccountId(0, 0, 3)]);
+            var nodeAddress = client.network.addressBook)[new AccountId(0, 0, 3)]);
             new HederaTrustManager(nodeAddress.GetCertHash(), client.IsVerifyCertificates()).CheckServerTrusted(CERTIFICATE_CHAIN, "");
         }
 
         public virtual void CertificateCheckFailWhenHashMismatches()
         {
             var client = Client.ForNetwork(Map.Of("0.previewnet.hedera.com:50211", new AccountId(0, 0, 3))).SetTransportSecurity(true).SetVerifyCertificates(true).SetLedgerId(LedgerId.PREVIEWNET);
-            var nodeAddress = Objects.RequireNonNull(Objects.RequireNonNull(client.network.addressBook)[new AccountId(0, 0, 4)]);
+            var nodeAddress = client.network.addressBook)[new AccountId(0, 0, 4)]);
             Assert.Throws(typeof(CertificateException), () => new HederaTrustManager(nodeAddress.GetCertHash(), client.IsVerifyCertificates()).CheckServerTrusted(CERTIFICATE_CHAIN, ""));
         }
     }

@@ -37,15 +37,15 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <summary>
 		/// The list of all nodes.
 		/// </summary>
-		protected IList<BaseNodeT> Nodes = [];
-        /// <summary>
-        /// The list of currently healthy nodes.
-        /// </summary>
-        protected IList<BaseNodeT> HealthyNodes = [];        
+		public readonly IList<BaseNodeT> Nodes = [];
+		/// <summary>
+		/// The list of currently healthy nodes.
+		/// </summary>
+		public readonly IList<BaseNodeT> HealthyNodes = [];        
         /// <summary>
         /// The instant that readmission will happen after.
         /// </summary>
-        protected Timestamp earliestReadmitTime;
+        public readonly Timestamp earliestReadmitTime;
         /// <summary>
         /// The name of the network. This corresponds to ledger ID in entity ID checksum calculations
         /// </summary>
@@ -406,7 +406,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// </summary>
         /// <param name="key">the desired key</param>
         /// <returns>                         the list of node proxies</returns>
-        public virtual IList<BaseNodeT> GetNodeProxies(KeyT key)
+        public virtual List<BaseNodeT> GetNodeProxies(KeyT key)
         {
             lock (this)
             {

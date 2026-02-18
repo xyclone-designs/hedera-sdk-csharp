@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var result = new ContractFunctionResult(Proto.ContractFunctionResult.NewBuilder().SetContractID(ContractId.FromString("1.2.3").ToProtobuf()).SetContractCallResult(ByteString.CopyFrom(callResult)).SetEvmAddress(BytesValue.NewBuilder().SetValue(ByteString.CopyFrom(Hex.Decode("98329e006610472e6B372C080833f6D79ED833cf"))).Build()).SetSenderId(AccountId.FromString("1.2.3").ToProtobuf()).AddContractNonces(new ContractNonceInfo(ContractId.FromString("1.2.3"), 10).ToProtobuf()));
 
             // interpretation varies based on width
-            AssertThat(result.GetBool(0)).IsTrue();
+            Assert.True(result.GetBool(0));
             Assert.Equal(result.GetInt32(0), -1);
             Assert.Equal(result.GetInt64(0), (1 << 32) - 1);
             Assert.Equal(result.GetInt256(0), BigInteger.ONE.ShiftLeft(32).Subtract(BigInteger.ONE));

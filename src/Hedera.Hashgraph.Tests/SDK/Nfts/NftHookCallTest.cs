@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Org.Junit.Jupiter.Api;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Hook;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
@@ -15,13 +14,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         public virtual void ConstructorWithNumericIdAndType()
         {
             var evm = new EvmHookCall(new byte[] { }, 25000);
-            var call = new NftHookCall(2, evm, NftHookType.PRE_HOOK_SENDER);
-            Assert.Equal(call.GetType(), NftHookType.PRE_HOOK_SENDER);
+            var call = new NftHookCall(2, evm, NftHookType.PreHookSender);
+            
+            Assert.Equal(call.Type, NftHookType.PreHookSender);
         }
 
         public virtual void NullTypeThrows()
         {
             var evm = new EvmHookCall(new byte[] { }, 1);
+
             AssertThatThrownBy(() => new NftHookCall(1, evm, null)).IsInstanceOf(typeof(NullReferenceException)).HasMessage("type cannot be null");
         }
 
@@ -32,17 +33,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             var nftId = new NftId(token, 1);
             var sender = new AccountId(0, 0, 8001);
             var receiver = new AccountId(0, 0, 8002);
-            var senderHook = new NftHookCall(2, new EvmHookCall(new byte[] { }, 10), NftHookType.PRE_HOOK_SENDER);
-            var receiverHook = new NftHookCall(3, new EvmHookCall(new byte[] { }, 10), NftHookType.PRE_POST_HOOK_RECEIVER);
+            var senderHook = new NftHookCall(2, new EvmHookCall(new byte[] { }, 10), NftHookType.PreHookSender);
+            var receiverHook = new NftHookCall(3, new EvmHookCall(new byte[] { }, 10), NftHookType.PrePostHookReceiver);
             tx.AddNftTransferWithHook(nftId, sender, receiver, senderHook, receiverHook);
             var body = tx.Build();
             var hasSenderPre = body.GetTokenTransfersList().Stream().FlatMap((tl) => tl.GetNftTransfersList().Stream()).AnyMatch((t) => t.HasPreTxSenderAllowanceHook());
             var hasReceiverPrePost = body.GetTokenTransfersList().Stream().FlatMap((tl) => tl.GetNftTransfersList().Stream()).AnyMatch((t) => t.HasPrePostTxReceiverAllowanceHook());
-            AssertThat(hasSenderPre).IsTrue();
-            AssertThat(hasReceiverPrePost).IsTrue();
+            Assert.True(hasSenderPre);
+            Assert.True(hasReceiverPrePost);
 
             // Round-trip parse back
-            var rebuilt = new TransferTransaction(TransactionBody.NewBuilder().SetCryptoTransfer(body).Build());
+            var rebuilt = new TransferTransaction(new Proto.TransactionBody { CryptoTransfer = body });
             var rebuiltNfts = rebuilt.GetTokenNftTransfers();
             Assert.Single(rebuiltNfts[token]);
         }

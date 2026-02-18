@@ -1,13 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -18,12 +13,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.client);
-                var accountId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).accountId);
-                new TransferTransaction().AddHbarTransfer(testEnv.operatorId, new Hbar(1).Negated()).AddHbarTransfer(accountId, new Hbar(1)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TransferTransaction().AddHbarTransfer(testEnv.operatorId, new Hbar(1)).AddHbarTransfer(accountId, new Hbar(1).Negated()).FreezeWith(testEnv.client).Sign(key).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var records = new AccountRecordsQuery().SetAccountId(testEnv.operatorId).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
-                AssertThat(records.IsEmpty()).IsFalse();
+                var response = new AccountCreateTransaction
+                {
+					InitialBalance = new Hbar(1)
+
+				}.SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(1).Negated()).AddHbarTransfer(accountId, new Hbar(1)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(1)).AddHbarTransfer(accountId, new Hbar(1).Negated()).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var records = new AccountRecordsQuery
+                {
+					QueryPayment = new Hbar(10),
+					AccountId = testEnv.OperatorId,
+
+				}.Execute(testEnv.Client);
+
+                Assert.False(records.Count == 0);
             }
         }
     }

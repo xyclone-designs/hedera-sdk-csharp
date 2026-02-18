@@ -1,16 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Java.Nio.Charset;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.LiveHashes;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
 {
@@ -35,14 +30,22 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
 
         private LiveHashDeleteTransaction SpawnTestTransaction()
         {
-            return new LiveHashDeleteTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.100")).SetHash(ByteString.CopyFrom("hash", StandardCharsets.UTF_8)).Freeze().Sign(privateKey);
+            return new LiveHashDeleteTransaction()
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = AccountId.FromString("0.0.100"),
+				Hash = Encoding.UTF8.GetBytes("hash"),
+			}
+            .Freeze()
+            .Sign(privateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = LiveHashDeleteTransaction.FromBytes(tx.ToBytes());
-            AssertThat(tx2).HasToString(tx.ToString());
+            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()

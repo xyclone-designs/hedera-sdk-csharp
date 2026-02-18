@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.File
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+
+using System;
+
+namespace Hedera.Hashgraph.Tests.SDK.File
 {
     public class FileUpdateTransactionTest
     {
@@ -34,13 +33,25 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
 
         private FileUpdateTransaction SpawnTestTransaction()
         {
-            return new FileUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetFileId(FileId.FromString("0.0.6006")).SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158728)).SetContents(new byte[] { 1, 2, 3, 4, 5 }).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetKeys(unusedPrivateKey).SetFileMemo("Hello memo").Freeze().Sign(unusedPrivateKey);
+            return new FileUpdateTransaction()
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				FileId = FileId.FromString("0.0.6006"),
+				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728).ToTimestamp(),
+				Contents = ByteString.CopyFrom([1, 2, 3, 4, 5]),
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+				Keys = KeyList.Of(null, unusedPrivateKey),
+				FileMemo = "Hello memo",
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = FileUpdateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -53,7 +64,10 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetFileUpdate(FileUpdateTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+                FileUpdate = new Proto.FileUpdateTransactionBody { }
+            };
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<FileUpdateTransaction>(tx);
         }

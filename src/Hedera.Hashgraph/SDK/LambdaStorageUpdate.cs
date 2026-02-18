@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK
         public class LambdaMappingEntries : LambdaStorageUpdate
         {
             private readonly byte[] MappingSlot;
-            private readonly IList<LambdaMappingEntry> Entries;
+            private readonly List<LambdaMappingEntry> Entries;
             /// <summary>
             /// Create a new mapping entries update.
             /// </summary>

@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <summary>
         /// Topics of a particular event.
         /// </summary>
-        public readonly IList<ByteString> Topics;
+        public readonly List<ByteString> Topics;
         /// <summary>
         /// The event data.
         /// </summary>

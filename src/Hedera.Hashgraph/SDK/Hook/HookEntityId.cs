@@ -36,6 +36,8 @@ namespace Hedera.Hashgraph.SDK.Hook
 
 		public AccountId? AccountId { get; }
 		public ContractId? ContractId { get; }
+        public virtual bool IsAccount { get => AccountId is not null; }
+        public virtual bool IsContract { get => ContractId is not null; }
 
 		/// <summary>
 		/// Convert this HookEntityId to a protobuf message.

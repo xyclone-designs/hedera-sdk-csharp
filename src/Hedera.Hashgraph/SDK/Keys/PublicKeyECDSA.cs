@@ -15,7 +15,7 @@ namespace Hedera.Hashgraph.SDK.Keys
     /// <summary>
     /// Encapsulate the ECDSA public key.
     /// </summary>
-    class PublicKeyECDSA : PublicKey
+    public class PublicKeyECDSA : PublicKey
     {
         // Compressed 33 byte form
         private readonly byte[] KeyData;

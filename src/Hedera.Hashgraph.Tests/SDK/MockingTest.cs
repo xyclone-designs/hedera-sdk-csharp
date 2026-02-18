@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -356,7 +357,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var signedTx1 = SignedTransaction.ParseFrom(requests[1].GetSignedTransactionBytes());
             var txBody0 = TransactionBody.ParseFrom(signedTx0.GetBodyBytes());
             var txBody1 = TransactionBody.ParseFrom(signedTx1.GetBodyBytes());
-            Assertions.AssertNotEquals(txBody0.GetNodeAccountID(), txBody1.GetNodeAccountID());
+            Assertions.Assert.NotEqual(txBody0.GetNodeAccountID(), txBody1.GetNodeAccountID());
         }
 
         public virtual void DefaultMaxTransactionFeeTest()
@@ -387,7 +388,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             var service = new TestCryptoService();
             var server = new TestServer("queryPayment", service);
-            var response = Response.NewBuilder().SetCryptogetAccountBalance(new AccountBalance(new Hbar(0), new HashMap<TokenId, long>(), new HashMap<TokenId, int>()).ToProtobuf()).Build();
+            var response = Response.NewBuilder().SetCryptogetAccountBalance(new AccountBalance(new Hbar(0), new Dictionary<TokenId, long>(), new Dictionary<TokenId, int>()).ToProtobuf()).Build();
             service.buffer.EnqueueResponse(TestResponse.Query(response)).EnqueueResponse(TestResponse.Query(response)).EnqueueResponse(TestResponse.Query(response));
 
             // TODO: this will take some work, since I have to contend with Query's getCost behavior
@@ -402,7 +403,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var server = new TestServer("signerDoesNotSignTwice", service);
             service.buffer.EnqueueResponse(TestResponse.TransactionOk());
             var aliceKey = PrivateKey.GenerateED25519();
-            var transaction = new AccountCreateTransaction().SetTransactionId(TransactionId.Generate(Objects.RequireNonNull(server.client.GetOperatorAccountId()))).SetNodeAccountIds(server.client.network.GetNodeAccountIdsForExecute()).Freeze().Sign(aliceKey);
+            var transaction = new AccountCreateTransaction().SetTransactionId(TransactionId.Generate(server.client.GetOperatorAccountId()))).SetNodeAccountIds(server.client.network.GetNodeAccountIdsForExecute()).Freeze().Sign(aliceKey);
 
             // This will cause the SDK Transaction to populate the sigPairLists list
             transaction.GetTransactionHashPerNode();
@@ -419,7 +420,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var request = service.buffer.transactionRequestsReceived[0];
             var sigPairList = SignedTransaction.ParseFrom(request.GetSignedTransactionBytes()).GetSigMap().GetSigPairList();
             Assertions.Assert.Equal(2, sigPairList.Count);
-            Assertions.AssertNotEquals(sigPairList[0].GetEd25519().ToString(), sigPairList[1].GetEd25519().ToString());
+            Assertions.Assert.NotEqual(sigPairList[0].GetEd25519().ToString(), sigPairList[1].GetEd25519().ToString());
             server.Dispose();
         }
 

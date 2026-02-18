@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.SDK.Hook
     /// </summary>
     public class LambdaEvmHook : EvmHookSpec
     {
-        private readonly IList<LambdaStorageUpdate> StorageUpdates;
+        private readonly List<LambdaStorageUpdate> StorageUpdates;
 
         /// <summary>
         /// Create a new LambdaEvmHook with no initial storage updates.

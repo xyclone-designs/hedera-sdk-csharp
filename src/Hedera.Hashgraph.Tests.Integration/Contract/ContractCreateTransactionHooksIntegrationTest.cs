@@ -21,16 +21,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 
                 // Deploy a simple contract to act as the EVM hook target
-                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.operatorKey);
+                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
                 var fileId = CreateBytecodeFile(testEnv);
 
                 // Build a basic EVM hook (no admin key, no storage updates)
                 var lambdaHook = new EvmHook(hookContractId);
-                var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
-                var response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails).Execute(testEnv.client);
-                var receipt = response.GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
-                AssertThat(receipt.contractId).IsNotNull();
+                var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
+                var response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails).Execute(testEnv.Client);
+                var receipt = response.GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.NotNull(receipt.ContractId);
             }
         }
 
@@ -38,16 +38,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.operatorKey);
+                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
                 var fileId = CreateBytecodeFile(testEnv);
                 var storageSlot = new EvmHookStorageSlot(new byte[] { 0x01 }, new byte[] { 0x02 });
                 var mappingEntries = new EvmHookMappingEntries(new byte[] { 0x10 }, List.Of(EvmHookMappingEntry.OfKey(new byte[] { 0x11 }, new byte[] { 0x12 })));
                 var lambdaHook = new EvmHook(hookContractId, List.Of(storageSlot, mappingEntries));
-                var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, lambdaHook);
-                var response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails).Execute(testEnv.client);
-                var receipt = response.GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
-                AssertThat(receipt.contractId).IsNotNull();
+                var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, lambdaHook);
+                var response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails).Execute(testEnv.Client);
+                var receipt = response.GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.NotNull(receipt.ContractId);
             }
         }
 
@@ -55,12 +55,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.operatorKey);
+                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
                 var fileId = CreateBytecodeFile(testEnv);
                 var lambdaHook = new EvmHook(hookContractId);
-                var hookDetails1 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 4, lambdaHook);
-                var hookDetails2 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 4, lambdaHook);
-                Assert.Throws(typeof(PrecheckStatusException), () => new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails1).AddHook(hookDetails2).Execute(testEnv.client).GetReceipt(testEnv.client)).WithMessageContaining(Status.HOOK_ID_REPEATED_IN_CREATION_DETAILS.ToString());
+                var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 4, lambdaHook);
+                var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 4, lambdaHook);
+                Assert.Throws(typeof(PrecheckStatusException), () => new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails1).AddHook(hookDetails2).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(Status.HOOK_ID_REPEATED_IN_CREATION_DETAILS.ToString());
             }
         }
 
@@ -68,22 +68,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.operatorKey);
+                ContractId hookContractId = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
                 var fileId = CreateBytecodeFile(testEnv);
                 var adminKey = PrivateKey.GenerateED25519();
                 var lambdaHook = new EvmHook(hookContractId);
-                var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 5, lambdaHook, adminKey.GetPublicKey());
-                var tx = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails).FreezeWith(testEnv.client).Sign(adminKey);
-                var receipt = tx.Execute(testEnv.client).GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
-                AssertThat(receipt.contractId).IsNotNull();
+                var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 5, lambdaHook, adminKey.GetPublicKey());
+                var tx = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(400000).SetBytecodeFileId(fileId).AddHook(hookDetails).FreezeWith(testEnv.Client).Sign(adminKey);
+                var receipt = tx.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.NotNull(receipt.ContractId);
             }
         }
 
         private FileId CreateBytecodeFile(IntegrationTestEnv testEnv)
         {
-            var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-            return Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+            var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+            return response.GetReceipt(testEnv.Client).FileId);
         }
     }
 }

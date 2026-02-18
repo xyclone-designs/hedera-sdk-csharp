@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk.Utils;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
-using Org.Junit.Jupiter.Params;
-using Org.Junit.Jupiter.Params.Provider;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Utils;
+using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -33,69 +29,83 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void ShortWordList()
         {
-            Assert.Throws(typeof(BadMnemonicException), () => Mnemonic.FromWords(Arrays.AsList("lorem", "ipsum", "dolor"))).Satisfies((error) =>
-            {
-                Assert.Equal(error.reason, BadMnemonicReason.BadLength);
-                AssertThat(error.unknownWordIndices).IsNull();
-            });
+            Assert
+                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "lorem", "ipsum", "dolor" ]))
+                .Satisfies((error) =>
+                {
+                    Assert.Equal(error.reason, BadMnemonicReason.BadLength);
+                    Assert.Null(error.unknownWordIndices);
+                });
         }
 
         public virtual void LongWordList()
         {
-            Assert.Throws(typeof(BadMnemonicException), () => Mnemonic.FromWords(Arrays.AsList("lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame", "gate", "village", "viable", "include", "mixed", "term", "draft", "among", "monitor", "swear", "swing", "novel", "track"))).Satisfies((error) =>
-            {
-                Assert.Equal(error.reason, BadMnemonicReason.BadLength);
-                AssertThat(error.unknownWordIndices).IsNull();
-            });
+            Assert
+                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame", "gate", "village", "viable", "include", "mixed", "term", "draft", "among", "monitor", "swear", "swing", "novel", "track" ]))
+                .Satisfies((error) =>
+                {
+                    Assert.Equal(error.reason, BadMnemonicReason.BadLength);
+                    Assert.Null(error.unknownWordIndices);
+                });
         }
 
         public virtual void BetweenWordList()
         {
-            Assert.Throws(typeof(BadMnemonicException), () => Mnemonic.FromWords(Arrays.AsList("" + "lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame"))).Satisfies((error) =>
-            {
-                Assert.Equal(error.reason, BadMnemonicReason.BadLength);
-                AssertThat(error.unknownWordIndices).IsNull();
-            });
+            Assert
+                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "" + "lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame" ]))
+                .Satisfies((error) =>
+                {
+                    Assert.Equal(error.reason, BadMnemonicReason.BadLength);
+                    Assert.Null(error.unknownWordIndices);
+                });
         }
 
         public virtual void UnknownWords()
         {
-            Assert.Throws(typeof(BadMnemonicException), () => Mnemonic.FromWords(Arrays.AsList("abandon", "ability", "able", "about", "above", "absent", "adsorb", "abstract", "absurd", "abuse", "access", "accident", "acount", "accuse", "achieve", "acid", "acoustic", "acquired", "across", "act", "action", "actor", "actress", "actual"))).Satisfies((error) =>
-            {
-                Assert.Equal(error.reason, BadMnemonicReason.UnknownWords);
-                AssertThat(error.unknownWordIndices).ContainsExactly(6, 12, 17);
-            });
+            Assert
+                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "adsorb", "abstract", "absurd", "abuse", "access", "accident", "acount", "accuse", "achieve", "acid", "acoustic", "acquired", "across", "act", "action", "actor", "actress", "actual" ]))
+                .Satisfies((error) =>
+                {
+                    Assert.Equal(error.reason, BadMnemonicReason.UnknownWords);
+                    AssertThat(error.unknownWordIndices).ContainsExactly(6, 12, 17);
+                });
         }
 
         public virtual void ChecksumMismatch()
         {
 
             // this mnemonic was just made up, the checksum should definitely not match
-            Assert.Throws(typeof(BadMnemonicException), () => Mnemonic.FromWords(Arrays.AsList("abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual"))).Satisfies((error) =>
-            {
-                Assert.Equal(error.reason, BadMnemonicReason.ChecksumMismatch);
-                AssertThat(error.unknownWordIndices).IsNull();
-            });
+            Assert
+                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual" ]))
+                .Satisfies((error) =>
+                {
+                    Assert.Equal(error.reason, BadMnemonicReason.ChecksumMismatch);
+                    Assert.Null(error.unknownWordIndices);
+                });
         }
 
         public virtual void ChecksumMismatch12()
         {
 
             // this mnemonic was just made up, the checksum should definitely not match
-            Assert.Throws(typeof(BadMnemonicException), () => Mnemonic.FromWords(Arrays.AsList("abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident"))).Satisfies((error) =>
-            {
-                Assert.Equal(error.reason, BadMnemonicReason.ChecksumMismatch);
-                AssertThat(error.unknownWordIndices).IsNull();
-            });
+            Assert
+                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident" ]))
+                .Satisfies((error) =>
+                {
+                    Assert.Equal(error.reason, BadMnemonicReason.ChecksumMismatch);
+                    Assert.Null(error.unknownWordIndices);
+                });
         }
 
         public virtual void InvalidToPrivateKey()
         {
-            Assert.Throws(typeof(BadMnemonicException), () => Mnemonic.FromWords(Arrays.AsList("abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual"))).Satisfies((error) => AssertThat(error.mnemonic).IsNotNull());
-        }
+            Assert
+                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual" ]))
+                .Satisfies((error) => AssertThat(error.mnemonic).IsNotNull());
+            }
 
-        public virtual void LegacyV1MnemonicTest()
-        {
+            public virtual void LegacyV1MnemonicTest()
+            {
 
             // TODO: add link to reference test vectors
             string PRIVATE_KEY1 = "00c2f59212cb3417f0ee0d38e7bd876810d04f2dd2cb5c2d8f26ff406573f2bd";
@@ -161,7 +171,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
             PrivateKey key = mnemonic.ToPrivateKey();
-            AssertThat(key).HasToString("302e020100300506032b657004220420853f15aecd22706b105da1d709b4ac05b4906170c2b9c7495dff9af49e1391da");
+            Assert.Equal(key.ToString(), "302e020100300506032b657004220420853f15aecd22706b105da1d709b4ac05b4906170c2b9c7495dff9af49e1391da");
         }
 
         public virtual void MnemonicPassphraseTest()
@@ -317,7 +327,9 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
             int hardenedIndex = Bip32Utils.ToHardenedIndex(10);
-            Assert.Throws<ArgumentException>(() => mnemonic.ToStandardEd25519PrivateKey("", hardenedIndex)).Satisfies((error) => Assert.Equal(error.GetMessage(), "the index should not be pre-hardened"));
+            Assert
+                .Throws<ArgumentException>(() => mnemonic.ToStandardEd25519PrivateKey("", hardenedIndex))
+                .Satisfies((error) => Assert.Equal(error.GetMessage(), "the index should not be pre-hardened"));
         }
 
         public virtual void ToStandardECDSAsecp256k1PrivateKey()
@@ -463,27 +475,33 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
                 mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_1, DPATH_1);
-            }).Satisfies((iae) =>
-            {
-                Assert.Equal(iae.GetMessage(), "Invalid derivation path format");
-            });
-            Assert.Throws<ArgumentException>(() =>
+            })
+                
+                .Satisfies((iae) =>
+                {
+                    Assert.Equal(iae.GetMessage(), "Invalid derivation path format");
+                });
+                Assert.Throws<ArgumentException>(() =>
             {
                 Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
                 mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_2, DPATH_2);
-            }).Satisfies((iae) =>
-            {
-                Assert.Equal(iae.GetMessage(), "Derivation path cannot be null or empty");
-            });
-            Assert.Throws<ArgumentException>(() =>
+            })
+                
+                .Satisfies((iae) =>
+                {
+                    Assert.Equal(iae.GetMessage(), "Derivation path cannot be null or empty");
+                });
+                Assert.Throws<ArgumentException>(() =>
             {
                 Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
                 mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_3, DPATH_3);
-            }).Satisfies((iae) =>
-            {
-                Assert.Equal(iae.GetMessage(), "Invalid derivation path format");
-            });
-        }
+            })
+                
+                .Satisfies((iae) =>
+                {
+                    Assert.Equal(iae.GetMessage(), "Invalid derivation path format");
+                });
+            }
 
         public virtual void ToStandardECDSAsecp256k1PrivateKeyCustomDpath()
         {

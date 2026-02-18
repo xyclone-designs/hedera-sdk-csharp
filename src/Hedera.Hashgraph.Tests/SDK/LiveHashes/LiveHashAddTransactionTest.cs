@@ -1,15 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Java.Nio.Charset;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.LiveHashes;
+using Hedera.Hashgraph.SDK.Transactions;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
@@ -35,7 +30,17 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
 
         private LiveHashAddTransaction SpawnTestTransaction()
         {
-            return new LiveHashAddTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.100")).SetHash(ByteString.CopyFrom("hash", StandardCharsets.UTF_8)).SetKeys(privateKey).SetDuration(Duration.OfDays(30)).Freeze().Sign(privateKey);
+            return new LiveHashAddTransaction()
+            {
+				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = AccountId.FromString("0.0.100"),
+				Hash = Encoding.UTF8.GetBytes("hash"),
+				Keys = KeyList.Of(null, privateKey),
+				Duration = Duration.FromTimeSpan(TimeSpan.FromDays(30)),
+			}
+            .Freeze()
+            .Sign(privateKey);
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -48,8 +53,8 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = LiveHashAddTransaction.FromBytes(tx.ToBytes());
-            AssertThat(tx2).HasToString(tx.ToString());
+            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            Assert.Equal(tx2.ToString(), tx.ToString());
         }
     }
 }

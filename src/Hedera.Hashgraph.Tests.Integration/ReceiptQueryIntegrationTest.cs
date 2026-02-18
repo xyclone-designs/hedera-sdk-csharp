@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Queries;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,8 +16,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                var receipt = new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                var receipt = new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
             }
         }
 
@@ -27,9 +26,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
-                new TransactionRecordQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
+                new TransactionRecordQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
             }
         }
 
@@ -38,11 +37,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
-                var recordQuery = new TransactionRecordQuery().SetTransactionId(response.transactionId);
-                recordQuery.GetCost(testEnv.client);
-                recordQuery.Execute(testEnv.client);
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
+                var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId };
+                recordQuery.GetCost(testEnv.Client);
+                recordQuery.Execute(testEnv.Client);
             }
         }
 
@@ -51,11 +50,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
-                var recordQuery = new TransactionRecordQuery().SetTransactionId(response.transactionId).SetMaxQueryPayment(new Hbar(1000));
-                recordQuery.GetCost(testEnv.client);
-                recordQuery.Execute(testEnv.client);
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
+                var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId, MaxQueryPayment = new Hbar(1000) };
+                recordQuery.GetCost(testEnv.Client);
+                recordQuery.Execute(testEnv.Client);
             }
         }
 
@@ -64,13 +63,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                var receipt = new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
-                var recordQuery = new TransactionRecordQuery().SetTransactionId(response.transactionId).SetMaxQueryPayment(Hbar.FromTinybars(1));
-                var cost = recordQuery.GetCost(testEnv.client);
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                var receipt = new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
+                var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId, MaxQueryPayment = Hbar.FromTinybars(1) };
+                var cost = recordQuery.GetCost(testEnv.Client);
                 Assert.Throws(typeof(Exception), () =>
                 {
-                    recordQuery.Execute(testEnv.client);
+                    recordQuery.Execute(testEnv.Client);
+
                 }).WithMessage("cost for TransactionRecordQuery, of " + cost.ToString() + ", without explicit payment is greater than the maximum allowed payment of 1 tℏ");
             }
         }
@@ -80,12 +80,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                var receipt = new TransactionReceiptQuery().SetTransactionId(response.transactionId).Execute(testEnv.client);
-                var recordQuery = new TransactionRecordQuery().SetTransactionId(response.transactionId);
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                var receipt = new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
+                var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId };
+                Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    recordQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.client);
+                    recordQuery.QueryPayment = Hbar.FromTinybars(1);
+					recordQuery.Execute(testEnv.Client);
+
                 }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));
             }
         }

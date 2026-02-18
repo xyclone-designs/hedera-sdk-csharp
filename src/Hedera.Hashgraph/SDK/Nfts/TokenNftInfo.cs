@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
         /// <param name="metadata">the unique metadata</param>
         /// <param name="ledgerId">the ledger id of the response</param>
         /// <param name="spenderId">the spender of the allowance (null if not an allowance)</param>
-        TokenNftInfo(NftId nftId, AccountId accountId, Timestamp creationTime, byte[] metadata, LedgerId ledgerId, AccountId spenderId)
+        internal TokenNftInfo(NftId nftId, AccountId accountId, Timestamp creationTime, byte[] metadata, LedgerId ledgerId, AccountId spenderId)
         {
             NftId = nftId;
             AccountId = accountId;

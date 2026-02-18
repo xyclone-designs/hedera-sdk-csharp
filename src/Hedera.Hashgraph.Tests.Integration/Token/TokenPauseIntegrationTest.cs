@@ -19,14 +19,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var accountKey = PrivateKey.GenerateED25519();
                 var testTokenAmount = 10;
-                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(accountKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                var tokenId = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetInitialSupply(1000000).SetDecimals(3).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetPauseKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId;
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds(Collections.SingletonList(tokenId)).FreezeWith(testEnv.client).Sign(accountKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TransferTransaction().AddTokenTransfer(tokenId, accountId, testTokenAmount).AddTokenTransfer(tokenId, testEnv.operatorId, -testTokenAmount).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenPauseTransaction().SetTokenId(tokenId).FreezeWith(testEnv.client).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(accountKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",InitialSupply = 1000000,Decimals = 3,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,.SetPauseKey(testEnv.OperatorKey)FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction().AddTokenTransfer(tokenId, accountId, testTokenAmount).AddTokenTransfer(tokenId, testEnv.OperatorId, -testTokenAmount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenPauseTransaction().SetTokenId(tokenId).FreezeWith(testEnv.Client).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 AssertThrows(typeof(ReceiptStatusException), () =>
                 {
-                    new TransferTransaction().AddTokenTransfer(tokenId, accountId, testTokenAmount).AddTokenTransfer(tokenId, testEnv.operatorId, -testTokenAmount).FreezeWith(testEnv.client).Sign(accountKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TransferTransaction().AddTokenTransfer(tokenId, accountId, testTokenAmount).AddTokenTransfer(tokenId, testEnv.OperatorId, -testTokenAmount).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 });
             }
         }
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 AssertThrows(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenPauseTransaction().Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenPauseTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 });
             }
         }

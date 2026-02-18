@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             InitFromTransactionBody();
         }
 
-		private IList<HookCreationDetails> _HookCreationDetails = [];
+		private List<HookCreationDetails> _HookCreationDetails = [];
 
 		/// <summary>
 		/// The file containing the contract bytecode.

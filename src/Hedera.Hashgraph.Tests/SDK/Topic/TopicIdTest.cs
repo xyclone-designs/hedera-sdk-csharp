@@ -56,28 +56,28 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             {
                 TopicId.FromEvmAddress(0, 0, "abc123");
             });
-            Assert.True(exception.GetMessage().Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with an EVM address that's too long
             exception = AssertThrows(typeof(ArgumentException), () =>
             {
                 TopicId.FromEvmAddress(0, 0, "0123456789abcdef0123456789abcdef0123456789abcdef");
             });
-            Assert.True(exception.GetMessage().Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with a 0x prefix that gets removed but then is too short
             exception = AssertThrows(typeof(ArgumentException), () =>
             {
                 TopicId.FromEvmAddress(0, 0, "0xabc123");
             });
-            Assert.True(exception.GetMessage().Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with non-long-zero address
             exception = AssertThrows(typeof(ArgumentException), () =>
             {
                 TopicId.FromEvmAddress(0, 0, "742d35Cc6634C0532925a3b844Bc454e4438f44e");
             });
-            Assert.True(exception.GetMessage().Contains("EVM address is not a correct long zero address"));
+            Assert.True(exception.Message.Contains("EVM address is not a correct long zero address"));
         }
 
         public virtual void TestTopicIdFromEvmAddress()

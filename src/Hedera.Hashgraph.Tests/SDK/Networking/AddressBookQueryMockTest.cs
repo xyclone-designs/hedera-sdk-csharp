@@ -16,7 +16,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Networking
+namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     class AddressBookQueryMockTest
     {
@@ -69,9 +69,9 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Networking
             addressBookServiceStub.responses.Add(new NodeAddress().SetAccountId(AccountId.FromString("0.0.3")).SetAddresses(Collections.SingletonList(SpawnEndpoint())).ToProtobuf());
             client.SetNetworkUpdatePeriod(Duration.OfSeconds(1));
             Thread.Sleep(1400);
-            var clientNetwork = client.GetNetwork();
+            var clientNetwork = client.Network;
             Assert.Single(clientNetwork);
-            AssertThat(clientNetwork.Values()).Contains(AccountId.FromString("0.0.3"));
+            Assert.Contains(clientNetwork.Values(), AccountId.FromString("0.0.3"));
         }
 
         public virtual void AddressBookQueryRetries(string executeVersion, Status.Code code, string description)
@@ -115,12 +115,12 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Networking
             public override void GetNodes(Proto.mirror.AddressBookQuery addressBookQuery, StreamObserver<Proto.NodeAddress> streamObserver)
             {
                 var request = requests.Poll();
-                AssertThat(request).IsNotNull();
+                Assert.NotNull(request);
                 Assert.Equal(addressBookQuery, request);
                 while (!responses.IsEmpty())
                 {
                     var response = responses.Poll();
-                    AssertThat(response).IsNotNull();
+                    Assert.NotNull(response);
                     if (response is Throwable)
                     {
                         streamObserver.OnError((Throwable)response);

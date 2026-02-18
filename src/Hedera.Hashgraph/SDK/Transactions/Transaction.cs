@@ -1105,7 +1105,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <returns>List of SignableNodeTransactionBodyBytes</returns>
 		/// <exception cref="RuntimeException">if transaction is not frozen or protobuf parsing fails</exception>
-		public virtual IList<SignableNodeTransactionBodyBytes> GetSignableNodeBodyBytesList()
+		public virtual List<SignableNodeTransactionBodyBytes> GetSignableNodeBodyBytesList()
 		{
 			if (!IsFrozen())
 				throw new Exception("Transaction is not frozen");

@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.Account;
 using Io.Grpc;
 using Io.Grpc.Inprocess;
 using Java.Io;
@@ -33,10 +34,10 @@ namespace Hedera.Hashgraph.Tests.SDK
                 grpcServers[i] = serverBuilder.DirectExecutor().Build().Start();
             }
 
-            var network = new HashMap<string, AccountId>();
+            var network = new Dictionary<string, AccountId>();
             network.Put("in-process:" + name + "[0]", AccountId.FromString("1.1.1"));
             network.Put("in-process:" + name + "[1]", AccountId.FromString("1.1.2"));
-            client = Client.ForNetwork(network).SetNodeMinBackoff(Duration.OfMillis(500)).SetNodeMaxBackoff(Duration.OfMillis(500)).SetOperator(AccountId.FromString("2.2.2"), PrivateKey.Generate());
+            client = Client.ForNetwork(network).SetNodeMinBackoff(Duration.OfMillis(500)).SetNodeMaxBackoff(Duration.OfMillis(500)).OperatorSet(AccountId.FromString("2.2.2"), PrivateKey.Generate());
         }
 
         public virtual void Dispose()

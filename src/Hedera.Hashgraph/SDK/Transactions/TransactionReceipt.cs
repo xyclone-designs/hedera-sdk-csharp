@@ -82,10 +82,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         public readonly TransactionId ScheduledTransactionId;
         /// <summary>
-        /// In the receipt of a TokenMint for tokens of type NON_FUNGIBLE_UNIQUE, the serial numbers of
+        /// In the receipt of a TokenMint for tokens of type NonFungibleUnique, the serial numbers of
         /// the newly created NFTs
         /// </summary>
-        public readonly IList<long> Serials;
+        public readonly List<long> Serials;
         /// <summary>
         /// In the receipt of a NodeCreate, NodeUpdate, NodeDelete, the id of the newly created node.
         /// An affected node identifier.<br/>
@@ -98,12 +98,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// The receipts of processing all transactions with the given id, in consensus time order.
         /// </summary>
-        public readonly IList<TransactionReceipt> Duplicates;
+        public readonly List<TransactionReceipt> Duplicates;
         /// <summary>
         /// The receipts (if any) of all child transactions spawned by the transaction with the
         /// given top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
         /// </summary>
-        public readonly IList<TransactionReceipt> Children;
+        public readonly List<TransactionReceipt> Children;
         public TransactionReceipt(TransactionId? transactionId, ResponseStatus status, ExchangeRate exchangeRate, ExchangeRate nextExchangeRate, AccountId accountId, FileId fileId, ContractId contractId, TopicId topicId, TokenId tokenId, ulong topicSequenceNumber, ByteString? topicRunningHash, ulong totalSupply, ScheduleId scheduleId, TransactionId scheduledTransactionId, IList<long> serials, ulong nodeId, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children)
         {
             TransactionId = transactionId;

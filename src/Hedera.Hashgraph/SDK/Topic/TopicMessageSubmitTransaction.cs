@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.SDK.Topic
     /// </summary>
     public sealed class TopicMessageSubmitTransaction : ChunkedTransaction<TopicMessageSubmitTransaction>
     {
-		private IList<CustomFixedFee> _CustomFees = [];
+		private List<CustomFixedFee> _CustomFees = [];
 
 		/// <summary>
 		/// Constructor.

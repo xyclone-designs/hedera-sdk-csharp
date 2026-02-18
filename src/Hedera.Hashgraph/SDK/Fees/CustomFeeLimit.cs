@@ -15,7 +15,7 @@ namespace Hedera.Hashgraph.SDK.Fees
     public class CustomFeeLimit
     {
         public virtual AccountId? PayerId { get; set; } 
-        public virtual IList<CustomFixedFee> CustomFees { get; set; } = [];
+        public virtual List<CustomFixedFee> CustomFees { get; set; } = [];
 
         public static CustomFeeLimit FromProtobuf(Proto.CustomFeeLimit customFeeLimit)
         {

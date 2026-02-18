@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <summary>
 		/// A node's service IP addresses and ports.
 		/// </summary>
-		public virtual IList<Endpoint> Addresses { set; get; } = [];
+		public virtual List<Endpoint> Addresses { set; get; } = [];
 
 		public virtual object Clone()
 		{

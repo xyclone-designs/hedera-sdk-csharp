@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -18,25 +15,51 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var aliceKey = PrivateKey.GenerateED25519();
-                var aliceId = new AccountCreateTransaction().SetKeyWithoutAlias(aliceKey).SetInitialBalance(new Hbar(10)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                var bobKey = PrivateKey.GenerateED25519();
-                var bobId = new AccountCreateTransaction().SetKeyWithoutAlias(bobKey).SetInitialBalance(new Hbar(10)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                Objects.RequireNonNull(aliceId);
-                Objects.RequireNonNull(bobId);
-                new AccountAllowanceApproveTransaction().ApproveHbarAllowance(bobId, aliceId, new Hbar(10)).FreezeWith(testEnv.client).Sign(bobKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var transferRecord = new TransferTransaction().AddHbarTransfer(testEnv.operatorId, new Hbar(5)).AddApprovedHbarTransfer(bobId, new Hbar(5).Negated()).SetTransactionId(TransactionId.Generate(aliceId)).FreezeWith(testEnv.client).Sign(aliceKey).Execute(testEnv.client).GetRecord(testEnv.client);
-                var transferFound = false;
-                foreach (var transfer in transferRecord.transfers)
+                var aliceId = new AccountCreateTransaction
                 {
-                    if (transfer.accountId.Equals(testEnv.operatorId) && transfer.amount.Equals(new Hbar(5)))
+                    InitialBalance = new Hbar(10)
+
+                }.SetKeyWithoutAlias(aliceKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var bobKey = PrivateKey.GenerateED25519();
+                var bobId = new AccountCreateTransaction
+                {
+                    InitialBalance = new Hbar(10)
+
+                }.SetKeyWithoutAlias(bobKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                
+                new AccountAllowanceApproveTransaction()
+                    .ApproveHbarAllowance(bobId, aliceId, new Hbar(10))
+                    .FreezeWith(testEnv.Client)
+                    .Sign(bobKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                var transferRecord = new TransferTransaction
+                {
+					TransactionId = TransactionId.Generate(aliceId)
+				}
+                    .AddHbarTransfer(testEnv.OperatorId, new Hbar(5))
+                    .AddApprovedHbarTransfer(bobId, new Hbar(5).Negated())
+                    .FreezeWith(testEnv.Client)
+                    .Sign(aliceKey)
+                    .Execute(testEnv.Client)
+                    .GetRecord(testEnv.Client);
+                var transferFound = false;
+                foreach (var transfer in transferRecord.Transfers)
+                {
+                    if (transfer.AccountId.Equals(testEnv.OperatorId) && transfer.AccountId.Equals(new Hbar(5)))
                     {
                         transferFound = true;
                         break;
                     }
                 }
 
-                AssertThat(transferFound).IsTrue();
-                new AccountDeleteTransaction().SetAccountId(bobId).SetTransferAccountId(testEnv.operatorId).FreezeWith(testEnv.client).Sign(bobKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Assert.True(transferFound);
+                new AccountDeleteTransaction
+                {
+					AccountId = bobId,
+					TransferAccountId = testEnv.OperatorId
+
+				}.FreezeWith(testEnv.Client).Sign(bobKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
     }

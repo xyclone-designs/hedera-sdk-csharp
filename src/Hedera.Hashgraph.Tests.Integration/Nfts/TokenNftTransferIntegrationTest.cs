@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
+
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -18,24 +17,77 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                TransactionResponse response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.client);
-                var accountId = response.GetReceipt(testEnv.client).accountId;
-                AssertThat(accountId).IsNotNull();
-                response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = response.GetReceipt(testEnv.client).tokenId;
-                AssertThat(tokenId).IsNotNull();
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds(Collections.SingletonList(tokenId)).FreezeWith(testEnv.client).SignWithOperator(testEnv.client).Sign(key).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenGrantKycTransaction().SetAccountId(accountId).SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var serialsToTransfer = new List<long>(mintReceipt.serials.SubList(0, 4));
+                TransactionResponse response = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = key,
+					InitialBalance = new Hbar(1),
+
+				}.Execute(testEnv.Client);
+
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                Assert.NotNull(accountId);
+                response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique, 
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    KycKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+
+				}.Execute(testEnv.Client);
+
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                Assert.NotNull(tokenId);
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = tokenId,
+					Metadata = NftMetadataGenerator.Generate((byte)10),
+
+				}.Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId],
+				}
+                .FreezeWith(testEnv.Client)
+                .SignWithOperator(testEnv.Client)
+                .Sign(key)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                new TokenGrantKycTransaction
+                {
+					AccountId = accountId,
+					TokenId = tokenId,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                
+                var serialsToTransfer = new List<long>(mintReceipt.Serials.SubList(0, 4));
                 var transfer = new TransferTransaction();
+
                 foreach (var serial in serialsToTransfer)
                 {
-                    transfer.AddNftTransfer(tokenId.Nft(serial), testEnv.operatorId, accountId);
+                    transfer.AddNftTransfer(tokenId.Nft(serial), testEnv.OperatorId, accountId);
                 }
 
-                transfer.Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenWipeTransaction().SetTokenId(tokenId).SetAccountId(accountId).SetSerials(serialsToTransfer).Execute(testEnv.client).GetReceipt(testEnv.client);
+                transfer.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                new TokenWipeTransaction
+                {
+					TokenId = tokenId,
+					AccountId = accountId,
+					Serials = serialsToTransfer
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -44,27 +96,57 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                TransactionResponse response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.client);
-                var accountId = response.GetReceipt(testEnv.client).accountId;
-                AssertThat(accountId).IsNotNull();
-                response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = response.GetReceipt(testEnv.client).tokenId;
-                AssertThat(tokenId).IsNotNull();
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds(Collections.SingletonList(tokenId)).FreezeWith(testEnv.client).SignWithOperator(testEnv.client).Sign(key).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var serialsToTransfer = new List<long>(mintReceipt.serials.SubList(0, 4));
+                TransactionResponse response = new AccountCreateTransaction()
+                    .SetKeyWithoutAlias(key)
+                    .SetInitialBalance(new Hbar(1))
+                    .Execute(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                Assert.NotNull(accountId);
+                response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                    FreezeDefault = false
+                
+                }.Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                Assert.NotNull(tokenId);
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = tokenId,
+					Metadata = NftMetadataGenerator.Generate((byte)10),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					TokenIds = [tokenId],
+					AccountId = accountId
+				}
+                .FreezeWith(testEnv.Client)
+                .SignWithOperator(testEnv.Client)
+                .Sign(key)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var serialsToTransfer = new List<long>(mintReceipt.Serials.SubList(0, 4));
                 var transfer = new TransferTransaction();
                 foreach (var serial in serialsToTransfer)
                 {
-
                     // Try to transfer in wrong direction
-                    transfer.AddNftTransfer(tokenId.Nft(serial), accountId, testEnv.operatorId);
+                    transfer.AddNftTransfer(tokenId.Nft(serial), accountId, testEnv.OperatorId);
                 }
 
-                transfer.FreezeWith(testEnv.client).Sign(key);
+                transfer.FreezeWith(testEnv.Client).Sign(key);
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    transfer.Execute(testEnv.client).GetReceipt(testEnv.client);
+                    transfer.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.SENDER_DOES_NOT_OWN_NFT_SERIAL_NO.ToString());
             }
         }

@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             var tx = transferTransaction.Schedule().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAdminKey(unusedPrivateKey).SetPayerAccountId(AccountId.FromString("0.0.222")).SetScheduleMemo("with-duration").SetMaxTransactionFee(new Hbar(1)).SetExpirationTime(Duration.OfSeconds(1234));
 
             // When expiration is set via Duration, DateTimeOffset getter should be null
-            AssertThat(tx.GetExpirationTime()).IsNull();
+            Assert.Null(tx.GetExpirationTime());
             var tx2 = (ScheduleCreateTransaction)Transaction.FromBytes(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
             Assert.Equal(tx2.GetExpirationTime(), DateTimeOffset.FromUnixTimeMilliseconds(1234));

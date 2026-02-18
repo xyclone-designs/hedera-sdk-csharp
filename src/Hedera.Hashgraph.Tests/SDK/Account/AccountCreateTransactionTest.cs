@@ -68,14 +68,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.GetKey(), privateKeyED25519);
             Assert.Equal(tx.GetInitialBalance(), Hbar.FromTinybars(450));
-            AssertThat(tx.GetReceiverSignatureRequired()).IsTrue();
-            AssertThat(tx.GetProxyAccountId()).HasToString("0.0.1001");
+            Assert.True(tx.GetReceiverSignatureRequired());
+            Assert.Equal(tx.GetProxyAccountId().ToString(), "0.0.1001");
             Assert.Equal(tx.GetAutoRenewPeriod().ToHours(), 10);
             Assert.Equal(tx.GetMaxAutomaticTokenAssociations(), 100);
             Assert.Equal(tx.GetAccountMemo(), "some dumb memo");
-            AssertThat(tx.GetStakedAccountId()).HasToString("0.0.3");
-            AssertThat(tx.GetStakedNodeId()).IsNull();
-            AssertThat(tx.GetDeclineStakingReward()).IsFalse();
+            Assert.Equal(tx.GetStakedAccountId().ToString(), "0.0.3");
+            Assert.Null(tx.GetStakedNodeId());
+            Assert.False(tx.GetDeclineStakingReward());
             Assert.Equal(tx.GetAlias(), EvmAddress.FromString("0x5c562e90feaf0eebd33ea75d21024f249d451417"));
         }
 

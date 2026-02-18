@@ -17,11 +17,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.client);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(contents.ToStringUtf8(), "[e2e::FileCreateTransaction]");
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -29,11 +29,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.client);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(contents.Count, 0);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new FileContentsQuery().Execute(testEnv.client);
+                    new FileContentsQuery().Execute(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_FILE_ID.ToString());
             }
         }
@@ -52,12 +52,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
                 var contentsQuery = new FileContentsQuery().SetFileId(fileId).SetMaxQueryPayment(new Hbar(1000));
-                var contents = contentsQuery.Execute(testEnv.client);
+                var contents = contentsQuery.Execute(testEnv.Client);
                 Assert.Equal(contents.ToStringUtf8(), "[e2e::FileCreateTransaction]");
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -65,14 +65,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
                 var contentsQuery = new FileContentsQuery().SetFileId(fileId).SetMaxQueryPayment(Hbar.FromTinybars(1));
                 Assert.Throws(typeof(MaxQueryPaymentExceededException), () =>
                 {
-                    contentsQuery.Execute(testEnv.client);
+                    contentsQuery.Execute(testEnv.Client);
                 });
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -80,14 +80,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
                 var contentsQuery = new FileContentsQuery().SetFileId(fileId).SetMaxQueryPayment(new Hbar(100));
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    contentsQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.client);
+                    contentsQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.Client);
                 }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
     }

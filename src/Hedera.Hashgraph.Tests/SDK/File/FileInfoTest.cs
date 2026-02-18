@@ -1,22 +1,27 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Protobuf;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Google.Protobuf;
+
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Networking;
+
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
     public class FileInfoTest
     {
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
-        private static readonly FileGetInfoResponse.FileInfo info = FileGetInfoResponse.FileInfo.NewBuilder().SetFileID(new FileId(0, 0, 1).ToProtobuf()).SetSize(2).SetExpirationTime(InstantConverter.ToProtobuf(Instant.OfEpochMilli(3))).SetDeleted(true).SetKeys(KeyList.NewBuilder().AddKeys(privateKey.GetPublicKey().ToProtobufKey())).SetLedgerId(LedgerId.MAINNET.ToByteString()).Build();
+        private static readonly Proto.FileGetInfoResponse.Types.FileInfo info = new ()
+        {
+			FileID = new FileId(0, 0, 1).ToProtobuf(),
+			Size = 2,
+			ExpirationTime = InstantConverter.ToProtobuf(Instant.OfEpochMilli(3)),
+			Deleted = true,
+			Keys = Proto.KeyList.Parser.ParseFrom(Keys),
+			LedgerId = LedgerId.MAINNET.ToByteString(),
+		};
+
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());

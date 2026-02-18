@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             InitFromTransactionBody();
         }
 
-		private IList<long> _Serials = [];
+		private List<long> _Serials = [];
 
 		/// <summary>
 		/// A token identifier.<br/>
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// </summary>
 		/// <param name="serials">the list of serial numbers</param>
 		/// <returns>{@code this}</returns>
-		public virtual IList<long> Serials 
+		public virtual List<long> Serials 
 		{
 			get 
 			{ 

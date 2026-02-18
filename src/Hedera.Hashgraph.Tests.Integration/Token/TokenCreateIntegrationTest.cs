@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Tests.Integration;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -18,30 +19,55 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var feeList = new List<CustomFee>();
             for (int i = 0; i < count; i++)
-            {
-                feeList.Add(new CustomFixedFee().SetAmount(10).SetFeeCollectorAccountId(feeCollector));
-            }
+				feeList.Add(new CustomFixedFee
+				{
+					Amount = 10,
+					FeeCollectorAccountId = feeCollector
+				});
 
-            return feeList;
+			return feeList;
         }
 
         private static IList<CustomFee> CreateFractionalFeeList(int count, AccountId feeCollector)
         {
             var feeList = new List<CustomFee>();
             for (int i = 0; i < count; i++)
-            {
-                feeList.Add(new CustomFractionalFee().SetNumerator(1).SetDenominator(20).SetMin(1).SetMax(10).SetFeeCollectorAccountId(feeCollector));
-            }
+				feeList.Add(new CustomFractionalFee
+				{
+					Numerator = 1,
+					Denominator = 20,
+					Min = 1,
+					Max = 10,
+					FeeCollectorAccountId = feeCollector,
+				});
 
-            return feeList;
+			return feeList;
         }
 
         public virtual void CanCreateTokenWithOperatorAsAllKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFeeScheduleKey(testEnv.operatorKey).SetPauseKey(testEnv.operatorKey).SetMetadataKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                Objects.RequireNonNull(response.GetReceipt(testEnv.client));
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					Decimals = 3,
+					InitialSupply = 1000000,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FeeScheduleKey = testEnv.OperatorKey,
+					PauseKey = testEnv.OperatorKey,
+					MetadataKey = testEnv.OperatorKey,
+					FreezeDefault = false
+				}
+                .Execute(testEnv.Client);
+
+                response.GetReceipt(testEnv.Client);
             }
         }
 
@@ -49,7 +75,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenCreateTransaction()
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TreasuryAccountId = testEnv.OperatorId,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -59,7 +92,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction()
+                    {
+						TokenSymbol = "F",
+						TreasuryAccountId = testEnv.OperatorId,
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.MISSING_TOKEN_NAME.ToString());
             }
         }
@@ -70,7 +110,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTreasuryAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction()
+                    {
+						TokenName = "ffff",
+						TreasuryAccountId = testEnv.OperatorId,
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.MISSING_TOKEN_SYMBOL.ToString());
             }
         }
@@ -81,7 +128,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+						TokenName = "ffff",
+						TokenSymbol = "F",
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_TREASURY_ACCOUNT_FOR_TOKEN.ToString());
             }
         }
@@ -92,7 +146,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(AccountId.FromString("0.0.3")).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+						TokenName = "ffff",
+						TokenSymbol = "F",
+						TreasuryAccountId = AccountId.FromString("0.0.3"),
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -104,7 +166,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(key).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+						TokenName = "ffff",
+						TokenSymbol = "F",
+						TreasuryAccountId = testEnv.OperatorId,
+						AdminKey = key,
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -113,10 +184,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var customFees = new List<CustomFee>();
-                customFees.Add(new CustomFixedFee().SetAmount(10).SetFeeCollectorAccountId(testEnv.operatorId));
-                customFees.Add(new CustomFractionalFee().SetNumerator(1).SetDenominator(20).SetMin(1).SetMax(10).SetFeeCollectorAccountId(testEnv.operatorId));
-                new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetCustomFees(customFees).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					CustomFees = 
+                    [
+						new CustomFixedFee
+				        {
+					        Amount = 10,
+					        FeeCollectorAccountId = testEnv.OperatorId,
+				        },
+						new CustomFractionalFee
+				        {
+					        Numerator = 1,
+					        Denominator = 20,
+					        Min = 1,
+					        Max = 10,
+					        FeeCollectorAccountId = testEnv.OperatorId,
+				        }
+					]
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -126,7 +218,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetAdminKey(testEnv.operatorKey).SetTreasuryAccountId(testEnv.operatorId).SetCustomFees(CreateFixedFeeList(11, testEnv.operatorId)).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+						TokenName = "ffff",
+						TokenSymbol = "F",
+						AdminKey = testEnv.OperatorKey,
+						TreasuryAccountId = testEnv.OperatorId,
+						CustomFees = CreateFixedFeeList(11, testEnv.OperatorId)
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.CUSTOM_FEES_LIST_TOO_LONG.ToString());
             }
         }
@@ -135,7 +237,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetCustomFees(CreateFixedFeeList(10, testEnv.operatorId)).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenCreateTransaction()
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					CustomFees = CreateFixedFeeList(10, testEnv.OperatorId)
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -143,7 +254,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetAdminKey(testEnv.operatorKey).SetTreasuryAccountId(testEnv.operatorId).SetCustomFees(CreateFractionalFeeList(10, testEnv.operatorId)).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					AdminKey = testEnv.OperatorKey,
+					TreasuryAccountId = testEnv.OperatorId,
+					CustomFees = CreateFractionalFeeList(10, testEnv.OperatorId),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -153,7 +273,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetCustomFees(Collections.SingletonList(new CustomFractionalFee().SetNumerator(1).SetDenominator(3).SetMin(3).SetMax(2).SetFeeCollectorAccountId(testEnv.operatorId))).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+                        TokenName = "ffff",
+                        TokenSymbol = "F",
+                        TreasuryAccountId = testEnv.OperatorId,
+                        AdminKey = testEnv.OperatorKey,
+                        CustomFees = [new CustomFractionalFee()
+                        {
+							Numerator = 1,
+							Denominator = 3,
+							Min = 3,
+							Max = 2,
+							FeeCollectorAccountId = testEnv.OperatorId,
+						}]
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.FRACTIONAL_FEE_MAX_AMOUNT_LESS_THAN_MIN_AMOUNT.ToString());
             }
         }
@@ -164,7 +301,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetAdminKey(testEnv.operatorKey).SetTreasuryAccountId(testEnv.operatorId).SetCustomFees(Collections.SingletonList(new CustomFixedFee().SetAmount(1))).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+                        TokenName = "ffff",
+                        TokenSymbol = "F",
+                        AdminKey = testEnv.OperatorKey,
+                        TreasuryAccountId = testEnv.OperatorId,
+                        CustomFees = [new CustomFixedFee
+					    {
+						    Amount = 1
+					    }]
+                    }
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_CUSTOM_FEE_COLLECTOR.ToString());
             }
         }
@@ -175,7 +325,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetAdminKey(testEnv.operatorKey).SetTreasuryAccountId(testEnv.operatorId).SetCustomFees(Collections.SingletonList(new CustomFixedFee().SetAmount(-1).SetFeeCollectorAccountId(testEnv.operatorId))).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+						TokenName = "ffff",
+					    TokenSymbol = "F",
+                        AdminKey = testEnv.OperatorKey,
+                        TreasuryAccountId = testEnv.OperatorId,
+                        CustomFees = [ new CustomFixedFee
+					    {
+						    Amount = -1,
+						    FeeCollectorAccountId = testEnv.OperatorId,
+					    }]
+
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.CUSTOM_FEE_MUST_BE_POSITIVE.ToString());
             }
         }
@@ -186,7 +351,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetCustomFees(Collections.SingletonList(new CustomFractionalFee().SetNumerator(1).SetDenominator(0).SetMin(1).SetMax(10).SetFeeCollectorAccountId(testEnv.operatorId))).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenCreateTransaction
+                    {
+						TokenName = "ffff",
+						TokenSymbol = "F",
+						TreasuryAccountId = testEnv.OperatorId,
+						AdminKey = testEnv.OperatorKey,
+						CustomFees = [new CustomFractionalFee
+					    {
+						    Numerator = 1,
+						    Denominator = 0,
+						    Min = 1,
+						    Max = 10,
+						    FeeCollectorAccountId = testEnv.OperatorId,
+					    }]
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.FRACTION_DIVIDES_BY_ZERO.ToString());
             }
         }
@@ -195,8 +377,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TokenType = TokenType.NonFungibleUnique,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+				}
+                .Execute(testEnv.Client);
+
+                response.GetReceipt(testEnv.Client).TokenId;
             }
         }
 
@@ -204,7 +400,25 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetSupplyKey(testEnv.operatorKey).SetAdminKey(testEnv.operatorKey).SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetCustomFees(Collections.SingletonList(new CustomRoyaltyFee().SetNumerator(1).SetDenominator(10).SetFallbackFee(new CustomFixedFee().SetHbarAmount(new Hbar(1))).SetFeeCollectorAccountId(testEnv.operatorId))).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TreasuryAccountId = testEnv.OperatorId,
+					SupplyKey = testEnv.OperatorKey,
+					AdminKey = testEnv.OperatorKey,
+					TokenType = TokenType.NonFungibleUnique,
+					CustomFees = [new CustomRoyaltyFee
+                    {
+					    Numerator = 1,
+					    Denominator = 10,
+						FallbackFee = new CustomFixedFee(),
+					    HbarAmount = new Hbar(1),
+					    FeeCollectorAccountId = testEnv.OperatorId,
+					}],
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -212,10 +426,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var tokenId = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId;
-                var autoRenewAccount = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client).autoRenewAccount;
-                AssertThat(autoRenewAccount).IsNotNull();
-                AssertThat(autoRenewAccount).IsEqualByComparingTo(testEnv.operatorId);
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TreasuryAccountId = testEnv.OperatorId,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                var autoRenewAccount = new TokenInfoQuery()
+				{
+					TokenId = tokenId
+				}
+				.Execute(testEnv.Client)
+                .autoRenewAccount;
+                Assert.NotNull(autoRenewAccount);
+                AssertThat(autoRenewAccount).IsEqualByComparingTo(testEnv.OperatorId,;
             }
         }
 
@@ -225,12 +451,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var autoRenewPeriod = Duration.OfSeconds(7890000);
                 var expirationTime = DateTimeOffset.UtcNow.Plus(autoRenewPeriod);
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetAutoRenewPeriod(autoRenewPeriod).SetTreasuryAccountId(testEnv.operatorId).Execute(testEnv.client);
-                var tokenId = response.GetReceipt(testEnv.client).tokenId;
-                var tokenInfo = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(tokenInfo.autoRenewAccount, testEnv.operatorId);
-                Assert.Equal(tokenInfo.autoRenewPeriod, autoRenewPeriod);
-                Assert.Equal(tokenInfo.expirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					AutoRenewPeriod = autoRenewPeriod,
+					TreasuryAccountId = testEnv.OperatorId,
+				}
+                .Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var tokenInfo = new TokenInfoQuery()
+				{
+					TokenId = tokenId
+				}
+				.Execute(testEnv.Client);
+                Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId,;
+                Assert.Equal(tokenInfo.AutoRenewPeriod, autoRenewPeriod);
+                Assert.Equal(tokenInfo.ExpirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
             }
         }
 
@@ -239,10 +476,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var expirationTime = DateTimeOffset.UtcNow.PlusSeconds(8000001);
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetExpirationTime(expirationTime).SetTreasuryAccountId(testEnv.operatorId).Execute(testEnv.client);
-                var tokenId = response.GetReceipt(testEnv.client).tokenId;
-                var tokenInfo = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(tokenInfo.expirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					ExpirationTime = expirationTime,
+					TreasuryAccountId = testEnv.OperatorId,
+				}
+                .Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var tokenInfo = new TokenInfoQuery()
+				{
+					TokenId = tokenId
+				}
+				.Execute(testEnv.Client);
+                Assert.Equal(tokenInfo.ExpirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
             }
         }
 
@@ -252,10 +500,30 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var privateKey = PrivateKey.GenerateECDSA();
                 var publicKey = privateKey.GetPublicKey();
-                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey).SetInitialBalance(Hbar.From(10)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                var tokenId = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTransactionId(TransactionId.Generate(accountId)).SetTreasuryAccountId(accountId).FreezeWith(testEnv.client).Sign(privateKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId;
-                var tokenInfo = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(tokenInfo.autoRenewAccount, accountId);
+                var accountId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = publicKey,
+					InitialBalance = Hbar.From(10),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TransactionId = TransactionId.Generate(accountId),
+					TreasuryAccountId = accountId,
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(privateKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                var tokenInfo = new TokenInfoQuery()
+				{
+					TokenId = tokenId
+				}
+				.Execute(testEnv.Client);
+                Assert.Equal(tokenInfo.AutoRenewAccount, accountId);
             }
         }
 
@@ -268,12 +536,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 long userInputMaxSupply = 10000;
                 long expectedInitialSupply = userInputInitialSupply * 1000;
                 long expectedMaxSupply = userInputMaxSupply * 1000;
-                var response = new TokenCreateTransaction().SetTokenName("DecimalTest").SetTokenSymbol("DT").SetDecimals(decimals).SetInitialSupply(expectedInitialSupply).SetMaxSupply(expectedMaxSupply).SetSupplyType(TokenSupplyType.FINITE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).Execute(testEnv.client);
-                var tokenId = response.GetReceipt(testEnv.client).tokenId;
-                var tokenInfo = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(tokenInfo.decimals, decimals);
-                Assert.Equal(tokenInfo.totalSupply, expectedInitialSupply);
-                Assert.Equal(tokenInfo.maxSupply, expectedMaxSupply);
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "DecimalTest",
+					TokenSymbol = "DT",
+					Decimals = decimals,
+					InitialSupply = expectedInitialSupply,
+					MaxSupply = expectedMaxSupply,
+					SupplyType = TokenSupplyType.FINITE,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+				}
+                .Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var tokenInfo = new TokenInfoQuery()
+                {
+					TokenId = tokenId
+				}
+                .Execute(testEnv.Client);
+                Assert.Equal(tokenInfo.Decimals, decimals);
+                Assert.Equal(tokenInfo.TotalSupply, expectedInitialSupply);
+                Assert.Equal(tokenInfo.MaxSupply, expectedMaxSupply);
             }
         }
 
@@ -281,12 +565,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("NFTTest").SetTokenSymbol("NFT").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetDecimals(0).SetInitialSupply(0).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).Execute(testEnv.client);
-                var tokenId = response.GetReceipt(testEnv.client).tokenId;
-                var tokenInfo = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(tokenInfo.tokenType, TokenType.NON_FUNGIBLE_UNIQUE);
-                Assert.Equal(tokenInfo.decimals, 0);
-                Assert.Equal(tokenInfo.totalSupply, 0);
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "NFTTest",
+					TokenSymbol = "NFT",
+					TokenType = TokenType.NonFungibleUnique,
+					Decimals = 0,
+					InitialSupply = 0,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+
+				}.Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var tokenInfo = new TokenInfoQuery
+                {
+					TokenId = tokenId
+				}.Execute(testEnv.Client);
+                Assert.Equal(tokenInfo.TokenType, TokenType.NonFungibleUnique);
+                Assert.Equal(tokenInfo.Decimals, 0);
+                Assert.Equal(tokenInfo.TotalSupply, 0);
             }
         }
 
@@ -307,11 +605,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     long userInputSupply = 100;
                     long expectedSupply = userInputSupply * (long)Math.Pow(10, decimals);
-                    var response = new TokenCreateTransaction().SetTokenName("DecimalTest" + decimals).SetTokenSymbol("DT" + decimals).SetDecimals(decimals).SetInitialSupply(expectedSupply).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                    var tokenId = response.GetReceipt(testEnv.client).tokenId;
-                    var tokenInfo = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                    Assert.Equal(tokenInfo.decimals, decimals);
-                    Assert.Equal(tokenInfo.totalSupply, expectedSupply);
+                    var response = new TokenCreateTransaction
+                    {
+						TokenName = "DecimalTest" + decimals,
+						TokenSymbol = "DT" + decimals,
+						Decimals = decimals,
+						InitialSupply = expectedSupply,
+						TreasuryAccountId = testEnv.OperatorId,
+						AdminKey = testEnv.OperatorKey,
+
+					}.Execute(testEnv.Client);
+                    var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                    var tokenInfo = new TokenInfoQuery
+                    {
+						TokenId = tokenId
+					}
+                    .Execute(testEnv.Client);
+                    Assert.Equal(tokenInfo.Decimals, decimals);
+                    Assert.Equal(tokenInfo.TotalSupply, expectedSupply);
                 }
             }
         }
@@ -323,18 +634,35 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Calculate expiration time 90 days from now
                 var expirationTime = DateTimeOffset.UtcNow.PlusSeconds(90 * 24 * 60 * 60);
-                var response = new TokenCreateTransaction().SetTokenName("TEST").SetTokenSymbol("TEST").SetTokenType(TokenType.FUNGIBLE_COMMON).SetSupplyType(TokenSupplyType.INFINITE).SetAutoRenewAccountId(testEnv.operatorId).SetInitialSupply(1).SetMaxTransactionFee(new Hbar(100)).SetTreasuryAccountId(testEnv.operatorId).SetExpirationTime(expirationTime).SetDecimals(0).Execute(testEnv.client);
-                var receipt = response.GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
-                var tokenId = receipt.tokenId;
-                AssertThat(tokenId).IsNotNull();
-                var tokenInfo = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(tokenInfo.name, "TEST");
-                Assert.Equal(tokenInfo.symbol, "TEST");
-                Assert.Equal(tokenInfo.tokenType, TokenType.FUNGIBLE_COMMON);
-                Assert.Equal(tokenInfo.supplyType, TokenSupplyType.INFINITE);
-                Assert.Equal(tokenInfo.autoRenewAccount, testEnv.operatorId);
-                Assert.Equal(tokenInfo.expirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "TEST",
+					TokenSymbol = "TEST",
+					TokenType = TokenType.FUNGIBLE_COMMON,
+					SupplyType = TokenSupplyType.INFINITE,
+					AutoRenewAccountId = testEnv.OperatorId,
+					InitialSupply = 1,
+					MaxTransactionFee = new Hbar(100),
+					TreasuryAccountId = testEnv.OperatorId,
+					ExpirationTime = expirationTime,
+					Decimals = 0,
+				}
+                .Execute(testEnv.Client);
+                var receipt = response.GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
+                var tokenId = receipt.TokenId;
+                Assert.NotNull(tokenId);
+                var tokenInfo = new TokenInfoQuery
+                {
+					TokenId = tokenId
+				}
+                .Execute(testEnv.Client);
+                Assert.Equal(tokenInfo.Name, "TEST");
+                Assert.Equal(tokenInfo.Symbol, "TEST");
+                Assert.Equal(tokenInfo.TokenType, TokenType.FUNGIBLE_COMMON,;
+                Assert.Equal(tokenInfo.SupplyType, TokenSupplyType.INFINITE,;
+                Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId,;
+                Assert.Equal(tokenInfo.ExpirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
             }
         }
     }

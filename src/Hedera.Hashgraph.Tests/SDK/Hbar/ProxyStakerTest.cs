@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
-using Proto;
-using Io.Github.JsonSnapshot;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Account;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.HBar
+namespace Hedera.Hashgraph.Tests.SDK.HBar
 {
     public class ProxyStakerTest
     {
-        private static readonly ProxyStaker proxyStaker = ProxyStaker.NewBuilder().SetAccountID(new AccountId(0, 0, 100).ToProtobuf()).SetAmount(10).Build();
+        private static readonly Proto.ProxyStaker proxyStaker = new Proto.ProxyStaker 
+        { 
+            AccountID = new AccountId(0, 0, 100).ToProtobuf(),
+            Amount = 10
+        };
+
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());
@@ -25,7 +24,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.HBar
 
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(com.hedera.hashgraph.sdk.ProxyStaker.FromProtobuf(proxyStaker).ToString()).ToMatchSnapshot();
+            SnapshotMatcher.Expect(ProxyStaker.FromProtobuf(proxyStaker).ToString()).ToMatchSnapshot();
         }
     }
 }

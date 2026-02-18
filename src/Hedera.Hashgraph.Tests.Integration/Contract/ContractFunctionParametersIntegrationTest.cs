@@ -22,24 +22,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public static void BeforeAll()
         {
             testEnv = new IntegrationTestEnv(1);
-            var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).Execute(testEnv.client);
-            fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-            new FileAppendTransaction().SetFileId(fileId).SetContents(SMART_CONTRACT_BYTECODE).SetMaxChunks(31).Execute(testEnv.client);
-            response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(10500000).SetConstructorParameters(new ContractFunctionParameters()).SetBytecodeFileId(fileId).Execute(testEnv.client);
-            contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
+            var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).Execute(testEnv.Client);
+            fileId = response.GetReceipt(testEnv.Client).FileId);
+            new FileAppendTransaction().SetFileId(fileId).SetContents(SMART_CONTRACT_BYTECODE).SetMaxChunks(31).Execute(testEnv.Client);
+            response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(10500000).SetConstructorParameters(new ContractFunctionParameters()).SetBytecodeFileId(fileId).Execute(testEnv.Client);
+            contractId = response.GetReceipt(testEnv.Client).ContractId);
         }
 
         public static void AfterAll()
         {
-            new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-            new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+            new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+            new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             testEnv.Dispose();
         }
 
         public virtual void CanCallContractFunctionUint8Min()
         {
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8((byte)0x0)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8((byte)0x0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8((byte)0x0)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8((byte)0x0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint8(0), (byte)0x0);
         }
 
@@ -47,8 +47,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             int uint8Max = 255;
             byte uint8MaxByte = (byte)uint8Max;
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8(uint8MaxByte)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8(uint8MaxByte)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8(uint8MaxByte)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint8", new ContractFunctionParameters().AddUint8(uint8MaxByte)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint8MaxFromResponse = Byte.ToUnsignedInt(response.GetUint8(0));
             Assert.Equal(uint8MaxFromResponse, uint8Max);
         }
@@ -63,8 +63,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint8MinByte,
                 uint8MaxByte
             };
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint8Arr", new ContractFunctionParameters().AddUint8Array(uint8Array)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint8Arr", new ContractFunctionParameters().AddUint8Array(uint8Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint8Arr", new ContractFunctionParameters().AddUint8Array(uint8Array)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint8Arr", new ContractFunctionParameters().AddUint8Array(uint8Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (int[])response.GetResult("(uint8[])")[0];
             Assert.Equal(responseResult[0], uint8MinByte);
             Assert.Equal(responseResult[1], uint8Max);
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
         public virtual void CanCallContractFunctionUint16Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint16", new ContractFunctionParameters().AddUint16(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint16", new ContractFunctionParameters().AddUint16(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint32(0), 0);
         }
 
@@ -80,8 +80,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint16Max = "65535";
             int uint16MaxInt = Integer.ParseUnsignedInt(uint16Max);
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint16", new ContractFunctionParameters().AddUint16(uint16MaxInt)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint16", new ContractFunctionParameters().AddUint16(uint16MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint16", new ContractFunctionParameters().AddUint16(uint16MaxInt)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint16", new ContractFunctionParameters().AddUint16(uint16MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint16MaxIntFromResponse = Integer.ToUnsignedString(response.GetUint32(0));
             Assert.Equal(uint16MaxIntFromResponse, uint16Max);
         }
@@ -96,16 +96,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint16MinInt,
                 uint16MaxInt
             };
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint16Arr", new ContractFunctionParameters().AddUint16Array(uint16Array)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint16Arr", new ContractFunctionParameters().AddUint16Array(uint16Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint16Arr", new ContractFunctionParameters().AddUint16Array(uint16Array)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint16Arr", new ContractFunctionParameters().AddUint16Array(uint16Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (int[])response.GetResult("(uint16[])")[0];
             Assert.Equal(responseResult, uint16Array);
         }
 
         public virtual void CanCallContractFunctionUint24Min()
         {
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(0)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(0)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint32(0), 0);
         }
 
@@ -113,8 +113,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint24Max = "16777215";
             int uint24MaxInt = Integer.ParseUnsignedInt(uint24Max);
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(uint24MaxInt)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(uint24MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(uint24MaxInt)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint24", new ContractFunctionParameters().AddUint24(uint24MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint24MaxIntFromResponse = Integer.ToUnsignedString(response.GetUint32(0));
             Assert.Equal(uint24MaxIntFromResponse, uint24Max);
         }
@@ -129,15 +129,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint24MinInt,
                 uint24MaxInt
             };
-            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint24Arr", new ContractFunctionParameters().AddUint24Array(uint24Array)).Execute(testEnv.client);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint24Arr", new ContractFunctionParameters().AddUint24Array(uint24Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("returnUint24Arr", new ContractFunctionParameters().AddUint24Array(uint24Array)).Execute(testEnv.Client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("returnUint24Arr", new ContractFunctionParameters().AddUint24Array(uint24Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (int[])response.GetResult("(uint24[])")[0];
             Assert.Equal(responseResult, uint24Array);
         }
 
         public virtual void CanCallContractFunctionUint32Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint32", new ContractFunctionParameters().AddUint32(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint32", new ContractFunctionParameters().AddUint32(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint32(0), 0);
         }
 
@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint32Max = "4294967295";
             int uint32MaxInt = Integer.ParseUnsignedInt(uint32Max);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint32", new ContractFunctionParameters().AddUint32(uint32MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint32", new ContractFunctionParameters().AddUint32(uint32MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint32MaxIntFromResponse = Integer.ToUnsignedString(response.GetUint32(0));
             Assert.Equal(uint32MaxIntFromResponse, uint32Max);
         }
@@ -160,7 +160,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint32MinInt,
                 uint32MaxInt
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint32Arr", new ContractFunctionParameters().AddUint32Array(uint32Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint32Arr", new ContractFunctionParameters().AddUint32Array(uint32Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(uint32[])")[0];
             Assert.Equal(responseResult[0], uint32MinInt);
             Assert.Equal(responseResult[1], Long.ParseUnsignedLong(uint32Max));
@@ -168,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
         public virtual void CanCallContractFunctionUint40Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint40", new ContractFunctionParameters().AddUint40(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint40", new ContractFunctionParameters().AddUint40(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint64(0), 0);
         }
 
@@ -176,7 +176,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint40Max = "109951162777";
             long uint40MaxLong = Long.ParseUnsignedLong(uint40Max);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint40", new ContractFunctionParameters().AddUint40(uint40MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint40", new ContractFunctionParameters().AddUint40(uint40MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint64MaxLongFromResponse = Long.ToUnsignedString(response.GetUint64(0));
             Assert.Equal(uint64MaxLongFromResponse, uint40Max);
         }
@@ -191,14 +191,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint40MinLong,
                 uint40MaxLong
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint40Arr", new ContractFunctionParameters().AddUint40Array(uint40Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint40Arr", new ContractFunctionParameters().AddUint40Array(uint40Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(uint40[])")[0];
             Assert.Equal(responseResult, uint40Array);
         }
 
         public virtual void CanCallContractFunctionUint48Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint48", new ContractFunctionParameters().AddUint48(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint48", new ContractFunctionParameters().AddUint48(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint64(0), 0);
         }
 
@@ -206,7 +206,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint48Max = "281474976710655";
             long uint48MaxLong = Long.ParseUnsignedLong(uint48Max);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint48", new ContractFunctionParameters().AddUint48(uint48MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint48", new ContractFunctionParameters().AddUint48(uint48MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint64MaxLongFromResponse = Long.ToUnsignedString(response.GetUint64(0));
             Assert.Equal(uint64MaxLongFromResponse, uint48Max);
         }
@@ -221,14 +221,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint48MinLong,
                 uint48MaxLong
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint48Arr", new ContractFunctionParameters().AddUint48Array(uint48Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint48Arr", new ContractFunctionParameters().AddUint48Array(uint48Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(uint48[])")[0];
             Assert.Equal(responseResult, uint48Array);
         }
 
         public virtual void CanCallContractFunctionUint56Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint56", new ContractFunctionParameters().AddUint56(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint56", new ContractFunctionParameters().AddUint56(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint64(0), 0);
         }
 
@@ -236,7 +236,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint56Max = "72057594037927935";
             long uint56MaxLong = Long.ParseUnsignedLong(uint56Max);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint56", new ContractFunctionParameters().AddUint56(uint56MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint56", new ContractFunctionParameters().AddUint56(uint56MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint64MaxLongFromResponse = Long.ToUnsignedString(response.GetUint64(0));
             Assert.Equal(uint64MaxLongFromResponse, uint56Max);
         }
@@ -251,14 +251,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint56MinLong,
                 uint56MaxLong
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint56Arr", new ContractFunctionParameters().AddUint56Array(uint56Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint56Arr", new ContractFunctionParameters().AddUint56Array(uint56Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(uint56[])")[0];
             Assert.Equal(responseResult, uint56Array);
         }
 
         public virtual void CanCallContractFunctionUint64Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64", new ContractFunctionParameters().AddUint64(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64", new ContractFunctionParameters().AddUint64(0)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint64(0), 0);
         }
 
@@ -266,7 +266,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint64Max = "9223372036854775807";
             long uint64MaxLong = Long.ParseUnsignedLong(uint64Max);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64", new ContractFunctionParameters().AddUint64(uint64MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64", new ContractFunctionParameters().AddUint64(uint64MaxLong)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var uint64MaxLongFromResponse = Long.ToUnsignedString(response.GetUint64(0));
             Assert.Equal(uint64MaxLongFromResponse, uint64Max);
         }
@@ -281,7 +281,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint64MinLong,
                 uint64MaxLong
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64Arr", new ContractFunctionParameters().AddUint64Array(uint64Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64Arr", new ContractFunctionParameters().AddUint64Array(uint64Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint64[])")[0];
             Assert.Equal(responseResult[0], uint64MinLong);
             Assert.Equal(responseResult[1], Long.ParseUnsignedLong(uint64Max));
@@ -289,14 +289,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
         public virtual void CanCallContractFunctionUint72Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint72", new ContractFunctionParameters().AddUint72(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint72", new ContractFunctionParameters().AddUint72(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint72Max()
         {
             BigInteger uint72Max = new BigInteger("4722366482869645213695");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint72", new ContractFunctionParameters().AddUint72(uint72Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint72", new ContractFunctionParameters().AddUint72(uint72Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint72Max);
         }
 
@@ -309,21 +309,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint72Min,
                 uint72Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint72Arr", new ContractFunctionParameters().AddUint72Array(uint72Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint72Arr", new ContractFunctionParameters().AddUint72Array(uint72Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint72[])")[0];
             Assert.Equal(responseResult, uint72Array);
         }
 
         public virtual void CanCallContractFunctionUint80Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint80", new ContractFunctionParameters().AddUint80(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint80", new ContractFunctionParameters().AddUint80(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint80Max()
         {
             BigInteger uint80Max = new BigInteger("1208925819614629174706175");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint80", new ContractFunctionParameters().AddUint80(uint80Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint80", new ContractFunctionParameters().AddUint80(uint80Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint80Max);
         }
 
@@ -336,21 +336,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint80Min,
                 uint80Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint80Arr", new ContractFunctionParameters().AddUint80Array(uint80Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint80Arr", new ContractFunctionParameters().AddUint80Array(uint80Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint80[])")[0];
             Assert.Equal(responseResult, uint80Array);
         }
 
         public virtual void CanCallContractFunctionUint88Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint88", new ContractFunctionParameters().AddUint88(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint88", new ContractFunctionParameters().AddUint88(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint88Max()
         {
             BigInteger uint88Max = new BigInteger("309485009821345068724781055");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint88", new ContractFunctionParameters().AddUint88(uint88Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint88", new ContractFunctionParameters().AddUint88(uint88Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint88Max);
         }
 
@@ -363,21 +363,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint88Min,
                 uint88Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint88Arr", new ContractFunctionParameters().AddUint88Array(uint88Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint88Arr", new ContractFunctionParameters().AddUint88Array(uint88Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint88[])")[0];
             Assert.Equal(responseResult, uint88Array);
         }
 
         public virtual void CanCallContractFunctionUint96Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint96", new ContractFunctionParameters().AddUint96(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint96", new ContractFunctionParameters().AddUint96(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint96Max()
         {
             BigInteger uint96Max = new BigInteger("79228162514264337593543950335");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint96", new ContractFunctionParameters().AddUint96(uint96Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint96", new ContractFunctionParameters().AddUint96(uint96Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint96Max);
         }
 
@@ -390,21 +390,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint96Min,
                 uint96Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint96Arr", new ContractFunctionParameters().AddUint96Array(uint96Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint96Arr", new ContractFunctionParameters().AddUint96Array(uint96Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint96[])")[0];
             Assert.Equal(responseResult, uint96Array);
         }
 
         public virtual void CanCallContractFunctionUint104Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint104", new ContractFunctionParameters().AddUint104(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint104", new ContractFunctionParameters().AddUint104(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint104Max()
         {
             BigInteger uint104Max = new BigInteger("20282409603651670423947251286015");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint104", new ContractFunctionParameters().AddUint104(uint104Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint104", new ContractFunctionParameters().AddUint104(uint104Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint104Max);
         }
 
@@ -417,21 +417,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint104Min,
                 uint104Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint104Arr", new ContractFunctionParameters().AddUint104Array(uint104Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint104Arr", new ContractFunctionParameters().AddUint104Array(uint104Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint104[])")[0];
             Assert.Equal(responseResult, uint104Array);
         }
 
         public virtual void CanCallContractFunctionUint112Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint112", new ContractFunctionParameters().AddUint112(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint112", new ContractFunctionParameters().AddUint112(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint112Max()
         {
             BigInteger uint112Max = new BigInteger("5192296858534827628530496329220095");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint112", new ContractFunctionParameters().AddUint112(uint112Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint112", new ContractFunctionParameters().AddUint112(uint112Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint112Max);
         }
 
@@ -444,21 +444,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint112Min,
                 uint112Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint112Arr", new ContractFunctionParameters().AddUint112Array(uint112Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint112Arr", new ContractFunctionParameters().AddUint112Array(uint112Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint112[])")[0];
             Assert.Equal(responseResult, uint112Array);
         }
 
         public virtual void CanCallContractFunctionUint120Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint120", new ContractFunctionParameters().AddUint120(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint120", new ContractFunctionParameters().AddUint120(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint120Max()
         {
             BigInteger uint120Max = new BigInteger("1329227995784915872903807060280344575");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint120", new ContractFunctionParameters().AddUint120(uint120Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint120", new ContractFunctionParameters().AddUint120(uint120Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint120Max);
         }
 
@@ -471,21 +471,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint120Min,
                 uint120Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint120Arr", new ContractFunctionParameters().AddUint120Array(uint120Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint120Arr", new ContractFunctionParameters().AddUint120Array(uint120Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint120[])")[0];
             Assert.Equal(responseResult, uint120Array);
         }
 
         public virtual void CanCallContractFunctionUint128Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint128", new ContractFunctionParameters().AddUint128(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint128", new ContractFunctionParameters().AddUint128(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint128Max()
         {
             BigInteger uint128Max = new BigInteger("340282366920938463463374607431768211455");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint128", new ContractFunctionParameters().AddUint128(uint128Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint128", new ContractFunctionParameters().AddUint128(uint128Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint128Max);
         }
 
@@ -498,21 +498,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint128Min,
                 uint128Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint128Arr", new ContractFunctionParameters().AddUint128Array(uint128Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint128Arr", new ContractFunctionParameters().AddUint128Array(uint128Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint128[])")[0];
             Assert.Equal(responseResult, uint128Array);
         }
 
         public virtual void CanCallContractFunctionUint136Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint136", new ContractFunctionParameters().AddUint136(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint136", new ContractFunctionParameters().AddUint136(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint136Max()
         {
             BigInteger uint136Max = new BigInteger("87112285931760246646623899502532662132735");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint136", new ContractFunctionParameters().AddUint136(uint136Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint136", new ContractFunctionParameters().AddUint136(uint136Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint136Max);
         }
 
@@ -525,21 +525,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint136Min,
                 uint136Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint136Arr", new ContractFunctionParameters().AddUint136Array(uint136Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint136Arr", new ContractFunctionParameters().AddUint136Array(uint136Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint136[])")[0];
             Assert.Equal(responseResult, uint136Array);
         }
 
         public virtual void CanCallContractFunctionUint144Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint144", new ContractFunctionParameters().AddUint144(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint144", new ContractFunctionParameters().AddUint144(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint144Max()
         {
             BigInteger uint144Max = new BigInteger("22300745198530623141535718272648361505980415");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint144", new ContractFunctionParameters().AddUint144(uint144Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint144", new ContractFunctionParameters().AddUint144(uint144Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint144Max);
         }
 
@@ -552,21 +552,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint144Min,
                 uint144Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint144Arr", new ContractFunctionParameters().AddUint144Array(uint144Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint144Arr", new ContractFunctionParameters().AddUint144Array(uint144Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint144[])")[0];
             Assert.Equal(responseResult, uint144Array);
         }
 
         public virtual void CanCallContractFunctionUint152Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint152", new ContractFunctionParameters().AddUint152(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint152", new ContractFunctionParameters().AddUint152(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint152Max()
         {
             BigInteger uint152Max = new BigInteger("5708990770823839524233143877797980545530986495");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint152", new ContractFunctionParameters().AddUint152(uint152Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint152", new ContractFunctionParameters().AddUint152(uint152Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint152Max);
         }
 
@@ -579,21 +579,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint152Min,
                 uint152Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint152Arr", new ContractFunctionParameters().AddUint152Array(uint152Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint152Arr", new ContractFunctionParameters().AddUint152Array(uint152Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint152[])")[0];
             Assert.Equal(responseResult, uint152Array);
         }
 
         public virtual void CanCallContractFunctionUint160Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint160", new ContractFunctionParameters().AddUint160(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint160", new ContractFunctionParameters().AddUint160(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint160Max()
         {
             BigInteger uint160Max = new BigInteger("1461501637330902918203684832716283019655932542975");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint160", new ContractFunctionParameters().AddUint160(uint160Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint160", new ContractFunctionParameters().AddUint160(uint160Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint160Max);
         }
 
@@ -606,21 +606,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint160Min,
                 uint160Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint160Arr", new ContractFunctionParameters().AddUint160Array(uint160Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint160Arr", new ContractFunctionParameters().AddUint160Array(uint160Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint160[])")[0];
             Assert.Equal(responseResult, uint160Array);
         }
 
         public virtual void CanCallContractFunctionUint168Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint168", new ContractFunctionParameters().AddUint168(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint168", new ContractFunctionParameters().AddUint168(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint168Max()
         {
             BigInteger uint168Max = new BigInteger("374144419156711147060143317175368453031918731001855");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint168", new ContractFunctionParameters().AddUint168(uint168Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint168", new ContractFunctionParameters().AddUint168(uint168Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint168Max);
         }
 
@@ -633,21 +633,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint168Min,
                 uint168Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint168Arr", new ContractFunctionParameters().AddUint168Array(uint168Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint168Arr", new ContractFunctionParameters().AddUint168Array(uint168Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint168[])")[0];
             Assert.Equal(responseResult, uint168Array);
         }
 
         public virtual void CanCallContractFunctionUint176Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint176", new ContractFunctionParameters().AddUint176(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint176", new ContractFunctionParameters().AddUint176(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint176Max()
         {
             BigInteger uint176Max = new BigInteger("95780971304118053647396689196894323976171195136475135");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint176", new ContractFunctionParameters().AddUint176(uint176Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint176", new ContractFunctionParameters().AddUint176(uint176Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint176Max);
         }
 
@@ -660,21 +660,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint176Min,
                 uint176Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint176Arr", new ContractFunctionParameters().AddUint176Array(uint176Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint176Arr", new ContractFunctionParameters().AddUint176Array(uint176Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint176[])")[0];
             Assert.Equal(responseResult, uint176Array);
         }
 
         public virtual void CanCallContractFunctionUint184Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint184", new ContractFunctionParameters().AddUint184(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint184", new ContractFunctionParameters().AddUint184(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint184Max()
         {
             BigInteger uint184Max = new BigInteger("24519928653854221733733552434404946937899825954937634815");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint184", new ContractFunctionParameters().AddUint184(uint184Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint184", new ContractFunctionParameters().AddUint184(uint184Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint184Max);
         }
 
@@ -687,21 +687,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint184Min,
                 uint184Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint184Arr", new ContractFunctionParameters().AddUint184Array(uint184Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint184Arr", new ContractFunctionParameters().AddUint184Array(uint184Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint184[])")[0];
             Assert.Equal(responseResult, uint184Array);
         }
 
         public virtual void CanCallContractFunctionUint192Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint192", new ContractFunctionParameters().AddUint192(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint192", new ContractFunctionParameters().AddUint192(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint192Max()
         {
             BigInteger uint192Max = new BigInteger("6277101735386680763835789423207666416102355444464034512895");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint192", new ContractFunctionParameters().AddUint192(uint192Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint192", new ContractFunctionParameters().AddUint192(uint192Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint192Max);
         }
 
@@ -714,21 +714,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint192Min,
                 uint192Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint192Arr", new ContractFunctionParameters().AddUint192Array(uint192Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint192Arr", new ContractFunctionParameters().AddUint192Array(uint192Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint192[])")[0];
             Assert.Equal(responseResult, uint192Array);
         }
 
         public virtual void CanCallContractFunctionUint200Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint200", new ContractFunctionParameters().AddUint200(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint200", new ContractFunctionParameters().AddUint200(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint200Max()
         {
             BigInteger uint200Max = new BigInteger("1606938044258990275541962092341162602522202993782792835301375");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint200", new ContractFunctionParameters().AddUint200(uint200Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint200", new ContractFunctionParameters().AddUint200(uint200Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint200Max);
         }
 
@@ -741,21 +741,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint200Min,
                 uint200Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint200Arr", new ContractFunctionParameters().AddUint200Array(uint200Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint200Arr", new ContractFunctionParameters().AddUint200Array(uint200Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint200[])")[0];
             Assert.Equal(responseResult, uint200Array);
         }
 
         public virtual void CanCallContractFunctionUint208Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint208", new ContractFunctionParameters().AddUint208(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint208", new ContractFunctionParameters().AddUint208(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint208Max()
         {
             BigInteger uint208Max = new BigInteger("411376139330301510538742295639337626245683966408394965837152255");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint208", new ContractFunctionParameters().AddUint208(uint208Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint208", new ContractFunctionParameters().AddUint208(uint208Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint208Max);
         }
 
@@ -768,21 +768,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint208Min,
                 uint208Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint208Arr", new ContractFunctionParameters().AddUint208Array(uint208Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint208Arr", new ContractFunctionParameters().AddUint208Array(uint208Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint208[])")[0];
             Assert.Equal(responseResult, uint208Array);
         }
 
         public virtual void CanCallContractFunctionUint216Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint216", new ContractFunctionParameters().AddUint216(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint216", new ContractFunctionParameters().AddUint216(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint216Max()
         {
             BigInteger uint216Max = new BigInteger("105312291668557186697918027683670432318895095400549111254310977535");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint216", new ContractFunctionParameters().AddUint216(uint216Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint216", new ContractFunctionParameters().AddUint216(uint216Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint216Max);
         }
 
@@ -795,21 +795,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint216Min,
                 uint216Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint216Arr", new ContractFunctionParameters().AddUint216Array(uint216Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint216Arr", new ContractFunctionParameters().AddUint216Array(uint216Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint216[])")[0];
             Assert.Equal(responseResult, uint216Array);
         }
 
         public virtual void CanCallContractFunctionUint224Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint224", new ContractFunctionParameters().AddUint224(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint224", new ContractFunctionParameters().AddUint224(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint224Max()
         {
             BigInteger uint224Max = new BigInteger("26959946667150639794667015087019630673637144422540572481103610249215");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint224", new ContractFunctionParameters().AddUint224(uint224Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint224", new ContractFunctionParameters().AddUint224(uint224Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint224Max);
         }
 
@@ -822,21 +822,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint224Min,
                 uint224Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint224Arr", new ContractFunctionParameters().AddUint224Array(uint224Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint224Arr", new ContractFunctionParameters().AddUint224Array(uint224Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint224[])")[0];
             Assert.Equal(responseResult, uint224Array);
         }
 
         public virtual void CanCallContractFunctionUint232Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint232", new ContractFunctionParameters().AddUint232(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint232", new ContractFunctionParameters().AddUint232(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint232Max()
         {
             BigInteger uint232Max = new BigInteger("6901746346790563787434755862277025452451108972170386555162524223799295");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint232", new ContractFunctionParameters().AddUint232(uint232Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint232", new ContractFunctionParameters().AddUint232(uint232Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint232Max);
         }
 
@@ -849,21 +849,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint232Min,
                 uint232Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint232Arr", new ContractFunctionParameters().AddUint232Array(uint232Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint232Arr", new ContractFunctionParameters().AddUint232Array(uint232Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint232[])")[0];
             Assert.Equal(responseResult, uint232Array);
         }
 
         public virtual void CanCallContractFunctionUint240Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint240", new ContractFunctionParameters().AddUint240(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint240", new ContractFunctionParameters().AddUint240(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint240Max()
         {
             BigInteger uint240Max = new BigInteger("1766847064778384329583297500742918515827483896875618958121606201292619775");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint240", new ContractFunctionParameters().AddUint240(uint240Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint240", new ContractFunctionParameters().AddUint240(uint240Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint240Max);
         }
 
@@ -876,21 +876,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint240Min,
                 uint240Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint240Arr", new ContractFunctionParameters().AddUint240Array(uint240Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint240Arr", new ContractFunctionParameters().AddUint240Array(uint240Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint240[])")[0];
             Assert.Equal(responseResult, uint240Array);
         }
 
         public virtual void CanCallContractFunctionUint248Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint248", new ContractFunctionParameters().AddUint248(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint248", new ContractFunctionParameters().AddUint248(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint248Max()
         {
             BigInteger uint248Max = new BigInteger("452312848583266388373324160190187140051835877600158453279131187530910662655");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint248", new ContractFunctionParameters().AddUint248(uint248Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint248", new ContractFunctionParameters().AddUint248(uint248Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint248Max);
         }
 
@@ -903,21 +903,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint248Min,
                 uint248Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint248Arr", new ContractFunctionParameters().AddUint248Array(uint248Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint248Arr", new ContractFunctionParameters().AddUint248Array(uint248Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint248[])")[0];
             Assert.Equal(responseResult, uint248Array);
         }
 
         public virtual void CanCallContractFunctionUint256Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint256", new ContractFunctionParameters().AddUint256(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint256", new ContractFunctionParameters().AddUint256(BigInteger.ZERO)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), BigInteger.ZERO);
         }
 
         public virtual void CanCallContractFunctionUint256Max()
         {
             BigInteger uint256Max = new BigInteger("2").Pow(256).Subtract(BigInteger.ONE);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint256", new ContractFunctionParameters().AddUint256(uint256Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint256", new ContractFunctionParameters().AddUint256(uint256Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint256(0), uint256Max);
         }
 
@@ -930,20 +930,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 uint256Min,
                 uint256Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint256Arr", new ContractFunctionParameters().AddUint256Array(uint256Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint256Arr", new ContractFunctionParameters().AddUint256Array(uint256Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(uint256[])")[0];
             Assert.Equal(responseResult, uint256Array);
         }
 
         public virtual void CanCallContractFunctionInt8Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8", new ContractFunctionParameters().AddInt8(Byte.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8", new ContractFunctionParameters().AddInt8(Byte.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt8(0), Byte.MIN_VALUE);
         }
 
         public virtual void CanCallContractFunctionInt8Max()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8", new ContractFunctionParameters().AddInt8(Byte.MAX_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8", new ContractFunctionParameters().AddInt8(Byte.MAX_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt8(0), Byte.MAX_VALUE);
         }
 
@@ -954,7 +954,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Byte.MIN_VALUE,
                 Byte.MAX_VALUE
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8Arr", new ContractFunctionParameters().AddInt8Array(int8Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8Arr", new ContractFunctionParameters().AddInt8Array(int8Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (int[])response.GetResult("(int8[])")[0];
             Assert.Equal(responseResult[0], int8Array[0]);
             Assert.Equal(responseResult[1], int8Array[1]);
@@ -963,14 +963,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt16Min()
         {
             int int16Min = -32768;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt16", new ContractFunctionParameters().AddInt16(int16Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt16", new ContractFunctionParameters().AddInt16(int16Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt32(0), int16Min);
         }
 
         public virtual void CanCallContractFunctionInt16Max()
         {
             int int16Max = 32767;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt16", new ContractFunctionParameters().AddInt16(int16Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt16", new ContractFunctionParameters().AddInt16(int16Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt32(0), int16Max);
         }
 
@@ -983,7 +983,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int16Min,
                 int16Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt16Arr", new ContractFunctionParameters().AddInt16Array(int16Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt16Arr", new ContractFunctionParameters().AddInt16Array(int16Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (int[])response.GetResult("(int16[])")[0];
             Assert.Equal(responseResult, int16Array);
         }
@@ -991,14 +991,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt24Min()
         {
             int int24Min = -8388608;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt24", new ContractFunctionParameters().AddInt24(int24Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt24", new ContractFunctionParameters().AddInt24(int24Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt32(0), int24Min);
         }
 
         public virtual void CanCallContractFunctionInt24Max()
         {
             int int24Max = 8388607;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt24", new ContractFunctionParameters().AddInt24(int24Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt24", new ContractFunctionParameters().AddInt24(int24Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt32(0), int24Max);
         }
 
@@ -1011,20 +1011,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int24Min,
                 int24Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt24Arr", new ContractFunctionParameters().AddInt24Array(int24Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt24Arr", new ContractFunctionParameters().AddInt24Array(int24Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (int[])response.GetResult("(int24[])")[0];
             Assert.Equal(responseResult, int24Array);
         }
 
         public virtual void CanCallContractFunctionInt32Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt32", new ContractFunctionParameters().AddInt32(Integer.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt32", new ContractFunctionParameters().AddInt32(Integer.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt32(0), Integer.MIN_VALUE);
         }
 
         public virtual void CanCallContractFunctionInt32Max()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt32", new ContractFunctionParameters().AddInt32(Integer.MAX_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt32", new ContractFunctionParameters().AddInt32(Integer.MAX_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt32(0), Integer.MAX_VALUE);
         }
 
@@ -1037,7 +1037,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int32Min,
                 int32Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt32Arr", new ContractFunctionParameters().AddInt32Array(int32Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt32Arr", new ContractFunctionParameters().AddInt32Array(int32Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (int[])response.GetResult("(int32[])")[0];
             Assert.Equal(responseResult, int32Array);
         }
@@ -1045,14 +1045,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt40Min()
         {
             long int40Min = -549755813888;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt40", new ContractFunctionParameters().AddInt40(int40Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt40", new ContractFunctionParameters().AddInt40(int40Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt64(0), int40Min);
         }
 
         public virtual void CanCallContractFunctionInt40Max()
         {
             long int40Max = 549755813887;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt40", new ContractFunctionParameters().AddInt40(int40Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt40", new ContractFunctionParameters().AddInt40(int40Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt64(0), int40Max);
         }
 
@@ -1065,7 +1065,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int40Min,
                 int40Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt40Arr", new ContractFunctionParameters().AddInt40Array(int40Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt40Arr", new ContractFunctionParameters().AddInt40Array(int40Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(int40[])")[0];
             Assert.Equal(responseResult, int40Array);
         }
@@ -1073,14 +1073,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt48Min()
         {
             long int48Min = -140737488355328;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt48", new ContractFunctionParameters().AddInt48(int48Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt48", new ContractFunctionParameters().AddInt48(int48Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt64(0), int48Min);
         }
 
         public virtual void CanCallContractFunctionInt48Max()
         {
             long int48Max = 140737488355327;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt48", new ContractFunctionParameters().AddInt48(int48Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt48", new ContractFunctionParameters().AddInt48(int48Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt64(0), int48Max);
         }
 
@@ -1093,7 +1093,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int48Min,
                 int48Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt48Arr", new ContractFunctionParameters().AddInt48Array(int48Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt48Arr", new ContractFunctionParameters().AddInt48Array(int48Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(int48[])")[0];
             Assert.Equal(responseResult, int48Array);
         }
@@ -1101,14 +1101,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt56Min()
         {
             long int56Min = -36028797018963968;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt56", new ContractFunctionParameters().AddInt56(int56Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt56", new ContractFunctionParameters().AddInt56(int56Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt64(0), int56Min);
         }
 
         public virtual void CanCallContractFunctionInt56Max()
         {
             long int56Max = 36028797018963967;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt56", new ContractFunctionParameters().AddInt56(int56Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt56", new ContractFunctionParameters().AddInt56(int56Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt64(0), int56Max);
         }
 
@@ -1121,20 +1121,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int56Min,
                 int56Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt56Arr", new ContractFunctionParameters().AddInt56Array(int56Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt56Arr", new ContractFunctionParameters().AddInt56Array(int56Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(int56[])")[0];
             Assert.Equal(responseResult, int56Array);
         }
 
         public virtual void CanCallContractFunctionInt64Min()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt64", new ContractFunctionParameters().AddInt64(Long.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt64", new ContractFunctionParameters().AddInt64(Long.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint64(0), Long.MIN_VALUE);
         }
 
         public virtual void CanCallContractFunctionInt64Max()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64", new ContractFunctionParameters().AddUint64(Long.MAX_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnUint64", new ContractFunctionParameters().AddUint64(Long.MAX_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetUint64(0), Long.MAX_VALUE);
         }
 
@@ -1147,7 +1147,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int64Min,
                 int64Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt64Arr", new ContractFunctionParameters().AddInt64Array(int64Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt64Arr", new ContractFunctionParameters().AddInt64Array(int64Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (long[])response.GetResult("(int64[])")[0];
             Assert.Equal(responseResult, int64Array);
         }
@@ -1155,14 +1155,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt72Min()
         {
             BigInteger int72Min = new BigInteger("-2361183241434822606848");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt72", new ContractFunctionParameters().AddInt72(int72Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt72", new ContractFunctionParameters().AddInt72(int72Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int72Min);
         }
 
         public virtual void CanCallContractFunctionInt72Max()
         {
             BigInteger int72Max = new BigInteger("2361183241434822606847");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt72", new ContractFunctionParameters().AddInt72(int72Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt72", new ContractFunctionParameters().AddInt72(int72Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int72Max);
         }
 
@@ -1175,7 +1175,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int72Min,
                 int72Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt72Arr", new ContractFunctionParameters().AddInt72Array(int72Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt72Arr", new ContractFunctionParameters().AddInt72Array(int72Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int72[])")[0];
             Assert.Equal(responseResult, int72Array);
         }
@@ -1183,14 +1183,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt80Min()
         {
             BigInteger int80Min = new BigInteger("-604462909807314587353088");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt80", new ContractFunctionParameters().AddInt80(int80Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt80", new ContractFunctionParameters().AddInt80(int80Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int80Min);
         }
 
         public virtual void CanCallContractFunctionInt80Max()
         {
             BigInteger int80Max = new BigInteger("604462909807314587353087");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt80", new ContractFunctionParameters().AddInt80(int80Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt80", new ContractFunctionParameters().AddInt80(int80Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int80Max);
         }
 
@@ -1203,7 +1203,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int80Min,
                 int80Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt80Arr", new ContractFunctionParameters().AddInt80Array(int80Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt80Arr", new ContractFunctionParameters().AddInt80Array(int80Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int80[])")[0];
             Assert.Equal(responseResult, int80Array);
         }
@@ -1211,14 +1211,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt88Min()
         {
             BigInteger int88Min = new BigInteger("-154742504910672534362390528");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt88", new ContractFunctionParameters().AddInt88(int88Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt88", new ContractFunctionParameters().AddInt88(int88Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int88Min);
         }
 
         public virtual void CanCallContractFunctionInt88Max()
         {
             BigInteger int88Max = new BigInteger("154742504910672534362390527");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt88", new ContractFunctionParameters().AddInt88(int88Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt88", new ContractFunctionParameters().AddInt88(int88Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int88Max);
         }
 
@@ -1231,7 +1231,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int88Min,
                 int88Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt88Arr", new ContractFunctionParameters().AddInt88Array(int88Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt88Arr", new ContractFunctionParameters().AddInt88Array(int88Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int88[])")[0];
             Assert.Equal(responseResult, int88Array);
         }
@@ -1239,14 +1239,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt96Min()
         {
             BigInteger int96Min = new BigInteger("-39614081257132168796771975168");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt96", new ContractFunctionParameters().AddInt96(int96Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt96", new ContractFunctionParameters().AddInt96(int96Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int96Min);
         }
 
         public virtual void CanCallContractFunctionInt96Max()
         {
             BigInteger int96Max = new BigInteger("39614081257132168796771975167");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt96", new ContractFunctionParameters().AddInt96(int96Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt96", new ContractFunctionParameters().AddInt96(int96Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int96Max);
         }
 
@@ -1259,7 +1259,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int96Min,
                 int96Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt96Arr", new ContractFunctionParameters().AddInt96Array(int96Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt96Arr", new ContractFunctionParameters().AddInt96Array(int96Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int96[])")[0];
             Assert.Equal(responseResult, int96Array);
         }
@@ -1267,14 +1267,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt104Min()
         {
             BigInteger int104Min = new BigInteger("-10141204801825835211973625643008");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt104", new ContractFunctionParameters().AddInt104(int104Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt104", new ContractFunctionParameters().AddInt104(int104Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int104Min);
         }
 
         public virtual void CanCallContractFunctionInt104Max()
         {
             BigInteger int104Max = new BigInteger("10141204801825835211973625643007");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt104", new ContractFunctionParameters().AddInt104(int104Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt104", new ContractFunctionParameters().AddInt104(int104Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int104Max);
         }
 
@@ -1287,7 +1287,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int104Min,
                 int104Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt104Arr", new ContractFunctionParameters().AddInt104Array(int104Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt104Arr", new ContractFunctionParameters().AddInt104Array(int104Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int104[])")[0];
             Assert.Equal(responseResult, int104Array);
         }
@@ -1295,14 +1295,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt112Min()
         {
             BigInteger int112Min = new BigInteger("-2596148429267413814265248164610048");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt112", new ContractFunctionParameters().AddInt112(int112Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt112", new ContractFunctionParameters().AddInt112(int112Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int112Min);
         }
 
         public virtual void CanCallContractFunctionInt112Max()
         {
             BigInteger int112Max = new BigInteger("2596148429267413814265248164610047");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt112", new ContractFunctionParameters().AddInt112(int112Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt112", new ContractFunctionParameters().AddInt112(int112Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int112Max);
         }
 
@@ -1315,7 +1315,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int112Min,
                 int112Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt112Arr", new ContractFunctionParameters().AddInt112Array(int112Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt112Arr", new ContractFunctionParameters().AddInt112Array(int112Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int112[])")[0];
             Assert.Equal(responseResult, int112Array);
         }
@@ -1323,14 +1323,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt120Min()
         {
             BigInteger int120Min = new BigInteger("-664613997892457936451903530140172288");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt120", new ContractFunctionParameters().AddInt120(int120Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt120", new ContractFunctionParameters().AddInt120(int120Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int120Min);
         }
 
         public virtual void CanCallContractFunctionInt120Max()
         {
             BigInteger int120Max = new BigInteger("664613997892457936451903530140172287");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt120", new ContractFunctionParameters().AddInt120(int120Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt120", new ContractFunctionParameters().AddInt120(int120Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int120Max);
         }
 
@@ -1343,7 +1343,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int120Min,
                 int120Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt120Arr", new ContractFunctionParameters().AddInt120Array(int120Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt120Arr", new ContractFunctionParameters().AddInt120Array(int120Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int120[])")[0];
             Assert.Equal(responseResult, int120Array);
         }
@@ -1351,14 +1351,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt128Min()
         {
             BigInteger int128Min = new BigInteger("-170141183460469231731687303715884105728");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt128", new ContractFunctionParameters().AddInt128(int128Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt128", new ContractFunctionParameters().AddInt128(int128Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int128Min);
         }
 
         public virtual void CanCallContractFunctionInt128Max()
         {
             BigInteger int128Max = new BigInteger("170141183460469231731687303715884105727");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt128", new ContractFunctionParameters().AddInt128(int128Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt128", new ContractFunctionParameters().AddInt128(int128Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int128Max);
         }
 
@@ -1371,7 +1371,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int128Min,
                 int128Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt128Arr", new ContractFunctionParameters().AddInt128Array(int128Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt128Arr", new ContractFunctionParameters().AddInt128Array(int128Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int128[])")[0];
             Assert.Equal(responseResult, int128Array);
         }
@@ -1379,14 +1379,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt136Min()
         {
             BigInteger int136Min = new BigInteger("-43556142965880123323311949751266331066368");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt136", new ContractFunctionParameters().AddInt136(int136Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt136", new ContractFunctionParameters().AddInt136(int136Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int136Min);
         }
 
         public virtual void CanCallContractFunctionInt136Max()
         {
             BigInteger int136Max = new BigInteger("43556142965880123323311949751266331066367");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt136", new ContractFunctionParameters().AddInt136(int136Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt136", new ContractFunctionParameters().AddInt136(int136Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int136Max);
         }
 
@@ -1399,7 +1399,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int136Min,
                 int136Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt136Arr", new ContractFunctionParameters().AddInt136Array(int136Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt136Arr", new ContractFunctionParameters().AddInt136Array(int136Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int136[])")[0];
             Assert.Equal(responseResult, int136Array);
         }
@@ -1407,14 +1407,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt144Min()
         {
             BigInteger int144Min = new BigInteger("-11150372599265311570767859136324180752990208");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt144", new ContractFunctionParameters().AddInt144(int144Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt144", new ContractFunctionParameters().AddInt144(int144Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int144Min);
         }
 
         public virtual void CanCallContractFunctionInt144Max()
         {
             BigInteger int144Max = new BigInteger("11150372599265311570767859136324180752990207");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt144", new ContractFunctionParameters().AddInt144(int144Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt144", new ContractFunctionParameters().AddInt144(int144Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int144Max);
         }
 
@@ -1427,7 +1427,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int144Min,
                 int144Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt144Arr", new ContractFunctionParameters().AddInt144Array(int144Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt144Arr", new ContractFunctionParameters().AddInt144Array(int144Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int144[])")[0];
             Assert.Equal(responseResult, int144Array);
         }
@@ -1435,14 +1435,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt152Min()
         {
             BigInteger int152Min = new BigInteger("-2854495385411919762116571938898990272765493248");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt152", new ContractFunctionParameters().AddInt152(int152Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt152", new ContractFunctionParameters().AddInt152(int152Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int152Min);
         }
 
         public virtual void CanCallContractFunctionInt152Max()
         {
             BigInteger int152Max = new BigInteger("2854495385411919762116571938898990272765493247");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt152", new ContractFunctionParameters().AddInt152(int152Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt152", new ContractFunctionParameters().AddInt152(int152Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int152Max);
         }
 
@@ -1455,7 +1455,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int152Min,
                 int152Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt152Arr", new ContractFunctionParameters().AddInt152Array(int152Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt152Arr", new ContractFunctionParameters().AddInt152Array(int152Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int152[])")[0];
             Assert.Equal(responseResult, int152Array);
         }
@@ -1463,14 +1463,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt160Min()
         {
             BigInteger int160Min = new BigInteger("-730750818665451459101842416358141509827966271488");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt160", new ContractFunctionParameters().AddInt160(int160Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt160", new ContractFunctionParameters().AddInt160(int160Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int160Min);
         }
 
         public virtual void CanCallContractFunctionInt160Max()
         {
             BigInteger int160Max = new BigInteger("730750818665451459101842416358141509827966271487");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt160", new ContractFunctionParameters().AddInt160(int160Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt160", new ContractFunctionParameters().AddInt160(int160Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int160Max);
         }
 
@@ -1483,7 +1483,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int160Min,
                 int160Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt160Arr", new ContractFunctionParameters().AddInt160Array(int160Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt160Arr", new ContractFunctionParameters().AddInt160Array(int160Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int160[])")[0];
             Assert.Equal(responseResult, int160Array);
         }
@@ -1491,14 +1491,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt168Min()
         {
             BigInteger int168Min = new BigInteger("-187072209578355573530071658587684226515959365500928");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt168", new ContractFunctionParameters().AddInt168(int168Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt168", new ContractFunctionParameters().AddInt168(int168Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int168Min);
         }
 
         public virtual void CanCallContractFunctionInt168Max()
         {
             BigInteger int168Max = new BigInteger("187072209578355573530071658587684226515959365500927");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt168", new ContractFunctionParameters().AddInt168(int168Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt168", new ContractFunctionParameters().AddInt168(int168Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int168Max);
         }
 
@@ -1511,7 +1511,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int168Min,
                 int168Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt168Arr", new ContractFunctionParameters().AddInt168Array(int168Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt168Arr", new ContractFunctionParameters().AddInt168Array(int168Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int168[])")[0];
             Assert.Equal(responseResult, int168Array);
         }
@@ -1519,14 +1519,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt176Min()
         {
             BigInteger int176Min = new BigInteger("-47890485652059026823698344598447161988085597568237568");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt176", new ContractFunctionParameters().AddInt176(int176Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt176", new ContractFunctionParameters().AddInt176(int176Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int176Min);
         }
 
         public virtual void CanCallContractFunctionInt176Max()
         {
             BigInteger int176Max = new BigInteger("47890485652059026823698344598447161988085597568237567");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt176", new ContractFunctionParameters().AddInt176(int176Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt176", new ContractFunctionParameters().AddInt176(int176Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int176Max);
         }
 
@@ -1539,7 +1539,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int176Min,
                 int176Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt176Arr", new ContractFunctionParameters().AddInt176Array(int176Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt176Arr", new ContractFunctionParameters().AddInt176Array(int176Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int176[])")[0];
             Assert.Equal(responseResult, int176Array);
         }
@@ -1547,14 +1547,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt184Min()
         {
             BigInteger int184Min = new BigInteger("-12259964326927110866866776217202473468949912977468817408");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt184", new ContractFunctionParameters().AddInt184(int184Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt184", new ContractFunctionParameters().AddInt184(int184Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int184Min);
         }
 
         public virtual void CanCallContractFunctionInt184Max()
         {
             BigInteger int184Max = new BigInteger("12259964326927110866866776217202473468949912977468817407");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt184", new ContractFunctionParameters().AddInt184(int184Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt184", new ContractFunctionParameters().AddInt184(int184Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int184Max);
         }
 
@@ -1567,7 +1567,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int184Min,
                 int184Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt184Arr", new ContractFunctionParameters().AddInt184Array(int184Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt184Arr", new ContractFunctionParameters().AddInt184Array(int184Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int184[])")[0];
             Assert.Equal(responseResult, int184Array);
         }
@@ -1575,14 +1575,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt192Min()
         {
             BigInteger int192Min = new BigInteger("-3138550867693340381917894711603833208051177722232017256448");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt192", new ContractFunctionParameters().AddInt192(int192Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt192", new ContractFunctionParameters().AddInt192(int192Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int192Min);
         }
 
         public virtual void CanCallContractFunctionInt192Max()
         {
             BigInteger int192Max = new BigInteger("3138550867693340381917894711603833208051177722232017256447");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt192", new ContractFunctionParameters().AddInt192(int192Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt192", new ContractFunctionParameters().AddInt192(int192Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int192Max);
         }
 
@@ -1595,7 +1595,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int192Min,
                 int192Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt192Arr", new ContractFunctionParameters().AddInt192Array(int192Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt192Arr", new ContractFunctionParameters().AddInt192Array(int192Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int192[])")[0];
             Assert.Equal(responseResult, int192Array);
         }
@@ -1603,14 +1603,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt200Min()
         {
             BigInteger int200Min = new BigInteger("-803469022129495137770981046170581301261101496891396417650688");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt200", new ContractFunctionParameters().AddInt200(int200Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt200", new ContractFunctionParameters().AddInt200(int200Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int200Min);
         }
 
         public virtual void CanCallContractFunctionInt200Max()
         {
             BigInteger int200Max = new BigInteger("803469022129495137770981046170581301261101496891396417650687");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt200", new ContractFunctionParameters().AddInt200(int200Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt200", new ContractFunctionParameters().AddInt200(int200Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int200Max);
         }
 
@@ -1623,7 +1623,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int200Min,
                 int200Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt200Arr", new ContractFunctionParameters().AddInt200Array(int200Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt200Arr", new ContractFunctionParameters().AddInt200Array(int200Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int200[])")[0];
             Assert.Equal(responseResult, int200Array);
         }
@@ -1631,14 +1631,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt208Min()
         {
             BigInteger int208Min = new BigInteger("-205688069665150755269371147819668813122841983204197482918576128");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt208", new ContractFunctionParameters().AddInt208(int208Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt208", new ContractFunctionParameters().AddInt208(int208Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int208Min);
         }
 
         public virtual void CanCallContractFunctionInt208Max()
         {
             BigInteger int208Max = new BigInteger("205688069665150755269371147819668813122841983204197482918576127");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt208", new ContractFunctionParameters().AddInt208(int208Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt208", new ContractFunctionParameters().AddInt208(int208Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int208Max);
         }
 
@@ -1651,7 +1651,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int208Min,
                 int208Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt208Arr", new ContractFunctionParameters().AddInt208Array(int208Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt208Arr", new ContractFunctionParameters().AddInt208Array(int208Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int208[])")[0];
             Assert.Equal(responseResult, int208Array);
         }
@@ -1659,14 +1659,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt216Min()
         {
             BigInteger int216Min = new BigInteger("-52656145834278593348959013841835216159447547700274555627155488768");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt216", new ContractFunctionParameters().AddInt216(int216Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt216", new ContractFunctionParameters().AddInt216(int216Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int216Min);
         }
 
         public virtual void CanCallContractFunctionInt216Max()
         {
             BigInteger int216Max = new BigInteger("52656145834278593348959013841835216159447547700274555627155488767");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt216", new ContractFunctionParameters().AddInt216(int216Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt216", new ContractFunctionParameters().AddInt216(int216Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int216Max);
         }
 
@@ -1679,7 +1679,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int216Min,
                 int216Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt216Arr", new ContractFunctionParameters().AddInt216Array(int216Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt216Arr", new ContractFunctionParameters().AddInt216Array(int216Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int216[])")[0];
             Assert.Equal(responseResult, int216Array);
         }
@@ -1687,14 +1687,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt224Min()
         {
             BigInteger int224Min = new BigInteger("-13479973333575319897333507543509815336818572211270286240551805124608");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt224", new ContractFunctionParameters().AddInt224(int224Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt224", new ContractFunctionParameters().AddInt224(int224Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int224Min);
         }
 
         public virtual void CanCallContractFunctionInt224Max()
         {
             BigInteger int224Max = new BigInteger("13479973333575319897333507543509815336818572211270286240551805124607");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt224", new ContractFunctionParameters().AddInt224(int224Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt224", new ContractFunctionParameters().AddInt224(int224Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int224Max);
         }
 
@@ -1707,7 +1707,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int224Min,
                 int224Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt224Arr", new ContractFunctionParameters().AddInt224Array(int224Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt224Arr", new ContractFunctionParameters().AddInt224Array(int224Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int224[])")[0];
             Assert.Equal(responseResult, int224Array);
         }
@@ -1715,14 +1715,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt232Min()
         {
             BigInteger int232Min = new BigInteger("-3450873173395281893717377931138512726225554486085193277581262111899648");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt232", new ContractFunctionParameters().AddInt232(int232Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt232", new ContractFunctionParameters().AddInt232(int232Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int232Min);
         }
 
         public virtual void CanCallContractFunctionInt232Max()
         {
             BigInteger int232Max = new BigInteger("3450873173395281893717377931138512726225554486085193277581262111899647");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt232", new ContractFunctionParameters().AddInt232(int232Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt232", new ContractFunctionParameters().AddInt232(int232Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int232Max);
         }
 
@@ -1735,7 +1735,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int232Min,
                 int232Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt232Arr", new ContractFunctionParameters().AddInt232Array(int232Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt232Arr", new ContractFunctionParameters().AddInt232Array(int232Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int232[])")[0];
             Assert.Equal(responseResult, int232Array);
         }
@@ -1743,14 +1743,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt240Min()
         {
             BigInteger int240Min = new BigInteger("-883423532389192164791648750371459257913741948437809479060803100646309888");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt240", new ContractFunctionParameters().AddInt240(int240Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt240", new ContractFunctionParameters().AddInt240(int240Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int240Min);
         }
 
         public virtual void CanCallContractFunctionInt240Max()
         {
             BigInteger int240Max = new BigInteger("883423532389192164791648750371459257913741948437809479060803100646309887");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt240", new ContractFunctionParameters().AddInt240(int240Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt240", new ContractFunctionParameters().AddInt240(int240Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int240Max);
         }
 
@@ -1763,7 +1763,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int240Min,
                 int240Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt240Arr", new ContractFunctionParameters().AddInt240Array(int240Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt240Arr", new ContractFunctionParameters().AddInt240Array(int240Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int240[])")[0];
             Assert.Equal(responseResult, int240Array);
         }
@@ -1771,14 +1771,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt248Min()
         {
             BigInteger int248Min = new BigInteger("-226156424291633194186662080095093570025917938800079226639565593765455331328");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt248", new ContractFunctionParameters().AddInt248(int248Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt248", new ContractFunctionParameters().AddInt248(int248Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int248Min);
         }
 
         public virtual void CanCallContractFunctionInt248Max()
         {
             BigInteger int248Max = new BigInteger("226156424291633194186662080095093570025917938800079226639565593765455331327");
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt248", new ContractFunctionParameters().AddInt248(int248Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt248", new ContractFunctionParameters().AddInt248(int248Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int248Max);
         }
 
@@ -1791,7 +1791,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int248Min,
                 int248Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt248Arr", new ContractFunctionParameters().AddInt248Array(int248Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt248Arr", new ContractFunctionParameters().AddInt248Array(int248Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int248[])")[0];
             Assert.Equal(responseResult, int248Array);
         }
@@ -1799,14 +1799,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionInt256Min()
         {
             BigInteger int256Min = new BigInteger("2").Pow(256).Divide(BigInteger.TWO).Negate();
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt256", new ContractFunctionParameters().AddInt256(int256Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt256", new ContractFunctionParameters().AddInt256(int256Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int256Min);
         }
 
         public virtual void CanCallContractFunctionInt256Max()
         {
             BigInteger int256Max = new BigInteger("2").Pow(256).Subtract(BigInteger.ONE).Divide(BigInteger.TWO);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt256", new ContractFunctionParameters().AddInt256(int256Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt256", new ContractFunctionParameters().AddInt256(int256Max)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int256Max);
         }
 
@@ -1819,14 +1819,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 int256Min,
                 int256Max
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt256Arr", new ContractFunctionParameters().AddInt256Array(int256Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt256Arr", new ContractFunctionParameters().AddInt256Array(int256Array)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (BigInteger[])response.GetResult("(int256[])")[0];
             Assert.Equal(responseResult, int256Array);
         }
 
         public virtual void CanCallContractFunctionMultipleInt8()
         {
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8Multiple", new ContractFunctionParameters().AddInt8(Byte.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnInt8Multiple", new ContractFunctionParameters().AddInt8(Byte.MIN_VALUE)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt8(0), Byte.MIN_VALUE);
             Assert.Equal(response.GetInt8(1), (byte)-108);
         }
@@ -1834,7 +1834,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionMultipleInt40()
         {
             long int40 = 549755813885;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnMultipleInt40", new ContractFunctionParameters().AddInt40(int40)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnMultipleInt40", new ContractFunctionParameters().AddInt40(int40)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt64(0), int40);
             Assert.Equal(response.GetInt64(1), int40 + 1);
         }
@@ -1842,7 +1842,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionMultipleInt256()
         {
             BigInteger int256Min = new BigInteger("2").Pow(256).Divide(BigInteger.TWO).Negate();
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnMultipleInt256", new ContractFunctionParameters().AddInt256(int256Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnMultipleInt256", new ContractFunctionParameters().AddInt256(int256Min)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetInt256(0), int256Min);
             Assert.Equal(response.GetInt256(1), int256Min.Add(BigInteger.ONE));
         }
@@ -1851,7 +1851,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var uint32Max = "4294967295";
             int uint32MaxInt = Integer.ParseUnsignedInt(uint32Max);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnMultipleTypeParams", new ContractFunctionParameters().AddUint32(uint32MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnMultipleTypeParams", new ContractFunctionParameters().AddUint32(uint32MaxInt)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(Integer.ToUnsignedString(response.GetUint32(0)), uint32Max);
             Assert.Equal(response.GetUint64(1), Long.ParseUnsignedLong(uint32Max) - 1);
             Assert.Equal(response.GetString(2), "OK");
@@ -1860,7 +1860,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionStringType()
         {
             var testString = "test";
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnString", new ContractFunctionParameters().AddString(testString)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnString", new ContractFunctionParameters().AddString(testString)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetString(0), testString);
         }
 
@@ -1871,7 +1871,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 "Test1",
                 "Test2"
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnStringArr", new ContractFunctionParameters().AddStringArray(testStringArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnStringArr", new ContractFunctionParameters().AddStringArray(testStringArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetStringArray(0)[0], testStringArray[0]);
             Assert.Equal(response.GetStringArray(0)[1], testStringArray[1]);
         }
@@ -1883,7 +1883,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 "Test1",
                 "Test2"
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnStringArr", new ContractFunctionParameters().AddStringArray(testStringArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnStringArr", new ContractFunctionParameters().AddStringArray(testStringArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (String[])response.GetResult("(string[])")[0];
             Assert.Equal(responseResult, testStringArray);
         }
@@ -1891,7 +1891,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionAddressType()
         {
             var testAddress = "1234567890123456789012345678901234567890";
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnAddress", new ContractFunctionParameters().AddAddress(testAddress)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnAddress", new ContractFunctionParameters().AddAddress(testAddress)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetAddress(0), testAddress);
         }
 
@@ -1902,7 +1902,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 "1234567890123456789012345678901234567890",
                 "1234567890123456789012345678901234567891"
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnAddressArr", new ContractFunctionParameters().AddAddressArray(testAddressArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnAddressArr", new ContractFunctionParameters().AddAddressArray(testAddressArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (Address[])response.GetResult("(address[])")[0];
             Address[] testAddressArray_Address = Arrays.Stream(testAddressArray).Map((addressStr) => "0x" + addressStr).Map(Address.Wrap()).ToArray(Address[].New());
             Assert.Equal(responseResult, testAddressArray_Address);
@@ -1911,7 +1911,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionBooleanType()
         {
             var testBoolean = true;
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBoolean", new ContractFunctionParameters().AddBool(testBoolean)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBoolean", new ContractFunctionParameters().AddBool(testBoolean)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetBool(0), testBoolean);
         }
 
@@ -1922,7 +1922,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 true,
                 false
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBooleanArr", new ContractFunctionParameters().AddBoolArray(testBooleanArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBooleanArr", new ContractFunctionParameters().AddBoolArray(testBooleanArray)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (boolean[])response.GetResult("(bool[])")[0];
             Assert.Equal(responseResult, testBooleanArray);
         }
@@ -1930,7 +1930,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanCallContractFunctionBytesType()
         {
             var testBytes = "Test".GetBytes();
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes", new ContractFunctionParameters().AddBytes(testBytes)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes", new ContractFunctionParameters().AddBytes(testBytes)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetBytes(0), testBytes);
         }
 
@@ -1941,7 +1941,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 "Test1".GetBytes(),
                 "Test2".GetBytes()
             };
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytesArr", new ContractFunctionParameters().AddBytesArray(testBytes)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytesArr", new ContractFunctionParameters().AddBytesArray(testBytes)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (byte[][])response.GetResult("(bytes[])")[0];
             Assert.Equal(responseResult, testBytes);
         }
@@ -1951,7 +1951,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             byte[] testBytes = "Test".GetBytes();
             byte[] testBytesLen32 = new byte[32];
             Array.Copy(testBytes, 0, testBytesLen32, 0, testBytes.Length);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes32", new ContractFunctionParameters().AddBytes32(testBytesLen32)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes32", new ContractFunctionParameters().AddBytes32(testBytesLen32)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             Assert.Equal(response.GetBytes32(0), testBytesLen32);
         }
 
@@ -1962,7 +1962,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             byte[, ] testBytesLen32 = new byte[2, 32];
             Array.Copy(testBytes, 0, testBytesLen32[0], 0, testBytes.Length);
             Array.Copy(testBytes2, 0, testBytesLen32[1], 0, testBytes2.Length);
-            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes32Arr", new ContractFunctionParameters().AddBytes32Array(testBytesLen32)).SetQueryPayment(new Hbar(10)).Execute(testEnv.client);
+            var response = new ContractCallQuery().SetContractId(contractId).SetGas(30000).SetFunction("returnBytes32Arr", new ContractFunctionParameters().AddBytes32Array(testBytesLen32)).SetQueryPayment(new Hbar(10)).Execute(testEnv.Client);
             var responseResult = (byte[][])response.GetResult("(bytes32[])")[0];
             Assert.Equal(responseResult, testBytesLen32);
         }

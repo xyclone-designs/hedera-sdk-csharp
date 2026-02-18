@@ -52,6 +52,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 		public long HookId { get; }
 		public LambdaEvmHook Hook { get; }
 		public Key? AdminKey { get; }
+		public bool HasAdminKey { get => AdminKey is not null; }
 
 		/// <summary>
 		/// Convert this HookCreationDetails to a protobuf message.

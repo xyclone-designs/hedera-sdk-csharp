@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -24,92 +22,159 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key5 = PrivateKey.GenerateED25519();
                 var key6 = PrivateKey.GenerateED25519();
                 var key7 = PrivateKey.GenerateED25519();
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(key1).SetFreezeKey(key2).SetWipeKey(key3).SetKycKey(key4).SetSupplyKey(key5).SetPauseKey(key6).SetMetadataKey(key7).SetFreezeDefault(false).FreezeWith(testEnv.client).Sign(key1).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(info.tokenId, tokenId);
-                Assert.Equal(info.name, "ffff");
-                Assert.Equal(info.symbol, "F");
-                Assert.Equal(info.decimals, 3);
-                Assert.Equal(info.treasuryAccountId, testEnv.operatorId);
-                AssertThat(info.adminKey).IsNotNull();
-                AssertThat(info.freezeKey).IsNotNull();
-                AssertThat(info.wipeKey).IsNotNull();
-                AssertThat(info.kycKey).IsNotNull();
-                AssertThat(info.supplyKey).IsNotNull();
-                AssertThat(info.pauseKey).IsNotNull();
-                AssertThat(info.metadataKey).IsNotNull();
-                Assert.Equal(info.adminKey.ToString(), key1.GetPublicKey().ToString());
-                Assert.Equal(info.freezeKey.ToString(), key2.GetPublicKey().ToString());
-                Assert.Equal(info.wipeKey.ToString(), key3.GetPublicKey().ToString());
-                Assert.Equal(info.kycKey.ToString(), key4.GetPublicKey().ToString());
-                Assert.Equal(info.supplyKey.ToString(), key5.GetPublicKey().ToString());
-                Assert.Equal(info.pauseKey.ToString(), key6.GetPublicKey().ToString());
-                Assert.Equal(info.metadataKey.ToString(), key7.GetPublicKey().ToString());
-                AssertThat(info.defaultFreezeStatus).IsNotNull();
-                AssertThat(info.defaultFreezeStatus).IsFalse();
-                AssertThat(info.defaultKycStatus).IsNotNull();
-                AssertThat(info.defaultKycStatus).IsFalse();
-                Assert.Equal(info.tokenType, TokenType.FUNGIBLE_COMMON);
-                Assert.Equal(info.supplyType, TokenSupplyType.INFINITE);
-                new TokenDeleteTransaction().SetTokenId(tokenId).FreezeWith(testEnv.client).Sign(key1).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    Decimals = 3,
+                    InitialSupply = 1000000,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = key1,
+                    FreezeKey = key2,
+                    WipeKey = key3,
+                    KycKey = key4,
+                    SupplyKey = key5,
+                    PauseKey = key6,
+                    MetadataKey = key7,
+                    FreezeDefault = false
+                }
+                .FreezeWith(testEnv.Client)
+                .Sign(key1)
+                .Execute(testEnv.Client);
+
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var info = new TokenInfoQuery
+                {
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client);
+                
+                Assert.Equal(info.TokenId, tokenId);
+                Assert.Equal(info.Name, "ffff");
+                Assert.Equal(info.Symbol, "F");
+                Assert.Equal(info.Decimals, 3);
+                Assert.Equal(info.TreasuryAccountId, testEnv.OperatorId);
+                Assert.NotNull(info.AdminKey);
+                Assert.NotNull(info.FreezeKey);
+                Assert.NotNull(info.WipeKey);
+                Assert.NotNull(info.KycKey);
+                Assert.NotNull(info.SupplyKey);
+                Assert.NotNull(info.PauseKey);
+                Assert.NotNull(info.MetadataKey);
+                Assert.Equal(info.AdminKey.ToString(), key1.GetPublicKey().ToString());
+                Assert.Equal(info.FreezeKey.ToString(), key2.GetPublicKey().ToString());
+                Assert.Equal(info.WipeKey.ToString(), key3.GetPublicKey().ToString());
+                Assert.Equal(info.KycKey.ToString(), key4.GetPublicKey().ToString());
+                Assert.Equal(info.SupplyKey.ToString(), key5.GetPublicKey().ToString());
+                Assert.Equal(info.PauseKey.ToString(), key6.GetPublicKey().ToString());
+                Assert.Equal(info.MetadataKey.ToString(), key7.GetPublicKey().ToString());
+                Assert.NotNull(info.DefaultFreezeStatus);
+                Assert.False(info.DefaultFreezeStatus);
+                Assert.NotNull(info.DefaultKycStatus);
+                Assert.False(info.DefaultKycStatus);
+                Assert.Equal(info.TokenType, TokenType.FungibleCommon);
+                Assert.Equal(info.SupplyType, TokenSupplyType.Infinite);
+
+                new TokenDeleteTransaction
+                {
+					TokenId = tokenId
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(key1)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
-
         public virtual void CanQueryTokenInfoWhenTokenIsCreatedWithMinimalProperties()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(info.tokenId, tokenId);
-                Assert.Equal(info.name, "ffff");
-                Assert.Equal(info.symbol, "F");
-                Assert.Equal(info.decimals, 0);
-                Assert.Equal(info.totalSupply, 0);
-                Assert.Equal(info.treasuryAccountId, testEnv.operatorId);
-                AssertThat(info.adminKey).IsNull();
-                AssertThat(info.freezeKey).IsNull();
-                AssertThat(info.wipeKey).IsNull();
-                AssertThat(info.kycKey).IsNull();
-                AssertThat(info.supplyKey).IsNull();
-                AssertThat(info.pauseKey).IsNull();
-                AssertThat(info.metadataKey).IsNull();
-                AssertThat(info.defaultFreezeStatus).IsNull();
-                AssertThat(info.defaultKycStatus).IsNull();
-                Assert.Equal(info.tokenType, TokenType.FUNGIBLE_COMMON);
-                Assert.Equal(info.supplyType, TokenSupplyType.INFINITE);
+                var response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TreasuryAccountId = testEnv.OperatorId,
+                
+                }.Execute(testEnv.Client);
+                
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var info = new TokenInfoQuery
+                {
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client);
+
+                Assert.Equal(info.TokenId, tokenId);
+                Assert.Equal(info.Name, "ffff");
+                Assert.Equal(info.Symbol, "F");
+                Assert.Equal(info.Decimals, 0);
+                Assert.Equal(info.TotalSupply, 0);
+                Assert.Equal(info.TreasuryAccountId, testEnv.OperatorId);
+                Assert.Null(info.AdminKey);
+                Assert.Null(info.FreezeKey);
+                Assert.Null(info.WipeKey);
+                Assert.Null(info.KycKey);
+                Assert.Null(info.SupplyKey);
+                Assert.Null(info.PauseKey);
+                Assert.Null(info.MetadataKey);
+                Assert.Null(info.DefaultFreezeStatus);
+                Assert.Null(info.DefaultKycStatus);
+                Assert.Equal(info.TokenType, TokenType.FungibleCommon);
+                Assert.Equal(info.SupplyType, TokenSupplyType.Infinite);
             }
         }
-
         public virtual void CanQueryNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetSupplyType(TokenSupplyType.FINITE).SetMaxSupply(5000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                Assert.Equal(mintReceipt.serials.Count, 10);
-                var info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(info.tokenId, tokenId);
-                Assert.Equal(info.name, "ffff");
-                Assert.Equal(info.symbol, "F");
-                Assert.Equal(info.decimals, 0);
-                Assert.Equal(info.totalSupply, 10);
-                Assert.Equal(testEnv.operatorId, info.treasuryAccountId);
-                AssertThat(info.adminKey).IsNotNull();
-                AssertThat(info.freezeKey).IsNull();
-                AssertThat(info.wipeKey).IsNull();
-                AssertThat(info.kycKey).IsNull();
-                AssertThat(info.supplyKey).IsNotNull();
-                AssertThat(info.pauseKey).IsNull();
-                AssertThat(info.metadataKey).IsNull();
-                AssertThat(info.defaultFreezeStatus).IsNull();
-                AssertThat(info.defaultKycStatus).IsNull();
-                Assert.Equal(info.tokenType, TokenType.NON_FUNGIBLE_UNIQUE);
-                Assert.Equal(info.supplyType, TokenSupplyType.FINITE);
-                Assert.Equal(info.maxSupply, 5000);
+                var response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique,
+                    SupplyType = TokenSupplyType.Finite,
+                    MaxSupply = 5000,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey
+                
+                }.Execute(testEnv.Client);
+
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = tokenId,
+					Metadata = NftMetadataGenerator.Generate((byte)10),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                
+                Assert.Equal(mintReceipt.Serials.Count, 10);
+
+                var info = new TokenInfoQuery
+                {
+					TokenId = tokenId
+				}
+                .Execute(testEnv.Client);
+
+                Assert.Equal(info.TokenId, tokenId);
+                Assert.Equal(info.Name, "ffff");
+                Assert.Equal(info.Symbol, "F");
+                Assert.Equal(info.Decimals, 0);
+                Assert.Equal(info.TotalSupply, 10);
+                Assert.Equal(testEnv.OperatorId, info.TreasuryAccountId);
+                Assert.NotNull(info.AdminKey);
+                Assert.Null(info.FreezeKey);
+                Assert.Null(info.WipeKey);
+                Assert.Null(info.KycKey);
+                Assert.NotNull(info.SupplyKey);
+                Assert.Null(info.PauseKey);
+                Assert.Null(info.MetadataKey);
+                Assert.Null(info.DefaultFreezeStatus);
+                Assert.Null(info.DefaultKycStatus);
+                Assert.Equal(info.TokenType, TokenType.NonFungibleUnique);
+                Assert.Equal(info.SupplyType, TokenSupplyType.Finite);
+                Assert.Equal(info.MaxSupply, 5000);
             }
         }
 
@@ -117,50 +182,102 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var infoQuery = new TokenInfoQuery().SetTokenId(tokenId);
-                var cost = infoQuery.GetCost(testEnv.client);
-                infoQuery.SetQueryPayment(cost).Execute(testEnv.client);
+                var response = new TokenCreateTransaction
+                { 
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey
+                
+                }.Execute(testEnv.Client);
+
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var infoQuery = new TokenInfoQuery 
+                { 
+                    TokenId = tokenId 
+                };
+                var cost = infoQuery.GetCost(testEnv.Client);
+
+                infoQuery.QueryPayment = cost;
+                infoQuery.Execute(testEnv.Client);
             }
         }
-
         public virtual void GetCostBigMaxQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var infoQuery = new TokenInfoQuery().SetTokenId(tokenId).SetMaxQueryPayment(new Hbar(1000));
-                var cost = infoQuery.GetCost(testEnv.client);
-                infoQuery.SetQueryPayment(cost).Execute(testEnv.client);
-            }
-        }
+                var response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey
+                
+                }.Execute(testEnv.Client);
 
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var infoQuery = new TokenInfoQuery
+                {
+					TokenId = tokenId,
+					MaxQueryPayment = new Hbar(1000),
+				};
+                var cost = infoQuery.GetCost(testEnv.Client);
+
+				infoQuery.QueryPayment = cost;
+				infoQuery.Execute(testEnv.Client);
+			}
+        }
         public virtual void GetCostSmallMaxTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var infoQuery = new TokenInfoQuery().SetTokenId(tokenId).SetMaxQueryPayment(Hbar.FromTinybars(1));
-                Assert.Throws(typeof(MaxQueryPaymentExceededException), () =>
+                var response = new TokenCreateTransaction
+                { 
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey
+                
+                }.Execute(testEnv.Client);
+
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+				var infoQuery = new TokenInfoQuery
+				{
+					TokenId = tokenId,
+					MaxQueryPayment = Hbar.FromTinybars(1)
+				};
+
+				Assert.Throws(typeof(MaxQueryPaymentExceededException), () =>
                 {
-                    infoQuery.Execute(testEnv.client);
+                    infoQuery.Execute(testEnv.Client);
                 });
             }
         }
-
         public virtual void GetCostInsufficientTxFeeQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var infoQuery = new TokenInfoQuery().SetTokenId(tokenId).SetMaxQueryPayment(new Hbar(1000));
+                var response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey
+
+                }.Execute(testEnv.Client);
+
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var infoQuery = new TokenInfoQuery
+                {
+					TokenId = tokenId,
+					MaxQueryPayment = new Hbar(1000)
+				};
+
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    infoQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.client);
+                    infoQuery.QueryPayment = Hbar.FromTinybars(1);
+                    infoQuery.Execute(testEnv.Client);
+
                 }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));
             }
         }

@@ -62,24 +62,24 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             var tx = new ContractDeleteTransaction().SetContractId(ContractId.FromString("0.0.5007")).SetPermanentRemoval(true);
             var proto = tx.Build();
-            AssertThat(proto.GetPermanentRemoval()).IsTrue();
+            Assert.True(proto.GetPermanentRemoval());
         }
 
         public virtual void ShouldSupportPermanentRemovalBytesRoundTrip()
         {
             var tx = new ContractDeleteTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetTransferAccountId(new AccountId(0, 0, 9)).SetPermanentRemoval(true).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze();
-            AssertThat(tx.GetPermanentRemoval()).IsTrue();
+            Assert.True(tx.GetPermanentRemoval());
             Assert.Equal(tx.GetContractId(), ContractId.FromString("0.0.5007"));
             Assert.Equal(tx.GetTransferAccountId(), new AccountId(0, 0, 9));
-            AssertThat(tx.GetTransferContractId()).IsNull();
+            Assert.Null(tx.GetTransferContractId());
             Assert.Equal(tx.GetNodeAccountIds(), Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")));
             Assert.Equal(tx.GetMaxTransactionFee(), Hbar.FromTinybars(100000));
             var tx2 = (ContractDeleteTransaction)Transaction.FromBytes(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
-            AssertThat(tx2.GetPermanentRemoval()).IsTrue();
+            Assert.True(tx2.GetPermanentRemoval());
             Assert.Equal(tx2.GetContractId(), tx.GetContractId());
             Assert.Equal(tx2.GetTransferAccountId(), tx.GetTransferAccountId());
-            AssertThat(tx2.GetTransferContractId()).IsNull();
+            Assert.Null(tx2.GetTransferContractId());
             Assert.Equal(tx2.GetNodeAccountIds(), tx.GetNodeAccountIds());
             Assert.Equal(tx2.GetMaxTransactionFee(), tx.GetMaxTransactionFee());
         }

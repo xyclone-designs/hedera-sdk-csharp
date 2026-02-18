@@ -57,17 +57,17 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <summary>
         /// the log info for events returned by the function
         /// </summary>
-        public readonly IList<ContractLogInfo> logs;
+        public readonly List<ContractLogInfo> logs;
         /// <summary>
         /// The created ids will now _also_ be externalized through internal transaction records, where each record has its
         /// alias field populated with the new contract's EVM address. (This is needed for contracts created with CREATE2,
         /// since there is no longer a simple relationship between the new contract's 0.0.X id and its Solidity address.)
         /// </summary>
-        public readonly IList<ContractId> createdContractIds;
+        public readonly List<ContractId> createdContractIds;
         /// <summary>
         /// </summary>
         /// <remarks>@deprecated- Use mirror node for contract traceability instead</remarks>
-        public readonly IList<ContractStateChange> stateChanges;
+        public readonly List<ContractStateChange> stateChanges;
         /// <summary>
         /// The amount of gas available for the call, aka the gasLimit
         /// </summary>
@@ -92,7 +92,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// always empty in a ContractCallLocalResponse#ContractFunctionResult message, since no internal creations can
         /// happen in a static EVM call.
         /// </summary>
-        public readonly IList<ContractNonceInfo> ContractNonces;
+        public readonly List<ContractNonceInfo> ContractNonces;
         /// <summary>
         /// If not null this field specifies what the value of the signer account nonce is post transaction execution.
         /// For transactions that don't update the signer nonce (like HAPI ContractCall and ContractCreate transactions) this field should be null.

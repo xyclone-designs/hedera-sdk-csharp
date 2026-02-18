@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.SDK.Airdrops
         /// Extract the pending airdrop ids
         /// </summary>
         /// <returns>the pending airdrop ids</returns>
-        public virtual IList<PendingAirdropId> PendingAirdropIds
+        public virtual List<PendingAirdropId> PendingAirdropIds
         {
             get { RequireNotFrozen(); return field; }
             set { RequireNotFrozen(); field = value; }

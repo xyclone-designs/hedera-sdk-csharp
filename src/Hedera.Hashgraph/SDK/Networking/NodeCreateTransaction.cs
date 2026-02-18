@@ -38,8 +38,8 @@ namespace Hedera.Hashgraph.SDK.Networking
 	/// </summary>
 	public class NodeCreateTransaction : Transaction<NodeCreateTransaction>
     {
-		private IList<Endpoint> _GossipEndpoints = [];
-		private IList<Endpoint> _ServiceEndpoints = [];
+		private List<Endpoint> _GossipEndpoints = [];
+		private List<Endpoint> _ServiceEndpoints = [];
 
 		/// <summary>
 		/// Constructor.

@@ -393,9 +393,11 @@ namespace Hedera.Hashgraph.SDK
 		/// <param name="accountId">The AccountId of the oper8r</param>
 		/// <param name="privateKey">The PrivateKey of the oper8r</param>
 		/// <returns>{@code this}</returns>
-		public void OperatorSet(AccountId accountId, PrivateKey privateKey)
+		public Client OperatorSet(AccountId accountId, PrivateKey privateKey)
 		{
 			lock (this) OperatorSetWith(accountId, privateKey.GetPublicKey(), privateKey.Sign);
+
+			return this;
 		}
 		/// <summary>
 		/// Sets the account that will, by default, by paying for transactions and queries built with this client.
@@ -409,7 +411,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <param name="publicKey">The PrivateKey of the oper8r</param>
 		/// <param name="transactionSigner">The signer for the oper8r</param>
 		/// <returns>{@code this}</returns>
-		public void OperatorSetWith(AccountId accountId, PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
+		public Client OperatorSetWith(AccountId accountId, PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
 		{
 			lock (this)
 			{
@@ -425,6 +427,8 @@ namespace Hedera.Hashgraph.SDK
 
 				Operator_ = new Operator(accountId, publicKey, transactionSigner);
 			}
+
+			return this;
 		}
 
 		/// <summary>

@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
@@ -41,19 +39,33 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
         private FileCreateTransaction SpawnTestTransaction()
         {
-            return new FileCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContents(new byte[] { 1, 2, 3, 4 }).SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158728)).SetKeys(unusedPrivateKey).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetFileMemo("Hello memo").Freeze().Sign(unusedPrivateKey);
+            return new FileCreateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				Contents = new byte[] { 1, 2, 3, 4 },
+				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728),
+				Keys = KeyList.Of(null, unusedPrivateKey),
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+				FileMemo = "Hello memo",
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = FileCreateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetFileCreate(FileCreateTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				FileCreate = new Proto.FileCreateTransactionBody()
+			};
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<FileCreateTransaction>(tx);
         }

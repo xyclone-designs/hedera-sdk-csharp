@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Org.Junit.Jupiter.Api;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Account;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.Tests.SDK.HBar
 {
@@ -26,12 +24,12 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
 
         public virtual StakingInfo SpawnStakingInfoAccountExample()
         {
-            return new StakingInfo(true, validStart, Hbar.From(5), Hbar.From(10), AccountId.FromString("1.2.3"), null);
+            return new StakingInfo(true, Timestamp.FromDateTimeOffset(validStart), Hbar.From(5), Hbar.From(10), AccountId.FromString("1.2.3"), null);
         }
 
         public virtual StakingInfo SpawnStakingInfoNodeExample()
         {
-            return new StakingInfo(true, validStart, Hbar.From(5), Hbar.From(10), null, 3);
+            return new StakingInfo(true, Timestamp.FromDateTimeOffset(validStart), Hbar.From(5), Hbar.From(10), null, 3);
         }
 
         public virtual void ShouldSerializeAccount()
@@ -39,8 +37,8 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             var originalStakingInfo = SpawnStakingInfoAccountExample();
             byte[] stakingInfoBytes = originalStakingInfo.ToBytes();
             var copyStakingInfo = StakingInfo.FromBytes(stakingInfoBytes);
-            Assert.Equal(copyStakingInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), originalStakingInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
-            SnapshotMatcher.Expect(originalStakingInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Assert.Equal(Regex.Replace(copyStakingInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalStakingInfo.ToString(), "@[A-Za-z0-9]+", ""));
+            SnapshotMatcher.Expect(Regex.Replace(originalStakingInfo.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
         }
 
         public virtual void ShouldSerializeNode()
@@ -48,8 +46,8 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             var originalStakingInfo = SpawnStakingInfoNodeExample();
             byte[] stakingInfoBytes = originalStakingInfo.ToBytes();
             var copyStakingInfo = StakingInfo.FromBytes(stakingInfoBytes);
-            Assert.Equal(copyStakingInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), originalStakingInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
-            SnapshotMatcher.Expect(originalStakingInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Assert.Equal(Regex.Replace(copyStakingInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalStakingInfo.ToString(), "@[A-Za-z0-9]+", ""));
+            SnapshotMatcher.Expect(Regex.Replace(originalStakingInfo.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
         }
     }
 }

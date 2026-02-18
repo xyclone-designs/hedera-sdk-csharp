@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         private static readonly int amount = 1;
         private static readonly TokenId tokenId = new TokenId(2, 3, 4);
         private static readonly AccountId feeCollector = new AccountId(5, 6, 7);
-        private static readonly IList<AccountId> payerAccountIds = List.Of(new AccountId(8, 9, 10), new AccountId(11, 12, 13), new AccountId(14, 15, 16));
+        private static readonly List<AccountId> payerAccountIds = List.Of(new AccountId(8, 9, 10), new AccountId(11, 12, 13), new AccountId(14, 15, 16));
         private readonly Proto.AssessedCustomFee fee = Proto.AssessedCustomFee.NewBuilder().SetAmount(amount).SetTokenId(tokenId.ToProtobuf()).SetFeeCollectorAccountId(feeCollector.ToProtobuf()).AddAllEffectivePayerAccountId(payerAccountIds.Stream().Map(AccountId.ToProtobuf()).ToList()).Build();
         public static void BeforeAll()
         {
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             var assessedCustomFee = SpawnAssessedCustomFeeExample();
             var tx2 = AssessedCustomFee.FromBytes(assessedCustomFee.ToBytes());
-            AssertThat(tx2).HasToString(assessedCustomFee.ToString());
+            Assert.Equal(tx2.ToString(), assessedCustomFee.ToString());
         }
     }
 }

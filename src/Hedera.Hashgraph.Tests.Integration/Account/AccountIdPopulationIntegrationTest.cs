@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Queries;
+using Hedera.Hashgraph.SDK.HBar;
+
+using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -20,17 +19,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var publicKey = privateKey.GetPublicKey();
                 var evmAddress = publicKey.ToEvmAddress();
                 var evmAddressAccount = AccountId.FromEvmAddress(evmAddress, 0, 0);
-                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.operatorId, new Hbar(-1)).Execute(testEnv.client);
-                var receipt = new TransactionReceiptQuery().SetTransactionId(tx.transactionId).SetIncludeChildren(true).Execute(testEnv.client);
-                var newAccountId = receipt.children[0].accountId;
-                var idMirror = AccountId.FromEvmAddress(evmAddress, 0, 0);
+                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.OperatorId, new Hbar(-1)).Execute(testEnv.Client);
+                var receipt = new TransactionReceiptQuery
+                { 
+                    TransactionId = tx.TransactionId,
+                    IncludeChildren = true
+
+                }.Execute(testEnv.Client);
+				var newAccountId = receipt.Children[0].AccountId;
+				var idMirror = AccountId.FromEvmAddress(evmAddress, 0, 0);
                 Thread.Sleep(5000);
-                var accountId = idMirror.PopulateAccountNum(testEnv.client);
-                Assert.Equal(newAccountId.Num, accountId.num);
+                var accountId = idMirror.PopulateAccountNum(testEnv.Client);
+                Assert.Equal(newAccountId.Num, accountId.Num);
             }
         }
 
-        public virtual void CanPopulateAccountIdNumAsync()
+        public virtual async void CanPopulateAccountIdNumAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -38,13 +42,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var publicKey = privateKey.GetPublicKey();
                 var evmAddress = publicKey.ToEvmAddress();
                 var evmAddressAccount = AccountId.FromEvmAddress(evmAddress, 0, 0);
-                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.operatorId, new Hbar(-1)).Execute(testEnv.client);
-                var receipt = new TransactionReceiptQuery().SetTransactionId(tx.transactionId).SetIncludeChildren(true).Execute(testEnv.client).ValidateStatus(true);
-                var newAccountId = receipt.children[0].accountId;
-                var idMirror = AccountId.FromEvmAddress(evmAddress, 0, 0);
+                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.OperatorId, new Hbar(-1)).Execute(testEnv.Client);
+                var receipt = new TransactionReceiptQuery
+                { 
+                    TransactionId = tx.TransactionId,
+                    IncludeChildren = true
+
+                }.Execute(testEnv.Client).ValidateStatus(true);
+				var newAccountId = receipt.Children[0].AccountId;
+				var idMirror = AccountId.FromEvmAddress(evmAddress, 0, 0);
                 Thread.Sleep(5000);
-                var accountId = idMirror.PopulateAccountNumAsync(testEnv.client).Get();
-                Assert.Equal(newAccountId.Num, accountId.num);
+                var accountId = await idMirror.PopulateAccountNumAsync(testEnv.Client);
+                Assert.Equal(newAccountId.Num, accountId.Num);
             }
         }
 
@@ -56,16 +65,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var publicKey = privateKey.GetPublicKey();
                 var evmAddress = publicKey.ToEvmAddress();
                 var evmAddressAccount = AccountId.FromEvmAddress(evmAddress, 0, 0);
-                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.operatorId, new Hbar(-1)).Execute(testEnv.client);
-                var receipt = new TransactionReceiptQuery().SetTransactionId(tx.transactionId).SetIncludeChildren(true).Execute(testEnv.client);
-                var newAccountId = receipt.children[0].accountId;
+                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.OperatorId, new Hbar(-1)).Execute(testEnv.Client);
+                var receipt = new TransactionReceiptQuery
+                { 
+                    TransactionId = tx.TransactionId,
+                    IncludeChildren = true
+
+                }.Execute(testEnv.Client);
+                var newAccountId = receipt.Children[0].AccountId;
                 Thread.Sleep(5000);
-                var accountId = newAccountId.PopulateAccountEvmAddress(testEnv.client);
-                Assert.Equal(evmAddressAccount.EvmAddress, accountId.evmAddress);
+                var accountId = newAccountId.PopulateAccountEvmAddress(testEnv.Client);
+                Assert.Equal(evmAddressAccount.EvmAddress, accountId.EvmAddress);
             }
         }
 
-        public virtual void CanPopulateAccountIdEvmAddressAsync()
+        public virtual async void CanPopulateAccountIdEvmAddressAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -73,12 +87,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var publicKey = privateKey.GetPublicKey();
                 var evmAddress = publicKey.ToEvmAddress();
                 var evmAddressAccount = AccountId.FromEvmAddress(evmAddress, 0, 0);
-                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.operatorId, new Hbar(-1)).Execute(testEnv.client);
-                var receipt = new TransactionReceiptQuery().SetTransactionId(tx.transactionId).SetIncludeChildren(true).Execute(testEnv.client);
-                var newAccountId = receipt.children[0].accountId;
-                Thread.Sleep(5000);
-                var accountId = newAccountId.PopulateAccountEvmAddressAsync(testEnv.client).Get();
-                Assert.Equal(evmAddressAccount.EvmAddress, accountId.evmAddress);
+                var tx = new TransferTransaction().AddHbarTransfer(evmAddressAccount, new Hbar(1)).AddHbarTransfer(testEnv.OperatorId, new Hbar(-1)).Execute(testEnv.Client);
+                var receipt = new TransactionReceiptQuery
+                {
+                    TransactionId = tx.TransactionId,
+                    IncludeChildren = true
+
+                }.Execute(testEnv.Client);
+				var newAccountId = receipt.Children[0].AccountId;
+				Thread.Sleep(5000);
+                var accountId = await newAccountId.PopulateAccountEvmAddressAsync(testEnv.Client);
+                Assert.Equal(evmAddressAccount.EvmAddress, accountId.EvmAddress);
             }
         }
     }

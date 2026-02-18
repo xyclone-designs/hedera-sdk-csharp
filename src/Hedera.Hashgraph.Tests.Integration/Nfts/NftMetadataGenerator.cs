@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
         public static List<byte[]> Generate(byte metadataCount)
         {
-            List<byte[]> metadatas = new List();
+            List<byte[]> metadatas = new ();
             for (byte i = 0; i < metadataCount; i++)
             {
                 byte[] md = new[]

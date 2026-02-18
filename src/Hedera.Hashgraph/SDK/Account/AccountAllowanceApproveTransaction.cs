@@ -25,9 +25,9 @@ namespace Hedera.Hashgraph.SDK.Account
 		// key is "{ownerId}:{spenderId}".  OwnerId may be "FEE_PAYER"
 		// <ownerId:spenderId, <tokenId, index>>
 		private readonly Dictionary<string, Dictionary<TokenId, int>> NftMap = [];
-		private readonly IList<HbarAllowance> HbarAllowances = [];
-        private readonly IList<TokenAllowance> TokenAllowances = [];
-        private readonly IList<TokenNftAllowance> NftAllowances = [];
+		private readonly List<HbarAllowance> HbarAllowances = [];
+        private readonly List<TokenAllowance> TokenAllowances = [];
+        private readonly List<TokenNftAllowance> NftAllowances = [];
 
 		/// <summary>
 		/// Constructor.
@@ -100,7 +100,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <param name="delegatingSpender">delegating spender's account id</param>
 		/// <param name="tokenId">the token's id</param>
 		/// <returns>list of NFT serial numbers</returns>
-		private IList<long> GetNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId)
+		private List<long> GetNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId)
 		{
 			var key = OwnerToString(ownerAccountId) + ":" + spenderAccountId;
 
@@ -131,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <param name="tokenId">the token's id</param>
 		/// <param name="innerMap">list of token id's and serial number records</param>
 		/// <returns>list of NFT serial numbers</returns>
-		private IList<long> NewNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId, Dictionary<TokenId, int> innerMap)
+		private List<long> NewNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, AccountId? delegatingSpender, TokenId tokenId, Dictionary<TokenId, int> innerMap)
 		{
 			innerMap.Add(tokenId, NftAllowances.Count);
 			TokenNftAllowance newAllowance = new (tokenId, ownerAccountId, spenderAccountId, delegatingSpender, [], default);
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <returns>                         list of hbar allowance records</returns>
 		/// <remarks>@deprecated- Use {@link #getHbarApprovals()} instead</remarks>
-		public virtual IList<HbarAllowance> GetHbarAllowances()
+		public virtual List<HbarAllowance> GetHbarAllowances()
         {
             return GetHbarApprovals();
         }
@@ -151,7 +151,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// Extract the list of hbar allowances.
         /// </summary>
         /// <returns>                         array list of hbar allowances</returns>
-        public virtual IList<HbarAllowance> GetHbarApprovals()
+        public virtual List<HbarAllowance> GetHbarApprovals()
         {
             return [.. HbarAllowances];
         }
@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// Extract a list of token allowance approvals.
 		/// </summary>
 		/// <returns>                         array list of token approvals.</returns>
-		public virtual IList<TokenAllowance> GetTokenApprovals()
+		public virtual List<TokenAllowance> GetTokenApprovals()
 		{
 			return [.. TokenAllowances];
 		}
@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <returns> a list of token allowances</returns>
 		/// <remarks>@deprecated- Use {@link #getTokenApprovals()} instead</remarks>
-		public virtual IList<TokenAllowance> GetTokenAllowances()
+		public virtual List<TokenAllowance> GetTokenAllowances()
         {
             return GetTokenApprovals();
         }
@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// Returns the list of token nft allowances.
 		/// </summary>
 		/// <returns> list of token nft allowances.</returns>
-		public virtual IList<TokenNftAllowance> GetTokenNftApprovals()
+		public virtual List<TokenNftAllowance> GetTokenNftApprovals()
 		{
 			List<TokenNftAllowance> retval = new (NftAllowances.Count);
 			foreach (var allowance in NftAllowances)
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <returns>{@code this}</returns>
 		/// <remarks>@deprecated- Use {@link #getTokenNftApprovals()} instead</remarks>
-		public virtual IList<TokenNftAllowance> GetTokenNftAllowances()
+		public virtual List<TokenNftAllowance> GetTokenNftAllowances()
 		{
 			return GetTokenNftApprovals();
 		}

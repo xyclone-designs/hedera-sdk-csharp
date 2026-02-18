@@ -283,7 +283,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// The size is calculated by encoding the transaction body to protobuf format.
 		/// </summary>
 		/// <returns>List of integers that represent the size of each chunk</returns>
-		public virtual IList<int> BodySizeAllChunks()
+		public virtual List<int> BodySizeAllChunks()
 		{
 			IList<int> list = [];
 			int originalIndex = TransactionIds.Index;
@@ -341,7 +341,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <returns>Result of execution for each chunk</returns>
 		/// <exception cref="TimeoutException">when the transaction times out</exception>
 		/// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-		public virtual IList<TransactionResponse> ExecuteAll(Client client)
+		public virtual List<TransactionResponse> ExecuteAll(Client client)
         {
             return ExecuteAll(client, client.RequestTimeout);
         }
@@ -353,7 +353,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>Result of execution for each chunk</returns>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual IList<TransactionResponse> ExecuteAll(Client client, Duration timeoutPerChunk)
+        public virtual List<TransactionResponse> ExecuteAll(Client client, Duration timeoutPerChunk)
         {
             FreezeAndSign(client);
             var responses = new List<TransactionResponse>(TransactionIds.Count);

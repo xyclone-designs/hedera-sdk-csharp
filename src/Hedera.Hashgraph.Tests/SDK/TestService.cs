@@ -58,8 +58,8 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         class Buffer
         {
-            public readonly IList<Transaction> transactionRequestsReceived = new List();
-            public readonly IList<Query> queryRequestsReceived = new List();
+            public readonly List<Transaction<T>> transactionRequestsReceived = new List();
+            public readonly List<Query> queryRequestsReceived = new List();
             public readonly Queue<TestResponse> responsesToSend = new ArrayDeque();
             public virtual Buffer EnqueueResponse(TestResponse response)
             {

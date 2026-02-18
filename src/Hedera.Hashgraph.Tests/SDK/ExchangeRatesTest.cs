@@ -1,14 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Java.Time;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK;
+
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -19,16 +14,16 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             byte[] exchangeRatesBytes = Hex.Decode(exchangeRateSetHex);
             ExchangeRates exchangeRates = ExchangeRates.FromBytes(exchangeRatesBytes);
-            Assert.Equal(exchangeRates.currentRate.cents, 580150);
-            Assert.Equal(exchangeRates.currentRate.hbars, 30000);
+            Assert.Equal(exchangeRates.CurrentRate.Cents, 580150);
+            Assert.Equal(exchangeRates.CurrentRate.Hbars, 30000);
             DateTimeOffset currentExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1645714800);
-            Assert.Equal(exchangeRates.currentRate.expirationTime, currentExpirationTime);
-            Assert.Equal(exchangeRates.currentRate.exchangeRateInCents, 19.338333333333335);
-            Assert.Equal(exchangeRates.nextRate.cents, 587660);
-            Assert.Equal(exchangeRates.nextRate.hbars, 30000);
+            Assert.Equal(exchangeRates.CurrentRate.ExpirationTime, currentExpirationTime);
+            Assert.Equal(exchangeRates.CurrentRate.ExchangeRateInCents, 19.338333333333335);
+            Assert.Equal(exchangeRates.NextRate.Cents, 587660);
+            Assert.Equal(exchangeRates.NextRate.Hbars, 30000);
             DateTimeOffset nextExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1645718400);
-            Assert.Equal(exchangeRates.nextRate.expirationTime, nextExpirationTime);
-            Assert.Equal(exchangeRates.nextRate.exchangeRateInCents, 19.588666666666665);
+            Assert.Equal(exchangeRates.NextRate.ExpirationTime, nextExpirationTime);
+            Assert.Equal(exchangeRates.NextRate.ExchangeRateInCents, 19.588666666666665);
         }
     }
 }

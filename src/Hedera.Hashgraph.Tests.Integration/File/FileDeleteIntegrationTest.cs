@@ -17,16 +17,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.client);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(info.fileId, fileId);
                 Assert.Equal(info.size, 28);
-                AssertThat(info.isDeleted).IsFalse();
-                AssertThat(info.keys).IsNotNull();
-                AssertThat(info.keys.GetThreshold()).IsNull();
-                Assert.Equal(info.keys, KeyList.Of(testEnv.operatorKey));
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Assert.False(info.isDeleted);
+                Assert.NotNull(info.keys);
+                Assert.Null(info.keys.GetThreshold());
+                Assert.Equal(info.keys, KeyList.Of(testEnv.OperatorKey));
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -34,16 +34,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.client);
+                var response = new FileCreateTransaction().SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(info.fileId, fileId);
                 Assert.Equal(info.size, 28);
-                AssertThat(info.isDeleted).IsFalse();
-                AssertThat(info.keys).IsNull();
+                Assert.False(info.isDeleted);
+                Assert.Null(info.keys);
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.UNAUTHORIZED.ToString());
             }
         }

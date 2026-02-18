@@ -20,9 +20,9 @@ namespace Hedera.Hashgraph.SDK.Account
     {
 		// key is "{ownerId}:{spenderId}".  OwnerId may be "FEE_PAYER"
 		private readonly Dictionary<string, Dictionary<TokenId, int>> nftMap = [];
-		private readonly IList<HbarAllowance> HbarAllowances = [];
-        private readonly IList<TokenAllowance> TokenAllowances = [];
-        private readonly IList<TokenNftAllowance> NftAllowances = [];
+		private readonly List<HbarAllowance> HbarAllowances = [];
+        private readonly List<TokenAllowance> TokenAllowances = [];
+        private readonly List<TokenNftAllowance> NftAllowances = [];
         
         /// <summary>
         /// Constructor.
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// Get the Hbar allowances
 		/// </summary>
 		/// <returns>the Hbar allowances</returns>
-		public virtual IList<HbarAllowance> GetHbarAllowances()
+		public virtual List<HbarAllowance> GetHbarAllowances()
 		{
 			return [.. HbarAllowances];
 		}
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// Get the token allowances
 		/// </summary>
 		/// <returns>the token allowances</returns>
-		public virtual IList<TokenAllowance> GetTokenAllowances()
+		public virtual List<TokenAllowance> GetTokenAllowances()
         {
             return [.. TokenAllowances];
         }
@@ -164,12 +164,12 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// Get the NFT allowances
 		/// </summary>
 		/// <returns>a copy of {@link #NftAllowances}</returns>
-		public virtual IList<TokenNftAllowance> GetTokenNftAllowances()
+		public virtual List<TokenNftAllowance> GetTokenNftAllowances()
 		{
             return [.. NftAllowances.Select(_ => TokenNftAllowance.CopyFrom(_))];
 		}
 
-        private IList<long> GetNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, TokenId tokenId)
+        private List<long> GetNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, TokenId tokenId)
         {
             var key = OwnerToString(ownerAccountId) + ":" + spenderAccountId;
 
@@ -191,7 +191,7 @@ namespace Hedera.Hashgraph.SDK.Account
                 return NewNftSerials(ownerAccountId, spenderAccountId, tokenId, innerMap);
             }
         }
-        private IList<long> NewNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
+        private List<long> NewNftSerials(AccountId? ownerAccountId, AccountId spenderAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
         {
             innerMap.Add(tokenId, NftAllowances.Count);
             TokenNftAllowance newAllowance = new (tokenId, ownerAccountId, spenderAccountId, null, [], default);

@@ -1,15 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api;
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Org.Bouncycastle.Util.Encoders;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.File
+using Hedera.Hashgraph.SDK.File;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
+namespace Hedera.Hashgraph.Tests.SDK.File
 {
     class FileIdTest
     {
@@ -52,16 +48,16 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
         {
             FileId defaultAddressBook = FileId.GetAddressBookFileIdFor(0, 0);
             Assert.NotNull(defaultAddressBook);
-            Assert.Equal(0, defaultAddressBook.shard);
-            Assert.Equal(0, defaultAddressBook.realm);
-            Assert.Equal(102, defaultAddressBook.num);
+            Assert.Equal(0, defaultAddressBook.Shard);
+            Assert.Equal(0, defaultAddressBook.Realm);
+            Assert.Equal(102, defaultAddressBook.Num);
             long testShard = 5;
             long testRealm = 10;
             FileId customAddressBook = FileId.GetAddressBookFileIdFor(testShard, testRealm);
             Assert.NotNull(customAddressBook);
-            Assert.Equal(testShard, customAddressBook.shard);
-            Assert.Equal(testRealm, customAddressBook.realm);
-            Assert.Equal(102, customAddressBook.num);
+            Assert.Equal(testShard, customAddressBook.Shard);
+            Assert.Equal(testRealm, customAddressBook.Realm);
+            Assert.Equal(102, customAddressBook.Num);
             Assert.Equal("5.10.102", customAddressBook.ToString());
             SnapshotMatcher.Expect(customAddressBook.ToString()).ToMatchSnapshot();
         }
@@ -70,16 +66,16 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
         {
             FileId defaultFeeSchedule = FileId.GetFeeScheduleFileIdFor(0, 0);
             Assert.NotNull(defaultFeeSchedule);
-            Assert.Equal(0, defaultFeeSchedule.shard);
-            Assert.Equal(0, defaultFeeSchedule.realm);
-            Assert.Equal(111, defaultFeeSchedule.num);
+            Assert.Equal(0, defaultFeeSchedule.Shard);
+            Assert.Equal(0, defaultFeeSchedule.Realm);
+            Assert.Equal(111, defaultFeeSchedule.Num);
             long testShard = 7;
             long testRealm = 12;
             FileId customFeeSchedule = FileId.GetFeeScheduleFileIdFor(testShard, testRealm);
             Assert.NotNull(customFeeSchedule);
-            Assert.Equal(testShard, customFeeSchedule.shard);
-            Assert.Equal(testRealm, customFeeSchedule.realm);
-            Assert.Equal(111, customFeeSchedule.num);
+            Assert.Equal(testShard, customFeeSchedule.Shard);
+            Assert.Equal(testRealm, customFeeSchedule.Realm);
+            Assert.Equal(111, customFeeSchedule.Num);
             Assert.Equal("7.12.111", customFeeSchedule.ToString());
             SnapshotMatcher.Expect(customFeeSchedule.ToString()).ToMatchSnapshot();
         }
@@ -88,16 +84,16 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
         {
             FileId defaultExchangeRates = FileId.GetExchangeRatesFileIdFor(0, 0);
             Assert.NotNull(defaultExchangeRates);
-            Assert.Equal(0, defaultExchangeRates.shard);
-            Assert.Equal(0, defaultExchangeRates.realm);
-            Assert.Equal(112, defaultExchangeRates.num);
+            Assert.Equal(0, defaultExchangeRates.Shard);
+            Assert.Equal(0, defaultExchangeRates.Realm);
+            Assert.Equal(112, defaultExchangeRates.Num);
             long testShard = 3;
             long testRealm = 9;
             FileId customExchangeRates = FileId.GetExchangeRatesFileIdFor(testShard, testRealm);
             Assert.NotNull(customExchangeRates);
-            Assert.Equal(testShard, customExchangeRates.shard);
-            Assert.Equal(testRealm, customExchangeRates.realm);
-            Assert.Equal(112, customExchangeRates.num);
+            Assert.Equal(testShard, customExchangeRates.Shard);
+            Assert.Equal(testRealm, customExchangeRates.Realm);
+            Assert.Equal(112, customExchangeRates.Num);
             Assert.Equal("3.9.112", customExchangeRates.ToString());
             SnapshotMatcher.Expect(customExchangeRates.ToString()).ToMatchSnapshot();
         }
@@ -106,32 +102,32 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
         {
 
             // Test with an EVM address that's too short
-            ArgumentException exception = AssertThrows(typeof(ArgumentException), () =>
+            ArgumentException exception = Assert.Throws<ArgumentException>(() =>
             {
                 FileId.FromEvmAddress(0, 0, "abc123");
             });
-            Assert.True(exception.GetMessage().Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with an EVM address that's too long
-            exception = AssertThrows(typeof(ArgumentException), () =>
+            exception = Assert.Throws<ArgumentException>(() =>
             {
                 FileId.FromEvmAddress(0, 0, "0123456789abcdef0123456789abcdef0123456789abcdef");
             });
-            Assert.True(exception.GetMessage().Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with a 0x prefix that gets removed but then is too short
-            exception = AssertThrows(typeof(ArgumentException), () =>
+            exception = Assert.Throws<ArgumentException>(() =>
             {
                 FileId.FromEvmAddress(0, 0, "0xabc123");
             });
-            Assert.True(exception.GetMessage().Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with non-long-zero address
-            exception = AssertThrows(typeof(ArgumentException), () =>
+            exception = Assert.Throws<ArgumentException>(() =>
             {
                 FileId.FromEvmAddress(0, 0, "742d35Cc6634C0532925a3b844Bc454e4438f44e");
             });
-            Assert.True(exception.GetMessage().Contains("EVM address is not a correct long zero address"));
+            Assert.True(exception.Message.Contains("EVM address is not a correct long zero address"));
         }
 
         public virtual void TestFileIdFromEvmAddress()
@@ -140,15 +136,15 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
             // Test with a long zero address representing file 1234
             string evmAddress = "00000000000000000000000000000000000004d2";
             FileId id = FileId.FromEvmAddress(0, 0, evmAddress);
-            Assert.Equal(0, id.shard);
-            Assert.Equal(0, id.realm);
-            Assert.Equal(1234, id.num);
+            Assert.Equal(0, id.Shard);
+            Assert.Equal(0, id.Realm);
+            Assert.Equal(1234, id.Num);
 
             // Test with a different shard and realm
             id = FileId.FromEvmAddress(1, 1, evmAddress);
-            Assert.Equal(1, id.shard);
-            Assert.Equal(1, id.realm);
-            Assert.Equal(1234, id.num);
+            Assert.Equal(1, id.Shard);
+            Assert.Equal(1, id.Realm);
+            Assert.Equal(1234, id.Num);
         }
 
         public virtual void TestFileIdToEvmAddress()

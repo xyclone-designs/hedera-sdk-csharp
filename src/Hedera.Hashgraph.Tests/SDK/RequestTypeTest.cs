@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -16,22 +17,22 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         public virtual void ValueOf()
         {
-            var codeValues = HederaFunctionality.Values();
+            var codeValues = Proto.HederaFunctionality.Values();
             var requestTypeValues = RequestType.Values();
             var pair = IntStream.Range(0, codeValues.Length - 1).MapToObj((i) => Map.Entry(codeValues[i], requestTypeValues[i])).Collect(Collectors.ToList());
             pair.ForEach((a) =>
             {
                 var code = a.GetKey();
                 var requestType = a.GetValue();
-                AssertThat(RequestType.ValueOf(code)).HasToString(requestType.ToString());
+                Assert.Equal(RequestType.ValueOf(code).ToString(), requestType.ToString());
             });
         }
 
         public virtual void ValueOfMapsNewFunctions()
         {
-            Assert.Equal(RequestType.ValueOf(HederaFunctionality.AtomicBatch), RequestType.ATOMIC_BATCH);
-            Assert.Equal(RequestType.ValueOf(HederaFunctionality.LambdaSStore), RequestType.LAMBDA_S_STORE);
-            Assert.Equal(RequestType.ValueOf(HederaFunctionality.HookDispatch), RequestType.HOOK_DISPATCH);
+            Assert.Equal(RequestType.ValueOf(Proto.HederaFunctionality.AtomicBatch), RequestType.ATOMIC_BATCH);
+            Assert.Equal(RequestType.ValueOf(Proto.HederaFunctionality.LambdaSStore), RequestType.LAMBDA_S_STORE);
+            Assert.Equal(RequestType.ValueOf(Proto.HederaFunctionality.HookDispatch), RequestType.HOOK_DISPATCH);
         }
 
         public virtual void ToStringStableForNewEntries()
@@ -47,17 +48,17 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 new[]
                 {
-                    HederaFunctionality.AtomicBatch,
+                    Proto.HederaFunctionality.AtomicBatch,
                     RequestType.ATOMIC_BATCH
                 },
                 new[]
                 {
-                    HederaFunctionality.LambdaSStore,
+                    Proto.HederaFunctionality.LambdaSStore,
                     RequestType.LAMBDA_S_STORE
                 },
                 new[]
                 {
-                    HederaFunctionality.HookDispatch,
+                    Proto.HederaFunctionality.HookDispatch,
                     RequestType.HOOK_DISPATCH
                 }
             };

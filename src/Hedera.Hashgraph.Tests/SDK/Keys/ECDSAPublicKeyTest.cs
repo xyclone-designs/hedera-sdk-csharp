@@ -1,25 +1,27 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Assertj.Core.Api.AssertionsForClassTypes;
-using Java.Math;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.HBar;
+using System.Numerics;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
+namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
     public class ECDSAPublicKeyTest
     {
         public virtual void VerifyTransaction()
         {
-            var transaction = new TransferTransaction().SetNodeAccountIds(Collections.SingletonList(new AccountId(0, 0, 3))).SetTransactionId(TransactionId.Generate(new AccountId(0, 0, 4))).Freeze();
+            var transaction = new TransferTransaction()
+            {
+				NodeAccountIds = [new AccountId(0, 0, 3)],
+				TransactionId = TransactionId.Generate(new AccountId(0, 0, 4)),
+			
+            }.Freeze();
             var key = PrivateKey.FromStringECDSA("8776c6b831a1b61ac10dac0304a2843de4716f54b1919bb91a2685d0fe3f3048");
             key.SignTransaction(transaction);
-            AssertThat(key.GetPublicKey().VerifyTransaction(transaction)).IsTrue();
+            Assert.True(key.GetPublicKey().VerifyTransaction(transaction));
         }
 
         public virtual void KeyByteSerialization()
@@ -151,7 +153,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
             var receiverAccount = AccountId.FromString("0.0.3");
             var transferAmount = Hbar.From(new BigDecimal("0.0001"), HbarUnit.HBAR);
             var privateKey = PrivateKey.GenerateECDSA();
-            var client = Client.ForTestnet().SetOperator(senderAccount, privateKey);
+            var client = Client.ForTestnet().OperatorSet(senderAccount, privateKey);
             var tx = new TransferTransaction().AddHbarTransfer(senderAccount, transferAmount.Negated()).AddHbarTransfer(receiverAccount, transferAmount);
             tx.FreezeWith(client);
             tx.SignWithOperator(client);
@@ -205,13 +207,13 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         public virtual void KeyIsECDSA()
         {
             PublicKey key = PrivateKey.GenerateECDSA().GetPublicKey();
-            AssertThat(key.IsECDSA()).IsTrue();
+            Assert.True(key.IsECDSA());
         }
 
         public virtual void KeyIsNotEd25519()
         {
             PublicKey key = PrivateKey.GenerateECDSA().GetPublicKey();
-            AssertThat(key.IsED25519()).IsFalse();
+            Assert.False(key.IsED25519());
         }
 
         public virtual void ToEvmAddress()
@@ -222,7 +224,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
             string expectedEvmAddress = "d8eb8db03c699faa3f47adcdcd2ae91773b10f8b";
             PrivateKey privateKey = PrivateKey.FromStringECDSA(privateKeyString);
             PublicKey key = privateKey.GetPublicKey();
-            AssertThat(key.ToEvmAddress()).HasToString(expectedEvmAddress);
+            Assert.Equal(key.ToEvmAddress().ToString(), expectedEvmAddress);
         }
 
         public virtual void DERImportTestVectors()

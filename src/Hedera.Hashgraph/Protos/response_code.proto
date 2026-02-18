@@ -984,9 +984,9 @@ enum ResponseCodeEnum {
     SERIAL_NUMBER_LIMIT_REACHED = 260;
 
     /**
-     * Only tokens of type NON_FUNGIBLE_UNIQUE can have royalty fees
+     * Only tokens of type NonFungibleUnique can have royalty fees
      */
-    CUSTOM_ROYALTY_FEE_ONLY_ALLOWED_FOR_NON_FUNGIBLE_UNIQUE = 261;
+    CUSTOM_ROYALTY_FEE_ONLY_ALLOWED_FOR_NonFungibleUnique = 261;
 
     /**
      * The account has reached the limit on the automatic associations count.
@@ -1761,9 +1761,9 @@ enum ResponseCodeEnum {
     GRPC_WEB_PROXY_NOT_SUPPORTED = 399;
 
     /**
-     * An NFT transfers list referenced a token type other than NON_FUNGIBLE_UNIQUE.
+     * An NFT transfers list referenced a token type other than NonFungibleUnique.
      */
-    NFT_TRANSFERS_ONLY_ALLOWED_FOR_NON_FUNGIBLE_UNIQUE = 400;
+    NFT_TRANSFERS_ONLY_ALLOWED_FOR_NonFungibleUnique = 400;
 
     /**
      * A HAPI client cannot set the SignedTransaction#use_serialized_tx_message_hash_algorithm field.
@@ -1794,7 +1794,7 @@ enum ResponseCodeEnum {
     /**
      * A CryptoTransfer relying on a ACCOUNT_ALLOWANCE hook was rejected.
      */
-    REJECTED_BY_ACCOUNT_ALLOWANCE_HOOK = 503;
+    REJECTED_BY_AccountAllowanceHook = 503;
 
     /**
      * A hook id was not found.

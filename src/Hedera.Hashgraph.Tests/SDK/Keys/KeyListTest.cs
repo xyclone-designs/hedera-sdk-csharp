@@ -1,17 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Google.Protobuf;
-using Proto;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Google.Protobuf;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
+using Hedera.Hashgraph.SDK.Keys;
+using System.Linq;
+
+namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
     class KeyListTest
     {
@@ -22,10 +15,11 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
 
             // Given
-            var protoKey1 = Key.NewBuilder().SetEd25519(ByteString.CopyFrom(mTestPublicKey1.ToBytes())).Build();
-            var protoKey3 = Key.NewBuilder().SetEd25519(ByteString.CopyFrom(mTestPublicKey2.ToBytes())).Build();
-            var protoKey2 = Key.NewBuilder().SetEd25519(ByteString.CopyFrom(mTestPublicKey3.ToBytes())).Build();
-            var protoKeyList = Proto.KeyList.NewBuilder().AddAllKeys(List.Of(protoKey1, protoKey2, protoKey3)).Build();
+            var protoKey1 = new Proto.Key { Ed25519 = ByteString.CopyFrom(mTestPublicKey1.ToBytes()) };
+            var protoKey3 = new Proto.Key { Ed25519 = ByteString.CopyFrom(mTestPublicKey2.ToBytes()) };
+            var protoKey2 = new Proto.Key { Ed25519 = ByteString.CopyFrom(mTestPublicKey3.ToBytes()) };
+            var protoKeyList = new Proto.KeyList();
+            protoKeyList.Keys.AddRange([protoKey1, protoKey2, protoKey3]);
 
             // When
             var keyList = KeyList.FromProtobuf(protoKeyList, 3);
@@ -40,7 +34,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
 
             // Given / When
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
 
             // Then
             Assert.True(keyList.Contains(mTestPublicKey1));
@@ -52,39 +46,39 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
 
             // Given
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
 
             // When
             var protoKey = keyList.ToProtobufKey();
 
             // Then
-            Assert.Equal(protoKey.GetKeyList().GetKeysCount(), 3);
-            Assert.Equal(protoKey.GetKeyList().GetKeys(0).GetEd25519().ToByteArray(), mTestPublicKey1.ToBytesRaw());
-            Assert.Equal(protoKey.GetKeyList().GetKeys(1).GetEd25519().ToByteArray(), mTestPublicKey2.ToBytesRaw());
-            Assert.Equal(protoKey.GetKeyList().GetKeys(2).GetEd25519().ToByteArray(), mTestPublicKey3.ToBytesRaw());
+            Assert.Equal(protoKey.KeyList.Keys.Count, 3);
+            Assert.Equal(protoKey.KeyList.Keys[0].Ed25519.ToByteArray(), mTestPublicKey1.ToBytesRaw());
+            Assert.Equal(protoKey.KeyList.Keys[1].Ed25519.ToByteArray(), mTestPublicKey2.ToBytesRaw());
+            Assert.Equal(protoKey.KeyList.Keys[2].Ed25519.ToByteArray(), mTestPublicKey3.ToBytesRaw());
         }
 
         public virtual void ToProtobuf()
         {
 
             // Given
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
 
             // When
             var protoKeyList = keyList.ToProtobuf();
 
-            // Then
-            Assert.Equal(protoKeyList.GetKeysCount(), 3);
-            Assert.Equal(protoKeyList.GetKeys(0).GetEd25519().ToByteArray(), mTestPublicKey1.ToBytesRaw());
-            Assert.Equal(protoKeyList.GetKeys(1).GetEd25519().ToByteArray(), mTestPublicKey2.ToBytesRaw());
-            Assert.Equal(protoKeyList.GetKeys(2).GetEd25519().ToByteArray(), mTestPublicKey3.ToBytesRaw());
-        }
+			// Then
+			Assert.Equal(protoKeyList.Keys.Count, 3);
+			Assert.Equal(protoKeyList.Keys[0].Ed25519.ToByteArray(), mTestPublicKey1.ToBytesRaw());
+			Assert.Equal(protoKeyList.Keys[1].Ed25519.ToByteArray(), mTestPublicKey2.ToBytesRaw());
+			Assert.Equal(protoKeyList.Keys[2].Ed25519.ToByteArray(), mTestPublicKey3.ToBytesRaw());
+		}
 
         public virtual void Size()
         {
 
             // Given / When
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
             var emptyKeyList = new KeyList();
 
             // Then
@@ -96,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
 
             // Given / When
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
             var emptyKeyList = new KeyList();
 
             // Then
@@ -112,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
 
             // Given
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2);
 
             // When
             keyList.Add(mTestPublicKey3);
@@ -126,7 +120,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
 
             // Given
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
 
             // When
             keyList.Remove(mTestPublicKey1);
@@ -142,7 +136,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
 
             // Given
-            var keyList = KeyList.Of(mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
+            var keyList = KeyList.Of(null, mTestPublicKey1, mTestPublicKey2, mTestPublicKey3);
 
             // When
             keyList.Clear();

@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Token;
 
@@ -34,9 +36,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             // Create account create transaction with hooks
             var lambdaHookWithStorage = new EvmHook(contractId, storageUpdates);
-            var hookWithAdmin = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHookWithStorage, adminKey.GetPublicKey());
+            var hookWithAdmin = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHookWithStorage, adminKey.GetPublicKey());
             var simpleLambdaHook = new EvmHook(contractId);
-            var simpleHook = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, simpleLambdaHook);
+            var simpleHook = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, simpleLambdaHook);
             AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(100)).AddHook(hookWithAdmin).AddHook(simpleHook); // Simple hook without admin key or storage
 
             // Verify hooks were added
@@ -45,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             // Verify first hook
             HookCreationDetails firstHook = hookDetails[0];
-            Assert.Equal(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, firstHook.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, firstHook.GetExtensionPoint());
             Assert.Equal(1, firstHook.GetHookId());
             Assert.Equal(adminKey.GetPublicKey(), firstHook.GetAdminKey());
             Assert.NotNull(firstHook.GetHook());
@@ -53,7 +55,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             // Verify second hook
             HookCreationDetails secondHook = hookDetails[1];
-            Assert.Equal(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, secondHook.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, secondHook.GetExtensionPoint());
             Assert.Equal(2, secondHook.GetHookId());
             Assert.Null(secondHook.GetAdminKey());
             Assert.NotNull(secondHook.GetHook());
@@ -66,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             // Create hook details manually
             EvmHook lambdaEvmHook = new EvmHook(contractId);
-            HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaEvmHook);
+            HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaEvmHook);
 
             // Set hooks using setHookCreationDetails
             AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(50)).SetHooks(Collections.SingletonList(hookDetails));
@@ -83,8 +85,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             // Test duplicate hook IDs
             var lambdaHook = new EvmHook(contractId);
-            var hook1 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
-            var hook2 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook); // Duplicate ID
+            var hook1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
+            var hook2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook); // Duplicate ID
             AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(25)).AddHook(hook1).AddHook(hook2); // Duplicate hook ID
 
             // Client-side duplicate ID validation was removed; ensure build includes both entries
@@ -100,7 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             // Create transaction with hooks
             var lambdaHook = new EvmHook(contractId);
-            var hook = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hook = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(75)).AddHook(hook);
 
             // Build the protobuf
@@ -109,7 +111,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             // Verify hook creation details are included
             Assert.Equal(1, protoBody.GetHookCreationDetailsCount());
             var protoHookDetails = protoBody.GetHookCreationDetails(0);
-            Assert.Equal(Proto.HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, protoHookDetails.GetExtensionPoint());
+            Assert.Equal(Proto.HookExtensionPoint.AccountAllowanceHook, protoHookDetails.GetExtensionPoint());
             Assert.Equal(1, protoHookDetails.GetHookId());
             Assert.True(protoHookDetails.HasEvmHook());
         }
@@ -135,7 +137,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             // Create contract and hook details
             ContractId contractId = new ContractId(500);
             EvmHook lambdaEvmHook = new EvmHook(contractId);
-            HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 3, lambdaEvmHook);
+            HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaEvmHook);
 
             // Create transaction with set hooks
             AccountCreateTransaction originalTx = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(123)).SetHooks(Collections.SingletonList(hookDetails));
@@ -150,7 +152,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             IList<HookCreationDetails> parsedHooks = parsedTx.GetHooks();
             Assert.Equal(1, parsedHooks.Count);
             HookCreationDetails parsedHook = parsedHooks[0];
-            Assert.Equal(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, parsedHook.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, parsedHook.GetExtensionPoint());
             Assert.Equal(3, parsedHook.GetHookId());
             Assert.NotNull(parsedHook.GetHook());
             Assert.True(parsedHook.GetHook().GetStorageUpdates().Count == 0);

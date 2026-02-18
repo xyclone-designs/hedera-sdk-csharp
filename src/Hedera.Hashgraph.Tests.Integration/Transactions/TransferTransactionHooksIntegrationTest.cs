@@ -8,6 +8,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Hook;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.File;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -19,14 +27,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var hookContractId = CreateContractId(testEnv);
-                var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
+                var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
                 var accountKey = PrivateKey.GenerateED25519();
-                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(accountKey).SetInitialBalance(new Hbar(10)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                new AccountUpdateTransaction().SetAccountId(accountId).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails).FreezeWith(testEnv.client).Sign(accountKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var accountId = new AccountCreateTransaction()
+                    .SetKeyWithoutAlias(accountKey)
+                    .SetInitialBalance(new Hbar(10)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                new AccountUpdateTransaction()
+                    .SetAccountId(accountId)
+                    .SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
-                var transferResponse = new TransferTransaction().SetNodeAccountIds(new List(testEnv.client.GetNetwork().Values())).AddHbarTransfer(testEnv.operatorId, new Hbar(-1)).AddHbarTransferWithHook(accountId, new Hbar(1), hookCall).Execute(testEnv.client);
-                var transferReceipt = transferResponse.GetReceipt(testEnv.client);
-                Assert.Equal(transferReceipt.status, Status.SUCCESS);
+                var transferResponse = new TransferTransaction()
+                    .SetNodeAccountIds(new List(testEnv.Client.Network.Values())).AddHbarTransfer(testEnv.OperatorId, new Hbar(-1)).AddHbarTransferWithHook(accountId, new Hbar(1), hookCall).Execute(testEnv.Client);
+                var transferReceipt = transferResponse.GetReceipt(testEnv.Client);
+                Assert.Equal(transferReceipt.status, ResponseStatus.Success);
             }
         }
 
@@ -37,27 +50,70 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var hookContractId = CreateContractId(testEnv);
 
                 // Two different hook ids for two different accounts
-                var hookDetails1 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
-                var hookDetails2 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
+                var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
+                var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
 
                 // Create two recipient accounts, each with its own hook
                 var key1 = PrivateKey.GenerateED25519();
-                var acct1 = new AccountCreateTransaction().SetKeyWithoutAlias(key1).SetInitialBalance(new Hbar(1)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+                var acct1 = new AccountCreateTransaction
+                {
+                    InitialBalance = new Hbar(1)
+
+                }
+                
+                .SetKeyWithoutAlias(key1)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
                 var key2 = PrivateKey.GenerateED25519();
-                var acct2 = new AccountCreateTransaction().SetKeyWithoutAlias(key2).SetInitialBalance(new Hbar(1)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+                var acct2 = new AccountCreateTransaction
+                {
+					InitialBalance = new Hbar(1)
+
+				}
+                
+                .SetKeyWithoutAlias(key2)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
 
                 // Attach hooks (must be signed by each account key)
-                new AccountUpdateTransaction().SetAccountId(acct1).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails1).FreezeWith(testEnv.client).Sign(key1).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new AccountUpdateTransaction().SetAccountId(acct2).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails2).FreezeWith(testEnv.client).Sign(key2).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new AccountUpdateTransaction 
+                { 
+                    AccountId = acct1,
+                    MaxTransactionFee = Hbar.From(10) 
+                
+                }
+                .AddHookToCreate(hookDetails1)
+                .FreezeWith(testEnv.Client)
+                .Sign(key1)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new AccountUpdateTransaction 
+                { 
+                    AccountId = acct2,
+                    MaxTransactionFee = Hbar.From(10) 
+                
+                }
+                .AddHookToCreate(hookDetails2)
+                .FreezeWith(testEnv.Client)
+                .Sign(key2)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Hook calls matching each account's hook id
                 var hookCall1 = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
                 var hookCall2 = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
 
                 // One transaction that touches both accounts; both hooks must approve
-                var resp = new TransferTransaction().SetNodeAccountIds(new List(testEnv.client.GetNetwork().Values())).AddHbarTransfer(testEnv.operatorId, new Hbar(-2)).AddHbarTransferWithHook(acct1, new Hbar(1), hookCall1).AddHbarTransferWithHook(acct2, new Hbar(1), hookCall2).Execute(testEnv.client);
-                var receipt = resp.GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
+                var resp = new TransferTransaction
+                {
+                    NodeAccountIds = [.. testEnv.Client.Network]
+                }
+                .AddHbarTransfer(testEnv.OperatorId, new Hbar(-2))
+                .AddHbarTransferWithHook(acct1, new Hbar(1), hookCall1)
+                .AddHbarTransferWithHook(acct2, new Hbar(1), hookCall2)
+                .Execute(testEnv.Client);
+                var receipt = resp.GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
 
@@ -66,14 +122,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var hookContractId = CreateContractId(testEnv);
-                var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
+                var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
                 var accountKey = PrivateKey.GenerateED25519();
-                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(accountKey).SetInitialBalance(new Hbar(10)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                new AccountUpdateTransaction().SetAccountId(accountId).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.client).Sign(accountKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var accountId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = accountKey,
+					InitialBalance = new Hbar(10),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+                new AccountUpdateTransaction()
+                    .SetAccountId(accountId)
+                    .SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails)
+                    .SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PrePostTxAllowanceHook);
-                var resp = new TransferTransaction().SetNodeAccountIds(new List(testEnv.client.GetNetwork().Values())).AddHbarTransfer(testEnv.operatorId, new Hbar(-1)).AddHbarTransferWithHook(accountId, new Hbar(1), hookCall).Execute(testEnv.client);
-                var receipt = resp.GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
+                var resp = new TransferTransaction
+                {
+                    NodeAccountIds = [.. testEnv.Client.Network]
+                }
+                    .AddHbarTransfer(testEnv.OperatorId, new Hbar(-1))
+                    .AddHbarTransferWithHook(accountId, new Hbar(1), hookCall)
+                    .Execute(testEnv.Client);
+                var receipt = resp.GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
 
@@ -85,28 +156,84 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Use a fresh operator account to avoid residual hooks (e.g., HOOK_ID_IN_USE on persistent operator)
                 testEnv.UseThrowawayAccount();
                 var hookContractId = CreateContractId(testEnv);
-                var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
+                var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverId = new AccountCreateTransaction().SetKeyWithoutAlias(receiverKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+                var receiverId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = receiverKey,
+					InitialBalance = new Hbar(2),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
 
                 // Attach allowance hook to operator (sender)
-                new AccountUpdateTransaction().SetAccountId(receiverId).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.client).Sign(receiverKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new AccountUpdateTransaction()
+                {
+					AccountId = receiverId,
+					MaxTransactionFee = Hbar.From(10),
+				}
+                .AddHookToCreate(hookDetails)
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Create fungible token with operator as treasury
-                var tokenId = new TokenCreateTransaction().SetTokenName("FT-HOOK").SetTokenSymbol("FTH").SetTokenType(TokenType.FUNGIBLE_COMMON).SetDecimals(2).SetInitialSupply(10000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).FreezeWith(testEnv.client).SignWithOperator(testEnv.client).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId;
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "FT-HOOK",
+					TokenSymbol = "FTH",
+					TokenType = TokenType.FUNGIBLE_COMMON,
+					Decimals = 2,
+					InitialSupply = 10000,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+				}
+                .FreezeWith(testEnv.Client)
+                .SignWithOperator(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
 
                 // Associate + KYC receiver
-                new TokenAssociateTransaction().SetAccountId(receiverId).SetTokenIds(List.Of(tokenId)).FreezeWith(testEnv.client).Sign(receiverKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenGrantKycTransaction().SetAccountId(receiverId).SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverId,
+					TokenIds = List.Of(tokenId),
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new TokenGrantKycTransaction
+                {
+					AccountId = receiverId,
+					TokenId = tokenId,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Ensure the allowance hook is attached to the debited account (operator)
-                var hookDetails2 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
-                new AccountUpdateTransaction().SetAccountId(testEnv.operatorId).AddHookToCreate(hookDetails2).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.client).SignWithOperator(testEnv.client).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
+                new AccountUpdateTransaction()
+                    .SetAccountId(testEnv.OperatorId)
+                    .AddHookToCreate(hookDetails2)
+                    .SetMaxTransactionFee(Hbar.From(10))
+                    .FreezeWith(testEnv.Client)
+                    .SignWithOperator(testEnv.Client)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // Build transfer with PRE sender allowance hook (sender is operator)
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
-                var resp = new TransferTransaction().SetNodeAccountIds(new List(testEnv.client.GetNetwork().Values())).AddTokenTransferWithHook(tokenId, testEnv.operatorId, -1000, hookCall).AddTokenTransfer(tokenId, receiverId, 1000).Execute(testEnv.client).GetReceipt(testEnv.client);
-                Assert.Equal(resp.status, Status.SUCCESS);
+                var resp = new TransferTransaction()
+                    .SetNodeAccountIds(new List(testEnv.Client.Network.Values()))
+                    .AddTokenTransferWithHook(tokenId, testEnv.OperatorId, -1000, hookCall)
+                    .AddTokenTransfer(tokenId, receiverId, 1000)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                Assert.Equal(resp.status, ResponseStatus.Success);
             }
         }
 
@@ -115,34 +242,96 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var hookContractId = CreateContractId(testEnv);
-                var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
+                var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
                 var senderKey = PrivateKey.GenerateED25519();
-                var senderId = new AccountCreateTransaction().SetKeyWithoutAlias(senderKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+                var senderId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = senderKey,
+					InitialBalance = new Hbar(2),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverId = new AccountCreateTransaction().SetKeyWithoutAlias(receiverKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+                var receiverId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = receiverKey,
+					InitialBalance = new Hbar(2),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
 
                 // Attach a hook to the sender (the owner of the NFT) to validate allowance
-                new AccountUpdateTransaction().SetAccountId(senderId).AddHookToCreate(hookDetails).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.client).Sign(senderKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new AccountUpdateTransaction
+                {
+					AccountId = senderId,
+					MaxTransactionFee = Hbar.From(10),
+				}
+				.AddHookToCreate(hookDetails)
+				.FreezeWith(testEnv.Client)
+                .Sign(senderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Also attach the same hook to the receiver to allow receiver pre-hook validation
-                new AccountUpdateTransaction().SetAccountId(receiverId).AddHookToCreate(hookDetails).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.client).Sign(receiverKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new AccountUpdateTransaction
+                {
+					AccountId = receiverId,
+					MaxTransactionFee = Hbar.From(10),
+				}
+				.AddHookToCreate(hookDetails)
+				.FreezeWith(testEnv.Client)
+                .Sign(receiverKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Create and mint an NFT under the sender as treasury (matches Go test pattern)
-                var tokenId = new TokenCreateTransaction().SetTokenName("NFT-HOOK").SetTokenSymbol("NHK").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(senderId).SetAdminKey(senderKey.GetPublicKey()).SetSupplyKey(senderKey.GetPublicKey()).FreezeWith(testEnv.client).Sign(senderKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId;
-                var firstMint = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(List.Of(new byte[] { 1 })).FreezeWith(testEnv.client).Sign(senderKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "NFT-HOOK",
+					TokenSymbol = "NHK",
+					TokenType = TokenType.NonFungibleUnique,
+					TreasuryAccountId = senderId,
+					AdminKey = senderKey.GetPublicKey(),
+					SupplyKey = senderKey.GetPublicKey(),
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(senderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                var firstMint = new TokenMintTransaction()
+                    .SetTokenId(tokenId)
+                    .SetMetadata(List.Of(new byte[] { 1 }))
+                .FreezeWith(testEnv.Client)
+                .Sign(senderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Associate only the receiver with the NFT token (sender is treasury)
-                new TokenAssociateTransaction().SetAccountId(receiverId).SetTokenIds(List.Of(tokenId)).FreezeWith(testEnv.client).Sign(receiverKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverId,
+					TokenIds = List.Of(tokenId),
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Use the serial from first mint (sender already owns it as treasury)
                 var serial = firstMint.serials[0];
 
                 // Now perform sender -> receiver with a PRE sender allowance hook
-                var senderHookCall = new NftHookCall(2, new EvmHookCall(new byte[] { }, 25000), NftHookType.PRE_HOOK_SENDER);
+                var senderHookCall = new NftHookCall(2, new EvmHookCall(new byte[] { }, 25000), NftHookType.PreHookSender);
                 var receiverHookCall = new NftHookCall(2, new EvmHookCall(new byte[] { }, 25000), NftHookType.PRE_HOOK_RECEIVER);
-                var resp = new TransferTransaction().SetNodeAccountIds(new List(testEnv.client.GetNetwork().Values())).AddNftTransferWithHook(tokenId.Nft(serial), senderId, receiverId, senderHookCall, receiverHookCall).FreezeWith(testEnv.client).SignWithOperator(testEnv.client).Sign(senderKey).Execute(testEnv.client);
-                var receipt = resp.GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
+                var resp = new TransferTransaction()
+                    .SetNodeAccountIds(new List(testEnv.Client.Network.Values()))
+                    .AddNftTransferWithHook(tokenId.Nft(serial), senderId, receiverId, senderHookCall, receiverHookCall)
+                .FreezeWith(testEnv.Client)
+                .SignWithOperator(testEnv.Client)
+                .Sign(senderKey)
+                .Execute(testEnv.Client);
+                var receipt = resp.GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
             }
         }
 
@@ -151,34 +340,93 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var hookContractId = CreateContractId(testEnv);
-                var senderHookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
-                var receiverHookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(hookContractId));
+                var senderHookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
+                var receiverHookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
                 var senderKey = PrivateKey.GenerateED25519();
-                var senderId = new AccountCreateTransaction().SetKeyWithoutAlias(senderKey).SetInitialBalance(new Hbar(3)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+                var senderId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = senderKey,
+					InitialBalance = new Hbar(3),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverId = new AccountCreateTransaction().SetKeyWithoutAlias(receiverKey).SetInitialBalance(new Hbar(1)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                new AccountUpdateTransaction().SetAccountId(senderId).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(senderHookDetails).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.client).Sign(senderKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new AccountUpdateTransaction().SetAccountId(receiverId).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(receiverHookDetails).FreezeWith(testEnv.client).Sign(receiverKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var senderHookCall2 = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
-                var receiverHookCall2 = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
-                var resp = new TransferTransaction().SetNodeAccountIds(new List(testEnv.client.GetNetwork().Values())).AddHbarTransferWithHook(senderId, new Hbar(-1), senderHookCall2).AddHbarTransferWithHook(receiverId, new Hbar(1), receiverHookCall2).FreezeWith(testEnv.client).SignWithOperator(testEnv.client).Sign(senderKey).Execute(testEnv.client);
-                var receipt = resp.GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
+                var receiverId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = receiverKey,
+					InitialBalance = new Hbar(1),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+
+                new AccountUpdateTransaction
+                {
+					AccountId = senderId,
+					MaxTransactionFee = Hbar.From(10),
+					HookToCreate = senderHookDetails,
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(senderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                new AccountUpdateTransaction
+                {
+					AccountId = receiverId,
+					MaxTransactionFee = Hbar.From(10),
+					HookToCreate = receiverHookDetails,
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                var senderHookCall2 = new FungibleHookCall(2, new EvmHookCall([], 25000), FungibleHookType.PreTxAllowanceHook);
+                var receiverHookCall2 = new FungibleHookCall(2, new EvmHookCall([], 25000), FungibleHookType.PreTxAllowanceHook);
+                var resp = new TransferTransaction
+                {
+                    NodeAccountIds = [.. testEnv.Client.Network]
+                }
+                .AddHbarTransferWithHook(senderId, new Hbar(-1), senderHookCall2)
+                .AddHbarTransferWithHook(receiverId, new Hbar(1), receiverHookCall2)
+                .FreezeWith(testEnv.Client)
+                .SignWithOperator(testEnv.Client)
+                .Sign(senderKey)
+                .Execute(testEnv.Client);
+
+                var receipt = resp.GetReceipt(testEnv.Client);
+
+                Assert.Equal(receipt.status, ResponseStatus.Success);
             }
         }
 
         private FileId CreateBytecodeFile(IntegrationTestEnv testEnv)
         {
-            var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-            return Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+            var response = new FileCreateTransaction
+            {
+				Keys = testEnv.OperatorKey,
+				Contents = SMART_CONTRACT_BYTECODE,
+			}
+            .Execute(testEnv.Client);
+
+            return response.GetReceipt(testEnv.Client).FileId;
         }
 
         private ContractId CreateContractId(IntegrationTestEnv testEnv)
         {
             var fileId = CreateBytecodeFile(testEnv);
-            var response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(1000000).SetBytecodeFileId(fileId).Execute(testEnv.client);
-            var receipt = response.GetReceipt(testEnv.client);
-            return receipt.contractId;
+            var response = new ContractCreateTransaction
+            {
+				AdminKey = testEnv.OperatorKey,
+				Gas = 1000000,
+				BytecodeFileId = fileId,
+			}
+            .Execute(testEnv.Client);
+            
+            var receipt = response.GetReceipt(testEnv.Client);
+
+            return receipt.ContractId;
         }
     }
 }

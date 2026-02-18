@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Topic;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,9 +10,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var response = new TopicCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    TopicMemo = "[e2e::TopicCreateTransaction]"
+                
+                }.Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
+                new TopicDeleteTransaction
+                {
+                    TopicId = topicId
+                
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -27,11 +29,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction().Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.UNAUTHORIZED.ToString());
             }
         }

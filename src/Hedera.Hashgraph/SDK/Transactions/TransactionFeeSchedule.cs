@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// Extract the list of fee's.
 		/// </summary>
 		/// <returns>                         the list of fee's</returns>
-		public virtual IList<FeeData> Fees { get; protected set; }
+		public virtual List<FeeData> Fees { get; protected set; }
 		/// <summary>
 		/// Set the total fee charged for a transaction
 		/// </summary>
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Feedata = (FeeData?)Feedata?.Clone(),
 			};
 		}
-		public virtual IList<FeeData> CloneFees()
+		public virtual List<FeeData> CloneFees()
         {
             return [.. Fees.Select(_ => (FeeData)_.Clone())];
         }

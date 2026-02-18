@@ -26,10 +26,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var privateKey = PrivateKey.GenerateECDSA();
                 var newAccountAliasId = privateKey.ToAccountId(0, 0);
-                new TransferTransaction().AddHbarTransfer(testEnv.operatorId, new Hbar(1).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(1)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var record = new EthereumFlow().SetEthereumData(GetCallData((PrivateKeyECDSA)privateKey, 0, new byte[] { }, SMART_CONTRACT_BYTECODE, 12000000, 1)).SetMaxGasAllowance(Hbar.From(10)).Execute(testEnv.client).GetRecord(testEnv.client);
+                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(1).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(1)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var record = new EthereumFlow().SetEthereumData(GetCallData((PrivateKeyECDSA)privateKey, 0, new byte[] { }, SMART_CONTRACT_BYTECODE, 12000000, 1)).SetMaxGasAllowance(Hbar.From(10)).Execute(testEnv.Client).GetRecord(testEnv.Client);
                 Assert.Equal(record.contractFunctionResult.signerNonce, 1);
-                record = new EthereumFlow().SetEthereumData(GetCallData((PrivateKeyECDSA)privateKey, 1, new byte[] { }, SMART_CONTRACT_BYTECODE, 12000000, 1)).SetMaxGasAllowance(Hbar.From(10)).ExecuteAsync(testEnv.client).Get().GetRecord(testEnv.client);
+                record = new EthereumFlow().SetEthereumData(GetCallData((PrivateKeyECDSA)privateKey, 1, new byte[] { }, SMART_CONTRACT_BYTECODE, 12000000, 1)).SetMaxGasAllowance(Hbar.From(10)).ExecuteAsync(testEnv.Client).Get().GetRecord(testEnv.Client);
                 Assert.Equal(record.contractFunctionResult.signerNonce, 2);
             }
         }
@@ -40,12 +40,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var privateKey = PrivateKey.GenerateECDSA();
                 var newAccountAliasId = privateKey.ToAccountId(0, 0);
-                new TransferTransaction().AddHbarTransfer(testEnv.operatorId, new Hbar(100).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(100)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var fileCreateResponse = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE_JUMBO.GetBytes()).Execute(testEnv.client);
-                var fileReceipt = fileCreateResponse.GetReceipt(testEnv.client);
+                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(100).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(100)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var fileCreateResponse = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE_JUMBO.GetBytes()).Execute(testEnv.Client);
+                var fileReceipt = fileCreateResponse.GetReceipt(testEnv.Client);
                 var fileId = fileReceipt.fileId;
-                var contractCreateResponse = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetNodeAccountIds(Arrays.AsList(fileCreateResponse.nodeId)).SetGas(300000).SetBytecodeFileId(fileId).Execute(testEnv.client);
-                var contractReceipt = contractCreateResponse.GetReceipt(testEnv.client);
+                var contractCreateResponse = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetNodeAccountIds(Arrays.AsList(fileCreateResponse.nodeId)).SetGas(300000).SetBytecodeFileId(fileId).Execute(testEnv.Client);
+                var contractReceipt = contractCreateResponse.GetReceipt(testEnv.Client);
                 var contractId = contractReceipt.contractId;
 
                 // Create large calldata (50KB - below the 128KB limit)
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var function = "consumeLargeCalldata";
                 var parameters = new ContractFunctionParameters().AddBytes(largeCalldata);
                 var callDataBytes = parameters.ToBytes(function);
-                var record = new EthereumFlow().SetEthereumData(GetCallData((PrivateKeyECDSA)privateKey, 0, Hex.Decode(contractId.ToEvmAddress()), Hex.ToHexString(callDataBytes.ToByteArray()), 3500000, 0)).SetMaxGasAllowance(Hbar.From(10)).Execute(testEnv.client).GetRecord(testEnv.client);
+                var record = new EthereumFlow().SetEthereumData(GetCallData((PrivateKeyECDSA)privateKey, 0, Hex.Decode(contractId.ToEvmAddress()), Hex.ToHexString(callDataBytes.ToByteArray()), 3500000, 0)).SetMaxGasAllowance(Hbar.From(10)).Execute(testEnv.Client).GetRecord(testEnv.Client);
                 Assert.Equal(record.contractFunctionResult.signerNonce, 1);
             }
         }
@@ -64,12 +64,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var privateKey = PrivateKey.GenerateECDSA();
                 var newAccountAliasId = privateKey.ToAccountId(0, 0);
-                new TransferTransaction().AddHbarTransfer(testEnv.operatorId, new Hbar(100).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(100)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var fileCreateResponse = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE_JUMBO.GetBytes()).Execute(testEnv.client);
-                var fileReceipt = fileCreateResponse.GetReceipt(testEnv.client);
+                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(100).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(100)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var fileCreateResponse = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE_JUMBO.GetBytes()).Execute(testEnv.Client);
+                var fileReceipt = fileCreateResponse.GetReceipt(testEnv.Client);
                 var fileId = fileReceipt.fileId;
-                var contractCreateResponse = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetNodeAccountIds(Arrays.AsList(fileCreateResponse.nodeId)).SetGas(300000).SetBytecodeFileId(fileId).Execute(testEnv.client);
-                var contractReceipt = contractCreateResponse.GetReceipt(testEnv.client);
+                var contractCreateResponse = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetNodeAccountIds(Arrays.AsList(fileCreateResponse.nodeId)).SetGas(300000).SetBytecodeFileId(fileId).Execute(testEnv.Client);
+                var contractReceipt = contractCreateResponse.GetReceipt(testEnv.Client);
                 var contractId = contractReceipt.contractId;
                 var largeCalldata = new byte[1024 * 140];
                 var function = "consumeLargeCalldata";
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // This should fail with TRANSACTION_OVERSIZE when the entire ethereum data exceeds limits
                 AssertThatThrownBy(() =>
                 {
-                    new EthereumFlow().SetEthereumData(ethereumData).SetMaxGasAllowance(Hbar.From(10)).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new EthereumFlow().SetEthereumData(ethereumData).SetMaxGasAllowance(Hbar.From(10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).HasMessageContaining("TRANSACTION_OVERSIZE");
             }
         }

@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -19,14 +16,72 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var accountKey = PrivateKey.GenerateED25519();
                 var testTokenAmount = 10;
-                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(accountKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                var tokenId = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetInitialSupply(1000000).SetDecimals(3).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetPauseKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId;
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds(Collections.SingletonList(tokenId)).FreezeWith(testEnv.client).Sign(accountKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenUnpauseTransaction().SetTokenId(tokenId).FreezeWith(testEnv.client).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TransferTransaction().AddTokenTransfer(tokenId, accountId, testTokenAmount).AddTokenTransfer(tokenId, testEnv.operatorId, -testTokenAmount).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenWipeTransaction().SetTokenId(tokenId).SetAccountId(accountId).SetAmount(testTokenAmount).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new TokenDeleteTransaction().SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new AccountDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetAccountId(accountId).FreezeWith(testEnv.client).Sign(accountKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var accountId = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = accountKey,
+					InitialBalance = new Hbar(2),
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    InitialSupply = 1000000,
+                    Decimals = 3,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    PauseKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    FreezeDefault = false
+                
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId],
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(accountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new TokenUnpauseTransaction
+                {
+					TokenId = tokenId
+				}
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddTokenTransfer(tokenId, accountId, testTokenAmount)
+                    .AddTokenTransfer(tokenId, testEnv.OperatorId, -testTokenAmount)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                new TokenWipeTransaction
+                {
+					TokenId = tokenId,
+					AccountId = accountId,
+					Amount = testTokenAmount,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new TokenDeleteTransaction
+                {
+					TokenId = tokenId
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new AccountDeleteTransaction
+                {
+					TransferAccountId = testEnv.OperatorId,
+					AccountId = accountId,
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(accountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -36,7 +91,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 AssertThrows(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenUnpauseTransaction().Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenUnpauseTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 });
             }
         }

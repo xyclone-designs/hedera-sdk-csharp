@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.HBar;
+using Google.Protobuf.WellKnownTypes;
+using Org.BouncyCastle.Utilities.Encoders;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
@@ -32,12 +32,21 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction(Collections.SingletonList(AccountId.FromString("0.0.5005"))).ToString()).ToMatchSnapshot();
+            SnapshotMatcher.Expect(SpawnTestTransaction([AccountId.FromString("0.0.5005")]).ToString()).ToMatchSnapshot();
         }
 
         private FileAppendTransaction SpawnTestTransaction(IList<AccountId> accountIds)
         {
-            return new FileAppendTransaction().SetNodeAccountIds(accountIds).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetFileId(FileId.FromString("0.0.6006")).SetContents(new byte[] { 1, 2, 3, 4 }).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
+            return new FileAppendTransaction()
+            {
+				NodeAccountIds = [.. accountIds],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				FileId = FileId.FromString("0.0.6006"),
+				Contents =  ByteString.CopyFrom(new byte[] { 1, 2, 3, 4 }),
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -57,10 +66,19 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
         private FileAppendTransaction SpawnTestTransactionBigContents(List<AccountId> nodeAccountIds)
         {
-            return new FileAppendTransaction().SetNodeAccountIds(nodeAccountIds).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetFileId(FileId.FromString("0.0.6006")).SetContents(BIG_CONTENTS).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
+            return new FileAppendTransaction()
+            {
+				NodeAccountIds = nodeAccountIds,
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				FileId = FileId.FromString("0.0.6006"),
+				Contents = ByteString.CopyFromUtf8(BIG_CONTENTS),
+				MaxTransactionFee = Hbar.FromTinybars(100000)
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
-        public virtual string HashesToString(List<Map<AccountId, byte[]>> hashes)
+        public virtual string HashesToString(List<Dictionary<AccountId, byte[]>> hashes)
         {
             var outString = new StringBuilder();
             outString.Append("[");
@@ -86,16 +104,16 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             SnapshotMatcher.Expect(HashesToString(SpawnTestTransactionBigContents(nodeAccountIds).GetAllTransactionHashesPerNode())).ToMatchSnapshot();
         }
 
-        public virtual string SignaturesToString(Map<AccountId, Map<PublicKey, byte[]>> signatures)
+        public virtual string SignaturesToString(Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures)
         {
             var outString = new StringBuilder();
             outString.Append("{");
-            foreach (var nodeEntry in signatures.EntrySet())
+            foreach (var nodeEntry in signatures)
             {
-                outString.Append(nodeEntry.GetKey()).Append("={");
-                foreach (var sigEntry in nodeEntry.GetValue().EntrySet())
+                outString.Append(nodeEntry.Key).Append("={");
+                foreach (var sigEntry in nodeEntry.Value)
                 {
-                    outString.Append(sigEntry.GetKey()).Append("=").Append(Hex.ToHexString(sigEntry.GetValue())).Append(", ");
+                    outString.Append(sigEntry.Key).Append("=").Append(Hex.ToHexString(sigEntry.Value)).Append(", ");
                 }
 
                 outString.Append("}, ");
@@ -104,7 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             return outString + "}";
         }
 
-        public virtual string AllSignaturesToString(List<Map<AccountId, Map<PublicKey, byte[]>>> allSignatures)
+        public virtual string AllSignaturesToString(List<Dictionary<AccountId, Dictionary<PublicKey, byte[]>>> allSignatures)
         {
             var outString = new StringBuilder();
             outString.Append("[");
@@ -134,21 +152,24 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             SnapshotMatcher.Expect(AllSignaturesToString(signatures)).ToMatchSnapshot();
         }
 
-        public virtual void ShouldBytes()
+        public virtual async void ShouldBytes()
         {
             var nodeAccountIds = new List<AccountId>();
             nodeAccountIds.Add(AccountId.FromString("0.0.444"));
             nodeAccountIds.Add(AccountId.FromString("0.0.555"));
             var tx = SpawnTestTransactionBigContents(nodeAccountIds);
-            var tx2 = FileAppendTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
-            Assert.Throws(typeof(InvalidOperationException), () => tx2.GetTransactionHash());
-            Assert.Throws(typeof(InvalidOperationException), () => tx2.GetTransactionHashPerNode());
+            await Assert.ThrowsAsync<InvalidOperationException>(() => tx2.GetTransactionHash());
+            await Assert.ThrowsAsync<InvalidOperationException>(() => tx2.GetTransactionHashPerNode());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetFileAppend(FileAppendTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				FileAppend = new Proto.FileAppendTransactionBody()
+			};
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<FileAppendTransaction>(tx);
         }

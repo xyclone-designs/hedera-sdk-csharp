@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The custom fees to be assessed during a CryptoTransfer that transfers units of this token
         /// </summary>
-        public readonly IList<CustomFee> CustomFees;
+        public readonly List<CustomFee> CustomFees;
         /// <summary>
         /// The token type
         /// </summary>
@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Token
         public readonly TokenSupplyType SupplyType;
         /// <summary>
         /// For tokens of type FUNGIBLE_COMMON - The Maximum number of fungible tokens that can be in
-        /// circulation. For tokens of type NON_FUNGIBLE_UNIQUE - the maximum number of NFTs (serial
+        /// circulation. For tokens of type NonFungibleUnique - the maximum number of NFTs (serial
         /// numbers) that can be in circulation
         /// </summary>
         public readonly long MaxSupply;

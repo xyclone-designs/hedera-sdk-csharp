@@ -13,7 +13,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
     public class TokenTypeTest
     {
         private readonly TokenType tokenTypeFungible = TokenType.FUNGIBLE_COMMON;
-        private readonly TokenType tokenTypeNonFungible = TokenType.NON_FUNGIBLE_UNIQUE;
+        private readonly TokenType tokenTypeNonFungible = TokenType.NonFungibleUnique;
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());

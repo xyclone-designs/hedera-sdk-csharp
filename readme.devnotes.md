@@ -7,6 +7,7 @@ General Notes
 - A lot of deprecated fields (mostly to do with Tokens) in classes from protobuf generation are still in use.
 - Object and value cloning is iffy.
 - Date.Now vs DateTime.Utc.Now and all other similar variations (EPOCH, Offsets etc).
+- HookStoreTransaction and related classes are not present, deleted? (no idea)
 
 File checklist shows which files have been ported, checked and cleaned, ready for unit tests
 
@@ -232,4 +233,7 @@ File checklist shows which files have been ported, checked and cleaned, ready fo
 - [x] [TransferTransaction.java](https://github.com/hiero-ledger/hiero-sdk-java/tree/main/sdk/src/main/java/com/hedera/hashgraph/sdk/TransferTransaction.java) -> [TransferTransaction.cs](src/Hedera.Hashgraph/SDK/TransferTransaction.cs), [TransferTransaction.HbarTransfer.cs](src/Hedera.Hashgraph/SDK/TransferTransaction.HbarTransfer.cs)
 
 ## Tests
+
+- Many methods which test only field nullability have been removed as nullability is built in code (Java get() & set() methods for fields => c# get; and set;)
+
 ## Test.Integration

@@ -191,7 +191,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             }
         } = true;
 
-		private IList<Node> GetNodesForKey(AccountId key)
+		private List<Node> GetNodesForKey(AccountId key)
 		{
 			if (Network.ContainsKey(key))
 			{
@@ -247,7 +247,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// This is used by Query and Transaction for selecting node AccountId's.
 		/// </summary>
 		/// <returns>{@link java.util.List<AccountId>}</returns>
-		public virtual IList<AccountId> GetNodeAccountIdsForExecute()
+		public virtual List<AccountId> GetNodeAccountIdsForExecute()
 		{
 			lock (this)
 			{

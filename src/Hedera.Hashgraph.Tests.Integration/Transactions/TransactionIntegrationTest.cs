@@ -20,18 +20,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(key).FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(key).FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 var expectedHash = transaction.GetTransactionHashPerNode();
-                var response = transaction.Execute(testEnv.client);
-                var record = response.GetRecord(testEnv.client);
+                var response = transaction.Execute(testEnv.Client);
+                var record = response.GetRecord(testEnv.Client);
                 AssertThat(expectedHash[response.nodeId]).ContainsExactly(record.transactionHash.ToByteArray());
                 var accountId = record.receipt.accountId;
-                AssertThat(accountId).IsNotNull();
+                Assert.NotNull(accountId);
                 var transactionId = transaction.GetTransactionId();
-                AssertThat(transactionId.GetReceipt(testEnv.client)).IsNotNull();
-                AssertThat(transactionId.GetReceiptAsync(testEnv.client).Get()).IsNotNull();
-                AssertThat(transactionId.GetRecord(testEnv.client)).IsNotNull();
-                AssertThat(transactionId.GetRecordAsync(testEnv.client).Get()).IsNotNull();
+                Assert.NotNull(transactionId.GetReceipt(testEnv.Client));
+                Assert.NotNull(transactionId.GetReceiptAsync(testEnv.Client).Get());
+                Assert.NotNull(transactionId.GetRecord(testEnv.Client));
+                Assert.NotNull(transactionId.GetRecordAsync(testEnv.Client).Get());
             }
         }
 
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var nodeAccountIds = testEnv.client.GetNetwork().Values().Stream().ToList();
+                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
                 var accountCreateTransaction = new AccountCreateTransaction().SetNodeAccountIds(nodeAccountIds).SetKeyWithoutAlias(publicKey).SetInitialBalance(new Hbar(1));
                 var expectedNodeAccountIds = accountCreateTransaction.GetNodeAccountIds();
                 var expectedBalance = new Hbar(1);
@@ -79,8 +79,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var accountCreateTransaction = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey).SetInitialBalance(new Hbar(1));
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.client).GetReceipt(testEnv.client);
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.client.GetOperatorAccountId()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client);
+                var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -90,12 +90,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var nodeAccountIds = testEnv.client.GetNetwork().Values().Stream().ToList();
+                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
                 var accountCreateTransaction = new AccountCreateTransaction().SetNodeAccountIds(nodeAccountIds).SetKeyWithoutAlias(publicKey).SetInitialBalance(new Hbar(1));
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.client).GetReceipt(testEnv.client);
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.client.GetOperatorAccountId()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client);
+                var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -107,12 +107,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var publicKey = adminKey.GetPublicKey();
                 var accountCreateTransaction = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey);
                 var expectedBalance = new Hbar(1);
-                var nodeAccountIds = testEnv.client.GetNetwork().Values().Stream().ToList();
+                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var txReceipt = accountCreateTransactionDeserialized.SetInitialBalance(new Hbar(1)).SetNodeAccountIds(nodeAccountIds).SetTransactionId(TransactionId.Generate(testEnv.client.GetOperatorAccountId())).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var txReceipt = accountCreateTransactionDeserialized.SetInitialBalance(new Hbar(1)).SetNodeAccountIds(nodeAccountIds).SetTransactionId(TransactionId.Generate(testEnv.Client.GetOperatorAccountId())).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.GetInitialBalance());
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.client.GetOperatorAccountId()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client);
+                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -122,14 +122,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var nodeAccountIds = testEnv.client.GetNetwork().Values().Stream().ToList();
+                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
                 var accountCreateTransaction = new AccountCreateTransaction().SetNodeAccountIds(nodeAccountIds).SetKeyWithoutAlias(publicKey);
                 var expectedBalance = new Hbar(1);
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var txReceipt = accountCreateTransactionDeserialized.SetInitialBalance(new Hbar(1)).SetTransactionId(TransactionId.Generate(testEnv.client.GetOperatorAccountId())).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var txReceipt = accountCreateTransactionDeserialized.SetInitialBalance(new Hbar(1)).SetTransactionId(TransactionId.Generate(testEnv.Client.GetOperatorAccountId())).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.GetInitialBalance());
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.client.GetOperatorAccountId()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client);
+                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -144,15 +144,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var autoRenewPeriod = java.time.Duration.OfSeconds(2592000);
                 var memo = "test account memo";
                 var maxAutomaticTokenAssociations = 4;
-                var accountCreateTransaction = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey).SetInitialBalance(initialBalance).SetReceiverSignatureRequired(true).SetAutoRenewPeriod(autoRenewPeriod).SetAccountMemo(memo).SetMaxAutomaticTokenAssociations(maxAutomaticTokenAssociations).SetDeclineStakingReward(true).SetAlias(evmAddress).FreezeWith(testEnv.client).Sign(adminKey);
+                var accountCreateTransaction = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey).SetInitialBalance(initialBalance).SetReceiverSignatureRequired(true).SetAutoRenewPeriod(autoRenewPeriod).SetAccountMemo(memo).SetMaxAutomaticTokenAssociations(maxAutomaticTokenAssociations).SetDeclineStakingReward(true).SetAlias(evmAddress).FreezeWith(testEnv.Client).Sign(adminKey);
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var transactionBytesReserialized = accountCreateTransactionDeserialized.ToBytes();
                 Assert.Equal(transactionBytesSerialized, transactionBytesReserialized);
                 AccountCreateTransaction accountCreateTransactionReserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesReserialized);
-                var txResponse = accountCreateTransactionReserialized.Execute(testEnv.client);
-                var accountId = txResponse.GetReceipt(testEnv.client).accountId;
-                new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(testEnv.client.GetOperatorAccountId()).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client);
+                var txResponse = accountCreateTransactionReserialized.Execute(testEnv.Client);
+                var accountId = txResponse.GetReceipt(testEnv.Client).AccountId;
+                new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -161,18 +161,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(key).FreezeWith(testEnv.client).SignWithOperator(testEnv.client);
+                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(key).FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 var expectedHash = transaction.GetTransactionHashPerNode();
-                var response = transaction.Execute(testEnv.client);
-                var record = response.GetRecord(testEnv.client);
+                var response = transaction.Execute(testEnv.Client);
+                var record = response.GetRecord(testEnv.Client);
                 AssertThat(expectedHash[response.nodeId]).ContainsExactly(record.transactionHash.ToByteArray());
                 var accountId = record.receipt.accountId;
-                AssertThat(accountId).IsNotNull();
-                var deleteTransaction = new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(testEnv.operatorId).FreezeWith(testEnv.client);
+                Assert.NotNull(accountId);
+                var deleteTransaction = new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(testEnv.OperatorId).FreezeWith(testEnv.Client);
                 var updateBytes = deleteTransaction.ToBytes();
                 var sig1 = key.SignTransaction(deleteTransaction);
                 var deleteTransaction2 = Transaction.FromBytes(updateBytes);
-                deleteTransaction2.AddSignature(key.GetPublicKey(), sig1).Execute(testEnv.client);
+                deleteTransaction2.AddSignature(key.GetPublicKey(), sig1).Execute(testEnv.Client);
             }
         }
 
@@ -181,17 +181,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var privateKey = PrivateKey.GenerateED25519();
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
                 Thread.Sleep(5000);
-                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.client);
+                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(info.fileId, fileId);
                 Assert.Equal(info.size, 28);
-                AssertThat(info.isDeleted).IsFalse();
-                AssertThat(info.keys).IsNotNull();
-                AssertThat(info.keys.GetThreshold()).IsNull();
-                Assert.Equal(info.keys, KeyList.Of(testEnv.operatorKey));
-                var fileAppendTransaction = new FileAppendTransaction().SetFileId(fileId).SetContents(Contents.BIG_CONTENTS).FreezeWith(testEnv.client).Sign(privateKey);
+                Assert.False(info.isDeleted);
+                Assert.NotNull(info.keys);
+                Assert.Null(info.keys.GetThreshold());
+                Assert.Equal(info.keys, KeyList.Of(testEnv.OperatorKey));
+                var fileAppendTransaction = new FileAppendTransaction().SetFileId(fileId).SetContents(Contents.BIG_CONTENTS).FreezeWith(testEnv.Client).Sign(privateKey);
                 var transactionBytesSerialized = fileAppendTransaction.ToBytes();
                 FileAppendTransaction fileAppendTransactionDeserialized = (FileAppendTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var transactionBytesReserialized = fileAppendTransactionDeserialized.ToBytes();
@@ -203,30 +203,30 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
                 Thread.Sleep(5000);
-                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.client);
+                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(info.fileId, fileId);
                 Assert.Equal(info.size, 28);
-                AssertThat(info.isDeleted).IsFalse();
-                AssertThat(info.keys).IsNotNull();
-                AssertThat(info.keys.GetThreshold()).IsNull();
-                Assert.Equal(info.keys, KeyList.Of(testEnv.operatorKey));
+                Assert.False(info.isDeleted);
+                Assert.NotNull(info.keys);
+                Assert.Null(info.keys.GetThreshold());
+                Assert.Equal(info.keys, KeyList.Of(testEnv.OperatorKey));
                 var fileAppendTransaction = new FileAppendTransaction().SetFileId(fileId).SetContents(Contents.BIG_CONTENTS);
                 var transactionBytesSerialized = fileAppendTransaction.ToBytes();
                 FileAppendTransaction fileAppendTransactionDeserialized = (FileAppendTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                fileAppendTransactionDeserialized.Execute(testEnv.client).GetReceipt(testEnv.client);
-                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.client);
+                fileAppendTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(contents.ToStringUtf8(), "[e2e::FileCreateTransaction]" + Contents.BIG_CONTENTS);
-                info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.client);
+                info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(info.fileId, fileId);
                 Assert.Equal(info.size, 13522);
-                AssertThat(info.isDeleted).IsFalse();
-                AssertThat(info.keys).IsNotNull();
-                AssertThat(info.keys.GetThreshold()).IsNull();
-                Assert.Equal(info.keys, KeyList.Of(testEnv.operatorKey));
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Assert.False(info.isDeleted);
+                Assert.NotNull(info.keys);
+                Assert.Null(info.keys.GetThreshold());
+                Assert.Equal(info.keys, KeyList.Of(testEnv.OperatorKey));
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -234,31 +234,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var nodeAccountIds = testEnv.client.GetNetwork().Values().Stream().ToList();
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
+                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
                 Thread.Sleep(5000);
-                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.client);
+                var info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(info.fileId, fileId);
                 Assert.Equal(info.size, 28);
-                AssertThat(info.isDeleted).IsFalse();
-                AssertThat(info.keys).IsNotNull();
-                AssertThat(info.keys.GetThreshold()).IsNull();
-                Assert.Equal(info.keys, KeyList.Of(testEnv.operatorKey));
+                Assert.False(info.isDeleted);
+                Assert.NotNull(info.keys);
+                Assert.Null(info.keys.GetThreshold());
+                Assert.Equal(info.keys, KeyList.Of(testEnv.OperatorKey));
                 var fileAppendTransaction = new FileAppendTransaction().SetNodeAccountIds(nodeAccountIds).SetFileId(fileId).SetContents(Contents.BIG_CONTENTS);
                 var transactionBytesSerialized = fileAppendTransaction.ToBytes();
                 FileAppendTransaction fileAppendTransactionDeserialized = (FileAppendTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                fileAppendTransactionDeserialized.SetTransactionId(TransactionId.Generate(testEnv.client.GetOperatorAccountId())).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.client);
+                fileAppendTransactionDeserialized.SetTransactionId(TransactionId.Generate(testEnv.Client.GetOperatorAccountId())).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var contents = new FileContentsQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(contents.ToStringUtf8(), "[e2e::FileCreateTransaction]" + Contents.BIG_CONTENTS);
-                info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.client);
+                info = new FileInfoQuery().SetFileId(fileId).Execute(testEnv.Client);
                 Assert.Equal(info.fileId, fileId);
                 Assert.Equal(info.size, 13522);
-                AssertThat(info.isDeleted).IsFalse();
-                AssertThat(info.keys).IsNotNull();
-                AssertThat(info.keys.GetThreshold()).IsNull();
-                Assert.Equal(info.keys, KeyList.Of(testEnv.operatorKey));
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Assert.False(info.isDeleted);
+                Assert.NotNull(info.keys);
+                Assert.Null(info.keys.GetThreshold());
+                Assert.Equal(info.keys, KeyList.Of(testEnv.OperatorKey));
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -267,20 +267,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var privateKey = PrivateKey.GenerateED25519();
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
+                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 0);
-                Assert.Equal(info.adminKey, testEnv.operatorKey);
-                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetTopicId(topicId).SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS).FreezeWith(testEnv.client).Sign(privateKey);
+                Assert.Equal(info.adminKey, testEnv.OperatorKey);
+                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetTopicId(topicId).SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS).FreezeWith(testEnv.Client).Sign(privateKey);
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction fileAppendTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var transactionBytesReserialized = fileAppendTransactionDeserialized.ToBytes();
                 Assert.Equal(transactionBytesSerialized, transactionBytesReserialized);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -288,29 +288,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
+                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 0);
-                Assert.Equal(info.adminKey, testEnv.operatorKey);
+                Assert.Equal(info.adminKey, testEnv.OperatorKey);
                 var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetTopicId(topicId).SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction topicMessageSubmitTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.client);
+                var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.Client);
                 foreach (var resp in responses)
                 {
-                    resp.GetReceipt(testEnv.client);
+                    resp.GetReceipt(testEnv.Client);
                 }
 
-                info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
+                info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 14);
-                Assert.Equal(info.adminKey, testEnv.operatorKey);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Assert.Equal(info.adminKey, testEnv.OperatorKey);
+                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -318,30 +318,30 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var nodeAccountIds = testEnv.client.GetNetwork().Values().Stream().ToList();
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
+                var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
+                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 0);
-                Assert.Equal(info.adminKey, testEnv.operatorKey);
+                Assert.Equal(info.adminKey, testEnv.OperatorKey);
                 var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetNodeAccountIds(nodeAccountIds).SetTopicId(topicId).SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction topicMessageSubmitTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.client);
+                var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.Client);
                 foreach (var resp in responses)
                 {
-                    resp.GetReceipt(testEnv.client);
+                    resp.GetReceipt(testEnv.Client);
                 }
 
-                info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
+                info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 14);
-                Assert.Equal(info.adminKey, testEnv.operatorKey);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Assert.Equal(info.adminKey, testEnv.OperatorKey);
+                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -380,7 +380,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     Assert.Equal(tx.GetHbarTransfers()[new AccountId(0, 0, 542348)].ToTinybars(), -10);
                     Assert.Equal(tx.GetHbarTransfers()[new AccountId(0, 0, 47439)].ToTinybars(), 10);
-                    AssertThat(tx.GetNodeAccountIds()).IsNotNull();
+                    Assert.NotNull(tx.GetNodeAccountIds());
                     Assert.Equal(tx.GetNodeAccountIds().Count, 1);
                     Assert.Equal(tx.GetNodeAccountIds()[0], new AccountId(0, 0, 3));
                     var signatures = tx.GetSignatures();
@@ -389,8 +389,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey3]), Arrays.ToString(signature3));
                     Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey4]), Arrays.ToString(signature4));
                     Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey5]), Arrays.ToString(signature5));
-                    var resp = tx.Execute(testEnv.client);
-                    resp.GetReceipt(testEnv.client);
+                    var resp = tx.Execute(testEnv.Client);
+                    resp.GetReceipt(testEnv.Client);
                 }
             });
         }
@@ -404,13 +404,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newKey = PrivateKey.GenerateED25519();
 
                 // Step 2: Create account with the new key
-                var createResponse = new AccountCreateTransaction().SetKeyWithoutAlias(newKey.GetPublicKey()).SetNodeAccountIds(testEnv.client.GetNetwork().Values().Stream().ToList()).Execute(testEnv.client);
-                var createReceipt = createResponse.GetReceipt(testEnv.client);
-                var accountId = Objects.RequireNonNull(createReceipt.accountId);
+                var createResponse = new AccountCreateTransaction().SetKeyWithoutAlias(newKey.GetPublicKey()).SetNodeAccountIds(testEnv.Client.Network.Values().Stream().ToList()).Execute(testEnv.Client);
+                var createReceipt = createResponse.GetReceipt(testEnv.Client);
+                var accountId = createReceipt.accountId);
                 var nodeId = createResponse.nodeId;
 
                 // Step 3: Create account delete transaction and freeze it
-                var deleteTransaction = new AccountDeleteTransaction().SetNodeAccountIds(Arrays.AsList(nodeId)).SetAccountId(accountId).SetTransferAccountId(testEnv.client.GetOperatorAccountId()).FreezeWith(testEnv.client);
+                var deleteTransaction = new AccountDeleteTransaction().SetNodeAccountIds(Arrays.AsList(nodeId)).SetAccountId(accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client);
 
                 // Step 4: Get signable body bytes list
                 var signableBodyList = deleteTransaction.GetSignableNodeBodyBytesList();
@@ -423,9 +423,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     deleteTransaction = deleteTransaction.AddSignature(newKey.GetPublicKey(), signature, signableBody.GetTransactionID(), signableBody.GetNodeID());
                 }
 
-                var deleteResponse = deleteTransaction.Execute(testEnv.client);
-                var deleteReceipt = deleteResponse.GetReceipt(testEnv.client);
-                Assert.Equal(deleteReceipt.status, Status.SUCCESS);
+                var deleteResponse = deleteTransaction.Execute(testEnv.Client);
+                var deleteReceipt = deleteResponse.GetReceipt(testEnv.Client);
+                Assert.Equal(deleteReceipt.status, ResponseStatus.Success);
             }
         }
     }

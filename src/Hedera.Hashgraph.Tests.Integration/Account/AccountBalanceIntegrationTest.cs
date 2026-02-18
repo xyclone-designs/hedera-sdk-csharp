@@ -17,9 +17,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             var client = Client.ForPreviewnet().SetTransportSecurity(true);
             bool succeededAtLeastOnce = false;
-            foreach (var entry in client.GetNetwork().EntrySet())
+            foreach (var entry in client.Network.EntrySet())
             {
-                AssertThat(entry.GetKey().EndsWith(":50212")).IsTrue();
+                Assert.True(entry.GetKey().EndsWith(":50212"));
                 try
                 {
                     new AccountBalanceQuery().SetMaxAttempts(1).SetNodeAccountIds(Collections.SingletonList(entry.GetValue())).SetAccountId(entry.GetValue()).Execute(client);
@@ -33,16 +33,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
 
             client.Dispose();
-            AssertThat(succeededAtLeastOnce).IsTrue();
+            Assert.True(succeededAtLeastOnce);
         }
 
         public virtual void CanConnectToTestnetWithTLS()
         {
             var client = Client.ForTestnet().SetTransportSecurity(true);
             bool succeededAtLeastOnce = false;
-            foreach (var entry in client.GetNetwork().EntrySet())
+            foreach (var entry in client.Network.EntrySet())
             {
-                AssertThat(entry.GetKey().EndsWith(":50212")).IsTrue();
+                Assert.True(entry.GetKey().EndsWith(":50212"));
                 try
                 {
                     new AccountBalanceQuery().SetMaxAttempts(1).SetNodeAccountIds(Collections.SingletonList(entry.GetValue())).SetAccountId(entry.GetValue()).Execute(client);
@@ -56,16 +56,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
 
             client.Dispose();
-            AssertThat(succeededAtLeastOnce).IsTrue();
+            Assert.True(succeededAtLeastOnce);
         }
 
         public virtual void CanConnectToMainnetWithTLS()
         {
             var client = Client.ForMainnet().SetTransportSecurity(true);
             bool succeededAtLeastOnce = false;
-            foreach (var entry in client.GetNetwork().EntrySet())
+            foreach (var entry in client.Network.EntrySet())
             {
-                AssertThat(entry.GetKey().EndsWith(":50212")).IsTrue();
+                Assert.True(entry.GetKey().EndsWith(":50212"));
                 try
                 {
                     new AccountBalanceQuery().SetMaxAttempts(1).SetNodeAccountIds(Collections.SingletonList(entry.GetValue())).SetAccountId(entry.GetValue()).Execute(client);
@@ -80,16 +80,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
 
             client.Dispose();
-            AssertThat(succeededAtLeastOnce).IsTrue();
+            Assert.True(succeededAtLeastOnce);
         }
 
         public virtual void CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled()
         {
             var client = Client.ForPreviewnet().SetTransportSecurity(true).SetVerifyCertificates(true).SetNetworkName(null);
-            AssertThat(client.GetNetwork().IsEmpty()).IsFalse();
-            foreach (var entry in client.GetNetwork().EntrySet())
+            Assert.False(client.Network.IsEmpty());
+            foreach (var entry in client.Network.EntrySet())
             {
-                AssertThat(entry.GetKey().EndsWith(":50212")).IsTrue();
+                Assert.True(entry.GetKey().EndsWith(":50212"));
                 Assert.Throws(typeof(InvalidOperationException), () =>
                 {
                     new AccountBalanceQuery().SetNodeAccountIds(Collections.SingletonList(entry.GetValue())).SetAccountId(entry.GetValue()).Execute(client);
@@ -103,8 +103,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
             {
-                var balance = new AccountBalanceQuery().SetAccountId(testEnv.operatorId).Execute(testEnv.client);
-                AssertThat(balance.hbars.ToTinybars() > 0).IsTrue();
+                var balance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
+                Assert.True(balance.hbars.ToTinybars() > 0);
             }
         }
 
@@ -112,10 +112,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
             {
-                var balance = new AccountBalanceQuery().SetAccountId(testEnv.operatorId).SetMaxQueryPayment(new Hbar(1));
-                var cost = balance.GetCost(testEnv.client);
-                var accBalance = balance.SetQueryPayment(cost).Execute(testEnv.client);
-                AssertThat(accBalance.hbars.ToTinybars() > 0).IsTrue();
+                var balance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).SetMaxQueryPayment(new Hbar(1));
+                var cost = balance.GetCost(testEnv.Client);
+                var accBalance = balance.SetQueryPayment(cost).Execute(testEnv.Client);
+                Assert.True(accBalance.hbars.ToTinybars() > 0);
                 Assert.Equal(cost.ToTinybars(), 0);
             }
         }
@@ -124,10 +124,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
             {
-                var balance = new AccountBalanceQuery().SetAccountId(testEnv.operatorId).SetMaxQueryPayment(new Hbar(1000000));
-                var cost = balance.GetCost(testEnv.client);
-                var accBalance = balance.SetQueryPayment(cost).Execute(testEnv.client);
-                AssertThat(accBalance.hbars.ToTinybars() > 0).IsTrue();
+                var balance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).SetMaxQueryPayment(new Hbar(1000000));
+                var cost = balance.GetCost(testEnv.Client);
+                var accBalance = balance.SetQueryPayment(cost).Execute(testEnv.Client);
+                Assert.True(accBalance.hbars.ToTinybars() > 0);
             }
         }
 
@@ -135,10 +135,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
             {
-                var balance = new AccountBalanceQuery().SetAccountId(testEnv.operatorId).SetMaxQueryPayment(Hbar.FromTinybars(1));
-                var cost = balance.GetCost(testEnv.client);
-                var accBalance = balance.SetQueryPayment(cost).Execute(testEnv.client);
-                AssertThat(accBalance.hbars.ToTinybars() > 0).IsTrue();
+                var balance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).SetMaxQueryPayment(Hbar.FromTinybars(1));
+                var cost = balance.GetCost(testEnv.Client);
+                var accBalance = balance.SetQueryPayment(cost).Execute(testEnv.Client);
+                Assert.True(accBalance.hbars.ToTinybars() > 0);
             }
         }
 
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new AccountBalanceQuery().SetAccountId(AccountId.FromString("1.0.3")).Execute(testEnv.client);
+                    new AccountBalanceQuery().SetAccountId(AccountId.FromString("1.0.3")).Execute(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_ACCOUNT_ID.ToString());
             }
         }
@@ -157,14 +157,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetInitialSupply(10000).SetDecimals(50).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
+                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetInitialSupply(10000).SetDecimals(50)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
                 var query = new AccountBalanceQuery();
-                var balance = query.SetAccountId(testEnv.operatorId).Execute(testEnv.client);
+                var balance = query.SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
                 Assert.Equal(balance.tokens[tokenId], 10000);
                 Assert.Equal(balance.tokenDecimals[tokenId], 50);
                 Assert.NotEmpty(query.ToString());
-                AssertThat(query.GetPaymentTransactionId()).IsNull();
+                Assert.Null(query.GetPaymentTransactionId());
             }
         }
     }

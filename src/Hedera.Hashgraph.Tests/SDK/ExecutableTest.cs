@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Networking;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -233,8 +235,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             tx.blockingUnaryCall = (grpcRequest) => txResp;
             com.hedera.hashgraph.sdk.TransactionResponse resp = (com.hedera.hashgraph.sdk.TransactionResponse)tx.Execute(client);
             Assert.Equal(resp.nodeId, new AccountId(0, 0, 3));
-            AssertThat(resp.GetValidateStatus()).IsTrue();
-            AssertThat(resp.ToString()).IsNotNull();
+            Assert.True(resp.GetValidateStatus());
+            Assert.NotNull(resp.ToString());
         }
 
         private sealed class AnonymousDummyTransaction : DummyTransaction

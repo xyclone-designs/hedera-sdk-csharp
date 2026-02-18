@@ -1,14 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -19,16 +17,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.client);
-                var accountId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).accountId);
-                var info = new AccountInfoQuery().SetAccountId(accountId).Execute(testEnv.client);
-                Assert.Equal(info.accountId, accountId);
-                AssertThat(info.isDeleted).IsFalse();
-                Assert.Equal(info.key.ToString(), key.GetPublicKey().ToString());
-                Assert.Equal(info.balance, new Hbar(1));
-                Assert.Equal(info.autoRenewPeriod, Duration.OfDays(90));
-                AssertThat(info.proxyAccountId).IsNull();
-                Assert.Equal(info.proxyReceived, Hbar.ZERO);
+                var response = new AccountCreateTransaction
+                {
+					InitialBalance = new Hbar(1)
+				}
+                .SetKeyWithoutAlias(key)
+                .Execute(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                var info = new AccountInfoQuery
+                {
+					AccountId = accountId
+
+				}.Execute(testEnv.Client);
+
+                Assert.Equal(info.AccountId, accountId);
+                Assert.False(info.IsDeleted);
+                Assert.Equal(info.Key.ToString(), key.GetPublicKey().ToString());
+                Assert.Equal(info.Balance, new Hbar(1));
+                Assert.Equal(info.AutoRenewPeriod, Duration.FromTimeSpan(TimeSpan.FromDays(90)));
+                Assert.Null(info.ProxyAccountId);
+                Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
 
@@ -36,9 +44,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new AccountDeleteTransaction().SetTransferAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new AccountDeleteTransaction
+                    {
+						TransferAccountId = testEnv.OperatorId
+
+					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.ACCOUNT_ID_DOES_NOT_EXIST.ToString());
             }
         }
@@ -48,11 +61,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.client);
-                var accountId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).accountId);
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                var response = new AccountCreateTransaction
                 {
-                    new AccountDeleteTransaction().SetAccountId(accountId).SetTransferAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client);
+					InitialBalance = new Hbar(1)
+
+				}.SetKeyWithoutAlias(key).Execute(testEnv.Client);
+
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                
+                Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new AccountDeleteTransaction
+                    {
+						AccountId = accountId,
+						TransferAccountId = testEnv.OperatorId,
+					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }

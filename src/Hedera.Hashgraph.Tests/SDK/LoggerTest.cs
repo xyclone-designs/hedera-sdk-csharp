@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Logger
+namespace Hedera.Hashgraph.Tests.SDK.Logger
 {
     class LoggerTest
     {

@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly PrivateKey mockPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
-        private static readonly IList<AccountId> testNodeAccountIds = Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"));
+        private static readonly List<AccountId> testNodeAccountIds = Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"));
         private static readonly AccountId testAccountId = AccountId.FromString("0.0.5006");
         private static readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         private static readonly TransactionId testTransactionID = TransactionId.WithValidStart(testAccountId, Timestamp.FromDateTimeOffset(validStart));
@@ -21,12 +21,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         private FileId fileID;
         private AccountId nodeAccountID1;
         private AccountId nodeAccountID2;
-        private IList<AccountId> nodeAccountIDs;
+        private List<AccountId> nodeAccountIDs;
         private byte[] mockSignature;
         public virtual void SetUp()
         {
             client = Client.ForTestnet();
-            client.SetOperator(testAccountId, mockPrivateKey);
+            client.OperatorSet(testAccountId, mockPrivateKey);
             fileID = new FileId(3);
             nodeAccountID1 = AccountId.FromString("0.0.3");
             nodeAccountID2 = AccountId.FromString("0.0.4");
@@ -127,7 +127,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Arrays.Fill(content, (byte)'a');
             var fileAppentTx = new FileAppendTransaction().SetFileId(new FileId(1)).SetChunkSize(chunkSize).SetContents(content).SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).Freeze();
             var objects = fileAppentTx.BodySizeAllChunks();
-            AssertThat(objects).IsNotNull();
+            Assert.NotNull(objects);
             Assert.Equal(2, tx.GetHbarTransfers().Count);
         }
 
@@ -139,7 +139,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Arrays.Fill(smallContent, (byte)'a');
             var fileAppendTx = new FileAppendTransaction().SetFileId(new FileId(1)).SetContents(smallContent).SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).Freeze();
             var bodySizes = fileAppendTx.BodySizeAllChunks();
-            AssertThat(bodySizes).IsNotNull();
+            Assert.NotNull(bodySizes);
             Assert.Single(bodySizes);
         }
 
@@ -147,7 +147,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var fileAppendTx = new FileAppendTransaction().SetFileId(new FileId(1)).SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetContents(" ").SetNodeAccountIds(testNodeAccountIds).Freeze();
             var bodySizes = fileAppendTx.BodySizeAllChunks();
-            AssertThat(bodySizes).IsNotNull();
+            Assert.NotNull(bodySizes);
             Assert.Single(bodySizes); // Contains one empty chunk
         }
 
@@ -224,7 +224,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Assert.Single(nodeSigs);
                 foreach (Map.Entry<PublicKey, byte[]> entry in nodeSigs.EntrySet())
                 {
-                    AssertThat(entry.GetKey()).IsNotNull();
+                    Assert.NotNull(entry.GetKey());
                     Assert.Equal(entry.GetKey().ToString(), mockPrivateKey.GetPublicKey().ToString());
                     Assert.Equal(entry.GetValue(), mockSignature);
                 }
@@ -311,7 +311,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var tx = new TransferTransaction().SetNodeAccountIds(Arrays.AsList(nodeAccountID1)).SetTransactionId(testTransactionID).AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1)).FreezeWith(client);
             List<Transaction.SignableNodeTransactionBodyBytes> list = tx.GetSignableNodeBodyBytesList();
             TransactionBody body = TransactionBody.ParseFrom(list[0].GetBody());
-            AssertThat(body.GetCryptoTransfer()).IsNotNull();
+            Assert.NotNull(body.GetCryptoTransfer());
             Assert.Equal(AccountId.FromProtobuf(body.GetNodeAccountID()).ToString(), nodeAccountID1.ToString());
             Assert.Equal(TransactionId.FromProtobuf(body.GetTransactionID()).ToString(), testTransactionID.ToString());
         }
@@ -330,7 +330,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
                 // Verify body contents
                 TransactionBody body = TransactionBody.ParseFrom(list[i].GetBody());
-                AssertThat(body.GetCryptoTransfer()).IsNotNull();
+                Assert.NotNull(body.GetCryptoTransfer());
                 Assert.Equal(AccountId.FromProtobuf(body.GetNodeAccountID()).ToString(), nodeID.ToString());
             }
         }
@@ -356,17 +356,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             for (int i = 0; i < list.Count; i++)
             {
-                AssertThat(nodeAccountIDs).Contains(list[i].GetNodeID());
-                AssertThat(list[i].GetTransactionID()).IsNotNull();
+                Assert.Contains(nodeAccountIDs, list[i].GetNodeID());
+                Assert.NotNull(list[i].GetTransactionID());
                 Assert.NotEmpty(list[i].GetBody());
                 string nodeIDStr = list[i].GetNodeID().ToString();
                 string txIDStr = list[i].GetTransactionID().ToString();
 
                 // Each transaction ID should appear exactly once per node
-                AssertThat(txIDsByNode[nodeIDStr].ContainsKey(txIDStr)).As("Duplicate transaction ID found for the same node").IsFalse();
+                Assert.False(txIDsByNode[nodeIDStr].ContainsKey(txIDStr)).As("Duplicate transaction ID found for the same node");
                 txIDsByNode[nodeIDStr].Put(txIDStr, true);
                 TransactionBody body = TransactionBody.ParseFrom(list[i].GetBody());
-                AssertThat(body.GetFileAppend()).IsNotNull();
+                Assert.NotNull(body.GetFileAppend());
                 Assert.Equal(AccountId.FromProtobuf(body.GetNodeAccountID()).ToString(), list[i].GetNodeID().ToString());
             }
 
@@ -385,7 +385,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Dictionary<string, bool> nodeTxIDs = txIDsByNode[nodeAccountIDs[i].ToString()];
                 foreach (string txID in firstNodeTxIDs.KeySet())
                 {
-                    AssertThat(nodeTxIDs.ContainsKey(txID)).As("All nodes should have the same set of transaction IDs").IsTrue();
+                    Assert.True(nodeTxIDs.ContainsKey(txID)).As("All nodes should have the same set of transaction IDs");
                 }
             }
         }

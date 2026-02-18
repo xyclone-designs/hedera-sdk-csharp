@@ -49,8 +49,8 @@ namespace Hedera.Hashgraph.SDK.Topic
             InitFromTransactionBody();
         }
 
-		private IList<Key>? _FeeExemptKeys = null;
-		private IList<CustomFixedFee>? _CustomFees = null;
+		private List<Key>? _FeeExemptKeys = null;
+		private List<CustomFixedFee>? _CustomFees = null;
 
 		/// <summary>
 		/// The topic ID specifying the topic to update.

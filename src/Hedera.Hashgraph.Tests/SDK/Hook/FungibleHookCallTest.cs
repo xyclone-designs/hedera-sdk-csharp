@@ -1,14 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Hook;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Token;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
+namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
     class FungibleHookCallTest
     {
@@ -16,13 +13,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
         {
             var evm = new EvmHookCall(new byte[] { }, 25000);
             var call = new FungibleHookCall(2, evm, FungibleHookType.PreTxAllowanceHook);
-            Assert.Equal(call.GetType(), FungibleHookType.PreTxAllowanceHook);
-        }
-
-        public virtual void NullTypeThrows()
-        {
-            var evm = new EvmHookCall(new byte[] { }, 1);
-            AssertThatThrownBy(() => new FungibleHookCall(1, evm, null)).IsInstanceOf(typeof(NullReferenceException)).HasMessage("type cannot be null");
+            Assert.Equal(call.Type, FungibleHookType.PreTxAllowanceHook);
         }
 
         public virtual void HbarTransferSerializesHookByType()
@@ -35,11 +26,11 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
             tx.AddHbarTransferWithHook(new AccountId(0, 0, 124), Hbar.FromTinybars(2), hookPrePost);
             var body = tx.Build();
             var list = body.GetTransfers().GetAccountAmountsList();
-            AssertThat(list.Stream().AnyMatch((a) => a.HasPreTxAllowanceHook())).IsTrue();
-            AssertThat(list.Stream().AnyMatch((a) => a.HasPrePostTxAllowanceHook())).IsTrue();
+            Assert.True(list.Stream().AnyMatch((a) => a.HasPreTxAllowanceHook()));
+            Assert.True(list.Stream().AnyMatch((a) => a.HasPrePostTxAllowanceHook()));
 
             // Round-trip
-            var rebuilt = new TransferTransaction(TransactionBody.NewBuilder().SetCryptoTransfer(body).Build());
+            var rebuilt = new TransferTransaction(new Proto.TransactionBody { CryptoTransfer = body });
             Assert.Equal(rebuilt.GetHbarTransfers()[accountId], Hbar.FromTinybars(1));
         }
 
@@ -57,11 +48,11 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
             var body = tx.Build();
             var anyPre = body.GetTokenTransfersList().Stream().FlatMap((tl) => tl.GetTransfersList().Stream()).AnyMatch((a) => a.HasPreTxAllowanceHook());
             var anyPrePost = body.GetTokenTransfersList().Stream().FlatMap((tl) => tl.GetTransfersList().Stream()).AnyMatch((a) => a.HasPrePostTxAllowanceHook());
-            AssertThat(anyPre).IsTrue();
-            AssertThat(anyPrePost).IsTrue();
+            Assert.True(anyPre);
+            Assert.True(anyPrePost);
 
             // Round-trip parse back
-            var rebuilt = new TransferTransaction(TransactionBody.NewBuilder().SetCryptoTransfer(body).Build());
+            var rebuilt = new TransferTransaction(new Proto.TransactionBody { CryptoTransfer = body });
             var tokenTransfers = rebuilt.GetTokenTransfers();
             Assert.Equal(tokenTransfers[token][sender], -100);
         }

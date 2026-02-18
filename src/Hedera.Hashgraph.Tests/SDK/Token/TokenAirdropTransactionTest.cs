@@ -69,9 +69,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void CanGetDecimals()
         {
             var tx = new TokenAirdropTransaction();
-            AssertThat(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")]).IsNull();
+            Assert.Null(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")]);
             tx.AddTokenTransfer(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.8"), 100);
-            AssertThat(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")]).IsNull();
+            Assert.Null(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")]);
             tx.AddTokenTransferWithDecimals(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.7"), -100, 5);
             Assert.Equal(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")], 5);
         }

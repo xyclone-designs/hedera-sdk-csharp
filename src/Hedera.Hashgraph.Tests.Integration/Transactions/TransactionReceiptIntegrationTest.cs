@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,10 +11,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                var receipt = transaction.GetReceipt(testEnv.client);
-                var nextExchangeRate = receipt.nextExchangeRate;
-                AssertThat(nextExchangeRate).IsNotNull();
+                var transaction = new AccountCreateTransaction()
+                    .SetKeyWithoutAlias(key)
+                    .Execute(testEnv.Client);
+                var receipt = transaction.GetReceipt(testEnv.Client);
+                var nextExchangeRate = receipt.NextExchangeRate;
+
+                Assert.NotNull(nextExchangeRate);
             }
         }
     }

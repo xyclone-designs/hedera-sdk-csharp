@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Fees
+namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
     public class CustomFractionalFeeTest
     {

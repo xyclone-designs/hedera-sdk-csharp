@@ -21,11 +21,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.client);
-                var accountId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).accountId);
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new LiveHashAddTransaction().SetAccountId(accountId).SetDuration(Duration.OfDays(30)).SetHash(HASH).SetKeys(key).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new LiveHashAddTransaction().SetAccountId(accountId).SetDuration(Duration.OfDays(30)).SetHash(HASH).SetKeys(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
             }
         }

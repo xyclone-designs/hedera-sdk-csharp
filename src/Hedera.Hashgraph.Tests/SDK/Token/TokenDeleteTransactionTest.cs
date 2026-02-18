@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ConstructTokenDeleteTransaction()
         {
             var transaction = new TokenDeleteTransaction();
-            AssertThat(transaction.GetTokenId()).IsNull();
+            Assert.Null(transaction.GetTokenId());
         }
 
         public virtual void ConstructTokenDeleteTransactionFromTransactionBodyProtobuf()

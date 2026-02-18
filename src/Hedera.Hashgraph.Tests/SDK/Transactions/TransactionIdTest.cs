@@ -40,28 +40,28 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325");
             var copyId = TransactionId.FromProtobuf(originalId.ToProtobuf());
-            AssertThat(copyId).HasToString(originalId.ToString());
+            Assert.Equal(copyId.ToString(), originalId.ToString());
         }
 
         public virtual void ShouldToBytes2()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled/2");
             var copyId = TransactionId.FromProtobuf(originalId.ToProtobuf());
-            AssertThat(copyId).HasToString(originalId.ToString());
+            Assert.Equal(copyId.ToString(), originalId.ToString());
         }
 
         public virtual void ShouldFromBytes()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325");
             var copyId = TransactionId.FromBytes(originalId.ToProtobuf().ToByteArray());
-            AssertThat(copyId).HasToString(originalId.ToString());
+            Assert.Equal(copyId.ToString(), originalId.ToString());
         }
 
         public virtual void ShouldParse()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325");
-            var accountId = Objects.RequireNonNull(transactionId.accountId);
-            var validStart = Objects.RequireNonNull(transactionId.validStart);
+            var accountId = transactionId.accountId);
+            var validStart = transactionId.validStart);
             Assert.Equal(accountId.Shard, 0);
             Assert.Equal(accountId.Num, 23847);
             Assert.Equal(validStart.GetEpochSecond(), 1588539964);
@@ -71,27 +71,27 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void ShouldParseScheduled()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled");
-            var accountId = Objects.RequireNonNull(transactionId.accountId);
-            var validStart = Objects.RequireNonNull(transactionId.validStart);
+            var accountId = transactionId.accountId);
+            var validStart = transactionId.validStart);
             Assert.Equal(accountId.Shard, 0);
             Assert.Equal(accountId.Num, 23847);
             Assert.Equal(validStart.GetEpochSecond(), 1588539964);
             Assert.Equal(validStart.GetNano(), 632521325);
-            AssertThat(transactionId.GetScheduled()).IsTrue();
-            AssertThat(transactionId.GetNonce()).IsNull();
+            Assert.True(transactionId.GetScheduled());
+            Assert.Null(transactionId.GetNonce());
             Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325?scheduled");
         }
 
         public virtual void ShouldParseNonce()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325/4");
-            var accountId = Objects.RequireNonNull(transactionId.accountId);
-            var validStart = Objects.RequireNonNull(transactionId.validStart);
+            var accountId = transactionId.accountId);
+            var validStart = transactionId.validStart);
             Assert.Equal(accountId.Shard, 0);
             Assert.Equal(accountId.Num, 23847);
             Assert.Equal(validStart.GetEpochSecond(), 1588539964);
             Assert.Equal(validStart.GetNano(), 632521325);
-            AssertThat(transactionId.GetScheduled()).IsFalse();
+            Assert.False(transactionId.GetScheduled());
             Assert.Equal(transactionId.GetNonce(), 4);
             Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325/4");
         }
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var txIdString = "0.0.4163533@1681876267.054802581";
             var txId = TransactionId.FromString(txIdString);
-            AssertThat(txId).HasToString(txIdString);
+            Assert.Equal(txId.ToString(), txIdString);
         }
 
         public virtual void EqualsHashCodeContractWithNonce()

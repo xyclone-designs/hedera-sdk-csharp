@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.System;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.File;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -19,23 +15,63 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var fileId = Objects.RequireNonNull(new FileCreateTransaction().SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client).GetReceipt(testEnv.client).fileId);
-                var contractId = Objects.RequireNonNull(new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client).GetReceipt(testEnv.client).contractId);
+                var fileId = new FileCreateTransaction
+                {
+					Contents = SMART_CONTRACT_BYTECODE
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).FileId);
+                var contractId = new ContractCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    Gas = 300000,
+                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera."),
+                    BytecodeFileId = fileId,
+                    ContractMemo = "[e2e::ContractCreateTransaction]"
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).ContractId);
+                
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new SystemDeleteTransaction().SetContractId(contractId).SetExpirationTime(DateTimeOffset.UtcNow).Execute(testEnv.client);
+                    new SystemDeleteTransaction
+                    {
+                        ContractId = contractId,
+                        ExpirationTime = DateTimeOffset.UtcNow,
+                    }
+                    .Execute(testEnv.Client);
+
                 }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new SystemDeleteTransaction().SetFileId(fileId).SetExpirationTime(DateTimeOffset.UtcNow).Execute(testEnv.client);
+                    new SystemDeleteTransaction
+                    {
+                        FileId = fileId,
+                        ExpirationTime = DateTimeOffset.UtcNow,
+                    }
+                    .Execute(testEnv.Client);
+
                 }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+                
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new SystemUndeleteTransaction().SetContractId(contractId).Execute(testEnv.client);
+                    new SystemUndeleteTransaction
+                    {
+                        ContractId = contractId,
+                    }
+                    .Execute(testEnv.Client);
+
                 }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+                
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new SystemUndeleteTransaction().SetFileId(fileId).Execute(testEnv.client);
+                    new SystemUndeleteTransaction
+                    {
+                        FileId = fileId,
+                    }
+                    .Execute(testEnv.Client);
+
                 }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
             }
         }

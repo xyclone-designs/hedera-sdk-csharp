@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         private static readonly PrivateKey privateKeyED25519 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly PrivateKey privateKeyECDSA = PrivateKey.FromStringECDSA("7f109a9e3b0d8ecfba9cc23a3614433ce0fa7ddcc80f2a8f10b222179a5a80d6");
         static readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        private static readonly IList<Transaction> INNER_TRANSACTIONS = List.Of(SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate());
+        private static readonly List<Transaction> INNER_TRANSACTIONS = List.Of(SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate());
         private static AccountCreateTransaction SpawnTestTransactionAccountCreate()
         {
             return new AccountCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetKeyWithAlias(privateKeyECDSA).SetKeyWithAlias(privateKeyED25519, privateKeyECDSA).SetKeyWithoutAlias(privateKeyED25519).SetInitialBalance(Hbar.FromTinybars(450)).SetAccountMemo("some memo").SetReceiverSignatureRequired(true).SetAutoRenewPeriod(Duration.OfHours(10)).SetStakedAccountId(AccountId.FromString("0.0.3")).SetAlias("0x5c562e90feaf0eebd33ea75d21024f249d451417").SetMaxAutomaticTokenAssociations(100).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetBatchKey(privateKeyECDSA).Freeze().Sign(privateKeyED25519);
@@ -48,14 +48,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var tx = SpawnTestTransaction();
             var tx2 = BatchTransaction.FromBytes(tx.ToBytes());
-            AssertThat(tx2).HasToString(tx.ToString());
+            Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new BatchTransaction();
             var tx2 = BatchTransaction.FromBytes(tx.ToBytes());
-            AssertThat(tx2).HasToString(tx.ToString());
+            Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void GetInnerTransactionsShouldReturnCorrectTransactions()
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction();
             var newTransaction = SpawnTestTransactionAccountCreate();
             batchTransaction.AddInnerTransaction(newTransaction);
-            AssertThat(batchTransaction.GetInnerTransactions()).IsNotNull().HasSize(1).Contains(newTransaction);
+            Assert.Contains(batchTransaction.GetInnerTransactions()).IsNotNull().HasSize(1, newTransaction);
         }
 
         public virtual void GetInnerTransactionIdsShouldReturnCorrectIds()
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction().SetNodeAccountIds(Collections.SingletonList(AccountId.FromString("0.0.5005"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).AddInnerTransaction(SpawnTestTransactionAccountCreate()).Freeze();
             Assert.Single(batchTransaction.GetInnerTransactions());
             Assert.Single(batchTransaction.GetNodeAccountIds());
-            AssertThat(batchTransaction.GetTransactionId()).IsNotNull();
+            Assert.NotNull(batchTransaction.GetTransactionId());
         }
 
         public virtual void ShouldRejectFreezeTransaction()
@@ -213,7 +213,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction();
             var validTransaction = new AccountCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetBatchKey(privateKeyECDSA).Freeze();
             batchTransaction.AddInnerTransaction(validTransaction);
-            AssertThat(batchTransaction.GetInnerTransactions()).IsNotNull().HasSize(1).Contains(validTransaction);
+            Assert.Contains(batchTransaction.GetInnerTransactions()).IsNotNull().HasSize(1, validTransaction);
         }
 
         public virtual void ShouldValidateTransactionStateInOrder()

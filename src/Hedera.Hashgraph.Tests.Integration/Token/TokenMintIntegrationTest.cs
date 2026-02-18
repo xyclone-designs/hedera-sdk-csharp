@@ -17,8 +17,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var receipt = new TokenMintTransaction().SetAmount(10).SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var receipt = new TokenMintTransaction().SetAmount(10).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.Equal(receipt.totalSupply, 1000000 + 10);
             }
         }
@@ -27,10 +27,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetSupplyType(TokenSupplyType.FINITE).SetMaxSupply(5).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetSupplyType(TokenSupplyType.FINITE).SetMaxSupply(5)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenMintTransaction().SetTokenId(tokenId).SetAmount(6).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenMintTransaction().SetTokenId(tokenId).SetAmount(6).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.TOKEN_MAX_SUPPLY_REACHED.ToString());
             }
         }
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenMintTransaction().SetAmount(10).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenMintTransaction().SetAmount(10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_TOKEN_ID.ToString());
             }
         }
@@ -50,9 +50,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var receipt = new TokenMintTransaction().SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var receipt = new TokenMintTransaction().SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
             }
         }
 
@@ -61,12 +61,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.client);
-                var accountId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).accountId);
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(key).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
+                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,.SetSupplyKey(key)FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenMintTransaction().SetTokenId(tokenId).SetAmount(10).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenMintTransaction().SetTokenId(tokenId).SetAmount(10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }
@@ -75,8 +75,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
-                var receipt = new TokenMintTransaction().SetMetadata(NftMetadataGenerator.Generate((byte)10)).SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var receipt = new TokenMintTransaction().SetMetadata(NftMetadataGenerator.Generate((byte)10)).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.Equal(receipt.serials.Count, 10);
             }
         }
@@ -85,10 +85,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var tokenId = Objects.RequireNonNull(new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client).tokenId);
+                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenMintTransaction().SetMetadata(NftMetadataGenerator.GenerateOneLarge()).SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenMintTransaction().SetMetadata(NftMetadataGenerator.GenerateOneLarge()).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.METADATA_TOO_LONG.ToString());
             }
         }

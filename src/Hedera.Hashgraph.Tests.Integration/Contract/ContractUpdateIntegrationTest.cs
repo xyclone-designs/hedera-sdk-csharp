@@ -18,29 +18,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
-                var info = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.client);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(400000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
+                var info = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.Client);
                 Assert.Equal(info.contractId, contractId);
-                AssertThat(info.accountId).IsNotNull();
-                Assert.Equal(Objects.RequireNonNull(info.accountId).ToString(), contractId.ToString());
-                AssertThat(info.adminKey).IsNotNull();
-                Assert.Equal(Objects.RequireNonNull(info.adminKey).ToString(), Objects.RequireNonNull(testEnv.operatorKey).ToString());
+                Assert.NotNull(info.accountId);
+                Assert.Equal(info.accountId).ToString(), contractId.ToString());
+                Assert.NotNull(info.adminKey);
+                Assert.Equal(info.adminKey).ToString(), testEnv.OperatorKey).ToString());
                 Assert.Equal(info.storage, 128);
                 Assert.Equal(info.contractMemo, "[e2e::ContractCreateTransaction]");
-                new ContractUpdateTransaction().SetContractId(contractId).SetContractMemo("[e2e::ContractUpdateTransaction]").Execute(testEnv.client).GetReceipt(testEnv.client);
-                info = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.client);
+                new ContractUpdateTransaction().SetContractId(contractId).SetContractMemo("[e2e::ContractUpdateTransaction]").Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                info = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.Client);
                 Assert.Equal(info.contractId, contractId);
-                AssertThat(info.accountId).IsNotNull();
-                Assert.Equal(Objects.RequireNonNull(info.accountId).ToString(), contractId.ToString());
-                AssertThat(info.adminKey).IsNotNull();
-                Assert.Equal(Objects.RequireNonNull(info.adminKey).ToString(), Objects.RequireNonNull(testEnv.operatorKey).ToString());
+                Assert.NotNull(info.accountId);
+                Assert.Equal(info.accountId).ToString(), contractId.ToString());
+                Assert.NotNull(info.adminKey);
+                Assert.Equal(info.adminKey).ToString(), testEnv.OperatorKey).ToString());
                 Assert.Equal(info.storage, 128);
                 Assert.Equal(info.contractMemo, "[e2e::ContractUpdateTransaction]");
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new ContractUpdateTransaction().SetContractMemo("[e2e::ContractUpdateTransaction]").Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new ContractUpdateTransaction().SetContractMemo("[e2e::ContractUpdateTransaction]").Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_CONTRACT_ID.ToString());
             }
         }
@@ -59,12 +59,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                var contractId = Objects.RequireNonNull(new ContractCreateTransaction().SetGas(400000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client).GetReceipt(testEnv.client).contractId);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                var contractId = new ContractCreateTransaction().SetGas(400000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client).GetReceipt(testEnv.Client).ContractId);
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new ContractUpdateTransaction().SetContractId(contractId).SetContractMemo("[e2e::ContractUpdateTransaction]").Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new ContractUpdateTransaction().SetContractId(contractId).SetContractMemo("[e2e::ContractUpdateTransaction]").Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.MODIFYING_IMMUTABLE_CONTRACT.ToString());
             }
         }
@@ -73,18 +73,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
-                new ContractUpdateTransaction().SetContractId(contractId).SetAutoRenewAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var infoWithAutoRenew = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.client);
-                Assert.Equal(Objects.RequireNonNull(infoWithAutoRenew.autoRenewAccountId), testEnv.operatorId);
-                new ContractUpdateTransaction().SetContractId(contractId).SetAutoRenewAccountId(new AccountId(0, 0, 0)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var infoCleared = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.client);
-                Assert.Equal(Objects.RequireNonNull(infoCleared.autoRenewAccountId), new AccountId(0, 0, 0));
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(400000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
+                new ContractUpdateTransaction().SetContractId(contractId).SetAutoRenewAccountId(testEnv.OperatorId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var infoWithAutoRenew = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.Client);
+                Assert.Equal(infoWithAutoRenew.autoRenewAccountId), testEnv.OperatorId);
+                new ContractUpdateTransaction().SetContractId(contractId).SetAutoRenewAccountId(new AccountId(0, 0, 0)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var infoCleared = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.Client);
+                Assert.Equal(infoCleared.autoRenewAccountId), new AccountId(0, 0, 0));
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
     }

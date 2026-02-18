@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Ethereum
 {
@@ -26,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
                 var signedTransaction = SignedTransaction.ParseFrom(((Transaction)o).GetSignedTransactionBytes());
                 var transactionBody = TransactionBody.ParseFrom(signedTransaction.GetBodyBytes());
                 AssertThat(transactionBody.GetDataCase()).IsEqualByComparingTo(TransactionBody.DataCase.ETHEREUMTRANSACTION);
-                AssertThat(transactionBody.HasEthereumTransaction()).IsTrue();
+                Assert.True(transactionBody.HasEthereumTransaction());
                 Assert.Equal(transactionBody.GetEthereumTransaction().GetEthereumData(), ETHEREUM_DATA);
                 return TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCodeValue(0).Build();
             }, Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetReceipt(TransactionReceipt.NewBuilder().SetStatusValue(ResponseCodeEnum.SUCCESS_VALUE))).Build());
@@ -44,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
                 var signedTransaction = SignedTransaction.ParseFrom(((Transaction)o).GetSignedTransactionBytes());
                 var transactionBody = TransactionBody.ParseFrom(signedTransaction.GetBodyBytes());
                 AssertThat(transactionBody.GetDataCase()).IsEqualByComparingTo(TransactionBody.DataCase.ETHEREUMTRANSACTION);
-                AssertThat(transactionBody.HasEthereumTransaction()).IsTrue();
+                Assert.True(transactionBody.HasEthereumTransaction());
                 Assert.Equal(EthereumTransactionData.FromBytes(transactionBody.GetEthereumTransaction().GetEthereumData().ToByteArray()).callData, LONG_CALL_DATA.ToByteArray());
                 return TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCodeValue(0).Build();
             }, Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetReceipt(TransactionReceipt.NewBuilder().SetStatusValue(ResponseCodeEnum.SUCCESS_VALUE))).Build());
@@ -65,7 +66,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
                     ethereumFlow.ExecuteAsync(mocker.client).ThenCompose((response) => response.GetReceiptAsync(mocker.client)).Get();
                 }
 
-                AssertThat(ethereumFlow.GetEthereumData()).IsNotNull();
+                Assert.NotNull(ethereumFlow.GetEthereumData());
                 Assert.Equal(ethereumFlow.GetMaxGasAllowance().ToTinybars(), 25);
             }
         }

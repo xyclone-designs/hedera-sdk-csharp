@@ -31,9 +31,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
                         try
                         {
-                            using (var client = Client.ForNetwork(testEnv.client.GetNetwork(), clientExecutor))
+                            using (var client = Client.ForNetwork(testEnv.Client.Network, clientExecutor))
                             {
-                                client.SetOperator(operatorId, operatorPrivateKey);
+                                client.OperatorSet(operatorId, operatorPrivateKey);
                                 client.SetMaxAttempts(10);
                                 new AccountCreateTransaction().SetKeyWithoutAlias(PrivateKey.GenerateED25519()).Execute(client).GetReceipt(client);
                                 System.@out.Println(finalI);

@@ -35,17 +35,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             IList<EvmHookStorageUpdate> storageUpdates = Collections.SingletonList(storageUpdate);
 
             // Build two hooks, one with admin key and storage, one simple
-            ContractCreateTransaction tx = new ContractCreateTransaction().SetGas(1000000).SetInitialBalance(Hbar.From(10)).AddHook(new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, new EvmHook(targetContractId, storageUpdates), adminKey.GetPublicKey())).AddHook(new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, new EvmHook(targetContractId)));
+            ContractCreateTransaction tx = new ContractCreateTransaction().SetGas(1000000).SetInitialBalance(Hbar.From(10)).AddHook(new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId, storageUpdates), adminKey.GetPublicKey())).AddHook(new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(targetContractId)));
             var hooks = tx.GetHooks();
             Assert.Equal(2, hooks.Count);
             var first = hooks[0];
-            Assert.Equal(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, first.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, first.GetExtensionPoint());
             Assert.Equal(1, first.GetHookId());
             Assert.Equal(adminKey.GetPublicKey(), first.GetAdminKey());
             Assert.NotNull(first.GetHook());
             Assert.Equal(1, first.GetHook().GetStorageUpdates().Count);
             var second = hooks[1];
-            Assert.Equal(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, second.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, second.GetExtensionPoint());
             Assert.Equal(2, second.GetHookId());
             Assert.Null(second.GetAdminKey());
             Assert.NotNull(second.GetHook());
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             ContractId targetContractId = new ContractId(200);
             var lambdaHook = new EvmHook(targetContractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var tx = new ContractCreateTransaction().SetGas(500000).SetInitialBalance(Hbar.From(5)).SetHooks(Collections.SingletonList(hookDetails));
             var retrieved = tx.GetHooks();
             Assert.Equal(1, retrieved.Count);
@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         public virtual void TestContractCreateTransactionHookValidationDuplicateIdsNotBlockedClientSide()
         {
             ContractId targetContractId = new ContractId(300);
-            var tx = new ContractCreateTransaction().SetGas(250000).SetInitialBalance(Hbar.From(3)).AddHook(new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, new EvmHook(targetContractId))).AddHook(new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, new EvmHook(targetContractId)));
+            var tx = new ContractCreateTransaction().SetGas(250000).SetInitialBalance(Hbar.From(3)).AddHook(new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId))).AddHook(new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId)));
             var proto = tx.Build();
             Assert.Equal(2, proto.GetHookCreationDetailsCount());
             Assert.Equal(1, proto.GetHookCreationDetails(0).GetHookId());
@@ -76,11 +76,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         public virtual void TestContractCreateTransactionProtobufSerialization()
         {
             ContractId targetContractId = new ContractId(400);
-            var tx = new ContractCreateTransaction().SetGas(750000).SetInitialBalance(Hbar.From(7)).AddHook(new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, new EvmHook(targetContractId)));
+            var tx = new ContractCreateTransaction().SetGas(750000).SetInitialBalance(Hbar.From(7)).AddHook(new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId)));
             var protoBody = tx.Build();
             Assert.Equal(1, protoBody.GetHookCreationDetailsCount());
             var protoHook = protoBody.GetHookCreationDetails(0);
-            Assert.Equal(Proto.HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, protoHook.GetExtensionPoint());
+            Assert.Equal(Proto.HookExtensionPoint.AccountAllowanceHook, protoHook.GetExtensionPoint());
             Assert.Equal(1, protoHook.GetHookId());
             Assert.True(protoHook.HasEvmHook());
         }
@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             ContractId targetContractId = new ContractId(500);
             var lambdaHook = new EvmHook(targetContractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 3, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaHook);
             var original = new ContractCreateTransaction().SetGas(999999).SetInitialBalance(Hbar.From(9)).SetHooks(Collections.SingletonList(hookDetails));
             byte[] bytes = original.ToBytes();
             Transaction<TWildcardTodo> parsed = Transaction.FromBytes(bytes);
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var parsedHooks = parsedTx.GetHooks();
             Assert.Equal(1, parsedHooks.Count);
             var parsedHook = parsedHooks[0];
-            Assert.Equal(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, parsedHook.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, parsedHook.GetExtensionPoint());
             Assert.Equal(3, parsedHook.GetHookId());
             Assert.NotNull(parsedHook.GetHook());
             Assert.True(parsedHook.GetHook().GetStorageUpdates().Count == 0);

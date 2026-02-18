@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// For token of type FUNGIBLE_COMMON - the balance that the Account holds
         /// in the smallest denomination.
         /// 
-        /// For token of type NON_FUNGIBLE_UNIQUE - the number of NFTs held by the
+        /// For token of type NonFungibleUnique - the number of NFTs held by the
         /// account
         /// </summary>
         public ulong Balance { get; }

@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly AccountId testAccountId = AccountId.FromString("0.6.9");
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
         private static readonly long testAmount = 4;
-        private static readonly IList<long> testSerialNumbers = Arrays.AsList(8, 9, 10);
+        private static readonly List<long> testSerialNumbers = Arrays.AsList(8, 9, 10);
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         public static void BeforeAll()
         {

@@ -35,8 +35,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         private static readonly DateTimeOffset START_TIME = DateTimeOffset.UtcNow;
         private Client client;
         private readonly AtomicBoolean complete = new AtomicBoolean(false);
-        private readonly IList<Exception> errors = [];
-        private readonly IList<TopicMessage> received = [];
+        private readonly List<Exception> errors = [];
+        private readonly List<TopicMessage> received = [];
         private readonly ConsensusServiceStub consensusServiceStub = new ();
         private Server server;
         private TopicMessageQuery topicMessageQuery;
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             SubscribeToMirror(received.Add());
             var message = Combine(response1.GetMessage().ToByteArray(), response2.GetMessage().ToByteArray());
             Assert.Empty(errors);
-            Assertions.AssertThat(received).HasSize(1).First().Returns(ToInstant(response2.GetConsensusTimestamp()), (t) => t.consensusTimestamp).Returns(response2.GetChunkInfo().GetInitialTransactionID(), (t) => Objects.RequireNonNull(t.transactionId).ToProtobuf()).Returns(message, (t) => t.contents).Returns(response2.GetRunningHash().ToByteArray(), (t) => t.runningHash).Returns(response2.GetSequenceNumber(), (t) => t.sequenceNumber).Extracting((t) => t.chunks).AsInstanceOf(InstanceOfAssertFactories.ARRAY).HasSize(2).Extracting((c) => ((TopicMessageChunk)c).sequenceNumber).Contains(1, 2);
+            Assertions.Assert.Contains(received).HasSize(1).First().Returns(ToInstant(response2.GetConsensusTimestamp()), (t) => t.consensusTimestamp).Returns(response2.GetChunkInfo().GetInitialTransactionID(), (t) => t.transactionId).ToProtobuf()).Returns(message, (t) => t.contents).Returns(response2.GetRunningHash().ToByteArray(), (t) => t.runningHash).Returns(response2.GetSequenceNumber(), (t) => t.sequenceNumber).Extracting((t) => t.chunks).AsInstanceOf(InstanceOfAssertFactories.ARRAY).HasSize(2).Extracting((c) => ((TopicMessageChunk)c).sequenceNumber, 1, 2);
         }
 
         public virtual void SubscribeNoResponse()
@@ -314,12 +314,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             public override void SubscribeTopic(ConsensusTopicQuery consensusTopicQuery, StreamObserver<ConsensusTopicResponse> streamObserver)
             {
                 var request = requests.Poll();
-                AssertThat(request).IsNotNull();
+                Assert.NotNull(request);
                 Assert.Equal(consensusTopicQuery, request);
                 while (!responses.IsEmpty())
                 {
                     var response = responses.Poll();
-                    AssertThat(response).IsNotNull();
+                    Assert.NotNull(response);
                     if (response is Throwable)
                     {
                         streamObserver.OnError((Throwable)response);

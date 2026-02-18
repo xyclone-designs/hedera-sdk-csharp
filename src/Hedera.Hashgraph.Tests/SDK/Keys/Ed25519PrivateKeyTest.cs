@@ -14,8 +14,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
+using System.IO;
+using Org.BouncyCastle.Utilities.Encoders;
+using Hedera.Hashgraph.SDK;
+using Org.BouncyCastle.Math.EC.Rfc8032;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
+namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
     class Ed25519PrivateKeyTest
     {
@@ -55,11 +60,11 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         public virtual void KeyGenerates()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
-            AssertThat(key).IsNotNull();
-            AssertThat(key.ToBytes()).IsNotNull();
+            Assert.NotNull(key);
+            Assert.NotNull(key.ToBytes());
 
             // we generate the chain code at the same time
-            AssertThat(key.IsDerivable()).IsTrue();
+            Assert.True(key.IsDerivable());
         }
 
         public virtual void KeySerialization()
@@ -131,7 +136,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         public virtual void ExternalKeyDeserialize(string keyStr)
         {
             PrivateKey key = PrivateKey.FromString(keyStr);
-            AssertThat(key).IsNotNull();
+            Assert.NotNull(key);
 
             // the above are all the same key
             Assert.Equal(key.ToString(), TEST_KEY_STR);
@@ -142,7 +147,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         public virtual void KeyToString()
         {
             PrivateKey key = PrivateKey.FromString(TEST_KEY_STR);
-            AssertThat(key).IsNotNull();
+            Assert.NotNull(key);
             Assert.Equal(key.ToString(), TEST_KEY_STR);
         }
 
@@ -198,18 +203,18 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         {
             Mnemonic mnemonic = Mnemonic.Generate24();
             PrivateKey privateKey = PrivateKey.FromMnemonic(mnemonic);
-            byte[] messageToSign = "this is a test message".GetBytes(StandardCharsets.UTF_8);
-            byte[] signature = privateKey.Sign(messageToSign);
-            Assertions.AssertThat(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length)).IsTrue();
+			byte[] messageToSign = Encoding.UTF8.GetBytes("this is a test message");
+			byte[] signature = privateKey.Sign(messageToSign);
+            Assertions.Assert.True(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length));
         }
 
         public virtual void KeyFromGeneratedMnemonic12()
         {
             Mnemonic mnemonic = Mnemonic.Generate12();
             PrivateKey privateKey = PrivateKey.FromMnemonic(mnemonic);
-            byte[] messageToSign = "this is a test message".GetBytes(StandardCharsets.UTF_8);
+            byte[] messageToSign = Encoding.UTF8.GetBytes("this is a test message");
             byte[] signature = privateKey.Sign(messageToSign);
-            Assertions.AssertThat(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length)).IsTrue();
+            Assertions.Assert.True(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length));
         }
 
         public virtual void KeyFromEncryptedPem()
@@ -233,13 +238,13 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         public virtual void KeyIsECDSA()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
-            AssertThat(key.IsED25519()).IsTrue();
+            Assert.True(key.IsED25519());
         }
 
         public virtual void KeyIsNotEd25519()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
-            AssertThat(key.IsECDSA()).IsFalse();
+            Assert.False(key.IsECDSA());
         }
 
         // TODO: replace with HexFormat.of().parseHex when the required Java version is 17
@@ -249,7 +254,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
             byte[] data = new byte[len / 2];
             for (int i = 0; i < len; i += 2)
             {
-                data[i / 2] = (byte)((Character.Digit(s.CharAt(i), 16) << 4) + Character.Digit(s.CharAt(i + 1), 16));
+                data[i / 2] = (byte)((Character.Digit(s.ElementAt(i), 16) << 4) + Character.Digit(s.ElementAt(i + 1), 16));
             }
 
             return data;

@@ -1,13 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Hook;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
+namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
     class HookEntityIdTest
     {
@@ -15,10 +11,10 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
         {
             var acct = new AccountId(0, 0, 1234);
             var id = new HookEntityId(acct);
-            AssertThat(id.IsAccount()).IsTrue();
-            AssertThat(id.IsContract()).IsFalse();
-            Assert.Equal(id.GetAccountId(), acct);
-            AssertThat(id.GetContractId()).IsNull();
+            Assert.True(id.IsAccount);
+            Assert.False(id.IsContract);
+            Assert.Equal(id.AccountId, acct);
+            Assert.Null(id.ContractId);
             var proto = id.ToProtobuf();
             var parsed = HookEntityId.FromProtobuf(proto);
             Assert.Equal(parsed, id);
@@ -29,10 +25,10 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
         {
             var contract = new ContractId(0, 0, 5678);
             var id = new HookEntityId(contract);
-            AssertThat(id.IsAccount()).IsFalse();
-            AssertThat(id.IsContract()).IsTrue();
-            AssertThat(id.GetAccountId()).IsNull();
-            Assert.Equal(id.GetContractId(), contract);
+            Assert.False(id.IsAccount);
+            Assert.True(id.IsContract);
+            Assert.Null(id.AccountId);
+            Assert.Equal(id.ContractId, contract);
             var proto = id.ToProtobuf();
             var parsed = HookEntityId.FromProtobuf(proto);
             Assert.Equal(parsed, id);

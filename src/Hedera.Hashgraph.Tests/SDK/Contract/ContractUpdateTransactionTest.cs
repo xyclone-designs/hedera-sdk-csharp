@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = new ContractUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetAdminKey(privateKey).SetMaxAutomaticTokenAssociations(101).SetAutoRenewPeriod(Duration.OfDays(1)).SetContractMemo("with-duration").SetStakedAccountId(AccountId.FromString("0.0.3")).SetExpirationTime(Duration.OfSeconds(1234)).SetProxyAccountId(new AccountId(0, 0, 4)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetAutoRenewAccountId(new AccountId(0, 0, 30));
 
             // When expiration is set via Duration, DateTimeOffset getter should be null
-            AssertThat(tx.GetExpirationTime()).IsNull();
+            Assert.Null(tx.GetExpirationTime());
             var tx2 = (ContractUpdateTransaction)Transaction.FromBytes(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
             Assert.Equal(tx2.GetExpirationTime(), DateTimeOffset.FromUnixTimeMilliseconds(1234));

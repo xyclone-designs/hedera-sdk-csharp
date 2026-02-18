@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = new ContractUpdateTransaction();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var result = tx.AddHookToCreate(hookDetails);
             Assert.Equal(result, tx);
             Assert.Single(tx.GetHooksToCreate());
@@ -29,8 +29,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = new ContractUpdateTransaction();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails1 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
-            var hookDetails2 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, lambdaHook);
+            var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
+            var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, lambdaHook);
             var hooks = List.Of(hookDetails1, hookDetails2);
             var result = tx.SetHooksToCreate(hooks);
             Assert.Equal(result, tx);
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var result = tx.AddHookToDelete(hookId);
             Assert.Equal(result, tx);
             Assert.Single(tx.GetHooksToDelete());
-            AssertThat(tx.GetHooksToDelete()).Contains(hookId);
+            Assert.Contains(tx.GetHooksToDelete(), hookId);
         }
 
         public virtual void ShouldAddHooksToDelete()
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = new ContractUpdateTransaction();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             tx.AddHookToCreate(hookDetails);
             var result = tx.GetHooksToCreate();
             Assert.Single(result);
@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             tx.AddHookToDelete(123);
             var result = tx.GetHooksToDelete();
             Assert.Single(result);
-            AssertThat(result).Contains(123);
+            Assert.Contains(result, 123);
 
             // Verify it returns a copy
             result.Clear();
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             tx.Freeze();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             AssertThatThrownBy(() => tx.AddHookToCreate(hookDetails)).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction is immutable");
         }
 
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             tx.Freeze();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             AssertThatThrownBy(() => tx.SetHooksToCreate(List.Of(hookDetails))).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction is immutable");
         }
 
@@ -158,13 +158,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = new ContractUpdateTransaction();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             tx.AddHookToCreate(hookDetails);
             tx.AddHookToDelete(123);
             var builder = tx.Build();
             Assert.Single(builder.GetHookCreationDetailsList());
             Assert.Single(builder.GetHookIdsToDeleteList());
-            AssertThat(builder.GetHookIdsToDeleteList()).Contains(123);
+            Assert.Contains(builder.GetHookIdsToDeleteList(), 123);
         }
 
         public virtual void ShouldDeserializeHooksFromTransactionBody()
@@ -172,14 +172,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = new ContractUpdateTransaction();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
+            var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             tx.AddHookToCreate(hookDetails);
             tx.AddHookToDelete(123);
             var bytes = tx.ToBytes();
             var deserializedTx = (ContractUpdateTransaction)Transaction.FromBytes(bytes);
             Assert.Single(deserializedTx.GetHooksToCreate());
             Assert.Single(deserializedTx.GetHooksToDelete());
-            AssertThat(deserializedTx.GetHooksToDelete()).Contains(123);
+            Assert.Contains(deserializedTx.GetHooksToDelete(), 123);
         }
 
         public virtual void ShouldHandleEmptyHooks()
@@ -197,8 +197,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = new ContractUpdateTransaction();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
-            var hookDetails1 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 1, lambdaHook);
-            var hookDetails2 = new HookCreationDetails(HookExtensionPoint.ACCOUNT_ALLOWANCE_HOOK, 2, lambdaHook);
+            var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
+            var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, lambdaHook);
             tx.AddHookToCreate(hookDetails1);
             tx.AddHookToCreate(hookDetails2);
             tx.AddHookToDelete(100);

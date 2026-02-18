@@ -16,7 +16,7 @@ enum HookExtensionPoint {
   /**
    * Used to customize an account's allowances during a CryptoTransfer transaction.
    */
-  ACCOUNT_ALLOWANCE_HOOK = 0;
+  AccountAllowanceHook = 0;
 }
 
 /**

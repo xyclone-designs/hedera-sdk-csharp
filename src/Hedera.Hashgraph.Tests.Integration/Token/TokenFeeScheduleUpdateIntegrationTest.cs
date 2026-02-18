@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,78 +15,126 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFeeScheduleKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(info.tokenId, tokenId);
-                Assert.Equal(info.name, "ffff");
-                Assert.Equal(info.symbol, "F");
-                Assert.Equal(info.decimals, 3);
-                Assert.Equal(testEnv.operatorId, info.treasuryAccountId);
-                AssertThat(info.adminKey).IsNotNull();
-                AssertThat(info.freezeKey).IsNotNull();
-                AssertThat(info.wipeKey).IsNotNull();
-                AssertThat(info.kycKey).IsNotNull();
-                AssertThat(info.supplyKey).IsNotNull();
-                Assert.Equal(info.adminKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.freezeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.wipeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.kycKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.supplyKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.feeScheduleKey.ToString(), testEnv.operatorKey.ToString());
-                AssertThat(info.defaultFreezeStatus).IsNotNull();
-                AssertThat(info.defaultFreezeStatus).IsFalse();
-                AssertThat(info.defaultKycStatus).IsNotNull();
-                AssertThat(info.defaultKycStatus).IsFalse();
-                Assert.Equal(info.customFees.Count, 0);
-                var customFees = new List<CustomFee>();
-                customFees.Add(new CustomFixedFee().SetAmount(10).SetFeeCollectorAccountId(testEnv.operatorId));
-                customFees.Add(new CustomFractionalFee().SetNumerator(1).SetDenominator(20).SetMin(1).SetMax(10).SetFeeCollectorAccountId(testEnv.operatorId));
-                new TokenFeeScheduleUpdateTransaction().SetTokenId(tokenId).SetCustomFees(customFees).Execute(testEnv.client).GetReceipt(testEnv.client);
-                info = new TokenInfoQuery().SetTokenId(tokenId).Execute(testEnv.client);
-                Assert.Equal(info.tokenId, tokenId);
-                Assert.Equal(info.name, "ffff");
-                Assert.Equal(info.symbol, "F");
-                Assert.Equal(info.decimals, 3);
-                Assert.Equal(info.treasuryAccountId, testEnv.operatorId);
-                AssertThat(info.adminKey).IsNotNull();
-                AssertThat(info.freezeKey).IsNotNull();
-                AssertThat(info.wipeKey).IsNotNull();
-                AssertThat(info.kycKey).IsNotNull();
-                AssertThat(info.supplyKey).IsNotNull();
-                Assert.Equal(info.adminKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.freezeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.wipeKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.kycKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.supplyKey.ToString(), testEnv.operatorKey.ToString());
-                Assert.Equal(info.feeScheduleKey.ToString(), testEnv.operatorKey.ToString());
-                AssertThat(info.defaultFreezeStatus).IsNotNull();
-                AssertThat(info.defaultFreezeStatus).IsFalse();
-                AssertThat(info.defaultKycStatus).IsNotNull();
-                AssertThat(info.defaultKycStatus).IsFalse();
-                var fees = info.customFees;
+                var response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    Decimals = 3,
+                    InitialSupply = 1000000,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    KycKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                    FeeScheduleKey = testEnv.OperatorKey,
+                    FreezeDefault = false,
+
+                }.Execute(testEnv.Client);
+
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                var info = new TokenInfoQuery
+                {
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client);
+
+                Assert.Equal(info.TokenId, tokenId);
+                Assert.Equal(info.Name, "ffff");
+                Assert.Equal(info.Symbol, "F");
+                Assert.Equal(info.Decimals, 3);
+                Assert.Equal(testEnv.OperatorId, info.TreasuryAccountId);
+                Assert.NotNull(info.AdminKey);
+                Assert.NotNull(info.FreezeKey);
+                Assert.NotNull(info.WipeKey);
+                Assert.NotNull(info.KycKey);
+                Assert.NotNull(info.SupplyKey);
+                Assert.Equal(info.AdminKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.FreezeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.WipeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.KycKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.SupplyKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.FeeScheduleKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.NotNull(info.DefaultFreezeStatus);
+                Assert.False(info.DefaultFreezeStatus);
+                Assert.NotNull(info.DefaultKycStatus);
+                Assert.False(info.DefaultKycStatus);
+                Assert.Equal(info.CustomFees.Count, 0);
+
+                new TokenFeeScheduleUpdateTransaction
+                {
+					TokenId = tokenId,
+					CustomFees = 
+                    [
+						new CustomFixedFee
+				        {
+					        Amount = 10,
+					        FeeCollectorAccountId = testEnv.OperatorId
+				        },
+				        new CustomFractionalFee
+				        {
+					        Numerator = 1,
+					        Denominator = 20,
+					        Min = 1,
+					        Max = 10,
+					        FeeCollectorAccountId = testEnv.OperatorId
+				        }
+					]
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                info = new TokenInfoQuery
+                {
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client);
+
+                Assert.Equal(info.TokenId, tokenId);
+                Assert.Equal(info.Name, "ffff");
+                Assert.Equal(info.Symbol, "F");
+                Assert.Equal(info.Decimals, 3);
+                Assert.Equal(info.TreasuryAccountId, testEnv.OperatorId);
+                Assert.NotNull(info.AdminKey);
+                Assert.NotNull(info.FreezeKey);
+                Assert.NotNull(info.WipeKey);
+                Assert.NotNull(info.KycKey);
+                Assert.NotNull(info.SupplyKey);
+                Assert.Equal(info.AdminKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.FreezeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.WipeKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.KycKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.SupplyKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.FeeScheduleKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.NotNull(info.DefaultFreezeStatus);
+                Assert.False(info.DefaultFreezeStatus);
+                Assert.NotNull(info.DefaultKycStatus);
+                Assert.False(info.DefaultKycStatus);
+                
+                var fees = info.CustomFees;
                 Assert.Equal(fees.Count, 2);
+
                 int fixedCount = 0;
                 int fractionalCount = 0;
                 foreach (var fee in fees)
                 {
-                    if (fee is CustomFixedFee)
+                    if (fee is CustomFixedFee _fixed)
                     {
                         fixedCount++;
-                        var fixed = (CustomFixedFee)fee;
-                        Assert.Equal(fixed.GetAmount(), 10);
-                        Assert.Equal(fixed.GetFeeCollectorAccountId(), testEnv.operatorId);
-                        AssertThat(fixed.GetDenominatingTokenId()).IsNull();
+
+                        Assert.Equal(_fixed.Amount, 10);
+                        Assert.Equal(_fixed.FeeCollectorAccountId, testEnv.OperatorId);
+                        Assert.Null(_fixed.DenominatingTokenId);
                     }
-                    else if (fee is CustomFractionalFee)
+                    else if (fee is CustomFractionalFee fractional)
                     {
                         fractionalCount++;
-                        var fractional = (CustomFractionalFee)fee;
-                        Assert.Equal(fractional.GetNumerator(), 1);
-                        Assert.Equal(fractional.GetDenominator(), 20);
-                        Assert.Equal(fractional.GetMin(), 1);
-                        Assert.Equal(fractional.GetMax(), 10);
-                        Assert.Equal(fractional.GetFeeCollectorAccountId(), testEnv.operatorId);
+
+                        Assert.Equal(fractional.Numerator, 1);
+                        Assert.Equal(fractional.Denominator, 20);
+                        Assert.Equal(fractional.Min, 1);
+                        Assert.Equal(fractional.Max, 10);
+                        Assert.Equal(fractional.FeeCollectorAccountId, testEnv.OperatorId);
                     }
                 }
 
@@ -101,14 +147,43 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFeeScheduleKey(PrivateKey.Generate()).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                var customFees = new List<CustomFee>();
-                customFees.Add(new CustomFixedFee().SetAmount(10).SetFeeCollectorAccountId(testEnv.operatorId));
-                customFees.Add(new CustomFractionalFee().SetNumerator(1).SetDenominator(20).SetMin(1).SetMax(10).SetFeeCollectorAccountId(testEnv.operatorId));
+                var response = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FeeScheduleKey = PrivateKey.Generate(), 
+                    FreezeDefault = false
+                
+                }.Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenFeeScheduleUpdateTransaction().SetTokenId(tokenId).SetCustomFees(customFees).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenFeeScheduleUpdateTransaction
+                    {
+						TokenId = tokenId,
+						CustomFees = 
+                        [
+							new CustomFixedFee
+				            {
+					            Amount = 10,
+					            FeeCollectorAccountId = testEnv.OperatorId
+				            },
+							new CustomFractionalFee
+				            {
+					            Numerator = 1,
+					            Denominator = 20,
+					            Min = 1,
+					            Max = 10,
+					            FeeCollectorAccountId = testEnv.OperatorId
+				            }
+						],
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
             }
         }

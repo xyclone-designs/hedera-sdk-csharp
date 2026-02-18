@@ -37,8 +37,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void TokenSupplyTestToString()
         {
-            AssertThat(com.hedera.hashgraph.sdk.TokenSupplyType.INFINITE).HasToString("INFINITE");
-            AssertThat(com.hedera.hashgraph.sdk.TokenSupplyType.FINITE).HasToString("FINITE");
+            Assert.Equal(com.hedera.hashgraph.sdk.TokenSupplyType.INFINITE.ToString(), "INFINITE");
+            Assert.Equal(com.hedera.hashgraph.sdk.TokenSupplyType.FINITE.ToString(), "FINITE");
         }
     }
 }

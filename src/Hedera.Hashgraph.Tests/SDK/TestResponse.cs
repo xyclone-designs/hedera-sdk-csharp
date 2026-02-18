@@ -9,15 +9,16 @@ using System.Linq;
 using System.Text;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.HBar;
+using Grpc.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
     public class TestResponse
     {
-        public readonly TransactionResponse transactionResponse;
-        public readonly Response queryResponse;
+        public readonly Proto.TransactionResponse transactionResponse;
+        public readonly Proto.Response queryResponse;
         public readonly StatusRuntimeException errorResponse;
-        private TestResponse(TransactionResponse transactionResponse, Response queryResponse, StatusRuntimeException errorResponse)
+        private TestResponse(Proto.TransactionResponse transactionResponse, Proto.Response queryResponse, StatusRuntimeException errorResponse)
         {
             this.transactionResponse = transactionResponse;
             this.queryResponse = queryResponse;
@@ -44,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             return TransactionOk(new Hbar(1));
         }
 
-        public static TestResponse Query(Response queryResponse)
+        public static TestResponse Query(Proto.Response queryResponse)
         {
             return new TestResponse(null, queryResponse, null);
         }
@@ -57,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public static TestResponse SuccessfulReceipt()
         {
-            return Receipt(Status.SUCCESS);
+            return Receipt(ResponseStatus.Success);
         }
 
         public static TestResponse Error(StatusRuntimeException exception)

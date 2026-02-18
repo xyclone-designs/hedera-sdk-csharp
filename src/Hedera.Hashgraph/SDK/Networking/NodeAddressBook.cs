@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// Extract the of node addresses.
 		/// </summary>
 		/// <returns>                         list of node addresses</returns>
-		public virtual IList<NodeAddress> NodeAddresses
+		public virtual List<NodeAddress> NodeAddresses
         {
             get => CloneNodeAddresses(field);
             set => field = CloneNodeAddresses(value);

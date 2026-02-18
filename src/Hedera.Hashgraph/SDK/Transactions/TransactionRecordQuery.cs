@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// </summary>
         public TransactionRecordQuery() { }
 
-		private IList<TransactionRecord> MapRecordList(IEnumerable<Proto.TransactionRecord> protoRecordList)
+		private List<TransactionRecord> MapRecordList(IEnumerable<Proto.TransactionRecord> protoRecordList)
 		{
             return [.. protoRecordList.Select(_ => TransactionRecord.FromProtobuf(_))];
 		}

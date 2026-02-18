@@ -26,12 +26,12 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <summary>
 		/// A list of one or more token rejections (a single specific serialized non-fungible/unique token).
 		/// </summary>
-		public virtual IList<NftId> NftIds { get; set; } = [];
+		public virtual List<NftId> NftIds { get; set; } = [];
 		/// <summary>
 		/// Extract the list of tokenIds.
 		/// </summary>
 		/// <returns>the list of tokenIds.</returns>
-		public virtual IList<TokenId> TokenIds { get; set; } = [];
+		public virtual List<TokenId> TokenIds { get; set; } = [];
 		/// <summary>
 		/// Set the account IDs of the nodes that this transaction will be submitted to.
 		/// <p>
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="nodeAccountIds">The list of node AccountIds to be set</param>
 		/// <returns>{@code this}</returns>
-		public virtual IList<AccountId>? NodeAccountIds { get; set; }
+		public virtual List<AccountId>? NodeAccountIds { get; set; }
 
 
 		/// <summary>

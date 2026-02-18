@@ -1,16 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk.Utils;
-using Java.Io;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Utils;
+using Org.BouncyCastle.Utilities.Encoders;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
+namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
     public class ECDSAPrivateKeyTest
     {
@@ -18,8 +12,8 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         public virtual void KeyGenerates()
         {
             PrivateKey key = PrivateKey.GenerateECDSA();
-            AssertThat(key).IsNotNull();
-            AssertThat(key.ToBytes()).IsNotNull();
+            Assert.NotNull(key);
+            Assert.NotNull(key.ToBytes());
         }
 
         public virtual void KeySerialization()
@@ -91,13 +85,13 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         public virtual void KeyIsECDSA()
         {
             PrivateKey key = PrivateKey.GenerateECDSA();
-            AssertThat(key.IsECDSA()).IsTrue();
+            Assert.True(key.IsECDSA());
         }
 
         public virtual void KeyIsNotEd25519()
         {
             PrivateKey key = PrivateKey.GenerateECDSA();
-            AssertThat(key.IsED25519()).IsFalse();
+            Assert.False(key.IsED25519());
         }
 
         // TODO: replace with HexFormat.of().parseHex when the required Java version is 17
@@ -107,7 +101,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
             byte[] data = new byte[len / 2];
             for (int i = 0; i < len; i += 2)
             {
-                data[i / 2] = (byte)((Character.Digit(s.CharAt(i), 16) << 4) + Character.Digit(s.CharAt(i + 1), 16));
+                data[i / 2] = (byte)((Character.Digit(s.ElementAt(i), 16) << 4) + Character.Digit(s.ElementAt(i + 1), 16));
             }
 
             return data;

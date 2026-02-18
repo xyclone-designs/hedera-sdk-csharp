@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,18 +15,38 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var createReceipt = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenId = Objects.RequireNonNull(createReceipt.tokenId);
+                var createReceipt = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique, 
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    KycKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                    FreezeDefault = false
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var tokenId = createReceipt.TokenId;
                 byte[] metadata = new[]
                 {
                     50
                 };
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).AddMetadata(metadata).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var nftId = tokenId.Nft(mintReceipt.serials[0]);
-                var nftInfos = new TokenNftInfoQuery().SetNftId(nftId).Execute(testEnv.client);
+                var mintReceipt = new TokenMintTransaction
+                {
+                    TokenId = tokenId, 
+                    Metadata = metadata
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var nftId = tokenId.Nft(mintReceipt.Serials[0]);
+                var nftInfos = new TokenNftInfoQuery().SetNftId(nftId).Execute(testEnv.Client);
                 Assert.Equal(nftInfos.Count, 1);
                 Assert.Equal(nftInfos[0].nftId, nftId);
-                Assert.Equal(nftInfos[0].accountId, testEnv.operatorId);
+                Assert.Equal(nftInfos[0].accountId, testEnv.OperatorId);
                 Assert.Equal(nftInfos[0].metadata[0], (byte)50);
             }
         }
@@ -37,18 +55,39 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var createReceipt = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenId = Objects.RequireNonNull(createReceipt.tokenId);
+                var createReceipt = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    KycKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                    FreezeDefault = false
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var tokenId = createReceipt.TokenId;
                 byte[] metadata = new[]
                 {
                     50
                 };
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).AddMetadata(metadata).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var nftId = tokenId.Nft(mintReceipt.serials[0]);
-                var invalidNftId = new NftId(nftId.tokenId, nftId.serial + 1);
+                var mintReceipt = new TokenMintTransaction
+                {
+                    TokenId = tokenId,
+                    Metadata = metadata
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var nftId = tokenId.Nft(mintReceipt.Serials[0]);
+                var invalidNftId = new NftId(nftId.TokenId, nftId.Serial + 1);
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenNftInfoQuery().SetNftId(invalidNftId).Execute(testEnv.client);
+                    new TokenNftInfoQuery().SetNftId(invalidNftId).Execute(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_NFT_ID.ToString());
             }
         }
@@ -57,18 +96,39 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var createReceipt = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenId = Objects.RequireNonNull(createReceipt.tokenId);
+                var createReceipt = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique, 
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    KycKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                    FreezeDefault = false
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var tokenId = createReceipt.TokenId;
                 byte[] metadata = new[]
                 {
                     50
                 };
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).AddMetadata(metadata).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var nftId = tokenId.Nft(mintReceipt.serials[0]);
-                var invalidNftId = new NftId(nftId.tokenId, -1);
+                var mintReceipt = new TokenMintTransaction
+                {
+                    TokenId = tokenId, 
+                    Metadata = metadata
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var nftId = tokenId.Nft(mintReceipt.Serials[0]);
+                var invalidNftId = new NftId(nftId.TokenId, -1);
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenNftInfoQuery().ByNftId(invalidNftId).Execute(testEnv.client);
+                    new TokenNftInfoQuery().ByNftId(invalidNftId).Execute(testEnv.Client);
+
                 }).WithMessageContaining(Status.INVALID_TOKEN_NFT_SERIAL_NUMBER.ToString());
             }
         }
@@ -77,18 +137,42 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var createReceipt = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenId = Objects.RequireNonNull(createReceipt.tokenId);
+                var createReceipt = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique, 
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    KycKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                    FreezeDefault = false
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var tokenId = createReceipt.TokenId;
                 List<byte[]> metadatas = NftMetadataGenerator.Generate((byte)10);
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(metadatas).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var nftInfos = new TokenNftInfoQuery().ByAccountId(testEnv.operatorId).SetEnd(10).Execute(testEnv.client);
+                var mintReceipt = new TokenMintTransaction
+                {
+                    TokenId = tokenId,
+                    Metadata = metadatas,
+                }
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var nftInfos = new TokenNftInfoQuery
+                {
+					End = 10,
+					AccountId = testEnv.OperatorId,
+
+				}.Execute(testEnv.Client);
                 Assert.Equal(nftInfos.Count, 10);
-                var serials = new List<long>(mintReceipt.serials);
+                var serials = new List<long>(mintReceipt.Serials);
                 foreach (var info in nftInfos)
                 {
                     Assert.Equal(info.nftId.tokenId, tokenId);
-                    AssertThat(serials.Remove(info.nftId.serial)).IsTrue();
-                    Assert.Equal(info.accountId, testEnv.operatorId);
+                    Assert.True(serials.Remove(info.nftId.serial));
+                    Assert.Equal(info.accountId, testEnv.OperatorId);
                 }
             }
         }
@@ -97,18 +181,43 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var createReceipt = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTokenType(TokenType.NON_FUNGIBLE_UNIQUE).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var tokenId = Objects.RequireNonNull(createReceipt.tokenId);
+                var createReceipt = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    FreezeKey = testEnv.OperatorKey,
+                    WipeKey = testEnv.OperatorKey,
+                    KycKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                    FreezeDefault = false
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var tokenId = createReceipt.tokenId);
                 List<byte[]> metadatas = NftMetadataGenerator.Generate((byte)10);
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(metadatas).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var nftInfos = new TokenNftInfoQuery().ByTokenId(tokenId).SetEnd(10).Execute(testEnv.client);
+                var mintReceipt = new TokenMintTransaction
+                {
+					Metadata = metadatas,
+					TokenId = tokenId
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var nftInfos = new TokenNftInfoQuery
+                {
+                    End = 10,
+					TokenId = tokenId
+				
+                }.Execute(testEnv.Client);
                 Assert.Equal(nftInfos.Count, 10);
-                var serials = new List<long>(mintReceipt.serials);
+                var serials = new List<long>(mintReceipt.Serials);
                 foreach (var info in nftInfos)
                 {
                     Assert.Equal(info.nftId.tokenId, tokenId);
-                    AssertThat(serials.Remove(info.nftId.serial)).IsTrue();
-                    Assert.Equal(info.accountId, testEnv.operatorId);
+                    Assert.True(serials.Remove(info.nftId.serial));
+                    Assert.Equal(info.accountId, testEnv.OperatorId);
                 }
             }
         }

@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
+namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
     class KeystoreTest
     {

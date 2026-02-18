@@ -144,7 +144,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="customFees">the custom fees</param>
 		/// <returns>{@code this}</returns>
-		public virtual IList<CustomFee> CustomFees
+		public virtual List<CustomFee> CustomFees
 		{
 			get => CustomFee.DeepCloneList(field);
 			set => field = CustomFee.DeepCloneList(value);

@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.SDK.Account
      */
     public sealed class AccountCreateTransaction : Transaction<AccountCreateTransaction>
     {
-        private IList<HookCreationDetails> _HookCreationDetails = [];
+        private List<HookCreationDetails> _HookCreationDetails = [];
 
         /// <summary>
         /// Constructor.

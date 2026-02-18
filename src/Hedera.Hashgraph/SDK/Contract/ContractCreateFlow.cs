@@ -150,7 +150,7 @@ namespace Hedera.Hashgraph.SDK
 		/// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
 		/// reports a fatal error, the SDK will try again with a different node.
 		/// </summary>
-		public virtual IList<AccountId> NodeAccountIds
+		public virtual List<AccountId> NodeAccountIds
         {
 			set => field = [.. value];
 			get => field?.AsReadOnly() ?? [];

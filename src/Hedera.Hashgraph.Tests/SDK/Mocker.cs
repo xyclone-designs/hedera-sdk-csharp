@@ -21,13 +21,13 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         private static readonly PrivateKey PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420d45e1557156908c967804615af59a000be88c7aa7058bfcbe0f46b16c28f887d");
         public readonly Client client;
-        private readonly IList<ServiceDescriptor> services = List.Of(CryptoServiceGrpc.GetServiceDescriptor(), FileServiceGrpc.GetServiceDescriptor(), SmartContractServiceGrpc.GetServiceDescriptor(), ConsensusServiceGrpc.GetServiceDescriptor(), TokenServiceGrpc.GetServiceDescriptor());
-        private readonly IList<IList<object>> responses;
-        private readonly IList<Server> servers = new List();
+        private readonly List<ServiceDescriptor> services = List.Of(CryptoServiceGrpc.GetServiceDescriptor(), FileServiceGrpc.GetServiceDescriptor(), SmartContractServiceGrpc.GetServiceDescriptor(), ConsensusServiceGrpc.GetServiceDescriptor(), TokenServiceGrpc.GetServiceDescriptor());
+        private readonly List<IList<object>> responses;
+        private readonly List<Server> servers = new List();
         Mocker(IList<IList<object>> responses)
         {
             this.responses = responses;
-            var network = new HashMap<string, AccountId>(responses.Count);
+            var network = new Dictionary<string, AccountId>(responses.Count);
             for (var i = 0; i < responses.Count; i++)
             {
                 var index = new AtomicInteger();
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 }
             }
 
-            this.client = Client.ForNetwork(network).SetOperator(new AccountId(0, 0, 1800), PRIVATE_KEY).SetMinBackoff(Duration.OfMillis(0)).SetMaxBackoff(Duration.OfMillis(0)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0)).SetLogger(new Logger(LogLevel.SILENT));
+            this.client = Client.ForNetwork(network).OperatorSet(new AccountId(0, 0, 1800), PRIVATE_KEY).SetMinBackoff(Duration.OfMillis(0)).SetMaxBackoff(Duration.OfMillis(0)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0)).SetLogger(new Logger(LogLevel.SILENT));
         }
 
         protected virtual void ConfigureServerBuilder(InProcessServerBuilder builder)

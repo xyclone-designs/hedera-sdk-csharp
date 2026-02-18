@@ -3,7 +3,7 @@ using Hedera.Hashgraph.SDK.File;
 
 using System.Text.RegularExpressions;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.File
+namespace Hedera.Hashgraph.Tests.SDK.File
 {
     public class FileInfoQueryTest
     {
@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.File
         public virtual void ShouldSerialize()
         {
             var builder = new Proto.Query();
-            new new FileInfoQuery
+            new FileInfoQuery
             {
 				FileId = FileId.FromString("0.0.5005")
 

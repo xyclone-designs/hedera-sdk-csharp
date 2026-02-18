@@ -18,11 +18,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE).SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
-                var receipt = new ContractExecuteTransaction().SetContractId(contractId).SetGas(100000).SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).Execute(testEnv.client).GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).SetTransferAccountId(testEnv.operatorId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var response = new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE)AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
+                var receipt = new ContractExecuteTransaction().SetContractId(contractId).SetGas(100000).SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).SetTransferAccountId(testEnv.OperatorId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var adminKey = PrivateKey.GenerateED25519();
-                AssertThatThrownBy(() => new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE).SetAdminKey(adminKey).SetGas(100000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").Execute(testEnv.client)).IsInstanceOf(typeof(Exception)).HasMessageEndingWith("raised status INVALID_SIGNATURE");
+                AssertThatThrownBy(() => new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE).SetAdminKey(adminKey).SetGas(100000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").Execute(testEnv.Client)).IsInstanceOf(typeof(Exception)).HasMessageEndingWith("raised status INVALID_SIGNATURE");
             }
         }
 
@@ -40,11 +40,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var adminKey = PrivateKey.GenerateED25519();
-                var response = new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE).SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
-                var receipt = new ContractExecuteTransaction().SetContractId(contractId).SetGas(100000).SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).Execute(testEnv.client).GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).SetTransferAccountId(testEnv.operatorId).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var response = new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE)AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
+                var receipt = new ContractExecuteTransaction().SetContractId(contractId).SetGas(100000).SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).SetTransferAccountId(testEnv.OperatorId).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -53,11 +53,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var adminKey = PrivateKey.GenerateED25519();
-                var response = new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE).SetAdminKey(testEnv.operatorKey).SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").FreezeWith(testEnv.client).SignWith(adminKey.GetPublicKey(), adminKey.Sign()).Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
-                var receipt = new ContractExecuteTransaction().SetContractId(contractId).SetGas(100000).SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).Execute(testEnv.client).GetReceipt(testEnv.client);
-                Assert.Equal(receipt.status, Status.SUCCESS);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).SetTransferAccountId(testEnv.operatorId).FreezeWith(testEnv.client).Sign(adminKey).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var response = new ContractCreateFlow().SetBytecode(SMART_CONTRACT_BYTECODE)AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetContractMemo("[e2e::ContractCreateFlow]").FreezeWith(testEnv.Client).SignWith(adminKey.GetPublicKey(), adminKey.Sign()).Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId);
+                var receipt = new ContractExecuteTransaction().SetContractId(contractId).SetGas(100000).SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                Assert.Equal(receipt.status, ResponseStatus.Success);
+                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).SetTransferAccountId(testEnv.OperatorId).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
     }

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
@@ -20,19 +21,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         public virtual void DoesNotCloseExternalExecutor()
         {
             var executor = Client.CreateExecutor();
-            var network = new HashMap<string, AccountId>();
+            var network = new Dictionary<string, AccountId>();
             var client = Client.ForNetwork(network, executor);
             client.Dispose();
-            AssertThat(executor.IsShutdown()).IsFalse();
+            Assert.False(executor.IsShutdown());
             client = Client.ForMainnet(executor);
             client.Dispose();
-            AssertThat(executor.IsShutdown()).IsFalse();
+            Assert.False(executor.IsShutdown());
             client = Client.ForTestnet(executor);
             client.Dispose();
-            AssertThat(executor.IsShutdown()).IsFalse();
+            Assert.False(executor.IsShutdown());
             client = Client.ForPreviewnet(executor);
             client.Dispose();
-            AssertThat(executor.IsShutdown()).IsFalse();
+            Assert.False(executor.IsShutdown());
         }
 
         public virtual void CloseHandlesNetworkTimeout()
@@ -43,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
             Assert.Throws(typeof(TimeoutException), client.Dispose()).WithMessage("network timeout");
-            AssertThat(mirrorNetwork.hasShutDownNow).IsTrue();
+            Assert.True(mirrorNetwork.hasShutDownNow);
         }
 
         public virtual void CloseHandlesNetworkInterrupted()
@@ -55,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
             Assert.Throws(typeof(Exception), client.Dispose()).WithCause(interruptedException);
-            AssertThat(mirrorNetwork.hasShutDownNow).IsTrue();
+            Assert.True(mirrorNetwork.hasShutDownNow);
         }
 
         public virtual void CloseHandlesMirrorNetworkTimeout()
@@ -66,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             When(mirrorNetwork.AwaitClose(Any(), Any())).ThenReturn(new TimeoutException("mirror timeout"));
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
             Assert.Throws(typeof(TimeoutException), client.Dispose()).WithMessage("mirror timeout");
-            AssertThat(network.hasShutDownNow).IsFalse();
+            Assert.False(network.hasShutDownNow);
         }
 
         public virtual void CloseHandlesMirrorNetworkInterrupted()
@@ -78,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             When(mirrorNetwork.AwaitClose(Any(), Any())).ThenReturn(interruptedException);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
             Assert.Throws(typeof(Exception), client.Dispose()).WithCause(interruptedException);
-            AssertThat(network.hasShutDownNow).IsFalse();
+            Assert.False(network.hasShutDownNow);
         }
 
         public virtual void CloseHandlesExecutorShutdown()
@@ -88,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
             client.Dispose();
-            AssertThat(executor.IsShutdown()).IsTrue();
+            Assert.True(executor.IsShutdown());
         }
 
         public virtual void CloseHandlesExecutorTerminatingInTime()

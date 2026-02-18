@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Topic;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,11 +11,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
+                var response = new TopicCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    TopicMemo = "[e2e::TopicCreateTransaction]"
+                }
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
+                var info = new TopicInfoQuery
+                {
+                    TopicId = topicId
+
+                }.Execute(testEnv.Client);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicDeleteTransaction
+                {
+                    TopicId = topicId
+
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -29,14 +36,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
-                var infoQuery = new TopicInfoQuery().SetTopicId(topicId);
-                var cost = infoQuery.GetCost(testEnv.client);
-                AssertThat(cost).IsNotNull();
-                var info = infoQuery.Execute(testEnv.client);
+                var response = new TopicCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    TopicMemo = "[e2e::TopicCreateTransaction]"
+                }
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
+                var infoQuery = new TopicInfoQuery
+                {
+                    TopicId = topicId
+                };
+                var cost = infoQuery.GetCost(testEnv.Client);
+                Assert.NotNull(cost);
+                var info = infoQuery.Execute(testEnv.Client);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicDeleteTransaction
+                {
+                    TopicId = topicId
+
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -44,14 +63,27 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
-                var infoQuery = new TopicInfoQuery().SetTopicId(topicId).SetMaxQueryPayment(new Hbar(1000));
-                var cost = infoQuery.GetCost(testEnv.client);
-                AssertThat(cost).IsNotNull();
-                var info = infoQuery.Execute(testEnv.client);
+                var response = new TopicCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    TopicMemo = "[e2e::TopicCreateTransaction]"
+                }
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
+                var infoQuery = new TopicInfoQuery
+                {
+                    TopicId = topicId,
+					MaxQueryPayment = new Hbar(1000),
+				};
+                var cost = infoQuery.GetCost(testEnv.Client);
+                Assert.NotNull(cost);
+                var info = infoQuery.Execute(testEnv.Client);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicDeleteTransaction
+                {
+					TopicId = topicId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -59,14 +91,27 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
-                var infoQuery = new TopicInfoQuery().SetTopicId(topicId).SetMaxQueryPayment(Hbar.FromTinybars(1));
+                var response = new TopicCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    TopicMemo = "[e2e::TopicCreateTransaction]"
+                }
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
+                var infoQuery = new TopicInfoQuery
+				{
+					TopicId = topicId,
+					MaxQueryPayment = new Hbar(1000),
+				};
                 Assert.Throws(typeof(MaxQueryPaymentExceededException), () =>
                 {
-                    infoQuery.Execute(testEnv.client);
+                    infoQuery.Execute(testEnv.Client);
                 });
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicDeleteTransaction
+                {
+                    TopicId = topicId
+
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -74,16 +119,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
-                var infoQuery = new TopicInfoQuery().SetTopicId(topicId);
-                var cost = infoQuery.GetCost(testEnv.client);
-                AssertThat(cost).IsNotNull();
+                var response = new TopicCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    TopicMemo = "[e2e::TopicCreateTransaction]"
+                }
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
+                var infoQuery = new TopicInfoQuery
+                {
+                    TopicId = topicId
+                };
+                var cost = infoQuery.GetCost(testEnv.Client);
+                Assert.NotNull(cost);
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    infoQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.client);
+                    infoQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.Client);
+
                 }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicDeleteTransaction
+                {
+                    TopicId = topicId
+
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
     }

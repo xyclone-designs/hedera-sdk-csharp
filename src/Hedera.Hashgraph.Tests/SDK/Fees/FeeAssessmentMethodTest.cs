@@ -13,8 +13,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
     {
         public virtual void FeeAssessmentMethodToString()
         {
-            AssertThat(FeeAssessmentMethod.ValueOf(true)).HasToString(FeeAssessmentMethod.EXCLUSIVE.ToString());
-            AssertThat(FeeAssessmentMethod.ValueOf(false)).HasToString(FeeAssessmentMethod.INCLUSIVE.ToString());
+            Assert.Equal(FeeAssessmentMethod.ValueOf(true).ToString(), FeeAssessmentMethod.EXCLUSIVE.ToString());
+            Assert.Equal(FeeAssessmentMethod.ValueOf(false).ToString(), FeeAssessmentMethod.INCLUSIVE.ToString());
         }
     }
 }

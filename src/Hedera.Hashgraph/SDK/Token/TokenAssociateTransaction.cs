@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="tokens">the list of token id's</param>
         /// <returns>{@code this}</returns>
-        public virtual IList<TokenId> TokenIds { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
+        public virtual List<TokenId> TokenIds { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
 
 		/// <summary>
 		/// Initialize from the transaction body.

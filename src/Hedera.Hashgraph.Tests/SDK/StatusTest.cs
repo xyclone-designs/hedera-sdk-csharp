@@ -60,8 +60,8 @@ namespace Hedera.Hashgraph.Tests.SDK
                 },
                 new[]
                 {
-                    Status.REJECTED_BY_ACCOUNT_ALLOWANCE_HOOK,
-                    ResponseCodeEnum.REJECTED_BY_ACCOUNT_ALLOWANCE_HOOK
+                    Status.REJECTED_BY_AccountAllowanceHook,
+                    ResponseCodeEnum.REJECTED_BY_AccountAllowanceHook
                 },
                 new[]
                 {

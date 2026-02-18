@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -31,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual TokenNftAllowance SpawnNftAllowance()
         {
-            IList<long> serials = new List();
+            IList<long> serials = [];
             serials.Add(123);
             serials.Add(456);
             return new TokenNftAllowance(TokenId.FromString("1.1.1"), AccountId.FromString("2.2.2"), AccountId.FromString("3.3.3"), null, serials, null);
@@ -39,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual TokenNftAllowance SpawnAllNftAllowance()
         {
-            return new TokenNftAllowance(TokenId.FromString("1.1.1"), AccountId.FromString("2.2.2"), AccountId.FromString("3.3.3"), null, Collections.EmptyList(), true);
+            return new TokenNftAllowance(TokenId.FromString("1.1.1"), AccountId.FromString("2.2.2"), AccountId.FromString("3.3.3"), null, [], true);
         }
 
         public virtual HbarAllowance SpawnHbarAllowance()

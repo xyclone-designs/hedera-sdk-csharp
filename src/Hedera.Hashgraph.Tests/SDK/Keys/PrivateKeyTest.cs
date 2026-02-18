@@ -1,18 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Java.Nio.Charset;
-using Java.Time;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.HBar;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
+using Google.Protobuf.WellKnownTypes;
+
+namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
     public class PrivateKeyTest
     {
@@ -20,14 +19,26 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Keys
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         public virtual void SignTransactionWorks()
         {
-            byte[] bytes = new AccountCreateTransaction().SetNodeAccountIds(Collections.SingletonList(AccountId.FromString("0.0.5005"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetKeyWithoutAlias(unusedPrivateKey).SetInitialBalance(Hbar.FromTinybars(450)).SetProxyAccountId(AccountId.FromString("0.0.1001")).SetReceiverSignatureRequired(true).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().ToBytes();
-            AccountCreateTransaction transaction = (AccountCreateTransaction)Transaction.FromBytes(bytes);
+            byte[] bytes = new AccountCreateTransaction()
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				InitialBalance = Hbar.FromTinybars(450),
+				ProxyAccountId = AccountId.FromString("0.0.1001"),
+				ReceiverSigRequired = true,
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+			}
+            .SetKeyWithoutAlias(unusedPrivateKey)
+            .Freeze()
+            .ToBytes();
+            AccountCreateTransaction transaction = Transaction.FromBytes<AccountCreateTransaction>(bytes);
+            
             unusedPrivateKey.SignTransaction(transaction);
         }
 
         public virtual void Ecdsa()
         {
-            var message = "hello world".GetBytes(StandardCharsets.UTF_8);
+            var message = Encoding.UTF8.GetBytes("hello world");
             var key = PrivateKey.FromStringECDSA("8776c6b831a1b61ac10dac0304a2843de4716f54b1919bb91a2685d0fe3f3048");
             var signature = key.Sign(message);
             Assert.Equal(Hex.ToHexString(signature), "f3a13a555f1f8cd6532716b8f388bd4e9d8ed0b252743e923114c0c6cbfe414cf791c8e859afd3c12009ecf2cb20dacf01636d80823bcdbd9ec1ce59afe008f0");

@@ -32,9 +32,9 @@ namespace Hedera.Hashgraph.SDK.Account
     {
 		// <ownerId, <tokenId, index>>
 		private readonly Dictionary<AccountId, Dictionary<TokenId, int>> nftMap = [];
-		private readonly IList<HbarAllowance> HbarAllowances = [];
-        private readonly IList<TokenAllowance> TokenAllowances = [];
-        private readonly IList<TokenNftAllowance> NftAllowances = [];
+		private readonly List<HbarAllowance> HbarAllowances = [];
+        private readonly List<TokenAllowance> TokenAllowances = [];
+        private readonly List<TokenNftAllowance> NftAllowances = [];
 
         /// <summary>
         /// Constructor.
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// </summary>
         /// <returns>                         a list of hbar allowance records</returns>
         /// <remarks>@deprecatedwith no replacement</remarks>
-        public virtual IList<HbarAllowance> GetHbarAllowanceDeletions()
+        public virtual List<HbarAllowance> GetHbarAllowanceDeletions()
         {
             return [.. HbarAllowances];
         }
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <returns>                         a list of token allowance records</returns>
 		/// <remarks>@deprecatedwith no replacement</remarks>
-		public virtual IList<TokenAllowance> GetTokenAllowanceDeletions()
+		public virtual List<TokenAllowance> GetTokenAllowanceDeletions()
 		{
 			return [.. TokenAllowances];
 		}
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// Return list of nft tokens to be deleted.
 		/// </summary>
 		/// <returns>                         list of token nft allowances</returns>
-		public virtual IList<TokenNftAllowance> GetTokenNftAllowanceDeletions()
+		public virtual List<TokenNftAllowance> GetTokenNftAllowanceDeletions()
 		{
 			List<TokenNftAllowance> retval = new(NftAllowances.Count);
 
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <param name="ownerAccountId">owner's account id</param>
 		/// <param name="tokenId">the token's id</param>
 		/// <returns>                         list of nft serial numbers</returns>
-		private IList<long> GetNftSerials(AccountId ownerAccountId, TokenId tokenId)
+		private List<long> GetNftSerials(AccountId ownerAccountId, TokenId tokenId)
 		{
 			var key = ownerAccountId;
 
@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <param name="tokenId">the token's id</param>
 		/// <param name="innerMap">list of token id's and serial number records</param>
 		/// <returns>                         list of nft serial numbers</returns>
-		private IList<long> NewNftSerials(AccountId ownerAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
+		private List<long> NewNftSerials(AccountId ownerAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
 		{
 			innerMap.Add(tokenId, NftAllowances.Count);
 			TokenNftAllowance newAllowance = new(tokenId, ownerAccountId, null, null, [], default);

@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.SDK.HBar
     /// <param name="stakedToMe">the total of balance of all accounts staked to this account or contract</param>
     /// <param name="stakedAccountId">the account to which this account or contract is staking</param>
     /// <param name="stakedNodeId">the ID of the node this account or contract is staked to</param>
-    public class StakingInfo(bool declineStakingReward, Timestamp stakePeriodStart, Hbar pendingReward, Hbar stakedToMe, AccountId stakedAccountId, long stakedNodeId)
+    public class StakingInfo(bool declineStakingReward, Timestamp stakePeriodStart, Hbar pendingReward, Hbar stakedToMe, AccountId? stakedAccountId, long? stakedNodeId)
     {
         /// <summary>
         /// Convert a byte array to a staking info object.
@@ -62,11 +62,11 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// <summary>
         /// The account to which this account or contract is staking.
         /// </summary>
-        public AccountId StakedAccountId { get; } = stakedAccountId;
+        public AccountId? StakedAccountId { get; } = stakedAccountId;
         /// <summary>
         /// The ID of the node this account or contract is staked to.
         /// </summary>
-        public long StakedNodeId { get; } = stakedNodeId;
+        public long? StakedNodeId { get; } = stakedNodeId;
 
         /// <summary>
         /// Convert the staking info object to a byte array.
@@ -78,15 +78,22 @@ namespace Hedera.Hashgraph.SDK.HBar
 		}
 		public virtual Proto.StakingInfo ToProtobuf()
         {
-            return new Proto.StakingInfo
+			Proto.StakingInfo proto = new ()
             {
 				DeclineReward = DeclineStakingReward,
 				StakePeriodStart = Utils.TimestampConverter.ToProtobuf(StakePeriodStart),
 				PendingReward = PendingReward.ToTinybars(),
 				StakedToMe = StakedToMe.ToTinybars(),
-				StakedAccountId = StakedAccountId.ToProtobuf(),
-				StakedNodeId = StakedNodeId
 			};
-        }
+
+            if (StakedAccountId is not null)
+				proto.StakedAccountId = StakedAccountId.ToProtobuf();
+
+            if (StakedNodeId is not null)
+				proto.StakedNodeId = StakedNodeId.Value;
+
+            return proto;
+
+		}
     }
 }

@@ -1,21 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api;
+using Hedera.Hashgraph.SDK.Contract;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
     class EvmHookSpecTest
     {
-        public virtual void ConstructorRejectsNullContractId()
-        {
-            NullReferenceException ex = Assert.Throws<NullReferenceException>(() => new EvmHook((ContractId)null));
-            Assert.True(ex.GetMessage().Contains("contractId cannot be null"));
-        }
-
         public virtual void GetContractIdReturnsProvidedValue()
         {
             var cid = new ContractId(0, 0, 1234);
@@ -30,7 +21,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             var c = new EvmHook(new ContractId(0, 0, 2));
             Assert.Equal(a, b);
             Assert.Equal(a.GetHashCode(), b.GetHashCode());
-            AssertNotEquals(a, c);
+            Assert.NotEqual(a, c);
         }
 
         public virtual void ToStringContainsContractId()

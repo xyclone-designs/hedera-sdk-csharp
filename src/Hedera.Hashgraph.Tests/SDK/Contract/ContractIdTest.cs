@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             string correctAddress = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e";
             ContractId id = ContractId.FromEvmAddress(0, 0, correctAddress);
-            AssertThat(id.evmAddress).IsNotNull();
+            Assert.NotNull(id.evmAddress);
             Assert.Equal(Hex.ToHexString(id.evmAddress), "742d35cc6634c0532925a3b844bc454e4438f44e");
         }
 

@@ -68,7 +68,7 @@ message Token {
      * All token amounts in the network are stored as integer amounts, with each
      * unit representing 10<sup>-decimals</sup> whole tokens.
      * <p>
-     * For tokens with `token_type` set to `NON_FUNGIBLE_UNIQUE` this MUST be 0.
+     * For tokens with `token_type` set to `NonFungibleUnique` this MUST be 0.
      */
     int32 decimals = 4;
 
@@ -227,7 +227,7 @@ message Token {
     /**
      * A type for this token.
      * <p>
-     * A token SHALL be either `FUNGIBLE_COMMON` or `NON_FUNGIBLE_UNIQUE`.<br/>
+     * A token SHALL be either `FUNGIBLE_COMMON` or `NonFungibleUnique`.<br/>
      * If this value was omitted during token creation, `FUNGIBLE_COMMON`
      * SHALL be used.
      */

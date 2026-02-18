@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// The list of words in this mnemonic.
 		/// </summary>
-		public readonly IList<string> Words;
+		public readonly List<string> Words;
 
         private Mnemonic(string[] words)  
         {

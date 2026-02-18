@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="customFees">the list of custom fees</param>
 		/// <returns>{@code this}</returns>
-		public virtual IList<CustomFee> CustomFees 
+		public virtual List<CustomFee> CustomFees 
         { 
             get => CustomFee.DeepCloneList(field);
 			set 

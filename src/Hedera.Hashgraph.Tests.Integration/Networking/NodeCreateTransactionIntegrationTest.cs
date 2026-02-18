@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Org.BouncyCastle.Utilities.Encoders;
+using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -19,34 +24,69 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set the network
-            var network = new HashMap<string, AccountId>();
-            network.Put("localhost:50211", LOCAL_CONSENSUS_NODE_ACCOUNT_ID);
-            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")))
+            var network = new Dictionary<string, AccountId>
+            {
+                { "localhost:50211", LOCAL_CONSENSUS_NODE_ACCOUNT_ID }
+            };
+            using (var client = Client.ForNetwork(network).SetMirrorNetwork(["localhost:5600"]))
             {
 
                 // Set the operator to be account 0.0.2
                 var originalOperatorKey = PrivateKey.FromString("302e020100300506032b65700422042091132178e72057a1d7528025956fe39b0b847f200ab59b2fdd367017f3087137");
-                client.SetOperator(new AccountId(0, 0, 2), originalOperatorKey);
+                client.OperatorSet(new AccountId(0, 0, 2), originalOperatorKey);
 
                 // The account of the new node
-                var accountID = new AccountCreateTransaction().SetKeyWithoutAlias(PrivateKey.GenerateECDSA().GetPublicKey()).SetInitialBalance(Hbar.From(1)).Execute(client).GetReceipt(client).accountId;
+                var accountID = new AccountCreateTransaction
+                {
+					KeyWithoutAlias = PrivateKey.GenerateECDSA().GetPublicKey(),
+					InitialBalance = Hbar.From(1),
+				}
+                .Execute(client)
+                .GetReceipt(client).accountId;
 
                 // Node description
                 string description = "test";
 
                 // Endpoint address can be any IPV4 address
-                var endpoint = new Endpoint().SetDomainName("tset.com").SetPort(123);
-                var endpoint2 = new Endpoint().SetDomainName("test.com").SetPort(1234);
+                var endpoint = new Endpoint
+                {
+                    DomainName = "tset.com",
+                    Port = 123
+                };
+
+                var endpoint2 = new Endpoint
+                {
+                    DomainName = "test.com",
+                    Port = 1234
+                };
 
                 // Set up grpcWebProxyEndpoint address
-                var grpcWebProxyEndpoint = new Endpoint().SetDomainName("test.com").SetPort(12345);
+                var grpcWebProxyEndpoint = new Endpoint
+                {
+                    DomainName = "test.com",
+                    Port = 12345
+                };
 
                 // Convert hex string to byte array
                 var validGossipCert = Hex.Decode(validGossipCertDER.GetBytes());
 
                 // Generate admin key
                 var adminKey = PrivateKeyECDSA.GenerateED25519();
-                new NodeCreateTransaction().SetAccountId(accountID).SetAdminKey(adminKey).SetDescription(description).SetGossipCaCertificate(validGossipCert).SetGossipEndpoints(List.Of(endpoint, endpoint2)).SetServiceEndpoints(List.Of(endpoint, endpoint2)).SetDeclineReward(true).SetGrpcWebProxyEndpoint(grpcWebProxyEndpoint).FreezeWith(client).Sign(adminKey).Execute(client).GetReceipt(client);
+                new NodeCreateTransaction
+                {
+					AccountId = accountID,
+					AdminKey = adminKey,
+					Description = description,
+					GossipCaCertificate = validGossipCert,
+					GossipEndpoints = [endpoint, endpoint2],
+					ServiceEndpoints = [endpoint, endpoint2],
+					DeclineReward = true,
+					GrpcWebProxyEndpoint = grpcWebProxyEndpoint,
+				}
+                .FreezeWith(client)
+                .Sign(adminKey)
+                .Execute(client)
+                .GetReceipt(client);
             }
         }
     }

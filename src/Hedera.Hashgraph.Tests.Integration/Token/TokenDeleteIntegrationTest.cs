@@ -17,9 +17,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetDecimals(3).SetInitialSupply(1000000).SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).SetFreezeKey(testEnv.operatorKey).SetWipeKey(testEnv.operatorKey).SetKycKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).SetFreezeDefault(false).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
-                new TokenDeleteTransaction().SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                new TokenDeleteTransaction().SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -27,8 +27,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
+                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,.Execute(testEnv.Client);
+                response.GetReceipt(testEnv.Client).TokenId;
             }
         }
 
@@ -37,13 +37,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new TokenCreateTransaction().SetTokenName("ffff").SetTokenSymbol("F").SetTreasuryAccountId(testEnv.operatorId).SetAdminKey(key).FreezeWith(testEnv.client).Sign(key).Execute(testEnv.client);
-                var tokenId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).tokenId);
+                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(key).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
                 Assert.Throws(typeof(ReceiptStatusException), () =>
                 {
-                    new TokenDeleteTransaction().SetTokenId(tokenId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenDeleteTransaction().SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
-                new TokenDeleteTransaction().SetTokenId(tokenId).FreezeWith(testEnv.client).Sign(key).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TokenDeleteTransaction().SetTokenId(tokenId).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 Assert.Throws(typeof(PrecheckStatusException), () =>
                 {
-                    new TokenDeleteTransaction().Execute(testEnv.client).GetReceipt(testEnv.client);
+                    new TokenDeleteTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }).WithMessageContaining(Status.INVALID_TOKEN_ID.ToString());
             }
         }

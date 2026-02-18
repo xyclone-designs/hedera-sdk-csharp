@@ -1,74 +1,69 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Hashgraph.Sdk.BaseNodeAddress;
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Networking;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Networking
+using System;
+
+namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     public class BaseNodeAddressTest
     {
         public virtual void FromString()
         {
             var ipAddress = BaseNodeAddress.FromString("35.237.200.180:50211");
-            AssertThat(ipAddress.GetName()).IsNull();
-            Assert.Equal(ipAddress.GetAddress(), "35.237.200.180");
-            Assert.Equal(ipAddress.GetPort(), PORT_NODE_PLAIN);
-            AssertThat(ipAddress).HasToString("35.237.200.180:50211");
+            Assert.Null(ipAddress.Name);
+            Assert.Equal(ipAddress.Address, "35.237.200.180");
+            Assert.Equal(ipAddress.Port, PORT_NODE_PLAIN);
+            Assert.Equal(ipAddress.ToString(), "35.237.200.180:50211");
             var ipAddressSecure = ipAddress.ToSecure();
-            AssertThat(ipAddressSecure.GetName()).IsNull();
-            Assert.Equal(ipAddressSecure.GetAddress(), "35.237.200.180");
-            Assert.Equal(ipAddressSecure.GetPort(), PORT_NODE_TLS);
-            AssertThat(ipAddressSecure).HasToString("35.237.200.180:50212");
+            Assert.Null(ipAddressSecure.Name);
+            Assert.Equal(ipAddressSecure.Address, "35.237.200.180");
+            Assert.Equal(ipAddressSecure.Port, PORT_NODE_TLS);
+            Assert.Equal(ipAddressSecure.ToString(), "35.237.200.180:50212");
             var ipAddressInsecure = ipAddressSecure.ToInsecure();
-            AssertThat(ipAddressInsecure.GetName()).IsNull();
-            Assert.Equal(ipAddressInsecure.GetAddress(), "35.237.200.180");
-            Assert.Equal(ipAddressInsecure.GetPort(), PORT_NODE_PLAIN);
-            AssertThat(ipAddressInsecure).HasToString("35.237.200.180:50211");
+            Assert.Null(ipAddressInsecure.Name);
+            Assert.Equal(ipAddressInsecure.Address, "35.237.200.180");
+            Assert.Equal(ipAddressInsecure.Port, PORT_NODE_PLAIN);
+            Assert.Equal(ipAddressInsecure.ToString(), "35.237.200.180:50211");
             var urlAddress = BaseNodeAddress.FromString("0.testnet.hedera.com:50211");
-            AssertThat(urlAddress.GetName()).IsNull();
-            Assert.Equal(urlAddress.GetAddress(), "0.testnet.hedera.com");
-            Assert.Equal(urlAddress.GetPort(), PORT_NODE_PLAIN);
-            AssertThat(urlAddress).HasToString("0.testnet.hedera.com:50211");
+            Assert.Null(urlAddress.Name);
+            Assert.Equal(urlAddress.Address, "0.testnet.hedera.com");
+            Assert.Equal(urlAddress.Port, PORT_NODE_PLAIN);
+            Assert.Equal(urlAddress.ToString(), "0.testnet.hedera.com:50211");
             var urlAddressSecure = urlAddress.ToSecure();
-            AssertThat(urlAddressSecure.GetName()).IsNull();
-            Assert.Equal(urlAddressSecure.GetAddress(), "0.testnet.hedera.com");
-            Assert.Equal(urlAddressSecure.GetPort(), PORT_NODE_TLS);
-            AssertThat(urlAddressSecure).HasToString("0.testnet.hedera.com:50212");
+            Assert.Null(urlAddressSecure.Name);
+            Assert.Equal(urlAddressSecure.Address, "0.testnet.hedera.com");
+            Assert.Equal(urlAddressSecure.Port, PORT_NODE_TLS);
+            Assert.Equal(urlAddressSecure.ToString(), "0.testnet.hedera.com:50212");
             var urlAddressInsecure = urlAddressSecure.ToInsecure();
-            AssertThat(urlAddressInsecure.GetName()).IsNull();
-            Assert.Equal(urlAddressInsecure.GetAddress(), "0.testnet.hedera.com");
-            Assert.Equal(urlAddressInsecure.GetPort(), PORT_NODE_PLAIN);
-            AssertThat(urlAddressInsecure).HasToString("0.testnet.hedera.com:50211");
+            Assert.Null(urlAddressInsecure.Name);
+            Assert.Equal(urlAddressInsecure.Address, "0.testnet.hedera.com");
+            Assert.Equal(urlAddressInsecure.Port, PORT_NODE_PLAIN);
+            Assert.Equal(urlAddressInsecure.ToString(), "0.testnet.hedera.com:50211");
             var processAddress = BaseNodeAddress.FromString("in-process:testingProcess");
-            Assert.Equal(processAddress.GetName(), "testingProcess");
-            AssertThat(processAddress.GetAddress()).IsNull();
-            Assert.Equal(processAddress.GetPort(), 0);
-            AssertThat(processAddress).HasToString("testingProcess");
+            Assert.Equal(processAddress.Name, "testingProcess");
+            Assert.Null(processAddress.Address);
+            Assert.Equal(processAddress.Port, 0);
+            Assert.Equal(processAddress.ToString(), "testingProcess");
             var processAddressSecure = processAddress.ToSecure();
-            Assert.Equal(processAddressSecure.GetName(), "testingProcess");
-            AssertThat(processAddressSecure.GetAddress()).IsNull();
-            Assert.Equal(processAddressSecure.GetPort(), 0);
-            AssertThat(processAddressSecure).HasToString("testingProcess");
+            Assert.Equal(processAddressSecure.Name, "testingProcess");
+            Assert.Null(processAddressSecure.Address);
+            Assert.Equal(processAddressSecure.Port, 0);
+            Assert.Equal(processAddressSecure.ToString(), "testingProcess");
             var processAddressInsecure = processAddressSecure.ToInsecure();
-            Assert.Equal(processAddressInsecure.GetName(), "testingProcess");
-            AssertThat(processAddressInsecure.GetAddress()).IsNull();
-            Assert.Equal(processAddressInsecure.GetPort(), 0);
-            AssertThat(processAddressInsecure).HasToString("testingProcess");
+            Assert.Equal(processAddressInsecure.Name, "testingProcess");
+            Assert.Null(processAddressInsecure.Address);
+            Assert.Equal(processAddressInsecure.Port, 0);
+            Assert.Equal(processAddressInsecure.ToString(), "testingProcess");
             var mirrorNodeAddress = BaseNodeAddress.FromString("mainnet-public.mirrornode.hedera.com:443");
-            AssertThat(mirrorNodeAddress.GetName()).IsNull();
-            Assert.Equal(mirrorNodeAddress.GetAddress(), "mainnet-public.mirrornode.hedera.com");
-            Assert.Equal(mirrorNodeAddress.GetPort(), PORT_MIRROR_TLS);
-            AssertThat(mirrorNodeAddress).HasToString("mainnet-public.mirrornode.hedera.com:443");
+            Assert.Null(mirrorNodeAddress.Name);
+            Assert.Equal(mirrorNodeAddress.Address, "mainnet-public.mirrornode.hedera.com");
+            Assert.Equal(mirrorNodeAddress.Port, PORT_MIRROR_TLS);
+            Assert.Equal(mirrorNodeAddress.ToString(), "mainnet-public.mirrornode.hedera.com:443");
             var mirrorNodeAddressSecure = mirrorNodeAddress.ToSecure();
-            AssertThat(mirrorNodeAddressSecure.GetName()).IsNull();
-            Assert.Equal(mirrorNodeAddressSecure.GetAddress(), "mainnet-public.mirrornode.hedera.com");
-            Assert.Equal(mirrorNodeAddressSecure.GetPort(), PORT_MIRROR_TLS);
-            AssertThat(mirrorNodeAddressSecure).HasToString("mainnet-public.mirrornode.hedera.com:443");
+            Assert.Null(mirrorNodeAddressSecure.Name);
+            Assert.Equal(mirrorNodeAddressSecure.Address, "mainnet-public.mirrornode.hedera.com");
+            Assert.Equal(mirrorNodeAddressSecure.Port, PORT_MIRROR_TLS);
+            Assert.Equal(mirrorNodeAddressSecure.ToString(), "mainnet-public.mirrornode.hedera.com:443");
             Assert.Throws(typeof(InvalidOperationException), () => BaseNodeAddress.FromString("this is a random string with spaces:443"));
             Assert.Throws(typeof(InvalidOperationException), () => BaseNodeAddress.FromString("mainnet-public.mirrornode.hedera.com:notarealport"));
         }

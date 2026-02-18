@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// transfers performed by the transaction, or by a smart contract it calls,
         /// or by the creation of threshold records that it triggers.
         /// </summary>
-        public readonly IList<Transfer> Transfers;
+        public readonly List<Transfer> Transfers;
         /// <summary>
         /// All fungible token transfers as a result of this transaction as a map
         /// </summary>
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// All fungible token transfers as a result of this transaction as a list
         /// </summary>
-        public readonly IList<TokenTransfer> TokenTransferList;
+        public readonly List<TokenTransfer> TokenTransferList;
         /// <summary>
         /// All NFT Token transfers as a result of this transaction
         /// </summary>
@@ -84,11 +84,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// All custom fees that were assessed during a CryptoTransfer, and must be paid if the
         /// transaction status resolved to SUCCESS
         /// </summary>
-        public readonly IList<AssessedCustomFee> AssessedCustomFees;
+        public readonly List<AssessedCustomFee> AssessedCustomFees;
         /// <summary>
         /// All token associations implicitly created while handling this transaction
         /// </summary>
-        public readonly IList<TokenAssociation> AutomaticTokenAssociations;
+        public readonly List<TokenAssociation> AutomaticTokenAssociations;
         /// <summary>
         /// In the record of an internal CryptoCreate transaction triggered by a user
         /// transaction with a (previously unused) alias, the new account's alias.
@@ -98,12 +98,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// The records of processing all child transaction spawned by the transaction with the given
         /// top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
         /// </summary>
-        public readonly IList<TransactionRecord> Children;
+        public readonly List<TransactionRecord> Children;
         /// <summary>
         /// The records of processing all consensus transaction with the same id as the distinguished
         /// record above, in chronological order.
         /// </summary>
-        public readonly IList<TransactionRecord> Duplicates;
+        public readonly List<TransactionRecord> Duplicates;
         /// <summary>
         /// In the record of an internal transaction, the consensus timestamp of the user
         /// transaction that spawned it.
@@ -117,19 +117,19 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// An approved allowance of hbar transfers for a spender
         /// </summary>
-        public readonly IList<HbarAllowance> HbarAllowanceAdjustments;
+        public readonly List<HbarAllowance> HbarAllowanceAdjustments;
         /// <summary>
         /// An approved allowance of token transfers for a spender
         /// </summary>
-        public readonly IList<TokenAllowance> TokenAllowanceAdjustments;
+        public readonly List<TokenAllowance> TokenAllowanceAdjustments;
         /// <summary>
         /// An approved allowance of NFT transfers for a spender
         /// </summary>
-        public readonly IList<TokenNftAllowance> TokenNftAllowanceAdjustments;
+        public readonly List<TokenNftAllowance> TokenNftAllowanceAdjustments;
         /// <summary>
         /// List of accounts with the corresponding staking rewards paid as a result of a transaction.
         /// </summary>
-        public readonly IList<Transfer> PaidStakingRewards;
+        public readonly List<Transfer> PaidStakingRewards;
         /// <summary>
         /// In the record of a UtilPrng transaction with no output range, a pseudorandom 384-bit string.
         /// </summary>
@@ -154,7 +154,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// available automatic association slots available or when the recipient
         /// has set `receiver_sig_required`.
         /// </summary>
-        public readonly IList<PendingAirdropRecord> PendingAirdropRecords;
+        public readonly List<PendingAirdropRecord> PendingAirdropRecords;
 
         TransactionRecord(TransactionReceipt transactionReceipt, ByteString transactionHash, Timestamp consensusTimestamp, TransactionId transactionId, string transactionMemo, long transactionFee, ContractFunctionResult? contractFunctionResult, IList<Transfer> transfers, Dictionary<TokenId, Dictionary<AccountId, long>> tokenTransfers, IList<TokenTransfer> tokenTransferList, Dictionary<TokenId, IList<TokenNftTransfer>> tokenNftTransfers, ScheduleId scheduleRef, IList<AssessedCustomFee> assessedCustomFees, IList<TokenAssociation> automaticTokenAssociations, PublicKey? aliasKey, IList<TransactionRecord> children, IList<TransactionRecord> duplicates, Timestamp parentConsensusTimestamp, ByteString ethereumHash, IList<Transfer> paidStakingRewards, ByteString prngBytes, int prngNumber, ByteString evmAddress, IList<PendingAirdropRecord> pendingAirdropRecords)
         {

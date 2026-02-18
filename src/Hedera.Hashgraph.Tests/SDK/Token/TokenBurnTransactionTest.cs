@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
         private static readonly long testAmount = 69;
-        private static readonly IList<long> testSerials = Collections.SingletonList(420);
+        private static readonly List<long> testSerials = Collections.SingletonList(420);
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         public static void BeforeAll()
         {

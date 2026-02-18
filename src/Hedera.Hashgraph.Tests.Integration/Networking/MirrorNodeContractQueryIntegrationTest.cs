@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.File;
+using System.Threading;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -23,22 +28,63 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             System.ClearProperty("hedera.mirror.contract.port");
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
+                var response = new FileCreateTransaction()
+                {
+					Keys = testEnv.OperatorKey,
+					Contents = SMART_CONTRACT_BYTECODE,
+				}
+                .Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    Gas = 400000, 
+                    BytecodeFileId = fileId
+                
+                }
+                .Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId;
 
                 // Wait for mirror node to import data
                 Thread.Sleep(5000);
-                var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("getOwner").Execute(testEnv.client);
-                var result = new ContractCallQuery().SetContractId(contractId).SetGas(gas).SetFunction("getOwner").SetQueryPayment(new Hbar(1)).Execute(testEnv.client);
-                var simulationResult = new MirrorNodeContractCallQuery().SetContractId(contractId).SetFunction("getOwner").Execute(testEnv.client);
+                var gas = new MirrorNodeContractEstimateGasQuery()
+                    .SetContractId(contractId)
+                    .SetFunction("getOwner")
+                .Execute(testEnv.Client);
+                var result = new ContractCallQuery()
+                    .SetContractId(contractId)
+                    .SetGas(gas)
+                    .SetFunction("getOwner")
+                    .SetQueryPayment(new Hbar(1))
+                .Execute(testEnv.Client);
+                var simulationResult = new MirrorNodeContractCallQuery()
+                    .SetContractId(contractId)
+                    .SetFunction("getOwner")
+                .Execute(testEnv.Client);
                 Assert.Equal(result.GetAddress(0), simulationResult.Substring(26));
-                gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("addOwner", new ContractFunctionParameters().AddAddress(ADDRESS)).Execute(testEnv.client);
-                new ContractExecuteTransaction().SetContractId(contractId).SetGas(gas).SetFunction("addOwner", new ContractFunctionParameters().AddAddress(ADDRESS)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new MirrorNodeContractCallQuery().SetContractId(contractId).SetFunction("addOwner", new ContractFunctionParameters().AddAddress(ADDRESS)).Execute(testEnv.client);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.operatorId).SetContractId(contractId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                gas = new MirrorNodeContractEstimateGasQuery()
+                    .SetContractId(contractId)
+                    .SetFunction("addOwner", new ContractFunctionParameters().AddAddress(ADDRESS))
+                .Execute(testEnv.Client);
+                new ContractExecuteTransaction()
+                    .SetContractId(contractId)
+                    .SetGas(gas)
+                    .SetFunction("addOwner", new ContractFunctionParameters().AddAddress(ADDRESS))
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new MirrorNodeContractCallQuery()
+                    .SetContractId(contractId)
+                    .SetFunction("addOwner", new ContractFunctionParameters().AddAddress(ADDRESS))
+                .Execute(testEnv.Client);
+                new ContractDeleteTransaction()
+                    .SetTransferAccountId(testEnv.OperatorId)
+                    .SetContractId(contractId)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new FileDeleteTransaction()
+                    .SetFileId(fileId)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -48,9 +94,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var defaultGas = 22892;
                 var contractId = new ContractId(0, 0, 1231456);
-                var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("getOwner").Execute(testEnv.client);
+                var gas = new MirrorNodeContractEstimateGasQuery()
+                    .SetContractId(contractId)
+                    .SetFunction("getOwner")
+                .Execute(testEnv.Client);
                 Assert.Equal(gas, defaultGas);
-                var result = new MirrorNodeContractCallQuery().SetContractId(contractId).SetFunction("getOwner").Execute(testEnv.client);
+                var result = new MirrorNodeContractCallQuery()
+                    .SetContractId(contractId)
+                    .SetFunction("getOwner")
+                .Execute(testEnv.Client);
                 Assert.Equal(result, "0x");
             }
         }
@@ -59,20 +111,40 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
+                var response = new FileCreateTransaction()
+                    .SetKeys(testEnv.OperatorKey)
+                    .SetContents(SMART_CONTRACT_BYTECODE)
+                .Execute(testEnv.Client);
+                var fileId = response
+                    .GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    Gas = 400000, 
+                    BytecodeFileId = fileId
+                
+                }
+            .Execute(testEnv.Client);
+                var contractId = response
+                    .GetReceipt(testEnv.Client).ContractId;
 
                 // Wait for mirror node to import data
                 Thread.Sleep(5000);
                 Assert.Throws(typeof(ExecutionException), () =>
                 {
-                    new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetGasLimit(100).SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS)).Execute(testEnv.client);
+                    new MirrorNodeContractEstimateGasQuery()
+                    .SetContractId(contractId)
+                    .SetGasLimit(100)
+                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
+                .Execute(testEnv.Client);
                 }).WithMessageContaining("Received non-200 response from Mirror Node");
                 Assert.Throws(typeof(ExecutionException), () =>
                 {
-                    new MirrorNodeContractCallQuery().SetContractId(contractId).SetGasLimit(100).SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS)).Execute(testEnv.client);
+                    new MirrorNodeContractCallQuery()
+                    .SetContractId(contractId)
+                    .SetGasLimit(100)
+                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
+                .Execute(testEnv.Client);
                 }).WithMessageContaining("Received non-200 response from Mirror Node");
             }
         }
@@ -86,20 +158,38 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 using (var testEnv = new IntegrationTestEnv(1))
                 {
-                    var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                    var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                    response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).Execute(testEnv.client);
-                    var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
+                    var response = new FileCreateTransaction()
+                        .SetKeys(testEnv.OperatorKey)
+                        .SetContents(SMART_CONTRACT_BYTECODE)
+                    .Execute(testEnv.Client);
+                    var fileId = response
+                        .GetReceipt(testEnv.Client).FileId);
+                    response = new ContractCreateTransaction
+                    {
+                        AdminKey = testEnv.OperatorKey,
+                        Gas = 400000, 
+                        BytecodeFileId = fileId
+                    
+                    }
+                .Execute(testEnv.Client);
+                    var contractId = response
+                        .GetReceipt(testEnv.Client).ContractId;
 
                     // Wait for mirror node to import data
                     Thread.Sleep(5000);
                     Assert.Throws(typeof(ExecutionException), () =>
                     {
-                        new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS)).Execute(testEnv.client);
+                        new MirrorNodeContractEstimateGasQuery()
+                        .SetContractId(contractId)
+                        .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
+                    .Execute(testEnv.Client);
                     }).WithMessageContaining("Received non-200 response from Mirror Node");
                     Assert.Throws(typeof(ExecutionException), () =>
                     {
-                        new MirrorNodeContractCallQuery().SetContractId(contractId).SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS)).Execute(testEnv.client);
+                        new MirrorNodeContractCallQuery()
+                        .SetContractId(contractId)
+                        .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
+                    .Execute(testEnv.Client);
                     }).WithMessageContaining("Received non-200 response from Mirror Node");
                 }
             }
@@ -115,19 +205,55 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.operatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.client);
-                var fileId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).fileId);
-                response = new ContractCreateTransaction().SetAdminKey(testEnv.operatorKey).SetGas(400000).SetBytecodeFileId(fileId).Execute(testEnv.client);
-                var contractId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).contractId);
-                var receiverAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(PrivateKey.GenerateED25519()).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+                var response = new FileCreateTransaction()
+                    .SetKeys(testEnv.OperatorKey)
+                    .SetContents(SMART_CONTRACT_BYTECODE)
+                .Execute(testEnv.Client);
+                var fileId = response
+                    .GetReceipt(testEnv.Client).FileId);
+                response = new ContractCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    Gas = 400000, 
+                    BytecodeFileId = fileId
+                
+                }
+            .Execute(testEnv.Client);
+                var contractId = response
+                    .GetReceipt(testEnv.Client).ContractId;
+                var receiverAccountId = new AccountCreateTransaction()
+                    .SetKeyWithoutAlias(PrivateKey.GenerateED25519())
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
 
                 // Wait for mirror node to import data
                 Thread.Sleep(5000);
                 var receiverEvmAddress = receiverAccountId.ToEvmAddress();
-                var owner = new MirrorNodeContractCallQuery().SetContractId(contractId).SetFunction("getOwner").Execute(testEnv.client).Substring(26);
-                var gas = new MirrorNodeContractEstimateGasQuery().SetContractId(contractId).SetGasLimit(1000000).SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress)).SetSenderEvmAddress(owner).SetValue(123).Execute(testEnv.client);
-                new ContractExecuteTransaction().SetContractId(contractId).SetGas(300000).SetPayableAmount(new Hbar(1)).SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress)).Execute(testEnv.client).GetReceipt(testEnv.client);
-                new MirrorNodeContractCallQuery().SetContractId(contractId).SetGasLimit(1000000).SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress)).SetSenderEvmAddress(owner).SetValue(123).Execute(testEnv.client);
+                var owner = new MirrorNodeContractCallQuery()
+                    .SetContractId(contractId)
+                    .SetFunction("getOwner")
+                .Execute(testEnv.Client).Substring(26);
+                var gas = new MirrorNodeContractEstimateGasQuery()
+                    .SetContractId(contractId)
+                    .SetGasLimit(1000000)
+                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
+                    .SetSenderEvmAddress(owner)
+                    .SetValue(123)
+                .Execute(testEnv.Client);
+                new ContractExecuteTransaction()
+                    .SetContractId(contractId)
+                    .SetGas(300000)
+                    .SetPayableAmount(new Hbar(1))
+                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new MirrorNodeContractCallQuery()
+                    .SetContractId(contractId)
+                    .SetGasLimit(1000000)
+                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
+                    .SetSenderEvmAddress(owner)
+                    .SetValue(123)
+                .Execute(testEnv.Client);
             }
         }
     }

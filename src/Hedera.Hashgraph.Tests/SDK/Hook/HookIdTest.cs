@@ -1,13 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Hook;
 
-namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
+namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
     class HookIdTest
     {
@@ -20,8 +15,8 @@ namespace Hedera.Hashgraph.Tests.SDK.SDK.Hook
             var parsed = HookId.FromProtobuf(proto);
             Assert.Equal(parsed, hookId);
             Assert.Equal(parsed.GetHashCode(), hookId.GetHashCode());
-            Assert.Equal(parsed.GetEntityId(), entity);
-            Assert.Equal(parsed.GetHookId(), 42);
+            Assert.Equal(parsed.EntityId, entity);
+            Assert.Equal(parsed.HookId_, 42);
         }
     }
 }

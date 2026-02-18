@@ -11,6 +11,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Topic;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Fees;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -20,10 +23,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                new TopicCreateTransaction().SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client).GetReceipt(testEnv.client);
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicCreateTransaction()
+                    .SetTopicMemo("[e2e::TopicCreateTransaction]")
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var response = new TopicCreateTransaction()
+                    AdminKey = testEnv.OperatorKey,
+                    .SetTopicMemo("[e2e::TopicCreateTransaction]")
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
+                new TopicDeleteTransaction()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -31,8 +41,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().Execute(testEnv.client);
-                AssertThat(response.GetReceipt(testEnv.client).topicId).IsNotNull();
+                var response = new TopicCreateTransaction()
+                .Execute(testEnv.Client);
+                Assert.NotNull(response.GetReceipt(testEnv.Client).TopicId);
             }
         }
 
@@ -45,30 +56,44 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var amount1 = 1;
                 var denominatingTokenId2 = CreateToken(testEnv);
                 var amount2 = 2;
-                var customFixedFees = List.Of(new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId1).SetAmount(amount1), new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId2).SetAmount(amount2));
+                var customFixedFees = List.Of(new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetDenominatingTokenId(denominatingTokenId1)
+                    .SetAmount(amount1), new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetDenominatingTokenId(denominatingTokenId2)
+                    .SetAmount(amount2));
 
                 // Create revenue-generating topic
-                var response = new TopicCreateTransaction().SetFeeScheduleKey(testEnv.operatorKey).SetSubmitKey(testEnv.operatorKey).SetAdminKey(testEnv.operatorKey).SetFeeExemptKeys(feeExemptKeys).SetCustomFees(customFixedFees).Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction()
+                    .SetFeeScheduleKey(testEnv.OperatorKey)
+                    .SetSubmitKey(testEnv.OperatorKey)
+                    AdminKey = testEnv.OperatorKey,
+                    .SetFeeExemptKeys(feeExemptKeys)
+                    .SetCustomFees(customFixedFees)
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
 
                 // Get Topic Info
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
-                Assert.Equal(info.feeScheduleKey, testEnv.operatorKey);
+                var info = new TopicInfoQuery()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client);
+                Assert.Equal(info.FeeScheduleKey, testEnv.OperatorKey);
 
                 // Validate fee exempt keys
                 for (int i = 0; i < feeExemptKeys.Count; i++)
                 {
                     var key = (PrivateKey)feeExemptKeys[i];
                     PublicKey publicKey = key.GetPublicKey();
-                    Assert.Equal(info.feeExemptKeys[i], publicKey);
+                    Assert.Equal(info.FeeExemptKeys[i], publicKey);
                 }
 
 
                 // Validate custom fees
                 for (int i = 0; i < customFixedFees.Count; i++)
                 {
-                    Assert.Equal(info.customFees[i].GetAmount(), customFixedFees[i].GetAmount());
-                    Assert.Equal(info.customFees[i].GetDenominatingTokenId(), customFixedFees[i].GetDenominatingTokenId());
+                    Assert.Equal(info.CustomFees[i].GetAmount(), customFixedFees[i].GetAmount());
+                    Assert.Equal(info.CustomFees[i].GetDenominatingTokenId(), customFixedFees[i].GetDenominatingTokenId());
                 }
 
 
@@ -79,10 +104,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newDenominatingTokenId1 = CreateToken(testEnv);
                 var newAmount2 = 4;
                 var newDenominatingTokenId2 = CreateToken(testEnv);
-                var newCustomFixedFees = new List(List.Of(new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetAmount(newAmount1).SetDenominatingTokenId(newDenominatingTokenId1), new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetAmount(newAmount2).SetDenominatingTokenId(newDenominatingTokenId2)));
-                var updateResponse = new TopicUpdateTransaction().SetTopicId(topicId).SetFeeExemptKeys(newFeeExemptKeys).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).SetCustomFees(newCustomFixedFees).Execute(testEnv.client);
-                updateResponse.GetReceipt(testEnv.client);
-                var updatedInfo = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
+                var newCustomFixedFees = new List(List.Of(new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetAmount(newAmount1)
+                    .SetDenominatingTokenId(newDenominatingTokenId1), new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetAmount(newAmount2)
+                    .SetDenominatingTokenId(newDenominatingTokenId2)));
+                var updateResponse = new TopicUpdateTransaction()
+                    .SetTopicId(topicId)
+                    .SetFeeExemptKeys(newFeeExemptKeys)
+                    .SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey())
+                    .SetCustomFees(newCustomFixedFees)
+                .Execute(testEnv.Client);
+                updateResponse.GetReceipt(testEnv.Client);
+                var updatedInfo = new TopicInfoQuery()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client);
                 Assert.Equal(updatedInfo.feeScheduleKey, newFeeScheduleKey.GetPublicKey());
                 for (int i = 0; i < newFeeExemptKeys.Count; i++)
                 {
@@ -105,19 +143,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var feeExemptKey = PrivateKey.GenerateECDSA();
                 IList<Key> feeExemptKeyListWithDuplicates = List.Of(feeExemptKey, feeExemptKey);
-                Executable duplicatesExecutable = () => new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetFeeExemptKeys(feeExemptKeyListWithDuplicates).Execute(testEnv.client);
+                Executable duplicatesExecutable = () => new TopicCreateTransaction()
+                AdminKey = testEnv.OperatorKey,
+                .SetFeeExemptKeys(feeExemptKeyListWithDuplicates)
+            .Execute(testEnv.Client);
 
                 // Expect failure due to duplicated fee exempt keys
                 Assert.Throws<PrecheckStatusException>(duplicatesExecutable, ResponseCodeEnum.FEE_EXEMPT_KEY_LIST_CONTAINS_DUPLICATED_KEYS.Name());
                 var invalidKey = PublicKey.FromString("000000000000000000000000000000000000000000000000000000000000000000");
-                Executable invalidKeyExecutable = () => new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetFeeExemptKeys(new List(List.Of(invalidKey))).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Executable invalidKeyExecutable = () => new TopicCreateTransaction()
+                AdminKey = testEnv.OperatorKey,
+                .SetFeeExemptKeys(new List(List.Of(invalidKey)))
+            .Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // Expect failure due to invalid fee exempt key
                 Assert.Throws<ReceiptStatusException>(invalidKeyExecutable, ResponseCodeEnum.INVALID_KEY_IN_FEE_EXEMPT_KEY_LIST.Name());
 
                 // Create 11 keys (exceeding the limit of 10)
                 IList<Key> feeExemptKeyListExceedingLimit = List.Of(PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA());
-                Executable exceedKeyListLimitExecutable = () => new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetFeeExemptKeys(feeExemptKeyListExceedingLimit).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Executable exceedKeyListLimitExecutable = () => new TopicCreateTransaction()
+                AdminKey = testEnv.OperatorKey,
+                .SetFeeExemptKeys(feeExemptKeyListExceedingLimit)
+            .Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // Expect failure due to exceeding fee exempt key list limit
                 Assert.Throws<ReceiptStatusException>(exceedKeyListLimitExecutable, ResponseCodeEnum.MAX_ENTRIES_FOR_FEE_EXEMPT_KEY_LIST_EXCEEDED.Name());
@@ -128,10 +175,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction()
+                    AdminKey = testEnv.OperatorKey,
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 var newFeeScheduleKey = PrivateKey.GenerateECDSA();
-                Executable updateExecutable = () => new TopicUpdateTransaction().SetTopicId(topicId).SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey()).Execute(testEnv.client).GetReceipt(testEnv.client);
+                Executable updateExecutable = () => new TopicUpdateTransaction()
+                .SetTopicId(topicId)
+                .SetFeeScheduleKey(newFeeScheduleKey.GetPublicKey())
+            .Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.Throws<ReceiptStatusException>(updateExecutable, ResponseCodeEnum.FEE_SCHEDULE_KEY_CANNOT_BE_UPDATED.Name());
             }
         }
@@ -140,12 +192,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction()
+                    AdminKey = testEnv.OperatorKey,
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 var denominatingTokenId1 = CreateToken(testEnv);
                 var denominatingTokenId2 = CreateToken(testEnv);
-                var customFees = List.Of(new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId1).SetAmount(1), new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId2).SetAmount(2));
-                Executable updateExecutable = () => new TopicUpdateTransaction().SetTopicId(topicId).SetCustomFees(customFees).Execute(testEnv.client).GetReceipt(testEnv.client);
+                var customFees = List.Of(new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetDenominatingTokenId(denominatingTokenId1)
+                    .SetAmount(1), new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetDenominatingTokenId(denominatingTokenId2)
+                    .SetAmount(2));
+                Executable updateExecutable = () => new TopicUpdateTransaction()
+                .SetTopicId(topicId)
+                .SetCustomFees(customFees)
+            .Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.Throws<ReceiptStatusException>(updateExecutable, ResponseCodeEnum.FEE_SCHEDULE_KEY_NOT_SET.Name());
             }
         }
@@ -156,14 +219,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var hbarAmount = 100000000;
                 var privateKey = PrivateKey.GenerateECDSA();
-                var customFixedFee = new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetAmount(hbarAmount / 2);
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetFeeScheduleKey(testEnv.operatorKey).AddCustomFee(customFixedFee).Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var customFixedFee = new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetAmount(hbarAmount / 2);
+                var response = new TopicCreateTransaction()
+                    AdminKey = testEnv.OperatorKey,
+                    .SetFeeScheduleKey(testEnv.OperatorKey).AddCustomFee(customFixedFee)
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 var accountId = CreateAccount(testEnv, new Hbar(1), privateKey);
                 ClientSetOperator(testEnv, accountId, privateKey);
-                new TopicMessageSubmitTransaction().SetTopicId(topicId).SetMessage("Hedera HBAR Fee Test").Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicMessageSubmitTransaction()
+                    .SetTopicId(topicId)
+                    .SetMessage("Hedera HBAR Fee Test")
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 ClientSetOperator(testEnv, accountId);
-                var balance = new AccountBalanceQuery().SetAccountId(accountId).Execute(testEnv.client).hbars;
+                var balance = new AccountBalanceQuery()
+                    .SetAccountId(accountId)
+                .Execute(testEnv.Client).hbars;
                 AssertThat(balance.ToTinybars()).IsLessThan(hbarAmount / 2);
             }
         }
@@ -175,14 +248,25 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var hbarAmount = 100000000;
                 var feeExemptKey1 = PrivateKey.GenerateECDSA();
                 var feeExemptKey2 = PrivateKey.GenerateECDSA();
-                var customFixedFee = new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetAmount(hbarAmount / 2);
-                var response = new TopicCreateTransaction().SetAdminKey(testEnv.operatorKey).SetFeeScheduleKey(testEnv.operatorKey).SetFeeExemptKeys(List.Of(feeExemptKey1.GetPublicKey(), feeExemptKey2.GetPublicKey())).AddCustomFee(customFixedFee).Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var customFixedFee = new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetAmount(hbarAmount / 2);
+                var response = new TopicCreateTransaction()
+                    AdminKey = testEnv.OperatorKey,
+                    .SetFeeScheduleKey(testEnv.OperatorKey)
+                    .SetFeeExemptKeys(List.Of(feeExemptKey1.GetPublicKey(), feeExemptKey2.GetPublicKey())).AddCustomFee(customFixedFee)
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 var payerAccountId = CreateAccount(testEnv, new Hbar(1), feeExemptKey1);
                 ClientSetOperator(testEnv, payerAccountId, feeExemptKey1);
-                new TopicMessageSubmitTransaction().SetTopicId(topicId).SetMessage("Hedera Fee Exemption Test").Execute(testEnv.client).GetReceipt(testEnv.client);
+                new TopicMessageSubmitTransaction()
+                    .SetTopicId(topicId)
+                    .SetMessage("Hedera Fee Exemption Test")
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 ClientSetOperator(testEnv, payerAccountId);
-                var balance = new AccountBalanceQuery().SetAccountId(payerAccountId).Execute(testEnv.client).hbars;
+                var balance = new AccountBalanceQuery()
+                    .SetAccountId(payerAccountId)
+                .Execute(testEnv.Client).hbars;
                 AssertThat(balance.ToTinybars()).IsGreaterThan(hbarAmount / 2);
             }
         }
@@ -191,9 +275,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var topicId = new TopicCreateTransaction().Execute(testEnv.client).GetReceipt(testEnv.client).topicId;
-                var autoRenewAccountId = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client).autoRenewAccountId;
-                AssertThat(autoRenewAccountId).IsNotNull();
+                var topicId = new TopicCreateTransaction()
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client).topicId;
+                var autoRenewAccountId = new TopicInfoQuery()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client).autoRenewAccountId;
+                Assert.NotNull(autoRenewAccountId);
             }
         }
 
@@ -203,32 +290,52 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var privateKey = PrivateKey.GenerateECDSA();
                 var publicKey = privateKey.GetPublicKey();
-                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(publicKey).SetInitialBalance(Hbar.From(10)).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
-                var topicId = new TopicCreateTransaction().SetTransactionId(TransactionId.Generate(accountId)).FreezeWith(testEnv.client).Sign(privateKey).Execute(testEnv.client).GetReceipt(testEnv.client).topicId;
-                var autoRenewAccountId = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client).autoRenewAccountId;
+                var accountId = new AccountCreateTransaction()
+                    .SetKeyWithoutAlias(publicKey)
+                    .SetInitialBalance(Hbar.From(10))
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var topicId = new TopicCreateTransaction()
+                    .SetTransactionId(TransactionId.Generate(accountId)).FreezeWith(testEnv.Client).Sign(privateKey)
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client).topicId;
+                var autoRenewAccountId = new TopicInfoQuery()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client).autoRenewAccountId;
                 Assert.Equal(autoRenewAccountId, accountId);
             }
         }
 
         private AccountId CreateAccount(IntegrationTestEnv testEnv, Hbar initialBalance, PrivateKey key)
         {
-            return new AccountCreateTransaction().SetInitialBalance(initialBalance).SetKeyWithoutAlias(key).Execute(testEnv.client).GetReceipt(testEnv.client).accountId;
+            return new AccountCreateTransaction()
+                .SetInitialBalance(initialBalance)
+                .SetKeyWithoutAlias(key)
+            .Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
         }
 
         private void ClientSetOperator(IntegrationTestEnv testEnv, AccountId accountId)
         {
-            testEnv.client.SetOperator(accountId, PrivateKey.GenerateECDSA());
+            testEnv.Client
+                .OperatorSet(accountId, PrivateKey.GenerateECDSA());
         }
 
         private void ClientSetOperator(IntegrationTestEnv testEnv, AccountId accountId, PrivateKey key)
         {
-            testEnv.client.SetOperator(accountId, key);
+            testEnv.Client
+                .OperatorSet(accountId, key);
         }
 
         private TokenId CreateToken(IntegrationTestEnv testEnv)
         {
-            var tokenCreateResponse = new TokenCreateTransaction().SetTokenName("Test Token").SetTokenSymbol("TT").SetTreasuryAccountId(testEnv.operatorId).SetInitialSupply(1000000).SetDecimals(2).SetAdminKey(testEnv.operatorKey).SetSupplyKey(testEnv.operatorKey).Execute(testEnv.client);
-            return Objects.RequireNonNull(tokenCreateResponse.GetReceipt(testEnv.client).tokenId);
+            var tokenCreateResponse = new TokenCreateTransaction()
+                .SetTokenName("Test Token")
+                .SetTokenSymbol("TT")
+                TreasuryAccountId = testEnv.OperatorId,
+                InitialSupply = 1000000,
+                .SetDecimals(2)
+                AdminKey = testEnv.OperatorKey,
+                SupplyKey = testEnv.OperatorKey,
+            .Execute(testEnv.Client);
+            return tokenCreateResponse.GetReceipt(testEnv.Client).TokenId;
         }
 
         public virtual void CanClearCustomFeesListAndFeeExemptKeysList()
@@ -240,38 +347,65 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var amount1 = 1;
                 var denominatingTokenId2 = CreateToken(testEnv);
                 var amount2 = 2;
-                var customFixedFees = List.Of(new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId1).SetAmount(amount1), new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId2).SetAmount(amount2));
+                var customFixedFees = List.Of(new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetDenominatingTokenId(denominatingTokenId1)
+                    .SetAmount(amount1), new CustomFixedFee()
+                    .SetFeeCollectorAccountId(testEnv.OperatorId)
+                    .SetDenominatingTokenId(denominatingTokenId2)
+                    .SetAmount(amount2));
 
                 // Create revenue-generating topic
-                var response = new TopicCreateTransaction().SetFeeScheduleKey(testEnv.operatorKey).SetSubmitKey(testEnv.operatorKey).SetAdminKey(testEnv.operatorKey).SetFeeExemptKeys(feeExemptKeys).SetCustomFees(customFixedFees).Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction()
+                    .SetFeeScheduleKey(testEnv.OperatorKey)
+                    .SetSubmitKey(testEnv.OperatorKey)
+                    AdminKey = testEnv.OperatorKey,
+                    .SetFeeExemptKeys(feeExemptKeys)
+                    .SetCustomFees(customFixedFees)
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
 
                 // Get Topic Info
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
-                Assert.Equal(info.feeScheduleKey, testEnv.operatorKey);
+                var info = new TopicInfoQuery()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client);
+                Assert.Equal(info.FeeScheduleKey, testEnv.OperatorKey);
 
                 // Validate fee exempt keys
                 for (int i = 0; i < feeExemptKeys.Count; i++)
                 {
                     var key = (PrivateKey)feeExemptKeys[i];
                     PublicKey publicKey = key.GetPublicKey();
-                    Assert.Equal(info.feeExemptKeys[i], publicKey);
+                    Assert.Equal(info.FeeExemptKeys[i], publicKey);
                 }
 
 
                 // Validate custom fees
                 for (int i = 0; i < customFixedFees.Count; i++)
                 {
-                    Assert.Equal(info.customFees[i].GetAmount(), customFixedFees[i].GetAmount());
-                    Assert.Equal(info.customFees[i].GetDenominatingTokenId(), customFixedFees[i].GetDenominatingTokenId());
+                    Assert.Equal(info.CustomFees[i].GetAmount(), customFixedFees[i].GetAmount());
+                    Assert.Equal(info.CustomFees[i].GetDenominatingTokenId(), customFixedFees[i].GetDenominatingTokenId());
                 }
 
                 var newFeeScheduleKey = PrivateKey.GenerateECDSA();
-                new TopicUpdateTransaction().SetTopicId(topicId).ClearFeeExemptKeys().ClearFeeScheduleKey().ClearCustomFees().FreezeWith(testEnv.client).Sign(newFeeScheduleKey).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var cleared = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
-                Assert.Empty(cleared.feeExemptKeys);
-                AssertThat(cleared.feeScheduleKey).IsNull();
-                Assert.Empty(cleared.customFees);
+                new TopicUpdateTransaction
+                {
+					TopicId = topicId,
+                    FeeExemptKeys = null,
+                    FeeScheduleKey = null,
+                    CustomFees = null,
+				}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(newFeeScheduleKey)
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var cleared = new TopicInfoQuery
+                {
+					TopicId = topicId
+				}
+                .Execute(testEnv.Client);
+                Assert.Empty(cleared.FeeExemptKeys);
+                Assert.Null(cleared.FeeScheduleKey);
+                Assert.Empty(cleared.CustomFees);
             }
         }
 
@@ -279,42 +413,72 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                IList<Key> feeExemptKeys = new List(List.Of(PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()));
+                IList<Key> feeExemptKeys = [ PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA() ];
                 var denominatingTokenId1 = CreateToken(testEnv);
                 var amount1 = 1;
                 var denominatingTokenId2 = CreateToken(testEnv);
                 var amount2 = 2;
-                var customFixedFees = List.Of(new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId1).SetAmount(amount1), new CustomFixedFee().SetFeeCollectorAccountId(testEnv.operatorId).SetDenominatingTokenId(denominatingTokenId2).SetAmount(amount2));
+                var customFixedFees = 
+                [
+                    new CustomFixedFee
+                    {
+						FeeCollectorAccountId = testEnv.OperatorId,
+					    DenominatingTokenId = denominatingTokenId1,
+					    Amount = amount1
+					}, 
+                    new CustomFixedFee
+                    {
+                        FeeCollectorAccountId = testEnv.OperatorId,
+					    DenominatingTokenId = denominatingTokenId2,
+					    Amount = amount2
+					}
+				];
 
                 // Create revenue-generating topic
-                var response = new TopicCreateTransaction().SetFeeScheduleKey(testEnv.operatorKey).SetSubmitKey(testEnv.operatorKey).SetAdminKey(testEnv.operatorKey).SetFeeExemptKeys(feeExemptKeys).SetCustomFees(customFixedFees).Execute(testEnv.client);
-                var topicId = Objects.RequireNonNull(response.GetReceipt(testEnv.client).topicId);
+                var response = new TopicCreateTransaction
+                {
+					FeeScheduleKey = testEnv.OperatorKey,
+					SubmitKey = testEnv.OperatorKey,
+					AdminKey = testEnv.OperatorKey,
+					FeeExemptKeys = feeExemptKeys,
+					CustomFees = customFixedFees,
+				}
+                .Execute(testEnv.Client);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
 
                 // Get Topic Info
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
-                Assert.Equal(info.feeScheduleKey, testEnv.operatorKey);
+                var info = new TopicInfoQuery
+                {
+					TopicId = topicId
+				}
+                .Execute(testEnv.Client);
+                Assert.Equal(info.FeeScheduleKey, testEnv.OperatorKey);
 
                 // Validate fee exempt keys
                 for (int i = 0; i < feeExemptKeys.Count; i++)
                 {
                     var key = (PrivateKey)feeExemptKeys[i];
                     PublicKey publicKey = key.GetPublicKey();
-                    Assert.Equal(info.feeExemptKeys[i], publicKey);
+                    Assert.Equal(info.FeeExemptKeys[i], publicKey);
                 }
 
 
                 // Validate custom fees
                 for (int i = 0; i < customFixedFees.Count; i++)
                 {
-                    Assert.Equal(info.customFees[i].GetAmount(), customFixedFees[i].GetAmount());
-                    Assert.Equal(info.customFees[i].GetDenominatingTokenId(), customFixedFees[i].GetDenominatingTokenId());
+                    Assert.Equal(info.CustomFees[i].GetAmount(), customFixedFees[i].GetAmount());
+                    Assert.Equal(info.CustomFees[i].GetDenominatingTokenId(), customFixedFees[i].GetDenominatingTokenId());
                 }
 
-                new TopicUpdateTransaction().SetTopicId(topicId).Execute(testEnv.client).GetReceipt(testEnv.client);
-                var sameTopic = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.client);
-                Assert.Equal(sameTopic.feeExemptKeys, info.feeExemptKeys);
-                Assert.Equal(sameTopic.feeScheduleKey, info.feeScheduleKey);
-                Assert.Equal(sameTopic.customFees[0].GetAmount(), info.customFees[0].GetAmount());
+                new TopicUpdateTransaction()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var sameTopic = new TopicInfoQuery()
+                    .SetTopicId(topicId)
+                .Execute(testEnv.Client);
+                Assert.Equal(sameTopic.FeeExemptKeys, info.FeeExemptKeys);
+                Assert.Equal(sameTopic.FeeScheduleKey, info.FeeScheduleKey);
+                Assert.Equal(sameTopic.CustomFees[0].GetAmount(), info.CustomFees[0].GetAmount());
             }
         }
     }

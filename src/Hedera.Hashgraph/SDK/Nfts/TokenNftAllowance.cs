@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// <summary>
 		/// The list of serial numbers that the spender is permitted to transfer.
 		/// </summary>
-		public readonly IList<long> SerialNumbers;
+		public readonly List<long> SerialNumbers;
 		/// <summary>
 		/// If true, the spender has access to all of the owner's NFT units of type tokenId (currently
 		/// owned and any in the future).

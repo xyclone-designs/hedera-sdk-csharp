@@ -1,18 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Hashgraph.Sdk.Key;
-using Java.Nio.Charset.StandardCharsets;
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Proto;
-using Java.Math;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Google.Protobuf;
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Keys;
+
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
@@ -20,32 +16,32 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
     {
         public virtual void SignatureVerified()
         {
-            var message = "Hello, World".GetBytes(UTF_8);
-            var privateKey = PrivateKey.GenerateED25519();
+			var message = Encoding.UTF8.GetBytes("Hello, World");
+			var privateKey = PrivateKey.GenerateED25519();
             var publicKey = privateKey.GetPublicKey();
             var signature = privateKey.Sign(message);
             Assert.Equal(signature.Length, 64);
-            AssertThat(publicKey.Verify(message, signature)).IsTrue();
+            Assert.True(publicKey.Verify(message, signature));
         }
 
         public virtual void SignatureVerifiedECDSA()
         {
-            var message = "Hello, World".GetBytes(UTF_8);
+            var message = Encoding.UTF8.GetBytes("Hello, World");
             var privateKey = PrivateKey.GenerateECDSA();
             var publicKey = privateKey.GetPublicKey();
             var signature = privateKey.Sign(message);
             Assert.Equal(signature.Length, 64);
-            AssertThat(publicKey.Verify(message, signature)).IsTrue();
+            Assert.True(publicKey.Verify(message, signature));
 
             // muck with the signature a little and make sure it breaks
             signature[5] += 1;
-            AssertThat(publicKey.Verify(message, signature)).IsFalse();
+            Assert.False(publicKey.Verify(message, signature));
         }
 
         public virtual void CalculateRecoveryIdECDSA()
         {
-            var message = "Hello, World".GetBytes(UTF_8);
-            var privateKey = PrivateKey.GenerateECDSA();
+			var message = Encoding.UTF8.GetBytes("Hello, World");
+			var privateKey = PrivateKey.GenerateECDSA();
             var signature = privateKey.Sign(message);
 
             // wrap in signature object
@@ -60,9 +56,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         public virtual void FailToCalculateRecoveryIdWithIllegalInputDataECDSA()
         {
 
-            // create signature
-            var message = "Hello, World".GetBytes(UTF_8);
-            var privateKey = PrivateKey.GenerateECDSA();
+			// create signature
+			var message = Encoding.UTF8.GetBytes("Hello, World");
+			var privateKey = PrivateKey.GenerateECDSA();
             var signature = privateKey.Sign(message);
             byte[] r = new byte[32];
             Array.Copy(signature, 0, r, 0, 32);
@@ -70,14 +66,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Array.Copy(signature, 32, s, 0, 32);
 
             // recover public key with recId > 1
-            Assert.Throws<ArgumentException>(() => Crypto.RecoverPublicKeyECDSAFromSignature(2, BigInteger.ONE, BigInteger.ONE, Crypto.CalcKeccak256(message)));
+            Assert.Throws<ArgumentException>(() => Crypto.RecoverPublicKeyECDSAFromSignature(2, BigInteger.One, BigInteger.One, Crypto.CalcKeccak256(message)));
 
             // recover public key with negative 'r' or 's'
-            Assert.Throws<ArgumentException>(() => Crypto.RecoverPublicKeyECDSAFromSignature(0, BigInteger.ValueOf(-1), BigInteger.ONE, Crypto.CalcKeccak256(message)));
+            Assert.Throws<ArgumentException>(() => Crypto.RecoverPublicKeyECDSAFromSignature(0, BigInteger.ValueOf(-1), BigInteger.One, Crypto.CalcKeccak256(message)));
 
             // calculate recId with wrong message
-            var wrongMessage = "Hello".GetBytes(UTF_8);
-            Assert.Throws(typeof(InvalidOperationException), () => ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, wrongMessage));
+            var wrongMessage = Encoding.UTF8.GetBytes("Hello");
+			Assert.Throws(typeof(InvalidOperationException), () => ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, wrongMessage));
         }
 
         public virtual void FromProtoKeyEd25519()
@@ -193,11 +189,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var keyList = com.hedera.hashgraph.sdk.KeyList.WithThreshold(1);
             keyList.Add(key1);
             keyList.AddAll(List.Of(key2, key3));
-            AssertThat(keyList.IsEmpty()).IsFalse();
+            Assert.False(keyList.IsEmpty());
             Assert.Equal(keyList.Count, 3);
-            AssertThat(keyList).Contains(key1);
-            AssertThat(keyList).Contains(key2);
-            AssertThat(keyList).Contains(key3);
+            Assert.Contains(keyList, key1);
+            Assert.Contains(keyList, key2);
+            Assert.Contains(keyList, key3);
             var arr = keyList.ToArray();
             Assert.Equal(arr[0], key1);
             Assert.Equal(arr[1], key2);
@@ -294,13 +290,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 
         public virtual void ThrowsUnsupportedKeyFromBytes()
         {
-            byte[] keyBytes = new[]
+            byte[] keyBytes = [0, 1, 2];
+            var protoKey = new Proto.Key
             {
-                0,
-                1,
-                2
-            };
-            var protoKey = Key.NewBuilder().SetRSA3072(ByteString.CopyFrom(keyBytes)).Build();
+				RSA3072 = ByteString.CopyFrom(keyBytes)
+			};
             var bytes = protoKey.ToByteArray();
             Assert.Throws(typeof(InvalidOperationException), () => FromBytes(bytes));
         }

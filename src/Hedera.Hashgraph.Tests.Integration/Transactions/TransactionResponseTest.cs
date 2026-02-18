@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,11 +11,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(key).Execute(testEnv.client);
-                var record = transaction.GetRecord(testEnv.client);
-                AssertThat(record.transactionHash.ToByteArray()).ContainsExactly(transaction.transactionHash);
-                var accountId = record.receipt.accountId;
-                AssertThat(accountId).IsNotNull();
+                var transaction = new AccountCreateTransaction()
+                    .SetKeyWithoutAlias(key)
+                    .Execute(testEnv.Client);
+                var record = transaction.GetRecord(testEnv.Client);
+                
+                AssertThat(record.TransactionHash.ToByteArray()).ContainsExactly(transaction.TransactionHash);
+                
+                var accountId = record.Receipt.AccountId;
+
+                Assert.NotNull(accountId);
             }
         }
     }
