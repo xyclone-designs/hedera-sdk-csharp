@@ -111,10 +111,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
                     var topicId = response.GetReceipt(testEnv.Client).TopicId);
-                    Assert.Throws(typeof(PrecheckStatusException), () =>
+                    PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                     {
                         new TopicMessageSubmitTransaction().SetMessage(Contents.BIG_CONTENTS).SetMaxChunks(15).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                    }).WithMessageContaining(Status.INVALID_TOPIC_ID.ToString());
+                    }); Assert.Contains(ResponseStatus.INVALID_TOPIC_ID.ToString(), exception.Message);
                     new TopicDeleteTransaction
                 { 
                         TopicId = topicId

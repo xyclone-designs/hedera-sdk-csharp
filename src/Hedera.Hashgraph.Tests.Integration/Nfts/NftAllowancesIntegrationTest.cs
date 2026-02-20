@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					InitialBalance = new Hbar(2)
 				}
-                .SetKeyWithoutAlias(spenderKey)
+                Key = spenderKey,
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
                 var receiverKey = PrivateKey.GenerateED25519();
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					MaxAutomaticTokenAssociations = 10
 				}
-                .SetKeyWithoutAlias(receiverKey)
+                Key = receiverKey,
                 .Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 
                 TokenId nftTokenId = new TokenCreateTransaction
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nft1 = new NftId(nftTokenId, serials[0]);
                 var onBehalfOfTransactionId = TransactionId.Generate(spenderAccountId);
 
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     return new TransferTransaction
                     {
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-				}).WithMessageContaining(Status.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString());
+				}); Assert.Contains(ResponseStatus.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString(), exception.Message);
             }
         }
 
@@ -100,13 +100,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					InitialBalance = new Hbar(2)
 
 				}
-                .SetKeyWithoutAlias(spenderKey)
+                Key = spenderKey,
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
                 var receiverKey = PrivateKey.GenerateED25519();
                 var receiverAccountId = new AccountCreateTransaction()
-                .SetKeyWithoutAlias(receiverKey)
+                Key = receiverKey,
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client);
                 Assert.Equal(info[0].accountId, receiverAccountId);
                 var onBehalfOfTransactionId2 = TransactionId.Generate(spenderAccountId);
-                Assert.Throws(typeof(ReceiptStatusException), () => 
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => 
                 {
                     return new TransferTransaction
                     {
@@ -187,7 +187,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-				}).WithMessageContaining(Status.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString());
+				}); Assert.Contains(ResponseStatus.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString(), exception.Message);
             }
         }
 
@@ -196,9 +196,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var spenderKey = PrivateKey.GenerateED25519();
-                var spenderAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(spenderKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var spenderAccountId = new AccountCreateTransaction()Key = spenderKey,.SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(receiverKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverAccountId = new AccountCreateTransaction()Key = receiverKey,.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 TokenId nftTokenId = new TokenCreateTransaction
                 { 
                     TokenName = "ffff",
@@ -264,11 +264,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var delegatingSpenderKey = PrivateKey.GenerateED25519();
-                var delegatingSpenderAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(delegatingSpenderKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var delegatingSpenderAccountId = new AccountCreateTransaction()Key = delegatingSpenderKey,.SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var spenderKey = PrivateKey.GenerateED25519();
-                var spenderAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(spenderKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var spenderAccountId = new AccountCreateTransaction()Key = spenderKey,.SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverAccountId = new AccountCreateTransaction().SetKeyWithoutAlias(receiverKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverAccountId = new AccountCreateTransaction()Key = receiverKey,.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 TokenId nftTokenId = new TokenCreateTransaction
                 { 
                     TokenName = "ffff",
@@ -326,7 +326,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 var onBehalfOfTransactionId2 = TransactionId.Generate(spenderAccountId);
                 
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 { 
                     return new TransferTransaction
 					{
@@ -339,7 +339,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				    .GetReceipt(testEnv.Client)
 
 
-				}).WithMessageContaining(Status.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString());
+				}); Assert.Contains(ResponseStatus.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString(), exception.Message);
                 
                 var infoNft1 = new TokenNftInfoQuery 
                 { 

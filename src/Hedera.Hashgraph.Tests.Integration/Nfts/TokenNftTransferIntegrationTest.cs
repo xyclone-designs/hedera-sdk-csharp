@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 TransactionResponse response = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key,
+					Key = key,
 					InitialBalance = new Hbar(1),
 
 				}.Execute(testEnv.Client);
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 
-                var serialsToTransfer = new List<long>(mintReceipt.Serials.SubList(0, 4));
+                var serialsToTransfer = new List<long>(mintReceipt.Serials[0 .. 4)];
                 var transfer = new TransferTransaction();
 
                 foreach (var serial in serialsToTransfer)
@@ -97,8 +97,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var key = PrivateKey.GenerateED25519();
                 TransactionResponse response = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(key)
-                    .SetInitialBalance(new Hbar(1))
+                    Key = key,
+                    InitialBalance = new Hbar(1),
                     .Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 Assert.NotNull(accountId);
@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Sign(key)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
-                var serialsToTransfer = new List<long>(mintReceipt.Serials.SubList(0, 4));
+                var serialsToTransfer = new List<long>(mintReceipt.Serials[0 .. 4)];
                 var transfer = new TransferTransaction();
                 foreach (var serial in serialsToTransfer)
                 {
@@ -143,11 +143,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }
 
                 transfer.FreezeWith(testEnv.Client).Sign(key);
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     transfer.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.SENDER_DOES_NOT_OWN_NFT_SERIAL_NO.ToString());
+                }); Assert.Contains(ResponseStatus.SENDER_DOES_NOT_OWN_NFT_SERIAL_NO.ToString(), exception.Message);
             }
         }
     }

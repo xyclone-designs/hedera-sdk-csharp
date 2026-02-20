@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenAssociateTransaction SpawnTestTransaction()
         {
-            return new TokenAssociateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.222")).SetTokenIds(Collections.SingletonList(TokenId.FromString("0.0.666"))).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenAssociateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.222")).SetTokenIds([TokenId.FromString("0.0.666"])).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
@@ -72,14 +72,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void GetSetAccountId()
         {
-            var transaction = new TokenAssociateTransaction().SetAccountId(accountId);
+            var transaction = new TokenAssociateTransaction()AccountId = accountId,;
             Assert.Equal(transaction.GetAccountId(), accountId);
         }
 
         public virtual void GetSetAccountIdFrozen()
         {
             var transaction = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => transaction.SetAccountId(accountId));
+            Assert.Throws<InvalidOperationException>(() => transactionAccountId = accountId,);
         }
 
         public virtual void GetSetTokenIds()

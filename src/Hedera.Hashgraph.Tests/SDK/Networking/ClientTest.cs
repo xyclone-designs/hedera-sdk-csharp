@@ -223,7 +223,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             AccountId accountId = AccountId.FromString("0.0.1");
             Duration timeout = Duration.OfSeconds(5);
             Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0));
-            AccountBalanceQuery query = new AccountBalanceQuery().SetAccountId(accountId).SetMaxAttempts(3);
+            AccountBalanceQuery query = new AccountBalanceQuery()AccountId = accountId,.SetMaxAttempts(3);
             DateTimeOffset start = DateTimeOffset.UtcNow;
             try
             {
@@ -242,7 +242,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             long secondsTaken = java.time.Duration.Between(start, DateTimeOffset.UtcNow).ToSeconds();
 
             // 20 seconds would indicate we tried 2 times to connect
-            AssertThat(secondsTaken).IsLessThan(7);
+            Assert.True(secondsTaken < 7);
             client.Dispose();
         }
 
@@ -259,7 +259,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             // is not configurable.
             Duration timeout = Duration.OfSeconds(5);
             Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0));
-            AccountBalanceQuery query = new AccountBalanceQuery().SetAccountId(accountId).SetMaxAttempts(3).SetGrpcDeadline(Duration.OfSeconds(5));
+            AccountBalanceQuery query = new AccountBalanceQuery()AccountId = accountId,.SetMaxAttempts(3).SetGrpcDeadline(Duration.OfSeconds(5));
             DateTimeOffset start = DateTimeOffset.UtcNow;
             try
             {
@@ -280,7 +280,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             long secondsTaken = java.time.Duration.Between(start, DateTimeOffset.UtcNow).ToSeconds();
 
             // 20 seconds would indicate we tried 2 times to connect
-            AssertThat(secondsTaken).IsLessThan(15);
+            Assert.True(secondsTaken < 15);
             client.Dispose();
         }
 

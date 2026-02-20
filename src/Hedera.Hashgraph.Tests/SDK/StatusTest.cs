@@ -173,7 +173,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 Assert.Equal(status.code, code);
 
                 // valueOf maps ResponseCodeEnum back to Status
-                Assert.Equal(Status.ValueOf(code), status);
+                Assert.Equal(ResponseStatus.ValueOf(code), status);
 
                 // toResponseCode preserves numeric value
                 Assert.Equal(status.ToResponseCode(), code.GetNumber());

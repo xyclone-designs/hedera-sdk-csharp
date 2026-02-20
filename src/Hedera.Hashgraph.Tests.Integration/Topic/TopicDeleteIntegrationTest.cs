@@ -31,11 +31,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var response = new TopicCreateTransaction().Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId;
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.UNAUTHORIZED.ToString());
+                }); Assert.Contains(ResponseStatus.UNAUTHORIZED.ToString(), exception.Message);
             }
         }
     }

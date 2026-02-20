@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 			}
 			else
 			{
-				return Task.FromResult(transactionreceipt.FileId);
+				return Task.FromResult(transactionreceipt.FileId;
 			}
         }
 

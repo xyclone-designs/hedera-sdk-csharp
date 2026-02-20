@@ -71,8 +71,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             tx.SetGrpcDeadline(Duration.OfSeconds(10));
             var grpcRequest = tx.GetGrpcRequest(1);
             var timeRemaining = grpcRequest.GetCallOptions().GetDeadline().TimeRemaining(TimeUnit.MILLISECONDS);
-            AssertThat(timeRemaining).IsLessThan(10000);
-            AssertThat(timeRemaining).IsGreaterThan(9000);
+            Assert.True(timeRemaining < 10000);
+            Assert.True(timeRemaining > 9000);
         }
 
         public virtual void ExecutableShouldUseGrpcDeadline()
@@ -98,9 +98,9 @@ namespace Hedera.Hashgraph.Tests.SDK
 
                 // the actual grpc deadline should be no larger than the smaller of the two values -
                 // the default transaction level grpc deadline and the remaining timeout
-                AssertThat(grpcTimeRemaining).IsLessThanOrEqualTo(defaultDeadlineMs);
-                AssertThat(grpcTimeRemaining).IsLessThanOrEqualTo(currentTimeRemaining.Get());
-                AssertThat(grpcTimeRemaining).IsGreaterThan(0);
+                Assert.True(grpcTimeRemaining <= defaultDeadlineMs);
+                Assert.True(grpcTimeRemaining <= currentTimeRemaining.Get());
+                Assert.True(grpcTimeRemaining > 0);
 
                 // transaction's grpc deadline should keep its original value
                 Assert.Equal(tx.GrpcDeadline().ToMillis(), defaultDeadlineMs);
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
                 throw new StatusRuntimeException(io.grpc.Status.ABORTED);
             };
-            Assert.Throws(typeof(MaxAttemptsExceededException), () =>
+            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() =>
             {
                 tx.Execute(client, timeout);
             });
@@ -340,7 +340,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
             tx.SetNodeAccountIds(nodeAccountIds);
-            Assert.Throws(typeof(MaxAttemptsExceededException), () => tx.Execute(client));
+            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => tx.Execute(client));
         }
 
         public virtual void ExecuteRetriableErrorDuringCall()
@@ -364,7 +364,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                     throw new StatusRuntimeException(io.grpc.Status.ABORTED);
                 }
             };
-            Assert.Throws(typeof(Exception), () => tx.Execute(client));
+            Exception exception = Assert.Throws<Exception>(() => tx.Execute(client));
             Verify(node3).ChannelFailedToConnect(Any(typeof(Instant)));
             Verify(node4).ChannelFailedToConnect(Any(typeof(Instant)));
         }
@@ -379,7 +379,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             };
             When(node3.IsHealthy()).ThenReturn(true);
             When(node3.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(true);
-            Assert.Throws(typeof(MaxAttemptsExceededException), () => transactionResponse.GetReceipt(client, Duration.OfSeconds(2)));
+            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => transactionResponse.GetReceipt(client, Duration.OfSeconds(2)));
         }
 
         public virtual void ExecuteQueryDelay()
@@ -431,7 +431,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             tx.SetNodeAccountIds(nodeAccountIds);
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.ACCOUNT_DELETED).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
-            Assert.Throws(typeof(PrecheckStatusException), () => tx.Execute(client));
+            PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() => tx.Execute(client));
             Verify(node3).ChannelFailedToConnect(Any(typeof(Instant)));
         }
 
@@ -452,12 +452,12 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual void ShouldRetryReturnsCorrectStates()
         {
             var tx = new DummyTransaction();
-            Assert.Equal(tx.GetExecutionState(Status.PLATFORM_TRANSACTION_NOT_CREATED, null), ExecutionState.SERVER_ERROR);
-            Assert.Equal(tx.GetExecutionState(Status.PLATFORM_NOT_ACTIVE, null), ExecutionState.SERVER_ERROR);
-            Assert.Equal(tx.GetExecutionState(Status.BUSY, null), ExecutionState.RETRY);
-            Assert.Equal(tx.GetExecutionState(Status.INVALID_NODE_ACCOUNT, null), ExecutionState.RETRY);
-            Assert.Equal(tx.GetExecutionState(Status.OK, null), ExecutionState.SUCCESS);
-            Assert.Equal(tx.GetExecutionState(Status.ACCOUNT_DELETED, null), ExecutionState.REQUEST_ERROR);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.PLATFORM_TRANSACTION_NOT_CREATED, null), ExecutionState.SERVER_ERROR);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.PLATFORM_NOT_ACTIVE, null), ExecutionState.SERVER_ERROR);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.BUSY, null), ExecutionState.RETRY);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.INVALID_NODE_ACCOUNT, null), ExecutionState.RETRY);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.OK, null), ExecutionState.SUCCESS);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.ACCOUNT_DELETED, null), ExecutionState.REQUEST_ERROR);
         }
 
         public virtual void ShouldSetMaxRetry()
@@ -483,7 +483,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             tx.blockingUnaryCall = (grpcRequest) => txResp;
 
             // INVALID_NODE_ACCOUNT maps to RETRY, so it retries on the same node (doesn't advance)
-            Assert.Throws(typeof(MaxAttemptsExceededException), () => tx.Execute(client));
+            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => tx.Execute(client));
 
             // Verify that increaseBackoff was called on the network for the node that returned INVALID_NODE_ACCOUNT
             Verify(network, AtLeastOnce()).IncreaseBackoff(Any(typeof(Node)));
@@ -514,7 +514,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             tx.blockingUnaryCall = (grpcRequest) => txResp;
 
             // This should trigger address book update due to INVALID_NODE_ACCOUNT
-            Assert.Throws(typeof(MaxAttemptsExceededException), () => tx.Execute(client));
+            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => tx.Execute(client));
 
             // Verify that increaseBackoff was called (node marking)
             Verify(network, AtLeastOnce()).IncreaseBackoff(Any(typeof(Node))); // Note: We can't easily test the address book update in this unit test since it's async

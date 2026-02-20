@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -16,10 +16,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key,
-					InitialBalance = new Hbar(1),
-
-				}.Execute(testEnv.Client);
+                    InitialBalance = new Hbar(1),
+				}
+                Key = key,
+				.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction
                 {
@@ -67,21 +67,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key,
 					InitialBalance = new Hbar(1),
-				
-                }.Execute(testEnv.Client);
+                }
+				Key = key,
+				.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenUnfreezeTransaction()
-                        .SetAccountId(accountId)
-                        .FreezeWith(testEnv.Client)
-                        .Sign(key)
-                        .Execute(testEnv.Client)
-                        .GetReceipt(testEnv.Client);
+                    new TokenUnfreezeTransaction
+                    {
+						AccountId = accountId
+                    }
+                    .FreezeWith(testEnv.Client)
+                    .Sign(key)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_TOKEN_ID.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
 
@@ -106,16 +108,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                
                 }.Execute(testEnv.Client);
                 var tokenId = response.GetReceipt(testEnv.Client).TokenId;
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenUnfreezeTransaction()
-                        .SetTokenId(tokenId)
-                        .FreezeWith(testEnv.Client)
-                        .Sign(key)
-                        .Execute(testEnv.Client)
-                        .GetReceipt(testEnv.Client);
+					new TokenUnfreezeTransaction
+					{
+						TokenId = tokenId
+					}
+					.FreezeWith(testEnv.Client)
+					.Sign(key)
+					.Execute(testEnv.Client)
+					.GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_ACCOUNT_ID.ToString());
+				}); Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
 
@@ -128,7 +132,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					InitialBalance = new Hbar(1)
 				}
-                .SetKeyWithoutAlias(key)
+                Key = key,
                 .Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction
@@ -147,17 +151,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
 
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
-                    new TokenUnfreezeTransaction()
-                        .SetAccountId(accountId)
-                        .SetTokenId(tokenId)
-                        .FreezeWith(testEnv.Client)
-                        .Sign(key)
-                        .Execute(testEnv.Client)
-                        .GetReceipt(testEnv.Client);
+					new TokenUnfreezeTransaction
+					{
+						AccountId = accountId,
+						TokenId = tokenId,
+					}
+					.FreezeWith(testEnv.Client)
+					.Sign(key)
+					.Execute(testEnv.Client)
+					.GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.TOKEN_NOT_ASSOCIATED_TO_ACCOUNT.ToString());
+				}); Assert.Contains(ResponseStatus.TokenNotAssociatedToAccount.ToString(), exception.Message);
             }
         }
     }

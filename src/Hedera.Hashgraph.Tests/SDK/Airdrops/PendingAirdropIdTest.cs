@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
         public virtual void TestSetTokenId()
         {
             PendingAirdropId pendingAirdropId = new PendingAirdropId();
-            pendingAirdropId.SetTokenId(tokenId);
+            pendingAirdropIdTokenId = tokenId,;
             Assert.Equal(tokenId, pendingAirdropId.GetTokenId());
         }
 

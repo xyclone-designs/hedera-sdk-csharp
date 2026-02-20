@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 				ReceiverSigRequired = true,
 				MaxTransactionFee = Hbar.FromTinybars(100000),
 			}
-            .SetKeyWithoutAlias(unusedPrivateKey)
+            Key = unusedPrivateKey,
             .Freeze()
             .ToBytes();
             AccountCreateTransaction transaction = Transaction.FromBytes<AccountCreateTransaction>(bytes);

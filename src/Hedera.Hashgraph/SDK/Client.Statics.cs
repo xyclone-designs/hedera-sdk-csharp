@@ -61,11 +61,15 @@ namespace Hedera.Hashgraph.SDK
 		/// <param name="NetworkMap">the map of node IDs to node addresses that make up the Network.</param>
 		/// <param name="executor">runs the grpc requests asynchronously.</param>
 		/// <returns>{@link Client}</returns>
-		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, ExecutorService executor)
+		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForNetwork(executor, NetworkMap);
 			var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
-			return new Client(executor, network, mirrorNetwork, null, false, null, 0, 0);
+			Client client = new (executor, network, mirrorNetwork, null, false, null, 0, 0);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 		/// <summary>
 		/// Construct a client given a set of nodes.
@@ -78,7 +82,7 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		/// <param name="NetworkMap">the map of node IDs to node addresses that make up the Network.</param>
 		/// <returns>{@link Client}</returns>
-		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap)
+		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, Action<Client>? oncreate = null)
 		{
 			ExecutorService executor = CreateExecutor();
 
@@ -111,7 +115,11 @@ namespace Hedera.Hashgraph.SDK
 
 			var network = Network.ForNetwork(executor, NetworkMap);
 			var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
-			return new Client(executor, network, mirrorNetwork, null, true, null, shard, realm);
+			Client client = new (executor, network, mirrorNetwork, null, true, null, shard, realm);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 		/// <summary>
 		/// Set up the client from selected mirror Network.
@@ -151,12 +159,17 @@ namespace Hedera.Hashgraph.SDK
 		/// href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
 		/// </summary>
 		/// <returns>{@link Client}</returns>
-		public static Client ForMainnet()
+		public static Client ForMainnet(Action<Client>? oncreate = null)
 		{
 			var executor = CreateExecutor();
 			var network = Network.ForMainnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
-			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+			
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 		/// <summary>
 		/// Construct a Hedera client pre-configured for <a
@@ -164,23 +177,33 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		/// <param name="executor">runs the grpc requests asynchronously.</param>
 		/// <returns>{@link Client}</returns>
-		public static Client ForMainnet(ExecutorService executor)
+		public static Client ForMainnet(ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForMainnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
-			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 		/// <summary>
 		/// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
 		/// access</a>.
 		/// </summary>
 		/// <returns>{@link Client}</returns>
-		public static Client ForTestnet()
+		public static Client ForTestnet(Action<Client>? oncreate = null)
 		{
 			var executor = CreateExecutor();
 			var network = Network.ForTestnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
-			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 		/// <summary>
 		/// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
@@ -188,11 +211,16 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		/// <param name="executor">runs the grpc requests asynchronously.</param>
 		/// <returns>{@link Client}</returns>
-		public static Client ForTestnet(ExecutorService executor)
+		public static Client ForTestnet(ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForTestnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
-			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 		/// <summary>
 		/// Construct a Hedera client pre-configured for <a
@@ -200,12 +228,17 @@ namespace Hedera.Hashgraph.SDK
 		/// nodes</a>.
 		/// </summary>
 		/// <returns>{@link Client}</returns>
-		public static Client ForPreviewnet()
+		public static Client ForPreviewnet(Action<Client>? oncreate = null)
 		{
 			var executor = CreateExecutor();
 			var network = Network.ForPreviewnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
-			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 		/// <summary>
 		/// Construct a Hedera client pre-configured for <a
@@ -214,11 +247,16 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		/// <param name="executor">runs the grpc requests asynchronously.</param>
 		/// <returns>{@link Client}</returns>
-		public static Client ForPreviewnet(ExecutorService executor)
+		public static Client ForPreviewnet(ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForPreviewnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
-			return new Client(executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+
+			oncreate?.Invoke(client);
+
+			return client;
 		}
 
 		/// <summary>

@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
 
             private readonly TopicMessageIntegrationTest parent;
-            public bool Test(Throwable throwable)
+            public bool Test(Exception throwable)
             {
                 retryWarningLogged
                     ( = rue);

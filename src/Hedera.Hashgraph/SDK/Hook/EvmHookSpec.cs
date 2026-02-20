@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Hook
                 return false;
             EvmHookSpec that = (EvmHookSpec)o;
 
-            return ContractId.Equals(that.ContractId);
+            return ContractId.Equals(that.ContractId;
         }
 
         public override int GetHashCode()

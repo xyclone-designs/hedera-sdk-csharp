@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenWipeTransaction SpawnTestTransactionNft()
         {
-            return new TokenWipeTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(TokenId.FromString("0.0.111")).SetAccountId(testAccountId).SetSerials(Collections.SingletonList(444)).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenWipeTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(TokenId.FromString("0.0.111")).SetAccountId(testAccountId).SetSerials([444]).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesFungible()

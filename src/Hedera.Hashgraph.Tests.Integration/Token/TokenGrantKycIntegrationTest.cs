@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					InitialBalance = new Hbar(1)
 				}
-                .SetKeyWithoutAlias(key)
+                Key = key,
                 .Execute(testEnv.Client);
 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
@@ -67,9 +67,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
+                var response = new AccountCreateTransaction
+                {
+					Key = key,
+					InitialBalance = new Hbar(1)
+
+				}.Execute(testEnv.Client);
+                
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenGrantKycTransaction
                     { 
@@ -80,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_TOKEN_ID.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
 
@@ -107,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 var tokenId = response.GetReceipt(testEnv.Client).TokenId;
 
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenGrantKycTransaction
                     { 
@@ -118,7 +125,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_ACCOUNT_ID.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
 
@@ -131,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					InitialBalance = new Hbar(1)
 				}
-                .SetKeyWithoutAlias(key)
+                Key = key,
                 .Execute(testEnv.Client);
 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
@@ -152,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TokenId;
 
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenGrantKycTransaction
                     {
@@ -164,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.TOKEN_NOT_ASSOCIATED_TO_ACCOUNT.ToString());
+                }); Assert.Contains(ResponseStatus.TokenNotAssociatedToAccount.ToString(), exception.Message);
             }
         }
     }

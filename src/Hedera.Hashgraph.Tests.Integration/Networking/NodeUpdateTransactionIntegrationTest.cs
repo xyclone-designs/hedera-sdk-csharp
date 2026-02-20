@@ -59,9 +59,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set up the local network with 2 nodes
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
             {
 
@@ -92,6 +94,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     // Verify the transaction was successful by checking the receipt
                     var receipt = response.GetReceipt(client);
                     Assert.Equal(receipt.status, ResponseStatus.Success);
+
                 }).DoesNotThrowAnyException();
             }
         }
@@ -100,9 +103,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set up the local network with 2 nodes
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetTransportSecurity(false).SetMirrorNetwork(List.Of("localhost:5600")))
             {
 
@@ -124,9 +129,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set the network
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetTransportSecurity(false).SetMirrorNetwork(List.Of("localhost:5600")))
             {
 
@@ -140,9 +147,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Update node account id (0.0.3 -> newNodeAccountID)
                 var resp = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(newNodeAccountID).Execute(client);
-                System.@out.Println("Transaction node: " + resp.nodeId);
-                System.@out.Println("Receipt query nodes: " + resp.GetReceiptQuery().GetNodeAccountIds());
-                System.@out.Println("Client network: " + client.Network);
+                Console.WriteLine("Transaction node: " + resp.nodeId);
+                Console.WriteLine("Receipt query nodes: " + resp.GetReceiptQuery().GetNodeAccountIds());
+                Console.WriteLine("Client network: " + client.Network);
                 var receipt = resp.SetValidateStatus(true).GetReceipt(client);
                 Assert.Equal(receipt.status, ResponseStatus.Success);
 
@@ -173,9 +180,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set up the local network with 2 nodes
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
             {
 
@@ -202,7 +211,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }).IsInstanceOf(typeof(ReceiptStatusException)).HasMessageContaining("INVALID_SIGNATURE").Satisfies((exception) =>
                 {
                     var receiptException = (ReceiptStatusException)exception;
-                    Assert.Equal(receiptException.receipt.status, Status.INVALID_SIGNATURE);
+                    Assert.Equal(receiptException.receipt.status, ResponseStatus.InvalidSignature);
                 });
             }
         }
@@ -211,9 +220,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set up the local network with 2 nodes
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
             {
 
@@ -240,19 +251,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }).IsInstanceOf(typeof(ReceiptStatusException)).HasMessageContaining("INVALID_SIGNATURE").Satisfies((exception) =>
                 {
                     var receiptException = (ReceiptStatusException)exception;
-                    Assert.Equal(receiptException.receipt.status, Status.INVALID_SIGNATURE);
+                    Assert.Equal(receiptException.receipt.status, ResponseStatus.InvalidSignature);
                 });
             }
         }
 
-        // TODO - currently the test fails because returned status is Status.INVALID_SIGNATURE
+        // TODO - currently the test fails because returned status is ResponseStatus.InvalidSignature
         public virtual void TestNodeUpdateTransactionFailsWithInvalidAccountIdForNonExistentAccount()
         {
 
             // Set up the local network with 2 nodes
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
             {
 
@@ -274,7 +287,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     var receiptException = (ReceiptStatusException)exception;
 
                     // The status could be INVALID_ACCOUNT_ID or INVALID_NODE_ACCOUNT_ID
-                    AssertThat(receiptException.receipt.status).IsIn(Status.INVALID_ACCOUNT_ID, Status.INVALID_NODE_ACCOUNT_ID);
+                    AssertThat(receiptException.receipt.status).IsIn(ResponseStatus.InvalidAccountId, Status.INVALID_NODE_ACCOUNT_ID);
                 });
             }
         }
@@ -283,9 +296,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set up the local network with 2 nodes
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
             {
 
@@ -322,10 +337,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
 
             // Set the network
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
-            using (var client = Client.ForNetwork(network).SetTransportSecurity(false).SetMirrorNetwork(List.Of("localhost:5600")))
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            };
+            using (var client = Client.ForNetwork(network, client => 
+            {
+                client.TransportSecurity = false;
+                client.MirrorNetwork_ = ["localhost:5600"];
+			}))
             {
 
                 // Set the operator to be account 0.0.2
@@ -361,9 +382,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
         public virtual void TestSdkUpdatesNetworkConfigurationOnInvalidNodeAccount()
         {
-            var network = new Dictionary<string, AccountId>();
-            network.Put("localhost:50211", new AccountId(0, 0, 3));
-            network.Put("localhost:51211", new AccountId(0, 0, 4));
+            var network = new Dictionary<string, AccountId>()
+            {
+                { "localhost:50211", new AccountId(0, 0, 3) },
+                { "localhost:51211", new AccountId(0, 0, 4) }
+            }
             using (var client = Client.ForNetwork(network).SetTransportSecurity(false).SetMirrorNetwork(List.Of("localhost:5600")))
             {
                 var originalOperatorKey = PrivateKey.FromString("302e020100300506032b65700422042091132178e72057a1d7528025956fe39b0b847f200ab59b2fdd367017f3087137");

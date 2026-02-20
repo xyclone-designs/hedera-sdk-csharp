@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TopicId = topicId,
 					MaxQueryPayment = new Hbar(1000),
 				};
-                Assert.Throws(typeof(MaxQueryPaymentExceededException), () =>
+                MaxQueryPaymentExceededException exception = Assert.Throws<MaxQueryPaymentExceededException>(() =>
                 {
                     infoQuery.Execute(testEnv.Client);
                 });
@@ -132,11 +132,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
                 var cost = infoQuery.GetCost(testEnv.Client);
                 Assert.NotNull(cost);
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     infoQuery.SetQueryPayment(Hbar.FromTinybars(1)).Execute(testEnv.Client);
 
-                }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));
+                }); Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE"));
                 new TopicDeleteTransaction
                 {
                     TopicId = topicId

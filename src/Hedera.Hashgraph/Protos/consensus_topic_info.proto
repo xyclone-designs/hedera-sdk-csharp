@@ -26,7 +26,7 @@ import "timestamp.proto";
  * A query response describing the current state of a topic for the Hedera
  * Consensus Service (HCS).
  */
-message Proto.ConsensusTopicInfo {
+message ConsensusTopicInfo {
     /**
      * A short description of this topic.
      * <p>

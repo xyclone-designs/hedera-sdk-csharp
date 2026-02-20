@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.File;
+
 using System.Linq;
 using System.Text;
 
@@ -18,26 +14,52 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
-                var fileId = response.GetReceipt(testEnv.Client).FileId);
-                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(300000).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractADeploysContractBInConstructor]").Execute(testEnv.Client);
-                var contractFunctionResult = response.GetRecord(testEnv.Client).contractFunctionResult;
+                var response = new FileCreateTransaction
+                {
+					Keys = [testEnv.OperatorKey],
+					Contents = Encoding.UTF8.GetBytes(SMART_CONTRACT_BYTECODE),
+				}
+                .Execute(testEnv.Client);
+
+                var fileId = response.GetReceipt(testEnv.Client).FileId;
+                response = new ContractCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    Gas = 300000,
+                    BytecodeFileId = fileId,
+                    ContractMemo = "[e2e::ContractADeploysContractBInConstructor]"
+                
+                }.Execute(testEnv.Client);
+
+                var contractFunctionResult = response.GetRecord(testEnv.Client).ContractFunctionResult;
                 ContractId contractA = contractFunctionResult.contractId;
-                ContractId contractB = contractFunctionResult.contractNonces.Stream().Filter((contractNonce) => !contractNonce.contractId.Equals(contractA)).FindFirst().Get().contractId;
-                ContractNonceInfo contractANonceInfo = contractFunctionResult.contractNonces.Stream().Filter((contractNonce) => contractNonce.contractId.Equals(contractA)).FindFirst().Get();
-                ContractNonceInfo contractBNonceInfo = contractFunctionResult.contractNonces.Stream().Filter((contractNonce) => contractNonce.contractId.Equals(contractB)).FindFirst().Get();
+                ContractId contractB = contractFunctionResult.ContractNonces.Where((contractNonce) => !contractNonce.ContractId.Equals(contractA)).First().ContractId;
+                ContractNonceInfo contractANonceInfo = contractFunctionResult.ContractNonces.Where((contractNonce) => contractNonce.ContractId.Equals(contractA)).First();
+                ContractNonceInfo contractBNonceInfo = contractFunctionResult.ContractNonces.Where((contractNonce) => contractNonce.ContractId.Equals(contractB)).First();
 
                 // A.nonce = 2
-                Assert.Equal(contractANonceInfo.nonce, 2);
+                Assert.Equal(contractANonceInfo.Nonce, 2);
 
                 // B.nonce = 1
-                Assert.Equal(contractBNonceInfo.nonce, 1);
+                Assert.Equal(contractBNonceInfo.Nonce, 1);
 
                 // validate HIP-844 case - signer nonce should be set only for Ethereum transactions
-                Assert.Equal(contractFunctionResult.signerNonce, 0);
-                var contractId = response.GetReceipt(testEnv.Client).ContractId);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                Assert.Equal(contractFunctionResult.SignerNonce, 0);
+                
+                var contractId = response.GetReceipt(testEnv.Client).ContractId;
+                
+                new ContractDeleteTransaction
+                {
+					TransferAccountId = testEnv.OperatorId,
+					ContractId = contractId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                new FileDeleteTransaction
+                {
+                    FileId = fileId
+
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
     }

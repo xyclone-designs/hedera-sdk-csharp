@@ -10,7 +10,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class RetryTestExtension : TestExecutionExceptionHandler
     {
-        public virtual void HandleTestExecutionException(ExtensionContext context, Throwable throwable)
+        public virtual void HandleTestExecutionException(ExtensionContext context, Exception throwable)
         {
             RetryTest retryTest = context.GetRequiredTestMethod().GetAnnotation(typeof(RetryTest));
             if (retryTest == null)
@@ -23,10 +23,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             long maxDelay = retryTest.MaxDelayMs();
             long currentDelay = initialDelay;
             int attempt = 1;
-            Throwable lastThrowable = throwable;
+            Exception lastException = throwable;
             while (attempt < maxAttempts)
             {
-                System.@out.Println("Retrying test " + context.GetDisplayName() + " after failure.");
+                Console.WriteLine("Retrying test " + context.GetDisplayName() + " after failure.");
                 try
                 {
 
@@ -35,12 +35,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                     // Execute the test again
                     context.GetRequiredTestMethod().Invoke(context.GetRequiredTestInstance());
-                    System.@out.Println("Test " + context.GetDisplayName() + " passed on retry attempt" + attempt + 1);
+                    Console.WriteLine("Test " + context.GetDisplayName() + " passed on retry attempt" + attempt + 1);
                     return;
                 }
-                catch (Throwable t)
+                catch (Exception t)
                 {
-                    lastThrowable = t;
+                    lastException = t;
                     attempt++;
 
                     // Calculate next delay with exponential backoff
@@ -50,8 +50,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 
             // If we get here, we've exhausted our retries
-            System.@out.Println("Test " + context.GetDisplayName() + " reached max attempts.");
-            throw lastThrowable;
+            Console.WriteLine("Test " + context.GetDisplayName() + " reached max attempts.");
+            throw lastException;
         }
     }
 }

@@ -37,7 +37,7 @@ class FeeEstimateQueryMockTest {
 
         client = Client.forNetwork(Collections.emptyMap());
         client.setRequestTimeout(Duration.ofSeconds(10));
-        client.setMirrorNetwork(Collections.singletonList("localhost:" + stub.getPort()));
+        client.setMirrorNetwork(["localhost:" + stub.getPort(]));
 
         query = new FeeEstimateQuery();
     }
@@ -147,7 +147,7 @@ class FeeEstimateQueryMockTest {
                 Assert.Contains(queryParams, "mode=");
 
                 byte[] requestBody = exchange.getRequestBody().readAllBytes();
-                assertThat(requestBody.length).isGreaterThan(0);
+                Assert.True(requestBody.length > 0);
 
                 byte[] bodyBytes = response.body.getBytes(StandardCharsets.UTF_8);
                 exchange.sendResponseHeaders(response.status, bodyBytes.length);

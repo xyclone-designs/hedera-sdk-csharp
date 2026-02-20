@@ -24,18 +24,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             var nodes = new List<AccountId>();
             nodes.Add(new AccountId(0, 0, 1000));
             nodes.Add(new AccountId(0, 0, 1001));
-            Assert.Throws(typeof(InvalidOperationException), () =>
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() =>
             {
                 return new AccountBalanceQuery().SetNodeAccountIds(nodes).SetAccountId(new AccountId(0, 0, 7)).Execute(client);
 
-			}).WithMessageContaining("All node account IDs did not map to valid nodes in the client's network");
+			}); Assert.Contains("All node account IDs did not map to valid nodes in the client's network", exception.Message);
             client.Dispose();
         }
 
         public virtual void CanSkipNodes()
         {
             var client = Client.ForTestnet().SetTransportSecurity(true);
-            var nodes = new List(client.Network.Values().Stream().ToList());
+            var nodes = new List(client.Network_.Values().Stream().ToList());
             nodes.Add(new AccountId(0, 0, 1000));
             new AccountBalanceQuery().SetNodeAccountIds(nodes).SetAccountId(new AccountId(0, 0, 7)).Execute(client);
             client.Dispose();
@@ -127,16 +127,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 testEnv.Client.MaxNodesPerTransaction = 2;
                 var network = testEnv.Client.Network;
                 var entries = new (network.EntrySet());
-                AssertThat(entries.Count).IsGreaterThan(1);
+                Assert.True(entries.Count > 1);
                 network.Clear();
                 network.Put("in-process:name", entries[0].GetValue());
                 network.Put(entries[1].GetKey(), entries[1].GetValue());
                 testEnv.Client.SetNetwork(network);
-                Assert.Throws(typeof(MaxAttemptsExceededException), () =>
+                MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() =>
                 {
                     testEnv.Client.PingAll();
 
-                }).WithMessageContaining("exceeded maximum attempts");
+                }); Assert.Contains("exceeded maximum attempts", exception.Message);
                 var nodes = new (testEnv.Client.Network.Values());
                 Assert.False(nodes.IsEmpty());
                 var node = nodes[0];

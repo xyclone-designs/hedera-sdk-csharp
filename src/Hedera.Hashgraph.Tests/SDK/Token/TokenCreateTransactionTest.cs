@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly string testTokenMemo = "test memo";
         private static readonly Duration testAutoRenewPeriod = Duration.OfHours(10);
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.UtcNow;
-        private static readonly List<CustomFee> testCustomFees = Collections.SingletonList(new CustomFixedFee().SetFeeCollectorAccountId(AccountId.FromString("0.0.543")).SetAmount(3).SetDenominatingTokenId(TokenId.FromString("4.3.2")));
+        private static readonly List<CustomFee> testCustomFees = [new CustomFixedFee(].SetFeeCollectorAccountId(AccountId.FromString("0.0.543")).SetAmount(3).SetDenominatingTokenId(TokenId.FromString("4.3.2")));
         private static readonly byte[] testMetadata = new byte[]
         {
             1,
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenCreateTransaction SpawnTestTransactionNft()
         {
-            return new TokenCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetFeeScheduleKey(testFeeScheduleKey).SetSupplyKey(testSupplyKey).SetMaxSupply(testMaxSupply).SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetTokenType(TokenType.NonFungibleUnique).SetSupplyType(TokenSupplyType.FINITE).SetFreezeKey(testFreezeKey).SetWipeKey(testWipeKey).SetTokenSymbol(testTokenSymbol).SetKycKey(testKycKey).SetPauseKey(testPauseKey).SetMetadataKey(testMetadataKey).SetExpirationTime(validStart).SetTreasuryAccountId(testTreasuryAccountId).SetTokenName(testTokenName).SetTokenMemo(testTokenMemo).SetMaxTransactionFee(new Hbar(1)).SetTokenMetadata(testMetadata).Freeze().Sign(unusedPrivateKey);
+            return new TokenCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetFeeScheduleKey(testFeeScheduleKey).SetSupplyKey(testSupplyKey,MaxSupply = testMaxSupply,.SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetTokenType(TokenType.NonFungibleUnique,SupplyType = TokenSupplyType.Finite,.SetFreezeKey(testFreezeKey).SetWipeKey(testWipeKey).SetTokenSymbol(testTokenSymbol).SetKycKey(testKycKey).SetPauseKey(testPauseKey).SetMetadataKey(testMetadataKey).SetExpirationTime(validStart).SetTreasuryAccountId(testTreasuryAccountId).SetTokenName(testTokenName).SetTokenMemo(testTokenMemo).SetMaxTransactionFee(new Hbar(1)).SetTokenMetadata(testMetadata).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesNft()
@@ -135,7 +135,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void ConstructTokenCreateTransactionNftFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenCreateTransactionBody.NewBuilder().SetFeeScheduleKey(testFeeScheduleKey.ToProtobufKey()).SetSupplyKey(testSupplyKey.ToProtobufKey()).SetMaxSupply(testMaxSupply).SetAdminKey(testAdminKey.ToProtobufKey()).SetAutoRenewAccount(testAutoRenewAccountId.ToProtobuf()).SetAutoRenewPeriod(Proto.Duration.NewBuilder().SetSeconds(testAutoRenewPeriod.ToSeconds()).Build()).SetExpiry(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond()).Build()).SetTokenType(Proto.TokenType.NonFungibleUnique).SetSupplyType(Proto.TokenSupplyType.FINITE).SetFreezeKey(testFreezeKey.ToProtobufKey()).SetWipeKey(testWipeKey.ToProtobufKey()).SetSymbol(testTokenSymbol).SetKycKey(testKycKey.ToProtobufKey()).SetPauseKey(testPauseKey.ToProtobufKey()).SetMetadataKey(testMetadataKey.ToProtobufKey()).SetExpiry(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond())).SetTreasury(testTreasuryAccountId.ToProtobuf()).SetName(testTokenName).SetMemo(testTokenMemo).Build();
+            var transactionBody = TokenCreateTransactionBody.NewBuilder().SetFeeScheduleKey(testFeeScheduleKey.ToProtobufKey()).SetSupplyKey(testSupplyKey.ToProtobufKey(),MaxSupply = testMaxSupply,.SetAdminKey(testAdminKey.ToProtobufKey()).SetAutoRenewAccount(testAutoRenewAccountId.ToProtobuf()).SetAutoRenewPeriod(Proto.Duration.NewBuilder().SetSeconds(testAutoRenewPeriod.ToSeconds()).Build()).SetExpiry(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond()).Build()).SetTokenType(Proto.TokenType.NonFungibleUnique,SupplyType = Proto.TokenSupplyType.Finite,.SetFreezeKey(testFreezeKey.ToProtobufKey()).SetWipeKey(testWipeKey.ToProtobufKey()).SetSymbol(testTokenSymbol).SetKycKey(testKycKey.ToProtobufKey()).SetPauseKey(testPauseKey.ToProtobufKey()).SetMetadataKey(testMetadataKey.ToProtobufKey()).SetExpiry(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond())).SetTreasury(testTreasuryAccountId.ToProtobuf()).SetName(testTokenName).SetMemo(testTokenMemo).Build();
             var tx = TransactionBody.NewBuilder().SetTokenCreation(transactionBody).Build();
             var tokenCreateTransaction = new TokenCreateTransaction(tx);
             Assert.Equal(tokenCreateTransaction.GetFeeScheduleKey(), testFeeScheduleKey);
@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenCreateTransaction.GetAutoRenewAccountId(), testAutoRenewAccountId);
             Assert.Equal(tokenCreateTransaction.GetAutoRenewPeriod().ToSeconds(), testAutoRenewPeriod.ToSeconds());
             Assert.Equal(tokenCreateTransaction.GetTokenType(), TokenType.NonFungibleUnique);
-            Assert.Equal(tokenCreateTransaction.GetSupplyType(), TokenSupplyType.FINITE);
+            Assert.Equal(tokenCreateTransaction.GetSupplyType(), TokenSupplyType.Finite);
             Assert.Equal(tokenCreateTransaction.GetFreezeKey(), testFreezeKey);
             Assert.Equal(tokenCreateTransaction.GetWipeKey(), testWipeKey);
             Assert.Equal(tokenCreateTransaction.GetTokenSymbol(), testTokenSymbol);
@@ -377,20 +377,20 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void GetSetSupplyType()
         {
-            TokenSupplyType testTokenType = TokenSupplyType.FINITE;
-            var tokenCreateTransaction = new TokenCreateTransaction().SetSupplyType(testTokenType);
+            TokenSupplyType testTokenType = TokenSupplyType.Finite;
+            var tokenCreateTransaction = new TokenCreateTransaction(,SupplyType = testTokenType,;
             Assert.Equal(tokenCreateTransaction.GetSupplyType(), testTokenType);
         }
 
         public virtual void GetSetSupplyTypeFrozen()
         {
             var tx = SpawnTestTransactionFungible();
-            Assert.Throws<InvalidOperationException>(() => tx.SetSupplyType(TokenSupplyType.FINITE));
+            Assert.Throws<InvalidOperationException>(() => txSupplyType = TokenSupplyType.Finite));
         }
 
         public virtual void GetSetMaxSupply()
         {
-            var tokenCreateTransaction = new TokenCreateTransaction().SetMaxSupply(testMaxSupply);
+            var tokenCreateTransaction = new TokenCreateTransaction(,MaxSupply = testMaxSupply,;
             Assert.Equal(tokenCreateTransaction.GetMaxSupply(), testMaxSupply);
         }
 

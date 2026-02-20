@@ -540,7 +540,7 @@ namespace Hedera.Hashgraph.SDK
 					RequireNetworkUpdatePeriodNotNull(() =>
 					{
 						var fileId = FileId.GetAddressBookFileIdFor(shard, realm);
-						new AddressBookQuery().SetFileId(fileId).ExecuteAsync(this).ThenCompose((addressBook) => RequireNetworkUpdatePeriodNotNull(() =>
+						new AddressBookQuery()FileId = fileId,.ExecuteAsync(this).ThenCompose((addressBook) => RequireNetworkUpdatePeriodNotNull(() =>
 						{
 							try
 							{
@@ -606,7 +606,7 @@ namespace Hedera.Hashgraph.SDK
 					logger.Debug("Fetching address book from file {}", fileId);
 
 					// Execute synchronously - no async complexity
-					var addressBook = new AddressBookQuery().SetFileId(fileId).Execute(this); // ← Synchronous!
+					var addressBook = new AddressBookQuery()FileId = fileId,.Execute(this); // ← Synchronous!
 					logger.Debug("Received address book with {} nodes", addressBook.NodeAddresses.Count);
 
 					// Update the Network

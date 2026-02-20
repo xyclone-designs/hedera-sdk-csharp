@@ -18,6 +18,10 @@ using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.HBar;
 using Org.BouncyCastle.Utilities.Encoders;
+using Org.BouncyCastle.Utilities;
+using Org.BouncyCastle.Math;
+using Hedera.Hashgraph.SDK.Ethereum;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -31,18 +35,37 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var privateKey = PrivateKey.GenerateECDSA();
                 var newAccountAliasId = privateKey.ToAccountId(0, 0);
-                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(1).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(1)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var fileCreateTransactionResponse = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
-                var fileId = fileCreateTransactionResponse.GetReceipt(testEnv.Client).FileId);
-                var contractCreateTransactionResponse = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(400000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
-                var contractId = contractCreateTransactionResponse.GetReceipt(testEnv.Client).ContractId);
+                
+                new TransferTransaction()
+                    .AddHbarTransfer(testEnv.OperatorId, new Hbar(1).Negated())
+                    .AddHbarTransfer(newAccountAliasId, new Hbar(1))
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                var fileCreateTransactionResponse = new FileCreateTransaction
+                {
+                    Keys = testEnv.OperatorKey,
+                    Contents = ByteString.CopyFromUtf8(SMART_CONTRACT_BYTECODE)
+                
+                }.Execute(testEnv.Client);
+                var fileId = fileCreateTransactionResponse.GetReceipt(testEnv.Client).FileId;
+                var contractCreateTransactionResponse = new ContractCreateTransaction
+                {
+					AdminKey = testEnv.OperatorKey,
+					Gas = 400000,
+					ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null),
+					BytecodeFileId = fileId,
+					ContractMemo = "[e2e::ContractCreateTransaction]"
+
+				}.Execute(testEnv.Client);
+                var contractId = contractCreateTransactionResponse.GetReceipt(testEnv.Client).ContractId;
                 int nonce = 0;
                 byte[] chainId = Hex.Decode("012a");
                 byte[] maxPriorityGas = Hex.Decode("00");
                 byte[] maxGas = Hex.Decode("d1385c7bf0");
                 byte[] to = Hex.Decode(contractId.ToEvmAddress());
                 byte[] callData = new ContractExecuteTransaction().SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).GetFunctionParameters().ToByteArray();
-                var sequence = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.ZERO), callData, new object[0] });
+                var sequence = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, new object[0] });
                 byte[] signedBytes = privateKey.Sign(sequence);
 
                 // wrap in signature object
@@ -51,13 +74,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 byte[] s = new byte[32];
                 Array.Copy(signedBytes, 32, s, 0, 32);
                 int recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, sequence);
-                byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.ZERO), callData, List.Of(), Integers.ToBytes(recId), r, s));
-                EthereumTransaction ethereumTransaction = new EthereumTransaction().SetEthereumData(ethereumData);
+                byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, List.Of(), Integers.ToBytes(recId), r, s));
+                EthereumTransaction ethereumTransaction = new ()
+                {
+                    EthereumData = ethereumData 
+                };
+                
                 var ethereumTransactionResponse = ethereumTransaction.Execute(testEnv.Client);
                 var ethereumTransactionRecord = ethereumTransactionResponse.GetRecord(testEnv.Client);
+                
                 Assert.Equal(ethereumTransactionRecord.contractFunctionResult.signerNonce, 1);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+               
+                new ContractDeleteTransaction()
+                {
+                    TransferAccountId = testEnv.OperatorId,
+                    ContractId = contractId,
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                
+                new FileDeleteTransaction
+                {
+                    FileId = fileId
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -67,11 +108,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var privateKey = PrivateKey.GenerateECDSA();
                 var newAccountAliasId = privateKey.ToAccountId(0, 0);
-                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(100).Negated()).AddHbarTransfer(newAccountAliasId, new Hbar(100)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var fileCreateTransactionResponse = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE_JUMBO).Execute(testEnv.Client);
-                var fileId = fileCreateTransactionResponse.GetReceipt(testEnv.Client).FileId);
-                var contractCreateTransactionResponse = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(300000).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
-                var contractId = contractCreateTransactionResponse.GetReceipt(testEnv.Client).ContractId);
+                
+                new TransferTransaction()
+                    .AddHbarTransfer(testEnv.OperatorId, new Hbar(100).Negated())
+                    .AddHbarTransfer(newAccountAliasId, new Hbar(100))
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                var fileCreateTransactionResponse = new FileCreateTransaction 
+                { 
+                    Keys = testEnv.OperatorKey, 
+                    Contents = SMART_CONTRACT_BYTECODE_JUMBO
+                
+                }.Execute(testEnv.Client);
+                var fileId = fileCreateTransactionResponse.GetReceipt(testEnv.Client).FileId;
+                var contractCreateTransactionResponse = new ContractCreateTransaction
+                {
+					AdminKey = testEnv.OperatorKey,
+					Gas = 300000,
+					BytecodeFileId = fileId,
+					ContractMemo = "[e2e::ContractCreateTransaction]"
+
+				}.Execute(testEnv.Client);
+                var contractId = contractCreateTransactionResponse.GetReceipt(testEnv.Client).ContractId;
                 byte[] largeCalldata = new byte[1024 * 120];
                 var callData = new ContractExecuteTransaction().SetFunction("consumeLargeCalldata", new ContractFunctionParameters().AddBytes(largeCalldata)).GetFunctionParameters().ToByteArray();
                 int nonce = 0;
@@ -81,7 +140,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 byte[] gasLimitBytes = Hex.Decode("3567E0");
                 byte[] to = Hex.Decode(contractId.ToEvmAddress());
                 byte[] value = Hex.Decode("00");
-                var sequence = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, gasLimitBytes, to, Integers.ToBytesUnsigned(BigInteger.ZERO), callData, new object[0] });
+                var sequence = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, gasLimitBytes, to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, new object[0] });
                 byte[] signedBytes = privateKey.Sign(sequence);
 
                 // wrap in signature object
@@ -90,13 +149,31 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 byte[] s = new byte[32];
                 Array.Copy(signedBytes, 32, s, 0, 32);
                 int recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, sequence);
-                byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, gasLimitBytes, to, Integers.ToBytesUnsigned(BigInteger.ZERO), callData, List.Of(), Integers.ToBytes(recId), r, s));
-                EthereumTransaction ethereumTransaction = new EthereumTransaction().SetEthereumData(ethereumData);
+                byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, gasLimitBytes, to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, List.Of(), Integers.ToBytes(recId), r, s));
+                EthereumTransaction ethereumTransaction = new ()
+                {
+                    EthereumData = ethereumData 
+                };
+                
                 var ethereumTransactionResponse = ethereumTransaction.Execute(testEnv.Client);
                 var ethereumTransactionRecord = ethereumTransactionResponse.GetRecord(testEnv.Client);
+                
                 Assert.Equal(ethereumTransactionRecord.contractFunctionResult.signerNonce, 1);
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+               
+                new ContractDeleteTransaction()
+                {
+                    TransferAccountId = testEnv.OperatorId,
+                    ContractId = contractId,
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                
+                new FileDeleteTransaction
+                {
+                    FileId = fileId
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
     }

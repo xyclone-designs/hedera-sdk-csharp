@@ -121,12 +121,12 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             };
             var systemDeleteTransactionWithContractId = new SystemDeleteTransaction(txWithContractId);
 
-            Assert.NotNull(systemDeleteTransactionWithFileId.FileId);
+            Assert.NotNull(systemDeleteTransactionWithFileId.FileId;
             Assert.Equal(systemDeleteTransactionWithFileId.FileId, testFileId);
-            Assert.Null(systemDeleteTransactionWithFileId.ContractId);
+            Assert.Null(systemDeleteTransactionWithFileId.ContractId;
             Assert.Equal(systemDeleteTransactionWithFileId.ExpirationTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
-            Assert.Null(systemDeleteTransactionWithContractId.FileId);
-            Assert.NotNull(systemDeleteTransactionWithContractId.ContractId);
+            Assert.Null(systemDeleteTransactionWithContractId.FileId;
+            Assert.NotNull(systemDeleteTransactionWithContractId.ContractId;
             Assert.Equal(systemDeleteTransactionWithContractId.ContractId, testContractId);
             Assert.Equal(systemDeleteTransactionWithContractId.ExpirationTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             {
 				FileId = testFileId
 			};
-            Assert.NotNull(systemDeleteTransaction.FileId);
+            Assert.NotNull(systemDeleteTransaction.FileId;
             Assert.Equal(systemDeleteTransaction.FileId, testFileId);
         }
 
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             {
 				ContractId = testContractId
 			};
-            Assert.NotNull(systemDeleteTransaction.ContractId);
+            Assert.NotNull(systemDeleteTransaction.ContractId;
             Assert.Equal(systemDeleteTransaction.ContractId, testContractId);
         }
 
@@ -184,8 +184,8 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             var systemDeleteTransaction = new SystemDeleteTransaction();
             systemDeleteTransaction.FileId = testFileId;
             systemDeleteTransaction.ContractId = testContractId;
-            Assert.Null(systemDeleteTransaction.FileId);
-            Assert.NotNull(systemDeleteTransaction.ContractId);
+            Assert.Null(systemDeleteTransaction.FileId;
+            Assert.NotNull(systemDeleteTransaction.ContractId;
         }
 
         public virtual void ResetContractId()
@@ -193,8 +193,8 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             var systemDeleteTransaction = new SystemDeleteTransaction();
             systemDeleteTransaction.ContractId = testContractId;
             systemDeleteTransaction.FileId = testFileId;
-            Assert.Null(systemDeleteTransaction.ContractId);
-            Assert.NotNull(systemDeleteTransaction.FileId);
+            Assert.Null(systemDeleteTransaction.ContractId;
+            Assert.NotNull(systemDeleteTransaction.FileId;
         }
     }
 }

@@ -1,14 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.LiveHashes;
+
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -20,12 +17,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
-                var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                var response = new AccountCreateTransaction
                 {
-                    new LiveHashDeleteTransaction().SetAccountId(accountId).SetHash(HASH).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+					Key = key,
+					InitialBalance = new Hbar(1),
+				
+                }.Execute(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
+                {
+                    new LiveHashDeleteTransaction
+                    {
+						AccountId = accountId,
+                        Hash = HASH
+					
+                    }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                }); 
+                
+                Assert.Contains(ResponseStatus.NotSupported.ToString(), exception.Message);
             }
         }
     }

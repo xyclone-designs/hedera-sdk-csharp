@@ -265,7 +265,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 
-		} = new Dictionary<KeyT, IList<BaseNodeT>>();
+		} = [];
+		public virtual ReadOnlyDictionary<KeyT, IList<BaseNodeT>> Network_Read
+        {
+            get => Network.AsReadOnly();
+        }
 
 		public virtual void IncreaseBackoff(BaseNodeT node)
         {

@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         public virtual void TestSucceedsWithCorrectHbars()
         {
-            IList<object> responses1 = List.Of(Status.Code.UNAVAILABLE.ToStatus().AsRuntimeException(), (Function<object, object>)(o) => Status.Code.UNAVAILABLE.ToStatus().AsRuntimeException(), Response.NewBuilder().SetCryptogetAccountBalance(CryptoGetAccountBalanceResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build()).SetAccountID(AccountID.NewBuilder().SetAccountNum(10).Build()).SetBalance(100).Build()).Build());
+            IList<object> responses1 = List.Of(ResponseStatus.Code.UNAVAILABLE.ToStatus().AsRuntimeException(), (Function<object, object>)(o) => Status.Code.UNAVAILABLE.ToStatus().AsRuntimeException(), Response.NewBuilder().SetCryptogetAccountBalance(CryptoGetAccountBalanceResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build()).SetAccountID(AccountID.NewBuilder().SetAccountNum(10).Build()).SetBalance(100).Build()).Build());
             var responses = List.Of(responses1);
             using (var mocker = Mocker.WithResponses(responses))
             {
@@ -228,7 +228,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
-        public virtual void ShouldRetryExceptionallyFunctionsCorrectly(Status.Code code, string description, string sync)
+        public virtual void ShouldRetryExceptionallyFunctionsCorrectly(ResponseStatus.Code code, string description, string sync)
         {
             var service = new TestCryptoService();
             var server = new TestServer("executableRetry" + code + (description != null ? description.Replace(" ", "") : "NULL") + sync, service);
@@ -261,7 +261,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             service.buffer.EnqueueResponse(TestResponse.TransactionOk());
             if (sync.Equals("sync"))
             {
-                Assertions.AssertThrows(typeof(MaxAttemptsExceededException), () =>
+                Assertions.MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() =>
                 {
                     new AccountCreateTransaction().SetMaxAttempts(maxAttempts).SetNodeAccountIds(List.Of(AccountId.FromString("1.1.1"), AccountId.FromString("1.1.2"))).Execute(server.client);
                 });
@@ -271,7 +271,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 new AccountCreateTransaction().SetMaxAttempts(maxAttempts).SetNodeAccountIds(List.Of(AccountId.FromString("1.1.1"), AccountId.FromString("1.1.2"))).ExecuteAsync(server.client).Handle((response, error) =>
                 {
                     Assertions.Assert.NotNull(error);
-                    System.@out.Println(error);
+                    Console.WriteLine(error);
                     Assertions.Assert.True(error.GetCause() is MaxAttemptsExceededException);
                     return null;
                 }).Get();
@@ -324,7 +324,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             server.client.SetMaxAttempts(2);
             if (sync.Equals("sync"))
             {
-                Assertions.AssertThrows(typeof(MaxAttemptsExceededException), () =>
+                Assertions.MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() =>
                 {
                     new AccountCreateTransaction().SetNodeAccountIds(List.Of(AccountId.FromString("1.1.1"), AccountId.FromString("1.1.2"))).Execute(server.client);
                 });

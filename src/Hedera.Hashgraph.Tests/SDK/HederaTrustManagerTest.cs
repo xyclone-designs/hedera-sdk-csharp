@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void ThrowsErrorIfCertificateIsNotProvidedButVerificationIsRequired()
         {
-            Assert.Throws(typeof(InvalidOperationException), () => new HederaTrustManager(null, true));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => new HederaTrustManager(null, true));
         }
 
         public virtual void ProperlyChecksCertificateAgainstCurrentNetworkAddressBook()
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             var client = Client.ForNetwork(Map.Of("0.previewnet.hedera.com:50211", new AccountId(0, 0, 3))).SetTransportSecurity(true).SetVerifyCertificates(true).SetLedgerId(LedgerId.PREVIEWNET);
             var nodeAddress = client.network.addressBook)[new AccountId(0, 0, 4)]);
-            Assert.Throws(typeof(CertificateException), () => new HederaTrustManager(nodeAddress.GetCertHash(), client.IsVerifyCertificates()).CheckServerTrusted(CERTIFICATE_CHAIN, ""));
+            CertificateException exception = Assert.Throws<CertificateException>(() => new HederaTrustManager(nodeAddress.GetCertHash(), client.IsVerifyCertificates()).CheckServerTrusted(CERTIFICATE_CHAIN, ""));
         }
     }
 }

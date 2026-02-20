@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual void BiConsumer()
         {
             CompletableFuture<string> future = CompletableFuture.SupplyAsync(() => "Hello");
-            BiConsumer<string, Throwable> consumer = Mock(typeof(BiConsumer));
+            BiConsumer<string, Exception> consumer = Mock(typeof(BiConsumer));
             ConsumerHelper.BiConsumer(future, consumer);
             future.Join();
             Verify(consumer, Times(1)).Accept(Any(), Any());
@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var value = "Hello";
             CompletableFuture<string> future = CompletableFuture.CompletedFuture(value);
             Consumer<string> onSuccess = Mock(typeof(Consumer));
-            Consumer<Throwable> onFailure = Mock(typeof(Consumer));
+            Consumer<Exception> onFailure = Mock(typeof(Consumer));
             ConsumerHelper.TwoConsumers(future, onSuccess, onFailure);
             future.Join();
             Verify(onSuccess, Times(1)).Accept(value);
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var exception = new Exception("Exception");
             CompletableFuture<string> future = CompletableFuture.FailedFuture(exception);
             Consumer<string> onSuccess = Mock(typeof(Consumer));
-            Consumer<Throwable> onFailure = Mock(typeof(Consumer));
+            Consumer<Exception> onFailure = Mock(typeof(Consumer));
             ConsumerHelper.TwoConsumers(future, onSuccess, onFailure);
             Assert.Throws<Exception>(future.Join());
             Verify(onSuccess, Times(0)).Accept(Any());

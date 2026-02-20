@@ -1,17 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -22,13 +15,48 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
+                var response = new AccountCreateTransaction
+                {
+					InitialBalance = new Hbar(1)
+				}
+                Key = key,
+				.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenGrantKycTransaction().SetAccountId(accountId).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					Decimals = 3,
+					InitialSupply = 1000000,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId]
+
+				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenGrantKycTransaction
+                {
+					AccountId = accountId,
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 new TransferTransaction().AddTokenTransfer(tokenId, testEnv.OperatorId, -10).AddTokenTransfer(tokenId, accountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenWipeTransaction().SetTokenId(tokenId).SetAccountId(accountId).SetAmount(10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenWipeTransaction
+                {
+					TokenId = tokenId,
+					AccountId = accountId,
+					Amount = 10
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -37,21 +65,62 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
-                var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenGrantKycTransaction().SetAccountId(accountId).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var serialsToTransfer = mintReceipt.serials.SubList(0, 4);
-                var transfer = new TransferTransaction();
-                foreach (var serial in serialsToTransfer)
+                var response = new AccountCreateTransaction
                 {
-                    transfer.AddNftTransfer(tokenId.Nft(serial), testEnv.OperatorId, accountId);
-                }
+					InitialBalance = new Hbar(1)
+				}
+				Key = key,
+                .Execute(testEnv.Client);
 
-                transfer.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenWipeTransaction().SetTokenId(tokenId).SetAccountId(accountId).SetSerials(serialsToTransfer).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique, 
+                    TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = tokenId,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId]
+
+				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenGrantKycTransaction
+                {
+					AccountId = accountId,
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                var serialsToTransfer = mintReceipt.Serials[0..4];
+                var transfer = new TransferTransaction();
+
+                foreach (var serial in serialsToTransfer)
+					transfer.AddNftTransfer(tokenId.Nft(serial), testEnv.OperatorId, accountId);
+
+				transfer.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                
+                new TokenWipeTransaction
+                {
+					TokenId = tokenId,
+					AccountId = accountId,
+					Serials = serialsToTransfer
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -60,19 +129,63 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
-                var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",.SetTokenType(TokenType.NonFungibleUnique)TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
-                var mintReceipt = new TokenMintTransaction().SetTokenId(tokenId).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenGrantKycTransaction().SetAccountId(accountId).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var serialsToTransfer = mintReceipt.serials.SubList(0, 4);
-
-                // don't transfer them
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                var response = new AccountCreateTransaction
                 {
-                    new TokenWipeTransaction().SetTokenId(tokenId).SetAccountId(accountId).SetSerials(serialsToTransfer).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.ACCOUNT_DOES_NOT_OWN_WIPED_NFT.ToString());
+					InitialBalance = new Hbar(1)
+				}
+				Key = key,
+                .Execute(testEnv.Client);
+                
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique, 
+                    TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = tokenId,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId]
+
+				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenGrantKycTransaction
+                {
+					AccountId = accountId,
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var serialsToTransfer = mintReceipt.Serials[0 .. 4];
+
+				// don't transfer them
+				ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new TokenWipeTransaction
+                    {
+						TokenId = tokenId,
+						AccountId = accountId,
+						Serials = serialsToTransfer
+
+					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                }); 
+                
+                Assert.Contains(ResponseStatus.AccountDoesNotOwnWipedNft.ToString(), exception.Message);
             }
         }
 
@@ -81,16 +194,60 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
-                var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenGrantKycTransaction().SetAccountId(accountId).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TransferTransaction().AddTokenTransfer(tokenId, testEnv.OperatorId, -10).AddTokenTransfer(tokenId, accountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                var response = new AccountCreateTransaction
                 {
-                    new TokenWipeTransaction().SetTokenId(tokenId).SetAmount(10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_ACCOUNT_ID.ToString());
+					InitialBalance = new Hbar(1)
+				}
+				Key = key,
+                .Execute(testEnv.Client);
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					Decimals = 3,
+					InitialSupply = 1000000,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId]
+
+				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                new TokenGrantKycTransaction
+                {
+					AccountId = accountId,
+					TokenId = tokenId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                new TransferTransaction()
+                    .AddTokenTransfer(tokenId, testEnv.OperatorId, -10)
+                    .AddTokenTransfer(tokenId, accountId, 10)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
+                {
+                    new TokenWipeTransaction
+                    {
+						TokenId = tokenId,
+						Amount = 10
+
+					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                }); 
+                Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
 
@@ -99,16 +256,66 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
-                var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenGrantKycTransaction().SetAccountId(accountId).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TransferTransaction().AddTokenTransfer(tokenId, testEnv.OperatorId, -10).AddTokenTransfer(tokenId, accountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                var response = new AccountCreateTransaction
                 {
-                    new TokenWipeTransaction().SetAccountId(accountId).SetAmount(10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_TOKEN_ID.ToString());
+					InitialBalance = new Hbar(1)
+				}
+                Key = key,
+				.Execute(testEnv.Client);
+
+                var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					Decimals = 3,
+					InitialSupply = 1000000,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId]
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(key)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                new TokenGrantKycTransaction
+                {
+					AccountId = accountId,
+					TokenId = tokenId
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                new TransferTransaction()
+                    .AddTokenTransfer(tokenId, testEnv.OperatorId, -10)
+                    .AddTokenTransfer(tokenId, accountId, 10)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
+                {
+                    new TokenWipeTransaction
+                    {
+						AccountId = accountId,
+						Amount = 10
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                }); 
+                
+                Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
 
@@ -117,14 +324,64 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction().SetKeyWithoutAlias(key).SetInitialBalance(new Hbar(1)).Execute(testEnv.Client);
+                var response = new AccountCreateTransaction
+                {
+					InitialBalance = new Hbar(1)
+				}
+				Key = key,
+                .Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenGrantKycTransaction().SetAccountId(accountId).SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TransferTransaction().AddTokenTransfer(tokenId, testEnv.OperatorId, -10).AddTokenTransfer(tokenId, accountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var receipt = new TokenWipeTransaction().SetTokenId(tokenId).SetAccountId(accountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					Decimals = 3,
+					InitialSupply = 1000000,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId]
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(key)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                new TokenGrantKycTransaction
+                {
+					AccountId = accountId,
+					TokenId = tokenId
+                }
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                
+                new TransferTransaction()
+                    .AddTokenTransfer(tokenId, testEnv.OperatorId, -10)
+                    .AddTokenTransfer(tokenId, accountId, 10)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                
+                var receipt = new TokenWipeTransaction
+                {
+					TokenId = tokenId,
+					AccountId = accountId
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                
+                Assert.Equal(ResponseStatus.Success, receipt.Status);
             }
         }
     }

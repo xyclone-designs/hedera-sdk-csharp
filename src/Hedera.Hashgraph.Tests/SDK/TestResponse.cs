@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public static TestResponse TransactionOk(Hbar cost)
         {
-            return Transaction(Status.OK, cost);
+            return Transaction(ResponseStatus.OK, cost);
         }
 
         public static TestResponse TransactionOk()

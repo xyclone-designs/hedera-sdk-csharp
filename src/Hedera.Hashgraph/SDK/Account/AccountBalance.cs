@@ -13,21 +13,11 @@ namespace Hedera.Hashgraph.SDK.Account
     /// </summary>
     public class AccountBalance
     {
-        /// <summary>
-        /// The Hbar balance of the account
-        /// </summary>
-        public readonly Hbar Hbars;
-        /// <summary>
-        /// </summary>
-        /// <remarks>@deprecated- Use `tokens` instead</remarks>
-        public readonly Dictionary<TokenId, ulong> token = [];
-        public readonly Dictionary<TokenId, ulong> tokens;
-        public readonly Dictionary<TokenId, uint> tokenDecimals;
         AccountBalance(Hbar hbars, Dictionary<TokenId, ulong> token, Dictionary<TokenId, uint> @decimal)
         {
             Hbars = hbars;
-            tokens = token;
-            tokenDecimals = @decimal;
+            Tokens = token;
+            TokenDecimals = @decimal;
         }
 
 		/// <summary>
@@ -61,6 +51,17 @@ namespace Hedera.Hashgraph.SDK.Account
         }
 
 		/// <summary>
+		/// The Hbar balance of the account
+		/// </summary>
+		public Hbar Hbars { get; }
+		/// <summary>
+		/// </summary>
+		/// <remarks>@deprecated- Use `tokens` instead</remarks>
+		public Dictionary<TokenId, ulong> Token { get; } = [];
+		public Dictionary<TokenId, ulong> Tokens { get; }
+		public Dictionary<TokenId, uint> TokenDecimals { get; }
+
+		/// <summary>
 		/// Convert the account balance object to a byte array.
 		/// </summary>
 		/// <returns>                         the converted account balance object</returns>
@@ -78,13 +79,13 @@ namespace Hedera.Hashgraph.SDK.Account
             {
                 Balance = (ulong)Hbars.ToTinybars() 
             };
-            foreach (var entry in tokens)
+            foreach (var entry in Tokens)
             {
                 protobuf.TokenBalances.Add(new Proto.TokenBalance
                 {
                     TokenId = entry.Key.ToProtobuf(),
                     Balance = entry.Value,
-                    Decimals = tokenDecimals[entry.Key],
+                    Decimals = TokenDecimals[entry.Key],
                 });
             }
 

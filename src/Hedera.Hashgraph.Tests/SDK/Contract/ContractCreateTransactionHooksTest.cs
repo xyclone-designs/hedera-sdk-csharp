@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
                 0x04
             };
             EvmHookStorageUpdate storageUpdate = new EvmHookStorageSlot(storageKey, storageValue);
-            IList<EvmHookStorageUpdate> storageUpdates = Collections.SingletonList(storageUpdate);
+            IList<EvmHookStorageUpdate> storageUpdates = [storageUpdate];
 
             // Build two hooks, one with admin key and storage, one simple
             ContractCreateTransaction tx = new ContractCreateTransaction().SetGas(1000000).SetInitialBalance(Hbar.From(10)).AddHook(new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, new EvmHook(targetContractId, storageUpdates), adminKey.GetPublicKey())).AddHook(new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(targetContractId)));
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             ContractId targetContractId = new ContractId(200);
             var lambdaHook = new EvmHook(targetContractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
-            var tx = new ContractCreateTransaction().SetGas(500000).SetInitialBalance(Hbar.From(5)).SetHooks(Collections.SingletonList(hookDetails));
+            var tx = new ContractCreateTransaction().SetGas(500000).SetInitialBalance(Hbar.From(5)).SetHooks([hookDetails]);
             var retrieved = tx.GetHooks();
             Assert.Equal(1, retrieved.Count);
             Assert.Equal(hookDetails, retrieved[0]);
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             ContractId targetContractId = new ContractId(500);
             var lambdaHook = new EvmHook(targetContractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaHook);
-            var original = new ContractCreateTransaction().SetGas(999999).SetInitialBalance(Hbar.From(9)).SetHooks(Collections.SingletonList(hookDetails));
+            var original = new ContractCreateTransaction().SetGas(999999).SetInitialBalance(Hbar.From(9)).SetHooks([hookDetails]);
             byte[] bytes = original.ToBytes();
             Transaction<TWildcardTodo> parsed = Transaction.FromBytes(bytes);
             Assert.True(parsed is ContractCreateTransaction);

@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <summary>
         /// The shard, realm, number of the tokens.
         /// </summary>
-        private TokenId? DenominatingTokenId { get; set; }
+        internal TokenId? DenominatingTokenId { get; set; }
 
         /// <summary>
         /// Constructor.

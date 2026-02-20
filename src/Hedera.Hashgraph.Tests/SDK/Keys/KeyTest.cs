@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 
             // calculate recId with wrong message
             var wrongMessage = Encoding.UTF8.GetBytes("Hello");
-			Assert.Throws(typeof(InvalidOperationException), () => ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, wrongMessage));
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, wrongMessage));
         }
 
         public virtual void FromProtoKeyEd25519()
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(cut.GetType(), typeof(com.hedera.hashgraph.sdk.KeyList));
             var thresholdKey = (com.hedera.hashgraph.sdk.KeyList)cut;
             var actual = thresholdKey.ToProtobufKey().GetThresholdKey();
-            Assert.Equal(actual.GetThreshold(), 1);
+            Assert.Equal(actual.Threshold, 1);
             Assert.Equal(actual.GetKeys().GetKeysCount(), 2);
             AssertThat(actual.GetKeys().GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
             AssertThat(actual.GetKeys().GetKeys(1).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[1]);
@@ -163,7 +163,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
                 2
             };
             var protoKey = Key.NewBuilder().SetRSA3072(ByteString.CopyFrom(keyBytes)).Build();
-            Assert.Throws(typeof(InvalidOperationException), () => com.hedera.hashgraph.sdk.Key.FromProtobufKey(protoKey));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => com.hedera.hashgraph.sdk.Key.FromProtobufKey(protoKey));
         }
 
         public virtual void KeyEquals()
@@ -282,7 +282,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(cut.GetType(), typeof(com.hedera.hashgraph.sdk.KeyList));
             var thresholdKey = (com.hedera.hashgraph.sdk.KeyList)cut;
             var actual = thresholdKey.ToProtobufKey().GetThresholdKey();
-            Assert.Equal(actual.GetThreshold(), 1);
+            Assert.Equal(actual.Threshold, 1);
             Assert.Equal(actual.GetKeys().GetKeysCount(), 2);
             AssertThat(actual.GetKeys().GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
             AssertThat(actual.GetKeys().GetKeys(1).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[1]);
@@ -296,7 +296,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 				RSA3072 = ByteString.CopyFrom(keyBytes)
 			};
             var bytes = protoKey.ToByteArray();
-            Assert.Throws(typeof(InvalidOperationException), () => FromBytes(bytes));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => FromBytes(bytes));
         }
     }
 }

@@ -26,8 +26,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.True(result.GetBool(0));
             Assert.Equal(result.GetInt32(0), -1);
             Assert.Equal(result.GetInt64(0), (1 << 32) - 1);
-            Assert.Equal(result.GetInt256(0), BigInteger.ONE.ShiftLeft(32).Subtract(BigInteger.ONE));
-            Assert.Equal(result.GetInt256(1), BigInteger.ONE.ShiftLeft(255).Subtract(BigInteger.ONE));
+            Assert.Equal(result.GetInt256(0), BigInteger.One.ShiftLeft(32).Subtract(BigInteger.One));
+            Assert.Equal(result.GetInt256(1), BigInteger.One.ShiftLeft(255).Subtract(BigInteger.One));
             Assert.Equal(result.GetAddress(2), "11223344556677889900aabbccddeeff00112233");
 
             // unsigned integers (where applicable)
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(result.GetUint64(3), -1);
 
             // BigInteger can represent the full range and so should be 2^256 - 1
-            Assert.Equal(result.GetUint256(3), BigInteger.ONE.ShiftLeft(256).Subtract(BigInteger.ONE));
+            Assert.Equal(result.GetUint256(3), BigInteger.One.ShiftLeft(256).Subtract(BigInteger.One));
             Assert.Equal(result.GetString(4), "Hello, world!");
             Assert.Equal(result.GetString(5), "Hello, world, again!");
             Assert.Equal(result.senderAccountId, AccountId.FromString("1.2.3"));

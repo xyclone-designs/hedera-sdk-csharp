@@ -68,5 +68,5 @@ message ConsensusGetTopicInfoResponse {
     /**
      * Information describing the current state of the topic.
      */
-    Proto.ConsensusTopicInfo topicInfo = 5;
+    ConsensusTopicInfo topicInfo = 5;
 }

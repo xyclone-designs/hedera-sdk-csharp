@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Hook
                 return false;
             HookEntityId that = (HookEntityId)o;
 
-            return Equals(AccountId, that.AccountId) && Equals(ContractId, that.ContractId);
+            return Equals(AccountId, that.AccountId) && Equals(ContractId, that.ContractId;
         }
     }
 }

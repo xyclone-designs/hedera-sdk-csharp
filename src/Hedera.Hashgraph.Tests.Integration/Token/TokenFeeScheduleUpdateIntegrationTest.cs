@@ -1,7 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using System;
-using System.Linq;
-
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Exceptions;
@@ -42,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.TokenId, tokenId);
                 Assert.Equal(info.Name, "ffff");
                 Assert.Equal(info.Symbol, "F");
-                Assert.Equal(info.Decimals, 3);
+                Assert.Equal<decimal>(3, info.Decimals);
                 Assert.Equal(testEnv.OperatorId, info.TreasuryAccountId);
                 Assert.NotNull(info.AdminKey);
                 Assert.NotNull(info.FreezeKey);
@@ -93,7 +90,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.TokenId, tokenId);
                 Assert.Equal(info.Name, "ffff");
                 Assert.Equal(info.Symbol, "F");
-                Assert.Equal(info.Decimals, 3);
+                Assert.Equal<decimal>(info.Decimals, 3);
                 Assert.Equal(info.TreasuryAccountId, testEnv.OperatorId);
                 Assert.NotNull(info.AdminKey);
                 Assert.NotNull(info.FreezeKey);
@@ -159,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client);
                 var tokenId = response.GetReceipt(testEnv.Client).TokenId;
 
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenFeeScheduleUpdateTransaction
                     {
@@ -184,7 +181,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
     }

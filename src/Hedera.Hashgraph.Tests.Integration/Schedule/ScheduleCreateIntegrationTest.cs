@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var transaction = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key,
+					Key = key,
 					InitialBalance = new Hbar(10)
 				};
                 var response = new ScheduleCreateTransaction
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var transaction = new AccountCreateTransaction
                 {
-                    KeyWithoutAlias = key,
+                    Key = key,
                     InitialBalance = new Hbar(10)
                 };
                 var response = new ScheduleCreateTransaction
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var key = PrivateKey.GenerateED25519();
                 var transaction = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(key)
+                    Key = key,
                     .SetInitialBalance(new Hbar(10));
                 var tx = transaction.Schedule();
                 var response = txAdminKey = testEnv.OperatorKey,
@@ -121,7 +121,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Creat the account with the `KeyList`
                 TransactionResponse response = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = keyList,
+					Key = keyList,
 					InitialBalance = new Hbar(10),
 
 				}.Execute(testEnv.Client);
@@ -206,8 +206,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 PrivateKey key = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction
                 {
-                    ReceiverSignatureRequired = true,
-                    KeyWithoutAlias = key,
+                    ReceiverSigRequired = true,
+                    Key = key,
                     InitialBalance = new Hbar(10),
                 }
                 .FreezeWith(testEnv.Client)
@@ -276,7 +276,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     InitialBalance = new Hbar(10)
                 }
                 
-                .SetKeyWithoutAlias(key)
+                Key = key,
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
                 var transferTx = new TransferTransaction()
@@ -298,14 +298,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var scheduleCreateTx2 = transferTxFromInfo.Schedule();
 
                 Assert.Equal(scheduleCreateTx2.ToString(), scheduleCreateTx1.ToString());
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     transferTxFromInfo
                         .Schedule()
                         .Execute(testEnv.Client)
                         .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("IDENTICAL_SCHEDULE_ALREADY_CREATED");
+                }); Assert.Contains("IDENTICAL_SCHEDULE_ALREADY_CREATED", exception.Message);
             }
         }
 
@@ -326,7 +326,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new AccountCreateTransaction
                 {
 					InitialBalance = new Hbar(100),
-					KeyWithoutAlias = keyList,
+					Key = keyList,
 				}
                 .Execute(testEnv.Client);
                 Assert.NotNull(response.GetReceipt(testEnv.Client).AccountId;
@@ -387,7 +387,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 PrivateKey key = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(key.GetPublicKey())
+                    Key = key.GetPublicKey(,)
                     .SetInitialBalance(new Hbar(10))
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
@@ -440,7 +440,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 PrivateKey key = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key.GetPublicKey(),
+					Key = key.GetPublicKey(),
 					InitialBalance = new Hbar(10),
 				}
                 .Execute(testEnv.Client)
@@ -450,11 +450,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 TransferTransaction transfer = new TransferTransaction().AddHbarTransfer(accountId, new Hbar(1).Negated()).AddHbarTransfer(testEnv.OperatorId, new Hbar(1));
 
                 // Schedule the transaction
-                Assert.Throws(typeof(ReceiptStatusException), () => transfer.Schedule()
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => transfer.Schedule()
                 .SetExpirationTime(DateTimeOffset.UtcNow.Plus(Duration.OfDays(365)))
                 .SetScheduleMemo("HIP-423 Integration Test")
             .Execute(testEnv.Client)
-            .GetReceipt(testEnv.Client)).WithMessageContaining(Status.SCHEDULE_EXPIRATION_TIME_TOO_FAR_IN_FUTURE.ToString());
+            .GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.SCHEDULE_EXPIRATION_TIME_TOO_FAR_IN_FUTURE.ToString());
             }
         }
 
@@ -465,7 +465,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 PrivateKey key = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key.GetPublicKey(),
+					Key = key.GetPublicKey(),
 					InitialBalance = new Hbar(10),
 				}
                 .Execute(testEnv.Client)
@@ -475,11 +475,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 TransferTransaction transfer = new TransferTransaction().AddHbarTransfer(accountId, new Hbar(1).Negated()).AddHbarTransfer(testEnv.OperatorId, new Hbar(1));
 
                 // Schedule the transaction
-                Assert.Throws(typeof(ReceiptStatusException), () => transfer.Schedule()
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => transfer.Schedule()
                 .SetExpirationTime(DateTimeOffset.UtcNow.MinusSeconds(10))
                 .SetScheduleMemo("HIP-423 Integration Test")
             .Execute(testEnv.Client)
-            .GetReceipt(testEnv.Client)).WithMessageContaining(Status.SCHEDULE_EXPIRATION_TIME_MUST_BE_HIGHER_THAN_CONSENSUS_TIME.ToString());
+            .GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.SCHEDULE_EXPIRATION_TIME_MUST_BE_HIGHER_THAN_CONSENSUS_TIME.ToString());
             }
         }
 
@@ -490,7 +490,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 PrivateKey key = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key.GetPublicKey(),
+					Key = key.GetPublicKey(),
 					InitialBalance = new Hbar(10),
 				}
                 .Execute(testEnv.Client)
@@ -549,7 +549,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 KeyList keyList = KeyList.Of(2, key1.GetPublicKey(), key2.GetPublicKey(), key3.GetPublicKey());
                 var accountId = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = keyList,
+					Key = keyList,
 					InitialBalance = new Hbar(10),
 				}
                 .Execute(testEnv.Client)
@@ -644,7 +644,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 keyList.Add(key2.GetPublicKey());
                 keyList.Add(key3.GetPublicKey());
                 var accountId = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(keyList)
+                    Key = keyList,
                     .SetInitialBalance(new Hbar(10))
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
@@ -732,7 +732,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 PrivateKey key1 = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = key1,
+					Key = key1,
 					InitialBalance = new Hbar(10),
 				}
                 .Execute(testEnv.Client)

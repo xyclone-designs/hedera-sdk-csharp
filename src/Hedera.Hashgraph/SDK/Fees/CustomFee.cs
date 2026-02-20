@@ -21,14 +21,14 @@ namespace Hedera.Hashgraph.SDK.Fees
 		/// <summary>
 		/// The account to receive the custom fee
 		/// </summary>
-		public virtual AccountId? FeeCollectorAccountId { get; protected set; }
+		public virtual AccountId? FeeCollectorAccountId { get; internal set; }
 		/// <summary>
 		/// If true, exempts all the token's fee collection accounts from this fee.
 		/// (The token's treasury and the above fee_collector_account_id will always
 		/// be exempt. Please see <a href="https://hips.hedera.com/hip/hip-573">HIP-573</a>
 		/// for details.)
 		/// </summary>
-		public virtual bool AllCollectorsAreExempt { get; protected set; }
+		public virtual bool AllCollectorsAreExempt { get; internal set; }
 
 		/// <summary>
 		/// Convert the protobuf object to a custom fee object.

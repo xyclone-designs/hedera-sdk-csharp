@@ -21,15 +21,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             var entry = EvmHookMappingEntry.OfKey(key, value);
             Assert.True(entry.HasExplicitKey());
             Assert.False(entry.HasPreimageKey());
-            Assert.Equal(key, entry.GetKey());
+            Assert.Equal(key, entry.Key);
             Assert.Null(entry.GetPreimage());
-            Assert.Equal(value, entry.GetValue());
+            Assert.Equal(value, entry.Value);
 
             // Ensure defensive copies
             key[0] = 0x7F;
             value[0] = 0x7F;
-            Assert.Equal(new byte[] { 0x01, 0x02 }, entry.GetKey());
-            Assert.Equal(new byte[] { 0x03, 0x04 }, entry.GetValue());
+            Assert.Equal(new byte[] { 0x01, 0x02 }, entry.Key);
+            Assert.Equal(new byte[] { 0x03, 0x04 }, entry.Value);
         }
 
         public virtual void WithPreimageBuildsEntryAndCopiesArrays()
@@ -47,15 +47,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             var entry = EvmHookMappingEntry.WithPreimage(preimage, value);
             Assert.False(entry.HasExplicitKey());
             Assert.True(entry.HasPreimageKey());
-            Assert.Null(entry.GetKey());
+            Assert.Null(entry.Key);
             Assert.Equal(preimage, entry.GetPreimage());
-            Assert.Equal(value, entry.GetValue());
+            Assert.Equal(value, entry.Value);
 
             // Ensure defensive copies
             preimage[0] = 0x7F;
             value[0] = 0x7F;
             Assert.Equal(new byte[] { 0x11, 0x22 }, entry.GetPreimage());
-            Assert.Equal(new byte[] { 0x33, 0x44 }, entry.GetValue());
+            Assert.Equal(new byte[] { 0x33, 0x44 }, entry.Value);
         }
 
         public virtual void BuildersRejectNullInputs()

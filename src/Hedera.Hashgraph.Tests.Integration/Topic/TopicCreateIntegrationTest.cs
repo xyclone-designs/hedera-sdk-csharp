@@ -235,9 +235,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 ClientSetOperator(testEnv, accountId);
                 var balance = new AccountBalanceQuery()
-                    .SetAccountId(accountId)
+                    AccountId = accountId,
                 .Execute(testEnv.Client).hbars;
-                AssertThat(balance.ToTinybars()).IsLessThan(hbarAmount / 2);
+                Assert.True(balance.ToTinybars() < hbarAmount / 2);
             }
         }
 
@@ -267,7 +267,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var balance = new AccountBalanceQuery()
                     .SetAccountId(payerAccountId)
                 .Execute(testEnv.Client).hbars;
-                AssertThat(balance.ToTinybars()).IsGreaterThan(hbarAmount / 2);
+                Assert.True(balance.ToTinybars() > hbarAmount / 2);
             }
         }
 
@@ -291,7 +291,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var privateKey = PrivateKey.GenerateECDSA();
                 var publicKey = privateKey.GetPublicKey();
                 var accountId = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(publicKey)
+                    Key = publicKey,
                     .SetInitialBalance(Hbar.From(10))
                 .Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var topicId = new TopicCreateTransaction()
@@ -308,7 +308,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             return new AccountCreateTransaction()
                 .SetInitialBalance(initialBalance)
-                .SetKeyWithoutAlias(key)
+                Key = key,
             .Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
         }
 

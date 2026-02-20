@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             {
                 var topicId = TopicId.FromProtobuf(_Proto.TopicID);
 
-                if (exception is RpcException rpcexception && rpcexception.Status.Equals(Status.DefaultCancelled))
+                if (exception is RpcException rpcexception && rpcexception.Status.Equals(ResponseStatus.DefaultCancelled))
                     LOGGER.Warn("Call is cancelled for topic {}.", topicId);
                 else LOGGER.Error("Error attempting to subscribe to topic {}:", topicId, exception);
             };

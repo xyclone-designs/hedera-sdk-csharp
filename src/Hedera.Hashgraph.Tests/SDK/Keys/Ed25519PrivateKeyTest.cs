@@ -225,7 +225,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 
         public virtual void ErrorKeyFromEncryptedPemNoPassphrase()
         {
-            Assert.Throws(typeof(BadKeyException), () => PrivateKey.FromPem(ENCRYPTED_PEM)).Satisfies((error) => Assert.Equal(error.GetMessage(), "PEM file contained an encrypted private key but no passphrase was given"));
+            BadKeyException exception = Assert.Throws<BadKeyException>(() => PrivateKey.FromPem(ENCRYPTED_PEM)).Satisfies((error) => Assert.Equal(error.GetMessage(), "PEM file contained an encrypted private key but no passphrase was given"));
         }
 
         public virtual void ReproducibleSignature(string keyStr)

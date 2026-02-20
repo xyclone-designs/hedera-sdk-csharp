@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using System;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -17,15 +15,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var aliceKey = PrivateKey.GenerateED25519();
                 var aliceId = new AccountCreateTransaction
                 {
-                    InitialBalance = new Hbar(10)
+                    InitialBalance = new Hbar(10),
+					Key = aliceKey,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
 
-                }.SetKeyWithoutAlias(aliceKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var bobKey = PrivateKey.GenerateED25519();
                 var bobId = new AccountCreateTransaction
                 {
-                    InitialBalance = new Hbar(10)
-
-                }.SetKeyWithoutAlias(bobKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                    InitialBalance = new Hbar(10),
+					Key = bobKey,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
                 
                 new AccountAllowanceApproveTransaction()
                     .ApproveHbarAllowance(bobId, aliceId, new Hbar(10))
@@ -33,6 +36,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Sign(bobKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
+
                 var transferRecord = new TransferTransaction
                 {
 					TransactionId = TransactionId.Generate(aliceId)
@@ -43,6 +47,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Sign(aliceKey)
                     .Execute(testEnv.Client)
                     .GetRecord(testEnv.Client);
+
                 var transferFound = false;
                 foreach (var transfer in transferRecord.Transfers)
                 {
@@ -58,8 +63,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = bobId,
 					TransferAccountId = testEnv.OperatorId
-
-				}.FreezeWith(testEnv.Client).Sign(bobKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(bobKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
     }

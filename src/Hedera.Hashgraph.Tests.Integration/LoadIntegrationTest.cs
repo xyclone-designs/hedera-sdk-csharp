@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var clientExecutor = Executors.NewFixedThreadPool(16);
                 var threadPoolExecutor = (ThreadPoolExecutor)Executors.NewFixedThreadPool(nThreads);
                 long startTime = System.CurrentTimeMillis();
-                System.@out.Println("Finished executing tasks:");
+                Console.WriteLine("Finished executing tasks:");
                 for (int i = 0; i < nThreads; i++)
                 {
                     int finalI = i;
@@ -35,8 +35,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                             {
                                 client.OperatorSet(operatorId, operatorPrivateKey);
                                 client.SetMaxAttempts(10);
-                                new AccountCreateTransaction().SetKeyWithoutAlias(PrivateKey.GenerateED25519()).Execute(client).GetReceipt(client);
-                                System.@out.Println(finalI);
+                                new AccountCreateTransaction()Key = PrivateKey.GenerateED25519(,).Execute(client).GetReceipt(client);
+                                Console.WriteLine(finalI);
                             }
                         }
                         catch (Exception e)
@@ -53,8 +53,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     if (!threadPoolExecutor.AwaitTermination(60, TimeUnit.SECONDS))
                     {
-                        System.@out.Println();
-                        System.@out.Println("Forcing shutdown");
+                        Console.WriteLine();
+                        Console.WriteLine("Forcing shutdown");
                         threadPoolExecutor.ShutdownNow();
                     }
                 }
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 long endTime = System.CurrentTimeMillis();
                 long executionTime = endTime - startTime;
-                System.@out.Println("All tasks have finished execution in " + executionTime + "ms");
+                Console.WriteLine("All tasks have finished execution in " + executionTime + "ms");
                 clientExecutor.ShutdownNow();
             }
         }

@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         private static readonly FixedFee TEST_FIXED_FEE_PROTO = FixedFee.NewBuilder().SetAmount(1000).Build();
         // Using fromProtobuf() to properly initialize CustomFixedFee
         private static readonly CustomFixedFee TEST_CUSTOM_FIXED_FEE = CustomFixedFee.FromProtobuf(TEST_FIXED_FEE_PROTO);
-        private static readonly List<CustomFixedFee> TEST_FEES = Collections.SingletonList(TEST_CUSTOM_FIXED_FEE);
+        private static readonly List<CustomFixedFee> TEST_FEES = [TEST_CUSTOM_FIXED_FEE];
         // Instead of using a constructor, we initialize via fromProtobuf()
         private static readonly CustomFeeLimit TEST_CUSTOM_FEE_LIMIT;
         static CustomFeeLimitTest()

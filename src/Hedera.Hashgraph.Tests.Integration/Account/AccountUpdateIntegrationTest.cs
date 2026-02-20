@@ -56,16 +56,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
-
         public virtual void CannotUpdateAccountWhenAccountIdIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                Assert.Throws<PrecheckStatusException>(() =>
+				PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new AccountUpdateTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                
-                }).WithMessageContaining(Status.ACCOUNT_ID_DOES_NOT_EXIST.ToString());
+                    new AccountUpdateTransaction()
+                        .Execute(testEnv.Client)
+                        .GetReceipt(testEnv.Client);
+                });
+                Assert.Contains(exception.Message, ResponseStatus.AccountIdDoesNotExist.ToString());
             }
         }
     }

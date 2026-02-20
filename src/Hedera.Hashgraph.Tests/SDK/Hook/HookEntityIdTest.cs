@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.True(id.IsAccount);
             Assert.False(id.IsContract);
             Assert.Equal(id.AccountId, acct);
-            Assert.Null(id.ContractId);
+            Assert.Null(id.ContractId;
             var proto = id.ToProtobuf();
             var parsed = HookEntityId.FromProtobuf(proto);
             Assert.Equal(parsed, id);

@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
                 outString.Append("{");
                 foreach (var entry in tx.EntrySet())
                 {
-                    outString.Append(entry.GetKey().ToString()).Append("=").Append(Hex.ToHexString(entry.GetValue())).Append(", ");
+                    outString.Append(entry.Key.ToString()).Append("=").Append(Hex.ToHexString(entry.Value)).Append(", ");
                 }
 
                 outString.Append("}, ");

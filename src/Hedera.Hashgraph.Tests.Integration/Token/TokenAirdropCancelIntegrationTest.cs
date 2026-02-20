@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // associate
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(Collections.SingletonList(tokenID)).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds([tokenID]).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // freeze the token
                 new TokenFreezeTransaction().SetAccountId(receiverAccountId).SetTokenId(tokenID).Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -248,10 +248,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // cancel the tokens with the random account which has not created pending airdrops
                 // fails with INVALID_SIGNATURE
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenCancelAirdropTransaction().SetTransactionId(TransactionId.Generate(randomAccount)).AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
 
@@ -275,10 +275,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // cancel the tokens with the receiver again
                 // fails with INVALID_PENDING_AIRDROP_ID
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_PENDING_AIRDROP_ID.ToString());
+                }); Assert.Contains(ResponseStatus.INVALID_PENDING_AIRDROP_ID.ToString(), exception.Message);
             }
         }
 
@@ -289,10 +289,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // cancel the tokens with the receiver without setting pendingAirdropIds
                 // fails with EMPTY_PENDING_AIRDROP_ID_LIST
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenCancelAirdropTransaction().Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.EMPTY_PENDING_AIRDROP_ID_LIST.ToString());
+                }); Assert.Contains(ResponseStatus.EMPTY_PENDING_AIRDROP_ID_LIST.ToString(), exception.Message);
             }
         }
 
@@ -313,10 +313,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // cancel the tokens with duplicate pending airdrop token ids
                 // fails with PENDING_AIRDROP_ID_REPEATED
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.PENDING_AIRDROP_ID_REPEATED.ToString());
+                }); Assert.Contains(ResponseStatus.PENDING_AIRDROP_ID_REPEATED.ToString(), exception.Message);
             }
         }
     }

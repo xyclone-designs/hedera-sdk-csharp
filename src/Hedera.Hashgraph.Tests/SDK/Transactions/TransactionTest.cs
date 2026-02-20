@@ -103,21 +103,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var accountCreateTransaction = new AccountCreateTransaction().SetInitialBalance(new Hbar(2)).SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).Freeze().Sign(PrivateKey.GenerateECDSA());
             var accountCreateTransaction2 = new AccountCreateTransaction().SetInitialBalance(new Hbar(2)).SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).Freeze();
-            AssertThat(accountCreateTransaction.GetTransactionSize()).IsGreaterThan(accountCreateTransaction2.GetTransactionSize());
+            Assert.True(accountCreateTransaction.GetTransactionSize() > accountCreateTransaction2.GetTransactionSize());
         }
 
         public virtual void TransactionWithLargerContentShouldHaveLargerTransactionBody()
         {
             var fileCreateTransactionSmallContent = new FileCreateTransaction().SetContents("smallBody").SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).Freeze();
             var fileCreateTransactionLargeContent = new FileCreateTransaction().SetContents("largeLargeBody").SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).Freeze();
-            AssertThat(fileCreateTransactionSmallContent.GetTransactionBodySize()).IsLessThan(fileCreateTransactionLargeContent.GetTransactionBodySize());
+            Assert.True(fileCreateTransactionSmallContent.GetTransactionBodySize() < fileCreateTransactionLargeContent.GetTransactionBodySize());
         }
 
         public virtual void TransactionWithoutOptionalFieldsShouldHaveSmallerTransactionBody()
         {
             var noOptionalFieldsTransaction = new AccountCreateTransaction().SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).Freeze();
             var fullOptionalFieldsTransaction = new AccountCreateTransaction().SetInitialBalance(new Hbar(2)).SetTransactionId(new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart))).SetNodeAccountIds(testNodeAccountIds).SetMaxTransactionFee(new Hbar(1)).SetTransactionValidDuration(Duration.OfHours(1)).Freeze();
-            AssertThat(noOptionalFieldsTransaction.GetTransactionBodySize()).IsLessThan(fullOptionalFieldsTransaction.GetTransactionBodySize());
+            Assert.True(noOptionalFieldsTransaction.GetTransactionBodySize() < fullOptionalFieldsTransaction.GetTransactionBodySize());
         }
 
         public virtual void MultiChunkTransactionShouldReturnArrayOfBodySizes()
@@ -164,10 +164,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             // Since large content is 2KB and chunk size is 1KB, this should create 2 chunks
             // Size should be greater than single chunk size
-            AssertThat(largeSize).IsGreaterThan(1024);
+            Assert.True(largeSize > 1024);
 
             // The larger chunked transaction should be bigger than the small single-chunk transaction
-            AssertThat(largeSize).IsGreaterThan(smallSize);
+            Assert.True(largeSize > smallSize);
         }
 
         public virtual void TestAddSignatureV2SingleNodeSingleChunk()
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Map<PublicKey, byte[]> nodeSignatures = signatures[nodeAccountID1];
             foreach (Map.Entry<PublicKey, byte[]> entry in nodeSignatures.EntrySet())
             {
-                Assert.Equal(entry.GetValue(), mockSignature);
+                Assert.Equal(entry.Value, mockSignature);
             }
         }
 
@@ -198,7 +198,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Map<PublicKey, byte[]> nodeSignatures = signatures[nodeID];
                 foreach (Map.Entry<PublicKey, byte[]> entry in nodeSignatures.EntrySet())
                 {
-                    Assert.Equal(entry.GetValue(), mockSignature);
+                    Assert.Equal(entry.Value, mockSignature);
                 }
             }
         }
@@ -224,9 +224,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Assert.Single(nodeSigs);
                 foreach (Map.Entry<PublicKey, byte[]> entry in nodeSigs.EntrySet())
                 {
-                    Assert.NotNull(entry.GetKey());
-                    Assert.Equal(entry.GetKey().ToString(), mockPrivateKey.GetPublicKey().ToString());
-                    Assert.Equal(entry.GetValue(), mockSignature);
+                    Assert.NotNull(entry.Key);
+                    Assert.Equal(entry.Key.ToString(), mockPrivateKey.GetPublicKey().ToString());
+                    Assert.Equal(entry.Value, mockSignature);
                 }
             }
         }
@@ -264,7 +264,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Single(nodeSigs);
             foreach (Map.Entry<PublicKey, byte[]> entry in nodeSigs.EntrySet())
             {
-                Assert.Equal(entry.GetValue(), mockSignature);
+                Assert.Equal(entry.Value, mockSignature);
             }
         }
 
@@ -289,7 +289,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void TestGetSignableNodeBodyBytesListUnfrozen()
         {
             var tx = new TransferTransaction();
-            AssertThrows(typeof(Exception), () =>
+            Exception exception = Assert.Throws<Exception>(() =>
             {
                 tx.GetSignableNodeBodyBytesList();
             });

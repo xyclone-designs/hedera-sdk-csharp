@@ -84,11 +84,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
                 var nftId = tokenId.Nft(mintReceipt.Serials[0]);
                 var invalidNftId = new NftId(nftId.TokenId, nftId.Serial + 1);
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenNftInfoQuery().SetNftId(invalidNftId).Execute(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_NFT_ID.ToString());
+                }); Assert.Contains(ResponseStatus.INVALID_NFT_ID.ToString(), exception.Message);
             }
         }
 
@@ -125,11 +125,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
                 var nftId = tokenId.Nft(mintReceipt.Serials[0]);
                 var invalidNftId = new NftId(nftId.TokenId, -1);
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenNftInfoQuery().ByNftId(invalidNftId).Execute(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_TOKEN_NFT_SERIAL_NUMBER.ToString());
+                }); Assert.Contains(ResponseStatus.INVALID_TOKEN_NFT_SERIAL_NUMBER.ToString(), exception.Message);
             }
         }
 

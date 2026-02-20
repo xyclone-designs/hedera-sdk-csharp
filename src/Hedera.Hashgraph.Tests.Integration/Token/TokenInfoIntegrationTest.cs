@@ -50,9 +50,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client);
                 
                 Assert.Equal(info.TokenId, tokenId);
-                Assert.Equal(info.Name, "ffff");
-                Assert.Equal(info.Symbol, "F");
-                Assert.Equal(info.Decimals, 3);
+                Assert.Equal("ffff", info.Name);
+                Assert.Equal("F", info.Symbol);
+                Assert.Equal<uint>(3, info.Decimals);
                 Assert.Equal(info.TreasuryAccountId, testEnv.OperatorId);
                 Assert.NotNull(info.AdminKey);
                 Assert.NotNull(info.FreezeKey);
@@ -72,8 +72,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.False(info.DefaultFreezeStatus);
                 Assert.NotNull(info.DefaultKycStatus);
                 Assert.False(info.DefaultKycStatus);
-                Assert.Equal(info.TokenType, TokenType.FungibleCommon);
-                Assert.Equal(info.SupplyType, TokenSupplyType.Infinite);
+                Assert.Equal(TokenType.FungibleCommon, info.TokenType);
+                Assert.Equal(TokenSupplyType.Infinite, info.SupplyType);
 
                 new TokenDeleteTransaction
                 {
@@ -107,8 +107,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.TokenId, tokenId);
                 Assert.Equal(info.Name, "ffff");
                 Assert.Equal(info.Symbol, "F");
-                Assert.Equal(info.Decimals, 0);
-                Assert.Equal(info.TotalSupply, 0);
+                Assert.Equal(0, info.Decimals);
+                Assert.Equal(0, info.TotalSupply);
                 Assert.Equal(info.TreasuryAccountId, testEnv.OperatorId);
                 Assert.Null(info.AdminKey);
                 Assert.Null(info.FreezeKey);
@@ -132,7 +132,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     TokenName = "ffff",
                     TokenSymbol = "F",
                     TokenType = TokenType.NonFungibleUnique,
-                    SupplyType = TokenSupplyType.Finite,
+                    TokenSupplyType = TokenSupplyType.Finite,
                     MaxSupply = 5000,
                     TreasuryAccountId = testEnv.OperatorId,
                     AdminKey = testEnv.OperatorKey,
@@ -149,7 +149,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 
-                Assert.Equal(mintReceipt.Serials.Count, 10);
+                Assert.Equal(10, mintReceipt.Serials.Count);
 
                 var info = new TokenInfoQuery
                 {
@@ -160,8 +160,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.TokenId, tokenId);
                 Assert.Equal(info.Name, "ffff");
                 Assert.Equal(info.Symbol, "F");
-                Assert.Equal(info.Decimals, 0);
-                Assert.Equal(info.TotalSupply, 10);
+                Assert.Equal<uint>(0, info.Decimals);
+                Assert.Equal<ulong>(10, info.TotalSupply);
                 Assert.Equal(testEnv.OperatorId, info.TreasuryAccountId);
                 Assert.NotNull(info.AdminKey);
                 Assert.Null(info.FreezeKey);
@@ -247,7 +247,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					MaxQueryPayment = Hbar.FromTinybars(1)
 				};
 
-				Assert.Throws(typeof(MaxQueryPaymentExceededException), () =>
+				MaxQueryPaymentExceededException exception = Assert.Throws<MaxQueryPaymentExceededException>(() =>
                 {
                     infoQuery.Execute(testEnv.Client);
                 });
@@ -273,12 +273,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					MaxQueryPayment = new Hbar(1000)
 				};
 
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     infoQuery.QueryPayment = Hbar.FromTinybars(1);
                     infoQuery.Execute(testEnv.Client);
 
-                }).Satisfies((error) => Assert.Equal(error.status.ToString(), "INSUFFICIENT_TX_FEE"));
+                }); Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE"));
             }
         }
     }

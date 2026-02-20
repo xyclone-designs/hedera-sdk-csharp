@@ -1,13 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -17,9 +11,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",Decimals = 3,InitialSupply = 1000000,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,WipeKey = testEnv.OperatorKey,KycKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,FreezeDefault = false,.Execute(testEnv.Client);
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					Decimals = 3,
+					InitialSupply = 1000000,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					WipeKey = testEnv.OperatorKey,
+					KycKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+
+				}.Execute(testEnv.Client);
+                
                 var tokenId = response.GetReceipt(testEnv.Client).TokenId;
-                new TokenDeleteTransaction().SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                new TokenDeleteTransaction
+                {
+					TokenId = tokenId,
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -27,7 +41,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,.Execute(testEnv.Client);
+                var response = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+
+				}.Execute(testEnv.Client);
+
                 response.GetReceipt(testEnv.Client).TokenId;
             }
         }
@@ -37,13 +59,30 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",TreasuryAccountId = testEnv.OperatorId,.SetAdminKey(key).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client);
-                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                var response = new TokenCreateTransaction
                 {
-                    new TokenDeleteTransaction().SetTokenId(tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
-                new TokenDeleteTransaction().SetTokenId(tokenId).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = key
+
+				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client);
+                var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new TokenDeleteTransaction
+                    {
+						TokenId = tokenId,
+
+					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
+
+                new TokenDeleteTransaction
+                {
+					TokenId = tokenId,
+
+				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -51,10 +90,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenDeleteTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_TOKEN_ID.ToString());
+
+                }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
     }

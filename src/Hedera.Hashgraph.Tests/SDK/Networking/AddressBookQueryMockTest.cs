@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         public virtual void NetworkUpdatePeriodWorks()
         {
             addressBookServiceStub.requests.Add(Proto.mirror.AddressBookQuery.NewBuilder().SetFileId(FileId.ADDRESS_BOOK.ToProtobuf()).Build());
-            addressBookServiceStub.responses.Add(new NodeAddress().SetAccountId(AccountId.FromString("0.0.3")).SetAddresses(Collections.SingletonList(SpawnEndpoint())).ToProtobuf());
+            addressBookServiceStub.responses.Add(new NodeAddress().SetAccountId(AccountId.FromString("0.0.3")).SetAddresses([SpawnEndpoint(])).ToProtobuf());
             client.SetNetworkUpdatePeriod(Duration.OfSeconds(1));
             Thread.Sleep(1400);
             var clientNetwork = client.Network;
@@ -121,9 +121,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
                 {
                     var response = responses.Poll();
                     Assert.NotNull(response);
-                    if (response is Throwable)
+                    if (response is Exception)
                     {
-                        streamObserver.OnError((Throwable)response);
+                        streamObserver.OnError((Exception)response);
                         return;
                     }
 

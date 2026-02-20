@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
 
         public virtual void ShouldNotConstruct()
         {
-            Assert.Throws(typeof(Exception), () => new Hbar(new BigDecimal("0.1"), HbarUnit.TINYBAR));
+            Exception exception = Assert.Throws<Exception>(() => new Hbar(new BigDecimal("0.1"), HbarUnit.TINYBAR));
         }
 
         public virtual void ShouldDisplay()
@@ -52,9 +52,9 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Assert.Equal(fiftyHbar, fiftyHbar);
             AssertThat(fiftyHbar).IsNotEqualTo(hundredHbar);
             Assert.Equal(fiftyHbar.CompareTo(new Hbar(50)), 0);
-            AssertThat(fiftyHbar.CompareTo(hundredHbar)).IsLessThan(0);
-            AssertThat(hundredHbar.CompareTo(fiftyHbar)).IsGreaterThan(0);
-            AssertThat(fiftyHbar.CompareTo(negativeFiftyHbar)).IsGreaterThan(0);
+            Assert.True(fiftyHbar.CompareTo(hundredHbar) < 0);
+            Assert.True(hundredHbar.CompareTo(fiftyHbar) > 0);
+            Assert.True(fiftyHbar.CompareTo(negativeFiftyHbar) > 0);
         }
 
         public virtual void ConstructorWorks()

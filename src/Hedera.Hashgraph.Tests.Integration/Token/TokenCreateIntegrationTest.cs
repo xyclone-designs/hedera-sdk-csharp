@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
-
+using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fees;
@@ -15,7 +15,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     class TokenCreateIntegrationTest
     {
-        private static IList<CustomFee> CreateFixedFeeList(int count, AccountId feeCollector)
+        private static List<CustomFee> CreateFixedFeeList(int count, AccountId feeCollector)
         {
             var feeList = new List<CustomFee>();
             for (int i = 0; i < count; i++)
@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			return feeList;
         }
 
-        private static IList<CustomFee> CreateFractionalFeeList(int count, AccountId feeCollector)
+        private static List<CustomFee> CreateFractionalFeeList(int count, AccountId feeCollector)
         {
             var feeList = new List<CustomFee>();
             for (int i = 0; i < count; i++)
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction()
                     {
@@ -100,7 +100,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.MISSING_TOKEN_NAME.ToString());
+                }); Assert.Contains(ResponseStatus.MissingTokenName.ToString(), exception.Message);
             }
         }
 
@@ -108,7 +108,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction()
                     {
@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.MISSING_TOKEN_SYMBOL.ToString());
+                }); Assert.Contains(ResponseStatus.MissingTokenSymbol.ToString(), exception.Message);
             }
         }
 
@@ -126,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_TREASURY_ACCOUNT_FOR_TOKEN.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidTreasuryAccountForToken.ToString(), exception.Message);
             }
         }
 
@@ -144,7 +144,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -155,7 +155,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
 
@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -176,7 +176,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
 
@@ -216,7 +216,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -229,7 +229,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.CUSTOM_FEES_LIST_TOO_LONG.ToString());
+                }); Assert.Contains(ResponseStatus.CustomFeesListTooLong.ToString(), exception.Message);
             }
         }
 
@@ -271,7 +271,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -291,7 +291,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.FRACTIONAL_FEE_MAX_AMOUNT_LESS_THAN_MIN_AMOUNT.ToString());
+                }); Assert.Contains(ResponseStatus.FractionalFeeMaxAmountLessThanMinAmount.ToString(), exception.Message);
             }
         }
 
@@ -299,7 +299,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -315,7 +315,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.INVALID_CUSTOM_FEE_COLLECTOR.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidCustomFeeCollector.ToString(), exception.Message);
             }
         }
 
@@ -323,7 +323,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -341,7 +341,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.CUSTOM_FEE_MUST_BE_POSITIVE.ToString());
+                }); Assert.Contains(ResponseStatus.CustomFeeMustBePositive.ToString(), exception.Message);
             }
         }
 
@@ -349,7 +349,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenCreateTransaction
                     {
@@ -369,7 +369,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining(Status.FRACTION_DIVIDES_BY_ZERO.ToString());
+                }); Assert.Contains(ResponseStatus.FractionDividesByZero.ToString(), exception.Message);
             }
         }
 
@@ -390,9 +390,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					SupplyKey = testEnv.OperatorKey,
 					FreezeDefault = false,
 				}
-                .Execute(testEnv.Client);
-
-                response.GetReceipt(testEnv.Client).TokenId;
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
             }
         }
 
@@ -438,10 +437,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				{
 					TokenId = tokenId
 				}
-				.Execute(testEnv.Client)
-                .autoRenewAccount;
+				.Execute(testEnv.Client).AutoRenewAccount;
+                
                 Assert.NotNull(autoRenewAccount);
-                AssertThat(autoRenewAccount).IsEqualByComparingTo(testEnv.OperatorId,;
+
+                Assert.Equal(autoRenewAccount, testEnv.OperatorId);
             }
         }
 
@@ -449,8 +449,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var autoRenewPeriod = Duration.OfSeconds(7890000);
-                var expirationTime = DateTimeOffset.UtcNow.Plus(autoRenewPeriod);
+                var autoRenewPeriod = Duration.FromTimeSpan(TimeSpan.FromSeconds(7890000));
+                var expirationTime = DateTimeOffset.UtcNow.Add(autoRenewPeriod.ToTimeSpan());
                 var response = new TokenCreateTransaction
                 {
 					TokenName = "ffff",
@@ -465,9 +465,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenId = tokenId
 				}
 				.Execute(testEnv.Client);
-                Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId,;
+                Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId);
                 Assert.Equal(tokenInfo.AutoRenewPeriod, autoRenewPeriod);
-                Assert.Equal(tokenInfo.ExpirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
+                Assert.Equal(tokenInfo.ExpirationTime.Seconds, expirationTime.ToUnixTimeSeconds());
             }
         }
 
@@ -475,12 +475,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var expirationTime = DateTimeOffset.UtcNow.PlusSeconds(8000001);
+                var expirationTime = DateTimeOffset.UtcNow.AddSeconds(8000001);
                 var response = new TokenCreateTransaction
                 {
 					TokenName = "ffff",
 					TokenSymbol = "F",
-					ExpirationTime = expirationTime,
+					ExpirationTime = Timestamp.FromDateTimeOffset(expirationTime),
 					TreasuryAccountId = testEnv.OperatorId,
 				}
                 .Execute(testEnv.Client);
@@ -490,7 +490,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenId = tokenId
 				}
 				.Execute(testEnv.Client);
-                Assert.Equal(tokenInfo.ExpirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
+                Assert.Equal(tokenInfo.ExpirationTime.Seconds, expirationTime.ToUnixTimeSeconds());
             }
         }
 
@@ -502,7 +502,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var publicKey = privateKey.GetPublicKey();
                 var accountId = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = publicKey,
+					Key = publicKey,
 					InitialBalance = Hbar.From(10),
 				}
                 .Execute(testEnv.Client)
@@ -531,11 +531,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                int decimals = 3;
-                long userInputInitialSupply = 1000;
-                long userInputMaxSupply = 10000;
-                long expectedInitialSupply = userInputInitialSupply * 1000;
-                long expectedMaxSupply = userInputMaxSupply * 1000;
+                uint decimals = 3;
+				ulong userInputInitialSupply = 1000;
+                ulong userInputMaxSupply = 10000;
+				ulong expectedInitialSupply = userInputInitialSupply * 1000;
+                ulong expectedMaxSupply = userInputMaxSupply * 1000;
                 var response = new TokenCreateTransaction
                 {
 					TokenName = "DecimalTest",
@@ -543,7 +543,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					Decimals = decimals,
 					InitialSupply = expectedInitialSupply,
 					MaxSupply = expectedMaxSupply,
-					SupplyType = TokenSupplyType.FINITE,
+					TokenSupplyType = TokenSupplyType.Finite,
 					TreasuryAccountId = testEnv.OperatorId,
 					AdminKey = testEnv.OperatorKey,
 					SupplyKey = testEnv.OperatorKey,
@@ -557,7 +557,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client);
                 Assert.Equal(tokenInfo.Decimals, decimals);
                 Assert.Equal(tokenInfo.TotalSupply, expectedInitialSupply);
-                Assert.Equal(tokenInfo.MaxSupply, expectedMaxSupply);
+                Assert.Equal((ulong)tokenInfo.MaxSupply, expectedMaxSupply);
             }
         }
 
@@ -583,8 +583,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenId = tokenId
 				}.Execute(testEnv.Client);
                 Assert.Equal(tokenInfo.TokenType, TokenType.NonFungibleUnique);
-                Assert.Equal(tokenInfo.Decimals, 0);
-                Assert.Equal(tokenInfo.TotalSupply, 0);
+                Assert.Equal<uint>(tokenInfo.Decimals, 0);
+                Assert.Equal<ulong>(tokenInfo.TotalSupply, 0);
             }
         }
 
@@ -592,19 +592,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                int[] decimalValues = new[]
-                {
+                uint[] decimalValues = 
+                [
                     0,
                     1,
                     2,
                     6,
                     8,
                     18
-                };
-                foreach (int decimals in decimalValues)
+                ];
+                foreach (uint decimals in decimalValues)
                 {
-                    long userInputSupply = 100;
-                    long expectedSupply = userInputSupply * (long)Math.Pow(10, decimals);
+                    ulong userInputSupply = 100;
+                    ulong expectedSupply = userInputSupply * (ulong)Math.Pow(10, decimals);
                     var response = new TokenCreateTransaction
                     {
 						TokenName = "DecimalTest" + decimals,
@@ -621,7 +621,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 						TokenId = tokenId
 					}
                     .Execute(testEnv.Client);
-                    Assert.Equal(tokenInfo.Decimals, decimals);
+                    Assert.Equal<uint>(tokenInfo.Decimals, decimals);
                     Assert.Equal(tokenInfo.TotalSupply, expectedSupply);
                 }
             }
@@ -633,23 +633,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 
                 // Calculate expiration time 90 days from now
-                var expirationTime = DateTimeOffset.UtcNow.PlusSeconds(90 * 24 * 60 * 60);
+                var expirationTime = DateTimeOffset.UtcNow.AddSeconds(90 * 24 * 60 * 60);
                 var response = new TokenCreateTransaction
                 {
 					TokenName = "TEST",
 					TokenSymbol = "TEST",
-					TokenType = TokenType.FUNGIBLE_COMMON,
-					SupplyType = TokenSupplyType.INFINITE,
+					TokenType = TokenType.FungibleCommon,
+					TokenSupplyType = TokenSupplyType.Infinite,
 					AutoRenewAccountId = testEnv.OperatorId,
 					InitialSupply = 1,
 					MaxTransactionFee = new Hbar(100),
 					TreasuryAccountId = testEnv.OperatorId,
-					ExpirationTime = expirationTime,
+					ExpirationTime = Timestamp.FromDateTimeOffset(expirationTime),
 					Decimals = 0,
 				}
                 .Execute(testEnv.Client);
                 var receipt = response.GetReceipt(testEnv.Client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
                 var tokenId = receipt.TokenId;
                 Assert.NotNull(tokenId);
                 var tokenInfo = new TokenInfoQuery
@@ -657,12 +657,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenId = tokenId
 				}
                 .Execute(testEnv.Client);
-                Assert.Equal(tokenInfo.Name, "TEST");
-                Assert.Equal(tokenInfo.Symbol, "TEST");
-                Assert.Equal(tokenInfo.TokenType, TokenType.FUNGIBLE_COMMON,;
-                Assert.Equal(tokenInfo.SupplyType, TokenSupplyType.INFINITE,;
-                Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId,;
-                Assert.Equal(tokenInfo.ExpirationTime.GetEpochSecond(), expirationTime.GetEpochSecond());
+                Assert.Equal("TEST", tokenInfo.Name);
+                Assert.Equal("TEST", tokenInfo.Symbol);
+                Assert.Equal(TokenType.FungibleCommon, tokenInfo.TokenType);
+                Assert.Equal(TokenSupplyType.Infinite, tokenInfo.SupplyType);
+                Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId);
+                Assert.Equal(tokenInfo.ExpirationTime.Seconds, expirationTime.ToUnixTimeSeconds());
             }
         }
     }

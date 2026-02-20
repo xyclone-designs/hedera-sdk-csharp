@@ -211,11 +211,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             ContractFunctionParameters params = new ContractFunctionParameters();
 
             // allowed values for BigInteger
-            @params.AddInt256(BigInteger.ONE.ShiftLeft(254));
-            @params.AddInt256(BigInteger.ONE.Negate().ShiftLeft(255));
+            @params.AddInt256(BigInteger.One.ShiftLeft(254));
+            @params.AddInt256(BigInteger.One.Negate().ShiftLeft(255));
             string rangeErr = "BigInteger out of range for Solidity integers";
-            Assert.Throws<ArgumentException>(() => @params.AddInt256(BigInteger.ONE.ShiftLeft(255))).Satisfies((error) => Assert.Equal(error.GetMessage(), rangeErr));
-            Assert.Throws<ArgumentException>(() => @params.AddInt256(BigInteger.ONE.Negate().ShiftLeft(256))).Satisfies((error) => Assert.Equal(error.GetMessage(), rangeErr));
+            Assert.Throws<ArgumentException>(() => @params.AddInt256(BigInteger.One.ShiftLeft(255))).Satisfies((error) => Assert.Equal(error.GetMessage(), rangeErr));
+            Assert.Throws<ArgumentException>(() => @params.AddInt256(BigInteger.One.Negate().ShiftLeft(256))).Satisfies((error) => Assert.Equal(error.GetMessage(), rangeErr));
         }
 
         public virtual void AddressParamChecks()
@@ -279,7 +279,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
                     }
                     else
                     {
-                        return BigInteger.ONE.ShiftLeft(bitWidth - 1);
+                        return BigInteger.One.ShiftLeft(bitWidth - 1);
                     }
                 }).Get();
                 var argArrayVal = Array.NewInstance(argType, 2);

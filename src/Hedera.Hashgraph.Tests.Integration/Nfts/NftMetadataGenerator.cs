@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
         public static List<byte[]> GenerateOneLarge()
         {
-            return Collections.SingletonList(new byte[101]);
+            return [new byte[101]];
         }
     }
 }

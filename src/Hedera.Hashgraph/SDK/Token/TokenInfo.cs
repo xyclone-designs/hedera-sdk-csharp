@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The custom fees to be assessed during a CryptoTransfer that transfers units of this token
         /// </summary>
-        public readonly List<CustomFee> CustomFees;
+        public readonly IList<CustomFee> CustomFees;
         /// <summary>
         /// The token type
         /// </summary>

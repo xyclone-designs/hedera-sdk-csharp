@@ -34,7 +34,7 @@ import "basic_types.proto";
 import "timestamp.proto";
 import "consensus_submit_message.proto";
 
-message Proto.ConsensusTopicQuery {
+message ConsensusTopicQuery {
     /**
      * A required topic ID to retrieve messages for.
      */
@@ -59,7 +59,7 @@ message Proto.ConsensusTopicQuery {
     uint64 limit = 4;
 }
 
-message Proto.ConsensusTopicResponse {
+message ConsensusTopicResponse {
     /**
      * The time at which the transaction reached consensus
      */
@@ -97,5 +97,5 @@ message Proto.ConsensusTopicResponse {
  * messages for an HCS Topic via a specific (possibly open-ended) time range.
  */
 service ConsensusService {
-    rpc subscribeTopic (ConsensusTopicQuery) returns (stream Proto.ConsensusTopicResponse);
+    rpc subscribeTopic (ConsensusTopicQuery) returns (stream ConsensusTopicResponse);
 }

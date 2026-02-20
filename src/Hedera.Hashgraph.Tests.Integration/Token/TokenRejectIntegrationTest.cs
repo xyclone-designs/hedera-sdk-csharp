@@ -48,8 +48,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(receiverAccountBalance.Tokens[tokenId1], 0);
-                Assert.Equal(receiverAccountBalance.Tokens[tokenId2], 0);
+                Assert.Equal<ulong>(0, receiverAccountBalance.Tokens[tokenId1]);
+                Assert.Equal<ulong>(0, receiverAccountBalance.Tokens[tokenId2]);
 
                 // verify the tokens are transferred back to the treasury
                 var treasuryAccountBalance = new AccountBalanceQuery
@@ -58,8 +58,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(treasuryAccountBalance.Tokens[tokenId1], 1000000);
-                Assert.Equal(treasuryAccountBalance.Tokens[tokenId2], 1000000);
+                Assert.Equal<ulong>(1000000, treasuryAccountBalance.Tokens[tokenId1]);
+                Assert.Equal<ulong>(1000000, treasuryAccountBalance.Tokens[tokenId2]);
                 
                 new TokenDeleteTransaction
                 {
@@ -121,10 +121,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // verify the balance is decremented by 1
-                var receiverAccountBalance = new AccountBalanceQuery()
-                    .SetAccountId(receiverAccountId).Execute(testEnv.Client);
-                Assert.Equal(receiverAccountBalance.Tokens[tokenId1], 1);
-                Assert.Equal(receiverAccountBalance.Tokens[tokenId2], 1);
+                var receiverAccountBalance = new AccountBalanceQuery
+                {
+					AccountId = receiverAccountId
+				
+                }.Execute(testEnv.Client);
+                Assert.Equal<ulong>(1, receiverAccountBalance.Tokens[tokenId1]);
+                Assert.Equal<ulong>(1, receiverAccountBalance.Tokens[tokenId2]);
 
                 // verify the token is transferred back to the treasury
                 var tokenId1NftInfo = new TokenNftInfoQuery
@@ -133,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }
                 .Execute(testEnv.Client);
 
-                Assert.Equal(tokenId1NftInfo[0].accountId, testEnv.OperatorId);
+                Assert.Equal(tokenId1NftInfo[0].AccountId, testEnv.OperatorId);
 
                 var tokenId2NftInfo = new TokenNftInfoQuery
                 {
@@ -141,7 +144,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client);
 
-                Assert.Equal(tokenId2NftInfo[0].accountId, testEnv.OperatorId);
+                Assert.Equal(tokenId2NftInfo[0].AccountId, testEnv.OperatorId);
                 
                 new TokenDeleteTransaction
                 {
@@ -220,10 +223,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = receiverAccountId
 
 				}.Execute(testEnv.Client);
-                Assert.Equal(receiverAccountBalance.Tokens[ftTokenId1], 0);
-                Assert.Equal(receiverAccountBalance.Tokens[ftTokenId2], 0);
-                Assert.Equal(receiverAccountBalance.Tokens[nftTokenId1], 1);
-                Assert.Equal(receiverAccountBalance.Tokens[nftTokenId2], 1);
+                Assert.Equal<ulong>(0, receiverAccountBalance.Tokens[ftTokenId1]);
+                Assert.Equal<ulong>(0, receiverAccountBalance.Tokens[ftTokenId2]);
+                Assert.Equal<ulong>(1, receiverAccountBalance.Tokens[nftTokenId1]);
+                Assert.Equal<ulong>(1, receiverAccountBalance.Tokens[nftTokenId2]);
 
                 // verify the tokens are transferred back to the treasury
                 var treasuryAccountBalance = new AccountBalanceQuery
@@ -231,20 +234,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = testEnv.OperatorId
 
 				}.Execute(testEnv.Client);
-                Assert.Equal(treasuryAccountBalance.Tokens[ftTokenId1], 1000000);
-                Assert.Equal(treasuryAccountBalance.Tokens[ftTokenId2], 1000000);
+                Assert.Equal<ulong>(1000000, treasuryAccountBalance.Tokens[ftTokenId1]);
+                Assert.Equal<ulong>(1000000, treasuryAccountBalance.Tokens[ftTokenId2]);
                 var tokenId1NftInfo = new TokenNftInfoQuery
                 {
                     NftId = nftTokenId1.Nft(nftSerials[1])
 
                 }.Execute(testEnv.Client);
-                Assert.Equal(tokenId1NftInfo[0].accountId, testEnv.OperatorId);
+                Assert.Equal(tokenId1NftInfo[0].AccountId, testEnv.OperatorId);
                 var tokenId2NftInfo = new TokenNftInfoQuery
                 {
 					NftId = nftTokenId2.Nft(nftSerials[1])
 
 				}.Execute(testEnv.Client);
-                Assert.Equal(tokenId2NftInfo[0].accountId, testEnv.OperatorId);
+                Assert.Equal(tokenId2NftInfo[0].AccountId, testEnv.OperatorId);
                 
                 new TokenDeleteTransaction
                 {
@@ -284,9 +287,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var treasuryAccountKey = PrivateKey.GenerateED25519();
                 var treasuryAccountId = new AccountCreateTransaction
                 {
-                    KeyWithoutAlias = treasuryAccountKey,
+                    Key = treasuryAccountKey,
                     InitialBalance = new Hbar(0),
-                    ReceiverSignatureRequired = true,
+                    ReceiverSigRequired = true,
                     MaxAutomaticTokenAssociations = 100,
                 }
                 .FreezeWith(testEnv.Client)
@@ -302,7 +305,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     InitialSupply = 1000000,
                     MaxSupply = 1000000,
                     TreasuryAccountId = treasuryAccountId,
-                    SupplyType = TokenSupplyType.Finite,
+                    TokenSupplyType = TokenSupplyType.Finite,
                     AdminKey = testEnv.OperatorKey,
                     FreezeKey = testEnv.OperatorKey,
                     SupplyKey = testEnv.OperatorKey,
@@ -340,7 +343,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(receiverAccountBalanceFt.Tokens[ftTokenId], 0);
+                Assert.Equal<ulong>(0, receiverAccountBalanceFt.Tokens[ftTokenId]);
 
                 // verify the tokens are transferred back to the treasury
                 var treasuryAccountBalance = new AccountBalanceQuery
@@ -349,7 +352,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(treasuryAccountBalance.Tokens[ftTokenId], 1000000);
+                Assert.Equal<ulong>(1000000, treasuryAccountBalance.Tokens[ftTokenId]);
 
                 // same test for nft
                 var nftTokenId = new TokenCreateTransaction
@@ -358,7 +361,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     TokenSymbol = "TNFT",
                     TokenType = TokenType.NonFungibleUnique,
                     TreasuryAccountId = treasuryAccountId,
-                    SupplyType = TokenSupplyType.Finite,
+                    TokenSupplyType = TokenSupplyType.Finite,
                     MaxSupply = 10, 
                     AdminKey = testEnv.OperatorKey,
                     FreezeKey = testEnv.OperatorKey,
@@ -391,9 +394,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the token
-                new TokenRejectTransaction()
-                    .SetOwnerId(receiverAccountId)
-                    .AddNftId(nftTokenId.Nft(nftSerials[1])).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenRejectTransaction
+                {
+					OwnerId = receiverAccountId
+				}
+                .AddNftId(nftTokenId.Nft(nftSerials[1]))
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverAccountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // verify the balance is decremented by 1
                 var receiverAccountBalanceNft = new AccountBalanceQuery
@@ -402,7 +411,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 				}.Execute(testEnv.Client);
 
-                Assert.Equal(receiverAccountBalanceNft.Tokens[nftTokenId], 1);
+                Assert.Equal<ulong>(1, receiverAccountBalanceNft.Tokens[nftTokenId]);
 
                 // verify the token is transferred back to the treasury
                 var nftTokenIdInfo = new TokenNftInfoQuery
@@ -411,7 +420,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client);
 
-                Assert.Equal(nftTokenIdInfo[0].accountId, treasuryAccountId);
+                Assert.Equal(nftTokenIdInfo[0].AccountId, treasuryAccountId);
                 
                 new TokenDeleteTransaction
                 {
@@ -445,18 +454,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // freeze ft
-                new TokenFreezeTransaction()
-                    .SetTokenId(ftTokenId)
-                    .SetAccountId(receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenFreezeTransaction
+                {
+					TokenId = ftTokenId,
+					AccountId = receiverAccountId,
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // reject the token - should fail with ACCOUNT_FROZEN_FOR_TOKEN
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TokenRejectTransaction()
-                    .SetOwnerId(receiverAccountId)
-                    
-                    .AddTokenId(ftTokenId).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining("ACCOUNT_FROZEN_FOR_TOKEN");
+                    new TokenRejectTransaction
+                    {
+						OwnerId = receiverAccountId,
+						TokenIds = [ftTokenId],
+					}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(receiverAccountKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                }); Assert.Contains("ACCOUNT_FROZEN_FOR_TOKEN", exception.Message);
 
                 // same test for nft
                 var mintReceipt = new TokenMintTransaction
@@ -476,12 +493,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // freeze nft
-                new TokenFreezeTransaction()
-                    .SetTokenId(nftTokenId)
-                    .SetAccountId(receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenFreezeTransaction
+                {
+					TokenId = nftTokenId,
+					AccountId = receiverAccountId,
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // reject the token - should fail with ACCOUNT_FROZEN_FOR_TOKEN
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception2 = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -493,7 +513,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("ACCOUNT_FROZEN_FOR_TOKEN");
+                }); Assert.Contains("ACCOUNT_FROZEN_FOR_TOKEN", exception2.Message);
                 
                 new TokenDeleteTransaction
                 {
@@ -535,13 +555,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the token - should fail with TOKEN_IS_PAUSED
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TokenRejectTransaction()
-                    .SetOwnerId(receiverAccountId)
-                    
-                    .AddTokenId(ftTokenId).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining("TOKEN_IS_PAUSED");
+                    new TokenRejectTransaction
+                    {
+						OwnerId = receiverAccountId,
+						TokenIds = [ftTokenId],
+					}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(receiverAccountKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                }); Assert.Contains("TOKEN_IS_PAUSED", exception.Message);
 
                 // same test for nft
                 var mintReceipt = new TokenMintTransaction
@@ -569,7 +594,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the token - should fail with TOKEN_IS_PAUSED
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception2 = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -581,7 +606,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("TOKEN_IS_PAUSED");
+                }); Assert.Contains("TOKEN_IS_PAUSED", exception2.Message);
             }
         }
         public virtual void CanRemoveAllowanceWhenExecutingTokenRejectForFtAndNft()
@@ -621,13 +646,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .GetReceipt(testEnv.Client);
 
                 // reject the token
-                new TokenRejectTransaction()
-                    .SetOwnerId(receiverAccountId)
-                    
-                    .AddTokenId(ftTokenId).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenRejectTransaction
+                {
+					OwnerId = receiverAccountId,
+                    TokenIds = [ftTokenId]
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverAccountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // verify the allowance - should be 0 , because the receiver is no longer the owner
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TransferTransaction
                     {
@@ -639,7 +669,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Sign(spenderAccountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
-                }).WithMessageContaining("SPENDER_DOES_NOT_HAVE_ALLOWANCE");
+                }); Assert.Contains("SPENDER_DOES_NOT_HAVE_ALLOWANCE", exception.Message);
 
                 // same test for nft
                 var nftTokenId = EntityHelper.CreateNft(testEnv);
@@ -683,13 +713,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .GetReceipt(testEnv.Client);
 
                 // reject the token
-                new TokenRejectTransaction()
-                    .SetOwnerId(receiverAccountId)
-                    .SetNftIds(List.Of(nftTokenId.Nft(nftSerials[1]), 
-                    nftTokenId.Nft(nftSerials[2]))).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenRejectTransaction
+                {
+					OwnerId = receiverAccountId,
+					NftIds = [nftTokenId.Nft(nftSerials[1])],
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverAccountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // verify the allowance - should be 0 , because the receiver is no longer the owner
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception2 = Assert.Throws<Exception>(() =>
                 {
                     new TransferTransaction
                     {
@@ -702,7 +737,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("SPENDER_DOES_NOT_HAVE_ALLOWANCE");
+                }); Assert.Contains("SPENDER_DOES_NOT_HAVE_ALLOWANCE", exception2.Message);
                 
                 new TokenDeleteTransaction
                 {
@@ -746,7 +781,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the whole collection (addTokenId) - should fail
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -758,10 +793,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("ACCOUNT_AMOUNT_TRANSFERS_ONLY_ALLOWED_FOR_FUNGIBLE_COMMON");
+                }); Assert.Contains("ACCOUNT_AMOUNT_TRANSFERS_ONLY_ALLOWED_FOR_FUNGIBLE_COMMON", exception.Message);
 
                 // reject the whole collection (setTokenIds) - should fail
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception2 = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -773,7 +808,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("ACCOUNT_AMOUNT_TRANSFERS_ONLY_ALLOWED_FOR_FUNGIBLE_COMMON");
+                }); Assert.Contains("ACCOUNT_AMOUNT_TRANSFERS_ONLY_ALLOWED_FOR_FUNGIBLE_COMMON", exception2.Message);
 
                 new TokenDeleteTransaction
                 {
@@ -799,13 +834,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the token with duplicate token id - should fail with TOKEN_REFERENCE_REPEATED
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TokenRejectTransaction()
-                    .SetOwnerId(receiverAccountId)
-                    .SetTokenIds(List.Of(ftTokenId, ftTokenId)).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                    new TokenRejectTransaction
+                    {
+						OwnerId = receiverAccountId,
+                        TokenIds = [ftTokenId, ftTokenId],
+					}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(receiverAccountKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("TOKEN_REFERENCE_REPEATED");
+                }); Assert.Contains("TOKEN_REFERENCE_REPEATED", exception.Message);
 
                 // same test for nft
                 var nftTokenId = EntityHelper.CreateNft(testEnv);
@@ -826,7 +867,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 
                 // reject the nft with duplicate nft id - should fail with TOKEN_REFERENCE_REPEATED
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception2 = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -839,7 +880,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("TOKEN_REFERENCE_REPEATED");
+                }); Assert.Contains("TOKEN_REFERENCE_REPEATED", exception2.Message);
                 
                 new TokenDeleteTransaction
                 {
@@ -877,7 +918,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the token - should fail with INSUFFICIENT_TOKEN_BALANCE
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -889,7 +930,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("INSUFFICIENT_TOKEN_BALANCE");
+                }); Assert.Contains("INSUFFICIENT_TOKEN_BALANCE", exception.Message);
 
                 // same test for nft
                 var nftTokenId = EntityHelper.CreateNft(testEnv);
@@ -915,7 +956,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the nft - should fail with INVALID_OWNER_ID
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception2 = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -927,7 +968,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("INVALID_OWNER_ID");
+                }); Assert.Contains("INVALID_OWNER_ID", exception2.Message);
                 
                 new TokenDeleteTransaction
                 {
@@ -952,7 +993,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // skip the transfer
                 // reject the token with the treasury - should fail with ACCOUNT_IS_TREASURY
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction()
                     {
@@ -962,7 +1003,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("ACCOUNT_IS_TREASURY");
+                }); Assert.Contains("ACCOUNT_IS_TREASURY", exception.Message);
 
                 // same test for nft
                 var nftTokenId = EntityHelper.CreateNft(testEnv);
@@ -978,7 +1019,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // skip the transfer
                 // reject the nft with the treasury - should fail with ACCOUNT_IS_TREASURY
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception2 = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction()
                     {
@@ -988,7 +1029,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("ACCOUNT_IS_TREASURY");
+                }); Assert.Contains("ACCOUNT_IS_TREASURY", exception2.Message);
             }
         }
         public virtual void CannotRejectTokenWithInvalidSignature()
@@ -1008,7 +1049,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the token with different key - should fail with INVALID_SIGNATURE
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -1020,7 +1061,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("INVALID_SIGNATURE");
+                }); Assert.Contains("INVALID_SIGNATURE", exception.Message);
                 
                 new TokenDeleteTransaction
                 {
@@ -1037,7 +1078,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 
                 // reject the token with invalid token - should fail with EMPTY_TOKEN_REFERENCE_LIST
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -1046,7 +1087,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).WithMessageContaining("EMPTY_TOKEN_REFERENCE_LIST");
+                }); Assert.Contains("EMPTY_TOKEN_REFERENCE_LIST", exception.Message);
             }
         }
         public virtual void CannotRejectTokenWhenTokenReferenceListSizeExceeded()
@@ -1085,7 +1126,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // reject the token with 11 token references - should fail with TOKEN_REFERENCE_LIST_SIZE_LIMIT_EXCEEDED
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TokenRejectTransaction
                     {
@@ -1110,7 +1151,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
-                }).WithMessageContaining("TOKEN_REFERENCE_LIST_SIZE_LIMIT_EXCEEDED");
+                }); Assert.Contains("TOKEN_REFERENCE_LIST_SIZE_LIMIT_EXCEEDED", exception.Message);
                 
                 new TokenDeleteTransaction
                 {

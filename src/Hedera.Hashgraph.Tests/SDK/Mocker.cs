@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                             var responseIndex = index.GetAndIncrement();
                             if (responseIndex >= response.Count)
                             {
-                                responseObserver.OnError(Status.Code.ABORTED.ToStatus().AsRuntimeException());
+                                responseObserver.OnError(ResponseStatus.Code.ABORTED.ToStatus().AsRuntimeException());
                                 return;
                             }
 
@@ -58,15 +58,15 @@ namespace Hedera.Hashgraph.Tests.SDK
                                 {
                                     r = ((Function<object, object>)r).Apply(request);
                                 }
-                                catch (Throwable e)
+                                catch (Exception e)
                                 {
                                     r = Status.ABORTED.WithDescription(e.GetMessage()).AsRuntimeException();
                                 }
                             }
 
-                            if (r is Throwable)
+                            if (r is Exception)
                             {
-                                responseObserver.OnError((Throwable)r);
+                                responseObserver.OnError((Exception)r);
                             }
                             else
                             {

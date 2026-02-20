@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void GetSetTokenId()
         {
             var tokenId = TokenId.FromString("1.2.3");
-            var transaction = new TokenDeleteTransaction().SetTokenId(tokenId);
+            var transaction = new TokenDeleteTransaction()TokenId = tokenId,;
             Assert.Equal(transaction.GetTokenId(), tokenId);
         }
 
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var tokenId = TokenId.FromString("1.2.3");
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenId(tokenId));
+            Assert.Throws<InvalidOperationException>(() => txTokenId = tokenId,);
         }
     }
 }

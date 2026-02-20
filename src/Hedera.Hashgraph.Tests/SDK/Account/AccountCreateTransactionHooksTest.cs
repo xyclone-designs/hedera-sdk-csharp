@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 0x04
             };
             EvmHookStorageUpdate storageUpdate = new EvmHookStorageSlot(storageKey, storageValue);
-            IList<EvmHookStorageUpdate> storageUpdates = Collections.SingletonList(storageUpdate);
+            IList<EvmHookStorageUpdate> storageUpdates = [storageUpdate];
 
             // Create account create transaction with hooks
             var lambdaHookWithStorage = new EvmHook(contractId, storageUpdates);
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaEvmHook);
 
             // Set hooks using setHookCreationDetails
-            AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(50)).SetHooks(Collections.SingletonList(hookDetails));
+            AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(50)).SetHooks([hookDetails]);
 
             // Verify hooks were set
             IList<HookCreationDetails> retrievedHooks = transaction.GetHooks();
@@ -140,7 +140,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaEvmHook);
 
             // Create transaction with set hooks
-            AccountCreateTransaction originalTx = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(123)).SetHooks(Collections.SingletonList(hookDetails));
+            AccountCreateTransaction originalTx = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(123)).SetHooks([hookDetails]);
 
             // Serialize to bytes then deserialize back
             byte[] bytes = originalTx.ToBytes();

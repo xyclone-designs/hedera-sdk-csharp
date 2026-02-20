@@ -37,9 +37,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         public virtual void TestSetAndGetContractId()
         {
             mirrorNodeContractEstimateGasQuery.ContractId = mockContractId;
-            Assert.Equal(mockContractId, mirrorNodeContractEstimateGasQuery.ContractId);
+            Assert.Equal(mockContractId, mirrorNodeContractEstimateGasQuery.ContractId;
             mirrorNodeContractCallQuery.ContractId = mockContractId;
-            Assert.Equal(mockContractId, mirrorNodeContractCallQuery.ContractId);
+            Assert.Equal(mockContractId, mirrorNodeContractCallQuery.ContractId;
         }
 
         public virtual void TestSetContractIdWithNullThrowsException()
@@ -53,10 +53,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             string evmAddress = "0x1234567890abcdef1234567890abcdef12345678";
             mirrorNodeContractEstimateGasQuery.ContractEvmAddress = evmAddress;
             Assert.Equal(evmAddress, mirrorNodeContractEstimateGasQuery.ContractEvmAddress);
-            Assert.Null(mirrorNodeContractEstimateGasQuery.ContractId);
+            Assert.Null(mirrorNodeContractEstimateGasQuery.ContractId;
             mirrorNodeContractCallQuery.ContractEvmAddress = evmAddress;
             Assert.Equal(evmAddress, mirrorNodeContractCallQuery.ContractEvmAddress);
-            Assert.Null(mirrorNodeContractCallQuery.ContractId);
+            Assert.Null(mirrorNodeContractCallQuery.ContractId;
         }
 
         public virtual async void TestSetContractEvmAddressWithNullThrowsException()

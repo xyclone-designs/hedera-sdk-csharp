@@ -26,11 +26,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var largeContents = new byte[LARGE_CONTENT_SIZE_BYTES];
                 Arrays.Fill(largeContents, (byte)1);
-                var transaction = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(largeContents).SetTransactionMemo("HIP-1300 create large file").SetMaxTransactionFee(new Hbar(20));
+                var transaction = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(largeContents).SetTransactionMemo("HIP-1300 create large file").SetMaxTransactionFee(new Hbar(20));
                 transaction.FreezeWith(testEnv.Client);
                 var serialized = transaction.ToBytes();
-                AssertThat(serialized.Length).IsGreaterThan(SIZE_THRESHOLD_BYTES);
-                AssertThat(serialized.Length).IsLessThan(EXTENDED_SIZE_LIMIT_BYTES);
+                Assert.True(serialized.Length > SIZE_THRESHOLD_BYTES);
+                Assert.True(serialized.Length < EXTENDED_SIZE_LIMIT_BYTES);
                 var receipt = transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.NotNull(receipt.fileId);
                 new FileDeleteTransaction().SetFileId(receipt.fileId)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -42,17 +42,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = CreateSystemAccountTestEnv())
             {
                 var initialContents = "test".GetBytes();
-                var fileId = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(initialContents).SetTransactionMemo("HIP-1300 initial file").Execute(testEnv.Client).GetReceipt(testEnv.Client).fileId;
+                var fileId = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(initialContents).SetTransactionMemo("HIP-1300 initial file").Execute(testEnv.Client).GetReceipt(testEnv.Client).fileId;
                 fileId);
                 var updatedContents = new byte[LARGE_CONTENT_SIZE_BYTES];
                 Arrays.Fill(updatedContents, (byte)2);
-                var transaction = new FileUpdateTransaction().SetFileId(fileId).SetContents(updatedContents).SetTransactionMemo("HIP-1300 update large file").SetMaxTransactionFee(new Hbar(20));
+                var transaction = new FileUpdateTransaction()FileId = fileId,.SetContents(updatedContents).SetTransactionMemo("HIP-1300 update large file").SetMaxTransactionFee(new Hbar(20));
                 transaction.FreezeWith(testEnv.Client);
                 var serialized = transaction.ToBytes();
-                AssertThat(serialized.Length).IsGreaterThan(SIZE_THRESHOLD_BYTES);
-                AssertThat(serialized.Length).IsLessThan(EXTENDED_SIZE_LIMIT_BYTES);
+                Assert.True(serialized.Length > SIZE_THRESHOLD_BYTES);
+                Assert.True(serialized.Length < EXTENDED_SIZE_LIMIT_BYTES);
                 transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction()FileId = fileId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -62,18 +62,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 
                 // 1.  Create a small file
-                var fileId = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents("start".GetBytes()).Execute(testEnv.Client).GetReceipt(testEnv.Client).fileId;
+                var fileId = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents("start".GetBytes()).Execute(testEnv.Client).GetReceipt(testEnv.Client).fileId;
                 fileId);
 
                 // 2.  Append large content - need to set max chunks for content over default limit
                 var largeContents = new byte[LARGE_CONTENT_SIZE_BYTES];
                 Arrays.Fill(largeContents, (byte)3);
-                var transaction = new FileAppendTransaction().SetFileId(fileId).SetContents(largeContents).SetMaxChunks(100).SetMaxTransactionFee(new Hbar(20)).SetTransactionMemo("HIP-1300 append large file");
+                var transaction = new FileAppendTransaction()FileId = fileId,.SetContents(largeContents).SetMaxChunks(100).SetMaxTransactionFee(new Hbar(20)).SetTransactionMemo("HIP-1300 append large file");
                 transaction.FreezeWith(testEnv.Client);
-                AssertThat(transaction.ToBytes().Length).IsLessThan(EXTENDED_SIZE_LIMIT_BYTES);
-                AssertThat(transaction.ToBytes().Length).IsGreaterThan(SIZE_THRESHOLD_BYTES);
+                Assert.True(transaction.ToBytes().Length < EXTENDED_SIZE_LIMIT_BYTES);
+                Assert.True(transaction.ToBytes().Length > SIZE_THRESHOLD_BYTES);
                 transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new FileDeleteTransaction()FileId = fileId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -86,8 +86,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // This ensures the test runs even if OPERATOR_ID is 0.0.2 or 0.0.50
                 var largeContents = new byte[LARGE_CONTENT_SIZE_BYTES];
                 Arrays.Fill(largeContents, (byte)1);
-                var transaction = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(largeContents).SetTransactionMemo("Should fail - too large for non-privileged").SetMaxTransactionFee(new Hbar(20));
-                var exception = AssertThrows(typeof(PrecheckStatusException), () =>
+                var transaction = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(largeContents).SetTransactionMemo("Should fail - too large for non-privileged").SetMaxTransactionFee(new Hbar(20));
+                var exception = PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     transaction.FreezeWith(testEnv.Client);
                     transaction.Execute(testEnv.Client);
@@ -120,8 +120,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     keyList.Add(publicKey);
                 }
 
-                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(keyList).SetInitialBalance(new Hbar(1)).SetTransactionMemo("Should fail - too large for non-privileged").SetMaxTransactionFee(new Hbar(20));
-                var exception = AssertThrows(typeof(PrecheckStatusException), () =>
+                var transaction = new AccountCreateTransaction()Key = keyList,InitialBalance = new Hbar(1),.SetTransactionMemo("Should fail - too large for non-privileged").SetMaxTransactionFee(new Hbar(20));
+                var exception = PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     transaction.FreezeWith(testEnv.Client);
                     transaction.Execute(testEnv.Client);
@@ -139,15 +139,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var contentSize = 128 * 1024; // 128KB content
                 var largeContents = new byte[contentSize];
                 Arrays.Fill(largeContents, (byte)1);
-                var transaction = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(largeContents).SetTransactionMemo("HIP-1300 near limit test").SetMaxTransactionFee(new Hbar(20));
+                var transaction = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(largeContents).SetTransactionMemo("HIP-1300 near limit test").SetMaxTransactionFee(new Hbar(20));
                 transaction.FreezeWith(testEnv.Client);
                 var serialized = transaction.ToBytes();
 
                 // Should be less than 130KB total
-                AssertThat(serialized.Length).IsLessThan(EXTENDED_SIZE_LIMIT_BYTES);
+                Assert.True(serialized.Length < EXTENDED_SIZE_LIMIT_BYTES);
 
                 // But definitely over 6KB
-                AssertThat(serialized.Length).IsGreaterThan(SIZE_THRESHOLD_BYTES);
+                Assert.True(serialized.Length > SIZE_THRESHOLD_BYTES);
                 var receipt = transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.NotNull(receipt.fileId);
                 new FileDeleteTransaction().SetFileId(receipt.fileId)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -164,10 +164,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Small content that stays well under 6KB
                 var smallContents = new byte[2 * 1024]; // 2KB
                 Arrays.Fill(smallContents, (byte)1);
-                var transaction = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(smallContents).SetTransactionMemo("Small file test").SetMaxTransactionFee(new Hbar(5));
+                var transaction = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(smallContents).SetTransactionMemo("Small file test").SetMaxTransactionFee(new Hbar(5));
                 transaction.FreezeWith(testEnv.Client);
                 var serialized = transaction.ToBytes();
-                AssertThat(serialized.Length).IsLessThan(SIZE_THRESHOLD_BYTES);
+                Assert.True(serialized.Length < SIZE_THRESHOLD_BYTES);
                 var receipt = transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.NotNull(receipt.fileId);
                 new FileDeleteTransaction().SetFileId(receipt.fileId)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -183,11 +183,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assumptions.AssumeTrue(testEnv.OperatorId.num == 2, "Test requires treasury account 0.0.2");
                 var largeContents = new byte[LARGE_CONTENT_SIZE_BYTES];
                 Arrays.Fill(largeContents, (byte)1);
-                var transaction = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(largeContents).SetTransactionMemo("HIP-1300 test with 0.0.2").SetMaxTransactionFee(new Hbar(20));
+                var transaction = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(largeContents).SetTransactionMemo("HIP-1300 test with 0.0.2").SetMaxTransactionFee(new Hbar(20));
                 transaction.FreezeWith(testEnv.Client);
                 var serialized = transaction.ToBytes();
-                AssertThat(serialized.Length).IsGreaterThan(SIZE_THRESHOLD_BYTES);
-                AssertThat(serialized.Length).IsLessThan(EXTENDED_SIZE_LIMIT_BYTES);
+                Assert.True(serialized.Length > SIZE_THRESHOLD_BYTES);
+                Assert.True(serialized.Length < EXTENDED_SIZE_LIMIT_BYTES);
                 var receipt = transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 Assert.NotNull(receipt.fileId);
                 new FileDeleteTransaction().SetFileId(receipt.fileId)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -219,11 +219,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     keyList.Add(publicKey);
                 }
 
-                var transaction = new AccountCreateTransaction().SetKeyWithoutAlias(keyList).SetInitialBalance(new Hbar(1)).SetTransactionMemo("HIP-1300 create account with large KeyList").SetMaxTransactionFee(new Hbar(20));
+                var transaction = new AccountCreateTransaction()Key = keyList,InitialBalance = new Hbar(1),.SetTransactionMemo("HIP-1300 create account with large KeyList").SetMaxTransactionFee(new Hbar(20));
                 transaction.FreezeWith(testEnv.Client);
                 var serialized = transaction.ToBytes();
-                AssertThat(serialized.Length).IsGreaterThan(SIZE_THRESHOLD_BYTES);
-                AssertThat(serialized.Length).IsLessThan(EXTENDED_SIZE_LIMIT_BYTES);
+                Assert.True(serialized.Length > SIZE_THRESHOLD_BYTES);
+                Assert.True(serialized.Length < EXTENDED_SIZE_LIMIT_BYTES);
                 var receipt = transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var accountId = receipt.accountId);
                 Assert.NotNull(accountId);

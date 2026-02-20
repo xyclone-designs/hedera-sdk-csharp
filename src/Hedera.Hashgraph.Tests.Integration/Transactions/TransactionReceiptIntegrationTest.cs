@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var key = PrivateKey.GenerateED25519();
                 var transaction = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(key)
+                    Key = key,
                     .Execute(testEnv.Client);
                 var receipt = transaction.GetReceipt(testEnv.Client);
                 var nextExchangeRate = receipt.NextExchangeRate;

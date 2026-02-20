@@ -158,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Account
             Balance = Hbar.FromTinybars(balance);
             SendRecordThreshold = Hbar.FromTinybars(sendRecordThreshold);
             ReceiveRecordThreshold = Hbar.FromTinybars(receiveRecordThreshold);
-            IsReceiverSignatureRequired = receiverSignatureRequired;
+            IsReceiverSigRequired = receiverSignatureRequired;
             ExpirationTime = expirationTime;
             AutoRenewPeriod = autoRenewPeriod;
             LiveHashes = liveHashes;

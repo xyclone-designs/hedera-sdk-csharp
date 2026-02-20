@@ -14,6 +14,8 @@ using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.File;
 using System.Threading;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -34,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					Contents = SMART_CONTRACT_BYTECODE,
 				}
                 .Execute(testEnv.Client);
-                var fileId = response.GetReceipt(testEnv.Client).FileId);
+                var fileId = response.GetReceipt(testEnv.Client).FileId;
                 response = new ContractCreateTransaction
                 {
                     AdminKey = testEnv.OperatorKey,
@@ -82,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 new FileDeleteTransaction()
-                    .SetFileId(fileId)
+                    FileId = fileId,
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
             }
@@ -112,11 +114,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var response = new FileCreateTransaction()
-                    .SetKeys(testEnv.OperatorKey)
+                    Keys = [testEnv.OperatorKey],
                     .SetContents(SMART_CONTRACT_BYTECODE)
                 .Execute(testEnv.Client);
                 var fileId = response
-                    .GetReceipt(testEnv.Client).FileId);
+                    .GetReceipt(testEnv.Client).FileId;
                 response = new ContractCreateTransaction
                 {
                     AdminKey = testEnv.OperatorKey,
@@ -130,22 +132,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Wait for mirror node to import data
                 Thread.Sleep(5000);
-                Assert.Throws(typeof(ExecutionException), () =>
+                ExecutionException exception = Assert.Throws<ExecutionException>(() =>
                 {
                     new MirrorNodeContractEstimateGasQuery()
                     .SetContractId(contractId)
                     .SetGasLimit(100)
                     .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
                 .Execute(testEnv.Client);
-                }).WithMessageContaining("Received non-200 response from Mirror Node");
-                Assert.Throws(typeof(ExecutionException), () =>
+                }); Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
+                ExecutionException exception = Assert.Throws<ExecutionException>(() =>
                 {
                     new MirrorNodeContractCallQuery()
                     .SetContractId(contractId)
                     .SetGasLimit(100)
                     .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
                 .Execute(testEnv.Client);
-                }).WithMessageContaining("Received non-200 response from Mirror Node");
+                }); Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
             }
         }
 
@@ -159,43 +161,50 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 using (var testEnv = new IntegrationTestEnv(1))
                 {
                     var response = new FileCreateTransaction()
-                        .SetKeys(testEnv.OperatorKey)
+                        Keys = [testEnv.OperatorKey],
                         .SetContents(SMART_CONTRACT_BYTECODE)
                     .Execute(testEnv.Client);
                     var fileId = response
-                        .GetReceipt(testEnv.Client).FileId);
+                        .GetReceipt(testEnv.Client).FileId;
                     response = new ContractCreateTransaction
                     {
                         AdminKey = testEnv.OperatorKey,
                         Gas = 400000, 
                         BytecodeFileId = fileId
                     
-                    }
-                .Execute(testEnv.Client);
+                    }.Execute(testEnv.Client);
                     var contractId = response
                         .GetReceipt(testEnv.Client).ContractId;
 
                     // Wait for mirror node to import data
                     Thread.Sleep(5000);
-                    Assert.Throws(typeof(ExecutionException), () =>
+                    ExecutionException exception = Assert.Throws<ExecutionException>(() =>
                     {
-                        new MirrorNodeContractEstimateGasQuery()
-                        .SetContractId(contractId)
+                        new MirrorNodeContractEstimateGasQuery
+                        {
+							ContractId = contractId
+						}
                         .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
-                    .Execute(testEnv.Client);
-                    }).WithMessageContaining("Received non-200 response from Mirror Node");
-                    Assert.Throws(typeof(ExecutionException), () =>
+                        .Execute(testEnv.Client);
+                    });
+                    
+                    Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
+
+                    ExecutionException exception = Assert.Throws<ExecutionException>(() =>
                     {
-                        new MirrorNodeContractCallQuery()
-                        .SetContractId(contractId)
-                        .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
-                    .Execute(testEnv.Client);
-                    }).WithMessageContaining("Received non-200 response from Mirror Node");
+                        new MirrorNodeContractCallQuery
+						{
+							ContractId = contractId
+						}
+						.SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
+                        .Execute(testEnv.Client);
+                    }); 
+                    
+                    Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
                 }
             }
             finally
             {
-
                 // Clear the system property after the test
                 System.ClearProperty("hedera.mirror.contract.port");
             }
@@ -205,54 +214,69 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction()
-                    .SetKeys(testEnv.OperatorKey)
-                    .SetContents(SMART_CONTRACT_BYTECODE)
+                var response = new FileCreateTransaction
+                {
+					Keys = [testEnv.OperatorKey],
+					Contents = SMART_CONTRACT_BYTECODE
+				}
                 .Execute(testEnv.Client);
-                var fileId = response
-                    .GetReceipt(testEnv.Client).FileId);
+
+                var fileId = response.GetReceipt(testEnv.Client).FileId;
                 response = new ContractCreateTransaction
                 {
                     AdminKey = testEnv.OperatorKey,
                     Gas = 400000, 
                     BytecodeFileId = fileId
                 
-                }
-            .Execute(testEnv.Client);
-                var contractId = response
-                    .GetReceipt(testEnv.Client).ContractId;
-                var receiverAccountId = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(PrivateKey.GenerateED25519())
+                }.Execute(testEnv.Client);
+
+                var contractId = response.GetReceipt(testEnv.Client).ContractId;
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = PrivateKey.GenerateED25519()
+				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
                 // Wait for mirror node to import data
                 Thread.Sleep(5000);
+
                 var receiverEvmAddress = receiverAccountId.ToEvmAddress();
-                var owner = new MirrorNodeContractCallQuery()
-                    .SetContractId(contractId)
-                    .SetFunction("getOwner")
-                .Execute(testEnv.Client).Substring(26);
-                var gas = new MirrorNodeContractEstimateGasQuery()
-                    .SetContractId(contractId)
-                    .SetGasLimit(1000000)
-                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
-                    .SetSenderEvmAddress(owner)
-                    .SetValue(123)
-                .Execute(testEnv.Client);
-                new ContractExecuteTransaction()
-                    .SetContractId(contractId)
-                    .SetGas(300000)
-                    .SetPayableAmount(new Hbar(1))
-                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
+                var owner = new MirrorNodeContractCallQuery
+                {
+					ContractId = contractId,
+				}
+                .SetFunction("getOwner")
+				.Execute(testEnv.Client).Substring(26);
+
+                var gas = new MirrorNodeContractEstimateGasQuery
+                {
+					ContractId = contractId,
+					GasLimit = 1000000,
+					SenderEvmAddress = owner,
+					Value = 123,
+				}
+				.SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
+				.Execute(testEnv.Client);
+
+                new ContractExecuteTransaction
+                {
+					ContractId = contractId,
+					Gas = 300000,
+					PayableAmount = new Hbar(1),
+				}
+                .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
-                new MirrorNodeContractCallQuery()
-                    .SetContractId(contractId)
-                    .SetGasLimit(1000000)
-                    .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
-                    .SetSenderEvmAddress(owner)
-                    .SetValue(123)
+
+                new MirrorNodeContractCallQuery
+                {
+					ContractId = contractId,
+					GasLimit = 1000000,
+					SenderEvmAddress = owner,
+					Value = 123,
+				}
+				.SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(receiverEvmAddress))
                 .Execute(testEnv.Client);
             }
         }

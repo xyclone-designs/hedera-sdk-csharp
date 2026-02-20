@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.File;
 using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
@@ -18,20 +13,48 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
-                var fileId = response.GetReceipt(testEnv.Client).FileId);
-                response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client);
-                var contractId = response.GetReceipt(testEnv.Client).ContractId);
-                var info = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.Client);
-                Assert.Equal(info.contractId, contractId);
-                Assert.NotNull(info.accountId);
-                Assert.Equal(info.accountId).ToString(), contractId.ToString());
-                Assert.NotNull(info.adminKey);
-                Assert.Equal(info.adminKey).ToString(), testEnv.OperatorKey).ToString());
-                Assert.Equal(info.storage, 128);
-                Assert.Equal(info.contractMemo, "[e2e::ContractCreateTransaction]");
-                new ContractDeleteTransaction().SetTransferAccountId(testEnv.OperatorId).SetContractId(contractId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new FileDeleteTransaction().SetFileId(fileId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var response = new FileCreateTransaction
+                {
+					Keys = [testEnv.OperatorKey],
+					Contents = Encoding.UTF8.GetBytes(SMART_CONTRACT_BYTECODE),
+
+				}.Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId;
+                response = new ContractCreateTransaction
+                {
+                    AdminKey = testEnv.OperatorKey,
+                    Gas = 300000,
+                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null),
+                    BytecodeFileId = fileId,
+                    ContractMemo = "[e2e::ContractCreateTransaction]"
+                
+                }.Execute(testEnv.Client);
+                var contractId = response.GetReceipt(testEnv.Client).ContractId;
+                var info = new ContractInfoQuery
+                {
+					ContractId = contractId
+
+				}.Execute(testEnv.Client);
+                Assert.Equal(info.ContractId, contractId);
+                Assert.NotNull(info.AccountId);
+                Assert.Equal(info.AccountId.ToString(), contractId.ToString());
+                Assert.NotNull(info.AdminKey);
+                Assert.Equal(info.AdminKey.ToString(), testEnv.OperatorKey.ToString());
+                Assert.Equal(info.Storage, 128);
+                Assert.Equal(info.ContractMemo, "[e2e::ContractCreateTransaction]");
+                new ContractDeleteTransaction
+                {
+					TransferAccountId = testEnv.OperatorId,
+					ContractId = contractId,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                new FileDeleteTransaction
+                {
+					FileId = fileId
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -39,22 +62,46 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction().SetKeys(testEnv.OperatorKey).SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
-                var fileId = response.GetReceipt(testEnv.Client).FileId);
-                var contractId = new ContractCreateTransaction().SetGas(300000).SetConstructorParameters(new ContractFunctionParameters().AddString("Hello from Hedera.")).SetBytecodeFileId(fileId).SetContractMemo("[e2e::ContractCreateTransaction]").Execute(testEnv.Client).GetReceipt(testEnv.Client).ContractId);
-                var info = new ContractInfoQuery().SetContractId(contractId).Execute(testEnv.Client);
-                Assert.Equal(info.contractId, contractId);
-                Assert.NotNull(info.accountId);
-                Assert.Equal(info.accountId).ToString(), contractId.ToString());
-                Assert.NotNull(info.adminKey);
-
-                // assertEquals(info.adminKey, contractId);
-                Assert.Equal(info.storage, 128);
-                Assert.Equal(info.contractMemo, "[e2e::ContractCreateTransaction]");
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                var response = new FileCreateTransaction
                 {
-                    new ContractDeleteTransaction().SetContractId(contractId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.MODIFYING_IMMUTABLE_CONTRACT.ToString());
+					Keys = [testEnv.OperatorKey],
+					Contents = Encoding.UTF8.GetBytes(SMART_CONTRACT_BYTECODE),
+
+				}.Execute(testEnv.Client);
+                var fileId = response.GetReceipt(testEnv.Client).FileId;
+                var contractId = new ContractCreateTransaction
+                {
+					Gas = 300000,
+					ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null),
+					BytecodeFileId = fileId,
+					ContractMemo = "[e2e::ContractCreateTransaction]",
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).ContractId;
+                var info = new ContractInfoQuery
+                {
+					ContractId = contractId
+
+				}.Execute(testEnv.Client);
+                Assert.Equal(info.ContractId, contractId);
+                Assert.NotNull(info.AccountId);
+                Assert.Equal(info.AccountId.ToString(), contractId.ToString());
+                Assert.NotNull(info.AdminKey);
+
+                // assertEquals(info.AdminKey, contractId);
+                Assert.Equal(info.Storage, 128);
+                Assert.Equal(info.ContractMemo, "[e2e::ContractCreateTransaction]");
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new ContractDeleteTransaction()
+                    {
+						ContractId = contractId,
+						TransferAccountId = testEnv.Client.OperatorAccountId,
+					}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                }); Assert.Contains(ResponseStatus.MODIFYING_IMMUTABLE_CONTRACT.ToString(), exception.Message);
             }
         }
 
@@ -62,10 +109,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new ContractDeleteTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_CONTRACT_ID.ToString());
+                    new ContractDeleteTransaction()
+                        .Execute(testEnv.Client)
+                        .GetReceipt(testEnv.Client);
+
+                }); Assert.Contains(ResponseStatus.INVALID_CONTRACT_ID.ToString(), exception.Message);
             }
         }
     }

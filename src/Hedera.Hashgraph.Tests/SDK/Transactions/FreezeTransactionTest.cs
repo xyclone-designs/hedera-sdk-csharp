@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			};
             var freezeTransaction = new FreezeTransaction(tx);
 
-            Assert.NotNull(freezeTransaction.FileId);
+            Assert.NotNull(freezeTransaction.FileId;
             Assert.Equal(freezeTransaction.FileId, testFileId);
             Assert.Equal(freezeTransaction.FileHash, testFileHash);
             Assert.NotNull(freezeTransaction.StartTime);

@@ -1,13 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -27,7 +18,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 TransactionResponse response = new AccountCreateTransaction()
                 {
-					KeyWithoutAlias = key,
+					Key = key,
 					InitialBalance = new Hbar(1),
 				}
                 .Execute(testEnv.Client);
@@ -82,14 +73,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 PrivateKey key2 = PrivateKey.GenerateED25519();
                 var accountId1 = new AccountCreateTransaction()
                 {
-                    KeyWithoutAlias = key1,
+                    Key = key1,
                     InitialBalance = new Hbar(2)
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
                 var accountId2 = new AccountCreateTransaction()
                 {
-                    KeyWithoutAlias = key2,
+                    Key = key2,
                     InitialBalance = new Hbar(2)
                 }
                 .Execute(testEnv.Client)
@@ -110,6 +101,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TokenId;
+
                 new TokenAssociateTransaction
                 {
 					AccountId = accountId1,
@@ -119,6 +111,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Sign(key1)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 new TokenAssociateTransaction
                 {
 					AccountId = accountId2,
@@ -128,6 +121,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Sign(key2)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 new TransferTransaction()
                     .AddTokenTransfer(tokenId, testEnv.OperatorId, -1)
                     .AddTokenTransfer(tokenId, accountId1, 1)
@@ -135,7 +129,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Sign(key1)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TransferTransaction()
                         .AddTokenTransfer(tokenId, accountId1, -1)
@@ -146,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).Satisfies((error) => AssertThat(error.GetMessage()).ContainsAnyOf(Status.INSUFFICIENT_SENDER_ACCOUNT_BALANCE_FOR_CUSTOM_FEE.ToString(), Status.INSUFFICIENT_PAYER_BALANCE_FOR_CUSTOM_FEE.ToString()));
+                }).Satisfies((error) => AssertThat(error.GetMessage()).ContainsAnyOf(ResponseStatus.INSUFFICIENT_SENDER_ACCOUNT_BALANCE_FOR_CUSTOM_FEE.ToString(), Status.INSUFFICIENT_PAYER_BALANCE_FOR_CUSTOM_FEE.ToString()));
             }
         }
     }

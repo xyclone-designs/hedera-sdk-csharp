@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -22,24 +20,50 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, receiverAccountKey, 0);
 
                 // manually associate ft
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(Collections.SingletonList(ftTokenId)).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverAccountId,
+					TokenIds = [ftTokenId]
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverAccountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // transfer fts to the receiver
-                new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // execute the token reject flow
-                new TokenRejectFlow().SetOwnerId(receiverAccountId).AddTokenId(ftTokenId).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenRejectFlow
+                {
+					OwnerId = receiverAccountId,
+					TokenId = ftTokenId,
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverAccountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // verify the tokens are transferred back to the treasury
-                var treasuryAccountBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(treasuryAccountBalance.tokens[ftTokenId], 1000000);
+                var treasuryAccountBalance = new AccountBalanceQuery
+                {
+					AccountId = testEnv.OperatorId
+
+				}.Execute(testEnv.Client);
+                Assert.Equal(treasuryAccountBalance.Tokens[ftTokenId], 1000000);
 
                 // verify the allowance - should be 0, because TokenRejectFlow dissociates
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT");
-                new TokenDeleteTransaction().SetTokenId(ftTokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                    new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                }); Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
+                new TokenDeleteTransaction(, TokenId = ftTokenId)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
             }
         }
 
@@ -52,24 +76,55 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, receiverAccountKey, 0);
 
                 // manually associate ft
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(Collections.SingletonList(ftTokenId)).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverAccountId,
+					TokenIds = [ftTokenId]
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverAccountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // transfer fts to the receiver
-                new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10)
+                    .AddTokenTransfer(ftTokenId, receiverAccountId, 10)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // execute the token reject flow
-                new TokenRejectFlow().SetOwnerId(receiverAccountId).AddTokenId(ftTokenId).FreezeWith(testEnv.Client).Sign(receiverAccountKey).ExecuteAsync(testEnv.Client).Get().GetReceipt(testEnv.Client);
+                new TokenRejectFlow
+                {
+					OwnerId = receiverAccountId,
+					TokenIds = [ftTokenId]
+				}
+				.FreezeWith(testEnv.Client)
+                .Sign(receiverAccountKey)
+                .ExecuteAsync(testEnv.Client).Get()
+                .GetReceipt(testEnv.Client);
 
                 // verify the tokens are transferred back to the treasury
-                var treasuryAccountBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(treasuryAccountBalance.tokens[ftTokenId], 1000000);
+                var treasuryAccountBalance = new AccountBalanceQuery
+                {
+					AccountId = testEnv.OperatorId
+
+				}.Execute(testEnv.Client);
+                Assert.Equal<ulong>(1000000, treasuryAccountBalance.Tokens[ftTokenId]);
 
                 // verify the tokens are not associated with the receiver
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT");
-                new TokenDeleteTransaction().SetTokenId(ftTokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                    new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                }); Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
+                new TokenDeleteTransaction
+                {
+					TokenId = ftTokenId
+				}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
             }
         }
 
@@ -80,28 +135,63 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftTokenId = EntityHelper.CreateNft(testEnv);
                 var receiverAccountKey = PrivateKey.GenerateED25519();
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, receiverAccountKey, 0);
-                var mintReceiptToken = new TokenMintTransaction().SetTokenId(nftTokenId).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceiptToken = new TokenMintTransaction
+                {
+					TokenId = nftTokenId,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+				}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
                 var nftSerials = mintReceiptToken.Serials;
 
                 // manually associate bft
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(Collections.SingletonList(nftTokenId)).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverAccountId,
+					TokenIds = [nftTokenId]
+				}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(receiverAccountKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // transfer nfts to the receiver
-                new TransferTransaction().AddNftTransfer(nftTokenId.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftTokenId.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction().AddNftTransfer(nftTokenId.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftTokenId.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // execute the token reject flow
-                new TokenRejectFlow().SetOwnerId(receiverAccountId).SetNftIds(List.Of(nftTokenId.Nft(nftSerials[0]), nftTokenId.Nft(nftSerials[1]))).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenRejectFlow
+                {
+					OwnerId = receiverAccountId,
+					NftIds = [nftTokenId.Nft(nftSerials[0]), nftTokenId.Nft(nftSerials[1])]
+				}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(receiverAccountKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // verify the token is transferred back to the treasury
-                var nftTokenIdNftInfo = new TokenNftInfoQuery().SetNftId(nftTokenId.Nft(nftSerials[1])).Execute(testEnv.Client);
-                Assert.Equal(nftTokenIdNftInfo[0].accountId, testEnv.OperatorId);
+                var nftTokenIdNftInfo = new TokenNftInfoQuery
+                {
+					NftId = nftTokenId.Nft(nftSerials[1])
+				
+                }.Execute(testEnv.Client);
+                Assert.Equal(nftTokenIdNftInfo[0].AccountId, testEnv.OperatorId);
 
                 // verify the tokens are not associated with the receiver
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TransferTransaction().AddNftTransfer(nftTokenId.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT");
-                new TokenDeleteTransaction().SetTokenId(nftTokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                    new TransferTransaction().AddNftTransfer(nftTokenId.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                }); Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
+                new TokenDeleteTransaction
+                {
+					TokenId = nftTokenId
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
             }
         }
 
@@ -112,20 +202,45 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftTokenId1 = EntityHelper.CreateNft(testEnv);
                 var receiverAccountKey = PrivateKey.GenerateED25519();
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, receiverAccountKey, 0);
-                var mintReceiptToken = new TokenMintTransaction().SetTokenId(nftTokenId1).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceiptToken = new TokenMintTransaction
+                {
+					TokenId = nftTokenId1,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+				}
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
                 var nftSerials = mintReceiptToken.Serials;
 
                 // manually associate bft
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(Collections.SingletonList(nftTokenId1)).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverAccountId,
+					TokenIds = [nftTokenId1]
+				}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(receiverAccountKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // transfer nfts to the receiver
-                new TransferTransaction().AddNftTransfer(nftTokenId1.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftTokenId1.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction().AddNftTransfer(nftTokenId1.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftTokenId1.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
                 // execute the token reject flow
-                Assert.Throws(typeof(Exception), () =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TokenRejectFlow().SetOwnerId(receiverAccountId).AddNftId(nftTokenId1.Nft(nftSerials[1])).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }).WithMessageContaining("ACCOUNT_STILL_OWNS_NFTS");
+                    new TokenRejectFlow
+                    {
+						OwnerId = receiverAccountId,
+						NftIds = [ nftTokenId1.Nft(nftSerials[1]) ]
+					}
+                    .FreezeWith = testEnv.Client)
+                    .Sign(receiverAccountKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                }); Assert.Contains("ACCOUNT_STILL_OWNS_NFTS", exception.Message);
             }
         }
     }

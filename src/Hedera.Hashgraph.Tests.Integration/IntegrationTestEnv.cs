@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 				InitialBalance = initialBalance,
 			}
-            .SetKeyWithoutAlias(key)
+            Key = key,
             .Execute(Client)
             .GetReceipt(Client).AccountId;
             Client = SDK.Client.ForNetwork(originalClient.Network);
@@ -169,7 +169,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             public TestEnvNodeGetter(Client client)
             {
                 this.client = client;
-                nodes = new List(client.Network.EntrySet());
+                nodes = new List(client.Network_.Network_Read);
                 Collections.Shuffle(nodes);
             }
 
@@ -185,12 +185,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     var node = nodes[index];
                     try
                     {
-                        new TransferTransaction().SetNodeAccountIds(Collections.SingletonList(node.GetValue())).SetMaxAttempts(1).AddHbarTransfer(client.GetOperatorAccountId(), Hbar.FromTinybars(1).Negated()).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).Execute(client).GetReceipt(client);
+                        new TransferTransaction().SetNodeAccountIds([node.GetValue(])).SetMaxAttempts(1).AddHbarTransfer(client.GetOperatorAccountId(), Hbar.FromTinybars(1).Negated()).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).Execute(client).GetReceipt(client);
                         nodes.Remove(index);
                         outMap.Put(node.GetKey(), node.GetValue());
                         return;
                     }
-                    catch (Throwable err)
+                    catch (Exception err)
                     {
                         System.err.Println(err);
                     }

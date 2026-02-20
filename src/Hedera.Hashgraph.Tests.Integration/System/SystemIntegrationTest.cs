@@ -20,19 +20,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					Contents = SMART_CONTRACT_BYTECODE
 				}
                 .Execute(testEnv.Client)
-                .GetReceipt(testEnv.Client).FileId);
+                .GetReceipt(testEnv.Client).FileId;
                 var contractId = new ContractCreateTransaction
                 {
                     AdminKey = testEnv.OperatorKey,
                     Gas = 300000,
-                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera."),
+                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null),
                     BytecodeFileId = fileId,
                     ContractMemo = "[e2e::ContractCreateTransaction]"
                 }
                 .Execute(testEnv.Client)
-                .GetReceipt(testEnv.Client).ContractId);
+                .GetReceipt(testEnv.Client).ContractId;
                 
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new SystemDeleteTransaction
                     {
@@ -41,9 +41,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     }
                     .Execute(testEnv.Client);
 
-                }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+                }); Assert.Contains(ResponseStatus.NOT_SUPPORTED.ToString(), exception.Message);
 
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new SystemDeleteTransaction
                     {
@@ -52,9 +52,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     }
                     .Execute(testEnv.Client);
 
-                }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+                }); Assert.Contains(ResponseStatus.NOT_SUPPORTED.ToString(), exception.Message);
                 
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new SystemUndeleteTransaction
                     {
@@ -62,9 +62,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     }
                     .Execute(testEnv.Client);
 
-                }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+                }); Assert.Contains(ResponseStatus.NOT_SUPPORTED.ToString(), exception.Message);
                 
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new SystemUndeleteTransaction
                     {
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     }
                     .Execute(testEnv.Client);
 
-                }).WithMessageContaining(Status.NOT_SUPPORTED.ToString());
+                }); Assert.Contains(ResponseStatus.NOT_SUPPORTED.ToString(), exception.Message);
             }
         }
     }

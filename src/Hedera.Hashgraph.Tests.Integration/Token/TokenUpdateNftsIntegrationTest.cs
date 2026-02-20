@@ -6,6 +6,7 @@ using System.Linq;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -51,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
                 List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
-                Assert.Equal(metadataListAfterMint.ToArray(), initialMetadataList.ToArray());
+                Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // update metadata all minted NFTs
                 new TokenUpdateNftsTransaction
@@ -67,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check updated NFTs' metadata
                 List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerials);
-                Assert.Equal(metadataListAfterUpdate.ToArray(), updatedMetadataList.ToArray());
+                Assert.Equal(metadataListAfterUpdate, updatedMetadataList);
             }
         }
 
@@ -83,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     6,
                     9
                 };
-                var updatedMetadataList = NftMetadataGenerator.Generate(updatedMetadata, nftCount / 2);
+                var updatedMetadataList = NftMetadataGenerator.Generate(updatedMetadata, (nftCount / 2));
 
                 // create a token with metadata key
                 var tokenId = new TokenCreateTransaction
@@ -100,17 +101,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client).TokenId;
 
                 // mint tokens
-                var tokenMintTransactionReceipt = new TokenMintTransaction()
-                    Metadata = initialMetadataList)
-                    TokenId = tokenId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenMintTransactionReceipt = new TokenMintTransaction
+                {
+					Metadata = initialMetadataList,
+                    TokenId = tokenId,
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
                 List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
-                Assert.Equal(metadataListAfterMint.ToArray(), initialMetadataList.ToArray());
+                Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // update metadata of the first two minted NFTs
-                var nftSerialsToUpdate = nftSerials.SubList(0, nftCount / 2);
+                var nftSerialsToUpdate = nftSerials[0 .. (nftCount / 2)];
                 new TokenUpdateNftsTransaction
                 {
 					TokenId = tokenId,
@@ -121,12 +125,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check updated NFTs' metadata
                 List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerialsToUpdate);
-                Assert.Equal(metadataListAfterUpdate.ToArray(), updatedMetadataList.ToArray());
+                Assert.Equal(metadataListAfterUpdate, updatedMetadataList);
 
                 // check that remaining NFTs were not updated
-                var nftSerialsSame = nftSerials.SubList(nftCount / 2, nftCount);
+                var nftSerialsSame = nftSerials[(nftCount / 2) .. nftCount];
                 List<byte[]> metadataList = GetMetadataList(testEnv.Client, tokenId, nftSerialsSame);
-                Assert.Equal(metadataList.ToArray(), initialMetadataList.SubList(nftCount / 2, nftCount).ToArray());
+                Assert.Equal(metadataList, initialMetadataList[(nftCount / 2) .. nftCount]];
             }
         }
 
@@ -164,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
                 List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
-                Assert.Equal(metadataListAfterMint.ToArray(), initialMetadataList.ToArray());
+                Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // run `TokenUpdateNftsTransaction` without `setMetadata`
                 new TokenUpdateNftsTransaction
@@ -179,7 +183,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check that NFTs' metadata was not updated
                 List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerials);
-                Assert.Equal(metadataListAfterUpdate.ToArray(), initialMetadataList.ToArray());
+                Assert.Equal(metadataListAfterUpdate, initialMetadataList);
             }
         }
 
@@ -190,7 +194,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var metadataKey = PrivateKey.GenerateED25519();
                 var nftCount = 4;
                 var initialMetadataList = NftMetadataGenerator.Generate(new byte[] { 4, 2, 0 }, nftCount);
-                var emptyMetadata = [];
+                var emptyMetadata = new byte[] { };
                 var emptyMetadataList = NftMetadataGenerator.Generate(emptyMetadata, nftCount);
 
                 // create a token with metadata key
@@ -218,7 +222,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
                 List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
-                Assert.Equal(metadataListAfterMint.ToArray(), initialMetadataList.ToArray());
+                Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // erase metadata all minted NFTs (update to an empty byte array)
                 new TokenUpdateNftsTransaction
@@ -234,7 +238,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check that NFTs' metadata was erased
                 List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerials);
-                Assert.Equal(metadataListAfterUpdate.ToArray(), emptyMetadataList.ToArray());
+                Assert.Equal(metadataListAfterUpdate, emptyMetadataList);
             }
         }
 
@@ -274,13 +278,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(tokenInfo.MetadataKey.ToString(), metadataKey.GetPublicKey().ToString());
 
                 // mint tokens
-                var tokenMintTransactionReceipt = new TokenMintTransaction()
-                    Metadata = initialMetadataList)
-                    TokenId = tokenId).FreezeWith(testEnv.Client).Sign(supplyKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var tokenMintTransactionReceipt = new TokenMintTransaction
+                {
+					Metadata = initialMetadataList,
+					TokenId = tokenId
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(supplyKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
                 var nftSerials = tokenMintTransactionReceipt.Serials;
 
                 // update nfts without signing
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenUpdateNftsTransaction
                     {
@@ -290,7 +300,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					}
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                }); 
+                
+                Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
 
@@ -333,7 +345,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					Metadata = initialMetadataList,
 					TokenId = tokenId
-
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(supplyKey)
@@ -342,7 +353,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftSerials = tokenMintTransactionReceipt.Serials;
 
                 // check NFTs' metadata can't be updated when a metadata key is not set
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenUpdateNftsTransaction
                     {
@@ -354,7 +365,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Sign(metadataKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                });
+                
+                Assert.Contains(ResponseStatus.InvalidSubmitKey.ToString(), exception.Message);
             }
         }
 
@@ -374,6 +387,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     throw new Exception(e);
                 }
+
             }).Map((tokenNftInfo) => tokenNftInfo.metadata).ToList();
         }
     }

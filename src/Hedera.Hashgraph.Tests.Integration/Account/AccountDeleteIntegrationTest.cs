@@ -19,10 +19,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-                .SetKeyWithoutAlias(key)
                 .Execute(testEnv.Client);
+
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var info = new AccountInfoQuery
                 {
@@ -39,23 +40,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
-
         public virtual void CannotCreateAccountWithNoKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                Assert.Throws<PrecheckStatusException>(() =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new AccountDeleteTransaction
                     {
-						TransferAccountId = testEnv.OperatorId
+                        TransferAccountId = testEnv.OperatorId
 
-					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-
-                }).WithMessageContaining(Status.ACCOUNT_ID_DOES_NOT_EXIST.ToString());
+                    }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                });
+                
+                Assert.Contains(ResponseStatus.AccountIdDoesNotExist.ToString(), exception.Message);
             }
         }
-
         public virtual void CannotDeleteAccountThatHasNotSignedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -63,21 +63,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 
-				}.SetKeyWithoutAlias(key).Execute(testEnv.Client);
+				}.Execute(testEnv.Client);
 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
-                
-                Assert.Throws<ReceiptStatusException>(() =>
+
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new AccountDeleteTransaction
                     {
-						AccountId = accountId,
-						TransferAccountId = testEnv.OperatorId,
-					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                        AccountId = accountId,
+                        TransferAccountId = testEnv.OperatorId,
 
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                    }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                });
+                
+                Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
     }

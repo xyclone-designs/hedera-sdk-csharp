@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
@@ -21,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction()
                 {
-					KeyWithoutAlias = key,
+					Key = key,
 					InitialBalance = new Hbar(1),
 				}
                     .Execute(testEnv.Client);
@@ -40,14 +41,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
-
         public virtual void CanCreateAccountWithNoInitialBalance()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(key).Execute(testEnv.Client);
+                var response = new AccountCreateTransaction { Key = key, }.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var info = new AccountInfoQuery
                 { 
@@ -63,32 +62,44 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
-
         public virtual void CanNotCreateAccountWithNoKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                Assert.Throws(typeof(PrecheckStatusException), () => new AccountCreateTransaction()
-                .SetInitialBalance(new Hbar(1)).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(Status.KEY_REQUIRED.ToString());
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
+                {
+                    new AccountCreateTransaction
+                    {
+                        InitialBalance = new Hbar(1)
+                    }
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                });
+                
+                Assert.Contains(ResponseStatus.KeyRequired.ToString(), exception.Message);
             }
         }
-
         public virtual void CanCreateWithAliasKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
                 var aliasId = key.ToAccountId(0, 0);
-                new TransferTransaction().AddHbarTransfer(testEnv.OperatorId, new Hbar(10).Negated()).AddHbarTransfer(aliasId, new Hbar(10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddHbarTransfer(testEnv.OperatorId, new Hbar(10).Negated())
+                    .AddHbarTransfer(aliasId, new Hbar(10))
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                
                 var info = new AccountInfoQuery
                 { 
                     AccountId = aliasId
                 
                 }.Execute(testEnv.Client);
+
                 Assert.Equal(key.GetPublicKey(), info.AliasKey);
             }
         }
-
         public virtual void ManagesExpiration()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -96,9 +107,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction()
                 {
-					KeyWithoutAlias = key,
-					TransactionId = new TransactionId(testEnv.OperatorId, DateTimeOffset.UtcNow.MinusSeconds(40)),
+					TransactionId = TransactionId.WithValidStart(testEnv.OperatorId, Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow.AddSeconds(-40))),
 					TransactionValidDuration = Duration.FromTimeSpan(TimeSpan.FromSeconds(30)),
+					Key = key,
 				}
                 .FreezeWith(testEnv.Client)
                 .Execute(testEnv.Client);
@@ -109,6 +120,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     AccountId = accountId
                 
                 }.Execute(testEnv.Client);
+
                 Assert.Equal(info.AccountId, accountId);
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key.GetPublicKey().ToString());
@@ -118,7 +130,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
-
         public virtual void CreateAccountWithAliasFromAdminKey()
         {
 
@@ -130,22 +141,32 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var evmAddress = adminKey.GetPublicKey().ToEvmAddress();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
+                new AccountCreateTransaction
+                {
+					Key = adminKey,
+				}
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client);
+
                 var accountId = new AccountCreateTransaction()
-                    .SetKeyWithAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                    .SetKeyWithAlias(adminKey)
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+
                 Assert.NotNull(accountId);
+
                 var info = new AccountInfoQuery
                 { 
                     AccountId = accountId
                 
                 }.Execute(testEnv.Client);
+
                 Assert.NotNull(info.AccountId);
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
-
         public virtual void CreateAccountWithAliasFromAdminKeyWithReceiverSigRequired()
         {
 
@@ -157,25 +178,34 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var evmAddress = adminKey.GetPublicKey().ToEvmAddress();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
+                new AccountCreateTransaction
+                {
+					Key = adminKey,
+
+				}.FreezeWith(testEnv.Client).Execute(testEnv.Client);
                 var accountId = new AccountCreateTransaction
                 {
                     ReceiverSigRequired = true
                 }
-                    .SetKeyWithAlias(adminKey).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                .SetKeyWithAlias(adminKey)
+                .FreezeWith(testEnv.Client)
+                .Sign(adminKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+                
                 Assert.NotNull(accountId);
+
                 var info = new AccountInfoQuery
                 { 
                     AccountId = accountId
                 
                 }.Execute(testEnv.Client);
+
                 Assert.NotNull(info.AccountId);
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
-
         public virtual void CannotCreateAccountWithAliasFromAdminKeyWithReceiverSigRequiredAndNoSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -184,18 +214,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var evmAddress = adminKey.GetPublicKey().ToEvmAddress();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
-                Assert.Throws(typeof(ReceiptStatusException), () => new AccountCreateTransaction
+                new AccountCreateTransaction
                 {
-					Alias = evmAddress,
-					ReceiverSigRequired = true
-                }
-                .SetKeyWithAlias(adminKey)
-                .FreezeWith(testEnv.Client).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
-            }
-        }
+					Key = adminKey,
+				}
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client);
 
+				ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new AccountCreateTransaction
+                    {
+                        Alias = evmAddress,
+                        ReceiverSigRequired = true
+                    }
+                    .SetKeyWithAlias(adminKey)
+                    .FreezeWith(testEnv.Client)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+				});
+
+				Assert.Contains(ResponseStatus.KeyRequired.ToString(), exception.Message);
+			}
+        }
         public virtual void CreateAccountWithAlias()
         {
 
@@ -206,31 +247,36 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var adminKey = PrivateKey.GenerateED25519();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
+                new AccountCreateTransaction
+                {
+					Key = adminKey,
+
+				}.FreezeWith(testEnv.Client).Execute(testEnv.Client);
                 var key = PrivateKey.GenerateECDSA();
                 var evmAddress = key.GetPublicKey().ToEvmAddress();
                 var accountId = new AccountCreateTransaction
                 {
-					Alias = evmAddress
+					Alias = evmAddress,
+					Key = adminKey,
 				}
-                    .SetKeyWithoutAlias(adminKey)
-                    .FreezeWith(testEnv.Client)
-                    .Sign(key)
-                    .Execute(testEnv.Client)
-                    .GetReceipt(testEnv.Client).AccountId;
+                .FreezeWith(testEnv.Client)
+                .Sign(key)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+
                 Assert.NotNull(accountId);
+                
                 var info = new AccountInfoQuery
                 { 
                     AccountId = accountId
                 
                 }.Execute(testEnv.Client);
+
                 Assert.NotNull(info.AccountId);
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
-
         public virtual void CannotCreateAccountWithAliasWithoutSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -238,17 +284,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var adminKey = PrivateKey.GenerateED25519();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
-                var key = PrivateKey.GenerateECDSA();
-                Assert.Throws(typeof(BadKeyException), () => new AccountCreateTransaction
-            {
-                    ReceiverSigRequired = true
-                }
-                .SetKeyWithAlias(key, adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining("Private key is not ECDSA");
-            }
-        }
+                new AccountCreateTransaction
+                {
+					Key = adminKey,
 
+				}.FreezeWith(testEnv.Client).Execute(testEnv.Client);
+                var key = PrivateKey.GenerateECDSA();
+                BadKeyException exception = Assert.Throws<BadKeyException>(() =>
+                {
+                    new AccountCreateTransaction
+                    {
+                        ReceiverSigRequired = true
+                    }
+                    .SetKeyWithAlias(key, adminKey)
+                    .FreezeWith(testEnv.Client)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+				});
+
+				Assert.Contains("Private key is not ECDSA", exception.Message);
+			}
+        }
         public virtual void CreateAccountWithAliasWithReceiverSigRequired()
         {
 
@@ -259,16 +316,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var adminKey = PrivateKey.GenerateED25519();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
+                new AccountCreateTransaction
+                {
+                    Key = adminKey,
+
+                }.FreezeWith(testEnv.Client).Execute(testEnv.Client);
                 var key = PrivateKey.GenerateECDSA();
                 var evmAddress = key.GetPublicKey().ToEvmAddress();
                 var accountId = new AccountCreateTransaction
                 {
                     ReceiverSigRequired = true,
-					Alias = evmAddress
-				}
-                .SetKeyWithoutAlias(adminKey)                    
+					Alias = evmAddress,
+                    Key = adminKey,
+				}                    
                 .FreezeWith(testEnv.Client).Sign(key).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 Assert.NotNull(accountId);
                 var info = new AccountInfoQuery
@@ -281,7 +341,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
-
         public virtual void CannotCreateAccountWithAliasWithReceiverSigRequiredWithoutSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -289,17 +348,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var adminKey = PrivateKey.GenerateECDSA();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
-                var key = PrivateKey.GenerateECDSA();
-                Assert.Throws(typeof(ReceiptStatusException), () => new AccountCreateTransaction
-            {
-                    ReceiverSigRequired = true
-                }
-                .SetKeyWithAlias(adminKey).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
-            }
-        }
+                new AccountCreateTransaction
+                {
+                    Key = adminKey,
 
+                }.FreezeWith(testEnv.Client).Execute(testEnv.Client);
+                var key = PrivateKey.GenerateECDSA();
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new AccountCreateTransaction
+                    {
+                        ReceiverSigRequired = true
+                    }
+                    .SetKeyWithAlias(adminKey)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(key)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                });
+
+				Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
+			}
+        }
         public virtual void CannotCreateAccountWithAliasWithoutBothKeySignatures()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -307,17 +377,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var adminKey = PrivateKey.GenerateED25519();
 
                 // Create the admin account
-                new AccountCreateTransaction()
-                    .SetKeyWithoutAlias(adminKey).FreezeWith(testEnv.Client).Execute(testEnv.Client);
-                var key = PrivateKey.GenerateECDSA();
-                Assert.Throws(typeof(BadKeyException), () => new AccountCreateTransaction
-            {
-                    ReceiverSigRequired = true
-                }
-                .SetKeyWithAlias(key, adminKey).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining("Private key is not ECDSA");
-            }
-        }
+                new AccountCreateTransaction
+        {
+                    Key = adminKey,
 
+                }.FreezeWith(testEnv.Client).Execute(testEnv.Client);
+                var key = PrivateKey.GenerateECDSA();
+                BadKeyException exception = Assert.Throws<BadKeyException>(() =>
+                {
+                    new AccountCreateTransaction
+                    {
+                        ReceiverSigRequired = true
+                    }
+                    .SetKeyWithAlias(key, adminKey)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(adminKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+				});
+                
+				Assert.Contains("Private key is not ECDSA", exception.Message);
+			}
+        }
         public virtual void CreateAccountUsingSetKeyWithAliasAccountShouldHaveSameKeyAndSameKeysAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -340,7 +421,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
             }
         }
-
         public virtual void CreateAccountUsingSetKeyWithAliasAccountShouldHaveKeyAsKeyAndECDSAKEyAsAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -364,7 +444,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
             }
         }
-
         public virtual void CreateAccountUsingSetKeyWithoutAliasAccountShouldHaveKeyAsKeyAndNoAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -372,9 +451,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateECDSA();
                 var accountId = new AccountCreateTransaction
                 {
-                    ReceiverSigRequired = true
-                }
-                    .SetKeyWithoutAlias(key).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                    ReceiverSigRequired = true,
+                    Key = key,
+
+                }.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 Assert.NotNull(accountId);
                 var info = new AccountInfoQuery
                 { 
@@ -386,7 +466,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(IsLongZeroAddress(Hex.Decode(info.ContractAccountId)));
             }
         }
-
         public virtual void CreateAccountUsingSetKeyWithAliasWithED25519KeyShouldThrowAnException()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -394,18 +473,27 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction
                 {
-                    ReceiverSigRequired = true
-                }
-                    .SetKeyWithoutAlias(key).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
-                Assert.NotNull(accountId);
-                Assert.Throws<BadKeyException>(() => new AccountCreateTransaction
-            {
-                    ReceiverSigRequired = true
-                }
-                .SetKeyWithAlias(key).FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining("Private key is not ECDSA");
-            }
-        }
+                    ReceiverSigRequired = true,
+                    Key = key,
 
+                }.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                Assert.NotNull(accountId);
+				BadKeyException exception = Assert.Throws<BadKeyException>(() =>
+                {
+                    new AccountCreateTransaction
+                    {
+                        ReceiverSigRequired = true
+                    }
+                    .SetKeyWithAlias(key)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(key)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+				});
+                
+				Assert.Contains("Private key is not ECDSA", exception.Message);
+			}
+        }
         public virtual void CreateAccountUsingSetKeyWithAliasWithPublicKeyShouldHavePublicKeyAndDerivedAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -426,7 +514,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
             }
         }
-
         public virtual void CreateAccountUsingSetKeyWithAliasWithED25519KeyAndPublicECDSAKeyShouldHaveED25519KeyAndDerivedAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))

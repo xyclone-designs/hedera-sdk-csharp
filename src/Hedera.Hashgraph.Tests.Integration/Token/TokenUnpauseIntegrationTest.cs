@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Token;
@@ -15,13 +16,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var accountKey = PrivateKey.GenerateED25519();
-                var testTokenAmount = 10;
+                var testTokenAmount = 10L;
                 var accountId = new AccountCreateTransaction
                 {
-					KeyWithoutAlias = accountKey,
 					InitialBalance = new Hbar(2),
 				}
-                .Execute(testEnv.Client)
+                Key = accountKey,
+				.Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction
                 {
@@ -63,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					TokenId = tokenId,
 					AccountId = accountId,
-					Amount = testTokenAmount,
+					Amount = (ulong)testTokenAmount,
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -89,9 +90,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                AssertThrows(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenUnpauseTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                    new TokenUnpauseTransaction()
+                        .Execute(testEnv.Client)
+                        .GetReceipt(testEnv.Client);
                 });
             }
         }

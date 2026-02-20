@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client);
 
-                AssertThat(accountBalance.Hbars.ToTinybars()).IsLessThan(hbar / 2);
+                Assert.True(accountBalance.Hbars.ToTinybars() < hbar / 2);
 
                 // Cleanup
                 new TopicDeleteTransaction
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = payerAccountId
 				}
                 .Execute(testEnv.Client);
-                AssertThat(accountBalance.hbars.ToTinybars()).IsGreaterThan(hbar / 2);
+                Assert.True(accountBalance.hbars.ToTinybars() > hbar / 2);
                 
                 payerClient.Dispose();
 

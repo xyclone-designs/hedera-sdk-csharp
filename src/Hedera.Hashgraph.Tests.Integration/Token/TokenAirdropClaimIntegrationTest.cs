@@ -184,10 +184,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // claim the tokens with the operator which does not have pending airdrops
                 // fails with INVALID_SIGNATURE
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenClaimAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_SIGNATURE.ToString());
+                }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
 
@@ -211,10 +211,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // claim the tokens with the receiver again
                 // fails with INVALID_PENDING_AIRDROP_ID
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenClaimAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.INVALID_PENDING_AIRDROP_ID.ToString());
+                }); Assert.Contains(ResponseStatus.INVALID_PENDING_AIRDROP_ID.ToString(), exception.Message);
             }
         }
 
@@ -225,10 +225,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // claim the tokens with the receiver without setting pendingAirdropIds
                 // fails with EMPTY_PENDING_AIRDROP_ID_LIST
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenClaimAirdropTransaction().Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.EMPTY_PENDING_AIRDROP_ID_LIST.ToString());
+                }); Assert.Contains(ResponseStatus.EMPTY_PENDING_AIRDROP_ID_LIST.ToString(), exception.Message);
             }
         }
 
@@ -249,10 +249,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // claim the tokens with duplicate pending airdrop token ids
                 // fails with PENDING_AIRDROP_ID_REPEATED
-                Assert.Throws(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenClaimAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.PENDING_AIRDROP_ID_REPEATED.ToString());
+                }); Assert.Contains(ResponseStatus.PENDING_AIRDROP_ID_REPEATED.ToString(), exception.Message);
             }
         }
 
@@ -276,10 +276,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // claim the tokens with receiver
                 // fails with TOKEN_IS_PAUSED
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenClaimAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.TOKEN_IS_PAUSED.ToString());
+                }); Assert.Contains(ResponseStatus.TOKEN_IS_PAUSED.ToString(), exception.Message);
             }
         }
 
@@ -303,10 +303,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // claim the tokens with receiver
                 // fails with TOKEN_IS_DELETED
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenClaimAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.TOKEN_WAS_DELETED.ToString());
+                }); Assert.Contains(ResponseStatus.TOKEN_WAS_DELETED.ToString(), exception.Message);
             }
         }
 
@@ -326,17 +326,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // associate
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(Collections.SingletonList(tokenID)).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds([tokenID]).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // freeze the token
                 new TokenFreezeTransaction().SetAccountId(receiverAccountId).SetTokenId(tokenID).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // claim the tokens with receiver
                 // fails with ACCOUNT_FROZEN_FOR_TOKEN
-                Assert.Throws(typeof(ReceiptStatusException), () =>
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     new TokenClaimAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }).WithMessageContaining(Status.ACCOUNT_FROZEN_FOR_TOKEN.ToString());
+                }); Assert.Contains(ResponseStatus.ACCOUNT_FROZEN_FOR_TOKEN.ToString(), exception.Message);
             }
         }
     }

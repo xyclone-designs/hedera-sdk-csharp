@@ -24,12 +24,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual AccountCreateTransaction SpawnTestTransaction()
         {
-            return new AccountCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetKeyWithAlias(privateKeyECDSA).SetKeyWithAlias(privateKeyED25519, privateKeyECDSA).SetKeyWithoutAlias(privateKeyED25519).SetInitialBalance(Hbar.FromTinybars(450)).SetProxyAccountId(AccountId.FromString("0.0.1001")).SetAccountMemo("some dumb memo").SetReceiverSignatureRequired(true).SetAutoRenewPeriod(Duration.OfHours(10)).SetStakedAccountId(AccountId.FromString("0.0.3")).SetAlias("0x5c562e90feaf0eebd33ea75d21024f249d451417").SetMaxAutomaticTokenAssociations(100).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(privateKeyED25519);
+            return new AccountCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetKeyWithAlias(privateKeyECDSA).SetKeyWithAlias(privateKeyED25519, privateKeyECDSA)Key = privateKeyED25519,.SetInitialBalance(Hbar.FromTinybars(450)).SetProxyAccountId(AccountId.FromString("0.0.1001")).SetAccountMemo("some dumb memo").SetReceiverSignatureRequired(true).SetAutoRenewPeriod(Duration.OfHours(10)).SetStakedAccountId(AccountId.FromString("0.0.3")).SetAlias("0x5c562e90feaf0eebd33ea75d21024f249d451417").SetMaxAutomaticTokenAssociations(100).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(privateKeyED25519);
         }
 
         public virtual AccountCreateTransaction SpawnTestTransaction2()
         {
-            return new AccountCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetKeyWithAlias(privateKeyECDSA).SetKeyWithAlias(privateKeyED25519, privateKeyECDSA).SetKeyWithoutAlias(privateKeyED25519).SetInitialBalance(Hbar.FromTinybars(450)).SetProxyAccountId(AccountId.FromString("0.0.1001")).SetAccountMemo("some dumb memo").SetReceiverSignatureRequired(true).SetAutoRenewPeriod(Duration.OfHours(10)).SetStakedNodeId(4).SetMaxAutomaticTokenAssociations(100).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(privateKeyED25519);
+            return new AccountCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetKeyWithAlias(privateKeyECDSA).SetKeyWithAlias(privateKeyED25519, privateKeyECDSA)Key = privateKeyED25519,.SetInitialBalance(Hbar.FromTinybars(450)).SetProxyAccountId(AccountId.FromString("0.0.1001")).SetAccountMemo("some dumb memo").SetReceiverSignatureRequired(true).SetAutoRenewPeriod(Duration.OfHours(10)).SetStakedNodeId(4).SetMaxAutomaticTokenAssociations(100).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(privateKeyED25519);
         }
 
         public virtual void ShouldSerialize()
@@ -69,11 +69,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(tx.GetKey(), privateKeyED25519);
             Assert.Equal(tx.GetInitialBalance(), Hbar.FromTinybars(450));
             Assert.True(tx.GetReceiverSignatureRequired());
-            Assert.Equal(tx.GetProxyAccountId().ToString(), "0.0.1001");
+            Assert.Equal(tx.GetProxyAccountId.ToString(), "0.0.1001");
             Assert.Equal(tx.GetAutoRenewPeriod().ToHours(), 10);
             Assert.Equal(tx.GetMaxAutomaticTokenAssociations(), 100);
             Assert.Equal(tx.GetAccountMemo(), "some dumb memo");
-            Assert.Equal(tx.GetStakedAccountId().ToString(), "0.0.3");
+            Assert.Equal(tx.GetStakedAccountId.ToString(), "0.0.3");
             Assert.Null(tx.GetStakedNodeId());
             Assert.False(tx.GetDeclineStakingReward());
             Assert.Equal(tx.GetAlias(), EvmAddress.FromString("0x5c562e90feaf0eebd33ea75d21024f249d451417"));

@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK
         //         new BigInteger(storageChangeProto.getValueRead().toByteArray()),
         //         storageChangeProto.hasValueWritten() ? (
         //             storageChangeProto.getValueWritten().getValue().Length == 0 ?
-        //                 BigInteger.ZERO :
+        //                 BigInteger.Zero :
         //                 new BigInteger(storageChangeProto.getValueWritten().getValue().toByteArray())
         //         ) : null
         //     );
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.SDK
         //         .setSlot(ByteString.copyFrom(slot.toByteArray()))
         //         .setValueRead(ByteString.copyFrom(valueRead.toByteArray()));
         //     if (valueWritten != null) {
-        //         if (valueWritten.equals(BigInteger.ZERO)) {
+        //         if (valueWritten.equals(BigInteger.Zero)) {
         //             builder.setValueWritten(BytesValue.newBuilder().setValue(ByteString.EMPTY).build());
         //         } else {
         //

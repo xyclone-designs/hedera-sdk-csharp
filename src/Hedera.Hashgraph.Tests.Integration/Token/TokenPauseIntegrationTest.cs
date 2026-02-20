@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -19,14 +16,60 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var accountKey = PrivateKey.GenerateED25519();
                 var testTokenAmount = 10;
-                var accountId = new AccountCreateTransaction().SetKeyWithoutAlias(accountKey).SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
-                var tokenId = new TokenCreateTransaction()TokenName = "ffff",TokenSymbol = "F",InitialSupply = 1000000,Decimals = 3,TreasuryAccountId = testEnv.OperatorId,AdminKey = testEnv.OperatorKey,.SetPauseKey(testEnv.OperatorKey)FreezeDefault = false,.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
-                new TokenAssociateTransaction().SetAccountId(accountId).SetTokenIds([tokenId]).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TransferTransaction().AddTokenTransfer(tokenId, accountId, testTokenAmount).AddTokenTransfer(tokenId, testEnv.OperatorId, -testTokenAmount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TokenPauseTransaction().SetTokenId(tokenId).FreezeWith(testEnv.Client).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                AssertThrows(typeof(ReceiptStatusException), () =>
+                var accountId = new AccountCreateTransaction
                 {
-                    new TransferTransaction().AddTokenTransfer(tokenId, accountId, testTokenAmount).AddTokenTransfer(tokenId, testEnv.OperatorId, -testTokenAmount).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+					Key = accountKey,
+					InitialBalance = new Hbar(2)
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+                var tokenId = new TokenCreateTransaction
+                {
+					TokenName = "ffff",
+					TokenSymbol = "F",
+					InitialSupply = 1000000,
+					Decimals = 3,
+					TreasuryAccountId = testEnv.OperatorId,
+					AdminKey = testEnv.OperatorKey,
+                    PauseKey = testEnv.OperatorKey,
+					FreezeDefault = false,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                
+                new TokenAssociateTransaction
+                {
+					AccountId = accountId,
+					TokenIds = [tokenId]
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(accountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                new TransferTransaction()
+                    .AddTokenTransfer(tokenId, accountId, testTokenAmount)
+                    .AddTokenTransfer(tokenId, testEnv.OperatorId, -testTokenAmount)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                new TokenPauseTransaction
+                {
+					TokenId = tokenId
+				}
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new TransferTransaction()
+                        .AddTokenTransfer(tokenId, accountId, testTokenAmount)
+                        .AddTokenTransfer(tokenId, testEnv.OperatorId, -testTokenAmount)
+                        .FreezeWith(testEnv.Client)
+                        .Sign(accountKey)
+                        .Execute(testEnv.Client)
+                        .GetReceipt(testEnv.Client);
                 });
             }
         }
@@ -35,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                AssertThrows(typeof(PrecheckStatusException), () =>
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenPauseTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 });

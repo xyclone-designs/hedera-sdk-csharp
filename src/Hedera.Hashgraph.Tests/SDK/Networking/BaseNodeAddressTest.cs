@@ -64,8 +64,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(mirrorNodeAddressSecure.Address, "mainnet-public.mirrornode.hedera.com");
             Assert.Equal(mirrorNodeAddressSecure.Port, PORT_MIRROR_TLS);
             Assert.Equal(mirrorNodeAddressSecure.ToString(), "mainnet-public.mirrornode.hedera.com:443");
-            Assert.Throws(typeof(InvalidOperationException), () => BaseNodeAddress.FromString("this is a random string with spaces:443"));
-            Assert.Throws(typeof(InvalidOperationException), () => BaseNodeAddress.FromString("mainnet-public.mirrornode.hedera.com:notarealport"));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => BaseNodeAddress.FromString("this is a random string with spaces:443"));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => BaseNodeAddress.FromString("mainnet-public.mirrornode.hedera.com:notarealport"));
         }
     }
 }

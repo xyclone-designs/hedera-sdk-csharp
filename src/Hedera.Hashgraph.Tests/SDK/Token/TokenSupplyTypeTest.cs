@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
     public class TokenSupplyTypeTest
     {
         private readonly TokenSupplyType tokenSupplyTypeInfinite = TokenSupplyType.INFINITE;
-        private readonly TokenSupplyType tokenSupplyTypeFinite = TokenSupplyType.FINITE;
+        private readonly TokenSupplyType tokenSupplyTypeFinite = TokenSupplyType.Finite;
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void TokenSupplyTestToString()
         {
             Assert.Equal(com.hedera.hashgraph.sdk.TokenSupplyType.INFINITE.ToString(), "INFINITE");
-            Assert.Equal(com.hedera.hashgraph.sdk.TokenSupplyType.FINITE.ToString(), "FINITE");
+            Assert.Equal(com.hedera.hashgraph.sdk.TokenSupplyType.Finite.ToString(), "FINITE");
         }
     }
 }
