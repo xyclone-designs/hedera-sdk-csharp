@@ -16,6 +16,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TopicMemo = "[e2e::TopicCreateTransaction]",
 				}
                 .Execute(testEnv.Client);
+
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 new TopicUpdateTransaction
                 { 
@@ -25,12 +26,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 var topicInfo = new TopicInfoQuery
                 {
 					TopicId = topicId
 				}.Execute(testEnv.Client);
+
                 Assert.Equal(topicInfo.TopicMemo, "hello");
                 Assert.Null(topicInfo.AutoRenewAccountId);
+
                 new TopicDeleteTransaction
                 {
 					TopicId = topicId

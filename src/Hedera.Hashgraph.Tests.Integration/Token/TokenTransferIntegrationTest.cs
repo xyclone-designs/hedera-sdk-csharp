@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
-using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Fees;
-using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -22,8 +22,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					InitialBalance = new Hbar(1),
 				}
                 .Execute(testEnv.Client);
+
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
+                
                 Assert.NotNull(accountId);
+
                 response = new TokenCreateTransaction()
                 {
 					TokenName = "ffff",
@@ -37,9 +40,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					KycKey = testEnv.OperatorKey,
 					SupplyKey = testEnv.OperatorKey,
 					FreezeDefault = false,
+
 				}.Execute(testEnv.Client);
+
                 var tokenId = response.GetReceipt(testEnv.Client).TokenId;
+                
                 Assert.NotNull(tokenId);
+
                 new TokenAssociateTransaction
                 {
 					AccountId = accountId,
@@ -50,6 +57,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Sign(key)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+                
                 new TokenGrantKycTransaction
                 {
 					AccountId = accountId,
@@ -57,6 +65,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 new TransferTransaction()
                     .AddTokenTransfer(tokenId, testEnv.OperatorId, -10)
                     .AddTokenTransfer(tokenId, accountId, 10)
@@ -140,9 +149,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Sign(key2)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
+                });
 
-                }).Satisfies((error) => AssertThat(error.GetMessage()).ContainsAnyOf(ResponseStatus.INSUFFICIENT_SENDER_ACCOUNT_BALANCE_FOR_CUSTOM_FEE.ToString(), Status.INSUFFICIENT_PAYER_BALANCE_FOR_CUSTOM_FEE.ToString()));
-            }
+                Assert.True(
+					exception.Message.Contains(ResponseStatus.InsufficientPayerBalanceForCustomFee.ToString()) ||
+					exception.Message.Contains(ResponseStatus.InsufficientSenderAccountBalanceForCustomFee.ToString()));
+			}
         }
     }
 }

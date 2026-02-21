@@ -340,7 +340,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TopicId);
                 var transaction = new TopicMessageSubmitTransaction()
-                    .SetTopicId(topicId)
+                    TopicId = topicId,
                     .SetMessage("scheduled hcs message".GetBytes(StandardCharsets.UTF_8));
 
                 // create schedule

@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Hashgraph.Sdk.Test.Integration.EntityHelper;
-using Org.Assertj.Core.Api.AssertionsForClassTypes;
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Airdrops;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -26,7 +24,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = nftID,
+					Metadata = NftMetadataGenerator.Generate((byte)10),
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 var nftSerials = mintReceipt.Serials;
 
                 // create receiver with 0 auto associations
@@ -37,20 +41,37 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // sender cancels the tokens
-                record = new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).AddPendingAirdrop(record.pendingAirdropRecords[1].GetPendingAirdropId()).AddPendingAirdrop(record.pendingAirdropRecords[2].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                record = new TokenCancelAirdropTransaction
+                {
+                    PendingAirdropIds = 
+                    [
+						record.PendingAirdropRecords[0].PendingAirdropId,
+					    record.PendingAirdropRecords[1].PendingAirdropId,
+					    record.PendingAirdropRecords[2].PendingAirdropId,
+					]
+               
+                }.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // verify in the transaction record the pending airdrop ids for nft and ft - should no longer exist
-                Assert.Equal(0, record.pendingAirdropRecords.Count);
+                Assert.Equal(0, record.PendingAirdropRecords.Count);
 
                 // verify the receiver does not hold the tokens via query
-                var receiverAccountBalance = new AccountBalanceQuery().SetAccountId(receiverAccountId).Execute(testEnv.Client);
-                Assert.Null(receiverAccountBalance.tokens[tokenID]);
-                Assert.Null(receiverAccountBalance.tokens[nftID]);
+                var receiverAccountBalance = new AccountBalanceQuery
+                {
+					AccountId = receiverAccountId,
+				
+                }.Execute(testEnv.Client);
+                Assert.Null(receiverAccountBalance.Tokens[tokenID]);
+                Assert.Null(receiverAccountBalance.Tokens[nftID]);
 
                 // verify the operator does hold the tokens
-                var operatorBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance, operatorBalance.tokens[tokenID]);
-                Assert.Equal(mitedNfts, operatorBalance.tokens[nftID]);
+                var operatorBalance = new AccountBalanceQuery
+                {
+					AccountId = testEnv.OperatorId,
+				
+                }.Execute(testEnv.Client);
+                Assert.Equal(FungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(MitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -70,13 +91,27 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // associate
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds([tokenID]).FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+                    AccountId = receiverAccountId,
+                    TokenIds = [tokenID]
+                }
+                .FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // freeze the token
-                new TokenFreezeTransaction().SetAccountId(receiverAccountId).SetTokenId(tokenID).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenFreezeTransaction
+                {
+					AccountId = receiverAccountId,
+					TokenId = tokenID
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // cancel
-                new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                new TokenCancelAirdropTransaction
+                {
+                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    
+                }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
         }
 
@@ -96,10 +131,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // pause the token
-                new TokenPauseTransaction().SetTokenId(tokenID).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenPauseTransaction
+                {
+                    TokenId = tokenID,
+
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // cancel
-                new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                new TokenCancelAirdropTransaction
+                {
+                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    
+                }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
         }
 
@@ -119,10 +162,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // delete the token
-                new TokenDeleteTransaction().SetTokenId(tokenID).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenDeleteTransaction
+                {
+					TokenId = tokenID,
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // cancel
-                new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                new TokenCancelAirdropTransaction
+        {
+                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    
+                }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
         }
 
@@ -136,7 +187,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = nftID, 
+                    Metadata = NftMetadataGenerator.Generate((byte)10),
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 var nftSerials = mintReceipt.Serials;
 
                 // create receiver1 with 0 auto associations
@@ -151,29 +208,47 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiver1AccountId).AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiver1AccountId).AddTokenTransfer(tokenID, receiver1AccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).AddNftTransfer(nftID.Nft(nftSerials[2]), testEnv.OperatorId, receiver2AccountId).AddNftTransfer(nftID.Nft(nftSerials[3]), testEnv.OperatorId, receiver2AccountId).AddTokenTransfer(tokenID, receiver2AccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // verify the txn record
-                Assert.Equal(6, record.pendingAirdropRecords.Count);
+                Assert.Equal(6, record.PendingAirdropRecords.Count);
 
                 // cancel the tokens signing with receiver1 and receiver2
-                var pendingAirdropIDs = record.pendingAirdropRecords.Stream().Map(PendingAirdropRecord.GetPendingAirdropId()).ToList();
-                record = new TokenCancelAirdropTransaction().SetPendingAirdropIds(pendingAirdropIDs).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                var pendingAirdropIDs = record.PendingAirdropRecords.Select(_ => _.PendingAirdropId);
+                record = new TokenCancelAirdropTransaction
+                {
+					PendingAirdropIds = [.. pendingAirdropIDs],
+
+				}.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // verify in the transaction record the pending airdrop ids for nft and ft - should no longer exist
-                Assert.Equal(0, record.pendingAirdropRecords.Count);
+                Assert.Equal(0, record.PendingAirdropRecords.Count);
 
                 // verify receiver1 does not hold the tokens via query
-                var receiverAccountBalance = new AccountBalanceQuery().SetAccountId(receiver1AccountId).Execute(testEnv.Client);
-                Assert.Null(receiverAccountBalance.tokens[tokenID]);
-                Assert.Null(receiverAccountBalance.tokens[nftID]);
+                var receiverAccountBalance = new AccountBalanceQuery
+                {
+					AccountId = receiver1AccountId,
+				
+                }.Execute(testEnv.Client);
+                Assert.Null(receiverAccountBalance.Tokens[tokenID]);
+                Assert.Null(receiverAccountBalance.Tokens[nftID]);
 
                 // verify receiver2 does not hold the tokens via query
-                var receiver2AccountBalance = new AccountBalanceQuery().SetAccountId(receiver1AccountId).Execute(testEnv.Client);
-                Assert.Null(receiver2AccountBalance.tokens[tokenID]);
-                Assert.Null(receiver2AccountBalance.tokens[nftID]);
+                var receiver2AccountBalance = new AccountBalanceQuery
+                {
+					AccountId = receiver1AccountId,
+				
+                }.Execute(testEnv.Client);
+                
+                Assert.Null(receiver2AccountBalance.Tokens[tokenID]);
+                Assert.Null(receiver2AccountBalance.Tokens[nftID]);
 
                 // verify the operator does hold the tokens
-                var operatorBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance, operatorBalance.tokens[tokenID]);
-                Assert.Equal(mitedNfts, operatorBalance.tokens[nftID]);
+                var operatorBalance = new AccountBalanceQuery
+                {
+					AccountId = testEnv.OperatorId,
+				
+                }.Execute(testEnv.Client);
+
+                Assert.Equal(fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(MitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -187,7 +262,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = nftID,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceipt.Serials;
 
                 // create receiver with 0 auto associations
@@ -205,25 +285,39 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // get the PendingIds from the records
                 var pendingAirdropIDs = new List<PendingAirdropId>();
-                pendingAirdropIDs.Add(record1.pendingAirdropRecords[0].GetPendingAirdropId());
-                pendingAirdropIDs.Add(record2.pendingAirdropRecords[0].GetPendingAirdropId());
-                pendingAirdropIDs.Add(record3.pendingAirdropRecords[0].GetPendingAirdropId());
+                pendingAirdropIDs.Add(record1.PendingAirdropRecords[0].PendingAirdropId);
+                pendingAirdropIDs.Add(record2.PendingAirdropRecords[0].PendingAirdropId);
+                pendingAirdropIDs.Add(record3.PendingAirdropRecords[0].PendingAirdropId);
 
                 // cancel the all the tokens with the receiver
-                var record = new TokenCancelAirdropTransaction().SetPendingAirdropIds(pendingAirdropIDs).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                var record = new TokenCancelAirdropTransaction
+                {
+					PendingAirdropIds = pendingAirdropIDs,
+
+				}.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // verify in the transaction record the pending airdrop ids for nft and ft - should no longer exist
-                Assert.Equal(0, record.pendingAirdropRecords.Count);
+                Assert.Equal(0, record.PendingAirdropRecords.Count);
 
                 // verify the receiver does not hold the tokens via query
-                var receiverAccountBalance = new AccountBalanceQuery().SetAccountId(receiverAccountId).Execute(testEnv.Client);
-                Assert.Null(receiverAccountBalance.tokens[tokenID]);
-                Assert.Null(receiverAccountBalance.tokens[nftID]);
+                var receiverAccountBalance = new AccountBalanceQuery
+                {
+					AccountId = receiverAccountId,
+				
+                }.Execute(testEnv.Client);
+
+                Assert.Null(receiverAccountBalance.Tokens[tokenID]);
+                Assert.Null(receiverAccountBalance.Tokens[nftID]);
 
                 // verify the operator does hold the tokens
-                var operatorBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance, operatorBalance.tokens[tokenID]);
-                Assert.Equal(mitedNfts, operatorBalance.tokens[nftID]);
+                var operatorBalance = new AccountBalanceQuery
+                {
+					AccountId = testEnv.OperatorId,
+
+				}.Execute(testEnv.Client);
+
+                Assert.Equal(FungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(MitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -231,7 +325,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-
                 // create fungible token
                 var tokenID = EntityHelper.CreateFungibleToken(testEnv, 3);
 
@@ -250,8 +343,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // fails with INVALID_SIGNATURE
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenCancelAirdropTransaction().SetTransactionId(TransactionId.Generate(randomAccount)).AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
+                    new TokenCancelAirdropTransaction
+                    {
+						TransactionId = TransactionId.Generate(randomAccount),
+                        PendingAirdropIds = [.. record.PendingAirdropRecords[0].PendingAirdropId ],
+                        
+                    }.Execute(testEnv.Client).GetRecord(testEnv.Client);
+                }); 
+                
+                Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
 
@@ -259,7 +359,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-
                 // create fungible token
                 var tokenID = EntityHelper.CreateFungibleToken(testEnv, 3);
 
@@ -271,14 +370,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var record = new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // cancel the tokens with the receiver
-                new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                new TokenCancelAirdropTransaction
+        {
+                    PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                    
+                }.Execute(testEnv.Client).GetRecord(testEnv.Client);
 
                 // cancel the tokens with the receiver again
                 // fails with INVALID_PENDING_AIRDROP_ID
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
-                    new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.INVALID_PENDING_AIRDROP_ID.ToString(), exception.Message);
+                    new TokenCancelAirdropTransaction
+                {
+                        PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId ]
+                        
+                    }.Execute(testEnv.Client).GetRecord(testEnv.Client);
+                }); 
+                
+                Assert.Contains(ResponseStatus.InvalidPendingAirdropId.ToString(), exception.Message);
             }
         }
 
@@ -286,13 +395,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-
                 // cancel the tokens with the receiver without setting pendingAirdropIds
                 // fails with EMPTY_PENDING_AIRDROP_ID_LIST
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenCancelAirdropTransaction().Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.EMPTY_PENDING_AIRDROP_ID_LIST.ToString(), exception.Message);
+                }); 
+                
+                Assert.Contains(ResponseStatus.EmptyPendingAirdropIdList.ToString(), exception.Message);
             }
         }
 
@@ -300,7 +410,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-
                 // create fungible token
                 var tokenID = EntityHelper.CreateFungibleToken(testEnv, 3);
 
@@ -315,8 +424,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // fails with PENDING_AIRDROP_ID_REPEATED
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenCancelAirdropTransaction().AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).AddPendingAirdrop(record.pendingAirdropRecords[0].GetPendingAirdropId()).Execute(testEnv.Client).GetRecord(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.PENDING_AIRDROP_ID_REPEATED.ToString(), exception.Message);
+					new TokenCancelAirdropTransaction()
+					{
+						PendingAirdropIds = [record.PendingAirdropRecords[0].PendingAirdropId]
+					}
+                    .Execute(testEnv.Client).GetRecord(testEnv.Client);
+                }); 
+                
+                Assert.Contains(ResponseStatus.PendingAirdropIdRepeated.ToString(), exception.Message);
             }
         }
     }

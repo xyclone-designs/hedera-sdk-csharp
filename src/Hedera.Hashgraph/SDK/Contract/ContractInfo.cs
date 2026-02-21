@@ -20,74 +20,6 @@ namespace Hedera.Hashgraph.SDK.Contract
     public sealed class ContractInfo
     {
         /// <summary>
-        /// ID of the contract instance, in the format used in transactions.
-        /// </summary>
-        public readonly ContractId contractId;
-        /// <summary>
-        /// ID of the cryptocurrency account owned by the contract instance,
-        /// in the format used in transactions.
-        /// </summary>
-        public readonly AccountId accountId;
-        /// <summary>
-        /// ID of both the contract instance and the cryptocurrency account owned by the contract
-        /// instance, in the format used by Solidity.
-        /// </summary>
-        public readonly string contractAccountId;
-        /// <summary>
-        /// The state of the instance and its fields can be modified arbitrarily if this key signs a
-        /// transaction to modify it. If this is null, then such modifications are not possible,
-        /// and there is no administrator that can override the normal operation of this smart
-        /// contract instance. Note that if it is created with no admin keys, then there is no
-        /// administrator to authorize changing the admin keys, so there can never be any admin keys
-        /// for that instance.
-        /// </summary>
-        public readonly Key? adminKey;
-        /// <summary>
-        /// The current time at which this contract instance (and its account) is set to expire.
-        /// </summary>
-        public readonly Timestamp expirationTime;
-        /// <summary>
-        /// The expiration time will extend every this many seconds. If there are insufficient funds,
-        /// then it extends as long as possible. If the account is empty when it expires,
-        /// then it is deleted.
-        /// </summary>
-        public readonly Duration autoRenewPeriod;
-        /// <summary>
-        /// ID of the an account to charge for auto-renewal of this contract. If not set, or set to
-        /// an account with zero hbar balance, the contract's own hbar balance will be used to cover
-        /// auto-renewal fees.
-        /// </summary>
-        public readonly AccountId autoRenewAccountId;
-        /// <summary>
-        /// Number of bytes of storage being used by this instance (which affects the cost to
-        /// extend the expiration time).
-        /// </summary>
-        public readonly long storage;
-        /// <summary>
-        /// The memo associated with the contract (max 100 bytes).
-        /// </summary>
-        public readonly string contractMemo;
-        /// <summary>
-        /// The current balance of the contract.
-        /// </summary>
-        public readonly Hbar balance;
-        /// <summary>
-        /// Whether the contract has been deleted
-        /// </summary>
-        public readonly bool isDeleted;
-        /// <summary>
-        /// The tokens associated to the contract
-        /// </summary>
-        public readonly Dictionary<TokenId, TokenRelationship> tokenRelationships;
-        /// <summary>
-        /// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
-        /// </summary>
-        public readonly LedgerId ledgerId;
-        /// <summary>
-        /// Staking metadata for this account.
-        /// </summary>
-        public readonly StakingInfo stakingInfo;
-        /// <summary>
         ///  Constructor.
         /// </summary>
         /// <param name="contractId">the contract id</param>
@@ -105,28 +37,38 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="ledgerId">the ledger id</param>
         private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, Timestamp expirationTime, Duration autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
         {
-            this.contractId = contractId;
-            this.accountId = accountId;
-            this.contractAccountId = contractAccountId;
-            this.adminKey = adminKey;
-            this.expirationTime = expirationTime;
-            this.autoRenewPeriod = autoRenewPeriod;
-            this.autoRenewAccountId = autoRenewAccountId;
-            this.storage = storage;
-            this.contractMemo = contractMemo;
-            this.balance = balance;
-            this.isDeleted = isDeleted;
-            this.tokenRelationships = tokenRelationships;
-            this.ledgerId = ledgerId;
-            this.stakingInfo = stakingInfo;
+            this.ContractId = contractId;
+            this.AccountId = accountId;
+            this.ContractAccountId = contractAccountId;
+            this.AdminKey = adminKey;
+            this.ExpirationTime = expirationTime;
+            this.AutoRenewPeriod = autoRenewPeriod;
+            this.AutoRenewAccountId = autoRenewAccountId;
+            this.Storage = storage;
+            this.ContractMemo = contractMemo;
+            this.Balance = balance;
+            this.IsDeleted = isDeleted;
+            this.TokenRelationships = tokenRelationships;
+            this.LedgerId = ledgerId;
+            this.StakingInfo = stakingInfo;
         }
 
-        /// <summary>
-        /// Extract the contract from the protobuf.
-        /// </summary>
-        /// <param name="contractInfo">the protobuf</param>
-        /// <returns>                         the contract object</returns>
-        public static ContractInfo FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo contractInfo)
+		/// <summary>
+		/// Extract the contract from a byte array.
+		/// </summary>
+		/// <param name="bytes">the byte array</param>
+		/// <returns>                         the extracted contract</returns>
+		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		public static ContractInfo FromBytes(byte[] bytes)
+		{
+			return FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo.Parser.ParseFrom(bytes));
+		}
+		/// <summary>
+		/// Extract the contract from the protobuf.
+		/// </summary>
+		/// <param name="contractInfo">the protobuf</param>
+		/// <returns>                         the contract object</returns>
+		public static ContractInfo FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo contractInfo)
         {
             return new ContractInfo(
                 ContractId.FromProtobuf(contractInfo.ContractID), 
@@ -147,55 +89,113 @@ namespace Hedera.Hashgraph.SDK.Contract
                 StakingInfo.FromProtobuf(contractInfo.StakingInfo));
         }
 
-        /// <summary>
-        /// Extract the contract from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the extracted contract</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static ContractInfo FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo.Parser.ParseFrom(bytes));
-        }
+		/// <summary>
+		/// ID of the contract instance, in the format used in transactions.
+		/// </summary>
+		public readonly ContractId ContractId;
+		/// <summary>
+		/// ID of the cryptocurrency account owned by the contract instance,
+		/// in the format used in transactions.
+		/// </summary>
+		public readonly AccountId AccountId;
+		/// <summary>
+		/// ID of both the contract instance and the cryptocurrency account owned by the contract
+		/// instance, in the format used by Solidity.
+		/// </summary>
+		public readonly string ContractAccountId;
+		/// <summary>
+		/// The state of the instance and its fields can be modified arbitrarily if this key signs a
+		/// transaction to modify it. If this is null, then such modifications are not possible,
+		/// and there is no administrator that can override the normal operation of this smart
+		/// contract instance. Note that if it is created with no admin keys, then there is no
+		/// administrator to authorize changing the admin keys, so there can never be any admin keys
+		/// for that instance.
+		/// </summary>
+		public readonly Key? AdminKey;
+		/// <summary>
+		/// The current time at which this contract instance (and its account) is set to expire.
+		/// </summary>
+		public readonly Timestamp ExpirationTime;
+		/// <summary>
+		/// The expiration time will extend every this many seconds. If there are insufficient funds,
+		/// then it extends as long as possible. If the account is empty when it expires,
+		/// then it is deleted.
+		/// </summary>
+		public readonly Duration AutoRenewPeriod;
+		/// <summary>
+		/// ID of the an account to charge for auto-renewal of this contract. If not set, or set to
+		/// an account with zero hbar balance, the contract's own hbar balance will be used to cover
+		/// auto-renewal fees.
+		/// </summary>
+		public readonly AccountId AutoRenewAccountId;
+		/// <summary>
+		/// Number of bytes of storage being used by this instance (which affects the cost to
+		/// extend the expiration time).
+		/// </summary>
+		public readonly long Storage;
+		/// <summary>
+		/// The memo associated with the contract (max 100 bytes).
+		/// </summary>
+		public readonly string ContractMemo;
+		/// <summary>
+		/// The current balance of the contract.
+		/// </summary>
+		public readonly Hbar Balance;
+		/// <summary>
+		/// Whether the contract has been deleted
+		/// </summary>
+		public readonly bool IsDeleted;
+		/// <summary>
+		/// The tokens associated to the contract
+		/// </summary>
+		public readonly Dictionary<TokenId, TokenRelationship> TokenRelationships;
+		/// <summary>
+		/// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
+		/// </summary>
+		public readonly LedgerId LedgerId;
+		/// <summary>
+		/// Staking metadata for this account.
+		/// </summary>
+		public readonly StakingInfo StakingInfo;
 
-        /// <summary>
-        /// Build the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
-        public Proto.ContractGetInfoResponse.Types.ContractInfo ToProtobuf()
-        {
-            Proto.ContractGetInfoResponse.Types.ContractInfo proto = new()
-            {
-				ContractID = contractId.ToProtobuf(),
-				AccountID = accountId.ToProtobuf(),
-				ContractAccountID = contractAccountId,
-				ExpirationTime = TimestampConverter.ToProtobuf(expirationTime),
-				AutoRenewPeriod = DurationConverter.ToProtobuf(autoRenewPeriod),
-				Storage = storage,
-				Memo = contractMemo,
-				Balance = (ulong)balance.ToTinybars(),
-				LedgerId = ledgerId.ToByteString(),
-			};
-            
-            if (adminKey != null)
-                proto.AdminKey = adminKey.ToProtobufKey();
 
-            if (stakingInfo != null)
-                proto.StakingInfo = stakingInfo.ToProtobuf();
-
-            if (autoRenewAccountId != null)
-                proto.AutoRenewAccountId = autoRenewAccountId.ToProtobuf();
-
-            return proto;
-        }
-
-        /// <summary>
-        /// Create a byte array representation.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
-        public byte[] ToBytes()
+		/// <summary>
+		/// Create a byte array representation.
+		/// </summary>
+		/// <returns>                         the byte array representation</returns>
+		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-    }
+		/// <summary>
+		/// Build the protobuf.
+		/// </summary>
+		/// <returns>                         the protobuf representation</returns>
+		public Proto.ContractGetInfoResponse.Types.ContractInfo ToProtobuf()
+		{
+			Proto.ContractGetInfoResponse.Types.ContractInfo proto = new()
+			{
+				ContractID = ContractId.ToProtobuf(),
+				AccountID = AccountId.ToProtobuf(),
+				ContractAccountID = ContractAccountId,
+				ExpirationTime = TimestampConverter.ToProtobuf(ExpirationTime),
+				AutoRenewPeriod = DurationConverter.ToProtobuf(AutoRenewPeriod),
+				Storage = Storage,
+				Memo = ContractMemo,
+				Balance = (ulong)Balance.ToTinybars(),
+				LedgerId = LedgerId.ToByteString(),
+			};
+
+			if (AdminKey != null)
+				proto.AdminKey = AdminKey.ToProtobufKey();
+
+			if (StakingInfo != null)
+				proto.StakingInfo = StakingInfo.ToProtobuf();
+
+			if (AutoRenewAccountId != null)
+				proto.AutoRenewAccountId = AutoRenewAccountId.ToProtobuf();
+
+			return proto;
+		}
+	}
 }

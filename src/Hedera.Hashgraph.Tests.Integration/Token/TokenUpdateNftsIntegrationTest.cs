@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
-                List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
+                List<byte[]> metadataListAfterMint = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerials)];
                 Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // update metadata all minted NFTs
@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // check updated NFTs' metadata
-                List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerials);
+                List<byte[]> metadataListAfterUpdate = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerials)];
                 Assert.Equal(metadataListAfterUpdate, updatedMetadataList);
             }
         }
@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
-                List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
+                List<byte[]> metadataListAfterMint = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerials)];
                 Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // update metadata of the first two minted NFTs
@@ -124,12 +124,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // check updated NFTs' metadata
-                List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerialsToUpdate);
+                List<byte[]> metadataListAfterUpdate = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerialsToUpdate)];
                 Assert.Equal(metadataListAfterUpdate, updatedMetadataList);
 
                 // check that remaining NFTs were not updated
                 var nftSerialsSame = nftSerials[(nftCount / 2) .. nftCount];
-                List<byte[]> metadataList = GetMetadataList(testEnv.Client, tokenId, nftSerialsSame);
+                List<byte[]> metadataList = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerialsSame)];
                 Assert.Equal(metadataList, initialMetadataList[(nftCount / 2) .. nftCount]];
             }
         }
@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
-                List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
+                List<byte[]> metadataListAfterMint = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerials)];
                 Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // run `TokenUpdateNftsTransaction` without `setMetadata`
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // check that NFTs' metadata was not updated
-                List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerials);
+                List<byte[]> metadataListAfterUpdate = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerials)];
                 Assert.Equal(metadataListAfterUpdate, initialMetadataList);
             }
         }
@@ -221,7 +221,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // check that metadata was set correctly
                 var nftSerials = tokenMintTransactionReceipt.Serials;
-                List<byte[]> metadataListAfterMint = GetMetadataList(testEnv.Client, tokenId, nftSerials);
+                List<byte[]> metadataListAfterMint = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerials)];
                 Assert.Equal(metadataListAfterMint, initialMetadataList);
 
                 // erase metadata all minted NFTs (update to an empty byte array)
@@ -237,7 +237,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // check that NFTs' metadata was erased
-                List<byte[]> metadataListAfterUpdate = GetMetadataList(testEnv.Client, tokenId, nftSerials);
+                List<byte[]> metadataListAfterUpdate = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerials)];
                 Assert.Equal(metadataListAfterUpdate, emptyMetadataList);
             }
         }
@@ -257,7 +257,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
 
                 // create a token with a metadata key and check it
-                var tokenId = new TokenCreateTransaction(
+                var tokenId = new TokenCreateTransaction
                 {
 					TokenName = "ffff",
 					TokenSymbol = "F",
@@ -371,24 +371,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
-        private List<byte[]> GetMetadataList(Client client, TokenId tokenId, IList<long> nftSerials)
+        private IEnumerable<byte[]> GetMetadataList(Client client, TokenId tokenId, IList<long> nftSerials)
         {
-            return nftSerials.Stream().Map((serial) => new NftId(tokenId, serial)).FlatMap((nftId) =>
+            return nftSerials.SelectMany(_ =>
             {
-                try
+                return new TokenNftInfoQuery
                 {
-                    return new TokenNftInfoQuery
-                    {
-						NftId = nftId
+                    NftId = new NftId(tokenId, _)
 
-					}.Execute(client).Stream();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(e);
-                }
+                }.Execute(client);
 
-            }).Map((tokenNftInfo) => tokenNftInfo.metadata).ToList();
+            }).Select(_ => _.Metadata);
         }
     }
 }

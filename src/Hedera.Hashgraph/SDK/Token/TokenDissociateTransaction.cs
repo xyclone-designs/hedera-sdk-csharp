@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public TokenDissociateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal TokenDissociateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="accountId">the account id</param>
 		/// <returns>{@code this}</returns>
-		public virtual AccountId? Account
+		public virtual AccountId? AccountId
 		{
 			get;
 			set
@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             if (body.Account is not null)
             {
-				Account = AccountId.FromProtobuf(body.Account);
+				AccountId = AccountId.FromProtobuf(body.Account);
             }
 
             foreach (var token in body.Tokens)
@@ -137,8 +137,8 @@ namespace Hedera.Hashgraph.SDK.Token
         {
 			Proto.TokenDissociateTransactionBody builder = new ();
 
-            if (Account != null)
-				builder.Account = Account.ToProtobuf();
+            if (AccountId != null)
+				builder.Account = AccountId.ToProtobuf();
 
 			foreach (var token in TokenIds)
 				builder.Tokens.Add(token.ToProtobuf());
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
         public override void ValidateChecksums(Client client)
         {
-			Account?.ValidateChecksum(client);
+			AccountId?.ValidateChecksum(client);
 
 			foreach (var token in TokenIds)
 				token?.ValidateChecksum(client);

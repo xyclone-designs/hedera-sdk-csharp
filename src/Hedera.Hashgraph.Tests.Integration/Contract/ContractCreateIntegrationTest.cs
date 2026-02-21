@@ -2,6 +2,7 @@
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
+
 using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
@@ -118,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                
-                }); Assert.Contains(ResponseStatus.INSUFFICIENT_GAS.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.InsufficientGas.ToString(), exception.Message);
                 new FileDeleteTransaction
                 {
 					FileId = fileId
@@ -152,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
-                }); Assert.Contains(ResponseStatus.CONTRACT_REVERT_EXECUTED.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.ContractRevertExecuted.ToString(), exception.Message);
                 
                 new FileDeleteTransaction
                 {
@@ -179,7 +180,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
-                }); Assert.Contains(ResponseStatus.INVALID_FILE_ID.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.InvalidFileId.ToString(), exception.Message);
             }
         }
     }

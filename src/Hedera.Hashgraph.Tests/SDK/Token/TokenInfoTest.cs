@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly bool testTokenKycStatus = true;
         private static readonly bool testTokenIsDeleted = false;
         private static readonly List<CustomFee> testTokenCustomFees = Arrays.AsList(new CustomFixedFee().SetFeeCollectorAccountId(new AccountId(0, 0, 4322)).SetDenominatingTokenId(new TokenId(0, 0, 483902)).SetAmount(10), new CustomFractionalFee().SetFeeCollectorAccountId(new AccountId(0, 0, 389042)).SetNumerator(3).SetDenominator(7).SetMin(3).SetMax(100));
-        private static readonly TokenType testTokenType = TokenType.FUNGIBLE_COMMON;
+        private static readonly TokenType testTokenType = TokenType.FungibleCommon;
         private static readonly TokenSupplyType testTokenTokenSupplyType = TokenSupplyType.Finite;
         private static readonly long testTokenMaxSupply = 1000000;
         private static readonly bool testTokenPauseStatus = true;

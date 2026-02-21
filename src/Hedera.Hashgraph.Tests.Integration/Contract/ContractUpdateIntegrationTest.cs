@@ -172,7 +172,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 				}.Execute(testEnv.Client);
 
-				Assert.Equal(infoWithAutoRenew.autoRenewAccountId, testEnv.OperatorId);
+				Assert.Equal(infoWithAutoRenew.AutoRenewAccountId, testEnv.OperatorId);
 				
 				new ContractUpdateTransaction
 				{
@@ -188,7 +188,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
 				}.Execute(testEnv.Client);
 				
-				Assert.Equal(infoCleared.autoRenewAccountId, new AccountId(0, 0, 0));
+				Assert.Equal(infoCleared.AutoRenewAccountId, new AccountId(0, 0, 0));
 
 				new ContractDeleteTransaction
 				{

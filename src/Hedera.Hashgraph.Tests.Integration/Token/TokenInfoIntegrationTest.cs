@@ -107,8 +107,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.TokenId, tokenId);
                 Assert.Equal(info.Name, "ffff");
                 Assert.Equal(info.Symbol, "F");
-                Assert.Equal(0, info.Decimals);
-                Assert.Equal(0, info.TotalSupply);
+                Assert.Equal((uint)0, info.Decimals);
+                Assert.Equal((ulong)0, info.TotalSupply);
                 Assert.Equal(info.TreasuryAccountId, testEnv.OperatorId);
                 Assert.Null(info.AdminKey);
                 Assert.Null(info.FreezeKey);
@@ -277,8 +277,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     infoQuery.QueryPayment = Hbar.FromTinybars(1);
                     infoQuery.Execute(testEnv.Client);
-
-                }); Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE"));
+                });
+                
+                Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE");
             }
         }
     }

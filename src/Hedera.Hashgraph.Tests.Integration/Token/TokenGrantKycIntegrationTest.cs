@@ -16,9 +16,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-                Key = key,
                 .Execute(testEnv.Client);
 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
@@ -136,9 +136,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-                Key = key,
                 .Execute(testEnv.Client);
 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;

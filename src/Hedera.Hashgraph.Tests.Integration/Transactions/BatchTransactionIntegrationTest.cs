@@ -206,7 +206,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var initialBalance = new AccountInfoQuery()
-                    .SetAccountId(testEnv.OperatorId).Execute(testEnv.Client).balance;
+                    AccountId = testEnv.OperatorId,.Execute(testEnv.Client).balance;
                 var key1 = PrivateKey.GenerateECDSA();
                 var tx1 = new AccountCreateTransaction()
                     Key = key1,
@@ -222,7 +222,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => new BatchTransaction().AddInnerTransaction(tx1).AddInnerTransaction(tx2).AddInnerTransaction(tx3).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.INNER_TRANSACTION_FAILED.ToString());
                 var finalBalance = new AccountInfoQuery()
-                    .SetAccountId(testEnv.OperatorId).Execute(testEnv.Client).balance;
+                    AccountId = testEnv.OperatorId,.Execute(testEnv.Client).balance;
                 Assert.True(finalBalance.GetValue().IntValue() < initialBalance.GetValue().IntValue());
             }
         }

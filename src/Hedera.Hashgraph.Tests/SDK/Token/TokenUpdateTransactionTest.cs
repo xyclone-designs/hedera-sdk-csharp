@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenUpdateTransaction SpawnTestTransaction()
         {
-            return new TokenUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(testTokenId).SetFeeScheduleKey(testFeeScheduleKey).SetSupplyKey(testSupplyKey).SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetFreezeKey(testFreezeKey).SetWipeKey(testWipeKey).SetTokenSymbol(testTokenSymbol).SetKycKey(testKycKey).SetPauseKey(testPauseKey).SetMetadataKey(testMetadataKey).SetExpirationTime(validStart).SetTreasuryAccountId(testTreasuryAccountId).SetTokenName(testTokenName).SetTokenMemo(testTokenMemo).SetMaxTransactionFee(new Hbar(1)).SetTokenMetadata(testMetadata).SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION).Freeze().Sign(unusedPrivateKey);
+            return new TokenUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(testTokenId)FeeScheduleKey = testFeeScheduleKey,.SetSupplyKey(testSupplyKey).SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetFreezeKey(testFreezeKey).SetWipeKey(testWipeKey).SetTokenSymbol(testTokenSymbol).SetKycKey(testKycKey).SetPauseKey(testPauseKey)MetadataKey = testMetadataKey,.SetExpirationTime(validStart).SetTreasuryAccountId(testTreasuryAccountId).SetTokenName(testTokenName).SetTokenMemo(testTokenMemo).SetMaxTransactionFee(new Hbar(1)).SetTokenMetadata(testMetadata).SetKeyVerificationMode(TokenKeyValidation.NoValidation).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void ConstructTokenUpdateTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenUpdateTransactionBody.NewBuilder().SetToken(testTokenId.ToProtobuf()).SetName(testTokenName).SetSymbol(testTokenSymbol).SetTreasury(testTreasuryAccountId.ToProtobuf()).SetAdminKey(testAdminKey.ToProtobufKey()).SetKycKey(testKycKey.ToProtobufKey()).SetFreezeKey(testFreezeKey.ToProtobufKey()).SetWipeKey(testWipeKey.ToProtobufKey()).SetSupplyKey(testSupplyKey.ToProtobufKey()).SetAutoRenewAccount(testAutoRenewAccountId.ToProtobuf()).SetAutoRenewPeriod(Proto.Duration.NewBuilder().SetSeconds(testAutoRenewPeriod.ToSeconds()).Build()).SetExpiry(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond()).Build()).SetMemo(StringValue.NewBuilder().SetValue(testTokenMemo).Build()).SetFeeScheduleKey(testFeeScheduleKey.ToProtobufKey()).SetPauseKey(testPauseKey.ToProtobufKey()).SetMetadataKey(testMetadataKey.ToProtobufKey()).SetMetadata(BytesValue.Of(ByteString.CopyFrom(testMetadata))).SetKeyVerificationMode(Proto.TokenKeyValidation.NO_VALIDATION).Build();
+            var transactionBody = TokenUpdateTransactionBody.NewBuilder().SetToken(testTokenId.ToProtobuf()).SetName(testTokenName).SetSymbol(testTokenSymbol).SetTreasury(testTreasuryAccountId.ToProtobuf()).SetAdminKey(testAdminKey.ToProtobufKey()).SetKycKey(testKycKey.ToProtobufKey()).SetFreezeKey(testFreezeKey.ToProtobufKey()).SetWipeKey(testWipeKey.ToProtobufKey()).SetSupplyKey(testSupplyKey.ToProtobufKey()).SetAutoRenewAccount(testAutoRenewAccountId.ToProtobuf()).SetAutoRenewPeriod(Proto.Duration.NewBuilder().SetSeconds(testAutoRenewPeriod.ToSeconds()).Build()).SetExpiry(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond()).Build()).SetMemo(StringValue.NewBuilder().SetValue(testTokenMemo).Build())FeeScheduleKey = testFeeScheduleKey.ToProtobufKey(),.SetPauseKey(testPauseKey.ToProtobufKey())MetadataKey = testMetadataKey.ToProtobufKey(),.SetMetadata(BytesValue.Of(ByteString.CopyFrom(testMetadata))).SetKeyVerificationMode(Proto.TokenKeyValidation.NoValidation).Build();
             var tx = TransactionBody.NewBuilder().SetTokenUpdate(transactionBody).Build();
             var tokenUpdateTransaction = new TokenUpdateTransaction(tx);
             Assert.Equal(tokenUpdateTransaction.GetTokenId(), testTokenId);
@@ -106,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.GetPauseKey(), testPauseKey);
             Assert.Equal(tokenUpdateTransaction.GetMetadataKey(), testMetadataKey);
             Assert.Equal(tokenUpdateTransaction.GetTokenMetadata(), testMetadata);
-            Assert.Equal(tokenUpdateTransaction.GetKeyVerificationMode(), TokenKeyValidation.NO_VALIDATION);
+            Assert.Equal(tokenUpdateTransaction.GetKeyVerificationMode(), TokenKeyValidation.NoValidation);
         }
 
         public virtual void GetSetTokenId()
@@ -267,14 +267,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void GetSetFeeScheduleKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetFeeScheduleKey(testFeeScheduleKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction()FeeScheduleKey = testFeeScheduleKey,;
             Assert.Equal(tokenUpdateTransaction.GetFeeScheduleKey(), testFeeScheduleKey);
         }
 
         public virtual void GetSetFeeScheduleKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetFeeScheduleKey(testFeeScheduleKey));
+            Assert.Throws<InvalidOperationException>(() => txFeeScheduleKey = testFeeScheduleKey,);
         }
 
         public virtual void GetSetPauseKey()
@@ -291,14 +291,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void GetSetMetadataKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetMetadataKey(testMetadataKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction()MetadataKey = testMetadataKey,;
             Assert.Equal(tokenUpdateTransaction.GetMetadataKey(), testMetadataKey);
         }
 
         public virtual void GetSetMetadataKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetMetadataKey(testMetadataKey));
+            Assert.Throws<InvalidOperationException>(() => txMetadataKey = testMetadataKey,);
         }
 
         public virtual void GetSetMetadata()
@@ -316,13 +316,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void GetSetKeyVerificationMode()
         {
             var tx = SpawnTestTransaction();
-            Assert.Equal(tx.GetKeyVerificationMode(), TokenKeyValidation.NO_VALIDATION);
+            Assert.Equal(tx.GetKeyVerificationMode(), TokenKeyValidation.NoValidation);
         }
 
         public virtual void GetSetKeyVerificationModeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetKeyVerificationMode(TokenKeyValidation.NO_VALIDATION));
+            Assert.Throws<InvalidOperationException>(() => tx.SetKeyVerificationMode(TokenKeyValidation.NoValidation));
         }
     }
 }

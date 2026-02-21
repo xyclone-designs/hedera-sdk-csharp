@@ -129,7 +129,7 @@ namespace Hedera.Hashgraph.SDK.Token
         {
 			TokenDissociateTransaction tokenDissociateTransaction = new()
 			{
-				Account = OwnerId,
+				AccountId = OwnerId,
 				TokenIds = [.. TokenIds, .. NftIds.Select(_ => _.TokenId)],
 			};
 

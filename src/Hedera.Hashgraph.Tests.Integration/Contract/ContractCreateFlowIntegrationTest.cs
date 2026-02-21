@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     Bytecode = SMART_CONTRACT_BYTECODE,
                     AdminKey = testEnv.OperatorKey,
                     Gas = 300000,
-                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(),
+                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null).ToByteArray(),
                     ContractMemo = "[e2e::ContractCreateFlow]"
                 
                 }.Execute(testEnv.Client);
@@ -38,7 +38,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     TransferAccountId = testEnv.OperatorId, 
                     ContractId = contractId, 
-                    TransferAccountId = testEnv.OperatorId
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -49,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var adminKey = PrivateKey.GenerateED25519();
-                AssertThatThrownBy(() => 
+				Exception exception = Assert.Throws<Exception>(() => 
                 {
                     new ContractCreateFlow
                     {
@@ -57,11 +56,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 						AdminKey = adminKey,
 						Gas = 100000,
 						ContractMemo = "[e2e::ContractCreateFlow]",
-						ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.")
+						ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null).ToByteArray()
 					}
                     .Execute(testEnv.Client);
 
-				}).IsInstanceOf(typeof(Exception)).HasMessageEndingWith("raised status INVALID_SIGNATURE");
+				});
+
+                Assert.EndsWith(exception.Message, "raised status INVALID_SIGNATURE");
             }
         }
         public virtual void CreateContractWithFlowPrivateKeySign()
@@ -74,10 +75,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     Bytecode = SMART_CONTRACT_BYTECODE,
                     AdminKey = testEnv.OperatorKey,
                     Gas = 300000,
-                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(),
-                    ContractMemo = "[e2e::ContractCreateFlow]"
+                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null).ToByteArray(),
+                    ContractMemo = "[e2e::ContractCreateFlow]",
+					FreezeWithClient = testEnv.Client,
 
-                }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+				}.Sign(adminKey).Execute(testEnv.Client);
                 var contractId = response.GetReceipt(testEnv.Client).ContractId;
                 var receipt = new ContractExecuteTransaction
                 {
@@ -94,7 +96,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     TransferAccountId = testEnv.OperatorId, 
                     ContractId = contractId, 
-                    TransferAccountId = testEnv.OperatorId
                 }
                 .FreezeWith(testEnv.Client)
                 .Sign(adminKey)
@@ -112,17 +113,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     Bytecode = SMART_CONTRACT_BYTECODE, 
                     AdminKey = testEnv.OperatorKey,
                     Gas = 300000, 
-                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(), 
-                    ContractMemo = "[e2e::ContractCreateFlow]"
-                
+                    ConstructorParameters = new ContractFunctionParameters().AddString("Hello from Hedera.").ToBytes(null).ToByteArray(), 
+                    ContractMemo = "[e2e::ContractCreateFlow]",
+                    FreezeWithClient = testEnv.Client,
                 }
-                .FreezeWith(testEnv.Client)
-                .SignWith(adminKey.GetPublicKey(), adminKey.Sign())
+                .SignWith(adminKey.GetPublicKey(), adminKey.Sign)
                 .Execute(testEnv.Client);
 
                 var contractId = response.GetReceipt(testEnv.Client).ContractId;
                 var receipt = new ContractExecuteTransaction
-        {
+                {
                     ContractId = contractId,
                     Gas = 100000 
                 }
@@ -136,7 +136,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     TransferAccountId = testEnv.OperatorId, 
                     ContractId = contractId, 
-                    TransferAccountId = testEnv.OperatorId
                 }
                 .FreezeWith(testEnv.Client)
                 .Sign(adminKey)

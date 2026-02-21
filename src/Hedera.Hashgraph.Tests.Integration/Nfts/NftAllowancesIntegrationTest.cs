@@ -212,7 +212,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TokenId;
                 new TokenAssociateTransaction().SetAccountId(spenderAccountId).SetTokenIds(List.Of(nftTokenId)).FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client);
-                new TokenAssociateTransaction().SetAccountId(receiverAccountId).SetTokenIds(List.Of(nftTokenId)).FreezeWith(testEnv.Client).Sign(receiverKey).Execute(testEnv.Client);
+                new TokenAssociateTransaction()AccountId = receiverAccountId,.SetTokenIds(List.Of(nftTokenId)).FreezeWith(testEnv.Client).Sign(receiverKey).Execute(testEnv.Client);
                 var serials = new TokenMintTransaction().SetTokenId(nftTokenId).AddMetadata(Encoding.UTF8.GetBytes("asd1")).AddMetadata(Encoding.UTF8.GetBytes("asd2")).Execute(testEnv.Client).GetReceipt(testEnv.Client).Serials;
                 var nft1 = new NftId(nftTokenId, serials[0]);
                 var nft2 = new NftId(nftTokenId, serials[1]);
@@ -289,7 +289,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Sign(spenderKey)
                     .Execute(testEnv.Client);
                 new TokenAssociateTransaction()
-                    .SetAccountId(receiverAccountId)
+                    AccountId = receiverAccountId,
                     .SetTokenIds([nftTokenId])
                     .FreezeWith(testEnv.Client)
                     .Sign(receiverKey)

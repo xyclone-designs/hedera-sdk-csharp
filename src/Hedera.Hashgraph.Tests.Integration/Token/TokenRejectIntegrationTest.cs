@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenRejectTransaction
                 {
 					OwnerId = receiverAccountId,
-					TokenIds = List.Of(tokenId1, tokenId2),
+					TokenIds = [tokenId1, tokenId2],
 				}
                     .FreezeWith(testEnv.Client)
                     .Sign(receiverAccountKey)

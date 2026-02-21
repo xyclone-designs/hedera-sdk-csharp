@@ -29,6 +29,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					FreezeDefault = false,
 				
                 }.Execute(testEnv.Client);
+
                 var tokenId = response.GetReceipt(testEnv.Client).TokenId;
                 var receipt = new TokenBurnTransaction
                 {
@@ -36,6 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenId = tokenId,
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 Assert.Equal<ulong>(receipt.TotalSupply, 1000000 - 10);
             }
         }
@@ -106,6 +108,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					FreezeDefault = false,
 
 				}.Execute(testEnv.Client);
+
                 var tokenId = response.GetReceipt(testEnv.Client).TokenId;
 
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>

@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     public class TokenTypeTest
     {
-        private readonly TokenType tokenTypeFungible = TokenType.FUNGIBLE_COMMON;
+        private readonly TokenType tokenTypeFungible = TokenType.FungibleCommon;
         private readonly TokenType tokenTypeNonFungible = TokenType.NonFungibleUnique;
         public static void BeforeAll()
         {

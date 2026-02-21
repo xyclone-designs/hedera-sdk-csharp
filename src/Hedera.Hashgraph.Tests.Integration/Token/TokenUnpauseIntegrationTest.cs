@@ -20,8 +20,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var accountId = new AccountCreateTransaction
                 {
 					InitialBalance = new Hbar(2),
+					Key = accountKey,
 				}
-                Key = accountKey,
 				.Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction

@@ -5,6 +5,7 @@ using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
@@ -52,7 +53,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = testEnv.OperatorId
 
 				}.Execute(testEnv.Client);
-                Assert.Equal(treasuryAccountBalance.Tokens[ftTokenId], 1000000);
+
+                Assert.Equal(treasuryAccountBalance.Tokens[ftTokenId], (ulong)1000000);
 
                 // verify the allowance - should be 0, because TokenRejectFlow dissociates
                 Exception exception = Assert.Throws<Exception>(() =>
@@ -60,8 +62,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
-                }); Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
-                new TokenDeleteTransaction(, TokenId = ftTokenId)
+                });
+                
+                Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
+
+                new TokenDeleteTransaction
+                {
+					TokenId = ftTokenId
+				}
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
             }
@@ -97,9 +105,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenRejectFlow
                 {
 					OwnerId = receiverAccountId,
-					TokenIds = [ftTokenId]
+					TokenIds = [ftTokenId],
+					FreezeWithClient = testEnv.Client,
 				}
-				.FreezeWith(testEnv.Client)
                 .Sign(receiverAccountKey)
                 .ExecuteAsync(testEnv.Client).Get()
                 .GetReceipt(testEnv.Client);
@@ -164,9 +172,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenRejectFlow
                 {
 					OwnerId = receiverAccountId,
-					NftIds = [nftTokenId.Nft(nftSerials[0]), nftTokenId.Nft(nftSerials[1])]
+					NftIds = [nftTokenId.Nft(nftSerials[0]), nftTokenId.Nft(nftSerials[1])],
+					FreezeWithClient = testEnv.Client,
 				}
-                    .FreezeWith(testEnv.Client)
                     .Sign(receiverAccountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
@@ -185,7 +193,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new TransferTransaction().AddNftTransfer(nftTokenId.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
-                }); Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
+                });
+                
+                Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
+
                 new TokenDeleteTransaction
                 {
 					TokenId = nftTokenId
@@ -207,8 +218,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenId = nftTokenId1,
 					Metadata = NftMetadataGenerator.Generate((byte)10)
 				}
-                    .Execute(testEnv.Client)
-                    .GetReceipt(testEnv.Client);
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
                 var nftSerials = mintReceiptToken.Serials;
 
                 // manually associate bft
@@ -233,9 +244,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new TokenRejectFlow
                     {
 						OwnerId = receiverAccountId,
-						NftIds = [ nftTokenId1.Nft(nftSerials[1]) ]
+						NftIds = [ nftTokenId1.Nft(nftSerials[1]) ],
+						FreezeWithClient = testEnv.Client,
 					}
-                    .FreezeWith = testEnv.Client)
                     .Sign(receiverAccountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);

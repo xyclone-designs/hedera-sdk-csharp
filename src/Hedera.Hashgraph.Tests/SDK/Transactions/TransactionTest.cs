@@ -172,7 +172,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2SingleNodeSingleChunk()
         {
-            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents("test content".GetBytes()).SetNodeAccountIds(Arrays.AsList(nodeAccountID1)).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
+            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents(Encoding.UTF8.GetBytes("test content")).SetNodeAccountIds(Arrays.AsList(nodeAccountID1)).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
             Assert.Single(signatures);
@@ -186,7 +186,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2MultipleNodesSingleChunk()
         {
-            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents("test content".GetBytes()).SetNodeAccountIds(nodeAccountIDs).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
+            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents(Encoding.UTF8.GetBytes("test content")).SetNodeAccountIds(nodeAccountIDs).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID2);
             Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
@@ -233,7 +233,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2WrongNodeID()
         {
-            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents("test content".GetBytes()).SetNodeAccountIds(nodeAccountIDs).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
+            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents(Encoding.UTF8.GetBytes("test content")).SetNodeAccountIds(nodeAccountIDs).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
             AccountId invalidNodeID = AccountId.FromString("0.0.999");
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, invalidNodeID);
             Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
@@ -242,7 +242,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2WrongTransactionID()
         {
-            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents("test content".GetBytes()).SetNodeAccountIds(nodeAccountIDs).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
+            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents(Encoding.UTF8.GetBytes("test content")).SetNodeAccountIds(nodeAccountIDs).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
             TransactionId invalidTxID = TransactionId.WithValidStart(AccountId.FromString("0.0.999"), DateTimeOffset.UtcNow);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, invalidTxID, nodeAccountID1);
             Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
@@ -254,7 +254,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2SameSignatureTwice()
         {
-            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents("test content".GetBytes()).SetNodeAccountIds(Arrays.AsList(nodeAccountID1)).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
+            var transaction = new FileAppendTransaction().SetFileId(fileID).SetContents(Encoding.UTF8.GetBytes("test content")).SetNodeAccountIds(Arrays.AsList(nodeAccountID1)).SetTransactionId(testTransactionID).SetChunkSize(2048).FreezeWith(client);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();

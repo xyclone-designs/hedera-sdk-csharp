@@ -234,7 +234,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             PrivateKey feeScheduleKey = PrivateKey.GenerateECDSA();
             TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.SetFeeScheduleKey(feeScheduleKey);
+            topicUpdateTransactionFeeScheduleKey = feeScheduleKey,;
             Assert.Equal(topicUpdateTransaction.GetFeeScheduleKey().ToString(), feeScheduleKey.ToString());
         }
 

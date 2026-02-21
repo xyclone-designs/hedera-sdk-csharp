@@ -1,21 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Hashgraph.Sdk.Test.Integration.EntityHelper;
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Fees;
-using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -32,7 +22,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction
+                {
+                    TokenId = nftID,
+                    Metadata = NftMetadataGenerator.Generate((byte)10)
+
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceipt.Serials;
 
                 // create receiver with unlimited auto associations and receiverSig = false
@@ -40,17 +35,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, receiverAccountKey, -1);
 
                 // airdrop the tokens
-                new TokenAirdropTransaction().AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAirdropTransaction()
+                    .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId)
+                    .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
+                    .AddTokenTransfer(tokenID, receiverAccountId, amount)
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // verify the receiver holds the tokens via query
-                var receiverAccountBalance = new AccountBalanceQuery().SetAccountId(receiverAccountId).Execute(testEnv.Client);
-                Assert.Equal(amount, receiverAccountBalance.tokens[tokenID]);
-                Assert.Equal(2, receiverAccountBalance.tokens[nftID]);
+                var receiverAccountBalance = new AccountBalanceQuery { AccountId = receiverAccountId }.Execute(testEnv.Client);
+                
+                Assert.Equal((ulong)amount, receiverAccountBalance.Tokens[tokenID]);
+                Assert.Equal((ulong)2, receiverAccountBalance.Tokens[nftID]);
 
                 // verify the operator does not hold the tokens
-                var operatorBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.tokens[tokenID]);
-                Assert.Equal(mitedNfts - 2, operatorBalance.tokens[nftID]);
+                var operatorBalance = new AccountBalanceQuery { AccountId = testEnv.OperatorId, }.Execute(testEnv.Client);
+                
+                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -64,7 +65,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction 
+                {
+					TokenId = nftID,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceipt.Serials;
 
                 // create receiver with 0 auto associations and receiverSig = false
@@ -72,23 +78,30 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, receiverAccountKey, 0);
 
                 // airdrop the tokens
-                var txn = new TokenAirdropTransaction().AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client);
-                txn.SetValidateStatus(true).GetReceipt(testEnv.Client);
+                var txn = new TokenAirdropTransaction
+                {
+					ValidateStatus = true
+				}
+                    .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId)
+                    .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
+                    .AddTokenTransfer(tokenID, receiverAccountId, amount)
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client);
+                txn.GetReceipt(testEnv.Client);
                 var record = txn.GetRecord(testEnv.Client);
 
                 // verify in the transaction record the pending airdrops
-                Assert.NotNull(record.pendingAirdropRecords);
-                Assert.False(record.pendingAirdropRecords.IsEmpty());
+                Assert.NotNull(record.PendingAirdropRecords);
+                Assert.False(record.PendingAirdropRecords.Count == 0);
 
                 // verify the receiver does not hold the tokens via query
-                var receiverAccountBalance = new AccountBalanceQuery().SetAccountId(receiverAccountId).Execute(testEnv.Client);
-                Assert.Null(receiverAccountBalance.tokens[tokenID]);
-                Assert.Null(receiverAccountBalance.tokens[nftID]);
+                var receiverAccountBalance = new AccountBalanceQuery { AccountId = receiverAccountId }.Execute(testEnv.Client);
+                Assert.Null(receiverAccountBalance.Tokens[tokenID]);
+                Assert.Null(receiverAccountBalance.Tokens[nftID]);
 
                 // verify the operator does hold the tokens
-                var operatorBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance, operatorBalance.tokens[tokenID]);
-                Assert.Equal(mitedNfts, operatorBalance.tokens[nftID]);
+                var operatorBalance = new AccountBalanceQuery()AccountId = testEnv.OperatorId,.Execute(testEnv.Client);
+                Assert.Equal(fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -102,7 +115,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction 
+                {
+					TokenId = nftID,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceipt.Serials;
 
                 // airdrop the tokens to an alias
@@ -111,17 +129,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AccountId aliasAccountId = publicKey.ToAccountId(0, 0);
 
                 // should lazy-create and transfer the tokens
-                new TokenAirdropTransaction().AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, aliasAccountId).AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, aliasAccountId).AddTokenTransfer(tokenID, aliasAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAirdropTransaction()
+                    .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, aliasAccountId)
+                    .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, aliasAccountId)
+                    .AddTokenTransfer(tokenID, aliasAccountId, amount)
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // verify the receiver holds the tokens via query
-                var receiverAccountBalance = new AccountBalanceQuery().SetAccountId(aliasAccountId).Execute(testEnv.Client);
-                Assert.Equal(amount, receiverAccountBalance.tokens[tokenID]);
-                Assert.Equal(2, receiverAccountBalance.tokens[nftID]);
+                var receiverAccountBalance = new AccountBalanceQuery { AccountId = aliasAccountId }.Execute(testEnv.Client);
+                Assert.Equal((ulong)amount, receiverAccountBalance.Tokens[tokenID]);
+                Assert.Equal((ulong)2, receiverAccountBalance.Tokens[nftID]);
 
                 // verify the operator does not hold the tokens
-                var operatorBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.tokens[tokenID]);
-                Assert.Equal(mitedNfts - 2, operatorBalance.tokens[nftID]);
+                var operatorBalance = new AccountBalanceQuery { AccountId = testEnv.OperatorId, }.Execute(testEnv.Client);
+                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -129,7 +151,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-
                 // create receiver unlimited auto associations and receiverSig = false
                 var receiverAccountKey = PrivateKey.GenerateED25519();
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, receiverAccountKey, -1);
@@ -138,32 +159,71 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var customFeeTokenID = EntityHelper.CreateFungibleToken(testEnv, 3);
 
                 // make the custom fee to be paid by the sender and the fee collector to be the operator account
-                CustomFixedFee fee = new CustomFixedFee().SetFeeCollectorAccountId(testEnv.OperatorId).SetDenominatingTokenId(customFeeTokenID).SetAmount(1).SetAllCollectorsAreExempt(true);
-                var tokenID = new TokenCreateTransaction().SetTokenName("Test Fungible Token").SetTokenSymbol("TFT").SetTokenMemo = "I was created for integration tests",Decimals = 3,InitialSupply = fungibleInitialBalance,MaxSupply = fungibleInitialBalance,TreasuryAccountId = testEnv.OperatorId,SupplyType = TokenSupplyType.Finite)AdminKey = testEnv.OperatorKey,FreezeKey = testEnv.OperatorKey,SupplyKey = testEnv.OperatorKey,.SetMetadataKey(testEnv.OperatorKey).SetPauseKey(testEnv.OperatorKey).SetCustomFees([fee]).Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                CustomFixedFee fee = new CustomFixedFee
+                {
+					FeeCollectorAccountId = testEnv.OperatorId,
+					DenominatingTokenId = customFeeTokenID,
+					Amount = 1,
+					AllCollectorsAreExempt = true,
+				};
+                var tokenID = new TokenCreateTransaction
+                {
+					TokenName = "Test Fungible Token",
+					TokenSymbol = "TFT",
+					TokenMemo = "I was created for integration tests",
+					Decimals = 3,
+					InitialSupply = fungibleInitialBalance,
+					MaxSupply = fungibleInitialBalance,
+					TreasuryAccountId = testEnv.OperatorId,
+					TokenSupplyType = TokenSupplyType.Finite,
+					AdminKey = testEnv.OperatorKey,
+					FreezeKey = testEnv.OperatorKey,
+					SupplyKey = testEnv.OperatorKey,
+					MetadataKey = testEnv.OperatorKey,
+					PauseKey = testEnv.OperatorKey,
+					CustomFees = [fee]
+				}
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
 
                 // create sender account with unlimited associations and send some tokens to it
                 var senderKey = PrivateKey.GenerateED25519();
                 var senderAccountID = EntityHelper.CreateAccount(testEnv, senderKey, -1);
 
                 // associate the token to the sender
-                new TokenAssociateTransaction().SetAccountId(senderAccountID).SetTokenIds([customFeeTokenID]).FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = senderAccountID,
+					TokenIds = [customFeeTokenID]
+				
+                }.FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // send tokens to the sender
-                new TransferTransaction().AddTokenTransfer(customFeeTokenID, testEnv.OperatorId, -amount).AddTokenTransfer(customFeeTokenID, senderAccountID, amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new TransferTransaction().AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).AddTokenTransfer(tokenID, senderAccountID, amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddTokenTransfer(customFeeTokenID, testEnv.OperatorId, -amount)
+                    .AddTokenTransfer(customFeeTokenID, senderAccountID, amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount)
+                    .AddTokenTransfer(tokenID, senderAccountID, amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // airdrop the tokens from the sender to the receiver
-                new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, senderAccountID, -amount).FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAirdropTransaction()
+                    .AddTokenTransfer(tokenID, receiverAccountId, amount)
+                    .AddTokenTransfer(tokenID, senderAccountID, -amount).FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // verify the custom fee has been paid by the sender to the collector
-                var receiverAccountBalance = new AccountBalanceQuery().SetAccountId(receiverAccountId).Execute(testEnv.Client);
-                Assert.Equal(amount, receiverAccountBalance.tokens[tokenID]);
-                var senderAccountBalance = new AccountBalanceQuery().SetAccountId(senderAccountID).Execute(testEnv.Client);
-                Assert.Equal(0, senderAccountBalance.tokens[tokenID]);
-                Assert.Equal(amount - 1, senderAccountBalance.tokens[customFeeTokenID]);
-                var operatorBalance = new AccountBalanceQuery().SetAccountId(testEnv.OperatorId).Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance - amount + 1, operatorBalance.tokens[customFeeTokenID]);
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.tokens[tokenID]);
+                var receiverAccountBalance = new AccountBalanceQuery { AccountId = receiverAccountId }.Execute(testEnv.Client);
+                
+                Assert.Equal((ulong)amount, receiverAccountBalance.Tokens[tokenID]);
+                
+                var senderAccountBalance = new AccountBalanceQuery { AccountId = senderAccountID }.Execute(testEnv.Client);
+                
+                Assert.Equal((ulong)0, senderAccountBalance.Tokens[tokenID]);
+                Assert.Equal((ulong)amount - 1, senderAccountBalance.Tokens[customFeeTokenID]);
+                
+                var operatorBalance = new AccountBalanceQuery { AccountId = testEnv.OperatorId, }.Execute(testEnv.Client);
+                
+                Assert.Equal(fungibleInitialBalance - amount + 1, operatorBalance.Tokens[customFeeTokenID]);
+                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
             }
         }
 
@@ -177,10 +237,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // create receiver with unlimited auto associations and receiverSig = true
                 var receiverAccountKey = PrivateKey.GenerateED25519();
-                var receiverAccountId = new AccountCreateTransaction()Key = receiverAccountKey,InitialBalance = new Hbar(1),ReceiverSigRequired = true, SetMaxAutomaticTokenAssociations = -1.FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverAccountKey,
+					InitialBalance = new Hbar(1),
+					ReceiverSigRequired = true,
+					MaxAutomaticTokenAssociations = -1
+				
+                }.FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
 
                 // airdrop the tokens
-                new TokenAirdropTransaction().AddTokenTransfer(tokenID, receiverAccountId, amount).AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAirdropTransaction()
+                    .AddTokenTransfer(tokenID, receiverAccountId, amount)
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -193,15 +262,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = nftID,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceipt.Serials;
 
                 // create receiver with unlimited auto associations and receiverSig = true
                 var receiverAccountKey = PrivateKey.GenerateED25519();
-                var receiverAccountId = new AccountCreateTransaction()Key = receiverAccountKey,InitialBalance = new Hbar(1),ReceiverSigRequired = true, SetMaxAutomaticTokenAssociations = -1.FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverAccountKey,
+					InitialBalance = new Hbar(1),
+					ReceiverSigRequired = true,
+					MaxAutomaticTokenAssociations = -1
+				
+                }.FreezeWith(testEnv.Client).Sign(receiverAccountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
 
                 // airdrop the tokens
-                new TokenAirdropTransaction().AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TokenAirdropTransaction()
+                    .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId)
+                    .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -222,17 +305,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var senderAccountID = EntityHelper.CreateAccount(testEnv, senderKey, -1);
 
                 // transfer ft to sender
-                new TransferTransaction().AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).AddTokenTransfer(tokenID, senderAccountID, amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount)
+                    .AddTokenTransfer(tokenID, senderAccountID, amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // approve allowance to the spender
-                new AccountAllowanceApproveTransaction().ApproveTokenAllowance(tokenID, senderAccountID, spenderAccountID, amount).FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new AccountAllowanceApproveTransaction()
+                    .ApproveTokenAllowance(tokenID, senderAccountID, spenderAccountID, amount).FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // airdrop the tokens from the sender to the spender via approval
                 // fails with NOT_SUPPORTED
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenAirdropTransaction().AddTokenTransfer(tokenID, spenderAccountID, amount).AddApprovedTokenTransfer(tokenID, spenderAccountID, -amount).SetTransactionId(TransactionId.Generate(spenderAccountID)).FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.NOT_SUPPORTED.ToString(), exception.Message);
+                    new TokenAirdropTransaction
+                    {
+                        TransactionId = TransactionId.Generate(spenderAccountID) 
+                    }
+                    .AddTokenTransfer(tokenID, spenderAccountID, amount)
+                    .AddApprovedTokenTransfer(tokenID, spenderAccountID, -amount)
+                    .FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                }); 
+                
+                Assert.Contains(ResponseStatus.NotSupported.ToString(), exception.Message);
             }
         }
 
@@ -245,7 +339,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nftID = EntityHelper.CreateNft(testEnv);
 
                 // mint some NFTs
-                var mintReceipt = new TokenMintTransaction().SetTokenId(nftID).SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceipt = new TokenMintTransaction
+                {
+					TokenId = nftID,
+					Metadata = NftMetadataGenerator.Generate((byte)10)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceipt.Serials;
 
                 // create spender and approve to it some tokens
@@ -257,17 +356,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var senderAccountID = EntityHelper.CreateAccount(testEnv, senderKey, -1);
 
                 // transfer ft to sender
-                new TransferTransaction().AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, senderAccountID).AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, senderAccountID).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, senderAccountID)
+                    .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, senderAccountID).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // approve allowance to the spender
-                new AccountAllowanceApproveTransaction().ApproveTokenNftAllowance(nftID.Nft(nftSerials[0]), senderAccountID, spenderAccountID).ApproveTokenNftAllowance(nftID.Nft(nftSerials[1]), senderAccountID, spenderAccountID).FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new AccountAllowanceApproveTransaction()
+                    .ApproveTokenNftAllowance(nftID.Nft(nftSerials[0]), senderAccountID, spenderAccountID)
+                    .ApproveTokenNftAllowance(nftID.Nft(nftSerials[1]), senderAccountID, spenderAccountID).FreezeWith(testEnv.Client).Sign(senderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // airdrop the tokens from the sender to the spender via approval
                 // fails with NOT_SUPPORTED
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenAirdropTransaction().AddApprovedNftTransfer(nftID.Nft(nftSerials[0]), senderAccountID, spenderAccountID).AddApprovedNftTransfer(nftID.Nft(nftSerials[1]), senderAccountID, spenderAccountID).SetTransactionId(TransactionId.Generate(spenderAccountID)).FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.NOT_SUPPORTED.ToString(), exception.Message);
+                    new TokenAirdropTransaction
+                    {
+						TransactionId = TransactionId.Generate(spenderAccountID)
+					}
+                    .AddApprovedNftTransfer(nftID.Nft(nftSerials[0]), senderAccountID, spenderAccountID)
+                    .AddApprovedNftTransfer(nftID.Nft(nftSerials[1]), senderAccountID, spenderAccountID).FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                }); 
+                
+                Assert.Contains(ResponseStatus.NotSupported.ToString(), exception.Message);
             }
         }
 
@@ -281,17 +391,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
                     new TokenAirdropTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.EMPTY_TOKEN_TRANSFER_BODY.ToString(), exception.Message);
+                }); 
+                
+                Assert.Contains(ResponseStatus.EmptyTokenTransferBody.ToString(), exception.Message);
 
                 // create fungible token
                 var tokenID = EntityHelper.CreateFungibleToken(testEnv, 3);
 
                 // airdrop with invalid transfers
                 // fails with INVALID_TRANSACTION_BODY
-                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
+                PrecheckStatusException exception2 = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    new TokenAirdropTransaction().AddTokenTransfer(tokenID, testEnv.OperatorId, 100).AddTokenTransfer(tokenID, testEnv.OperatorId, 100).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }); Assert.Contains(ResponseStatus.INVALID_TRANSACTION_BODY.ToString(), exception.Message);
+                    new TokenAirdropTransaction()
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, 100)
+                    .AddTokenTransfer(tokenID, testEnv.OperatorId, 100).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                }); 
+                
+                Assert.Contains(ResponseStatus.InvalidTransaction.ToString(), exception2.Message);
             }
         }
     }

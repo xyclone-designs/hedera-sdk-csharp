@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api;
-using Com.Hedera.Hashgraph;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
+
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Exceptions;
@@ -41,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var contractId = response.GetReceipt(testEnv.Client).ContractId;
                 
                 Assert.True(contractId.GetHashCode() > 0);
-                AssertThat(contractId.CompareTo(ContractId.FromBytes(contractId.ToBytes()))).IsZero();
+                Assert.True(contractId.CompareTo(ContractId.FromBytes(contractId.ToBytes())) == 0);
 
                 var info = new ContractInfoQuery
                 {
@@ -246,7 +239,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     infoQuery.QueryPayment = Hbar.FromTinybars(1);
                     infoQuery.Execute(testEnv.Client);
 
-                }); Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE"));
+                }); Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE");
 
                 new ContractDeleteTransaction
                 {

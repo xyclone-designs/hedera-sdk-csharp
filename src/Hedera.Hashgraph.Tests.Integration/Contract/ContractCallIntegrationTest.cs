@@ -42,17 +42,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 var gas = new MirrorNodeContractEstimateGasQuery
                 {
-					ContractId = contractId,
-					Function = "getMessage",
-
-				}.Execute(testEnv.Client);
+					ContractId = contractId,	
+				}
+                .SetFunction("getMessage")
+                .Execute(testEnv.Client);
                 var callQuery = new ContractCallQuery
                 {
 					ContractId = contractId,
 					Gas = gas,
-					Function = "getMessage",
-					QueryPayment = new Hbar(1),
-				};
+					QueryPayment = new Hbar(1)
+				
+                }.SetFunction("getMessage");
                 var result = callQuery.Execute(testEnv.Client);
 
                 Assert.Equal(result.GetString(0), "Hello from Hedera.");
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 					}.Execute(testEnv.Client);
                 
-                }); Assert.Contains(ResponseStatus.CONTRACT_REVERT_EXECUTED.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.ContractRevertExecuted.ToString(), exception.Message);
 
                 new ContractDeleteTransaction
                 {
@@ -148,11 +148,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new ContractCallQuery
                     {
 						ContractId = contractId,
-						Function = "getMessage",
-
-					}.Execute(testEnv.Client);
+					}
+				    .SetFunction("getMessage")
+                    .Execute(testEnv.Client);
                 
-                }); Assert.Contains(ResponseStatus.INSUFFICIENT_GAS.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.InsufficientGas.ToString(), exception.Message);
 
                 new ContractDeleteTransaction
                 {
@@ -195,12 +195,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     new ContractCallQuery
                     {
-						Gas = 100000,
-						Function = "getMessage",
-					}
-                    .Execute(testEnv.Client);
+                        Gas = 100000,
+                    }
+                    .SetFunction("getMessage")
+					.Execute(testEnv.Client);
                 
-                }); Assert.Contains(ResponseStatus.INVALID_CONTRACT_ID.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.InvalidContractId.ToString(), exception.Message);
 
                 new ContractDeleteTransaction
                 {
@@ -246,17 +246,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 long gas = new MirrorNodeContractEstimateGasQuery
                 {
 					ContractId = contractId,
-					Function = "getMessage",
-
-				}.Execute(testEnv.Client);
+				}
+				.SetFunction("getMessage")
+				.Execute(testEnv.Client);
                 var callQuery = new ContractCallQuery
                 {
 					ContractId = contractId,
 					Gas = gas,
-					Function = "getMessage",
 					QueryPayment = new Hbar(1),
-				};
-                var result = callQuery.Execute(testEnv.Client);
+
+				}.SetFunction("getMessage");
+				var result = callQuery.Execute(testEnv.Client);
                 Assert.Equal(result.GetString(0), "Hello from Hedera.");
                 new ContractDeleteTransaction
                 {
@@ -302,17 +302,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var gas = new MirrorNodeContractEstimateGasQuery
                 {
 					ContractId = contractId,
-					Function = "getMessage",
-
-				}.Execute(testEnv.Client);
+				}
+				.SetFunction("getMessage")
+				.Execute(testEnv.Client);
                 var callQuery = new ContractCallQuery
                 {
 					ContractId = contractId,
 					Gas = gas,
-					Function = "getMessage",
 					MaxQueryPayment = Hbar.FromTinybars(1)
-				};
-                MaxQueryPaymentExceededException exception = Assert.Throws<MaxQueryPaymentExceededException>(() =>
+
+				}.SetFunction("getMessage");
+			MaxQueryPaymentExceededException exception = Assert.Throws<MaxQueryPaymentExceededException>(() =>
                 {
                     callQuery.Execute(testEnv.Client);
                 });
@@ -359,24 +359,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 var gas = new MirrorNodeContractEstimateGasQuery
                 {
-					ContractId = contractId,
-					Function = "getMessage",
-
-				}.Execute(testEnv.Client);
+					ContractId = contractId,	
+				}
+				.SetFunction("getMessage")
+                .Execute(testEnv.Client);
                 var callQuery = new ContractCallQuery
                 {
 					ContractId = contractId,
 					Gas = gas,
-					Function = "getMessage",
 					MaxQueryPayment = new Hbar(100)
-				};
+
+				}.SetFunction("getMessage");
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                 {
-                    callQuery
-                    .SetQueryPayment(Hbar.FromTinybars(1))
-                    .Execute(testEnv.Client);
+                    callQuery.QueryPayment = Hbar.FromTinybars(1);
+					callQuery.Execute(testEnv.Client);
 
-                }); Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE"));
+                }); Assert.Equal(exception.Status.ToString(), "INSUFFICIENT_TX_FEE");
 
                 new ContractDeleteTransaction
                 {

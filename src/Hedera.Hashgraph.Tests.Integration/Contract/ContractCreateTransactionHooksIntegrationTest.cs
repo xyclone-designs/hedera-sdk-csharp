@@ -3,6 +3,7 @@ using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
+using Hedera.Hashgraph.SDK.Keys;
 using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
@@ -84,7 +85,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-				}); Assert.Contains(ResponseStatus.HOOK_ID_REPEATED_IN_CREATION_DETAILS.ToString(), exception.Message);
+				}); Assert.Contains(ResponseStatus.HookIdRepeatedInCreationDetails.ToString(), exception.Message);
             }
         }
 

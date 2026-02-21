@@ -17,8 +17,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new AccountCreateTransaction
                 {
                     InitialBalance = new Hbar(1),
+					Key = key,
 				}
-                Key = key,
 				.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction
@@ -59,7 +59,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
         public virtual void CannotUnfreezeAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -68,8 +67,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new AccountCreateTransaction
                 {
 					InitialBalance = new Hbar(1),
-                }
-				Key = key,
+					Key = key,
+				}
 				.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
@@ -86,7 +85,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
-
         public virtual void CannotUnfreezeAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -122,7 +120,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}); Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
-
         public virtual void CannotUnfreezeAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -130,9 +127,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-                Key = key,
                 .Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction

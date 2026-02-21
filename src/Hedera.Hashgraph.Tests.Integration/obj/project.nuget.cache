@@ -26,15 +26,5 @@
     "C:\\Users\\Thando Ndlovu\\.nuget\\packages\\xunit.extensibility.execution\\2.9.3\\xunit.extensibility.execution.2.9.3.nupkg.sha512",
     "C:\\Users\\Thando Ndlovu\\.nuget\\packages\\xunit.runner.visualstudio\\3.1.5\\xunit.runner.visualstudio.3.1.5.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.",
-      "projectPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
-      "targetGraphs": []
-    }
-  ]
+  "logs": []
 }

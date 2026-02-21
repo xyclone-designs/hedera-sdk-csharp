@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					MaxQueryPayment = new Hbar(1000)
 
 				}.Execute(testEnv.Client);
-				Assert.Equal(bytecode.CoLenunt, 798);
+				Assert.Equal(bytecodeQuery.Length, 798);
 				new ContractDeleteTransaction()
 				{
 					TransferAccountId = testEnv.OperatorId,

@@ -270,17 +270,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
+                var info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 0);
                 Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetTopicId(topicId).SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS).FreezeWith(testEnv.Client).Sign(privateKey);
+                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction()TopicId = topicId,.SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS).FreezeWith(testEnv.Client).Sign(privateKey);
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction fileAppendTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var transactionBytesReserialized = fileAppendTransactionDeserialized.ToBytes();
                 Assert.Equal(transactionBytesSerialized, transactionBytesReserialized);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TopicDeleteTransaction()TopicId = topicId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -291,12 +291,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
+                var info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 0);
                 Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetTopicId(topicId).SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
+                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction()TopicId = topicId,.SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction topicMessageSubmitTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.Client);
@@ -305,12 +305,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     resp.GetReceipt(testEnv.Client);
                 }
 
-                info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
+                info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 14);
                 Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TopicDeleteTransaction()TopicId = topicId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -322,12 +322,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
+                var info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 0);
                 Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetNodeAccountIds(nodeAccountIds).SetTopicId(topicId).SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
+                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetNodeAccountIds(nodeAccountIds)TopicId = topicId,.SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction topicMessageSubmitTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.Client);
@@ -336,12 +336,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     resp.GetReceipt(testEnv.Client);
                 }
 
-                info = new TopicInfoQuery().SetTopicId(topicId).Execute(testEnv.Client);
+                info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
                 Assert.Equal(info.topicId, topicId);
                 Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
                 Assert.Equal(info.sequenceNumber, 14);
                 Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                new TopicDeleteTransaction().SetTopicId(topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TopicDeleteTransaction()TopicId = topicId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 

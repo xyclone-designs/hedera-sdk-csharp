@@ -20,17 +20,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var accountMaxAutomaticTokenAssociations = 1;
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, accountKey, accountMaxAutomaticTokenAssociations);
                 var accountInfoBeforeTokenAssociation = new AccountInfoQuery { AccountId = receiverAccountId }.Execute(testEnv.Client);
+                
                 Assert.Equal(accountInfoBeforeTokenAssociation.MaxAutomaticTokenAssociations, 1);
                 Assert.Equal(accountInfoBeforeTokenAssociation.TokenRelationships.Count, 0);
+
                 var transferRecord = new TransferTransaction()
                     .AddTokenTransfer(tokenId1, testEnv.OperatorId, -1)
                     .AddTokenTransfer(tokenId1, receiverAccountId, 1).Execute(testEnv.Client).GetRecord(testEnv.Client);
+                
                 Assert.Equal(transferRecord.AutomaticTokenAssociations.Count, 1);
                 Assert.Equal(transferRecord.AutomaticTokenAssociations[0].AccountId, receiverAccountId);
                 Assert.Equal(transferRecord.AutomaticTokenAssociations[0].TokenId, tokenId1);
+
                 var accountInfoAfterTokenAssociation = new AccountInfoQuery { AccountId = receiverAccountId }.Execute(testEnv.Client);
+                
                 Assert.Equal(accountInfoAfterTokenAssociation.TokenRelationships.Count, 1);
                 Assert.True(accountInfoAfterTokenAssociation.TokenRelationships[tokenId1].AutomaticAssociation);
+
                 Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new TransferTransaction()
@@ -69,9 +75,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(accountInfoBeforeTokenAssociation.MaxAutomaticTokenAssociations, 1);
                 Assert.Equal(accountInfoBeforeTokenAssociation.TokenRelationships.Count, 0);
                 
-                var serialsToTransfer = [.. mintReceiptToken2.Serials];
                 var nftTransferTransaction = new TransferTransaction();
-                foreach (var serial in serialsToTransfer)
+                foreach (var serial in mintReceiptToken2.Serials)
                 {
                     nftTransferTransaction.AddNftTransfer(tokenId1.Nft(serial), testEnv.OperatorId, receiverAccountId);
                 }
@@ -89,7 +94,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Exception exception = Assert.Throws<Exception>(() =>
                 {
                     var serial = mintReceiptToken2.Serials[0];
-                    new TransferTransaction().AddNftTransfer(tokenId2.Nft(serial), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                    new TransferTransaction()
+                    .AddNftTransfer(tokenId2.Nft(serial), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 }); Assert.Contains("NO_REMAINING_AUTOMATIC_ASSOCIATIONS", exception.Message);
                 
                 new AccountUpdateTransaction
@@ -188,11 +194,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var tokenDecimals = 10;
+                uint tokenDecimals = 10;
                 var tokenId1 = EntityHelper.CreateFungibleToken(testEnv, tokenDecimals);
                 var tokenId2 = EntityHelper.CreateFungibleToken(testEnv, tokenDecimals);
                 var accountKey = PrivateKey.GenerateED25519();
                 var receiverAccountId = EntityHelper.CreateAccount(testEnv, accountKey, -1);
+
                 new TransferTransaction()
                     .AddTokenTransferWithDecimals(tokenId1, testEnv.OperatorId, -1000, tokenDecimals)
                     .AddTokenTransferWithDecimals(tokenId1, receiverAccountId, 1000, tokenDecimals)
@@ -223,6 +230,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var accountId = EntityHelper.CreateAccount(testEnv, accountKey, -1);
                 var spenderAccountKey = PrivateKey.GenerateED25519();
                 var spenderAccountId = EntityHelper.CreateAccount(testEnv, spenderAccountKey, -1);
+
                 new AccountAllowanceApproveTransaction()
                     .ApproveTokenAllowance(tokenId1, testEnv.OperatorId, spenderAccountId, 2000)
                     .ApproveTokenAllowance(tokenId2, testEnv.OperatorId, spenderAccountId, 2000)
@@ -263,6 +271,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var mintReceiptToken1 = new TokenMintTransaction { TokenId = tokenId1, Metadata = NftMetadataGenerator.Generate((byte)10) }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var mintReceiptToken2 = new TokenMintTransaction { TokenId = tokenId2, Metadata = NftMetadataGenerator.Generate((byte)10) }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceiptToken2.Serials;
+
                 new AccountUpdateTransaction
                 {
 					AccountId = accountId2,
@@ -271,10 +280,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // transfer nft1 to both receivers, 2 for each
-                new TransferTransaction().AddNftTransfer(tokenId1.Nft(nftSerials[0]), testEnv.OperatorId, accountId1).AddNftTransfer(tokenId1.Nft(nftSerials[1]), testEnv.OperatorId, accountId1).AddNftTransfer(tokenId1.Nft(nftSerials[2]), testEnv.OperatorId, accountId2).AddNftTransfer(tokenId1.Nft(nftSerials[3]), testEnv.OperatorId, accountId2).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddNftTransfer(tokenId1.Nft(nftSerials[0]), testEnv.OperatorId, accountId1)
+                    .AddNftTransfer(tokenId1.Nft(nftSerials[1]), testEnv.OperatorId, accountId1)
+                    .AddNftTransfer(tokenId1.Nft(nftSerials[2]), testEnv.OperatorId, accountId2)
+                    .AddNftTransfer(tokenId1.Nft(nftSerials[3]), testEnv.OperatorId, accountId2).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // transfer nft2 to both receivers, 2 for each
-                new TransferTransaction().AddNftTransfer(tokenId2.Nft(nftSerials[0]), testEnv.OperatorId, accountId1).AddNftTransfer(tokenId2.Nft(nftSerials[1]), testEnv.OperatorId, accountId1).AddNftTransfer(tokenId2.Nft(nftSerials[2]), testEnv.OperatorId, accountId2).AddNftTransfer(tokenId2.Nft(nftSerials[3]), testEnv.OperatorId, accountId2).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new TransferTransaction()
+                    .AddNftTransfer(tokenId2.Nft(nftSerials[0]), testEnv.OperatorId, accountId1)
+                    .AddNftTransfer(tokenId2.Nft(nftSerials[1]), testEnv.OperatorId, accountId1)
+                    .AddNftTransfer(tokenId2.Nft(nftSerials[2]), testEnv.OperatorId, accountId2)
+                    .AddNftTransfer(tokenId2.Nft(nftSerials[3]), testEnv.OperatorId, accountId2).Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // verify the balance of the receivers is 2
                 var accountId1Balance = new AccountBalanceQuery { AccountId = accountId1 }.Execute(testEnv.Client);
@@ -302,8 +319,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var accountId = EntityHelper.CreateAccount(testEnv, accountKey, -1);
                 var spenderAccountKey = PrivateKey.GenerateED25519();
                 var spenderAccountId = EntityHelper.CreateAccount(testEnv, spenderAccountKey, -1);
-                var mintReceiptToken1 = new TokenMintTransaction { TokenId = tokenId1 }.SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var mintReceiptToken2 = new TokenMintTransaction { TokenId = tokenId2 }.SetMetadata(NftMetadataGenerator.Generate((byte)10)).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceiptToken1 = new TokenMintTransaction { TokenId = tokenId1, Metadata = NftMetadataGenerator.Generate((byte)10) }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var mintReceiptToken2 = new TokenMintTransaction { TokenId = tokenId2, Metadata = NftMetadataGenerator.Generate((byte)10) }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var nftSerials = mintReceiptToken2.Serials;
                 
                 new AccountAllowanceApproveTransaction()
@@ -312,18 +329,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                new TransferTransaction()
+                new TransferTransaction
+                {
+					TransactionId = TransactionId.Generate(spenderAccountId)
+				}
                     .AddApprovedNftTransfer(tokenId1.Nft(nftSerials[0]), testEnv.OperatorId, accountId)
                     .AddApprovedNftTransfer(tokenId1.Nft(nftSerials[1]), testEnv.OperatorId, accountId)
                     .AddApprovedNftTransfer(tokenId2.Nft(nftSerials[0]), testEnv.OperatorId, accountId)
                     .AddApprovedNftTransfer(tokenId2.Nft(nftSerials[1]), testEnv.OperatorId, accountId)
-                    .SetTransactionId(TransactionId.Generate(spenderAccountId))
                     .FreezeWith(testEnv.Client)
                     .Sign(spenderAccountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
-                var accountBalance = new AccountBalanceQuery()AccountId = accountId,.Execute(testEnv.Client);
+                var accountBalance = new AccountBalanceQuery { AccountId = accountId, }.Execute(testEnv.Client);
                 
                 Assert.Equal<ulong>(accountBalance.Tokens[tokenId1], 2);
                 Assert.Equal<ulong>(accountBalance.Tokens[tokenId2], 2);

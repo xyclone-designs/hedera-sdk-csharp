@@ -23,6 +23,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
+
                 var tokenId = new TokenCreateTransaction
                 {
 					TokenName = "ffff",

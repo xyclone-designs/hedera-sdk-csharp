@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = CreateSystemAccountTestEnv())
             {
-                var initialContents = "test".GetBytes();
+                var initialContents = Encoding.UTF8.GetBytes("test");
                 var fileId = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(initialContents).SetTransactionMemo("HIP-1300 initial file").Execute(testEnv.Client).GetReceipt(testEnv.Client).fileId;
                 fileId);
                 var updatedContents = new byte[LARGE_CONTENT_SIZE_BYTES];
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 
                 // 1.  Create a small file
-                var fileId = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents("start".GetBytes()).Execute(testEnv.Client).GetReceipt(testEnv.Client).fileId;
+                var fileId = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(Encoding.UTF8.GetBytes("start")).Execute(testEnv.Client).GetReceipt(testEnv.Client).fileId;
                 fileId);
 
                 // 2.  Append large content - need to set max chunks for content over default limit

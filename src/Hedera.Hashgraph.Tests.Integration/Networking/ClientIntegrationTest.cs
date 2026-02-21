@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 testEnv.Client.SetMaxNodesPerTransaction(1);
-                var transaction = new AccountDeleteTransaction().SetAccountId(testEnv.OperatorId).FreezeWith(testEnv.Client);
+                var transaction = new AccountDeleteTransaction()AccountId = testEnv.OperatorId,.FreezeWith(testEnv.Client);
                 Assert.NotNull(transaction.GetNodeAccountIds());
                 Assert.Equal(transaction.GetNodeAccountIds().Count, 1);
             }

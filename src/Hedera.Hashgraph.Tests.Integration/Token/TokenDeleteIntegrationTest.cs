@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 				}.Execute(testEnv.Client);
 
-                response.GetReceipt(testEnv.Client).TokenId;
+                var _ = response.GetReceipt(testEnv.Client).TokenId;
             }
         }
 

@@ -101,7 +101,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }); Assert.Contains(ResponseStatus.MODIFYING_IMMUTABLE_CONTRACT.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.ModifyingImmutableContract.ToString(), exception.Message);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                         .Execute(testEnv.Client)
                         .GetReceipt(testEnv.Client);
 
-                }); Assert.Contains(ResponseStatus.INVALID_CONTRACT_ID.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.InvalidContractId.ToString(), exception.Message);
             }
         }
     }

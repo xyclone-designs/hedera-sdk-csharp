@@ -411,8 +411,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 					    Numerator = 1,
 					    Denominator = 10,
-						FallbackFee = new CustomFixedFee(),
-					    HbarAmount = new Hbar(1),
+						FallbackFee = new CustomFixedFee
+                        {
+                            AmountHbar = new Hbar(1)
+						},
 					    FeeCollectorAccountId = testEnv.OperatorId,
 					}],
 				}
@@ -542,7 +544,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenSymbol = "DT",
 					Decimals = decimals,
 					InitialSupply = expectedInitialSupply,
-					MaxSupply = expectedMaxSupply,
+					MaxSupply = (long)expectedMaxSupply,
 					TokenSupplyType = TokenSupplyType.Finite,
 					TreasuryAccountId = testEnv.OperatorId,
 					AdminKey = testEnv.OperatorKey,

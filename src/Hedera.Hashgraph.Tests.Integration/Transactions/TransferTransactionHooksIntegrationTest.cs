@@ -183,7 +183,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					TokenName = "FT-HOOK",
 					TokenSymbol = "FTH",
-					TokenType = TokenType.FUNGIBLE_COMMON,
+					TokenType = TokenType.FungibleCommon,
 					Decimals = 2,
 					InitialSupply = 10000,
 					TreasuryAccountId = testEnv.OperatorId,
@@ -217,7 +217,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Ensure the allowance hook is attached to the debited account (operator)
                 var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, new EvmHook(hookContractId));
                 new AccountUpdateTransaction()
-                    .SetAccountId(testEnv.OperatorId)
+                    AccountId = testEnv.OperatorId,
                     .AddHookToCreate(hookDetails2)
                     .SetMaxTransactionFee(Hbar.From(10))
                     .FreezeWith(testEnv.Client)

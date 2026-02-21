@@ -20,6 +20,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					InitialBalance = new Hbar(1),
 				}
                 .Execute(testEnv.Client);
+
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction
                 {
@@ -37,6 +38,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TokenId;
+                
                 new TokenAssociateTransaction
                 {
 					AccountId = accountId,
@@ -46,6 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Sign(key)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 new TokenRevokeKycTransaction
                 {
 					AccountId = accountId,

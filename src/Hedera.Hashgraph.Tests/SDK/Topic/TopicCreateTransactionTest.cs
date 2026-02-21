@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             PrivateKey feeScheduleKey = PrivateKey.GenerateECDSA();
             TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransaction.SetFeeScheduleKey(feeScheduleKey);
+            topicCreateTransactionFeeScheduleKey = feeScheduleKey,;
             Assert.Equal(topicCreateTransaction.GetFeeScheduleKey().ToString(), feeScheduleKey.ToString());
         }
 
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Key feeExemptKey2 = PrivateKey.GenerateECDSA();
             IList<Key> feeExemptKeys = Arrays.AsList(feeExemptKey1, feeExemptKey2);
             TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransaction.SetFeeExemptKeys(feeExemptKeys);
+            topicCreateTransactionFeeExemptKeys = feeExemptKeys,;
             IList<Key> retrievedKeys = topicCreateTransaction.GetFeeExemptKeys();
             for (int i = 0; i < feeExemptKeys.Count; i++)
             {

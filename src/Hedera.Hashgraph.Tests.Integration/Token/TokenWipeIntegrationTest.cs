@@ -17,9 +17,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-                Key = key,
 				.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction
@@ -37,18 +37,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					FreezeDefault = false,
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).TokenId;
+                
                 new TokenAssociateTransaction
                 {
 					AccountId = accountId,
 					TokenIds = [tokenId]
 
 				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                
                 new TokenGrantKycTransaction
                 {
 					AccountId = accountId,
 					TokenId = tokenId
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 new TransferTransaction().AddTokenTransfer(tokenId, testEnv.OperatorId, -10).AddTokenTransfer(tokenId, accountId, 10).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 new TokenWipeTransaction
                 {
@@ -67,9 +70,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-				Key = key,
                 .Execute(testEnv.Client);
 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
@@ -131,9 +134,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-				Key = key,
                 .Execute(testEnv.Client);
                 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
@@ -196,9 +199,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-				Key = key,
                 .Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var tokenId = new TokenCreateTransaction
@@ -258,9 +261,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-                Key = key,
 				.Execute(testEnv.Client);
 
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
@@ -326,9 +329,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(1)
+					InitialBalance = new Hbar(1),
+					Key = key,
 				}
-				Key = key,
                 .Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
 
