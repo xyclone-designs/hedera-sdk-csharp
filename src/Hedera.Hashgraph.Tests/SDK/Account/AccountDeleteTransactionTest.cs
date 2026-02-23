@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
@@ -28,29 +31,46 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         private AccountDeleteTransaction SpawnTestTransaction()
         {
-            return new AccountDeleteTransaction()
-                .SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")))
-                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.5007")).SetTransferAccountId(AccountId.FromString("0.0.5008")).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
+            return new AccountDeleteTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = AccountId.FromString("0.0.5007"),
+				TransferAccountId = AccountId.FromString("0.0.5008"),
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = AccountDeleteTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountDeleteTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new AccountDeleteTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountDeleteTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetCryptoDelete(CryptoDeleteTransactionBody.NewBuilder().SetDeleteAccountID(AccountId.FromString("6.6.6").ToProtobuf()).Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody()
+            {
+                CryptoDelete = new Proto.CryptoDeleteTransactionBody
+                {
+                    DeleteAccountID = AccountId.FromString("6.6.6").ToProtobuf()
+                }
+            };
+            
+            var tx = Transaction.FromScheduledTransaction<AccountDeleteTransaction>(transactionBody);
+
             Assert.IsType<AccountDeleteTransaction>(tx);
         }
     }

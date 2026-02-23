@@ -51,14 +51,16 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<FileUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FileUpdateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<FileUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -68,7 +70,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             {
                 FileUpdate = new Proto.FileUpdateTransactionBody { }
             };
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var tx = Transaction.FromScheduledTransaction<FileUpdateTransaction>(transactionBody);
+
             Assert.IsType<FileUpdateTransaction>(tx);
         }
     }

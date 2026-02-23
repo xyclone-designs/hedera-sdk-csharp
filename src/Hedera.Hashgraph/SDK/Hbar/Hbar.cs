@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.HBar
 		/// </summary>
 		/// <param name="amount">the amount</param>
 		/// <param name="unit">the unit for amount</param>
-		Hbar(long amount, HbarUnit unit)
+		internal Hbar(long amount, HbarUnit unit)
         {
             valueInTinybar = amount * unit.Tinybar;
         }
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// </summary>
         /// <param name="amount">the amount</param>
         /// <param name="unit">the unit for amount</param>
-        Hbar(BigDecimal amount, HbarUnit unit)
+        internal Hbar(BigDecimal amount, HbarUnit unit)
         {
             var tinybars = amount.Multiply(BigDecimal.ValueOf(unit.Tinybar));
 

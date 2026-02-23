@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Fees;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
@@ -66,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
             // Create a new instance using the builder
             CustomFeeLimit updatedFeeLimit = CustomFeeLimit.NewBuilder().SetAccountId(newPayerId.ToProtobuf()).AddAllFees(TEST_FEES.Stream().Map(CustomFixedFee.ToFixedFeeProtobuf()).ToList()).Build();
-            Assert.Equal(newPayerId, AccountId.FromProtobuf(updatedFeeLimit.GetAccountId()));
+            Assert.Equal(newPayerId, AccountId.FromProtobuf(updatedFeeLimit.AccountId));
         }
 
         public virtual void TestGetCustomFees()
@@ -96,10 +98,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual void TestFromProtobuf()
         {
-            var proto = CustomFeeLimit.NewBuilder().SetAccountId(TEST_PAYER_ID.ToProtobuf()).AddAllFees(TEST_FEES.Stream().Map(CustomFixedFee.ToFixedFeeProtobuf()).ToList()).Build();
-            com.hedera.hashgraph.sdk.CustomFeeLimit converted = com.hedera.hashgraph.sdk.CustomFeeLimit.FromProtobuf(proto);
-            Assert.Equal(TEST_PAYER_ID, converted.GetPayerId());
-            Assert.Equal(TEST_FEES[0].feeCollectorAccountId, converted.GetCustomFees()[0].feeCollectorAccountId);
+            var proto = new CustomFeeLimit
+            {
+				AccountId = TEST_PAYER_ID.ToProtobuf(),
+                
+			}.AddAllFees(TEST_FEES.Select(_ => _.ToFixedFeeProtobuf()));
+            
+            CustomFeeLimit converted = CustomFeeLimit.FromProtobuf(proto);
+
+            Assert.Equal(TEST_PAYER_ID, converted.PayerId);
+            Assert.Equal(TEST_FEES[0].FeeCollectorAccountId, converted.CustomFees[0].FeeCollectorAccountId);
         }
     }
 }

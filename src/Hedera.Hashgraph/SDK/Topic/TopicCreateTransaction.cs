@@ -262,7 +262,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         {
             scheduled.ConsensusCreateTopic = ToProtobuf();
         }
-        public override TopicCreateTransaction FreezeWith(Client client)
+        public override TopicCreateTransaction FreezeWith(Client? client)
         {
             if (client.OperatorAccountId != null && AutoRenewAccountId == null)
             {

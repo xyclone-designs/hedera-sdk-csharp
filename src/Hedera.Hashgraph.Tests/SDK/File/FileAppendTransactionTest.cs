@@ -3,13 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
+
 using Google.Protobuf.WellKnownTypes;
-using Org.BouncyCastle.Utilities.Encoders;
 using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
@@ -52,7 +55,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FileAppendTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<FileAppendTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -61,6 +65,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             var nodeAccountIds = new List<AccountId>();
             nodeAccountIds.Add(AccountId.FromString("0.0.444"));
             nodeAccountIds.Add(AccountId.FromString("0.0.555"));
+
             SnapshotMatcher.Expect(SpawnTestTransactionBigContents(nodeAccountIds).ToString()).ToMatchSnapshot();
         }
 
@@ -85,9 +90,9 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             foreach (var tx in hashes)
             {
                 outString.Append("{");
-                foreach (var entry in tx.EntrySet())
+                foreach (var entry in tx.)
                 {
-                    outString.Append(entry.Key.ToString()).Append("=").Append(Hex.ToHexString(entry.Value)).Append(", ");
+                    outString.Append(entry.Key.ToString()).Append('=').Append(Hex.ToHexString(entry.Value)).Append(", ");
                 }
 
                 outString.Append("}, ");
@@ -98,22 +103,25 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
         public virtual void ShouldHash()
         {
-            var nodeAccountIds = new List<AccountId>();
-            nodeAccountIds.Add(AccountId.FromString("0.0.444"));
-            nodeAccountIds.Add(AccountId.FromString("0.0.555"));
+            var nodeAccountIds = new List<AccountId>
+            {
+                AccountId.FromString("0.0.444"),
+                AccountId.FromString("0.0.555")
+            };
+            
             SnapshotMatcher.Expect(HashesToString(SpawnTestTransactionBigContents(nodeAccountIds).GetAllTransactionHashesPerNode())).ToMatchSnapshot();
         }
 
         public virtual string SignaturesToString(Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures)
         {
             var outString = new StringBuilder();
-            outString.Append("{");
+            outString.Append('{');
             foreach (var nodeEntry in signatures)
             {
                 outString.Append(nodeEntry.Key).Append("={");
                 foreach (var sigEntry in nodeEntry.Value)
                 {
-                    outString.Append(sigEntry.Key).Append("=").Append(Hex.ToHexString(sigEntry.Value)).Append(", ");
+                    outString.Append(sigEntry.Key).Append('=').Append(Hex.ToHexString(sigEntry.Value)).Append(", ");
                 }
 
                 outString.Append("}, ");
@@ -125,7 +133,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         public virtual string AllSignaturesToString(List<Dictionary<AccountId, Dictionary<PublicKey, byte[]>>> allSignatures)
         {
             var outString = new StringBuilder();
-            outString.Append("[");
+            outString.Append('[');
             foreach (var txEntry in allSignatures)
             {
                 outString.Append(SignaturesToString(txEntry)).Append(", ");
@@ -136,30 +144,42 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
         public virtual void ShouldGetSignatures()
         {
-            var nodeAccountIds = new List<AccountId>();
-            nodeAccountIds.Add(AccountId.FromString("0.0.444"));
-            nodeAccountIds.Add(AccountId.FromString("0.0.555"));
+            var nodeAccountIds = new List<AccountId>
+            {
+                AccountId.FromString("0.0.444"),
+                AccountId.FromString("0.0.555"),
+            };
             var signatures = SpawnTestTransaction(nodeAccountIds).Sign(secondPrivateKey).GetSignatures();
+            
             SnapshotMatcher.Expect(SignaturesToString(signatures)).ToMatchSnapshot();
         }
 
         public virtual void ShouldGetAllSignatures()
         {
-            var nodeAccountIds = new List<AccountId>();
-            nodeAccountIds.Add(AccountId.FromString("0.0.444"));
-            nodeAccountIds.Add(AccountId.FromString("0.0.555"));
+            var nodeAccountIds = new List<AccountId>
+            {
+                AccountId.FromString("0.0.444"),
+                AccountId.FromString("0.0.555"),
+            };
+
             var signatures = SpawnTestTransactionBigContents(nodeAccountIds).Sign(secondPrivateKey).GetAllSignatures();
+            
             SnapshotMatcher.Expect(AllSignaturesToString(signatures)).ToMatchSnapshot();
         }
 
         public virtual async void ShouldBytes()
         {
-            var nodeAccountIds = new List<AccountId>();
-            nodeAccountIds.Add(AccountId.FromString("0.0.444"));
-            nodeAccountIds.Add(AccountId.FromString("0.0.555"));
-            var tx = SpawnTestTransactionBigContents(nodeAccountIds);
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var nodeAccountIds = new List<AccountId>
+			{
+				AccountId.FromString("0.0.444"),
+				AccountId.FromString("0.0.555"),
+			};
+
+			var tx = SpawnTestTransactionBigContents(nodeAccountIds);
+            var tx2 = Transaction.FromBytes<FileAppendTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
+            
             await Assert.ThrowsAsync<InvalidOperationException>(() => tx2.GetTransactionHash());
             await Assert.ThrowsAsync<InvalidOperationException>(() => tx2.GetTransactionHashPerNode());
         }
@@ -170,7 +190,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             {
 				FileAppend = new Proto.FileAppendTransactionBody()
 			};
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var tx = Transaction.FromScheduledTransaction<FileAppendTransaction>(transactionBody);
+
             Assert.IsType<FileAppendTransaction>(tx);
         }
     }

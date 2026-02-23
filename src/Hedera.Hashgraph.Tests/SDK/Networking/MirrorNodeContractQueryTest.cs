@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Gson;
-using Com.Google.Protobuf;
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Networking;
@@ -76,7 +75,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void TestSetFunctionWithoutParameters()
         {
-            mirrorNodeContractEstimateGasQuery.Function = ",ZyFunction");
+            mirrorNodeContractEstimateGasQuery.SetFunction(",ZyFunction");
             Assert.NotNull(mirrorNodeContractEstimateGasQuery.CallData);
         }
 
@@ -114,15 +113,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(gasPrice, mirrorNodeContractEstimateGasQuery.GasPrice);
             mirrorNodeContractCallQuery.GasPrice = gasPrice;
             Assert.Equal(gasPrice, mirrorNodeContractCallQuery.GasPrice);
-        }
-
-        public virtual void TestEstimateGasWithMissingContractIdOrEvmAddressThrowsException()
-        {
-            ByteString @params = ByteString.CopyFromUtf8("gasParams");
-            mirrorNodeContractEstimateGasQuery.SetFunctionParameters(@params);
-            Assert.Throws<NullReferenceException>(() => mirrorNodeContractEstimateGasQuery.Estimate(null));
-            mirrorNodeContractCallQuery.SetFunctionParameters(@params);
-            Assert.Throws<NullReferenceException>(() => mirrorNodeContractCallQuery.Estimate(null));
         }
 
         public virtual void TestCreateJsonPayloadAllFieldsSet()

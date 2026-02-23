@@ -15,7 +15,13 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         private readonly Hbar negativeFiftyHbar = new Hbar(-50);
         static IEnumerator<Arguments> GetValueConversions()
         {
-            return List.Of(Arguments.Arguments(new BigDecimal(50000000), HbarUnit.MICROBAR), Arguments.Arguments(new BigDecimal(50000), HbarUnit.MILLIBAR), Arguments.Arguments(new BigDecimal(50), HbarUnit.HBAR), Arguments.Arguments(new BigDecimal("0.05"), HbarUnit.KILOBAR), Arguments.Arguments(new BigDecimal("0.00005"), HbarUnit.MEGABAR), Arguments.Arguments(new BigDecimal("0.00000005"), HbarUnit.GIGABAR)).Iterator();
+            return List.Of(
+                Arguments.Arguments(new BigDecimal(50000000), HbarUnit.MICROBAR), 
+                Arguments.Arguments(new BigDecimal(50000), HbarUnit.MILLIBAR), 
+                Arguments.Arguments(new BigDecimal(50), HbarUnit.HBAR), 
+                Arguments.Arguments(new BigDecimal("0.05"), HbarUnit.KILOBAR), 
+                Arguments.Arguments(new BigDecimal("0.00005"), HbarUnit.MEGABAR), 
+                Arguments.Arguments(new BigDecimal("0.00000005"), HbarUnit.GIGABAR)).Iterator();
         }
 
         public virtual void ShouldConstruct()
@@ -28,7 +34,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
 
         public virtual void ShouldNotConstruct()
         {
-            Exception exception = Assert.Throws<Exception>(() => new Hbar(new BigDecimal("0.1"), HbarUnit.TINYBAR));
+            Exception exception = Assert.Throws<Exception>(() => new Hbar(BigDecimal.Parse("0.1"), HbarUnit.TINYBAR));
         }
 
         public virtual void ShouldDisplay()
@@ -50,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         public virtual void ShouldCompare()
         {
             Assert.Equal(fiftyHbar, fiftyHbar);
-            AssertThat(fiftyHbar).IsNotEqualTo(hundredHbar);
+            Assert.NotEqual(fiftyHbar, hundredHbar);
             Assert.Equal(fiftyHbar.CompareTo(new Hbar(50)), 0);
             Assert.True(fiftyHbar.CompareTo(hundredHbar) < 0);
             Assert.True(hundredHbar.CompareTo(fiftyHbar) > 0);

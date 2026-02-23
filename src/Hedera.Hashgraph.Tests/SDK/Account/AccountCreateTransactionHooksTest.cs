@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
@@ -13,7 +15,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
     {
         public virtual void TestAccountCreateTransactionWithHooks()
         {
-
             // Create a test contract ID
             ContractId contractId = new ContractId(100);
 
@@ -21,16 +22,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             PrivateKey adminKey = PrivateKey.GenerateED25519();
 
             // Create storage updates
-            byte[] storageKey = new[]
-            {
-                0x01,
-                0x02
-            };
-            byte[] storageValue = new[]
-            {
-                0x03,
-                0x04
-            };
+            byte[] storageKey = [ 0x01, 0x02 ];
+            byte[] storageValue = [ 0x03, 0x04 ];
             EvmHookStorageUpdate storageUpdate = new EvmHookStorageSlot(storageKey, storageValue);
             IList<EvmHookStorageUpdate> storageUpdates = [storageUpdate];
 
@@ -39,7 +32,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var hookWithAdmin = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHookWithStorage, adminKey.GetPublicKey());
             var simpleLambdaHook = new EvmHook(contractId);
             var simpleHook = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, simpleLambdaHook);
-            AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(100)).AddHook(hookWithAdmin).AddHook(simpleHook); // Simple hook without admin key or storage
+            AccountCreateTransaction transaction = new AccountCreateTransaction
+            {
+				Key = PrivateKey.GenerateED25519().GetPublicKey(),
+				InitialBalance = Hbar.From(100),
+			}
+            .AddHook(hookWithAdmin)
+            .AddHook(simpleHook); // Simple hook without admin key or storage
 
             // Verify hooks were added
             IList<HookCreationDetails> hookDetails = transaction.GetHooks();
@@ -71,7 +70,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaEvmHook);
 
             // Set hooks using setHookCreationDetails
-            AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(50)).SetHooks([hookDetails]);
+            AccountCreateTransaction transaction = new AccountCreateTransaction
+            {
+				Key = PrivateKey.GenerateED25519().GetPublicKey(),
+				InitialBalance = Hbar.From(50),
+			
+            }.SetHooks([hookDetails]);
 
             // Verify hooks were set
             IList<HookCreationDetails> retrievedHooks = transaction.GetHooks();
@@ -87,10 +91,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var lambdaHook = new EvmHook(contractId);
             var hook1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var hook2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook); // Duplicate ID
-            AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(25)).AddHook(hook1).AddHook(hook2); // Duplicate hook ID
+            AccountCreateTransaction transaction = new AccountCreateTransaction
+            {
+				Key = PrivateKey.GenerateED25519().GetPublicKey(),
+				InitialBalance = Hbar.From(25),
+			}
+            .AddHook(hook1)
+            .AddHook(hook2); // Duplicate hook ID
 
             // Client-side duplicate ID validation was removed; ensure build includes both entries
-            var proto = transaction.Build();
+            var proto = transaction.ToProtobuf();
+
             Assert.Equal(2, proto.GetHookCreationDetailsCount());
             Assert.Equal(1, proto.GetHookCreationDetails(0).HookId);
             Assert.Equal(1, proto.GetHookCreationDetails(1).HookId);
@@ -103,10 +114,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             // Create transaction with hooks
             var lambdaHook = new EvmHook(contractId);
             var hook = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
-            AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(75)).AddHook(hook);
+            AccountCreateTransaction transaction = new AccountCreateTransaction
+            {
+				Key = PrivateKey.GenerateED25519().GetPublicKey(),
+				InitialBalance = Hbar.From(75),
+			}
+            .AddHook(hook);
 
             // Build the protobuf
-            var protoBody = transaction.Build();
+            var protoBody = transaction.ToProtobuf();
 
             // Verify hook creation details are included
             Assert.Equal(1, protoBody.GetHookCreationDetailsCount());
@@ -118,38 +134,47 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void TestAccountCreateTransactionEmptyHooks()
         {
-
             // Test transaction without hooks
-            AccountCreateTransaction transaction = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(100));
+            AccountCreateTransaction transaction = new AccountCreateTransaction
+            {
+				Key = PrivateKey.GenerateED25519().GetPublicKey(),
+				InitialBalance = Hbar.From(100)
+			};
 
             // Verify no hooks
             IList<HookCreationDetails> hookDetails = transaction.GetHooks();
             Assert.True(hookDetails.Count == 0);
 
             // Should build successfully
-            var protoBody = transaction.Build();
+            var protoBody = transaction.ToProtobuf();
+
             Assert.Equal(0, protoBody.GetHookCreationDetailsCount());
         }
 
         public virtual void TestAccountCreateTransactionHooksPersistThroughBytesRoundTrip()
         {
-
             // Create contract and hook details
             ContractId contractId = new ContractId(500);
             EvmHook lambdaEvmHook = new EvmHook(contractId);
             HookCreationDetails hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaEvmHook);
 
             // Create transaction with set hooks
-            AccountCreateTransaction originalTx = new AccountCreateTransaction().SetKey(PrivateKey.GenerateED25519().GetPublicKey()).SetInitialBalance(Hbar.From(123)).SetHooks([hookDetails]);
+            AccountCreateTransaction originalTx = new AccountCreateTransaction
+            {
+				Key = PrivateKey.GenerateED25519().GetPublicKey(),
+				InitialBalance = Hbar.From(123),
+				Hooks = [hookDetails]
+			};
 
             // Serialize to bytes then deserialize back
             byte[] bytes = originalTx.ToBytes();
-            Transaction<TWildcardTodo> parsed = Transaction.FromBytes(bytes);
+            Transaction<T> parsed = Transaction.FromBytes<T>(bytes);
             Assert.True(parsed is AccountCreateTransaction);
             AccountCreateTransaction parsedTx = (AccountCreateTransaction)parsed;
 
             // Verify hook information persisted
             IList<HookCreationDetails> parsedHooks = parsedTx.GetHooks();
+
             Assert.Equal(1, parsedHooks.Count);
             HookCreationDetails parsedHook = parsedHooks[0];
             Assert.Equal(HookExtensionPoint.AccountAllowanceHook, parsedHook.GetExtensionPoint());

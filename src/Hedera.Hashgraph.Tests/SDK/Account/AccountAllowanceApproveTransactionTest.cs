@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = AccountAllowanceApproveTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountAllowanceApproveTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         public virtual void PropertiesTest()
@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new AccountAllowanceApproveTransaction();
-            var tx2 = AccountAllowanceApproveTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountAllowanceApproveTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
         public virtual void FromScheduledTransaction()
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
                 CryptoApproveAllowance = new Proto.CryptoApproveAllowanceTransactionBody()
             };
-            var tx = Transaction<T>.FromScheduledTransaction(transactionBody);
+            var tx = Transaction.FromScheduledTransaction<AccountAllowanceApproveTransaction>(transactionBody);
 
             Assert.IsType<AccountAllowanceApproveTransaction>(tx);
         }

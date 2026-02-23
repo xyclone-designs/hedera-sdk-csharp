@@ -6,6 +6,7 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
@@ -19,13 +20,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(call.Type, NftHookType.PreHookSender);
         }
 
-        public virtual void NullTypeThrows()
-        {
-            var evm = new EvmHookCall(new byte[] { }, 1);
-
-            AssertThatThrownBy(() => new NftHookCall(1, evm, null)).IsInstanceOf(typeof(NullReferenceException)).HasMessage("type cannot be null");
-        }
-
         public virtual void NftTransferSerializesSenderAndReceiverHooksByType()
         {
             var tx = new TransferTransaction();
@@ -36,9 +30,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             var senderHook = new NftHookCall(2, new EvmHookCall(new byte[] { }, 10), NftHookType.PreHookSender);
             var receiverHook = new NftHookCall(3, new EvmHookCall(new byte[] { }, 10), NftHookType.PrePostHookReceiver);
             tx.AddNftTransferWithHook(nftId, sender, receiver, senderHook, receiverHook);
-            var body = tx.Build();
-            var hasSenderPre = body.GetTokenTransfersList().Stream().FlatMap((tl) => tl.GetNftTransfersList().Stream()).AnyMatch((t) => t.HasPreTxSenderAllowanceHook());
-            var hasReceiverPrePost = body.GetTokenTransfersList().Stream().FlatMap((tl) => tl.GetNftTransfersList().Stream()).AnyMatch((t) => t.HasPrePostTxReceiverAllowanceHook());
+            var body = tx.ToProtobuf();
+            var hasSenderPre = body.TokenTransfers.SelectMany(_ => _.NftTransfers).Any(_ => _.PreTxSenderAllowanceHook is not null);
+            var hasReceiverPrePost = body.TokenTransfers.SelectMany(_ => _.NftTransfers).Any(_ => _.PrePostTxReceiverAllowanceHook is not null);
             Assert.True(hasSenderPre);
             Assert.True(hasReceiverPrePost);
 

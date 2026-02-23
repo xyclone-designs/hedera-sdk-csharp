@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
 				AccountId = AccountId.FromString("0.0.100"),
 				Hash = Encoding.UTF8.GetBytes("hash"),
 				Keys = KeyList.Of(null, privateKey),
-				Duration = TimeSpan.FromDays(30),
+			    TransactionValidDuration = TimeSpan.FromDays(30),
 			}
             .Freeze()
             .Sign(privateKey);
@@ -46,14 +46,14 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new LiveHashAddTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<LiveHashAddTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<LiveHashAddTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
     }

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
@@ -47,14 +49,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = BatchTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<BatchTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new BatchTransaction();
-            var tx2 = BatchTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<BatchTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 

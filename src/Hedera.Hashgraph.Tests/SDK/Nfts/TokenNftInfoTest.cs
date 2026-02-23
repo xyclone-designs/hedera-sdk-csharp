@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Nfts;
@@ -23,7 +24,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 
         private static TokenNftInfo SpawnTokenNftInfoExample(AccountId spenderAccountId)
         {
-            return new TokenNftInfo(TokenId.FromString("1.2.3").Nft(4), AccountId.FromString("5.6.7"), creationTime, Hex.Decode("deadbeef"), LedgerId.MAINNET, spenderAccountId);
+            return new TokenNftInfo(TokenId.FromString("1.2.3").Nft(4), AccountId.FromString("5.6.7"), creationTime.ToTimestamp(), Hex.Decode("deadbeef"), LedgerId.MAINNET, spenderAccountId);
         }
 
         public virtual void ShouldSerialize()

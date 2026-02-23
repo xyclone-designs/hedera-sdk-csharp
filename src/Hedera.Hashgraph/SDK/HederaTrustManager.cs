@@ -1,24 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Logging;
-using Java.Io;
-using Java.Nio.Charset;
-using Java.Security;
-using Java.Security.Cert;
-using Javax.Annotation;
-using Javax.Net.Ssl;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Bouncycastle.Util.Io.Pem;
+
+using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security.Certificates;
 using Org.BouncyCastle.Utilities.Encoders;
-using Org.BouncyCastle.Utilities.IO.Pem;
-using Org.Slf4j;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Net.Security;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -28,12 +18,12 @@ namespace Hedera.Hashgraph.SDK
     /// <summary>
     /// Internal class used by node.
     /// </summary>
-    internal class HederaTrustManager : X509TrustManager
+    internal class HederaTrustManager //: X509TrustManager
     {
         private static readonly string CERTIFICATE = "CERTIFICATE";
         private static readonly string PEM_HEADER = "-----BEGIN CERTIFICATE-----\n";
         private static readonly string PEM_FOOTER = "-----END CERTIFICATE-----\n";
-        protected readonly Logger logger = LoggerFactory.GetLogger(GetType());
+        protected readonly Logger logger = LoggerFactory.GetLogger(typeof(HederaTrustManager));
         public readonly string? CertHash;
         
         /// <summary>
@@ -70,40 +60,44 @@ namespace Hedera.Hashgraph.SDK
                 return;
             }
 
-            foreach (var cert in chain)
-            {
-                byte[] pem;
-                try
-                {
-                    using (var outputStream = new ByteArrayOutputStream())
-                    using (var pemWriter = new PemWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)))
-                    {
-                        pemWriter.WriteObject(new PemObject(CERTIFICATE, cert.GetEncoded()));
-                        pemWriter.Flush();
-                        pem = outputStream.ToByteArray();
-                    }
-                }
-                catch (IOException e)
-                {
-                    logger.Warn("Failed to write PEM to byte array: ", e);
-                    continue;
-                }
+			foreach (var cert in chain)
+			{
+				byte[] pem;
 
-                var certHashBytes = new byte[0];
-                try
-                {
-                    certHashBytes = MessageDigest.GetInstance("SHA-384").Digest(pem);
-                }
-                catch (NoSuchAlgorithmException e)
-                {
-                    throw new InvalidOperationException("Failed to find SHA-384 digest for certificate hashing", e);
-                }
+				try
+				{
+                    using MemoryStream memoryStream = new ();
+					using StreamWriter streamWriter = new (memoryStream, Encoding.UTF8, leaveOpen: true);
+                    using PemWriter pemWriter = new (streamWriter);
 
-                if (CertHash.Equals(Hex.ToHexString(certHashBytes)))
+					pemWriter.WriteObject(cert); // X509Certificate
+					pemWriter.Writer.Flush();
+					streamWriter.Flush();
+
+					pem = memoryStream.ToArray();
+				}
+				catch (IOException ex)
+				{
+					logger.Warn("Failed to write PEM to byte array: ", ex);
+					continue;
+				}
+
+				byte[] certHashBytes;
+
+				try
                 {
-                    return;
+                    certHashBytes = SHA384.HashData(pem);
                 }
-            }
+                catch (Exception ex)
+				{
+					throw new InvalidOperationException("Failed to find SHA-384 digest for certificate hashing", ex);
+				}
+
+				var certHashHex = Hex.ToHexString(certHashBytes);
+
+				if (string.Equals(CertHash, certHashHex, StringComparison.OrdinalIgnoreCase))
+					return;
+			}
 
             throw new CertificateException("Failed to confirm the server's certificate from a known address book");
         }

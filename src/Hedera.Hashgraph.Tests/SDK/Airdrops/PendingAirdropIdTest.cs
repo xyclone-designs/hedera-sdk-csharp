@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api.Assertions;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Airdrops;
 
 namespace Hedera.Hashgraph.Tests.SDK.Airdrops
 {
@@ -26,95 +23,125 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
         public virtual void TestConstructorWithTokenId()
         {
             PendingAirdropId pendingAirdropId = new PendingAirdropId(sender, receiver, tokenId);
-            Assert.Equal(sender, pendingAirdropId.GetSender());
-            Assert.Equal(receiver, pendingAirdropId.GetReceiver());
-            Assert.Equal(tokenId, pendingAirdropId.GetTokenId());
-            Assert.Null(pendingAirdropId.GetNftId());
+            
+            Assert.Equal(sender, pendingAirdropId.Sender);
+            Assert.Equal(receiver, pendingAirdropId.Receiver);
+            Assert.Equal(tokenId, pendingAirdropId.TokenId);
+            Assert.Null(pendingAirdropId.NftId);
         }
 
         public virtual void TestConstructorWithNftId()
         {
             PendingAirdropId pendingAirdropId = new PendingAirdropId(sender, receiver, nftId);
-            Assert.Equal(sender, pendingAirdropId.GetSender());
-            Assert.Equal(receiver, pendingAirdropId.GetReceiver());
-            Assert.Equal(nftId, pendingAirdropId.GetNftId());
-            Assert.Null(pendingAirdropId.GetTokenId());
+
+            Assert.Equal(sender, pendingAirdropId.Sender);
+            Assert.Equal(receiver, pendingAirdropId.Receiver);
+            Assert.Equal(nftId, pendingAirdropId.NftId);
+            Assert.Null(pendingAirdropId.TokenId);
         }
 
         public virtual void TestSetSender()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId();
-            pendingAirdropId.SetSender(sender);
-            Assert.Equal(sender, pendingAirdropId.GetSender());
+            PendingAirdropId pendingAirdropId = new ()
+            {
+				Sender = sender
+			};
+
+            Assert.Equal(sender, pendingAirdropId.Sender);
         }
 
         public virtual void TestSetReceiver()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId();
-            pendingAirdropId.SetReceiver(receiver);
-            Assert.Equal(receiver, pendingAirdropId.GetReceiver());
+            PendingAirdropId pendingAirdropId = new()
+			{
+				Receiver = receiver
+			};
+
+            Assert.Equal(receiver, pendingAirdropId.Receiver);
         }
 
         public virtual void TestSetTokenId()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId();
-            pendingAirdropIdTokenId = tokenId,;
-            Assert.Equal(tokenId, pendingAirdropId.GetTokenId());
+            PendingAirdropId pendingAirdropId = new()
+			{
+				TokenId = tokenId
+			};
+
+            Assert.Equal(tokenId, pendingAirdropId.TokenId);
         }
 
         public virtual void TestSetNftId()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId();
-            pendingAirdropId.SetNftId(nftId);
-            Assert.Equal(nftId, pendingAirdropId.GetNftId());
+            PendingAirdropId pendingAirdropId = new()
+			{
+				NftId = nftId
+			};
+
+            Assert.Equal(nftId, pendingAirdropId.NftId);
         }
 
         public virtual void TestToProtobufWithTokenId()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId(sender, receiver, tokenId);
+            PendingAirdropId pendingAirdropId = new (sender, receiver, tokenId);
             Proto.PendingAirdropId proto = pendingAirdropId.ToProtobuf();
+            
             Assert.NotNull(proto);
-            Assert.Equal(sender.ToProtobuf(), proto.GetSenderId());
-            Assert.Equal(receiver.ToProtobuf(), proto.GetReceiverId());
-            Assert.Equal(tokenId.ToProtobuf(), proto.GetFungibleTokenType());
+            Assert.Equal(sender.ToProtobuf(), proto.SenderId);
+            Assert.Equal(receiver.ToProtobuf(), proto.ReceiverId);
+            Assert.Equal(tokenId.ToProtobuf(), proto.FungibleTokenType);
         }
 
         public virtual void TestToProtobufWithNftId()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId(sender, receiver, nftId);
+            PendingAirdropId pendingAirdropId = new (sender, receiver, nftId);
             Proto.PendingAirdropId proto = pendingAirdropId.ToProtobuf();
+            
             Assert.NotNull(proto);
-            Assert.Equal(sender.ToProtobuf(), proto.GetSenderId());
-            Assert.Equal(receiver.ToProtobuf(), proto.GetReceiverId());
-            Assert.Equal(nftId.ToProtobuf(), proto.GetNonFungibleToken());
+            Assert.Equal(sender.ToProtobuf(), proto.SenderId);
+            Assert.Equal(receiver.ToProtobuf(), proto.ReceiverId);
+            Assert.Equal(nftId.ToProtobuf(), proto.NonFungibleToken);
         }
 
         public virtual void TestFromProtobufWithTokenId()
         {
-            Proto.PendingAirdropId proto = Proto.PendingAirdropId.NewBuilder().SetSenderId(sender.ToProtobuf()).SetReceiverId(receiver.ToProtobuf()).SetFungibleTokenType(tokenId.ToProtobuf()).Build();
-            PendingAirdropId pendingAirdropId = PendingAirdropId.FromProtobuf(proto);
+            Proto.PendingAirdropId proto = new()
+			{
+				SenderId = sender.ToProtobuf(),
+				ReceiverId = receiver.ToProtobuf(),
+				NonFungibleToken = nftId.ToProtobuf()
+			};
+
+			PendingAirdropId pendingAirdropId = PendingAirdropId.FromProtobuf(proto);
+            
             Assert.NotNull(pendingAirdropId);
-            Assert.Equal(sender, pendingAirdropId.GetSender());
-            Assert.Equal(receiver, pendingAirdropId.GetReceiver());
-            Assert.Equal(tokenId, pendingAirdropId.GetTokenId());
-            Assert.Null(pendingAirdropId.GetNftId());
+            Assert.Equal(sender, pendingAirdropId.Sender);
+            Assert.Equal(receiver, pendingAirdropId.Receiver);
+            Assert.Equal(tokenId, pendingAirdropId.TokenId);
+            Assert.Null(pendingAirdropId.NftId);
         }
 
         public virtual void TestFromProtobufWithNftId()
         {
-            Proto.PendingAirdropId proto = Proto.PendingAirdropId.NewBuilder().SetSenderId(sender.ToProtobuf()).SetReceiverId(receiver.ToProtobuf()).SetNonFungibleToken(nftId.ToProtobuf()).Build();
+            Proto.PendingAirdropId proto = new ()
+            {
+				SenderId = sender.ToProtobuf(),
+				ReceiverId = receiver.ToProtobuf(),
+				NonFungibleToken = nftId.ToProtobuf()
+            };
             PendingAirdropId pendingAirdropId = PendingAirdropId.FromProtobuf(proto);
+            
             Assert.NotNull(pendingAirdropId);
-            Assert.Equal(sender, pendingAirdropId.GetSender());
-            Assert.Equal(receiver, pendingAirdropId.GetReceiver());
-            Assert.Equal(nftId, pendingAirdropId.GetNftId());
-            Assert.Null(pendingAirdropId.GetTokenId());
+            Assert.Equal(sender, pendingAirdropId.Sender);
+            Assert.Equal(receiver, pendingAirdropId.Receiver);
+            Assert.Equal(nftId, pendingAirdropId.NftId);
+            Assert.Null(pendingAirdropId.TokenId);
         }
 
         public virtual void TestToString()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId(sender, receiver, tokenId);
+            PendingAirdropId pendingAirdropId = new (sender, receiver, tokenId);
             string result = pendingAirdropId.ToString();
+            
             Assert.True(result.Contains("sender"));
             Assert.True(result.Contains("receiver"));
             Assert.True(result.Contains("tokenId"));

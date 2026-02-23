@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytes();
             PrivateKey key2 = PrivateKey.FromBytes(key1Bytes);
             byte[] key2Bytes = key2.ToBytes();
-            AssertThat(key2Bytes).ContainsExactly(key1Bytes);
+            Assert.Equal(key2Bytes, key1Bytes);
         }
 
         public virtual void KeySerialization2()
@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 
             // cannot use PrivateKey.fromBytes() to parse raw ECDSA bytes
             // because they're indistinguishable from ED25519 raw bytes
-            AssertThat(key2Bytes).ContainsExactly(key1Bytes);
+            Assert.Equal(key2Bytes, key1Bytes);
         }
 
         public virtual void KeySerialization3()
@@ -45,8 +45,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key2Bytes = key2.ToBytesDER();
             PrivateKey key3 = PrivateKey.FromBytes(key1Bytes);
             byte[] key3Bytes = key3.ToBytesDER();
-            AssertThat(key2Bytes).ContainsExactly(key1Bytes);
-            AssertThat(key3Bytes).ContainsExactly(key1Bytes);
+            Assert.Equal(key2Bytes, key1Bytes);
+            Assert.Equal(key3Bytes, key1Bytes);
         }
 
         public virtual void KeyStringification()
@@ -135,37 +135,37 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             PrivateKey key1 = PrivateKey.FromSeedECDSAsecp256k1(seed);
             Assert.Equal(Hex.ToHexString(key1.GetChainCode().GetKey()), CHAIN_CODE1);
             Assert.Equal(key1.ToStringRaw(), PRIVATE_KEY1);
-            AssertThat(key1.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY1);
+            Assert.Contains(key1.GetPublicKey().ToStringRaw(), PUBLIC_KEY1);
 
             // Chain m/0'
             PrivateKey key2 = key1.Derive(Bip32Utils.ToHardenedIndex(0));
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY2);
-            AssertThat(key2.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY2);
+            Assert.Contains(key2.GetPublicKey().ToStringRaw(), PUBLIC_KEY2);
 
             // Chain m/0'/1
             PrivateKey key3 = key2.Derive(1);
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
-            AssertThat(key3.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY3);
+            Assert.Contains(key3.GetPublicKey().ToStringRaw(), PUBLIC_KEY3);
 
             // Chain m/0'/1/2'
             PrivateKey key4 = key3.Derive(Bip32Utils.ToHardenedIndex(2));
             Assert.Equal(Hex.ToHexString(key4.GetChainCode().GetKey()), CHAIN_CODE4);
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
-            AssertThat(key4.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY4);
+            Assert.Contains(key4.GetPublicKey().ToStringRaw(), PUBLIC_KEY4);
 
             // Chain m/0'/1/2'/2
             PrivateKey key5 = key4.Derive(2);
             Assert.Equal(Hex.ToHexString(key5.GetChainCode().GetKey()), CHAIN_CODE5);
             Assert.Equal(key5.ToStringRaw(), PRIVATE_KEY5);
-            AssertThat(key5.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY5);
+            Assert.Contains(key5.GetPublicKey().ToStringRaw(), PUBLIC_KEY5);
 
             // Chain m/0'/1/2'/2/1000000000
             PrivateKey key6 = key5.Derive(1000000000);
             Assert.Equal(Hex.ToHexString(key6.GetChainCode().GetKey()), CHAIN_CODE6);
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
-            AssertThat(key6.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY6);
+            Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
 
         public virtual void Slip10TestVector2()
@@ -196,37 +196,37 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             PrivateKey key1 = PrivateKey.FromSeedECDSAsecp256k1(seed);
             Assert.Equal(Hex.ToHexString(key1.GetChainCode().GetKey()), CHAIN_CODE1);
             Assert.Equal(key1.ToStringRaw(), PRIVATE_KEY1);
-            AssertThat(key1.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY1);
+            Assert.Contains(key1.GetPublicKey().ToStringRaw(), PUBLIC_KEY1);
 
             // Chain m/0
             PrivateKey key2 = key1.Derive(0);
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY2);
-            AssertThat(key2.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY2);
+            Assert.Contains(key2.GetPublicKey().ToStringRaw(), PUBLIC_KEY2);
 
             // Chain m/0/2147483647'
             PrivateKey key3 = key2.Derive(Bip32Utils.ToHardenedIndex(2147483647));
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
-            AssertThat(key3.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY3);
+            Assert.Contains(key3.GetPublicKey().ToStringRaw(), PUBLIC_KEY3);
 
             // Chain m/0/2147483647'/1
             PrivateKey key4 = key3.Derive(1);
             Assert.Equal(Hex.ToHexString(key4.GetChainCode().GetKey()), CHAIN_CODE4);
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
-            AssertThat(key4.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY4);
+            Assert.Contains(key4.GetPublicKey().ToStringRaw(), PUBLIC_KEY4);
 
             // Chain m/0/2147483647'/1/2147483646'
             PrivateKey key5 = key4.Derive(Bip32Utils.ToHardenedIndex(2147483646));
             Assert.Equal(Hex.ToHexString(key5.GetChainCode().GetKey()), CHAIN_CODE5);
             Assert.Equal(key5.ToStringRaw(), PRIVATE_KEY5);
-            AssertThat(key5.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY5);
+            Assert.Contains(key5.GetPublicKey().ToStringRaw(), PUBLIC_KEY5);
 
             // Chain m/0/2147483647'/1/2147483646'/2
             PrivateKey key6 = key5.Derive(2);
             Assert.Equal(Hex.ToHexString(key6.GetChainCode().GetKey()), CHAIN_CODE6);
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
-            AssertThat(key6.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY6);
+            Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
 
         public virtual void PEMImportTestVectors()

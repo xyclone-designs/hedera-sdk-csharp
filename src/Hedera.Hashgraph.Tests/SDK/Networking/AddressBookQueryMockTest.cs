@@ -15,6 +15,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK;
+using Grpc.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {

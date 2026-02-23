@@ -82,8 +82,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             string correctAddress = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e";
             DelegateContractId id = DelegateContractId.FromEvmAddress(0, 0, correctAddress);
-            Assert.NotNull(id.evmAddress);
-            Assert.Equal(Hex.ToHexString(id.evmAddress), "742d35cc6634c0532925a3b844bc454e4438f44e");
+            Assert.NotNull(id.EvmAddress);
+            Assert.Equal(Hex.ToHexString(id.EvmAddress), "742d35cc6634c0532925a3b844bc454e4438f44e");
         }
 
         public virtual void ToEvmAddressNormalContractId()

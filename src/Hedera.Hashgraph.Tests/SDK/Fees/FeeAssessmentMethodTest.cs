@@ -1,11 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Fees;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
@@ -13,8 +7,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
     {
         public virtual void FeeAssessmentMethodToString()
         {
-            Assert.Equal(FeeAssessmentMethod.ValueOf(true).ToString(), FeeAssessmentMethod.EXCLUSIVE.ToString());
-            Assert.Equal(FeeAssessmentMethod.ValueOf(false).ToString(), FeeAssessmentMethod.INCLUSIVE.ToString());
+            Assert.Equal(true.ToFeeAssessmentMethod().ToString(), FeeAssessmentMethod.Exclusive.ToString());
+            Assert.Equal(false.ToFeeAssessmentMethod().ToString(), FeeAssessmentMethod.Inclusive.ToString());
         }
     }
 }

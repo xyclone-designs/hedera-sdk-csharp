@@ -573,7 +573,7 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             scheduled.TokenCreation = ToProtobuf();
         }
-		public override TokenCreateTransaction FreezeWith(Client client)
+		public override TokenCreateTransaction FreezeWith(Client? client)
 		{
 			if (AutoRenewAccountId == null && client.OperatorAccountId != null && AutoRenewPeriod != null && AutoRenewPeriod.Seconds == 0)
 			{

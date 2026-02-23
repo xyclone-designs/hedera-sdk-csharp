@@ -7,6 +7,7 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
@@ -35,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             return new NodeDeleteTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START.ToTimestamp()),
 				NodeId = TEST_NODE_ID,
 				MaxTransactionFee = new Hbar(1),
 			}
@@ -46,14 +47,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<NodeDeleteTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new NodeDeleteTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<NodeDeleteTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -63,7 +66,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             {
 				NodeDelete = new Proto.NodeDeleteTransactionBody()
 			};
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var tx = Transaction.FromScheduledTransaction<NodeDeleteTransaction>(transactionBody);
+            
             Assert.IsType<NodeDeleteTransaction>(tx);
         }
 
@@ -101,12 +105,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction
             {
                 NodeAccountIds = [AccountId.FromString("0.0.3")],
-                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START),
+                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp()),
                 NodeId = 420,
             };
 
-            AssertThatCode(() => transaction.FreezeWith(null)).DoesNotThrowAnyException();
-            Assert.Equal(transaction.NodeId, 420);
+            transaction.FreezeWith(null);
+
+			Assert.Equal(transaction.NodeId, (ulong)420);
         }
 
         public virtual void ShouldThrowErrorWhenFreezingWithoutSettingNodeId()
@@ -116,9 +121,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction
             {
                 NodeAccountIds = [ AccountId.FromString("0.0.3")],
-                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START)
+                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp())
             };
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
+            
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
 
@@ -129,10 +135,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.3")],
-				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START)
+				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp())
 
 			};
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
+
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
 
@@ -143,18 +150,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.3")],
-				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START),
+				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp()),
 				NodeId = 420
 			};
             var mockClient = Client.ForTestnet();
             transaction.FreezeWith(mockClient); //.DoesNotThrowAnyException();
-            Assert.Equal(transaction.NodeId, 420);
+            Assert.Equal(transaction.NodeId, (ulong)420);
         }
 
         public virtual void ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt()
         {
             var transaction = new NodeDeleteTransaction();
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.NodeId);
+
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' has not been set");
         }
 
@@ -166,7 +174,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 				NodeId = 0
 			};
 
-            Assert.Equal(transaction.NodeId, 0);
+            Assert.Equal(transaction.NodeId, (ulong)0);
         }
     }
 }

@@ -1,24 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using Hedera.Hashgraph.SDK.Token;
+using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Account;
-using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.File;
-using Org.BouncyCastle.Utilities.Encoders;
 using Hedera.Hashgraph.SDK.Keys;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
+using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Ethereum
 {
@@ -54,7 +46,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new EthereumTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<EthereumTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -66,7 +59,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<EthereumTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx2.ToString());
         }
     }

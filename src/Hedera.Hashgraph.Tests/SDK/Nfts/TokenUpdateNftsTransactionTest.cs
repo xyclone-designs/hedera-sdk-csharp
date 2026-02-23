@@ -51,14 +51,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUpdateNftsTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUpdateNftsTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUpdateNftsTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 

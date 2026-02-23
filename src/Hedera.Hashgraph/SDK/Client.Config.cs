@@ -2,12 +2,12 @@
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -15,26 +15,34 @@ namespace Hedera.Hashgraph.SDK
     {
         private class Config
         {
-            private JsonElement network;
-            private JsonElement networkName;
-            private ConfigOperator oper8r;
-            private JsonElement mirrorNetwork;
-            private JsonElement shard;
-            private JsonElement realm;
+            private JsonObject? network;
+            private JsonObject? networkName;
+            private ConfigOperator? oper8r;
+            private JsonObject? mirrorNetwork;
+            private JsonObject? shard;
+            private JsonObject? realm;
+
             private class ConfigOperator
             {
-                private string accountId;
-                private string privateKey;
+                public string? AccountId;
+                public string? PrivateKey;
             }
 
             internal static Config FromString(string json)
             {
-                return new Gson().FromJson((Reader)new StringReader(json), typeof(Config));
+                return FromJson(JsonNode.Parse(json) ?? throw new JsonException("error paring json"));
             }
 
-			internal static Config FromJson(Io json)
+			internal static Config FromJson(JsonNode json)
             {
-                return new Gson().FromJson(json, typeof(Config));
+				return new Config
+                {
+                    network = json[nameof(network)]?.AsObject(),
+                    networkName = json[nameof(networkName)]?.AsObject(),
+                    mirrorNetwork = json[nameof(mirrorNetwork)]?.AsObject(),
+                    shard = json[nameof(shard)]?.AsObject(),
+                    realm = json[nameof(realm)]?.AsObject(),
+				};
             }
 
 			internal Client ToClient()
@@ -46,13 +54,11 @@ namespace Hedera.Hashgraph.SDK
             }
 			internal Client InitializeWithNetwork()
             {
-                if (network == null)
-                {
-                    throw new Exception("Network is not set in provided json object");
-                }
+                if (network == null) throw new Exception("Network is not set in provided json object");
 
-                Client client;
-                if (network.IsJsonObject())
+				Client client;
+
+                if (network.GetValueKind() is JsonValueKind.Object)
                 {
                     client = ClientFromNetworkJson();
                 }
@@ -66,18 +72,20 @@ namespace Hedera.Hashgraph.SDK
 			internal Client ClientFromNetworkJson()
             {
                 Client client;
-                var networkJson = network.GetAsJsonObject();
-                Dictionary<string, AccountId> nodes = networkJson.AsEnumerable()
-					.Where(_ => _.Value is not null)
-					.ToDictionary(_ => _.Value.ToString().Replace("\"", ""), _ => AccountId.FromString(_.Key.Replace("\"", ""))); 
 
-				Executor executor = CreateExecutor();
-				Network network = Network.ForNetwork(executor, nodes);
-                MirrorNetwork mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
-                long shardValue = shard?.GetAsLong() ?? 0;
-                long realmValue = realm?.GetAsLong() ?? 0;
+                Dictionary<string, AccountId> nodes = network?
+                    .OfType<KeyValuePair<string, JsonNode>>()
+                    .ToDictionary(_ => _.Value.ToString().Replace("\"", ""), _ => AccountId.FromString(_.Key.Replace("\"", ""))) ?? [];
+				
+				ExecutorService executor = CreateExecutor();
+				
+                Network _network = Network.ForNetwork(executor, nodes);
+                MirrorNetwork _mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
+
+                long shardValue = shard?.GetValue<long>() ?? 0;
+                long realmValue = realm?.GetValue<long>() ?? 0;
                 
-                client = new Client(executor, network, mirrorNetwork, null, true, null, shardValue, realmValue);
+                client = new Client(executor, _network, _mirrorNetwork, null, true, null, shardValue, realmValue);
                 
                 SetNetworkNameOn(client);
 
@@ -85,22 +93,21 @@ namespace Hedera.Hashgraph.SDK
             }
             internal Client ClientFromNetworkString()
             {
-                return network.GetAsString() switch
+                return network?.GetValue<string>() switch
                 {
                     MAINNET => ForMainnet(),
                     TESTNET => ForTestnet(),
                     PREVIEWNET => ForPreviewnet(),
 
-                    _ => new JsonException("Illegal argument for network.")};
+                    _ => throw new JsonException("Illegal argument for network.")};
             }
 			internal void SetNetworkNameOn(Client client)
 			{
-				if (networkName != null)
+				if (networkName?.GetValue<string>() is string networkNameString)
 				{
-					var networkNameString = networkName.GetAsString();
 					try
 					{
-						client.SetNetworkName(NetworkName.Parse(networkNameString));
+						client.NetworkName = Enum.Parse<NetworkName>(networkNameString);
 					}
 					catch (Exception)
 					{
@@ -117,7 +124,7 @@ namespace Hedera.Hashgraph.SDK
             }
             internal void SetMirrorNetwork(Client client)
             {
-                if (mirrorNetwork.IsJsonArray())
+                if (mirrorNetwork?.GetValueKind() is JsonValueKind.Array)
                 {
                     SetMirrorNetworksFromJsonArray(client);
                 }
@@ -128,7 +135,7 @@ namespace Hedera.Hashgraph.SDK
             }
             internal void SetMirrorNetworkFromString(Client client)
             {
-                client.MirrorNetwork_ = mirrorNetwork.GetString() switch
+                client.MirrorNetwork_ = mirrorNetwork?.GetValue<string>() switch
                 {
                     MAINNET => MirrorNetwork.ForMainnet(client.Executor),
                     TESTNET => MirrorNetwork.ForTestnet(client.Executor),
@@ -139,19 +146,14 @@ namespace Hedera.Hashgraph.SDK
             }
             internal void SetMirrorNetworksFromJsonArray(Client client)
             {
-                var mirrors = mirrorNetwork.GetAsJsonArray();
-                IList<string> listMirrors = GetListMirrors(mirrors);
-                client.SetMirrorNetwork(listMirrors);
+                if (mirrorNetwork is not null)
+                    client.MirrorNetwork_.Network = [.. GetListMirrors(mirrorNetwork.AsArray())];
             }
-            internal IList<string> GetListMirrors(JsonArray mirrors)
+            internal IEnumerable<string> GetListMirrors(JsonArray mirrors)
             {
-                IList<string> listMirrors = new (mirrors.Count);
-                for (var i = 0; i < mirrors.Count; i++)
-                {
-                    listMirrors.Add(mirrors[i].ToString().Replace("\"", ""));
-                }
-
-                return listMirrors;
+                return mirrors
+                    .OfType<JsonNode>()
+                    .Select(_ => _.ToString().Replace("\"", ""));
             }
             internal void SetOperatorOn(Client client)
             {
@@ -159,6 +161,7 @@ namespace Hedera.Hashgraph.SDK
                 {
                     AccountId operatorAccount = AccountId.FromString(oper8r.AccountId);
                     PrivateKey privateKey = PrivateKey.FromString(oper8r.PrivateKey);
+
                     client.OperatorSet(operatorAccount, privateKey);
                 }
             }

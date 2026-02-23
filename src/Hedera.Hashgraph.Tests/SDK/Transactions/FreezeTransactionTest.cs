@@ -55,14 +55,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = FreezeTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<FreezeTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FreezeTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<FreezeTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -72,7 +72,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 Freeze = new Proto.FreezeTransactionBody()
             };
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var tx = Transaction.FromScheduledTransaction<FreezeTransaction>(transactionBody);
+
             Assert.IsType<FreezeTransaction>(tx);
         }
 
@@ -94,7 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			};
             var freezeTransaction = new FreezeTransaction(tx);
 
-            Assert.NotNull(freezeTransaction.FileId;
+            Assert.NotNull(freezeTransaction.FileId);
             Assert.Equal(freezeTransaction.FileId, testFileId);
             Assert.Equal(freezeTransaction.FileHash, testFileHash);
             Assert.NotNull(freezeTransaction.StartTime);
@@ -108,8 +109,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				FileId = testFileId
 			};
-            Assert.NotNull(freezeTransaction.GetFileId());
-            Assert.Equal(freezeTransaction.GetFileId(), testFileId);
+            Assert.NotNull(freezeTransaction.FileId);
+            Assert.Equal(freezeTransaction.FileId, testFileId);
         }
 
         public virtual void GetSetFileIdFrozen()
@@ -120,46 +121,49 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void GetSetFileHash()
         {
-            var freezeTransaction = new FreezeTransaction()
-                .SetFileHash(testFileHash);
-            Assert.NotNull(freezeTransaction.GetFileHash());
-            Assert.Equal(freezeTransaction.GetFileHash(), testFileHash);
+            var freezeTransaction = new FreezeTransaction
+            {
+				FileHash = testFileHash
+			};
+            Assert.NotNull(freezeTransaction.FileHash);
+            Assert.Equal(freezeTransaction.FileHash, testFileHash);
         }
 
         public virtual void GetSetFileHashFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx
-            .SetFileHash(testFileHash));
+            Assert.Throws<InvalidOperationException>(() => tx.FileHash = testFileHash);
         }
 
         public virtual void GetSetStartTime()
         {
-            var freezeTransaction = new FreezeTransaction()
-                .SetStartTime(validStart);
-            Assert.NotNull(freezeTransaction.GetStartTime());
-            Assert.Equal(freezeTransaction.GetStartTime().GetEpochSecond(), validStart.GetEpochSecond());
+            var freezeTransaction = new FreezeTransaction
+            {
+				StartTime = validStart.ToTimestamp()
+			};
+            Assert.NotNull(freezeTransaction.StartTime);
+            Assert.Equal(freezeTransaction.StartTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
 
         public virtual void GetSetStartTimeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx
-            .SetStartTime(validStart));
+            Assert.Throws<InvalidOperationException>(() => tx.StartTime = validStart.ToTimestamp());
         }
 
         public virtual void GetSetFreezeType()
         {
-            var freezeTransaction = new FreezeTransaction()
-                .SetFreezeType(testFreezeType);
-            Assert.Equal(freezeTransaction.GetFreezeType(), testFreezeType);
+            var freezeTransaction = new FreezeTransaction
+            {
+				FreezeType = testFreezeType
+			};
+            Assert.Equal(freezeTransaction.FreezeType, testFreezeType);
         }
 
         public virtual void GetSetFreezeTypeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx
-            .SetFreezeType(testFreezeType));
+            Assert.Throws<InvalidOperationException>(() => tx.FreezeType = testFreezeType);
         }
     }
 }

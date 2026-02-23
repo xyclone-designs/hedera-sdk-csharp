@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
+
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Schedule;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Networking;
 
 namespace Hedera.Hashgraph.Tests.SDK.Schedule
 {
@@ -28,12 +28,50 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
 
         public virtual ScheduleInfo SpawnScheduleInfoExample()
         {
-            return new ScheduleInfo(ScheduleId.FromString("1.2.3"), AccountId.FromString("4.5.6"), AccountId.FromString("2.3.4"), SchedulableTransactionBody.NewBuilder().SetCryptoDelete(CryptoDeleteTransactionBody.NewBuilder().SetDeleteAccountID(AccountId.FromString("6.6.6").ToProtobuf()).Build()).Build(), KeyList.Of(unusedPublicKey), unusedPublicKey, TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)), "memo", validStart, validStart, null, LedgerId.TESTNET, true);
+            return new ScheduleInfo(
+                ScheduleId.FromString("1.2.3"), 
+                AccountId.FromString("4.5.6"), 
+                AccountId.FromString("2.3.4"), 
+                new Proto.SchedulableTransactionBody 
+                { 
+                    CryptoDelete = new Proto.CryptoDeleteTransactionBody 
+                    { 
+                        DeleteAccountID = AccountId.FromString("6.6.6").ToProtobuf()
+                    }
+                }, 
+                [ unusedPublicKey ], 
+                unusedPublicKey, 
+                TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)), 
+                "memo", 
+                validStart.ToTimestamp(), 
+                validStart.ToTimestamp(), 
+                null, 
+                LedgerId.TESTNET, 
+                true);
         }
 
         public virtual ScheduleInfo SpawnScheduleInfoDeletedExample()
         {
-            return new ScheduleInfo(ScheduleId.FromString("1.2.3"), AccountId.FromString("4.5.6"), AccountId.FromString("2.3.4"), SchedulableTransactionBody.NewBuilder().SetCryptoDelete(CryptoDeleteTransactionBody.NewBuilder().SetDeleteAccountID(AccountId.FromString("6.6.6").ToProtobuf()).Build()).Build(), KeyList.Of(unusedPublicKey), unusedPublicKey, TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)), "memo", validStart, null, validStart, LedgerId.TESTNET, true);
+            return new ScheduleInfo(
+                ScheduleId.FromString("1.2.3"), 
+                AccountId.FromString("4.5.6"), 
+                AccountId.FromString("2.3.4"), 
+                new Proto.SchedulableTransactionBody
+                {
+                    CryptoDelete = new Proto.CryptoDeleteTransactionBody
+                    {
+                        DeleteAccountID = AccountId.FromString("6.6.6").ToProtobuf()
+                    }
+                }, 
+                [ unusedPublicKey ], 
+                unusedPublicKey, 
+                TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)), 
+                "memo", 
+                validStart.ToTimestamp(), 
+                null, 
+                validStart.ToTimestamp(), 
+                LedgerId.TESTNET, 
+                true);
         }
 
         public virtual void ShouldSerialize()
@@ -41,8 +79,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             var originalScheduleInfo = SpawnScheduleInfoExample();
             byte[] scheduleInfoBytes = originalScheduleInfo.ToBytes();
             var copyScheduleInfo = ScheduleInfo.FromBytes(scheduleInfoBytes);
-            Assert.Equal(copyScheduleInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), originalScheduleInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
-            SnapshotMatcher.Expect(originalScheduleInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            
+            Assert.Equal(Regex.Replace(copyScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
+            
+            SnapshotMatcher.Expect(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
         }
 
         public virtual void ShouldSerializeDeleted()
@@ -50,8 +90,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             var originalScheduleInfo = SpawnScheduleInfoDeletedExample();
             byte[] scheduleInfoBytes = originalScheduleInfo.ToBytes();
             var copyScheduleInfo = ScheduleInfo.FromBytes(scheduleInfoBytes);
-            Assert.Equal(copyScheduleInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), originalScheduleInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
-            SnapshotMatcher.Expect(originalScheduleInfo.ToString().ReplaceAll("@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            
+            Assert.Equal(Regex.Replace(copyScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
+            
+            SnapshotMatcher.Expect(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
         }
     }
 }

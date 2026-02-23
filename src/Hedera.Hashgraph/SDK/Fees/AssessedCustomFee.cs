@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.Token;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Fees
 {
     /// <summary>
     /// A custom transfer fee that was assessed during the handling of a CryptoTransfer.

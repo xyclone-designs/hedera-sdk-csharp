@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Fees;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
@@ -19,8 +21,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         private static readonly int denominator = 5;
         private static readonly int minAmount = 6;
         private static readonly int maxAmount = 7;
-        private static readonly FeeAssessmentMethod feeAssessmentMethod = FeeAssessmentMethod.EXCLUSIVE;
-        private readonly FractionalFee fee = FractionalFee.NewBuilder().SetFractionalAmount(Fraction.NewBuilder().SetNumerator(numerator).SetDenominator(denominator)).SetMinimumAmount(minAmount).SetMaximumAmount(maxAmount).SetNetOfTransfers(true).Build();
+        private static readonly FeeAssessmentMethod feeAssessmentMethod = FeeAssessmentMethod.Exclusive;
+        private readonly Proto.FractionalFee fee = new Proto.FractionalFee
+		{
+			NetOfTransfers = true,
+			MinimumAmount = minAmount,
+			MaximumAmount = maxAmount,
+			FractionalAmount = new Proto.Fraction
+			{
+				Numerator = numerator,
+				Denominator = denominator,
+			},
+		};
+
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());
@@ -38,8 +51,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual void DeepCloneSubclass()
         {
-            var customFractionalFee = new CustomFractionalFee().SetFeeCollectorAccountId(feeCollectorAccountId).SetAllCollectorsAreExempt(allCollectorsAreExempt);
+            var customFractionalFee = new CustomFractionalFee
+            {
+				FeeCollectorAccountId = feeCollectorAccountId
+			
+            }
+            .SetAllCollectorsAreExempt(allCollectorsAreExempt);
             var clonedCustomFractionalFee = customFractionalFee.DeepCloneSubclass();
+
             Assert.Equal(clonedCustomFractionalFee.GetFeeCollectorAccountId(), feeCollectorAccountId);
             Assert.Equal(clonedCustomFractionalFee.GetAllCollectorsAreExempt(), allCollectorsAreExempt);
         }
@@ -51,32 +70,37 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual void GetSetNumerator()
         {
-            var customFractionalFee = new CustomFractionalFee().SetNumerator(numerator);
-            Assert.Equal(customFractionalFee.GetNumerator(), numerator);
+            var customFractionalFee = new CustomFractionalFee { Numerator = numerator };
+
+            Assert.Equal(customFractionalFee.Numerator, numerator);
         }
 
         public virtual void GetSetDenominator()
         {
-            var customFractionalFee = new CustomFractionalFee().SetDenominator(denominator);
-            Assert.Equal(customFractionalFee.GetDenominator(), denominator);
+            var customFractionalFee = new CustomFractionalFee { Denominator = denominator };
+
+            Assert.Equal(customFractionalFee.Denominator, denominator);
         }
 
         public virtual void GetSetMinimumAmount()
         {
-            var customFractionalFee = new CustomFractionalFee().SetMin(minAmount);
-            Assert.Equal(customFractionalFee.GetMin(), minAmount);
+            var customFractionalFee = new CustomFractionalFee { Min = minAmount };
+
+            Assert.Equal(customFractionalFee.Min, minAmount);
         }
 
         public virtual void GetSetMaximumAmount()
         {
-            var customFractionalFee = new CustomFractionalFee().SetMax(maxAmount);
-            Assert.Equal(customFractionalFee.GetMax(), maxAmount);
+            var customFractionalFee = new CustomFractionalFee { Max = maxAmount };
+
+            Assert.Equal(customFractionalFee.Max, maxAmount);
         }
 
         public virtual void GetSetAssessmentMethod()
         {
-            var customFractionalFee = new CustomFractionalFee().SetAssessmentMethod(feeAssessmentMethod);
-            Assert.Equal(customFractionalFee.GetAssessmentMethod(), feeAssessmentMethod);
+            var customFractionalFee = new CustomFractionalFee { AssessmentMethod = feeAssessmentMethod };
+
+            Assert.Equal(customFractionalFee.AssessmentMethod, feeAssessmentMethod);
         }
     }
 }

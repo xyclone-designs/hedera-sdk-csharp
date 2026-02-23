@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
-
+using Hedera.Hashgraph.SDK.Utils;
 using Org.BouncyCastle.Utilities.Encoders;
+
+using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
@@ -16,9 +19,9 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
 			FileID = new FileId(0, 0, 1).ToProtobuf(),
 			Size = 2,
-			ExpirationTime = DateTimeConverter.ToProtobuf(DateTime.OfEpochMilli(3)),
+			ExpirationTime = TimestampConverter.ToProtobuf(DateTimeOffset.FromUnixTimeMilliseconds(3).ToTimestamp()),
 			Deleted = true,
-			Keys = Proto.KeyList.Parser.ParseFrom(Keys),
+			Keys = Proto.KeyList.Parser.ParseFrom(keys),
 			LedgerId = LedgerId.MAINNET.ToByteString(),
 		};
 

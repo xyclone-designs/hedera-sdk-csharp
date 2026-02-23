@@ -33,7 +33,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FileCreateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<FileCreateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -44,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
 				Contents = new byte[] { 1, 2, 3, 4 },
-				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728),
+				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728).ToTimestamp(),
 				Keys = KeyList.Of(null, unusedPrivateKey),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
 				FileMemo = "Hello memo",
@@ -56,7 +57,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<FileCreateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -66,7 +68,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             {
 				FileCreate = new Proto.FileCreateTransactionBody()
 			};
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var tx = Transaction.FromScheduledTransaction<FileCreateTransaction>(transactionBody);
+
             Assert.IsType<FileCreateTransaction>(tx);
         }
     }

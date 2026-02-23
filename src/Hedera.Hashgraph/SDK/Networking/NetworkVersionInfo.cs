@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// </summary>
         /// <param name="hapi">the protobuf version</param>
         /// <param name="hedera">the hedera version</param>
-        NetworkVersionInfo(SemanticVersion hapi, SemanticVersion hedera)
+        internal NetworkVersionInfo(SemanticVersion hapi, SemanticVersion hedera)
         {
             ProtobufVersion = hapi;
             ServicesVersion = hedera;

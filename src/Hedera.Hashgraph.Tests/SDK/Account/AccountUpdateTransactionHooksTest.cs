@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Hook;
+using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
@@ -87,67 +88,100 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual void ShouldThrowWhenAddingHookAfterFreeze()
         {
             var tx = new AccountUpdateTransaction();
-            tx.SetNodeAccountIds(java.util.Arrays.AsList(AccountId.FromString("0.0.5005")));
-            tx.SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), java.time.DateTimeOffset.FromUnixTimeMilliseconds(1554158542)));
+            
+            tx.SetNodeAccountIds([ AccountId.FromString("0.0.5005") ]);
+            tx.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp());
             tx.Freeze();
+            
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
-            AssertThatThrownBy(() => tx.AddHookToCreate(hookDetails)).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction is immutable");
-        }
+            
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.AddHookToDelete(hookDetails));
+
+			Assert.Contains(exception.Message, "transaction is immutable");
+		}
 
         public virtual void ShouldThrowWhenSettingHooksAfterFreeze()
         {
-            var tx = new AccountUpdateTransaction();
-            tx.SetNodeAccountIds(java.util.Arrays.AsList(AccountId.FromString("0.0.5005")));
-            tx.SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), java.time.DateTimeOffset.FromUnixTimeMilliseconds(1554158542)));
-            tx.Freeze();
+            var tx = new AccountUpdateTransaction
+            {
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp())
+			}
+            .SetNodeAccountIds([ AccountId.FromString("0.0.5005") ])
+            .Freeze();
+            
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
-            AssertThatThrownBy(() => tx.SetHooksToCreate(List.Of(hookDetails))).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction is immutable");
-        }
+
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.SetHooksToCreate(hookDetails));
+
+			Assert.Contains(exception.Message, "transaction is immutable");
+		}
 
         public virtual void ShouldThrowWhenDeletingHookAfterFreeze()
         {
-            var tx = new AccountUpdateTransaction();
-            tx.SetNodeAccountIds(java.util.Arrays.AsList(AccountId.FromString("0.0.5005")));
-            tx.SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), java.time.DateTimeOffset.FromUnixTimeMilliseconds(1554158542)));
-            tx.Freeze();
-            AssertThatThrownBy(() => tx.AddHookToDelete(123)).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction is immutable");
-        }
+            var tx = new AccountUpdateTransaction
+            {
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp())
+			}
+            .SetNodeAccountIds([ AccountId.FromString("0.0.5005") ])
+            .Freeze();
+
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.AddHooksToDelete(123));
+
+			Assert.Contains(exception.Message, "transaction is immutable");
+		}
 
         public virtual void ShouldThrowWhenDeletingHooksAfterFreeze()
         {
-            var tx = new AccountUpdateTransaction();
-            tx.SetNodeAccountIds(java.util.Arrays.AsList(AccountId.FromString("0.0.5005")));
-            tx.SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), java.time.DateTimeOffset.FromUnixTimeMilliseconds(1554158542)));
-            tx.Freeze();
-            AssertThatThrownBy(() => tx.SetHooksToDelete(List.Of(123, 456))).IsInstanceOf(typeof(InvalidOperationException)).HasMessageContaining("transaction is immutable");
-        }
+            var tx = new AccountUpdateTransaction
+            {
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp())
+			}
+            .SetNodeAccountIds([ AccountId.FromString("0.0.5005") ])
+            .Freeze();
+
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.SetHooksToDelete([123, 456]));
+
+			Assert.Contains(exception.Message, "transaction is immutable");
+		}
 
         public virtual void ShouldThrowWhenAddingNullHook()
         {
             var tx = new AccountUpdateTransaction();
-            AssertThatThrownBy(() => tx.AddHookToCreate(null)).IsInstanceOf(typeof(NullReferenceException)).HasMessageContaining("hookDetails cannot be null");
+
+            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.AddHookToCreate(null));
+            
+            Assert.Contains(exception.Message, "hookDetails cannot be null");
         }
 
         public virtual void ShouldThrowWhenSettingNullHooks()
         {
             var tx = new AccountUpdateTransaction();
-            AssertThatThrownBy(() => tx.SetHooksToCreate(null)).IsInstanceOf(typeof(NullReferenceException)).HasMessageContaining("hookDetails cannot be null");
+            
+            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.SetHooksToCreate(null));
+            
+            Assert.Contains(exception.Message, "hookDetails cannot be null");
         }
 
         public virtual void ShouldThrowWhenDeletingNullHook()
         {
             var tx = new AccountUpdateTransaction();
-            AssertThatThrownBy(() => tx.AddHookToDelete(null)).IsInstanceOf(typeof(NullReferenceException)).HasMessageContaining("hookId cannot be null");
+
+            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.AddHookToDelete(null));
+            
+            Assert.Contains(exception.Message, "hookId cannot be null");
         }
 
         public virtual void ShouldThrowWhenDeletingNullHooks()
         {
             var tx = new AccountUpdateTransaction();
-            AssertThatThrownBy(() => tx.SetHooksToDelete(null)).IsInstanceOf(typeof(NullReferenceException)).HasMessageContaining("hookIds cannot be null");
+
+            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.SetHooksToDelete(null));
+            
+            Assert.Contains(exception.Message, "hookIds cannot be null");
         }
 
         public virtual void ShouldSerializeHooksInBuild()
@@ -156,9 +190,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
+            
             tx.AddHookToCreate(hookDetails);
             tx.AddHookToDelete(123);
-            var builder = tx.Build();
+            
+            var builder = tx.ToProtobuf();
+
             Assert.Single(builder.GetHookCreationDetailsList());
             Assert.Single(builder.GetHookIdsToDeleteList());
             Assert.Contains(builder.GetHookIdsToDeleteList(), 123);
@@ -170,10 +207,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
+            
             tx.AddHookToCreate(hookDetails);
             tx.AddHookToDelete(123);
+            
             var bytes = tx.ToBytes();
             var deserializedTx = (AccountUpdateTransaction)Transaction.FromBytes(bytes);
+            
             Assert.Single(deserializedTx.GetHooksToCreate());
             Assert.Single(deserializedTx.GetHooksToDelete());
             Assert.Contains(deserializedTx.GetHooksToDelete(), 123);
@@ -182,9 +222,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual void ShouldHandleEmptyHooks()
         {
             var tx = new AccountUpdateTransaction();
+            
             Assert.Empty(tx.GetHooksToCreate());
             Assert.Empty(tx.GetHooksToDelete());
+            
             var builder = tx.Build();
+            
             Assert.Empty(builder.GetHookCreationDetailsList());
             Assert.Empty(builder.GetHookIdsToDeleteList());
         }
@@ -196,10 +239,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var lambdaHook = new EvmHook(contractId);
             var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, lambdaHook);
+            
             tx.AddHookToCreate(hookDetails1);
             tx.AddHookToCreate(hookDetails2);
             tx.AddHookToDelete(100);
             tx.AddHookToDelete(200);
+
             Assert.Equal(2, tx.GetHbarTransfers().Count);
             Assert.Equal(2, tx.GetHbarTransfers().Count);
             AssertThat(tx.GetHooksToDelete()).ContainsExactlyInAnyOrder(100, 200);

@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new SystemUndeleteTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<SystemUndeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -71,14 +71,14 @@ namespace Hedera.Hashgraph.Tests.SDK.System
         public virtual void ShouldBytesContract()
         {
             var tx = SpawnTestTransactionContract();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<SystemUndeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesFile()
         {
             var tx = SpawnTestTransactionFile();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<SystemUndeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 

@@ -1,13 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
@@ -17,8 +10,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         private static readonly AccountId feeCollectorAccountId = new AccountId(1, 2, 3);
         private static readonly int numerator = 4;
         private static readonly int denominator = 5;
-        private static readonly CustomFixedFee fallbackFee = new CustomFixedFee().SetAmount(6);
-        private readonly RoyaltyFee fee = RoyaltyFee.NewBuilder().SetExchangeValueFraction(Fraction.NewBuilder().SetNumerator(numerator).SetDenominator(denominator)).SetFallbackFee(FixedFee.NewBuilder().SetAmount(6).Build()).Build();
+        private static readonly CustomFixedFee fallbackFee = new CustomFixedFee { Amount = 6 };
+        private readonly Proto.RoyaltyFee fee = new Proto.RoyaltyFee
+        {
+            FallbackFee = new Proto.FixedFee { Amount = 6 },
+            ExchangeValueFraction = new Proto.Fraction
+            {
+                Numerator = numerator,
+                Denominator = denominator,
+            },
+        };
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());
@@ -36,10 +37,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual void DeepCloneSubclass()
         {
-            var customRoyaltyFee = new CustomRoyaltyFee().SetFeeCollectorAccountId(feeCollectorAccountId).SetAllCollectorsAreExempt(allCollectorsAreExempt);
+            var customRoyaltyFee = new CustomRoyaltyFee
+            {
+				FeeCollectorAccountId = feeCollectorAccountId,
+				AllCollectorsAreExempt = allCollectorsAreExempt,
+			};
             var clonedCustomRoyaltyFee = customRoyaltyFee.DeepCloneSubclass();
-            Assert.Equal(clonedCustomRoyaltyFee.GetFeeCollectorAccountId(), feeCollectorAccountId);
-            Assert.Equal(clonedCustomRoyaltyFee.GetAllCollectorsAreExempt(), allCollectorsAreExempt);
+            
+            Assert.Equal(clonedCustomRoyaltyFee.FeeCollectorAccountId, feeCollectorAccountId);
+            Assert.Equal(clonedCustomRoyaltyFee.AllCollectorsAreExempt, allCollectorsAreExempt);
         }
 
         public virtual void ToProtobuf()
@@ -49,21 +55,24 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual void GetSetNumerator()
         {
-            var customRoyaltyFee = new CustomRoyaltyFee().SetNumerator(numerator);
-            Assert.Equal(customRoyaltyFee.GetNumerator(), numerator);
+            var customRoyaltyFee = new CustomRoyaltyFee { Numerator = numerator };
+            
+            Assert.Equal(customRoyaltyFee.Numerator, numerator);
         }
 
         public virtual void GetSetDenominator()
         {
-            var customRoyaltyFee = new CustomRoyaltyFee().SetDenominator(denominator);
-            Assert.Equal(customRoyaltyFee.GetDenominator(), denominator);
+            var customRoyaltyFee = new CustomRoyaltyFee { Denominator = denominator };
+            
+            Assert.Equal(customRoyaltyFee.Denominator, denominator);
         }
 
         public virtual void GetSetFallbackFee()
         {
-            var customRoyaltyFee = new CustomRoyaltyFee().SetFallbackFee(fallbackFee);
-            Assert.NotNull(customRoyaltyFee.GetFallbackFee());
-            Assert.Equal(customRoyaltyFee.GetFallbackFee().GetAmount(), fallbackFee.GetAmount());
+            var customRoyaltyFee = new CustomRoyaltyFee { FallbackFee = fallbackFee };
+            
+            Assert.NotNull(customRoyaltyFee.FallbackFee);
+            Assert.Equal(customRoyaltyFee.FallbackFee.Amount, fallbackFee.Amount);
         }
     }
 }

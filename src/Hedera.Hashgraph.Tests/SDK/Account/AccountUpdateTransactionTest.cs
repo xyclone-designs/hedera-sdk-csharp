@@ -1,8 +1,11 @@
 
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
@@ -24,12 +27,44 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual AccountUpdateTransaction SpawnTestTransaction()
         {
-            return new AccountUpdateTransaction().SetKey(unusedPrivateKey).SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.2002")).SetProxyAccountId(AccountId.FromString("0.0.1001")).SetAutoRenewPeriod(Duration.OfHours(10)).SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158543)).SetReceiverSignatureRequired(false).SetMaxAutomaticTokenAssociations(100).SetAccountMemo("Some memo").SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetStakedAccountId(AccountId.FromString("0.0.3")).Freeze().Sign(unusedPrivateKey);
+            return new AccountUpdateTransaction
+            {
+				Key = unusedPrivateKey,
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = AccountId.FromString("0.0.2002"),
+				ProxyAccountId = AccountId.FromString("0.0.1001"),
+				AutoRenewPeriod = TimeSpan.FromHours(10),
+				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158543),
+				ReceiverSigRequired = false,
+				MaxAutomaticTokenAssociations = 100,
+				AccountMemo = "Some memo",
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+				StakedAccountId = AccountId.FromString("0.0.3"),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual AccountUpdateTransaction SpawnTestTransaction2()
         {
-            return new AccountUpdateTransaction().SetKey(unusedPrivateKey).SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.2002")).SetProxyAccountId(AccountId.FromString("0.0.1001")).SetAutoRenewPeriod(Duration.OfHours(10)).SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158543)).SetReceiverSignatureRequired(false).SetMaxAutomaticTokenAssociations(100).SetAccountMemo("Some memo").SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetStakedNodeId(4).Freeze().Sign(unusedPrivateKey);
+            return new AccountUpdateTransaction
+            {
+				Key = unusedPrivateKey,
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = AccountId.FromString("0.0.2002"),
+				ProxyAccountId = AccountId.FromString("0.0.1001"),
+				AutoRenewPeriod = TimeSpan.FromHours(10),
+				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158543),
+				ReceiverSigRequired = false,
+				MaxAutomaticTokenAssociations = 100,
+				AccountMemo = "Some memo",
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+				StakedNodeId = 4,
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldSerialize()
@@ -40,14 +75,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = AccountUpdateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new AccountUpdateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -59,14 +96,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual void ShouldBytes2()
         {
             var tx = SpawnTestTransaction2();
-            var tx2 = AccountUpdateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetCryptoUpdateAccount(CryptoUpdateTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				CryptoUpdateAccount = new Proto.CryptoUpdateTransactionBody()
+			};
+            var tx = Transaction.FromScheduledTransaction<AccountUpdateTransaction>(transactionBody);
+
             Assert.IsType<AccountUpdateTransaction>(tx);
         }
     }

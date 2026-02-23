@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api;
-using Java.Util;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
@@ -24,14 +20,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
                 0x04
             };
             var slot = new EvmHookStorageSlot(key, value);
-            Assert.Equal(key, slot.GetKey());
-            Assert.Equal(value, slot.GetValue());
+            Assert.Equal(key, slot.Key);
+            Assert.Equal(value, slot.Value);
 
             // Defensive copies on construction/getters
             key[0] = 0x7F;
             value[0] = 0x7F;
-            Assert.Equal(new byte[] { 0x01, 0x02 }, slot.GetKey());
-            Assert.Equal(new byte[] { 0x03, 0x04 }, slot.GetValue());
+            Assert.Equal(new byte[] { 0x01, 0x02 }, slot.Key);
+            Assert.Equal(new byte[] { 0x03, 0x04 }, slot.Value);
         }
 
         public virtual void LambdaStorageSlotProtobufRoundTrip()
@@ -42,8 +38,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(original, restored);
             Assert.True(restored is EvmHookStorageUpdate.EvmHookStorageSlot);
             var restoredSlot = (EvmHookStorageUpdate.EvmHookStorageSlot)restored;
-            Assert.Equal(new byte[] { 0x0A }, restoredSlot.GetKey());
-            Assert.Equal(new byte[] { 0x0B }, restoredSlot.GetValue());
+            Assert.Equal(new byte[] { 0x0A }, restoredSlot.Key);
+            Assert.Equal(new byte[] { 0x0B }, restoredSlot.Value);
             Assert.True(original.ToString().Contains("key"));
         }
 
@@ -54,18 +50,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
                 0x05
             };
             var entry = EvmHookMappingEntry.OfKey(new byte[] { 0x10 }, new byte[] { 0x20 });
-            var updates = new EvmHookMappingEntries(mappingSlot, List.Of(entry));
-            Assert.Equal(mappingSlot, updates.GetMappingSlot());
-            Assert.Equal(1, updates.GetEntries().Count);
-            Assert.Equal(entry, updates.GetEntries()[0]);
+            var updates = new EvmHookMappingEntries(mappingSlot, [entry]);
+            Assert.Equal(mappingSlot, updates.MappingSlot);
+            Assert.Equal(1, updates.Entries.Count);
+            Assert.Equal(entry, updates.Entries[0]);
 
             // Defensive copy of mappingSlot
             mappingSlot[0] = 0x7F;
-            Assert.Equal(new byte[] { 0x05 }, updates.GetMappingSlot());
+            Assert.Equal(new byte[] { 0x05 }, updates.MappingSlot);
 
             // Returned entries list is a copy
-            var list1 = updates.GetEntries();
-            var list2 = updates.GetEntries();
+            var list1 = updates.Entries;
+            var list2 = updates.Entries;
             AssertNotSame(list1, list2);
             Assert.Equal(list1, list2);
         }
@@ -74,23 +70,23 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
         {
 
             // mappingSlot cannot be null
-            Assert.Throws<NullReferenceException>(() => new EvmHookMappingEntries(null, List.Of()));
+            Assert.Throws<NullReferenceException>(() => new EvmHookMappingEntries(null, []));
 
             // entries cannot be null
             Assert.Throws<NullReferenceException>(() => new EvmHookMappingEntries(new byte[] { 0x01 }, null));
 
             // current behavior: length > 32 is allowed
-            AssertDoesNotThrow(() => new EvmHookMappingEntries(new byte[33], List.Of()));
+            AssertDoesNotThrow(() => new EvmHookMappingEntries(new byte[33], []));
 
             // current behavior: leading zeros are allowed
-            AssertDoesNotThrow(() => new EvmHookMappingEntries(new byte[] { 0x00, 0x01 }, List.Of()));
+            AssertDoesNotThrow(() => new EvmHookMappingEntries(new byte[] { 0x00, 0x01 }, []));
         }
 
         public virtual void LambdaMappingEntriesProtobufRoundTrip()
         {
             var entry1 = EvmHookMappingEntry.OfKey(new byte[] { 0x11 }, new byte[] { 0x22 });
             var entry2 = EvmHookMappingEntry.WithPreimage(new byte[] { 0x33 }, new byte[] { 0x44 });
-            var original = new EvmHookMappingEntries(new byte[] { 0x09 }, List.Of(entry1, entry2));
+            var original = new EvmHookMappingEntries(new byte[] { 0x09 }, [entry1, entry2]);
             var proto = original.ToProtobuf();
             var restored = EvmHookStorageUpdate.FromProtobuf(proto);
             Assert.Equal(original, restored);
@@ -104,6 +100,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
         public virtual void FromProtobufWithoutUpdateThrows()
         {
             var emptyProto = Proto.EvmHookStorageUpdate.NewBuilder().Build();
+
             Assert.Throws<ArgumentException>(() => EvmHookStorageUpdate.FromProtobuf(emptyProto));
         }
     }

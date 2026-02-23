@@ -1,14 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Schedule;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.Tests.SDK.Schedule
 {
@@ -34,19 +33,29 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ScheduleSignTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ScheduleSignTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private ScheduleSignTransaction SpawnTestTransaction()
         {
-            return new ScheduleSignTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetScheduleId(ScheduleId.FromString("0.0.444")).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new ScheduleSignTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				ScheduleId = ScheduleId.FromString("0.0.444"),
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = ScheduleSignTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ScheduleSignTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
     }

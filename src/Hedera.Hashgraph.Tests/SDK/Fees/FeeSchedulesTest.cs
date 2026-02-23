@@ -25,7 +25,23 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual FeeSchedules SpawnFeeSchedulesExample()
         {
-            return new FeeSchedules().SetCurrent(new FeeSchedule().SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158542)).AddTransactionFeeSchedule(new TransactionFeeSchedule().AddFee(new FeeData().SetNodeData(new FeeComponents()).SetNetworkData(new FeeComponents().SetMin(2).SetMax(5)).SetServiceData(new FeeComponents())))).SetNext(new FeeSchedule().SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158222)).AddTransactionFeeSchedule(new TransactionFeeSchedule().AddFee(new FeeData().SetNodeData(new FeeComponents().SetMin(1).SetMax(2)).SetNetworkData(new FeeComponents()).SetServiceData(new FeeComponents()))));
+            return new FeeSchedules()
+                .SetCurrent(new FeeSchedule()
+                .SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158542))
+                .AddTransactionFeeSchedule(new TransactionFeeSchedule().AddFee(new FeeData()
+                .SetNodeData(new FeeComponents())
+                .SetNetworkData(new FeeComponents()
+                .SetMin(2)
+                .SetMax(5))
+                .SetServiceData(new FeeComponents()))))
+                .SetNext(new FeeSchedule()
+                .SetExpirationTime(DateTimeOffset.FromUnixTimeMilliseconds(1554158222))
+                .AddTransactionFeeSchedule(new TransactionFeeSchedule().AddFee(new FeeData()
+                .SetNodeData(new FeeComponents()
+                .SetMin(1)
+                .SetMax(2))
+                .SetNetworkData(new FeeComponents())
+                .SetServiceData(new FeeComponents()))));
         }
 
         public virtual void ShouldSerialize()

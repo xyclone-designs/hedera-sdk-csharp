@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK.Hook;
+
 using System;
 using System.Linq;
 
@@ -19,10 +21,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
                 0x04
             };
             var entry = EvmHookMappingEntry.OfKey(key, value);
-            Assert.True(entry.HasExplicitKey());
-            Assert.False(entry.HasPreimageKey());
+            Assert.True(entry.HasExplicitKey);
+            Assert.False(entry.HasPreimageKey);
             Assert.Equal(key, entry.Key);
-            Assert.Null(entry.GetPreimage());
+            Assert.Null(entry.PreImage);
             Assert.Equal(value, entry.Value);
 
             // Ensure defensive copies
@@ -45,16 +47,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
                 0x44
             };
             var entry = EvmHookMappingEntry.WithPreimage(preimage, value);
-            Assert.False(entry.HasExplicitKey());
-            Assert.True(entry.HasPreimageKey());
+            Assert.False(entry.HasExplicitKey);
+            Assert.True(entry.HasPreimageKey);
             Assert.Null(entry.Key);
-            Assert.Equal(preimage, entry.GetPreimage());
+            Assert.Equal(preimage, entry.PreImage);
             Assert.Equal(value, entry.Value);
 
             // Ensure defensive copies
             preimage[0] = 0x7F;
             value[0] = 0x7F;
-            Assert.Equal(new byte[] { 0x11, 0x22 }, entry.GetPreimage());
+            Assert.Equal(new byte[] { 0x11, 0x22 }, entry.PreImage);
             Assert.Equal(new byte[] { 0x33, 0x44 }, entry.Value);
         }
 
@@ -79,6 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
         public virtual void FromProtobufWithoutKeyThrows()
         {
             var emptyProto = Proto.EvmHookMappingEntry.NewBuilder().Build();
+
             Assert.Throws<ArgumentException>(() => EvmHookMappingEntry.FromProtobuf(emptyProto));
         }
 

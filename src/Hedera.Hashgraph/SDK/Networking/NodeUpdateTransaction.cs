@@ -428,7 +428,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <param name="client">the client to freeze with</param>
 		/// <returns>this transaction</returns>
 		/// <exception cref="IllegalStateException">if nodeId is not set</exception>
-		public override NodeUpdateTransaction FreezeWith(Client client)
+		public override NodeUpdateTransaction FreezeWith(Client? client)
 		{
 			if (NodeId == null)
 				throw new InvalidOperationException("NodeUpdateTransaction: 'nodeId' must be explicitly set before calling freeze().");

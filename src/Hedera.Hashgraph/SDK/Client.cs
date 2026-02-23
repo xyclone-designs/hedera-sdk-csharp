@@ -16,6 +16,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
+using static Grpc.Core.Metadata;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -41,17 +42,17 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="Network">the Network</param>
         /// <param name="MirrorNetwork_">the mirror Network</param>
         /// <param name="shouldShutdownExecutor"></param>
-        internal Client(ExecutorService executor, Network Network, MirrorNetwork MirrorNetwork_, TimeSpan NetworkUpdateInitialDelay, bool shouldShutdownExecutor, TimeSpan NetworkUpdatePeriod, long shard, long realm)
+        internal Client(ExecutorService executor, Network network, MirrorNetwork mirrorNetwork, TimeSpan? networkUpdateInitialDelay, bool shouldShutdownExecutor, TimeSpan? networkUpdatePeriod, long shard, long realm)
         {
             Executor = executor;
-            Network = Network;
-            MirrorNetwork_ = MirrorNetwork_;
+            Network_ = network;
+            MirrorNetwork_ = mirrorNetwork;
             ShouldShutdownExecutor = shouldShutdownExecutor;
-            NetworkUpdatePeriod = NetworkUpdatePeriod;
+            NetworkUpdatePeriod = networkUpdatePeriod;
             Shard = shard;
             Realm = realm;
 
-            ScheduleNetworkUpdate(NetworkUpdateInitialDelay);
+            ScheduleNetworkUpdate(networkUpdateInitialDelay);
         }
 
 		/// <summary>
@@ -537,20 +538,17 @@ namespace Hedera.Hashgraph.SDK
 						// Checking NetworkUpdatePeriod != null must be synchronized, so I've put it in a synchronized method.
 						RequireNetworkUpdatePeriodNotNull(async () =>
 						{
-							var fileId = FileId.GetAddressBookFileIdFor(shard, realm);
+							var fileId = FileId.GetAddressBookFileIdFor(Shard, Realm);
+
 							NodeAddressBook addressbook = await new AddressBookQuery { FileId = fileId, }.ExecuteAsync(this);
 							RequireNetworkUpdatePeriodNotNull(() =>
 							{
 								try
 								{
-									SetNetworkFromAddressBook(addressBook);
+									NetworkFromAddressBook = addressBook;
 								}
-								catch (Exception error)
-								{
-									return Task.FailedFuture(error);
-								}
+								catch (Exception) { }
 
-								return Task.FromResult(null);
 							}).Exceptionally((error) =>
 							{
 								logger.Warn("Failed to update address book via mirror node query ", error);

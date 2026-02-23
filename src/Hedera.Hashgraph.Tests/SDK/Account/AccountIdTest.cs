@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Token;
+
+using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 
@@ -216,7 +218,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             string evmAddress = "302a300506032b6570032100114e6abc371b82da";
             var id = AccountId.FromEvmAddress(evmAddress, 5, 9);
-            Assert.Equal(id.evmAddress.ToString(), evmAddress);
+            Assert.Equal(id.EvmAddress.ToString(), evmAddress);
             Assert.Equal(id.Shard, 5);
             Assert.Equal(id.Realm, 9);
         }

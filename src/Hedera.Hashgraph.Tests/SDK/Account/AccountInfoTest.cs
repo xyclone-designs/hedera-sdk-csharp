@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
+
+using Google.Protobuf;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.LiveHashes;
+using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Token;
-
+using Hedera.Hashgraph.SDK.Utils;
 using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
@@ -10,15 +14,37 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
     public class AccountInfoTest
     {
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
-        private static readonly byte[] hash = new[]
+        private static readonly byte[] hash = [0, 1, 2];
+        private static readonly Proto.LiveHash liveHash = new ()
         {
-            0,
-            1,
-            2
+			AccountId = new AccountId(0, 0, 10).ToProtobuf(),
+			Duration = DurationConverter.ToProtobuf(TimeSpan.FromDays(11)),
+			Hash = ByteString.CopyFrom(hash),
+			Keys = new Proto.KeyList 
+            {
+                Keys = [ privateKey.GetPublicKey().ToProtobufKey() ]
+			}
         };
-        private static readonly LiveHash liveHash = LiveHash.NewBuilder().SetAccountId(new AccountId(0, 0, 10).ToProtobuf()).SetDuration(DurationConverter.ToProtobuf(Duration.OfDays(11))).SetHash(ByteString.CopyFrom(hash)).SetKeys(KeyList.NewBuilder().AddKeys(privateKey.GetPublicKey().ToProtobufKey())).Build();
-        private static readonly CryptoGetInfoResponse.AccountInfo info = CryptoGetInfoResponse.AccountInfo.NewBuilder().SetAccountID(new AccountId(0, 0, 1).ToProtobuf()).SetDeleted(true).SetProxyReceived(2).SetKey(privateKey.GetPublicKey().ToProtobufKey()).SetBalance(3).SetGenerateSendRecordThreshold(4).SetGenerateReceiveRecordThreshold(5).SetReceiverSigRequired(true).SetExpirationTime(DateTimeConverter.ToProtobuf(DateTime.OfEpochMilli(6))).SetAutoRenewPeriod(DurationConverter.ToProtobuf(Duration.OfDays(7))).SetProxyAccountID(new AccountId(0, 0, 8).ToProtobuf()).AddLiveHashes(liveHash).SetLedgerId(LedgerId.PREVIEWNET.ToByteString()).SetEthereumNonce(1001).Build();
-        public static void BeforeAll()
+
+        private static readonly Proto.CryptoGetInfoResponse.Types.AccountInfo info = new()
+        {
+            AccountID = new AccountId(0, 0, 1).ToProtobuf(),
+            Deleted = true,
+            ProxyReceived = 2,
+            Key = privateKey.GetPublicKey().ToProtobufKey(),
+            Balance = 3,
+            GenerateSendRecordThreshold = 4,
+            GenerateReceiveRecordThreshold = 5,
+            ReceiverSigRequired = true,
+            ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(6),
+            AutoRenewPeriod = DurationConverter.ToProtobuf(TimeSpan.FromDays(7)),
+            ProxyAccountID = new AccountId(0, 0, 8).ToProtobuf(),
+            LedgerId = LedgerId.PREVIEWNET.ToByteString(),
+            EthereumNonce = 1001,
+            // .AddLiveHashes(liveHash)
+        };
+
+		public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());
         }

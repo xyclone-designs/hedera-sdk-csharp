@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-using Proto;
-using Io.Grpc;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Concurrent.Atomic;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.File;
+using System.Runtime.CompilerServices;
+
+using Grpc.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
@@ -19,7 +15,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void RegeneratesTransactionIdsWhenTransactionExpiredIsReturned()
         {
 			HashSet<TransactionId> transactionIds = [];
-            AtomicInteger count = new AtomicInteger(0);
+            AtomicStruct<int> count = new (0);
             List<Proto.TransactionResponse>  responses = 
             [
 				new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.TransactionExpired },
@@ -27,29 +23,31 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.TransactionExpired }, 
                 new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok }
             ];
-            var call = (Function<object, object>)(o) =>
+
+			Func<object, object> call = (o) =>
             {
                 try
                 {
                     var transaction = (Transaction)o;
-                    var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(transaction.GetSignedTransactionBytes());
-                    var transactionBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.GetBodyBytes());
-                    var transactionId = TransactionId.FromProtobuf(transactionBody.GetTransactionID());
+                    var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(transaction.SignedTransactionBytes);
+                    var transactionBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
+                    var transactionId = TransactionId.FromProtobuf(transactionBody.TransactionID);
                     if (transactionIds.Contains(transactionId))
                     {
-                        return Status.Code.ABORTED.ToStatus().AsRuntimeException();
+                        return new RuntimeWrappedException(StatusCode.Aborted);
                     }
 
                     transactionIds.Add(transactionId);
-                    return responses[count.GetAndIncrement()];
+
+                    return responses[count.IncrementAndGet()];
                 }
                 catch (Exception e)
                 {
-                    return new Exception(e);
+                    return e;
                 }
             };
-            IList<object> responses1 = List.Of(call, call, call, call);
-            using (var mocker = Mocker.WithResponses(List.Of(responses1)))
+
+            using (var mocker = Mocker.WithResponses([call, call, call, call]))
             {
                 new FileCreateTransaction().Execute(mocker.client);
             }

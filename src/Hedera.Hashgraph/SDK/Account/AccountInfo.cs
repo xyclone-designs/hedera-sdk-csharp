@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <summary>
         /// If true, no transaction can transfer to this account unless signed by this account's key.
         /// </summary>
-        public readonly bool IsReceiverSignatureRequired;
+        public readonly bool IsReceiverSigRequired;
         /// <summary>
         /// The time at which this account is set to expire.
         /// </summary>
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.SDK.Account
 				Balance = (ulong)Balance.ToTinybars(),
 				GenerateSendRecordThreshold = (ulong)SendRecordThreshold.ToTinybars(),
 				GenerateReceiveRecordThreshold = (ulong)ReceiveRecordThreshold.ToTinybars(),
-				ReceiverSigRequired = IsReceiverSignatureRequired,
+				ReceiverSigRequired = IsReceiverSigRequired,
 				ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime),
 				AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod),
 				Memo = AccountMemo,

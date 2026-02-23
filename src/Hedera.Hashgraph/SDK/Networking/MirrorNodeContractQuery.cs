@@ -196,7 +196,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return ParseContractCallResult(_);
 		}
 
-		protected virtual string Call(Client client)
+		internal virtual string Call(Client client)
 		{
 			FillEvmAddresses();
 			var blockNum = BlockNumber == 0 ? "latest" : BlockNumber.ToString();
@@ -208,7 +208,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <param name="client"></param>
 		/// <exception cref="ExecutionException"></exception>
 		/// <exception cref="InterruptedException"></exception>
-		protected virtual long Estimate(Client client)
+		internal virtual long Estimate(Client client)
 		{
 			FillEvmAddresses();
 			return GetEstimateGasFromMirrorNodeAsync(client).GetAwaiter().GetResult();

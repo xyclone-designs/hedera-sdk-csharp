@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         /// <param name="hash">the hash</param>
         /// <param name="keys">the key list</param>
         /// <param name="duration">the duration</param>
-        private LiveHash(AccountId accountId, ByteString hash, KeyList keys, TimeSpan duration)
+        internal LiveHash(AccountId accountId, ByteString hash, KeyList keys, TimeSpan duration)
         {
             AccountId = accountId;
             Hash = hash;

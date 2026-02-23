@@ -1,15 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Schedule;
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.Tests.SDK.Schedule
 {
@@ -34,47 +31,78 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
 
         private ScheduleCreateTransaction SpawnTestTransaction()
         {
-            var transferTransaction = new TransferTransaction().AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10)).AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));
-            return transferTransaction.Schedule().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAdminKey(unusedPrivateKey).SetPayerAccountId(AccountId.FromString("0.0.222")).SetScheduleMemo("hi").SetMaxTransactionFee(new Hbar(1)).SetExpirationTime(validStart).Freeze().Sign(unusedPrivateKey);
+            var transferTransaction = new TransferTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AdminKey = unusedPrivateKey,
+				PayerAccountId = AccountId.FromString("0.0.222"),
+				ScheduleMemo = "hi",
+				MaxTransactionFee = new Hbar(1),
+				ExpirationTime = validStart,
+
+			}.AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10))
+            .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));
+            
+            return transferTransaction.Schedule()
+                
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = ScheduleCreateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ScheduleCreateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ScheduleCreateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ScheduleCreateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldSupportExpirationTimeDurationBytesRoundTrip()
         {
-            var transferTransaction = new TransferTransaction().AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10)).AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));
-            var tx = transferTransaction.Schedule().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAdminKey(unusedPrivateKey).SetPayerAccountId(AccountId.FromString("0.0.222")).SetScheduleMemo("with-duration").SetMaxTransactionFee(new Hbar(1)).SetExpirationTime(Duration.OfSeconds(1234));
-
+            var transferTransaction = new TransferTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AdminKey = unusedPrivateKey,
+				PayerAccountId = AccountId.FromString("0.0.222"),
+				ScheduleMemo = "with-duration",
+				MaxTransactionFee = new Hbar(1),
+				ExpirationTime = Duration.OfSeconds(1234),
+			}
+                .AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10))
+                .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));
+            var tx = transferTransaction.Schedule();
             // When expiration is set via Duration, DateTimeOffset getter should be null
-            Assert.Null(tx.GetExpirationTime());
-            var tx2 = (ScheduleCreateTransaction)Transaction.FromBytes(tx.ToBytes());
+            Assert.Null(tx.ExpirationTime);
+            var tx2 = Transaction.FromBytes<ScheduleCreateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
-            Assert.Equal(tx2.GetExpirationTime(), DateTimeOffset.FromUnixTimeMilliseconds(1234));
+            Assert.Equal(tx2.ExpirationTime, DateTimeOffset.FromUnixTimeMilliseconds(1234).ToTimestamp());
         }
 
         public virtual void SetExpirationTimeDurationOnFrozenTransactionShouldThrow()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetExpirationTime(Duration.OfSeconds(1)));
+            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = Timestamp.FromDateTimeOffset(DateTimeOffset.FromUnixTimeSeconds(1)));
         }
 
         public virtual void GetSetExpirationTimeDateTime()
         {
-            var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567);
-            var tx = new ScheduleCreateTransaction().SetExpirationTime(instant);
-            Assert.Equal(tx.GetExpirationTime(), instant);
+            var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567).ToTimestamp();
+            var tx = new ScheduleCreateTransaction
+            {
+				ExpirationTime = instant
+			};
+
+            Assert.Equal(tx.ExpirationTime, instant);
         }
     }
 }

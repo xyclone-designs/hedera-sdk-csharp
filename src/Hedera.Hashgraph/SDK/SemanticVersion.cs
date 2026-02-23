@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="major">the major part</param>
         /// <param name="minor">the minor part</param>
         /// <param name="patch">the patch part</param>
-        SemanticVersion(int major, int minor, int patch)
+        internal SemanticVersion(int major, int minor, int patch)
         {
             Major = major;
             Minor = minor;

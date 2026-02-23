@@ -1,7 +1,8 @@
+using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
@@ -13,11 +14,6 @@ namespace Hedera.Hashgraph.SDK.Queries
 		private class QueryCostQuery : Query<Hbar, QueryCostQuery> 
 		{
 			public override bool IsPaymentRequired => false;
-
-			public Hbar MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
-			{
-				return Hbar.FromTinybars((long)MapResponseHeader(response).Cost);
-			}
 
 			public override void ValidateChecksums(Client client)  { }
 			public override void OnMakeRequest(Proto.Query query, Proto.QueryHeader header) 
@@ -32,10 +28,16 @@ namespace Hedera.Hashgraph.SDK.Queries
 				header.Payment = new TransferTransaction
 				{
 					NodeAccountIds = [ new AccountId(0, 0, 0) ],
-					TransactionId = TransactionId.WithValidStart(new AccountId(0, 0, 0), DateTimeOffset.FromUnixTimeMilliseconds(0))
+					TransactionId = TransactionId.WithValidStart(new AccountId(0, 0, 0), Timestamp.FromDateTimeOffset(DateTimeOffset.FromUnixTimeMilliseconds(0)))
 
 				}.Freeze().MakeRequest();;
 			}
+
+			public override Hbar MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+			{
+				return Hbar.FromTinybars((long)MapResponseHeader(response).Cost);
+			}
+
 			public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
 			{
 				return new Proto.ResponseHeader();
@@ -44,6 +46,10 @@ namespace Hedera.Hashgraph.SDK.Queries
 			{
 				return new Proto.QueryHeader();
 			}
-		}
+            public override MethodDescriptor GetMethodDescriptor()
+            {
+                throw new NotImplementedException();
+            }
+        }
 	}
 }

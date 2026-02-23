@@ -1,8 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
@@ -24,9 +28,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual AccountAllowanceDeleteTransaction SpawnTestTransaction()
         {
             var ownerId = AccountId.FromString("5.6.7");
-            return new AccountAllowanceDeleteTransaction()
-                .SetNodeAccountIds([  ])
-                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).DeleteAllHbarAllowances(ownerId).DeleteAllTokenAllowances(TokenId.FromString("2.2.2"), ownerId).DeleteAllTokenNftAllowances(TokenId.FromString("4.4.4").Nft(123), ownerId).DeleteAllTokenNftAllowances(TokenId.FromString("4.4.4").Nft(456), ownerId).DeleteAllTokenNftAllowances(TokenId.FromString("8.8.8").Nft(456), ownerId).DeleteAllTokenNftAllowances(TokenId.FromString("4.4.4").Nft(789), ownerId).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
+            return new AccountAllowanceDeleteTransaction
+            {
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+			}
+            .DeleteAllHbarAllowances(ownerId)
+            .DeleteAllTokenAllowances(TokenId.FromString("2.2.2"), ownerId)
+            .DeleteAllTokenNftAllowances(TokenId.FromString("4.4.4").Nft(123), ownerId)
+            .DeleteAllTokenNftAllowances(TokenId.FromString("4.4.4").Nft(456), ownerId)
+            .DeleteAllTokenNftAllowances(TokenId.FromString("8.8.8").Nft(456), ownerId)
+            .DeleteAllTokenNftAllowances(TokenId.FromString("4.4.4").Nft(789), ownerId)
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldSerialize()
@@ -37,14 +51,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = AccountAllowanceDeleteTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountAllowanceDeleteTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new AccountAllowanceDeleteTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<AccountAllowanceDeleteTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -54,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				CryptoDeleteAllowance = new Proto.CryptoDeleteAllowanceTransactionBody()
 			};
-            var tx = Transaction<T>.FromScheduledTransaction(transactionBody);
+            var tx = Transaction.FromScheduledTransaction<AccountAllowanceDeleteTransaction>(transactionBody);
 
             Assert.IsType<AccountAllowanceDeleteTransaction>(tx);
         }

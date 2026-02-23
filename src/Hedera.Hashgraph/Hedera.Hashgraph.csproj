@@ -25,6 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Protos\mirror\**" />
+    <EmbeddedResource Remove="Protos\mirror\**" />
+    <None Remove="Protos\mirror\**" />
+    <Protobuf Remove="Protos\mirror\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\AddressBook\mainnet.pb" />
     <None Remove="Resources\AddressBook\previewnet.pb" />
     <None Remove="Resources\AddressBook\testnet.pb" />

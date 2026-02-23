@@ -13,7 +13,6 @@ syntax = "proto3";
 package com.hedera.hapi.services.auxiliary.hints;
 
 // SPDX-License-Identifier: Apache-2.0
-import "hints_types.proto";
 
 option java_package = "com.hedera.hapi.services.auxiliary.hints.legacy";
 

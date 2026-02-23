@@ -143,7 +143,8 @@ namespace Hedera.Hashgraph.SDK.Networking
         public virtual void ExecuteAsync(Client client, Deadline deadline, Task<NodeAddressBook> returnFuture, int attempt)
         {
             IList<NodeAddress> addresses = [];
-            ClientCalls.AsyncServerStreamingCall(BuildCall(client, deadline), BuildQuery(), new AnonymousStreamObserver(this));
+            
+            ClientCall.AsyncServerStreamingCall(BuildCall(client, deadline), BuildQuery(), new AnonymousStreamObserver(this));
         }
 
         private sealed class AnonymousStreamObserver : StreamObserver
