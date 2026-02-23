@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key1.GetPublicKey().ToString());
                 Assert.Equal(info.Balance, new Hbar(0));
-                Assert.Equal(info.AutoRenewPeriod, Duration.FromTimeSpan(TimeSpan.FromDays(90)));
+                Assert.Equal(info.AutoRenewPeriod, TimeSpan.FromDays(90));
                 Assert.Null(info.ProxyAccountId);
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
                 new AccountUpdateTransaction
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key2.GetPublicKey().ToString());
                 Assert.Equal(info.Balance, new Hbar(0));
-				Assert.Equal(info.AutoRenewPeriod, Duration.FromTimeSpan(TimeSpan.FromDays(90)));
+				Assert.Equal(info.AutoRenewPeriod, TimeSpan.FromDays(90));
 				Assert.Null(info.ProxyAccountId);
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }

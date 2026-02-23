@@ -1284,7 +1284,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint16(int value)
+		public ContractFunctionParameters AddUint16(uint value)
 		{
 			args.Add(new Argument("uint16", Uint256(value, 16), false));
 
@@ -1299,7 +1299,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint24(int value)
+		public ContractFunctionParameters AddUint24(uint value)
 		{
 			args.Add(new Argument("uint24", Uint256(value, 24), false));
 
@@ -1314,7 +1314,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint32(int value)
+		public ContractFunctionParameters AddUint32(uint value)
 		{
 			args.Add(new Argument("uint32", Uint256(value, 32), false));
 
@@ -1329,7 +1329,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint40(long value)
+		public ContractFunctionParameters AddUint40(ulong value)
 		{
 			args.Add(new Argument("uint40", Uint256(value, 40), false));
 
@@ -1344,7 +1344,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint48(long value)
+		public ContractFunctionParameters AddUint48(ulong value)
 		{
 			args.Add(new Argument("uint48", Uint256(value, 48), false));
 
@@ -1359,7 +1359,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint56(long value)
+		public ContractFunctionParameters AddUint56(ulong value)
 		{
 			args.Add(new Argument("uint56", Uint256(value, 56), false));
 
@@ -1374,7 +1374,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param value The integer to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint64(long value)
+		public ContractFunctionParameters AddUint64(ulong value)
 		{
 			args.Add(new Argument("uint64", Uint256(value, 64), false));
 
@@ -1791,7 +1791,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint16Array(int[] intArray)
+		public ContractFunctionParameters AddUint16Array(uint[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 16).ToByteArray())]);
 
@@ -1810,7 +1810,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint24Array(int[] intArray)
+		public ContractFunctionParameters AddUint24Array(uint[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 24).ToByteArray())]);
 
@@ -1829,7 +1829,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint32Array(int[] intArray)
+		public ContractFunctionParameters AddUint32Array(uint[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 32).ToByteArray())]);
 
@@ -1848,7 +1848,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint40Array(long[] intArray)
+		public ContractFunctionParameters AddUint40Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 40).ToByteArray())]);
 
@@ -1867,7 +1867,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint48Array(long[] intArray)
+		public ContractFunctionParameters AddUint48Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 48).ToByteArray())]);
 
@@ -1886,7 +1886,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint56Array(long[] intArray)
+		public ContractFunctionParameters AddUint56Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 56).ToByteArray())]);
 
@@ -1905,7 +1905,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * @param intArray The array of integers to be Added
 		 * @return {@code this}
 		 */
-		public ContractFunctionParameters AddUint64Array(long[] intArray)
+		public ContractFunctionParameters AddUint64Array(ulong[] intArray)
 		{
 			ByteString arrayBytes = ByteString.CopyFrom([.. intArray.SelectMany(i => Uint256(i, 64).ToByteArray())]);
 
@@ -2472,6 +2472,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			}
 
 			ByteString.Output output = ByteString.NewOutput(ADDRESS_LEN + SELECTOR_LEN);
+
 			try
 			{
 				output.write(address, 0, address.Length);

@@ -186,16 +186,24 @@ namespace Hedera.Hashgraph.SDK.Schedule
         /// Extract the transaction.
         /// </summary>
         /// <returns>                         the transaction</returns>
-        public Transaction<T> GetScheduledTransaction<T>() where T : Transaction<T>
+        public object GetScheduledTransaction()
         {
-            return Transaction<T>.FromScheduledTransaction(TransactionBody);
+            return (object)Transaction.FromScheduledTransaction<T>(TransactionBody);
         }
+		/// <summary>
+		/// Extract the transaction.
+		/// </summary>
+		/// <returns>                         the transaction</returns>
+		public Transaction<T> GetScheduledTransaction<T>() where T : Transaction<T>
+		{
+			return Transaction.FromScheduledTransaction<T>(TransactionBody);
+		}
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
-        public byte[] ToBytes()
+		/// <summary>
+		/// Create the byte array.
+		/// </summary>
+		/// <returns>                         the byte array representation</returns>
+		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }

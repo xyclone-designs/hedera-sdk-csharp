@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             When(node3.IsHealthy()).ThenReturn(true);
             var tx = new DummyTransaction();
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
             tx.SetMinBackoff(Duration.OfMillis(10));
             tx.SetMaxBackoff(Duration.OfMillis(1000));
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             When(node3.IsHealthy()).ThenReturn(true);
             var tx = new DummyTransaction();
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
             tx.SetMinBackoff(Duration.OfMillis(10));
             tx.SetMaxBackoff(Duration.OfMillis(1000));
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             When(node3.IsHealthy()).ThenReturn(true);
             var tx = new DummyTransaction();
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
             tx.SetMinBackoff(Duration.OfMillis(10));
             tx.SetMaxBackoff(Duration.OfMillis(1000));
@@ -135,7 +135,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node4.IsHealthy()).ThenReturn(true);
             When(node3.GetRemainingTimeForBackoff()).ThenReturn(1000);
             var tx = new DummyTransaction();
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
             tx.SetMinBackoff(Duration.OfMillis(10));
             tx.SetMaxBackoff(Duration.OfMillis(1000));
@@ -152,7 +152,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node4.GetRemainingTimeForBackoff()).ThenReturn(3000);
             When(node5.GetRemainingTimeForBackoff()).ThenReturn(5000);
             var tx = new DummyTransaction();
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
             tx.SetMinBackoff(Duration.OfMillis(10));
             tx.SetMaxBackoff(Duration.OfMillis(1000));
@@ -169,7 +169,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node4.GetRemainingTimeForBackoff()).ThenReturn(4000);
             When(node5.GetRemainingTimeForBackoff()).ThenReturn(3000);
             var tx = new DummyTransaction();
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
             tx.SetMinBackoff(Duration.OfMillis(10));
             tx.SetMaxBackoff(Duration.OfMillis(1000));
@@ -211,7 +211,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node4.GetRemainingTimeForBackoff()).ThenAnswer((Answer<long>)(invocation) => node4Times[i.Get()]);
             When(node5.GetRemainingTimeForBackoff()).ThenAnswer((Answer<long>)(invocation) => node5Times[i.Get()]);
             var tx = new DummyTransaction();
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
             tx.SetMinBackoff(Duration.OfMillis(10));
             tx.SetMaxBackoff(Duration.OfMillis(1000));
@@ -230,7 +230,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var now = java.time.DateTimeOffset.UtcNow;
             var tx = new AnonymousDummyTransaction(this);
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
             com.hedera.hashgraph.sdk.TransactionResponse resp = (com.hedera.hashgraph.sdk.TransactionResponse)tx.Execute(client);
@@ -257,17 +257,17 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             When(node3.IsHealthy()).ThenReturn(true);
             When(node4.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(true);
-            When(node4.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(false);
+            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
+            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(false);
             var now = java.time.DateTimeOffset.UtcNow;
             var tx = new AnonymousDummyTransaction1(this);
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
             com.hedera.hashgraph.sdk.TransactionResponse resp = (com.hedera.hashgraph.sdk.TransactionResponse)tx.Execute(client);
-            Verify(node3).ChannelFailedToConnect(Any(typeof(Instant)));
-            Verify(node4).ChannelFailedToConnect(Any(typeof(Instant)));
+            Verify(node3).ChannelFailedToConnect(Any(typeof(DateTime)));
+            Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
             Assert.Equal(resp.nodeId, new AccountId(0, 0, 4));
         }
 
@@ -296,22 +296,22 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node3.IsHealthy()).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
             When(node4.IsHealthy()).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
             When(node5.IsHealthy()).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node3.ChannelFailedToConnect(Any(typeof(Instant)))).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node4.ChannelFailedToConnect(Any(typeof(Instant)))).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node5.ChannelFailedToConnect(Any(typeof(Instant)))).ThenAnswer((Answer<bool>)(inv) => i.GetAndIncrement() == 0);
+            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
+            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
+            When(node5.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenAnswer((Answer<bool>)(inv) => i.GetAndIncrement() == 0);
             When(node3.GetRemainingTimeForBackoff()).ThenReturn(500);
             When(node4.GetRemainingTimeForBackoff()).ThenReturn(600);
             When(node5.GetRemainingTimeForBackoff()).ThenReturn(700);
             var now = java.time.DateTimeOffset.UtcNow;
             var tx = new AnonymousDummyTransaction2(this);
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
             com.hedera.hashgraph.sdk.TransactionResponse resp = (com.hedera.hashgraph.sdk.TransactionResponse)tx.Execute(client);
-            Verify(node3, Times(2)).ChannelFailedToConnect(Any(typeof(Instant)));
-            Verify(node4).ChannelFailedToConnect(Any(typeof(Instant)));
-            Verify(node5).ChannelFailedToConnect(Any(typeof(Instant)));
+            Verify(node3, Times(2)).ChannelFailedToConnect(Any(typeof(DateTime)));
+            Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
+            Verify(node5).ChannelFailedToConnect(Any(typeof(DateTime)));
             Assert.Equal(resp.nodeId, new AccountId(0, 0, 3));
         }
 
@@ -334,12 +334,12 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node3.IsHealthy()).ThenReturn(true);
             When(node4.IsHealthy()).ThenReturn(true);
             When(node5.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(true);
-            When(node4.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(true);
-            When(node5.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(true);
+            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
+            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
+            When(node5.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
             var tx = new DummyTransaction();
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => tx.Execute(client));
         }
 
@@ -348,11 +348,11 @@ namespace Hedera.Hashgraph.Tests.SDK
             AtomicInteger i = new AtomicInteger();
             When(node3.IsHealthy()).ThenReturn(true);
             When(node4.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(false);
-            When(node4.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(false);
+            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(false);
+            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(false);
             var tx = new DummyTransaction();
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             tx.blockingUnaryCall = (grpcRequest) =>
             {
                 if (i.GetAndIncrement() == 0)
@@ -365,8 +365,8 @@ namespace Hedera.Hashgraph.Tests.SDK
                 }
             };
             Exception exception = Assert.Throws<Exception>(() => tx.Execute(client));
-            Verify(node3).ChannelFailedToConnect(Any(typeof(Instant)));
-            Verify(node4).ChannelFailedToConnect(Any(typeof(Instant)));
+            Verify(node3).ChannelFailedToConnect(Any(typeof(DateTime)));
+            Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
         }
 
         public virtual void TestChannelFailedToConnectTimeout()
@@ -378,7 +378,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 throw new StatusRuntimeException(io.grpc.Status.UNAVAILABLE);
             };
             When(node3.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(Instant)))).ThenReturn(true);
+            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => transactionResponse.GetReceipt(client, Duration.OfSeconds(2)));
         }
 
@@ -391,7 +391,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             AtomicInteger i = new AtomicInteger();
             var tx = new AnonymousDummyQuery(this);
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             var receipt = Proto.TransactionReceipt.NewBuilder().SetStatus(ResponseCodeEnum.OK).Build();
             var receiptResp = Proto.TransactionGetReceiptResponse.NewBuilder().SetReceipt(receipt).Build();
             var resp = Response.NewBuilder().SetTransactionGetReceipt(receiptResp).Build();
@@ -400,7 +400,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
             // RETRY case doesn't advance to next node, so it checks the same node twice: once for first attempt, once for
             // retry attempt
-            Verify(node3, Times(2)).ChannelFailedToConnect(Any(typeof(Instant)));
+            Verify(node3, Times(2)).ChannelFailedToConnect(Any(typeof(DateTime)));
         }
 
         private sealed class AnonymousDummyQuery : DummyQuery
@@ -428,11 +428,11 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node3.ChannelFailedToConnect()).ThenReturn(false);
             var tx = new AnonymousDummyTransaction3(this);
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.ACCOUNT_DELETED).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
             PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() => tx.Execute(client));
-            Verify(node3).ChannelFailedToConnect(Any(typeof(Instant)));
+            Verify(node3).ChannelFailedToConnect(Any(typeof(DateTime)));
         }
 
         private sealed class AnonymousDummyTransaction3 : DummyTransaction
@@ -478,7 +478,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node5.ChannelFailedToConnect()).ThenReturn(false);
             var tx = new AnonymousDummyTransaction4(this);
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.INVALID_NODE_ACCOUNT).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
 
@@ -509,7 +509,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             When(node3.ChannelFailedToConnect()).ThenReturn(false);
             var tx = new AnonymousDummyTransaction5(this);
             var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3));
-            tx.SetNodeAccountIds(nodeAccountIds);
+            txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.INVALID_NODE_ACCOUNT).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
 
@@ -541,7 +541,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
             }
 
-            override CompletableFuture<Void> OnExecuteAsync(Client client)
+            override Task<Void> OnExecuteAsync(Client client)
             {
                 return null;
             }

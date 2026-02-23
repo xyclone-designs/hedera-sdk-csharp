@@ -126,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// MIN_AUTORENEW_PERIOD.<br/>
 		/// This value MUST be less than the configured MAX_AUTORENEW_PERIOD.
 		/// </summary>
-		/// <param name="autoRenewPeriod">The Duration to be set for auto renewal</param>
+		/// <param name="autoRenewPeriod">The TimeSpan to be set for auto renewal</param>
 		/// <returns>{@code this}</returns>
 		public Duration? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
 		/// <summary>

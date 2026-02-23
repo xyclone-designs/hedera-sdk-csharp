@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
         /// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
-        public TransactionReceipt GetReceipt(Client client, Duration timeout)
+        public TransactionReceipt GetReceipt(Client client, TimeSpan timeout)
         {
             int attempts = 0;
             ReceiptStatusException? lastException = null;
@@ -201,7 +201,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>the transaction receipt</returns>
-        public async Task<TransactionReceipt> GetReceiptAsync(Client client, Duration timeout)
+        public async Task<TransactionReceipt> GetReceiptAsync(Client client, TimeSpan timeout)
         {
             TransactionReceipt transactionreceipt = await GetReceiptQuery().ExecuteAsync(client, timeout);
 
@@ -223,7 +223,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public async void GetReceiptAsync(Client client, Duration timeout, Action<TransactionReceipt?, Exception?> callback)
+        public async void GetReceiptAsync(Client client, TimeSpan timeout, Action<TransactionReceipt?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(GetReceiptAsync(client, timeout), callback);
 		}
@@ -244,7 +244,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public async void GetReceiptAsync(Client client, Duration timeout, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
+        public async void GetReceiptAsync(Client client, TimeSpan timeout, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(GetReceiptAsync(client, timeout), onSuccess, onFailure);
 		}
@@ -270,7 +270,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
         /// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
-        public TransactionRecord GetRecord(Client client, Duration timeout)
+        public TransactionRecord GetRecord(Client client, TimeSpan timeout)
         {
             GetReceipt(client, timeout);
 
@@ -303,7 +303,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>future result of the transaction record</returns>
-        public async Task<TransactionRecord> GetRecordAsync(Client client, Duration timeout)
+        public async Task<TransactionRecord> GetRecordAsync(Client client, TimeSpan timeout)
         {
             await GetReceiptAsync(client, timeout);
 
@@ -325,7 +325,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <param name="client">The client with which this will be executed.</param>
 		/// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
 		/// <param name="callback">a Action which handles the result or error.</param>
-		public async void GetRecordAsync(Client client, Duration timeout, Action<TransactionRecord?, Exception?> callback)
+		public async void GetRecordAsync(Client client, TimeSpan timeout, Action<TransactionRecord?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(GetRecordAsync(client, timeout), callback);
 		}
@@ -346,7 +346,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public async void GetRecordAsync(Client client, Duration timeout, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
+        public async void GetRecordAsync(Client client, TimeSpan timeout, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(GetRecordAsync(client, timeout), onSuccess, onFailure);
 		}

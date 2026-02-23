@@ -11,9 +11,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction()
-                    Key = key,
-                    .Execute(testEnv.Client);
+                var transaction = new AccountCreateTransaction
+                {
+					Key = key,
+				
+                }.Execute(testEnv.Client);
                 var receipt = transaction.GetReceipt(testEnv.Client);
                 var nextExchangeRate = receipt.NextExchangeRate;
 

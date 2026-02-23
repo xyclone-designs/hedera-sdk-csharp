@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="AutoRenewPeriod">the auto renew period for this account.</param>
 		/// <returns>{@code this}</returns>
-		public Duration AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } } = DEFAULT_AUTO_RENEW_PERIOD;
+		public TimeSpan AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } } = DEFAULT_AUTO_RENEW_PERIOD;
 		/// <summary>
 		/// A maximum number of tokens that can be auto-associated
 		/// with this account.<br/>

@@ -57,12 +57,12 @@ namespace Hedera.Hashgraph.SDK
 		/// When execution is attempted, a single attempt will timeout when this deadline is reached. (The SDK may
 		/// subsequently retry the execution.)
 		/// </summary>
-		public Duration GrpcDeadline { get; set; }
+		public TimeSpan GrpcDeadline { get; set; }
         /// <summary>
         /// The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
         /// until it reaches this time.
         /// </summary>
-        public Duration MaxBackoff
+        public TimeSpan MaxBackoff
         {
             get => field ?? Client.DEFAULT_MAX_BACKOFF;
             set
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.SDK
         /// The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
         /// exponentially until it reaches the maxBackoff.
         /// </summary>
-        public Duration MinBackoff
+        public TimeSpan MinBackoff
         {
             get => field ?? Client.DEFAULT_MIN_BACKOFF;
             set
@@ -369,7 +369,7 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>Result of execution</returns>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual TTransactionResponse Execute(Client client, Duration timeout)
+        public virtual TTransactionResponse Execute(Client client, TimeSpan timeout)
         {
             Exception? lastException = null;
 
@@ -392,7 +392,7 @@ namespace Hedera.Hashgraph.SDK
                 if (attempt > MaxAttempts)
 					throw new MaxAttemptsExceededException(lastException);
 
-				Duration currentTimeout = Duration.FromTimeSpan(DateTimeOffset.UtcNow - timeoutTime);
+				Duration currentTimeout = DateTimeOffset.UtcNow - timeoutTime;
                 if (currentTimeout.Nanos <= 0)
                 {
                     throw new TimeoutException();
@@ -417,7 +417,7 @@ namespace Hedera.Hashgraph.SDK
                     continue;
                 }
 
-                currentTimeout = Duration.FromTimeSpan(DateTimeOffset.UtcNow - timeoutTime);
+                currentTimeout = DateTimeOffset.UtcNow - timeoutTime;
                 grpcRequest.GrpcDeadline = currentTimeout;
                 try
                 {
@@ -476,7 +476,7 @@ namespace Hedera.Hashgraph.SDK
                         lastException = grpcRequest.MapStatusException();
                         if (attempt < MaxAttempts)
                         {
-                            currentTimeout = Duration.FromTimeSpan(DateTimeOffset.UtcNow - timeoutTime);
+                            currentTimeout = DateTimeOffset.UtcNow - timeoutTime;
                             Delay(Math.Min(currentTimeout.ToTimeSpan().TotalMilliseconds, grpcRequest.Delay));
                         }
 
@@ -508,7 +508,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>Future result of execution</returns>
-        public virtual async Task<TTransactionResponse> ExecuteAsync(Client client, Duration timeout)
+        public virtual async Task<TTransactionResponse> ExecuteAsync(Client client, TimeSpan timeout)
         {
 			Task<TTransactionResponse> retval = Task.WhenAll<TTransactionResponse>(Task.FromResult(default), Task.Delay(timeout.ToTimeSpan()));
 
@@ -536,7 +536,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual async void ExecuteAsync(Client client, Duration timeout, Action<TTransactionResponse?, Exception?> callback)
+        public virtual async void ExecuteAsync(Client client, TimeSpan timeout, Action<TTransactionResponse?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAsync(client, timeout), callback);
 		}
@@ -557,7 +557,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual async void ExecuteAsync(Client client, Duration timeout, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
+        public virtual async void ExecuteAsync(Client client, TimeSpan timeout, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeout), onSuccess, onFailure);
 		}
@@ -609,7 +609,7 @@ namespace Hedera.Hashgraph.SDK
 			var request = MakeRequest();
 			return request;
 		}
-		private void ExecuteAsyncInternal(Client client, int attempt, Exception? lastException, Task<TTransactionResponse> returnFuture, Duration timeout)
+		private void ExecuteAsyncInternal(Client client, int attempt, Exception? lastException, Task<TTransactionResponse> returnFuture, TimeSpan timeout)
 		{
 			// If the Logger on the request is not set, use the Logger in client
 			// (if set, otherwise do not use Logger)
@@ -626,7 +626,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 
 			var timeoutTime = DateTimeOffset.UtcNow.Add(timeout.ToTimeSpan());
-			GrpcRequest grpcRequest = new (client.Network_, attempt, Duration.FromTimeSpan((DateTimeOffset.UtcNow - timeoutTime)));
+			GrpcRequest grpcRequest = new (client.Network_, attempt, (DateTimeOffset.UtcNow - timeoutTime));
 			Func<Task> afterUnhealthyDelay = () =>
 			{
 				return grpcRequest.Node.IsHealthy()
@@ -689,7 +689,7 @@ namespace Hedera.Hashgraph.SDK
 									client.network.IncreaseBackoff(grpcRequest.Node);
 								}
 
-								Delayer.DelayFor((attempt < MaxAttempts) ? grpcRequest.GetDelay() : 0, client.executor).ThenRun(() => ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(DateTimeOffset.UtcNow, timeoutTime)));
+								Delayer.DelayFor((attempt < MaxAttempts) ? grpcRequest.GetDelay() : 0, client.Executor).ThenRun(() => ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(DateTimeOffset.UtcNow, timeoutTime)));
 								break;
 							case ExecutionState.ServerError:
 								AdvanceRequest(); // Advance to next node before retrying

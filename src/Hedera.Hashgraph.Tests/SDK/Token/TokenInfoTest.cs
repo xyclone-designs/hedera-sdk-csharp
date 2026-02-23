@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly long testTokenMaxSupply = 1000000;
         private static readonly bool testTokenPauseStatus = true;
         private static readonly LedgerId testTokenLedgerId = LedgerId.MAINNET;
-        private static readonly Duration testAutoRenewPeriod = Duration.OfHours(10);
+        private static readonly TimeSpan testAutoRenewPeriod = Duration.OfHours(10);
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         private static readonly byte[] testMetadata = new byte[]
         {

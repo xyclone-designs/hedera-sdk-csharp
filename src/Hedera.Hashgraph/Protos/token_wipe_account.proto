@@ -72,7 +72,7 @@ message TokenWipeAccountTransactionBody {
      *   <li>This value SHALL be specified in units of the smallest
      *       denomination possible for the identified token
      *       (<tt>10<sup>-decimals</sup></tt> whole tokens).</li>
-     *   <li>This value MUST be strictly less than `Long.MAX_VALUE`.</li>
+     *   <li>This value MUST be strictly less than `long.MaxValue`.</li>
      *   <li>This value MUST be less than or equal to the current total
      *       supply for the identified token.</li>
      *   <li>This value MUST be less than or equal to the current balance

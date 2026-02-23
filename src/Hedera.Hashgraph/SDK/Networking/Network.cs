@@ -21,27 +21,23 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// 
 		/// This variable is package private so tests can use it
 		/// </summary>
-		private Dictionary<AccountId, NodeAddress> AddressBook = [];
+		private Dictionary<AccountId, NodeAddress>? AddressBook;
 
 		public Network(ExecutorService executor, Dictionary<string, AccountId> network) : base(executor)
         {
-            try
-            {
-                Network = network;
-            }
-            catch (ThreadInterruptedException e)
-            {
-            }
-            catch (TimeoutException e)
-            {
-            }
+			try
+			{
+				SetNetwork(network);
+			}
+			catch (ThreadInterruptedException) { }
+			catch (TimeoutException) { }
         }
 
 		internal static Dictionary<AccountId, NodeAddress> ReadAddressBookResource(string fileName)
 		{
 			try
 			{
-				using Stream stream = typeof(Network).Assembly.GetManifestResourceStream("Resources.AddressBook." + fileName) ?? throw new ArgumentNullException("ReadAddressBookResource.[stream]");
+				using Stream stream = typeof(Network).Assembly.GetManifestResourceStream("Resources.AddressBook." + fileName) ?? throw new ArgumentNullException(null, "ReadAddressBookResource.[stream]");
 				
 				ByteString contents = ByteString.FromStream(stream);
 
@@ -64,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				throw new Exception(string.Empty, e);
 			}
 		}
-		internal static Dictionary<AccountId, NodeAddress> GetAddressBookForLedger(LedgerId ledgerId)
+		internal static Dictionary<AccountId, NodeAddress>? GetAddressBookForLedger(LedgerId? ledgerId)
 		{
 			return (ledgerId == null || !ledgerId.IsKnownNetwork) ? null : ReadAddressBookResource("addressbook/" + ledgerId + ".pb");
 		}
@@ -74,9 +70,10 @@ namespace Hedera.Hashgraph.SDK.Networking
 			foreach (var nodeAddress in addressBook)
 			{
 				foreach (var endpoint in nodeAddress.Addresses)
-				{
-					network.Add(endpoint.ToString(), nodeAddress.AccountId);
-				}
+					if (nodeAddress.AccountId is not null)
+					{
+						network.Add(endpoint.ToString(), nodeAddress.AccountId);
+					}
 			}
 
 			return network;
@@ -89,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         the new mainnet network</returns>
 		internal static Network ForMainnet(ExecutorService executor)
         {
-            var addressBook = GetAddressBookForLedger(LedgerId.MAINNET);
+            var addressBook = GetAddressBookForLedger(LedgerId.MAINNET) ?? throw new Exception("AddressBookForLedger 'LedgerId.MAINNET' could not be found"); ;
             Dictionary<string, AccountId> network = AddressBookToNetwork(addressBook.Values);
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.MAINNET, addressBook);
         }
@@ -100,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         the new testnet network</returns>
 		internal static Network ForTestnet(ExecutorService executor)
         {
-            var addressBook = GetAddressBookForLedger(LedgerId.TESTNET);
+            var addressBook = GetAddressBookForLedger(LedgerId.TESTNET) ?? throw new Exception("AddressBookForLedger 'LedgerId.TESTNET' could not be found"); ;
             Dictionary<string, AccountId> network = AddressBookToNetwork(addressBook.Values);
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.TESTNET, addressBook);
         }
@@ -111,7 +108,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         the new previewnet network</returns>
 		internal static Network ForPreviewnet(ExecutorService executor)
         {
-            var addressBook = GetAddressBookForLedger(LedgerId.PREVIEWNET);
+            var addressBook = GetAddressBookForLedger(LedgerId.PREVIEWNET) ?? throw new Exception("AddressBookForLedger 'LedgerId.PREVIEWNET' could not be found");
             Dictionary<string, AccountId> network = AddressBookToNetwork(addressBook.Values);
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.PREVIEWNET, addressBook);
         }
@@ -126,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return new Network(executor, network);
 		}
 
-		public override LedgerId LedgerId 
+		public override LedgerId? LedgerId 
 		{
 			get => base.LedgerId;
 			set { lock (this) SetLedgerIdInternal(value, GetAddressBookForLedger(value)); }
@@ -191,11 +188,11 @@ namespace Hedera.Hashgraph.SDK.Networking
             }
         } = true;
 
-		private List<Node> GetNodesForKey(AccountId key)
+		private IList<Node> GetNodesForKey(AccountId key)
 		{
-			if (Network.ContainsKey(key))
+			if (Network.TryGetValue(key, out IList<Node>? value))
 			{
-				return Network[key];
+				return value;
 			}
 			else
 			{
@@ -204,7 +201,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				return newList;
 			}
 		}
-		private Network SetLedgerIdInternal(LedgerId ledgerId, Dictionary<AccountId, NodeAddress> addressBook)
+		private Network SetLedgerIdInternal(LedgerId? ledgerId, Dictionary<AccountId, NodeAddress>? addressBook)
         {
             base.LedgerId = ledgerId;
 
@@ -218,7 +215,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         
         protected override Node CreateNodeFromNetworkEntry(KeyValuePair<string, AccountId> entry)
         {
-			return new Node(entry.Value, entry.Key, executor)
+			return new Node(entry.Value, entry.Key, Executor)
 			{
 				AddressBookEntry = AddressBook[entry.Value],
 				VerifyCertificates = VerifyCertificates,

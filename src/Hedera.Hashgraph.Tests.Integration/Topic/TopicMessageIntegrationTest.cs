@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client);
                 Assert.Equal(info.TopicId, topicId);
                 Assert.Equal(info.TopicMemo, "[e2e::TopicCreateTransaction]");
-                Assert.Equal(info.SequenceNumber, 0);
+                Assert.Equal(info.SequenceNumber, (ulong)0);
                 Assert.Equal(info.AdminKey, testEnv.OperatorKey);
                 Thread.Sleep(3000);
                 var receivedMessage = new bool[]
@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var handle = new TopicMessageQuery
                 {
 					TopicId = topicId,
-					StartTime = Instant.EPOCH,
+					StartTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UnixEpoch),
 
 				}.Subscribe(testEnv.Client, (message) =>
                 {
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client);
                 Assert.Equal(info.TopicId, topicId);
                 Assert.Equal(info.TopicMemo, "[e2e::TopicCreateTransaction]");
-                Assert.Equal(info.SequenceNumber, 0);
+                Assert.Equal(info.SequenceNumber, (ulong)0);
                 Assert.Equal(info.AdminKey, testEnv.OperatorKey);
                 var receivedMessage = new bool[]
                 {
@@ -109,7 +109,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var handle = new TopicMessageQuery
                 {
 					TopicId = topicId,
-					StartTime = Instant.EPOCH,
+					StartTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UnixEpoch),
+
 				}.Subscribe(testEnv.Client, (message) =>
                 {
                     receivedMessage[0] = new string (message.contents, StandardCharsets.UTF_8).Equals(Contents.BIG_CONTENTS);
@@ -144,18 +145,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction()
-                    AdminKey = testEnv.OperatorKey)
-                    TopicMemo = "[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var response = new TopicCreateTransaction
+                {
+					AdminKey = testEnv.OperatorKey,
+					TopicMemo = "[e2e::TopicCreateTransaction]"
+				
+                }.Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
                 var receivedMessage = new AtomicBoolean(false);
                 var retryWarningLogged = new AtomicBoolean(false);
                 var errorHandlerInvoked = new AtomicBoolean(false);
                 var retryHandler = new AnonymousPredicate(this);
-                var handle = new TopicMessageQuery()
-                    TopicId = topicId)
-                    StartTime = Instant.EPOCH)
-                    RetryHandler = retryHandler)
+                var handle = new TopicMessageQuery
+                {
+					TopicId = topicId,
+					StartTime = DateTime.EPOCH,
+					RetryHandler = retryHandler,
+				}
                     ErrorHandler = (throwable, topicMessage) => errorHandlerInvoked
                     ( = rue)).Subscribe(testEnv.Client, (message) =>
                 {
@@ -163,12 +169,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     ( = rue);
                 });
                 handle.Unsubscribe();
+                
                 Thread.Sleep(3000);
+                
                 Assert.False(retryWarningLogged.Get());
                 Assert.False(receivedMessage.Get());
                 Assert.False(errorHandlerInvoked.Get());
-                new TopicDeleteTransaction()
-                    TopicId = topicId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                
+                new TopicDeleteTransaction
+                {
+					TopicId = topicId
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 

@@ -529,7 +529,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <summary>
 		/// Default auto renew duration for accounts, contracts, topics, and files (entities)
 		/// </summary>
-		protected static readonly Duration DEFAULT_AUTO_RENEW_PERIOD = Duration.FromTimeSpan(TimeSpan.FromDays(90));
+		protected static readonly TimeSpan DEFAULT_AUTO_RENEW_PERIOD = TimeSpan.FromDays(90);
         /// <summary>
         /// Dummy account ID used to assist in deserializing incomplete Transactions.
         /// </summary>
@@ -541,7 +541,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// Default transaction duration
         /// </summary>
-        private static readonly Duration DEFAULT_TRANSACTION_VALID_DURATION = Duration.FromTimeSpan(TimeSpan.FromSeconds(120));
+        private static readonly TimeSpan DEFAULT_TRANSACTION_VALID_DURATION = TimeSpan.FromSeconds(120);
         private static readonly string ATOMIC_BATCH_NODE_ACCOUNT_ID = "0.0.0";
 
         /// <summary>
@@ -724,7 +724,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <p>
 		/// This is defaulted by the SDK to 120 seconds (or two minutes).
 		/// </summary>
-		public Duration TransactionValidDuration
+		public TimeSpan TransactionValidDuration
 		{
 			get;
 			set

@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Utils;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="isDeleted">does it still exist</param>
         /// <param name="tokenRelationships">list of compound token id and relationship records</param>
         /// <param name="ledgerId">the ledger id</param>
-        private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, Timestamp expirationTime, Duration autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
+        private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, Timestamp expirationTime, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
         {
             this.ContractId = contractId;
             this.AccountId = accountId;
@@ -121,7 +121,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// then it extends as long as possible. If the account is empty when it expires,
 		/// then it is deleted.
 		/// </summary>
-		public readonly Duration AutoRenewPeriod;
+		public readonly TimeSpan AutoRenewPeriod;
 		/// <summary>
 		/// ID of the an account to charge for auto-renewal of this contract. If not set, or set to
 		/// an account with zero hbar balance, the contract's own hbar balance will be used to cover

@@ -881,7 +881,7 @@ enum TokenSupplyType {
     /**
      * An unlimited supply.<br/>
      * This indicates that tokens of this type have an upper bound of
-     * Long.MAX_VALUE.<br/>
+     * long.MaxValue.<br/>
      * The supply is accounted in the smallest units of the token
      * (i.e. 10<sup>-`decimals`</sup> whole tokens)
      */

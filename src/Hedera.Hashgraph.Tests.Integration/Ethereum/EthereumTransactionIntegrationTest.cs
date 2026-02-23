@@ -44,8 +44,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 var fileCreateTransactionResponse = new FileCreateTransaction
                 {
-                    Keys = testEnv.OperatorKey,
-                    Contents = ByteString.CopyFromUtf8(SMART_CONTRACT_BYTECODE)
+                    Keys = [testEnv.OperatorKey],
+                    Contents = ByteString.CopyFromUtf8(SMART_CONTRACT_BYTECODE).ToByteArray()
                 
                 }.Execute(testEnv.Client);
                 var fileId = fileCreateTransactionResponse.GetReceipt(testEnv.Client).FileId;

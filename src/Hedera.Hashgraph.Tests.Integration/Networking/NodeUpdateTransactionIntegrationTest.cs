@@ -423,7 +423,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             var transaction = new NodeUpdateTransaction().SetNodeId(nodeId).SetDescription("testUpdated").SetAccountId(newAccountId);
             if (nodeAccountIds != null)
             {
-                transaction.SetNodeAccountIds(nodeAccountIds);
+                transactionNodeAccountIds = nodeAccountIds,;
             }
 
             var resp = transaction.Execute(client);
@@ -434,7 +434,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         private void ExecuteAccountCreate(Client client, IList<AccountId> nodeAccountIds)
         {
             var newAccountKey = PrivateKey.GenerateED25519();
-            var resp = new AccountCreateTransaction().SetKey(newAccountKey.GetPublicKey()).SetNodeAccountIds(nodeAccountIds).Execute(client);
+            var resp = new AccountCreateTransaction().SetKey(newAccountKey.GetPublicKey())NodeAccountIds = nodeAccountIds,.Execute(client);
             Assert.NotNull(resp);
             var receipt = resp.SetValidateStatus(true).GetReceipt(client);
             Assert.Equal(receipt.status, ResponseStatus.Success);

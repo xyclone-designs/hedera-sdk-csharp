@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
 				AccountId = AccountId.FromString("0.0.100"),
 				Hash = Encoding.UTF8.GetBytes("hash"),
 				Keys = KeyList.Of(null, privateKey),
-				Duration = Duration.FromTimeSpan(TimeSpan.FromDays(30)),
+				Duration = TimeSpan.FromDays(30),
 			}
             .Freeze()
             .Sign(privateKey);

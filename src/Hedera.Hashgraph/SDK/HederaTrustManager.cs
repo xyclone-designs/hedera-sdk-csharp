@@ -22,13 +22,6 @@ using System.Net.Security;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
-using static Hedera.Hashgraph.SDK.ExecutionState;
-using static Hedera.Hashgraph.SDK.FeeAssessmentMethod;
-using static Hedera.Hashgraph.SDK.FeeDataType;
-using static Hedera.Hashgraph.SDK.FreezeType;
-using static Hedera.Hashgraph.SDK.FungibleHookType;
-using static Hedera.Hashgraph.SDK.HbarUnit;
 
 namespace Hedera.Hashgraph.SDK
 {

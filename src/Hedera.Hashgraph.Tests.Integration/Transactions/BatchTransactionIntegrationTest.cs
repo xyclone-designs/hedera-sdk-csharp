@@ -1,16 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Assertj.Core.Api.AssertionsForClassTypes;
-using Com.Hedera.Hashgraph;
-using Java.Time;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
@@ -19,7 +10,11 @@ using Hedera.Hashgraph.SDK.Queries;
 using Hedera.Hashgraph.SDK.Topic;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
+
 using Org.BouncyCastle.Utilities.Encoders;
+
+using Google.Protobuf.WellKnownTypes;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -30,15 +25,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateECDSA();
-                var tx = new AccountCreateTransaction()
-                    Key = key,
-                    InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
+                var tx = new AccountCreateTransaction
+                {
+					Key = key,
+					InitialBalance = new Hbar(1),
+				
+                }.Batchify(testEnv.Client, testEnv.OperatorKey);
                 var batchTransaction = new BatchTransaction().AddInnerTransaction(tx);
                 batchTransaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var accountIdInnerTransaction = batchTransaction.GetInnerTransactionIds()[0].accountId;
-                var execute = new AccountInfoQuery()
-                    .SetAccountId(accountIdInnerTransaction).Execute(testEnv.Client);
-                Assert.Equal(accountIdInnerTransaction, execute.accountId);
+                var accountIdInnerTransaction = batchTransaction.InnerTransactionIds.ElementAt(0).AccountId;
+                var execute = new AccountInfoQuery
+                {
+					AccountId = accountIdInnerTransaction
+
+				}.Execute(testEnv.Client);
+                Assert.Equal(accountIdInnerTransaction, execute.AccountId);
             }
         }
 
@@ -47,17 +48,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateECDSA();
-                var tx = new AccountCreateTransaction()
-                    Key = key,
-                    InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
+                var tx = new AccountCreateTransaction
+                {
+					Key = key,
+					InitialBalance = new Hbar(1),
+				
+                }.Batchify(testEnv.Client, testEnv.OperatorKey);
                 var batchTransaction = new BatchTransaction().AddInnerTransaction(tx);
                 var batchTransactionBytes = batchTransaction.ToBytes();
                 var batchTransactionFromBytes = BatchTransaction.FromBytes(batchTransactionBytes);
                 batchTransactionFromBytes.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var accountIdInnerTransaction = batchTransaction.GetInnerTransactionIds()[0].accountId;
-                var execute = new AccountInfoQuery()
-                    .SetAccountId(accountIdInnerTransaction).Execute(testEnv.Client);
-                Assert.Equal(accountIdInnerTransaction, execute.accountId);
+                var accountIdInnerTransaction = batchTransaction.InnerTransactionIds.ElementAt(0).AccountId;
+                var execute = new AccountInfoQuery
+                {
+					AccountId = accountIdInnerTransaction
+
+				}.Execute(testEnv.Client);
+
+                Assert.Equal(accountIdInnerTransaction, execute.AccountId);
             }
         }
 
@@ -71,18 +79,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 for (int i = 0; i < 25; i++)
                 {
                     var key = PrivateKey.GenerateECDSA();
-                    var tx = new AccountCreateTransaction()
-                        Key = key,
-                        InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
+                    var tx = new AccountCreateTransaction
+                    {
+						Key = key,
+						InitialBalance = new Hbar(1),
+					
+                    }.Batchify(testEnv.Client, testEnv.OperatorKey);
                     batchTransaction.AddInnerTransaction(tx);
                 }
 
                 batchTransaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                foreach (var innerTransactionID in batchTransaction.GetInnerTransactionIds())
+
+                foreach (var innerTransactionID in batchTransaction.InnerTransactionIds)
                 {
-                    var receipt = new TransactionReceiptQuery()
-                        .SetTransactionId(innerTransactionID).Execute(testEnv.Client);
-                    Assert.Equal(receipt.status, ResponseStatus.Success);
+                    var receipt = new TransactionReceiptQuery
+                    {
+						TransactionId = innerTransactionID
+					
+                    }.Execute(testEnv.Client);
+                    
+                    Assert.Equal(ResponseStatus.Success, receipt.Status);
                 }
             }
         }
@@ -91,7 +107,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() => new BatchTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.BATCH_LIST_EMPTY.ToString());
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() => new BatchTransaction().Execute(testEnv.Client).GetReceipt(testEnv.Client));
+                
+                Assert.Contains(exception.Message, ResponseStatus.BatchListEmpty.ToString());
             }
         }
 
@@ -99,18 +117,33 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var freezeTransaction = new FreezeTransaction()
-                    .SetFileId(FileId.FromString("4.5.6"))
-                    .SetFileHash(Hex.Decode("1723904587120938954702349857"))
-                    .SetStartTime(DateTimeOffset.UtcNow)
-                    .SetFreezeType(FreezeType.FREEZE_ONLY).Batchify(testEnv.Client, testEnv.OperatorKey);
-                Assert.Throws<ArgumentException>(() => new BatchTransaction().AddInnerTransaction(freezeTransaction)).WithMessageContaining("Transaction type FreezeTransaction is not allowed in a batch transaction");
+                var freezeTransaction = new FreezeTransaction
+                {
+					FileId = FileId.FromString("4.5.6"),
+					FileHash = Hex.Decode("1723904587120938954702349857"),
+					StartTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow),
+					FreezeType = FreezeType.FreezeOnly
+				
+                }.Batchify(testEnv.Client, testEnv.OperatorKey);
+                
+                ArgumentException exception1 = Assert.Throws<ArgumentException>(() => new BatchTransaction().AddInnerTransaction(freezeTransaction));
+                Assert.Contains(exception1.Message, "Transaction type FreezeTransaction is not allowed in a batch transaction");
+                
                 var key = PrivateKey.GenerateECDSA();
-                var tx = new AccountCreateTransaction()
-                    Key = key,
-                    InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
-                var batchTransaction = new BatchTransaction().AddInnerTransaction(tx).Batchify(testEnv.Client, testEnv.OperatorKey);
-                Assert.Throws<ArgumentException>(() => new BatchTransaction().AddInnerTransaction(batchTransaction)).WithMessageContaining("Transaction type BatchTransaction is not allowed in a batch transaction");
+                var tx = new AccountCreateTransaction
+                {
+					Key = key,
+					InitialBalance = new Hbar(1),
+				
+                }.Batchify(testEnv.Client, testEnv.OperatorKey);
+                
+                var batchTransaction = new BatchTransaction()
+                    .AddInnerTransaction(tx)
+                    .Batchify(testEnv.Client, testEnv.OperatorKey);
+
+                ArgumentException exception2 = Assert.Throws<ArgumentException>(() => new BatchTransaction().AddInnerTransaction(batchTransaction));
+
+                Assert.Contains(exception2.Message, "Transaction type BatchTransaction is not allowed in a batch transaction");
             }
         }
 
@@ -118,13 +151,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                BatchTransaction batchTransaction = new BatchTransaction();
+                BatchTransaction batchTransaction = new ();
+
                 var key = PrivateKey.GenerateECDSA();
                 var invalidKey = PrivateKey.GenerateECDSA();
-                var tx = new AccountCreateTransaction()
-                    Key = key,
-                    InitialBalance = new Hbar(1),.Batchify(testEnv.Client, invalidKey.GetPublicKey());
-                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => batchTransaction.AddInnerTransaction(tx).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.InvalidSignature.ToString());
+                var tx = new AccountCreateTransaction
+                {
+					Key = key,
+					InitialBalance = new Hbar(1),
+				
+                }.Batchify(testEnv.Client, invalidKey.GetPublicKey());
+
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    batchTransaction.AddInnerTransaction(tx).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                });
+                
+                Assert.Contains(exception.Message, ResponseStatus.InvalidSignature.ToString());
             }
         }
 
@@ -132,27 +175,34 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction()
-                    AdminKey = testEnv.OperatorKey,
-                    .SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var response = new TopicCreateTransaction
+                {
+					AdminKey = testEnv.OperatorKey,
+					TopicMemo = "[e2e::TopicCreateTransaction]"
+				
+                }.Execute(testEnv.Client);
+
                 var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction
                 {
 					TopicId = topicId,
 					MaxChunks = 15,
-					Message = Contents.BIG_CONTENTS,
+					Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS),
 				}
                 .Batchify(testEnv.Client, testEnv.OperatorKey);
+                
                 new BatchTransaction()
                     .AddInnerTransaction(topicMessageSubmitTransaction)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
+
                 var info = new TopicInfoQuery
                 {
 					TopicId = topicId
 				
                 }.Execute(testEnv.Client);
-                Assert.Equal(info.SequenceNumber, 1);
+
+                Assert.Equal(info.SequenceNumber, (ulong)1);
             }
         }
 
@@ -164,40 +214,74 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var batchKey2 = PrivateKey.GenerateED25519();
                 var batchKey3 = PrivateKey.GenerateED25519();
                 var key1 = PrivateKey.GenerateECDSA();
-                var account1 = new AccountCreateTransaction()
-                    Key = key1,
-                    InitialBalance = new Hbar(1),.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var account1 = new AccountCreateTransaction
+                {
+					Key = key1,
+					InitialBalance = new Hbar(1),
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                
                 Assert.NotNull(account1);
-                var batchedTransfer1 = new TransferTransaction()
-                    .AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(100))
-                    .AddHbarTransfer(account1, Hbar.FromTinybars(100).Negated())
-                    .SetTransactionId(TransactionId.Generate(account1))
-                    .SetBatchKey(batchKey1).FreezeWith(testEnv.Client).Sign(key1);
+                
+                var batchedTransfer1 = new TransferTransaction
+                {
+					TransactionId = TransactionId.Generate(account1),
+					BatchKey = batchKey1
+				}
+                .AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(100))
+                .AddHbarTransfer(account1, Hbar.FromTinybars(100).Negated())
+                .FreezeWith(testEnv.Client).Sign(key1);
+                
                 var key2 = PrivateKey.GenerateECDSA();
-                var account2 = new AccountCreateTransaction()
-                    Key = key2,
-                    InitialBalance = new Hbar(1),.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var account2 = new AccountCreateTransaction
+                {
+					Key = key2,
+					InitialBalance = new Hbar(1),
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                
                 Assert.NotNull(account2);
-                var batchedTransfer2 = new TransferTransaction()
-                    .AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(100))
-                    .AddHbarTransfer(account2, Hbar.FromTinybars(100).Negated())
-                    .SetTransactionId(TransactionId.Generate(account2))
-                    .SetBatchKey(batchKey2).FreezeWith(testEnv.Client).Sign(key2);
+
+                var batchedTransfer2 = new TransferTransaction
+                {
+					TransactionId = TransactionId.Generate(account2),
+					BatchKey = batchKey2
+				}
+                .AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(100))
+                .AddHbarTransfer(account2, Hbar.FromTinybars(100).Negated())
+                .FreezeWith(testEnv.Client).Sign(key2);
+
                 var key3 = PrivateKey.GenerateECDSA();
-                var account3 = new AccountCreateTransaction()
-                    Key = key3,
-                    InitialBalance = new Hbar(1),.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var account3 = new AccountCreateTransaction
+                {
+					Key = key3,
+					InitialBalance = new Hbar(1),
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+
                 Assert.NotNull(account3);
-                var batchedTransfer3 = new TransferTransaction()
-                    .AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(100))
-                    .AddHbarTransfer(account3, Hbar.FromTinybars(100).Negated())
-                    .SetTransactionId(TransactionId.Generate(account3))
-                    .SetBatchKey(batchKey3).FreezeWith(testEnv.Client).Sign(key3);
+
+                var batchedTransfer3 = new TransferTransaction
+                {
+					TransactionId = TransactionId.Generate(account3),
+					BatchKey = batchKey2
+				}
+                .AddHbarTransfer(testEnv.OperatorId, Hbar.FromTinybars(100))
+                .AddHbarTransfer(account3, Hbar.FromTinybars(100).Negated())
+                .FreezeWith(testEnv.Client).Sign(key3);
+                
                 var receipt = new BatchTransaction()
                     .AddInnerTransaction(batchedTransfer1)
                     .AddInnerTransaction(batchedTransfer2)
-                    .AddInnerTransaction(batchedTransfer3).FreezeWith(testEnv.Client).Sign(batchKey1).Sign(batchKey2).Sign(batchKey3).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                    .AddInnerTransaction(batchedTransfer3)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(batchKey1)
+                    .Sign(batchKey2)
+                    .Sign(batchKey3)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
 
@@ -205,25 +289,52 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
-                var initialBalance = new AccountInfoQuery()
-                    AccountId = testEnv.OperatorId,.Execute(testEnv.Client).balance;
+                var initialBalance = new AccountInfoQuery
+                {
+					AccountId = testEnv.OperatorId,
+				
+                }.Execute(testEnv.Client).Balance;
+                
                 var key1 = PrivateKey.GenerateECDSA();
-                var tx1 = new AccountCreateTransaction()
-                    Key = key1,
-                    InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
+                var tx1 = new AccountCreateTransaction
+                {
+					Key = key1,
+					InitialBalance = new Hbar(1),
+				
+                }.Batchify(testEnv.Client, testEnv.OperatorKey);
+                
                 var key2 = PrivateKey.GenerateECDSA();
-                var tx2 = new AccountCreateTransaction()
-                    Key = key2,
-                    InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
+                var tx2 = new AccountCreateTransaction
+                {
+					Key = key2,
+					InitialBalance = new Hbar(1),
+				
+                }.Batchify(testEnv.Client, testEnv.OperatorKey);
+
                 var key3 = PrivateKey.GenerateECDSA();
-                var tx3 = new AccountCreateTransaction()
-                    Key = key3,
-                    .SetReceiverSignatureRequired(true)
-                    InitialBalance = new Hbar(1),.Batchify(testEnv.Client, testEnv.OperatorKey);
-                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => new BatchTransaction().AddInnerTransaction(tx1).AddInnerTransaction(tx2).AddInnerTransaction(tx3).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.INNER_TRANSACTION_FAILED.ToString());
-                var finalBalance = new AccountInfoQuery()
-                    AccountId = testEnv.OperatorId,.Execute(testEnv.Client).balance;
-                Assert.True(finalBalance.GetValue().IntValue() < initialBalance.GetValue().IntValue());
+                var tx3 = new AccountCreateTransaction
+                {
+					Key = key3,
+					ReceiverSigRequired = true,
+					InitialBalance = new Hbar(1),
+				
+                }.Batchify(testEnv.Client, testEnv.OperatorKey);
+
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    new BatchTransaction()
+                        .AddInnerTransaction(tx1)
+                        .AddInnerTransaction(tx2)
+                        .AddInnerTransaction(tx3)
+                        .Execute(testEnv.Client)
+                        .GetReceipt(testEnv.Client);
+                });
+                
+                Assert.Contains(exception.Message, ResponseStatus.InnerTransactionFailed.ToString());
+                
+                var finalBalance = new AccountInfoQuery{ AccountId = testEnv.OperatorId, }.Execute(testEnv.Client).Balance;
+                
+                Assert.True(finalBalance.GetValue().LongValue() < initialBalance.GetValue().LongValue());
             }
         }
 
@@ -232,9 +343,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                Assert.Throws<ArgumentException>(() => new TopicCreateTransaction()
-                AdminKey = testEnv.OperatorKey,
-                .SetTopicMemo("[e2e::TopicCreateTransaction]").Batchify(testEnv.Client, key).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining("Cannot execute batchified transaction outside of BatchTransaction");
+
+                ArgumentException exception = Assert.Throws<ArgumentException>(() =>
+                {
+                    new TopicCreateTransaction
+                    {
+                        AdminKey = testEnv.OperatorKey,
+                        TopicMemo = "[e2e::TopicCreateTransaction]"
+
+                    }.Batchify(testEnv.Client, key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                });
+                
+                Assert.Contains(exception.Message, "Cannot execute batchified transaction outside of BatchTransaction");
             }
         }
     }

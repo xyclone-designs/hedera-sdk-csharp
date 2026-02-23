@@ -6,7 +6,7 @@ C# ported files are [located here](https://github.com/xyclone-designs/hedera-sdk
 General Notes
 - A lot of deprecated fields (mostly to do with Tokens) in classes from protobuf generation are still in use.
 - Object and value cloning is iffy.
-- Date.Now vs DateTime.Utc.Now and all other similar variations (EPOCH, Offsets etc).
+- Date.Now vs DateTime.Utc.Now and all other similar variations (EPOCH, Offsets etc). [Reason for Duration (From java port or for Proto.Duration)]
 - HookStoreTransaction and related classes are not present, deleted? (no idea)
 
 File checklist shows which files have been ported, checked and cleaned, ready for unit tests

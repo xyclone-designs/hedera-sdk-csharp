@@ -16,7 +16,7 @@ namespace System
 
 		public long Value { get; }
 
-		public override bool Equals(LongNN other)
+		public bool Equals(LongNN other)
 		{
 			return Value.Equals(other.Value);
 		}

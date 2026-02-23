@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
+
 using Grpc.Core;
-using Hedera.Hashgraph.SDK.Ids;
+
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Utils;
 
@@ -9,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
@@ -33,31 +38,31 @@ namespace Hedera.Hashgraph.SDK.Topic
 				LOGGER.Info("Subscription to topic {} complete", TopicId.FromProtobuf(_Proto.TopicID));
 			};
         } 
-        public Action<Exception, TopicMessage> ErrorHandler
+        public Action<Exception, TopicMessage?> ErrorHandler
         {
             set;
-            private get => field ??= (exception, topicmessage) =>
+            private get => field ??= ((exception, topicmessage) =>
             {
                 var topicId = TopicId.FromProtobuf(_Proto.TopicID);
 
-                if (exception is RpcException rpcexception && rpcexception.Status.Equals(ResponseStatus.DefaultCancelled))
+                if (exception is RpcException rpcexception && rpcexception.Status.Equals(Status.DefaultCancelled))
                     LOGGER.Warn("Call is cancelled for topic {}.", topicId);
                 else LOGGER.Error("Error attempting to subscribe to topic {}:", topicId, exception);
-            };
+            });
 		}
 		public IntNN MaxAttempts { set; private get; } = 10;
-        public Duration MaxBackoff
+        public TimeSpan MaxBackoff
 		{
 			private get;
 
 			set
             {
-				if (value.ToTimeSpan().TotalMilliseconds < 500)
+				if (value.TotalMilliseconds < 500)
 					throw new ArgumentException("maxBackoff must be at least 500 ms");
 
 				field = value;
 			}
-        } = Duration.FromTimeSpan(TimeSpan.FromSeconds(8));
+        } = TimeSpan.FromSeconds(8);
         public Predicate<Exception> RetryHandler 
         { 
             set; 
@@ -79,7 +84,6 @@ namespace Hedera.Hashgraph.SDK.Topic
 			});
         }
 
-
         /// <summary>
         /// Subscribe to the topic.
         /// </summary>
@@ -93,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             Dictionary<Proto.TransactionID, List<Proto.ConsensusTopicResponse>> pendingMessages = [];
             try
             {
-                MakeStreamingCall(client, subscriptionHandle, onNext, 0, new AtomicLong(), new AtomicReference(), pendingMessages);
+                MakeStreamingCall(client, subscriptionHandle, onNext, 0, new AtomicStruct<long>(default), new AtomicClass<Proto.ConsensusTopicResponse>(default), pendingMessages);
             }
             catch (ThreadInterruptedException e)
             {
@@ -103,139 +107,156 @@ namespace Hedera.Hashgraph.SDK.Topic
             return subscriptionHandle;
         }
 
-        private void MakeStreamingCall(Client client, SubscriptionHandle subscriptionHandle, Action<TopicMessage> onNext, int attempt, AtomicLong counter, AtomicReference<ConsensusTopicResponse> lastMessage, Dictionary<Proto.TransactionID, List<ConsensusTopicResponse>> pendingMessages)
+        private void MakeStreamingCall(
+            Client client,
+            SubscriptionHandle subscriptionHandle,
+            Action<TopicMessage> onNext,
+            int attempt,
+            AtomicStruct<long> counter,
+            AtomicClass<Proto.ConsensusTopicResponse> lastMessage,
+            Dictionary<Proto.TransactionID, List<Proto.ConsensusTopicResponse>> pendingMessages)
         {
+            var callInvoker = client.MirrorNetwork_
+                .GetNextMirrorNode()
+                .Channel
+                .CreateCallInvoker();
 
-            // TODO: check status of channel before using it?
-            ClientCall<Proto.ConsensusTopicQuery, Proto.ConsensusTopicResponse> call = client.MirrorNetwork.GetNextMirrorNode().GetChannel().NewCall(ConsensusServiceGrpc.GetSubscribeTopicMethod(), CallOptions.DEFAULT);
-            AtomicBoolean cancelledByClient = new AtomicBoolean(false);
+			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.subscribeTopic);
+
+            MethodDescriptor methoddescriptor = Proto.CryptoService.Descriptor.FindMethodByName(methodname); 
+
+			IMessage input = (IMessage)Activator.CreateInstance(methoddescriptor.InputType.ClrType)!;
+			IMessage output = (IMessage)Activator.CreateInstance(methoddescriptor.OutputType.ClrType)!;
+
+			var method = new Method<Proto.ConsensusTopicQuery, Proto.ConsensusTopicResponse>(
+				type: MethodType.Unary,
+				name: methoddescriptor.Name,
+				serviceName: methoddescriptor.Service.FullName,
+				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.ConsensusTopicQuery.Parser.ParseFrom(data)),
+				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.ConsensusTopicResponse.Parser.ParseFrom(data)));
+
+			var cancelledByClient = new AtomicStruct<bool>(false);
+
+            CancellationTokenSource cts = new();
+
             subscriptionHandle.SetOnUnsubscribe(() =>
             {
-                cancelledByClient.Set(true);
+                cancelledByClient.Value = true;
                 client.UntrackSubscription(subscriptionHandle);
-                call.Cancel("unsubscribe", null);
+                cts.Cancel();
             });
+
             client.TrackSubscription(subscriptionHandle);
+
             var newBuilder = _Proto;
 
-            // Update the start time and limit on retry
+            // Update start time & limit on retry
             if (lastMessage.Get() != null)
             {
-                newBuilder = _Proto.Clone = );
-                if (_Proto.GetLimit = ) > 0)
+                newBuilder = _Proto.Clone();
+
+                if (_Proto.Limit > 0)
                 {
-                    newBuilder.SetLimit(_Proto.GetLimit = ) - counter.Get());
+                    newBuilder.Limit = _Proto.Limit - (ulong)counter.Get();
                 }
 
-                var lastStartTime = lastMessage.Get().GetConsensusTimestamp();
-                var nextStartTime = Timestamp.NewBuilder(lastStartTime).SetNanos(lastStartTime.GetNanos() + 1);
-                newBuilder.SetConsensusStartTime(nextStartTime);
+                var lastStartTime = lastMessage.Get().ConsensusTimestamp;
+
+                newBuilder.ConsensusStartTime = new Proto.Timestamp
+                {
+                    Seconds = lastStartTime.Seconds,
+                    Nanos = lastStartTime.Nanos + 1
+                };
             }
 
-            ClientCalls.AsyncServerStreamingCall(call, newBuilder.Build(), new AnonymousStreamObserver(this));
-        }
+            var call = callInvoker.AsyncServerStreamingCall(method, null, new CallOptions(cancellationToken: cts.Token), newBuilder);
 
-        private sealed class AnonymousStreamObserver : IObserver
-        {
-			private readonly TopicMessageQuery Parent;
-
-			public AnonymousStreamObserver(TopicMessageQuery parent)
+            _ = Task.Run(async () =>
             {
-                Parent = parent;
-            }
-            
-			public void OnCompleted()
-			{
-				completionHandler.Run();
-			}
-			public void OnError(Exception t)
-            {
-                if (cancelledByClient.Get())
-                {
-                    return;
-                }
-
-                if (attempt >= maxAttempts || !retryHandler.Test(t))
-                {
-                    errorHandler.Accept(t, null);
-                    return;
-                }
-
-                var delay = Math.Min(500 * (long)Math.Pow(2, attempt), maxBackoff.ToMillis());
-                var topicId = TopicId.FromProtobuf(_Proto.GetTopicID = ));
-                LOGGER.Warn("Error subscribing to topic {} during attempt #{}. Waiting {} ms before next attempt: {}", topicId, attempt, delay, t.GetMessage());
-                call.Cancel("unsubscribed", null);
-
-                // Cannot use `Task<U>` here since this future is never polled
                 try
                 {
-                    Thread.Sleep(delay);
-                }
-                catch (ThreadInterruptedException e)
-                {
-                    Thread.CurrentThread.Interrupt();
-                }
+                    while (await call.ResponseStream.MoveNext(cts.Token))
+                    {
+                        counter.IncrementAndGet();
+                        lastMessage.Set(call.ResponseStream.Current);
 
-                try
+                        // No chunk or single chunk
+                        if (call.ResponseStream.Current.ChunkInfo.Total == 1)
+                        {
+                            var message = TopicMessage.OfSingle(call.ResponseStream.Current);
+
+                            try
+                            {
+                                onNext(message);
+                            }
+                            catch (Exception ex)
+                            {
+                                ErrorHandler?.Invoke(ex, message);
+                            }
+
+                            continue;
+                        }
+
+                        var initialTransactionId = call.ResponseStream.Current.ChunkInfo.InitialTransactionID;
+
+                        if (!pendingMessages.ContainsKey(initialTransactionId))
+                        {
+                            pendingMessages[initialTransactionId] = new List<Proto.ConsensusTopicResponse>();
+                        }
+
+                        var chunks = pendingMessages[initialTransactionId];
+                        chunks.Add(call.ResponseStream.Current);
+
+                        if (chunks.Count == call.ResponseStream.Current.ChunkInfo.Total)
+                        {
+                            var message = TopicMessage.OfMany(chunks);
+
+                            try
+                            {
+                                onNext(message);
+                            }
+                            catch (Exception ex)
+                            {
+                                ErrorHandler?.Invoke(ex, message);
+                            }
+                        }
+                    }
+
+                    CompletionHandler?.Invoke();
+                }
+                catch (Exception ex)
                 {
+                    if (cancelledByClient.Get())
+                        return;
+
+                    if (attempt >= MaxAttempts || !RetryHandler(ex))
+                    {
+                        ErrorHandler?.Invoke(ex, null);
+                        return;
+                    }
+
+                    var delay = Math.Min(500L * (long)Math.Pow(2, attempt), (long)MaxBackoff.TotalMilliseconds);
+
+                    var topicId = TopicId.FromProtobuf(_Proto.TopicID);
+
+                    LOGGER.Warn(
+                        $"Error subscribing to topic {topicId} during attempt #{attempt}. " +
+                        $"Waiting {delay} ms before next attempt: {ex.Message}");
+
+                    cts.Cancel();
+
+                    try
+                    {
+                        await Task.Delay((int)delay);
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        return;
+                    }
+
                     MakeStreamingCall(client, subscriptionHandle, onNext, attempt + 1, counter, lastMessage, pendingMessages);
                 }
-                catch (ThreadInterruptedException e)
-                {
-                    throw new Exception(string.Empty, e);
-                }
-            }
-			public void OnNext(Proto.ConsensusTopicResponse consensusTopicResponse)
-			{
-				counter.IncrementAndGet();
-				lastMessage.Set(consensusTopicResponse);
-
-				// Short circuit for no chunks or 1/1 chunks
-				if (consensusTopicResponse.ChunkInfo is null || consensusTopicResponse.ChunkInfo.Total == 1)
-				{
-					var message = TopicMessage.OfSingle(consensusTopicResponse);
-					try
-					{
-						onNext.Accept(message);
-					}
-					catch (Exception t)
-					{
-						errorHandler.Accept(t, message);
-					}
-
-					return;
-				}
-
-
-				// get the list of chunks for this pending message
-				var initialTransactionID = consensusTopicResponse.ChunkInfo.InitialTransactionID;
-
-				// Can't use `Dictionary.putIfAbsent()` since that method is not available on Android
-				if (!pendingMessages.ContainsKey(initialTransactionID))
-				{
-					pendingMessages.Add(initialTransactionID, new());
-				}
-
-				List<Proto.ConsensusTopicResponse> chunks = pendingMessages[initialTransactionID];
-
-				// not possible as we do [putIfAbsent]
-				// add our response to the pending chunk list
-				chunks.Add(consensusTopicResponse);
-
-				// if we now have enough chunks, emit
-				if (chunks.Count == consensusTopicResponse.ChunkInfo.Total)
-				{
-					var message = TopicMessage.OfMany(chunks);
-					try
-					{
-						onNext.Accept(message);
-					}
-					catch (Exception t)
-					{
-						errorHandler.Accept(t, message);
-					}
-				}
-			}
-		}
+            });
+        }
     }
 }

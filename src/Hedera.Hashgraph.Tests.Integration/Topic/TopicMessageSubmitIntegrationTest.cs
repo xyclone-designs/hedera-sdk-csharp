@@ -32,9 +32,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.AdminKey, testEnv.OperatorKey);
                 new TopicMessageSubmitTransaction
                 { 
-                    TopicId = topicId
-                
-                }.SetMessage("Hello, from HCS!").Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                    TopicId = topicId,
+                    Message = "Hello, from HCS!",
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 info = new TopicInfoQuery
                 { 
                     TopicId = topicId
@@ -61,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 using (var testEnv = new IntegrationTestEnv(1))
                 {
-                    var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                    var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,TopicMemo = "[e2e::TopicCreateTransaction]",.Execute(testEnv.Client);
                     var topicId = response.GetReceipt(testEnv.Client).TopicId);
                     Thread.Sleep(5000);
                     var info = new TopicInfoQuery
@@ -77,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 { 
                         TopicId = topicId
                     
-                    }.SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS).ExecuteAll(testEnv.Client);
+                    }MaxChunks = 15,Message = Contents.BIG_CONTENTS,.ExecuteAll(testEnv.Client);
                     foreach (var resp in responses)
                     {
                         resp.GetReceipt(testEnv.Client);
@@ -109,11 +110,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 using (var testEnv = new IntegrationTestEnv(1))
                 {
-                    var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                    var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,TopicMemo = "[e2e::TopicCreateTransaction]",.Execute(testEnv.Client);
                     var topicId = response.GetReceipt(testEnv.Client).TopicId);
                     PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
                     {
-                        new TopicMessageSubmitTransaction().SetMessage(Contents.BIG_CONTENTS).SetMaxChunks(15).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                        new TopicMessageSubmitTransaction()Message = Contents.BIG_CONTENTS,MaxChunks = 15,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                     }); Assert.Contains(ResponseStatus.INVALID_TOPIC_ID.ToString(), exception.Message);
                     new TopicDeleteTransaction
                 { 

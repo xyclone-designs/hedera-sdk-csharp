@@ -11,6 +11,7 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Transactions;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -183,7 +184,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client);
 
                 // Expect failure due to duplicated fee exempt keys
-                Assert.Throws<PrecheckStatusException>(duplicatesExecutable, Proto.ResponseCodeEnum.FeeExemptKeyListContainsDuplicatedKeys.Name());
+                PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(duplicatesExecutable);
+                Assert.Equal(exception.Status, Proto.ResponseCodeEnum.FeeExemptKeyListContainsDuplicatedKeys);
 
                 var invalidKey = PublicKey.FromString("000000000000000000000000000000000000000000000000000000000000000000");
 
@@ -195,7 +197,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // Expect failure due to invalid fee exempt key
-                Assert.Throws<ReceiptStatusException>(invalidKeyExecutable, Proto.ResponseCodeEnum.InvalidKeyInFeeExemptKeyList.Name());
+                ReceiptStatusException exception2 = Assert.Throws<ReceiptStatusException>(invalidKeyExecutable);
+                Assert.Equal(exception2.Status, Proto.ResponseCodeEnum.InvalidKeyInFeeExemptKeyList);
 
                 // Create 11 keys (exceeding the limit of 10)
                 IList<Key> feeExemptKeyListExceedingLimit = [.. Enumerable.Range(0, 11).Select(_ => PrivateKey.GenerateECDSA())];
@@ -208,7 +211,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // Expect failure due to exceeding fee exempt key list limit
-                Assert.Throws<ReceiptStatusException>(exceedKeyListLimitExecutable, Proto.ResponseCodeEnum.MaxEntriesForFeeExemptKeyListExceeded.Name());
+                ReceiptStatusException exception3 = Assert.Throws<ReceiptStatusException>(exceedKeyListLimitExecutable);
+                Assert.Equal(exception3.status, Proto.ResponseCodeEnum.MaxEntriesForFeeExemptKeyListExceeded);
             }
         }
         public virtual void FailsToUpdateFeeScheduleKeyWithoutPermissions()
@@ -231,7 +235,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
-                Assert.Throws<ReceiptStatusException>(updateExecutable, Proto.ResponseCodeEnum.FeeScheduleKeyCannotBeUpdated.Name());
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(updateExecutable);
+                Assert.Equal(exception.Status, Proto.ResponseCodeEnum.FeeScheduleKeyCannotBeUpdated);
             }
         }
         public virtual void FailsToUpdateCustomFeesWithoutFeeScheduleKey()
@@ -270,7 +275,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
-                Assert.Throws<ReceiptStatusException>(updateExecutable, Proto.ResponseCodeEnum.FeeScheduleKeyNotSet.Name());
+				ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(updateExecutable);
+				Assert.Equal(exception.Status, Proto.ResponseCodeEnum.FeeScheduleKeyNotSet);
             }
         }
         public virtual void ChargesHbarFeesWithLimitsApplied()
@@ -297,7 +303,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TopicMessageSubmitTransaction
                 {
 					TopicId = topicId,
-					Message = "Hedera HBAR Fee Test"
+					Message = ByteString.CopyFromUtf8("Hedera HBAR Fee Test")
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
@@ -341,9 +347,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TopicMessageSubmitTransaction
                 {
 					TopicId = topicId,
-					Message = "Hedera Fee Exemption Test",
-				
-                }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+					Message = ByteString.CopyFromUtf8("Hedera Fee Exemption Test")
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 ClientSetOperator(testEnv, payerAccountId);
                 var balance = new AccountBalanceQuery

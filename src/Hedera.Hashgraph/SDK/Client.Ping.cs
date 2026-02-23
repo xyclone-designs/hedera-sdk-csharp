@@ -1,21 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
-using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Networking;
-using Hedera.Hashgraph.SDK.Queries;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
@@ -39,7 +27,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public void Ping(AccountId nodeAccountId, Duration timeout)
+        public void Ping(AccountId nodeAccountId, TimeSpan timeout)
         {
             new AccountBalanceQuery
 			{
@@ -63,7 +51,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>an empty future that throws exception if there was an error</returns>
-        public async Task PingAsync(AccountId nodeAccountId, Duration timeout)
+        public async Task PingAsync(AccountId nodeAccountId, TimeSpan timeout)
         {
 			await new AccountBalanceQuery()
 			{
@@ -86,7 +74,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="nodeAccountId">Account ID of the node to ping</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action<Exception> callback)
+        public void PingAsync(AccountId nodeAccountId, TimeSpan timeout, Action<Exception> callback)
         {
             Utils.ActionHelper.Action(PingAsync(nodeAccountId, timeout), callback);
         }
@@ -107,7 +95,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public void PingAsync(AccountId nodeAccountId, Duration timeout, Action onSuccess, Action<Exception> onFailure)
+        public void PingAsync(AccountId nodeAccountId, TimeSpan timeout, Action onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(PingAsync(nodeAccountId, timeout), onSuccess, onFailure);
         }
@@ -131,7 +119,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public void PingAll(Duration timeoutPerPing)
+        public void PingAll(TimeSpan timeoutPerPing)
         {
             lock (this)
             {
@@ -159,7 +147,7 @@ namespace Hedera.Hashgraph.SDK
         /// </summary>
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
         /// <returns>an empty future that throws exception if there was an error</returns>
-        public Task PingAllAsync(Duration timeoutPerPing)
+        public Task PingAllAsync(TimeSpan timeoutPerPing)
         {
             lock (this)
             {
@@ -199,7 +187,7 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		/// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
 		/// <param name="callback">a Action which handles the result or error.</param>
-		public void PingAllAsync(Duration timeoutPerPing, Action<Exception> callback)
+		public void PingAllAsync(TimeSpan timeoutPerPing, Action<Exception> callback)
         {
             Utils.ActionHelper.Action(PingAllAsync(timeoutPerPing), callback);
         }
@@ -210,7 +198,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public void PingAllAsync(Duration timeoutPerPing, Action onSuccess, Action<Exception> onFailure)
+        public void PingAllAsync(TimeSpan timeoutPerPing, Action onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(PingAllAsync(timeoutPerPing), onSuccess, onFailure);
         }

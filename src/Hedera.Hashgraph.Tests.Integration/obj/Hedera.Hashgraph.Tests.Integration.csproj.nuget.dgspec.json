@@ -441,6 +441,10 @@
               "target": "Package",
               "version": "[2.78.0, )"
             },
+            "Nethereum.ABI": {
+              "target": "Package",
+              "version": "[5.8.0, )"
+            },
             "Nethereum.RLP": {
               "target": "Package",
               "version": "[5.8.0, )"

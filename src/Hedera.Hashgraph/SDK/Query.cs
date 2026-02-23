@@ -224,7 +224,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		* @         when the transaction times out
 		* @  when the precheck fails
 		*/
-		public virtual Hbar GetCost(Client client, Duration timeout)
+		public virtual Hbar GetCost(Client client, TimeSpan timeout)
 		{
 			InitWithNodeIds(client);
 
@@ -251,7 +251,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param timeout The timeout after which the execution attempt will be cancelled.
 		 * @return                          Future result of the cost in hbar
 		 */
-		public virtual Task<Hbar> GetCostAsync(Client client, Duration timeout)
+		public virtual Task<Hbar> GetCostAsync(Client client, TimeSpan timeout)
 		{
 			InitWithNodeIds(client);
 
@@ -278,7 +278,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param timeout The timeout after which the execution attempt will be cancelled.
 		 * @param callback a BiConsumer which handles the result or error.
 		 */
-		public virtual async void GetCostAsync(Client client, Duration timeout, Action<Hbar?, Exception?> callback)
+		public virtual async void GetCostAsync(Client client, TimeSpan timeout, Action<Hbar?, Exception?> callback)
 		{
 			Utils.ActionHelper.Action(GetCostAsync(client), callback);
 		}
@@ -301,7 +301,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param onSuccess a Consumer which consumes the result on success.
 		 * @param onFailure a Consumer which consumes the error on failure.
 		 */
-		public virtual void GetCostAsync(Client client, Duration timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
+		public virtual void GetCostAsync(Client client, TimeSpan timeout, Action<Hbar> onSuccess, Action<Exception> onFailure)
 		{
 			Utils.ActionHelper.TwoActions(GetCostAsync(client, timeout), onSuccess, onFailure);
 		}
@@ -347,7 +347,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 			if (grpcCostQuery.NotRequired)
 				return Task.CompletedTask;
 
-			// Task.Run replaces CompletableFuture.supplyAsync to offload work to a thread pool
+			// Task.Run replaces Task.supplyAsync to offload work to a thread pool
 			return Task.Run(async () =>
 			{
 				if (grpcCostQuery.Cost == null)

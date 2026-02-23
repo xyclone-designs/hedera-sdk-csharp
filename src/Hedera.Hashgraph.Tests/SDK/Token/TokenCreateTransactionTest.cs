@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly string testTokenName = "test name";
         private static readonly string testTokenSymbol = "test symbol";
         private static readonly string testTokenMemo = "test memo";
-        private static readonly Duration testAutoRenewPeriod = Duration.OfHours(10);
+        private static readonly TimeSpan testAutoRenewPeriod = Duration.OfHours(10);
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.UtcNow;
         private static readonly List<CustomFee> testCustomFees = [new CustomFixedFee(].SetFeeCollectorAccountId(AccountId.FromString("0.0.543")).SetAmount(3).SetDenominatingTokenId(TokenId.FromString("4.3.2")));
         private static readonly byte[] testMetadata = new byte[]

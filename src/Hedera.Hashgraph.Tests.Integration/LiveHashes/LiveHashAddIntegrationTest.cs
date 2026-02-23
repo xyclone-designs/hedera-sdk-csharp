@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new LiveHashAddTransaction
                     {
 						AccountId = accountId,
-						Duration = Duration.FromTimeSpan(TimeSpan.FromDays(30)),
+						Duration = TimeSpan.FromDays(30),
 						Hash = HASH,
 						Keys = [key]
 					

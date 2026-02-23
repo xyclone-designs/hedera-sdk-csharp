@@ -1,30 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Gson;
-using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.Evm;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Networking;
-using Java.Net;
-using Java.Net.Http;
-using Java.Nio;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Regex;
-using Javax.Annotation;
-using Org.Bouncycastle.Util.Encoders;
+
 using Org.BouncyCastle.Utilities.Encoders;
+
 using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static Hedera.Hashgraph.SDK.BadMnemonicReason;
 
 namespace Hedera.Hashgraph.SDK.Utils
 {
@@ -44,7 +31,7 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// </summary>
         public static readonly int SOLIDITY_ADDRESS_LEN_HEX = SOLIDITY_ADDRESS_LEN * 2;
         private static readonly Regex ENTITY_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([a-z]{5}))?$");
-        public static readonly Duration MIRROR_NODE_CONNECTION_TIMEOUT = Duration.FromTimeSpan(TimeSpan.FromSeconds(30));
+        public static readonly TimeSpan MIRROR_NODE_CONNECTION_TIMEOUT = TimeSpan.FromSeconds(30);
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -169,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
             for (var i = 0; i < addr.Length; i++)
             {
-                d.Add(addr.CharAt(i) == '.' ? 10 : int.Parse(string.ValueOf(addr.CharAt(i)), 10));
+                d.Add(addr.ElementAt(i) == '.' ? 10 : int.TryParse(addr.ElementAt(i).ToString(), out int _value) ? _value : 10);
             }
 
             for (var i = 0; i < d.Count; i++)
@@ -221,7 +208,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
             if (checksum != null)
             {
-                string expectedChecksum = Checksum(client.LedgerId, ToString(shard, realm, num));
+                string expectedChecksum = Checksum(client.Network_.LedgerId, ToString(shard, realm, num));
 
                 if (!checksum.Equals(expectedChecksum))
                 {
@@ -253,9 +240,9 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// <returns>the string representation with checksum</returns>
         public static string ToStringWithChecksum(long shard, long realm, long num, Client client, string? checksum)
         {
-            if (client.LedgerId != null)
+            if (client.Network_.LedgerId != null)
             {
-                return "" + shard + "." + realm + "." + num + "-" + Checksum(client.LedgerId, ToString(shard, realm, num));
+                return "" + shard + "." + realm + "." + num + "-" + Checksum(client.Network_.LedgerId, ToString(shard, realm, num));
             }
             else
             {

@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void SetMaxBackoffInvalid(long maxBackoffMillis)
         {
-            Duration maxBackoff = maxBackoffMillis != null ? Duration.OfMillis(maxBackoffMillis) : null;
+            TimeSpan maxBackoff = maxBackoffMillis != null ? Duration.OfMillis(maxBackoffMillis) : null;
             var client = Client.ForNetwork([]);
             Assert.Throws<ArgumentException>(() =>
             {
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void SetMinBackoffInvalid(long minBackoffMillis)
         {
-            Duration minBackoff = minBackoffMillis != null ? Duration.OfMillis(minBackoffMillis) : null;
+            TimeSpan minBackoff = minBackoffMillis != null ? Duration.OfMillis(minBackoffMillis) : null;
             var client = Client.ForNetwork([]);
             Assert.Throws<ArgumentException>(() =>
             {
@@ -221,7 +221,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         public virtual void TestExecuteAsyncTimeout(string timeoutSite)
         {
             AccountId accountId = AccountId.FromString("0.0.1");
-            Duration timeout = Duration.OfSeconds(5);
+            TimeSpan timeout = Duration.OfSeconds(5);
             Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0));
             AccountBalanceQuery query = new AccountBalanceQuery()AccountId = accountId,.SetMaxAttempts(3);
             DateTimeOffset start = DateTimeOffset.UtcNow;
@@ -257,7 +257,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             // e.g. setting a timeout of 15 seconds, the request could fail within the range
             // of [5 seconds, 25 seconds]. The 10 second timeout for connecting to gRPC nodes
             // is not configurable.
-            Duration timeout = Duration.OfSeconds(5);
+            TimeSpan timeout = Duration.OfSeconds(5);
             Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0));
             AccountBalanceQuery query = new AccountBalanceQuery()AccountId = accountId,.SetMaxAttempts(3).SetGrpcDeadline(Duration.OfSeconds(5));
             DateTimeOffset start = DateTimeOffset.UtcNow;

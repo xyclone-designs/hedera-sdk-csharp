@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Topic
     /// </summary>
     public sealed class TopicInfo
     {
-        private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, Timestamp expirationTime, Key? adminKey, Key? submitKey, Duration autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key? feeScheduleKey, IList<Key> feeExemptKeys, IList<CustomFixedFee> customFees)
+        private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, Timestamp expirationTime, Key? adminKey, Key? submitKey, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key? feeScheduleKey, IList<Key> feeExemptKeys, IList<CustomFixedFee> customFees)
         {
             TopicId = topicId;
             TopicMemo = topicMemo;
@@ -100,7 +100,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// by up to this duration (depending on the solvency of the auto-renew account). If the
 		/// auto-renew account has no funds at all, the topic will be deleted instead.
 		/// </summary>
-		public Duration AutoRenewPeriod { get; }
+		public TimeSpan AutoRenewPeriod { get; }
 		/// <summary>
 		/// The account, if any, to charge for automatic renewal of the topic's lifetime upon expiry.
 		/// </summary>

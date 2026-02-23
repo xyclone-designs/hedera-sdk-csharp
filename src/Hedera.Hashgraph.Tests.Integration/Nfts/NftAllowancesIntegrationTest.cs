@@ -1,14 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Nio.Charset;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
+
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Token;
@@ -28,17 +20,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var spenderKey = PrivateKey.GenerateED25519();
                 var spenderAccountId = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(2)
+					InitialBalance = new Hbar(2),
+					Key = spenderKey,
 				}
-                Key = spenderKey,
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
                 var receiverKey = PrivateKey.GenerateED25519();
                 var receiverAccountId = new AccountCreateTransaction
                 {
-					MaxAutomaticTokenAssociations = 10
+					MaxAutomaticTokenAssociations = 10,
+					Key = receiverKey,
 				}
-                Key = receiverKey,
                 .Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 
                 TokenId nftTokenId = new TokenCreateTransaction
@@ -86,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-				}); Assert.Contains(ResponseStatus.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString(), exception.Message);
+				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
             }
         }
 
@@ -97,16 +89,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var spenderKey = PrivateKey.GenerateED25519();
                 var spenderAccountId = new AccountCreateTransaction
                 {
-					InitialBalance = new Hbar(2)
-
+					InitialBalance = new Hbar(2),
+                    Key = spenderKey,
 				}
-                Key = spenderKey,
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverAccountId = new AccountCreateTransaction()
-                Key = receiverKey,
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverKey,
+				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
@@ -143,10 +136,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 var serials = new TokenMintTransaction
                 {
-					TokenId = nftTokenId
+					TokenId = nftTokenId,
+                    MetadataList = 
+                    [
+						Encoding.UTF8.GetBytes("asd1"),
+						Encoding.UTF8.GetBytes("asd2"),
+					]
 				}
-                    .AddMetadata(Encoding.UTF8.GetBytes("asd1"))
-                    .AddMetadata(Encoding.UTF8.GetBytes("asd2"))
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).Serials;
 
@@ -173,7 +169,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     NftId = nft1 
                 
                 }.Execute(testEnv.Client);
-                Assert.Equal(info[0].accountId, receiverAccountId);
+                
+                Assert.Equal(info[0].AccountId, receiverAccountId);
+
                 var onBehalfOfTransactionId2 = TransactionId.Generate(spenderAccountId);
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => 
                 {
@@ -187,7 +185,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-				}); Assert.Contains(ResponseStatus.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString(), exception.Message);
+				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
             }
         }
 
@@ -196,14 +194,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var spenderKey = PrivateKey.GenerateED25519();
-                var spenderAccountId = new AccountCreateTransaction()Key = spenderKey,.SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var spenderAccountId = new AccountCreateTransaction
+                {
+					Key = spenderKey,
+					InitialBalance = new Hbar(2)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverAccountId = new AccountCreateTransaction()Key = receiverKey,.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverKey,
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 TokenId nftTokenId = new TokenCreateTransaction
-                { 
+                {
                     TokenName = "ffff",
                     TokenSymbol = "F",
-                    TokenType = TokenType.NonFungibleUnique, 
+                    TokenType = TokenType.NonFungibleUnique,
                     TreasuryAccountId = testEnv.OperatorId,
                     AdminKey = testEnv.OperatorKey,
                     SupplyKey = testEnv.OperatorKey,
@@ -211,11 +218,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .FreezeWith(testEnv.Client)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TokenId;
-                new TokenAssociateTransaction().SetAccountId(spenderAccountId).SetTokenIds(List.Of(nftTokenId)).FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client);
-                new TokenAssociateTransaction()AccountId = receiverAccountId,.SetTokenIds(List.Of(nftTokenId)).FreezeWith(testEnv.Client).Sign(receiverKey).Execute(testEnv.Client);
-                var serials = new TokenMintTransaction().SetTokenId(nftTokenId).AddMetadata(Encoding.UTF8.GetBytes("asd1")).AddMetadata(Encoding.UTF8.GetBytes("asd2")).Execute(testEnv.Client).GetReceipt(testEnv.Client).Serials;
+                
+                new TokenAssociateTransaction { AccountId = spenderAccountId, TokenIds = [nftTokenId] }.FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client);
+                new TokenAssociateTransaction { AccountId = receiverAccountId, TokenIds = [nftTokenId] }.FreezeWith(testEnv.Client).Sign(receiverKey).Execute(testEnv.Client);
+
+                var serials = new TokenMintTransaction
+                {
+					TokenId = nftTokenId,
+                    MetadataList =
+                    [
+						Encoding.UTF8.GetBytes("asd1"),
+						Encoding.UTF8.GetBytes("asd2"),
+					]
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).Serials;
+                
                 var nft1 = new NftId(nftTokenId, serials[0]);
                 var nft2 = new NftId(nftTokenId, serials[1]);
+
                 new AccountAllowanceApproveTransaction()
                     .ApproveTokenNftAllowanceAllSerials(nftTokenId, testEnv.OperatorId, spenderAccountId)
                     .Execute(testEnv.Client);
@@ -254,8 +273,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(infoNft1[0].accountId, receiverAccountId);
-                Assert.Equal(infoNft2[0].accountId, receiverAccountId);
+                Assert.Equal(infoNft1[0].AccountId, receiverAccountId);
+                Assert.Equal(infoNft2[0].AccountId, receiverAccountId);
             }
         }
 
@@ -264,11 +283,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var delegatingSpenderKey = PrivateKey.GenerateED25519();
-                var delegatingSpenderAccountId = new AccountCreateTransaction()Key = delegatingSpenderKey,.SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var delegatingSpenderAccountId = new AccountCreateTransaction
+                {
+					Key = delegatingSpenderKey,
+					InitialBalance = new Hbar(2),
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var spenderKey = PrivateKey.GenerateED25519();
-                var spenderAccountId = new AccountCreateTransaction()Key = spenderKey,.SetInitialBalance(new Hbar(2)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var spenderAccountId = new AccountCreateTransaction
+                {
+					Key = spenderKey,
+					InitialBalance = new Hbar(2),
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
                 var receiverKey = PrivateKey.GenerateED25519();
-                var receiverAccountId = new AccountCreateTransaction()Key = receiverKey,.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverKey,
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+
                 TokenId nftTokenId = new TokenCreateTransaction
                 { 
                     TokenName = "ffff",
@@ -282,30 +316,42 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TokenId;
 
-                new TokenAssociateTransaction()
-                    .SetAccountId(delegatingSpenderAccountId)
-                    .SetTokenIds([nftTokenId])
+                new TokenAssociateTransaction
+                {
+					AccountId = delegatingSpenderAccountId,
+					TokenIds = [nftTokenId],
+				}
                     .FreezeWith(testEnv.Client)
                     .Sign(spenderKey)
                     .Execute(testEnv.Client);
-                new TokenAssociateTransaction()
-                    AccountId = receiverAccountId,
-                    .SetTokenIds([nftTokenId])
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverAccountId,
+					TokenIds = [nftTokenId],
+				}
                     .FreezeWith(testEnv.Client)
                     .Sign(receiverKey)
                     .Execute(testEnv.Client);
-                var serials = new TokenMintTransaction()
-                    .SetTokenId(nftTokenId)
-                    .AddMetadata(Encoding.UTF8.GetBytes("asd1"))
-                    .AddMetadata(Encoding.UTF8.GetBytes("asd2"))
-                    .Execute(testEnv.Client)
-                    .GetReceipt(testEnv.Client).Serials;
+                var serials = new TokenMintTransaction
+                {
+					TokenId = nftTokenId,
+                    MetadataList = 
+                    [
+						Encoding.UTF8.GetBytes("asd1"),
+						Encoding.UTF8.GetBytes("asd2"),
+					]
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).Serials;
+                
                 var nft1 = new NftId(nftTokenId, serials[0]);
                 var nft2 = new NftId(nftTokenId, serials[1]);
+
                 new AccountAllowanceApproveTransaction()
                     .ApproveTokenNftAllowanceAllSerials(nftTokenId, testEnv.OperatorId, delegatingSpenderAccountId)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
+
                 new AccountAllowanceApproveTransaction()
                     .ApproveTokenNftAllowance(nft1, testEnv.OperatorId, spenderAccountId, delegatingSpenderAccountId)
                     .FreezeWith(testEnv.Client)
@@ -327,19 +373,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var onBehalfOfTransactionId2 = TransactionId.Generate(spenderAccountId);
                 
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
-                { 
+                {
                     return new TransferTransaction
-					{
-						TransactionId = onBehalfOfTransactionId2
-					}
-				    .AddApprovedNftTransfer(nft2, testEnv.OperatorId, receiverAccountId)
-				    .FreezeWith(testEnv.Client)
-				    .Sign(spenderKey)
-				    .Execute(testEnv.Client)
-				    .GetReceipt(testEnv.Client)
+                    {
+                        TransactionId = onBehalfOfTransactionId2
+                    }
+                    .AddApprovedNftTransfer(nft2, testEnv.OperatorId, receiverAccountId)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(spenderKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
 
 
-				}); Assert.Contains(ResponseStatus.SPENDER_DOES_NOT_HAVE_ALLOWANCE.ToString(), exception.Message);
+				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
                 
                 var infoNft1 = new TokenNftInfoQuery 
                 { 
@@ -353,8 +399,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 
                 }.Execute(testEnv.Client);
                 
-                Assert.Equal(infoNft1[0].accountId, receiverAccountId);
-                Assert.Equal(infoNft2[0].accountId, testEnv.OperatorId);
+                Assert.Equal(infoNft1[0].AccountId, receiverAccountId);
+                Assert.Equal(infoNft2[0].AccountId, testEnv.OperatorId);
             }
         }
     }

@@ -3,10 +3,6 @@
 using Google.Protobuf;
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
@@ -30,13 +26,13 @@ namespace Hedera.Hashgraph.SDK.Hook
 		{
 			return new EvmHookMappingEntry(null, preimage, value);
 		}
-		public static EvmHookMappingEntry FromProtobuf(Proto.EvmHookMappingEntry proto)
+		public static EvmHookMappingEntry FromProtobuf(Proto.LambdaMappingEntry proto)
 		{
 			return proto.EntryKeyCase switch
 			{
-				KEY => EvmHookMappingEntry.OfKey(proto.Key.ToByteArray(), proto.Value().ToByteArray()),
-				PREIMAGE => EvmHookMappingEntry.WithPreimage(proto.Preimage.ToByteArray(), proto.Value().ToByteArray()),
-				ENTRYKEY_NOT_SET => new ArgumentException("EvmHookMappingEntry must have either key or preimage set")
+				Proto.LambdaMappingEntry.EntryKeyOneofCase.Key => EvmHookMappingEntry.OfKey(proto.Key.ToByteArray(), proto.Value.ToByteArray()),
+				Proto.LambdaMappingEntry.EntryKeyOneofCase.Preimage => EvmHookMappingEntry.WithPreimage(proto.Preimage.ToByteArray(), proto.Value.ToByteArray()),
+				Proto.LambdaMappingEntry.EntryKeyOneofCase.None or _ => throw new ArgumentException("EvmHookMappingEntry must have either key or preimage set")
 			};
 		}
 
@@ -55,23 +51,23 @@ namespace Hedera.Hashgraph.SDK.Hook
             get => field.CopyArray();
         }
 
-        public virtual Proto.EvmHookMappingEntry ToProtobuf()
+        public virtual Proto.LambdaMappingEntry ToProtobuf()
         {
-            var builder = new Proto.EvmHookMappingEntry();
+            var builder = new Proto.LambdaMappingEntry();
 
             if (Key != null)
             {
-                builder.SetKey(ByteString.CopyFrom(Key));
+                builder.Key = ByteString.CopyFrom(Key);
             }
             
             if (PreImage != null)
             {
-                builder.SetPreimage(ByteString.CopyFrom(PreImage));
+                builder.Preimage = ByteString.CopyFrom(PreImage);
             }
 
             if (Value.Length > 0)
             {
-                builder.SetValue(ByteString.CopyFrom(Value));
+                builder.Value = ByteString.CopyFrom(Value);
             }
 
             return builder;

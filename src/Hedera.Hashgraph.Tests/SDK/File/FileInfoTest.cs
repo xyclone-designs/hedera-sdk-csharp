@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
 			FileID = new FileId(0, 0, 1).ToProtobuf(),
 			Size = 2,
-			ExpirationTime = InstantConverter.ToProtobuf(Instant.OfEpochMilli(3)),
+			ExpirationTime = DateTimeConverter.ToProtobuf(DateTime.OfEpochMilli(3)),
 			Deleted = true,
 			Keys = Proto.KeyList.Parser.ParseFrom(Keys),
 			LedgerId = LedgerId.MAINNET.ToByteString(),

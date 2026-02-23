@@ -265,11 +265,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			OnFreezeChunk(bodyBuilder, null, 0, Data.Length, 1, 1);
 			return DoSchedule(bodyBuilder);
 		}
-		public override TransactionResponse Execute(Client client, Duration timeoutPerChunk)
+		public override TransactionResponse Execute(Client client, TimeSpan timeoutPerChunk)
         {
             return ExecuteAll(client, timeoutPerChunk)[0];
         }
-		public override async Task<TransactionResponse> ExecuteAsync(Client client, Duration timeoutPerChunk)
+		public override async Task<TransactionResponse> ExecuteAsync(Client client, TimeSpan timeoutPerChunk)
 		{
 			IList<TransactionResponse> responses = await ExecuteAllAsync(client, timeoutPerChunk);
 
@@ -353,7 +353,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <returns>Result of execution for each chunk</returns>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual List<TransactionResponse> ExecuteAll(Client client, Duration timeoutPerChunk)
+        public virtual List<TransactionResponse> ExecuteAll(Client client, TimeSpan timeoutPerChunk)
         {
             FreezeAndSign(client);
             var responses = new List<TransactionResponse>(TransactionIds.Count);
@@ -390,7 +390,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeoutPerChunk">The timeout after which the execution attempt will be cancelled.</param>
         /// <returns>Future result of execution for each chunk</returns>
-        public virtual async Task<IList<TransactionResponse>> ExecuteAllAsync(Client client, Duration timeoutPerChunk)
+        public virtual async Task<IList<TransactionResponse>> ExecuteAllAsync(Client client, TimeSpan timeoutPerChunk)
         {
             FreezeAndSign(client);
 
@@ -423,7 +423,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="client">The client with which this will be executed.</param>
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual async void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>?, Exception?> callback)
+        public virtual async void ExecuteAllAsync(Client client, TimeSpan timeout, Action<IList<TransactionResponse>?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAllAsync(client, timeout), callback);
 		}
@@ -444,7 +444,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual async void ExecuteAllAsync(Client client, Duration timeout, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
+        public virtual async void ExecuteAllAsync(Client client, TimeSpan timeout, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAllAsync(client, timeout), onSuccess, onFailure);
 		}

@@ -8,18 +8,11 @@ namespace Hedera.Hashgraph.SDK
 {
     public sealed partial class Client 
     {
-		public class Operator
+		public class Operator(AccountId accountId, PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
 		{
-			internal AccountId AccountId { get; }
-			internal PublicKey PublicKey { get; }
-			internal Func<byte[], byte[]> TransactionSigner { get; }
-			
-			public Operator(AccountId accountId, PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
-			{
-				AccountId = accountId;
-				PublicKey = publicKey;
-				TransactionSigner = transactionSigner;
-			}
+			public AccountId AccountId { get; internal set; } = accountId;
+			public PublicKey PublicKey { get; internal set; } = publicKey;
+			public Func<byte[], byte[]> TransactionSigner { get; internal set; } = transactionSigner;
 		}
 	}
 }

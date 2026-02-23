@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Utils;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The interval at which the auto-renew account will be charged to extend the token's expiry
         /// </summary>
-        public readonly Duration AutoRenewPeriod;
+        public readonly TimeSpan AutoRenewPeriod;
         /// <summary>
         /// The epoch second at which the token will expire
         /// </summary>
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         public readonly LedgerId LedgerId;
         
-        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, Duration autoRenewPeriod, Timestamp expirationTime, string tokenMemo, IList<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
+        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, TimeSpan autoRenewPeriod, Timestamp expirationTime, string tokenMemo, IList<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
         {
             TokenId = tokenId;
             Name = name;

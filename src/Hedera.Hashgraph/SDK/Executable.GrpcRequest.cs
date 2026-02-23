@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK
 	{
 		public class GrpcRequest
 		{
-			public GrpcRequest(Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> parent, Network? network, int attempt, Duration grpcDeadline)
+			public GrpcRequest(Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> parent, Network? network, int attempt, TimeSpan grpcDeadline)
 			{
 				Parent = parent;
 				Network = network;
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK
 			public readonly long Delay;
 			public readonly Node Node;
 
-			public Duration GrpcDeadline { get; set; }
+			public TimeSpan GrpcDeadline { get; set; }
 
 			public virtual CallOptions CallOptions 
 			{

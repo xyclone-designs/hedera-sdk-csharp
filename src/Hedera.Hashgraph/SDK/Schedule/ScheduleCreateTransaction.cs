@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			}
         }
 		/// <summary>
-		/// Overload: set the expiration time using a Duration value.
+		/// Overload: set the expiration time using a TimeSpan value.
 		/// </summary>
 		public Duration? ExpirationTimeDuration
 		{

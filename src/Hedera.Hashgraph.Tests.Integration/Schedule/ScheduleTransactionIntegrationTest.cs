@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = payerAccountId
 				}
                 .Execute(testEnv.Client);
-                Assert.True(accountBalance.hbars.ToTinybars() > hbar / 2);
+                Assert.True(accountBalance.Hbars.ToTinybars() > hbar / 2);
                 
                 payerClient.Dispose();
 
@@ -246,7 +246,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client);
 
-                Assert.Equal(accountBalance.Tokens[tokenId], 2);
+                Assert.Equal(accountBalance.Tokens[tokenId], (ulong)2);
             }
         }
     }

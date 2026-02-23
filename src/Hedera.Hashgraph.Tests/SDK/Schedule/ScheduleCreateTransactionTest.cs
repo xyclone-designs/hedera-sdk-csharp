@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Assert.Throws<InvalidOperationException>(() => tx.SetExpirationTime(Duration.OfSeconds(1)));
         }
 
-        public virtual void GetSetExpirationTimeInstant()
+        public virtual void GetSetExpirationTimeDateTime()
         {
             var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567);
             var tx = new ScheduleCreateTransaction().SetExpirationTime(instant);

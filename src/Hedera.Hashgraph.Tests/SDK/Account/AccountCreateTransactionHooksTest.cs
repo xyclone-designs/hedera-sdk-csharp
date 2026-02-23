@@ -48,18 +48,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             // Verify first hook
             HookCreationDetails firstHook = hookDetails[0];
             Assert.Equal(HookExtensionPoint.AccountAllowanceHook, firstHook.GetExtensionPoint());
-            Assert.Equal(1, firstHook.GetHookId());
-            Assert.Equal(adminKey.GetPublicKey(), firstHook.GetAdminKey());
-            Assert.NotNull(firstHook.GetHook());
-            Assert.Equal(1, firstHook.GetHook().GetStorageUpdates().Count);
+            Assert.Equal(1, firstHook.HookId);
+            Assert.Equal(adminKey.GetPublicKey(), firstHook.AdminKey);
+            Assert.NotNull(firstHook.HookId);
+            Assert.Equal(1, firstHook.HookId.GetStorageUpdates().Count);
 
             // Verify second hook
             HookCreationDetails secondHook = hookDetails[1];
             Assert.Equal(HookExtensionPoint.AccountAllowanceHook, secondHook.GetExtensionPoint());
-            Assert.Equal(2, secondHook.GetHookId());
-            Assert.Null(secondHook.GetAdminKey());
-            Assert.NotNull(secondHook.GetHook());
-            Assert.True(secondHook.GetHook().GetStorageUpdates().Count == 0);
+            Assert.Equal(2, secondHook.HookId);
+            Assert.Null(secondHook.AdminKey);
+            Assert.NotNull(secondHook.HookId);
+            Assert.True(secondHook.HookId.GetStorageUpdates().Count == 0);
         }
 
         public virtual void TestAccountCreateTransactionSetHooks()
@@ -92,8 +92,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             // Client-side duplicate ID validation was removed; ensure build includes both entries
             var proto = transaction.Build();
             Assert.Equal(2, proto.GetHookCreationDetailsCount());
-            Assert.Equal(1, proto.GetHookCreationDetails(0).GetHookId());
-            Assert.Equal(1, proto.GetHookCreationDetails(1).GetHookId());
+            Assert.Equal(1, proto.GetHookCreationDetails(0).HookId);
+            Assert.Equal(1, proto.GetHookCreationDetails(1).HookId);
         }
 
         public virtual void TestAccountCreateTransactionProtobufSerialization()
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(1, protoBody.GetHookCreationDetailsCount());
             var protoHookDetails = protoBody.GetHookCreationDetails(0);
             Assert.Equal(Proto.HookExtensionPoint.AccountAllowanceHook, protoHookDetails.GetExtensionPoint());
-            Assert.Equal(1, protoHookDetails.GetHookId());
+            Assert.Equal(1, protoHookDetails.HookId);
             Assert.True(protoHookDetails.HasEvmHook());
         }
 
@@ -153,9 +153,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(1, parsedHooks.Count);
             HookCreationDetails parsedHook = parsedHooks[0];
             Assert.Equal(HookExtensionPoint.AccountAllowanceHook, parsedHook.GetExtensionPoint());
-            Assert.Equal(3, parsedHook.GetHookId());
-            Assert.NotNull(parsedHook.GetHook());
-            Assert.True(parsedHook.GetHook().GetStorageUpdates().Count == 0);
+            Assert.Equal(3, parsedHook.HookId);
+            Assert.NotNull(parsedHook.HookId);
+            Assert.True(parsedHook.HookId.GetStorageUpdates().Count == 0);
         }
     }
 }

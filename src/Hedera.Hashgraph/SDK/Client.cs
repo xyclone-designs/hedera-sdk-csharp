@@ -4,7 +4,6 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Ids;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Networking;
@@ -25,33 +24,33 @@ namespace Hedera.Hashgraph.SDK
 	/// </summary>
 	public sealed partial class Client : IDisposable
     {
-		private readonly ExecutorService executor;
-        private readonly AtomicReference<Duration> grpcDeadline = new (DEFAULT_GRPC_DEADLINE);
-        private readonly HashSet<SubscriptionHandle> subscriptions = ConcurrentDictionary.NewKeySet();
+		private readonly bool ShouldShutdownExecutor;
+		private readonly ExecutorService Executor;
+        private readonly AtomicClass<TimeSpan> _GrpcDeadline = new (DEFAULT_GRPC_DEADLINE);
+        private readonly HashSet<SubscriptionHandle> Subscriptions = [];
 
-		private volatile Duration maxBackoff = DEFAULT_MAX_BACKOFF;
-		private volatile Duration minBackoff = DEFAULT_MIN_BACKOFF;
+		private volatile TimeSpan _MaxBackoff = DEFAULT_MAX_BACKOFF;
+		private volatile TimeSpan _MinBackoff = DEFAULT_MIN_BACKOFF;
  
-
-        private Task NetworkUpdateFuture;
+        private Task? NetworkUpdateFuture;
         
-
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="executor">the executor</param>
         /// <param name="Network">the Network</param>
-        /// <param name="mirrorNetwork">the mirror Network</param>
+        /// <param name="MirrorNetwork_">the mirror Network</param>
         /// <param name="shouldShutdownExecutor"></param>
-        internal Client(ExecutorService executor, Network Network, MirrorNetwork mirrorNetwork, Duration NetworkUpdateInitialDelay, bool shouldShutdownExecutor, Duration NetworkUpdatePeriod, long shard, long realm)
+        internal Client(ExecutorService executor, Network Network, MirrorNetwork MirrorNetwork_, TimeSpan NetworkUpdateInitialDelay, bool shouldShutdownExecutor, TimeSpan NetworkUpdatePeriod, long shard, long realm)
         {
-            executor = executor;
+            Executor = executor;
             Network = Network;
-            mirrorNetwork = mirrorNetwork;
-            shouldShutdownExecutor = shouldShutdownExecutor;
+            MirrorNetwork_ = MirrorNetwork_;
+            ShouldShutdownExecutor = shouldShutdownExecutor;
             NetworkUpdatePeriod = NetworkUpdatePeriod;
-            shard = shard;
-            realm = realm;
+            Shard = shard;
+            Realm = realm;
+
             ScheduleNetworkUpdate(NetworkUpdateInitialDelay);
         }
 
@@ -149,7 +148,7 @@ namespace Hedera.Hashgraph.SDK
 			{
 				try
 				{
-					return mirrorNetwork.GetRestBaseUrl();
+					return MirrorNetwork_.GetRestBaseUrl();
 				}
 				catch (ThreadInterruptedException e)
 				{
@@ -176,7 +175,7 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		public bool MirrorTransportSecurityEnabled
 		{
-			get => mirrorNetwork.IsTransportSecurity;
+			get => MirrorNetwork_.TransportSecurity;
 		}
 		/// <summary>
 		/// Is tls enabled for consensus nodes.
@@ -234,7 +233,7 @@ namespace Hedera.Hashgraph.SDK
 			{
 				lock (this)
 				{
-					return Network_.GetMaxNodeAttempts();
+					return Network_.MaxNodeAttempts;
 				}
 			}
 			set
@@ -245,59 +244,55 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// The minimum amount of time to wait between retries.
 		/// </summary>
-		public Duration MinBackoff
+		public TimeSpan MinBackoff
 		{
-			get => minBackoff;
+			get => _MinBackoff;
 			set
 			{
-				ArgumentNullException.ThrowIfNull(value);
-
-				if (value.ToNanos() < 0)
+				if (value.TotalNanoseconds < 0)
 				{
 					throw new ArgumentException("MinBackoff must be a positive duration");
 				}
 
-				if (maxBackoff != null && value.CompareTo(maxBackoff) > 0)
+				if (value.CompareTo(_MaxBackoff) > 0)
 				{
 					throw new ArgumentException("MinBackoff must be less than or equal to MaxBackoff");
 				}
 
-				minBackoff = value;
+				_MinBackoff = value;
 			}
 		}
 		/// <summary>
 		/// The maximum amount of time to wait between retries.
 		/// </summary>
-		public Duration MaxBackoff
+		public TimeSpan MaxBackoff
 		{
-			get => maxBackoff;
+			get => _MaxBackoff;
 			set
 			{
-				ArgumentNullException.ThrowIfNull(value);
-
-				if (value.ToNanos() < 0)
+				if (value.TotalNanoseconds < 0)
 				{
 					throw new ArgumentException("MaxBackoff must be a positive duration");
 				}
 
-				if (minBackoff != null && value.CompareTo(minBackoff) < 0)
+				if (value.CompareTo(_MinBackoff) < 0)
 				{
 					throw new ArgumentException("MaxBackoff must be greater than or equal to MinBackoff");
 				}
 
-				maxBackoff = value;
+				_MaxBackoff = value;
 			}
 		}
 		/// <summary>
 		/// The minimum backoff time for any node in the Network.
 		/// </summary>
-		public Duration NodeMinBackoff
+		public TimeSpan NodeMinBackoff
 		{
 			get
 			{
 				lock (this)
 				{
-					return Network_.GetMinNodeBackoff();
+					return Network_.MinNodeBackoff;
 				}
 			}
 			set
@@ -308,13 +303,13 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// The maximum backoff time for any node in the Network.
 		/// </summary>
-		public Duration NodeMaxBackoff
+		public TimeSpan NodeMaxBackoff
 		{
 			get
 			{
 				lock (this)
 				{
-					return Network_.GetMaxNodeBackoff();
+					return Network_.MaxNodeBackoff;
 				}
 			}
 			set
@@ -325,7 +320,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// Extract the minimum node readmit time.
 		/// </summary>
-		public Duration MinNodeReadmitTime
+		public TimeSpan MinNodeReadmitTime
 		{
 			get => Network_.MinNodeReadmitTime;
 			set => Network_.MinNodeReadmitTime = value;
@@ -333,7 +328,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// Extract the maximum node readmit time.
 		/// </summary>
-		public Duration MaxNodeReadmitTime
+		public TimeSpan MaxNodeReadmitTime
 		{
 			get => Network_.MaxNodeReadmitTime;
 			set => Network_.MaxNodeReadmitTime = value;
@@ -358,12 +353,12 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		public AccountId OperatorAccountId
 		{
-			get { lock (this) return field; }
+			get { lock (this) return Operator_.AccountId; }
 			set
 			{
 				lock (this)
 				{
-					return oper8r?.accountId;
+					Operator_.AccountId = value;
 				}
 			}
 		}
@@ -372,12 +367,12 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		public PublicKey OperatorPublicKey
 		{
-			get { lock (this) return field; }
+			get { lock (this) return Operator_.PublicKey; }
 			set
 			{
 				lock (this)
 				{
-					return Operator_.PublicKey = value;
+					Operator_.PublicKey = value;
 				}
 			}
 		}
@@ -478,7 +473,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// Maximum amount of time a request can run.
 		/// </summary>
-		public Duration RequestTimeout
+		public TimeSpan RequestTimeout
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
@@ -486,29 +481,29 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// Maximum amount of time closing a Network can take.
 		/// </summary>
-		public Duration CloseTimeout
+		public TimeSpan CloseTimeout
 		{
 			get => field;
 			set
 			{
 				field = value;
 				Network_.CloseTimeout = value;
-				mirrorNetwork.CloseTimeout = value;
+				MirrorNetwork_.CloseTimeout = value;
 			}
 		}
 		/// <summary>
 		/// Maximum amount of time a gRPC request can run.
 		/// </summary>
-		public Duration GrpcDeadline
+		public TimeSpan GrpcDeadline
 		{
-			get => grpcDeadline.Get();
-			set => grpcDeadline.Set(ArgumentNullException.ThrowIfNull(value));
+			get => _GrpcDeadline.Get();
+			set => _GrpcDeadline.Set(value);
 		}
 		/// <summary>
 		/// The period for updating the Address Book
 		/// If value is null, any Network updates in progress will not complete
 		/// </summary>
-		public Duration? NetworkUpdatePeriod
+		public TimeSpan? NetworkUpdatePeriod
 		{
 			get { lock (this) return field; }
 			set
@@ -517,12 +512,13 @@ namespace Hedera.Hashgraph.SDK
 				{
 					CancelScheduledNetworkUpdate();
 					field = value;
-					ScheduleNetworkUpdate(NetworkUpdatePeriod);
+
+					ScheduleNetworkUpdate(field);
 				}
 			}
 		}
 
-		private void ScheduleNetworkUpdate(Duration delay)
+		internal void ScheduleNetworkUpdate(TimeSpan? delay)
 		{
 			lock (this)
 			{
@@ -532,63 +528,66 @@ namespace Hedera.Hashgraph.SDK
 					return;
 				}
 
-				NetworkUpdateFuture = Delayer.DelayFor(delay.ToMillis(), executor);
-				NetworkUpdateFuture.ThenRun(() =>
-				{
-
-					// Checking NetworkUpdatePeriod != null must be synchronized, so I've put it in a synchronized method.
-					RequireNetworkUpdatePeriodNotNull(() =>
+				NetworkUpdateFuture = Delayer
+					.DelayFor(delay.Value.TotalMilliseconds, Executor)
+					.ContinueWith((task) =>
 					{
-						var fileId = FileId.GetAddressBookFileIdFor(shard, realm);
-						new AddressBookQuery()FileId = fileId,.ExecuteAsync(this).ThenCompose((addressBook) => RequireNetworkUpdatePeriodNotNull(() =>
-						{
-							try
-							{
-								SetNetworkFromAddressBook(addressBook);
-							}
-							catch (Exception error)
-							{
-								return Task.FailedFuture(error);
-							}
+						task.GetAwaiter().GetResult();
 
-							return Task.FromResult(null);
-						})).Exceptionally((error) =>
+						// Checking NetworkUpdatePeriod != null must be synchronized, so I've put it in a synchronized method.
+						RequireNetworkUpdatePeriodNotNull(async () =>
 						{
-							logger.Warn("Failed to update address book via mirror node query ", error);
+							var fileId = FileId.GetAddressBookFileIdFor(shard, realm);
+							NodeAddressBook addressbook = await new AddressBookQuery { FileId = fileId, }.ExecuteAsync(this);
+							RequireNetworkUpdatePeriodNotNull(() =>
+							{
+								try
+								{
+									SetNetworkFromAddressBook(addressBook);
+								}
+								catch (Exception error)
+								{
+									return Task.FailedFuture(error);
+								}
+
+								return Task.FromResult(null);
+							}).Exceptionally((error) =>
+							{
+								logger.Warn("Failed to update address book via mirror node query ", error);
+								return null;
+							});
+
+							ScheduleNetworkUpdate(NetworkUpdatePeriod);
+
 							return null;
 						});
-						ScheduleNetworkUpdate(NetworkUpdatePeriod);
-						return null;
 					});
-				});
 			}
 		}
-		private void CancelAllSubscriptions()
+		internal void CancelAllSubscriptions()
 		{
-			foreach (var subscription in subscriptions)
+			foreach (var subscription in Subscriptions)
 				subscription.Unsubscribe(); 
 		}
-		private void CancelScheduledNetworkUpdate()
+		internal void CancelScheduledNetworkUpdate()
 		{
 			NetworkUpdateFuture?.Cancel(true);
 		}
-		private void TrackSubscription(SubscriptionHandle subscriptionHandle)
+		internal void TrackSubscription(SubscriptionHandle subscriptionHandle)
 		{
-			subscriptions.Add(subscriptionHandle);
+			Subscriptions.Add(subscriptionHandle);
 		}
-		private void UntrackSubscription(SubscriptionHandle subscriptionHandle)
+		internal void UntrackSubscription(SubscriptionHandle subscriptionHandle)
 		{
-			subscriptions.Remove(subscriptionHandle);
+			Subscriptions.Remove(subscriptionHandle);
 		}
-		private CompletionStage<T> RequireNetworkUpdatePeriodNotNull(Supplier<CompletionStage<T>> task)
+		internal Task<T?> RequireNetworkUpdatePeriodNotNull<T>(Func<Task<T?>> task)
 		{
 			lock (this)
 			{
-				return NetworkUpdatePeriod != null ? task.Get() : Task.FromResult(null);
+				return NetworkUpdatePeriod != null ? task() : Task.FromResult<T?>(default);
 			}
 		}
-
-        
 
 		/// <summary>
 		/// Trigger an immediate address book update to refresh the client's Network with the latest node information.
@@ -606,7 +605,7 @@ namespace Hedera.Hashgraph.SDK
 					logger.Debug("Fetching address book from file {}", fileId);
 
 					// Execute synchronously - no async complexity
-					var addressBook = new AddressBookQuery()FileId = fileId,.Execute(this); // ← Synchronous!
+					var addressBook = new AddressBookQuery { FileId = fileId, }.Execute(this); // ← Synchronous!
 					logger.Debug("Received address book with {} nodes", addressBook.NodeAddresses.Count);
 
 					// Update the Network
@@ -649,33 +648,33 @@ namespace Hedera.Hashgraph.SDK
         /// <p>After this method returns, this client can be re-used. Channels will be re-established as
         /// needed.
         /// </summary>
-        /// <param name="timeout">The Duration to be set</param>
+        /// <param name="timeout">The TimeSpan to be set</param>
         /// <exception cref="TimeoutException">if the mirror Network doesn't close in time</exception>
-        public void Dispose(Duration timeout)
+        public void Dispose(TimeSpan timeout)
         {
             lock (this)
             {
-                var closeDeadline = Timestamp.Now().Plus(timeout);
+				var closeDeadline = Timestamp.FromDateTimeOffset(DateTimeOffset.Now.AddSeconds(timeout.Seconds));
                 
                 NetworkUpdatePeriod = null;
                 CancelScheduledNetworkUpdate();
                 CancelAllSubscriptions();
                 Network_.BeginClose();
-                mirrorNetwork.BeginClose();
+                MirrorNetwork_.BeginClose();
 
                 var NetworkError = Network_.AwaitClose(closeDeadline, null);
-                var mirrorNetworkError = mirrorNetwork.AwaitClose(closeDeadline, NetworkError);
+                var MirrorNetwork_Error = MirrorNetwork_.AwaitClose(closeDeadline, NetworkError);
 
                 // https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html
-                if (shouldShutdownExecutor)
+                if (ShouldShutdownExecutor)
                 {
                     try
                     {
-                        executor.Shutdown();
-                        if (!executor.AwaitTermination(timeout.Seconds / 2, TimeUnit.SECONDS))
+                        Executor.Shutdown();
+                        if (!Executor.AwaitTermination(timeout.Seconds / 2, TimeUnit.SECONDS))
                         {
-                            executor.ShutdownNow();
-                            if (!executor.AwaitTermination(timeout.Seconds / 2, TimeUnit.SECONDS))
+                            Executor.ShutdownNow();
+                            if (!Executor.AwaitTermination(timeout.Seconds / 2, TimeUnit.SECONDS))
                             {
                                 logger.Warn("Pool did not terminate");
                             }
@@ -683,18 +682,18 @@ namespace Hedera.Hashgraph.SDK
                     }
                     catch (ThreadInterruptedException)
                     {
-                        executor.ShutdownNow();
+                        Executor.ShutdownNow();
                         
                         Thread.CurrentThread.Interrupt();
                     }
                 }
 
-                if (mirrorNetworkError != null)
+                if (MirrorNetwork_Error != null)
                 {
-                    if (mirrorNetworkError is TimeoutException)
-						throw mirrorNetworkError;
+                    if (MirrorNetwork_Error is TimeoutException)
+						throw MirrorNetwork_Error;
 					else
-						throw new Exception(mirrorNetworkError.Message);
+						throw new Exception(MirrorNetwork_Error.Message);
 				}
             }
         }

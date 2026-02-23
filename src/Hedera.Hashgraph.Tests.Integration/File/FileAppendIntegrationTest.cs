@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					FileId = fileId,
                     Contents = Encoding.UTF8.GetBytes(Contents.BIG_CONTENTS),
-					TransactionValidDuration = Duration.FromTimeSpan(TimeSpan.FromSeconds(25))
+					TransactionValidDuration = TimeSpan.FromSeconds(25)
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 

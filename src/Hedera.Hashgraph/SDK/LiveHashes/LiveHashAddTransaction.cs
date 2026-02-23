@@ -62,9 +62,9 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 		/// <summary>
 		/// The duration for which the livehash will remain valid
 		/// </summary>
-		/// <param name="duration">The Duration to be set</param>
+		/// <param name="duration">The TimeSpan to be set</param>
 		/// <returns>{@code this}</returns>
-		public Duration? Duration { get; set { RequireNotFrozen(); field = value; } }
+		public Duration? TimeSpan { get; set { RequireNotFrozen(); field = value; } }
 
 		/// <summary>
 		/// Initialize from the transaction body.
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 
             if (hashBody.Duration is not null)
             {
-                Duration = Utils.DurationConverter.FromProtobuf(hashBody.Duration);
+                TimeSpan = Utils.DurationConverter.FromProtobuf(hashBody.Duration);
             }
         }
 

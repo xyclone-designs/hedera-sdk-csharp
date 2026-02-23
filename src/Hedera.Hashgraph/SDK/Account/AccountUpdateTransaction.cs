@@ -126,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// This duration SHALL be applied only when _automatically_ extending the
         /// account expiration.
         /// </summary>
-        /// <param name="autoRenewPeriod">The Duration to be set for auto renewal</param>
+        /// <param name="autoRenewPeriod">The TimeSpan to be set for auto renewal</param>
         /// <returns>{@code this}</returns>
         public Duration? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
 		/// <summary>

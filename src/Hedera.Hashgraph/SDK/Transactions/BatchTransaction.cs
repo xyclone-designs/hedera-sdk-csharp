@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					SignedTransactionBytes = atomicTransactionBytes
 				};
 
-				InnerTransactions.Add(Transaction<T>.FromBytes(transaction.ToByteArray()));
+				InnerTransactions.Add(Transaction.FromBytes(transaction.ToByteArray()));
 			}
 		}
 		/// <summary>

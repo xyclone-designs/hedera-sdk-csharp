@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             byte[] totalContents = new byte[testContents.Length * 2];
             Array.Copy(testContents, 0, totalContents, 0, testContents.Length);
             Array.Copy(testContents, 0, totalContents, testContents.Length, testContents.Length);
-            Assert.Equal(topicMessage.consensusTimestamp, testTimestamp.PlusSeconds(1));
+            Assert.Equal(topicMessage.consensusTimestamp, testTimestamp.AddSeconds(1));
             Assert.Equal(topicMessage.contents, totalContents);
             Assert.Equal(topicMessage.runningHash, testRunningHash);
             Assert.Equal(topicMessage.sequenceNumber, testSequenceNumber + 1);

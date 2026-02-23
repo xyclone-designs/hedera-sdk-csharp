@@ -157,7 +157,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <returns>the response of TokenRejectTransaction</returns>
         /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
         /// <exception cref="TimeoutException">when the transaction times out</exception>
-        public virtual TransactionResponse Execute(Client client, Duration timeoutPerTransaction)
+        public virtual TransactionResponse Execute(Client client, TimeSpan timeoutPerTransaction)
         {
             try
             {
@@ -187,7 +187,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <returns>the response</returns>
-        public virtual async Task<TransactionResponse> ExecuteAsync(Client client, Duration timeoutPerTransaction)
+        public virtual async Task<TransactionResponse> ExecuteAsync(Client client, TimeSpan timeoutPerTransaction)
         {
             TransactionResponse transactionresponse = await CreateTokenRejectTransaction().ExecuteAsync(client, timeoutPerTransaction);
             TransactionReceipt transactionreceipt = await transactionresponse.GetReceiptQuery().ExecuteAsync(client, timeoutPerTransaction);
@@ -209,7 +209,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="client">the client with the transaction to execute</param>
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <param name="callback">a Action which handles the result or error.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
+        public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
@@ -230,7 +230,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
         /// <param name="onSuccess">a Action which consumes the result on success.</param>
         /// <param name="onFailure">a Action which consumes the error on failure.</param>
-        public virtual void ExecuteAsync(Client client, Duration timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
+        public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);
         }

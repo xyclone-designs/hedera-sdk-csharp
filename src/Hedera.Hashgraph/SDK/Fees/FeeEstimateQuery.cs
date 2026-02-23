@@ -1,21 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
+using Google.Protobuf;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Transactions;
-using Java.Io;
-using Java.Net;
-using Java.Net.Http;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Javax.Annotation;
-using Org.Slf4j;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
@@ -29,6 +21,10 @@ namespace Hedera.Hashgraph.SDK.Fees
 			// Retry on common transient HTTP statuses
 			return statusCode == 408 || statusCode == 429 || (statusCode >= 500 && statusCode < 600);
 		}
+		private static bool ShouldRetry(HttpStatusCode statusCode)
+		{
+			return ShouldRetry((int)statusCode);
+		}
 		private static bool ShouldRetry(Exception exception)
         {
             return exception is TimeoutException || (exception as HttpRequestException)?.InnerException is TimeoutException  || exception is HttpIOException;
@@ -37,22 +33,26 @@ namespace Hedera.Hashgraph.SDK.Fees
         {
             return statusCode >= 200 && statusCode < 300;
         }
+		private static bool IsSuccessfulResponse(HttpStatusCode statusCode)
+		{
+			return IsSuccessfulResponse((int)statusCode);
+		}
 
-        public virtual FeeEstimateMode Mode { get; set; } = FeeEstimateMode.State;
+		public virtual FeeEstimateMode Mode { get; set; } = FeeEstimateMode.State;
 		public virtual Proto.Transaction? Transaction { get; set; }
         public virtual int MaxAttempts { get; set; } = 10;
-        public virtual Duration MaxBackoff
+        public virtual TimeSpan MaxBackoff
         {
             get;
             set
             {
-				if (value.ToTimeSpan().TotalMilliseconds < 500)
+				if (value.TotalMilliseconds < 500)
 					throw new ArgumentException("maxBackoff must be at least 500 ms");
 
 				field = value;
 			}
 
-        } = Duration.FromTimeSpan(TimeSpan.FromSeconds(8));
+        } = TimeSpan.FromSeconds(8);
 
 		public virtual FeeEstimateQuery SetTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
 		{
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         {
             return Execute(client, client.RequestTimeout);
         }
-        public virtual FeeEstimateResponse Execute(Client client, Duration timeout)
+        public virtual FeeEstimateResponse Execute(Client client, TimeSpan timeout)
         {
             var requestPayload = GetRequestPayload();
             var url = BuildUrl(client, Mode);
@@ -73,18 +73,13 @@ namespace Hedera.Hashgraph.SDK.Fees
             {
                 try
                 {
-                    HTTP_CLIENT.Send()
-
-                    var response = HTTP_CLIENT.Send(BuildHttpRequest(url, timeout, requestPayload), HttpResponse.BodyHandlers.OfString());
+                    HTTP_CLIENT.Timeout = timeout;
+					var response = HTTP_CLIENT.Send(BuildHttpRequest(url, requestPayload));
                     var result = HandleResponse(response, Mode, attempt);
                     if (result != null)
                     {
                         return result;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw e;
                 }
                 catch (Exception error)
                 {
@@ -92,25 +87,26 @@ namespace Hedera.Hashgraph.SDK.Fees
                 }
             }
 
-			throw new HttpIOException("Failed to fetch fee estimate after " + MaxAttempts + " attempts");
+			throw new HttpIOException(HttpRequestError.InvalidResponse, "Failed to fetch fee estimate after " + MaxAttempts + " attempts");
         }
 
         /// <summary>
         /// Handle the HTTP response and return the result or null if retry is needed.
         /// </summary>
-        private FeeEstimateResponse HandleResponse(HttpResponseMessage response, FeeEstimateMode resolvedMode, int attempt)
+        private FeeEstimateResponse? HandleResponse(HttpResponseMessage response, FeeEstimateMode resolvedMode, int attempt)
         {
-            if (IsSuccessfulResponse(response.StatusCode()))
+            if (IsSuccessfulResponse(response.StatusCode))
             {
-                return FeeEstimateResponse.FromJson(response.Body(), resolvedMode);
+                return FeeEstimateResponse.FromJson(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), resolvedMode);
             }
 
-            if (!ShouldRetry(response.StatusCode()) || attempt >= MaxAttempts)
+            if (!ShouldRetry(response.StatusCode) || attempt >= MaxAttempts)
             {
-                throw new InvalidOperationException("Failed to fetch fee estimate. HTTP status: " + response.StatusCode() + " body: " + response.Body());
+                throw new InvalidOperationException("Failed to fetch fee estimate. HTTP status: " + response.StatusCode + " body: " + response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
             }
 
-            WarnAndDelay(attempt, new Exception("HTTP status: " + response.StatusCode()));
+            WarnAndDelay(attempt, new Exception("HTTP status: " + response.StatusCode));
+
             return null;
         }
 
@@ -122,60 +118,56 @@ namespace Hedera.Hashgraph.SDK.Fees
             if (!ShouldRetry(error) || attempt >= MaxAttempts)
             {
                 LOGGER.Error("Error attempting to get fee estimate", error);
-                if (error is IOException)
-                {
-                    throw ioException;
-                }
-
-                if (error is InterruptedException)
-                {
-                    throw interruptedException;
-                }
-
-                throw new InvalidOperationException(error);
+                
+                throw new InvalidOperationException(null, error);
             }
 
             WarnAndDelay(attempt, error);
         }
 
-        public virtual CompletableFuture<FeeEstimateResponse> ExecuteAsync(Client client)
+        public virtual TaskCompletionSource<FeeEstimateResponse> ExecuteAsync(Client client)
         {
-            return ExecuteAsync(client, client.GetRequestTimeout());
+            return ExecuteAsync(client, client.RequestTimeout);
         }
 
-        public virtual CompletableFuture<FeeEstimateResponse> ExecuteAsync(Client client, Duration timeout)
+        public virtual TaskCompletionSource<FeeEstimateResponse> ExecuteAsync(Client client, TimeSpan timeout)
         {
-            var resolvedMode = mode != null ? mode : FeeEstimateMode.STATE;
-            CompletableFuture<FeeEstimateResponse> returnFuture = new CompletableFuture();
-            ExecuteAsync(client, timeout, resolvedMode, returnFuture, 1);
+            TaskCompletionSource<FeeEstimateResponse> returnFuture = new ();
+            ExecuteAsync(client, timeout, Mode, returnFuture, 1);
             return returnFuture;
         }
 
-        virtual void ExecuteAsync(Client client, Duration timeout, FeeEstimateMode resolvedMode, CompletableFuture<FeeEstimateResponse> returnFuture, int attempt)
+        public virtual async void ExecuteAsync(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt)
         {
             var requestPayload = GetRequestPayload();
             var url = BuildUrl(client, resolvedMode);
-            HTTP_CLIENT.SendAsync(BuildHttpRequest(url, timeout, requestPayload), HttpResponse.BodyHandlers.OfString()).WhenComplete((response, error) =>
-            {
-                if (error != null)
-                {
-                    HandleAsyncError(client, timeout, resolvedMode, returnFuture, attempt, error);
-                    return;
-                }
 
-                HandleAsyncResponse(client, timeout, resolvedMode, returnFuture, attempt, response);
-            });
-        }
+        	HttpResponseMessage httpresponsemessage;
+
+            try
+            {
+                HTTP_CLIENT.Timeout = timeout;
+				httpresponsemessage = await HTTP_CLIENT.SendAsync(BuildHttpRequest(url, requestPayload));
+            }
+            catch (Exception exception) 
+            {
+				HandleAsyncError(client, timeout, resolvedMode, returnFuture, attempt, exception);
+			
+                return;
+			}
+
+            HandleAsyncResponse(client, timeout, resolvedMode, returnFuture, attempt, httpresponsemessage);
+		}
 
         /// <summary>
         /// Handle async error response.
         /// </summary>
-        private void HandleAsyncError(Client client, Duration timeout, FeeEstimateMode resolvedMode, CompletableFuture<FeeEstimateResponse> returnFuture, int attempt, Exception error)
+        private void HandleAsyncError(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, Exception error)
         {
             if (attempt >= MaxAttempts || !ShouldRetry(error))
             {
                 LOGGER.Error("Error attempting to get fee estimate", error);
-                returnFuture.CompleteExceptionally(error);
+                returnFuture.SetException(error);
                 return;
             }
 
@@ -186,64 +178,71 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <summary>
         /// Handle async success response.
         /// </summary>
-        private void HandleAsyncResponse(Client client, Duration timeout, FeeEstimateMode resolvedMode, CompletableFuture<FeeEstimateResponse> returnFuture, int attempt, HttpResponseMessage response)
+        private async void HandleAsyncResponse(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, HttpResponseMessage response)
         {
-            if (IsSuccessfulResponse(response.StatusCode()))
+            if (IsSuccessfulResponse(response.StatusCode))
             {
-                returnFuture.Complete(FeeEstimateResponse.FromJson(response.Body(), resolvedMode));
+                returnFuture.SetResult(FeeEstimateResponse.FromJson(await response.Content.ReadAsStringAsync(), resolvedMode));
                 return;
             }
 
-            if (attempt >= MaxAttempts || !ShouldRetry(response.StatusCode()))
+            if (attempt >= MaxAttempts || !ShouldRetry(response.StatusCode))
             {
-                LOGGER.Error("Failed to fetch fee estimate.HTTP status: {} body: {}", response.StatusCode(), response.Body());
-                returnFuture.CompleteExceptionally(new Exception("Failed to fetch fee estimate, status " + response.StatusCode()));
+                LOGGER.Error("Failed to fetch fee estimate.HTTP status: {} body: {}", response.StatusCode, await response.Content.ReadAsStringAsync());
+                returnFuture.SetException(new Exception("Failed to fetch fee estimate, status " + response.StatusCode));
                 return;
             }
 
-            WarnAndDelay(attempt, new Exception("Transient HTTP status: " + response.StatusCode()));
+            WarnAndDelay(attempt, new Exception("Transient HTTP status: " + response.StatusCode));
             ExecuteAsync(client, timeout, resolvedMode, returnFuture, attempt + 1);
         }
 
-        virtual HttpRequestMessage BuildRequest(Client client, Duration timeout, FeeEstimateMode resolvedMode)
+        public virtual HttpRequestMessage BuildRequest(Client client, FeeEstimateMode resolvedMode)
         {
             string url = BuildUrl(client, resolvedMode);
-            return BuildHttpRequest(url, timeout, GetRequestPayload());
+
+            return BuildHttpRequest(url, GetRequestPayload());
         }
 
         private byte[] GetRequestPayload()
         {
-            if (transaction == null)
-            {
-                throw new InvalidOperationException("transaction must be set before executing fee estimate");
-            }
+            if (Transaction == null)
+				throw new InvalidOperationException("transaction must be set before executing fee estimate");
 
-            return transaction.ToByteArray();
+			return Transaction.ToByteArray();
         }
 
         private string BuildUrl(Client client, FeeEstimateMode resolvedMode)
         {
-
-            // Keep mode casing consistent with JS SDK (uppercase)
-            return client.GetMirrorRestBaseUrl() + "/network/fees?mode=" + resolvedMode.ToString();
+            // Keep Mode casing consistent with JS SDK (uppercase)
+            return client.MirrorRestBaseUrl + "/network/fees?Mode=" + resolvedMode.ToString();
         }
 
-        private HttpRequestMessage BuildHttpRequest(string url, Duration timeout, byte[] payload)
+        private HttpRequestMessage BuildHttpRequest(string url, byte[] payload)
         {
-            return HttpRequest.NewBuilder().Uri(URI.Create(url)).Timeout(timeout).Header("Content-Type", "application/protobuf").POST(HttpRequest.BodyPublishers.OfByteArray(payload)).Build();
+			HttpRequestMessage httprequestmessage = new ()
+            {
+                Method = HttpMethod.Post,
+                Content = new ByteArrayContent(payload),
+                RequestUri = new Uri(url),
+            };
+
+            httprequestmessage.Headers.Add("Content-Type", "application/protobuf");
+
+            return httprequestmessage;
         }
 
         private void WarnAndDelay(int attempt, Exception error)
         {
-            var delay = Math.Min(500 * (long)Math.Pow(2, attempt), maxBackoff.ToMillis());
-            LOGGER.Warn("Error fetching fee estimate during attempt #{}. Waiting {} ms before next attempt: {}", attempt, delay, error.GetMessage());
+            var delay = Math.Min(500 * Math.Pow(2, attempt), MaxBackoff.TotalMilliseconds);
+            LOGGER.Warn("Error fetching fee estimate during attempt #{}. Waiting {} ms before next attempt: {}", attempt, delay, error.Message);
             try
             {
-                Thread.Sleep(delay);
+                Thread.Sleep((int)delay);
             }
-            catch (InterruptedException e)
+            catch (ThreadInterruptedException)
             {
-                Thread.CurrentThread().Interrupt();
+                Thread.CurrentThread.Interrupt();
             }
         }
     }

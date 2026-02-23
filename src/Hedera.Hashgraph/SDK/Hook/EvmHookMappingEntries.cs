@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Using fully qualified names to avoid conflicts with generated classes
+using Google.Protobuf;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +10,15 @@ namespace Hedera.Hashgraph.SDK.Hook
 {
 	public class EvmHookMappingEntries : EvmHookStorageUpdate
 	{
-		public EvmHookMappingEntries(byte[] mappingSlot, IList<EvmHookMappingEntry> entries)
+		public EvmHookMappingEntries(byte[] mappingSlot, IEnumerable<EvmHookMappingEntry> entries)
 		{
 			MappingSlot = mappingSlot.CopyArray();
 			Entries = [.. entries];
 		}
-		public static EvmHookMappingEntries FromProtobuf(Proto.EvmHookMappingEntries proto)
+		public static EvmHookMappingEntries FromProtobuf(Proto.LambdaMappingEntries proto)
 		{
 			return new EvmHookMappingEntries(
-				proto.GetMappingSlot().ToByteArray(),
+				proto.MappingSlot.ToByteArray(),
 				proto.Entries.Select(_ => EvmHookMappingEntry.FromProtobuf(_)));
 		}
 
@@ -29,19 +31,16 @@ namespace Hedera.Hashgraph.SDK.Hook
 			get => [.. field];
 		}
 
-		public override Proto.EvmHookStorageUpdate ToProtobuf()
+		public override Proto.EvmHoo ToProtobuf()
 		{
-			var proto = new Proto.EvmHookMappingEntries()
+			var proto = new Proto.LambdaMappingEntries()
 			{
-				MappingSlot = ByteString.CopyFrom(MappingSlot);
-			}
-
-				proto.Entries.AddRange(Entries.Select(_ => _.ToProtobuf());
-
-			return new Proto.EvmHookStorageUpdate
-			{
-				MappingEntries = proto
+				MappingSlot = ByteString.CopyFrom(MappingSlot)
 			};
+			
+			proto.Entries.AddRange(Entries.Select(_ => _.ToProtobuf()));
+
+			return proto;
 		}
 		public override bool Equals(object? o)
 		{

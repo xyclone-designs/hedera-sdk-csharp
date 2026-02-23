@@ -18,6 +18,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Topic;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Token;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -36,6 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				};
                 var response = new ScheduleCreateTransaction
                 {
+					ScheduledTransactionBody
 					ScheduledTransaction = transaction,
 					AdminKey = testEnv.OperatorKey,
 					PayerAccountId = testEnv.OperatorId
@@ -88,13 +90,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction()
-                    Key = key,
-                    .SetInitialBalance(new Hbar(10));
+                var transaction = new AccountCreateTransaction
+                {
+					Key = key,
+					InitialBalance = new Hbar(10)
+				};
                 var tx = transaction.Schedule();
-                var response = txAdminKey = testEnv.OperatorKey,
-                    )
-                    .Execute(testEnv.Client);
+                tx.AdminKey = testEnv.OperatorKey;
+				var response = tx.Execute(testEnv.Client);
                 var scheduleId = response.GetReceipt(testEnv.Client).ScheduleId);
                 var info = new ScheduleInfoQuery
                 {
@@ -161,7 +164,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Finally send this last signature to Hedera. This last signature _should_ mean the transaction executes
                 // since all 3 signatures have been provided.
-                ScheduleSignTransaction signTransaction = new ScheduleSignTransaction
+                new ScheduleSignTransaction
                 {
 					ScheduleId = scheduleId
 
@@ -273,10 +276,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var accountId = new AccountCreateTransaction
                 {
-                    InitialBalance = new Hbar(10)
-                }
-                
-                Key = key,
+                    InitialBalance = new Hbar(10),
+					Key = key,
+				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
                 var transferTx = new TransferTransaction()
@@ -339,9 +341,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).TopicId);
-                var transaction = new TopicMessageSubmitTransaction()
+                var transaction = new TopicMessageSubmitTransaction
+                {
                     TopicId = topicId,
-                    .SetMessage("scheduled hcs message".GetBytes(StandardCharsets.UTF_8));
+                    Message = ByteString.CopyFromUtf8("scheduled hcs message")
+                };
 
                 // create schedule
                 var scheduledTx = transaction.Schedule();
@@ -361,7 +365,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client);
                 Assert.NotNull(info);
                 Assert.Equal(info.ScheduleId, scheduleId);
+                
                 var infoTransaction = (TopicMessageSubmitTransaction)info.ScheduledTransaction;
+
                 Assert.Equal(transaction.TopicId, infoTransaction.TopicId);
                 Assert.Equal(transaction.NodeAccountIds, infoTransaction.NodeAccountIds);
                 var scheduleSign = new ScheduleSignTransaction
@@ -386,19 +392,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 PrivateKey key = PrivateKey.GenerateED25519();
-                var accountId = new AccountCreateTransaction()
-                    Key = key.GetPublicKey(,)
-                    .SetInitialBalance(new Hbar(10))
+                var accountId = new AccountCreateTransaction
+                {
+					Key = key.GetPublicKey(),
+					InitialBalance = new Hbar(10)
+				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
                 // Create the transaction
-                TransferTransaction transfer = new TransferTransaction().AddHbarTransfer(accountId, new Hbar(1).Negated()).AddHbarTransfer(testEnv.OperatorId, new Hbar(1));
+                TransferTransaction transfer = new TransferTransaction
+                {
+					ExpirationTime = DateTimeOffset.UtcNow.AddSeconds(oneDayInSecs),
+					ScheduleMemo = "HIP-423 Integration Test",
+				}
+                .AddHbarTransfer(accountId, new Hbar(1).Negated())
+                .AddHbarTransfer(testEnv.OperatorId, new Hbar(1));
 
                 // Schedule the transaction
-                var scheduleId = transfer.Schedule()
-                    .SetExpirationTime(DateTimeOffset.UtcNow.PlusSeconds(oneDayInSecs))
-                    .SetScheduleMemo("HIP-423 Integration Test")
+                var transfer = transfer.Schedule();
+                
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).ScheduleId;
                 ScheduleInfo info = new ScheduleInfoQuery

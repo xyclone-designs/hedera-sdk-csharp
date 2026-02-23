@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         public virtual void BiConsumer()
         {
-            CompletableFuture<string> future = CompletableFuture.SupplyAsync(() => "Hello");
+            Task<string> future = Task.SupplyAsync(() => "Hello");
             BiConsumer<string, Exception> consumer = Mock(typeof(BiConsumer));
             ConsumerHelper.BiConsumer(future, consumer);
             future.Join();
@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual void TwoConsumersWithoutError()
         {
             var value = "Hello";
-            CompletableFuture<string> future = CompletableFuture.CompletedFuture(value);
+            Task<string> future = Task.CompletedFuture(value);
             Consumer<string> onSuccess = Mock(typeof(Consumer));
             Consumer<Exception> onFailure = Mock(typeof(Consumer));
             ConsumerHelper.TwoConsumers(future, onSuccess, onFailure);
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual void TwoConsumersWithError()
         {
             var exception = new Exception("Exception");
-            CompletableFuture<string> future = CompletableFuture.FailedFuture(exception);
+            Task<string> future = Task.FailedFuture(exception);
             Consumer<string> onSuccess = Mock(typeof(Consumer));
             Consumer<Exception> onFailure = Mock(typeof(Consumer));
             ConsumerHelper.TwoConsumers(future, onSuccess, onFailure);

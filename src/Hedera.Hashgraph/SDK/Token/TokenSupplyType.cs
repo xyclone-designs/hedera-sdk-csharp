@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Token
     public enum TokenSupplyType
     {
 		/// <summary>
-		/// Indicates that tokens of that type have an upper bound of Long.MAX_VALUE.
+		/// Indicates that tokens of that type have an upper bound of long.MaxValue.
 		/// </summary>
 		Infinite = Proto.TokenSupplyType.Infinite,
 

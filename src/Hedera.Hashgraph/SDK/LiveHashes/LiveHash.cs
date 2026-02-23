@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
+
+using System;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
@@ -25,7 +26,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         /// <param name="hash">the hash</param>
         /// <param name="keys">the key list</param>
         /// <param name="duration">the duration</param>
-        private LiveHash(AccountId accountId, ByteString hash, KeyList keys, Duration duration)
+        private LiveHash(AccountId accountId, ByteString hash, KeyList keys, TimeSpan duration)
         {
             AccountId = accountId;
             Hash = hash;
@@ -72,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 		/// <summary>
 		/// The duration for which the livehash will remain valid
 		/// </summary>
-		public readonly Duration Duration;
+		public readonly TimeSpan Duration;
 
 		/// <summary>
 		/// Extract the byte array.

@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         private static readonly PublicKey testSubmitKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e12").GetPublicKey();
         private static readonly TopicId testTopicId = TopicId.FromString("0.0.5007");
         private static readonly string testTopicMemo = "test memo";
-        private static readonly Duration testAutoRenewPeriod = Duration.OfHours(10);
+        private static readonly TimeSpan testAutoRenewPeriod = Duration.OfHours(10);
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.UtcNow;
         private static readonly AccountId testAutoRenewAccountId = AccountId.FromString("8.8.8");
         private static readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);

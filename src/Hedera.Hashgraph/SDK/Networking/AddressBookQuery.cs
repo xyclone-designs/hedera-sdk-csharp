@@ -1,14 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
-
 using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.Networking;
-using Io.Grpc;
-using Io.Grpc.Stub;
 
-using Org.Slf4j;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			{
 				var code = rpcexception.Status;
 				var description = rpcexception.Status.Description;
-				return (code == Status.UNAVAILABLE) || (code == io.grpc.Status.Code.RESOURCE_EXHAUSTED) || (code == ResponseStatus.Code.INTERNAL && description != null && Executable.RST_STREAM.Matcher(description).Matches());
+				return (code == Status.UNAVAILABLE) || (code == io.grpc.Status.Code.RESOURCE_EXHAUSTED) || (code == ResponseStatus.INTERNAL && description != null && Executable.RST_STREAM.Matcher(description).Matches());
 			}
 
 			return false;
@@ -42,19 +36,19 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <summary>
 		/// Assign the maximum backoff duration.
 		/// </summary>
-		public virtual Duration MaxBackoff
+		public virtual TimeSpan MaxBackoff
         {
             get;
             set
             {
-				if (value.ToMillis() < 500)
+				if (value.TotalMilliseconds < 500)
 				{
 					throw new ArgumentException("maxBackoff must be at least 500 ms");
 				}
 
 				field = value;
 			}
-        } = Duration.FromTimeSpan(TimeSpan.FromSeconds(8));
+        } = TimeSpan.FromSeconds(8);
 		/// <summary>
 		/// Assign the number of node addresses to retrieve or all nodes set to 0.
 		/// </summary>
@@ -81,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// <param name="client">the client object</param>
         /// <param name="timeout">the user supplied timeout</param>
         /// <returns>the node address book</returns>
-        public virtual NodeAddressBook Execute(Client client, Duration timeout)
+        public virtual NodeAddressBook Execute(Client client, TimeSpan timeout)
         {
             var deadline = Deadline.After(timeout.ToMillis(), TimeUnit.MILLISECONDS);
 
@@ -129,9 +123,9 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// <param name="client">the client object</param>
         /// <param name="timeout">the user supplied timeout</param>
         /// <returns>the node address book</returns>
-        public virtual Task<NodeAddressBook> ExecuteAsync(Client client, Duration timeout)
+        public virtual Task<NodeAddressBook> ExecuteAsync(Client client, TimeSpan timeout)
         {
-            var deadline = Deadline.After(timeout.ToMillis(), TimeUnit.MILLISECONDS);
+            var deadline = Deadline.After(timeout.TotalMilliseconds, TimeUnit.MILLISECONDS);
 
             Task<NodeAddressBook> returnFuture = Task.FromResult<NodeAddressBook>(default);
             

@@ -4,12 +4,14 @@ using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
-
+using Nethereum.ABI.FunctionEncoding;
+using Nethereum.ABI.Model;
 using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
+using System.IO.Pipelines;
 using System.Linq;
 using System.Numerics;
 
@@ -307,7 +309,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// </summary>
         /// <param name="valIndex">The index of the value to be retrieved</param>
         /// <returns>int</returns>
-        public int GetUint32(int valIndex)
+        public uint GetUint32(int valIndex)
         {
             return GetInt32(valIndex);
         }
@@ -324,7 +326,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// </summary>
         /// <param name="valIndex">The index of the value to be retrieved</param>
         /// <returns>long</returns>
-        public long GetUint64(int valIndex)
+        public ulong GetUint64(int valIndex)
         {
             return GetInt64(valIndex);
         }
@@ -431,5 +433,49 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             return proto;
         }
-    }
+
+		public object[] GetResult(string types)
+		{
+			if (string.IsNullOrWhiteSpace(types))
+				throw new ArgumentException("Types string cannot be null or empty.", nameof(types));
+
+			// Remove outer parentheses if present
+			var trimmed = types.Trim();
+			if (trimmed.StartsWith('(') && trimmed.EndsWith(')'))
+				trimmed = trimmed[1..^1];
+
+			var typeList = SplitTopLevelTypes(trimmed);
+
+			// Build parameter definitions
+			var parameters = typeList
+				.Select((t, i) => new Parameter(t.Trim(), i + 1))
+				.ToArray();
+
+			var decoder = new ParameterDecoder();
+
+			// rawResult should be byte[]
+			var decoded = decoder.DecodeDefaultData(RawResult.ToByteArray(), parameters);
+
+			return [decoded.Select(d => d.Result)];
+		}
+		private static string[] SplitTopLevelTypes(string input)
+		{
+			var types = new List<string>();
+			int depth = 0;
+			int start = 0;
+
+			for (int i = 0; i < input.Length; i++)
+				if (input[i] == '(') depth++;
+				else if (input[i] == ')') depth--;
+				else if (input[i] == ',' && depth == 0)
+				{
+					types.Add(input[start..i]);
+					start = i + 1;
+				}
+
+			types.Add(input[start..]);
+			
+            return [.. types];
+		}
+	}
 }

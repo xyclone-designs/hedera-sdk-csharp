@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// If set, modify the duration added to expiration time by each
 		/// auto-renewal to this value.
 		/// </summary>
-		/// <param name="autoRenewPeriod">The Duration to be set for auto-renewal</param>
+		/// <param name="autoRenewPeriod">The TimeSpan to be set for auto-renewal</param>
 		/// <returns>{@code this}</returns>
 		public Duration? AutoRenewPeriod
 		{

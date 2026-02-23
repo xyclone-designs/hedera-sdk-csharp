@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key.GetPublicKey().ToString());
                 Assert.Equal(info.Balance, new Hbar(1));
-                Assert.Equal(info.AutoRenewPeriod, Duration.FromTimeSpan(TimeSpan.FromDays(90)));
+                Assert.Equal(info.AutoRenewPeriod, TimeSpan.FromDays(90));
                 Assert.Null(info.ProxyAccountId);
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key.GetPublicKey().ToString());
                 Assert.Equal(info.Balance, new Hbar(0));
-                Assert.Equal(info.AutoRenewPeriod, Duration.FromTimeSpan(TimeSpan.FromDays(90)));
+                Assert.Equal(info.AutoRenewPeriod, TimeSpan.FromDays(90));
                 Assert.Null(info.ProxyAccountId);
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
@@ -108,7 +108,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var response = new AccountCreateTransaction()
                 {
 					TransactionId = TransactionId.WithValidStart(testEnv.OperatorId, Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow.AddSeconds(-40))),
-					TransactionValidDuration = Duration.FromTimeSpan(TimeSpan.FromSeconds(30)),
+					TransactionValidDuration = TimeSpan.FromSeconds(30),
 					Key = key,
 				}
                 .FreezeWith(testEnv.Client)
@@ -125,7 +125,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key.GetPublicKey().ToString());
                 Assert.Equal(info.Balance, new Hbar(0));
-                Assert.Equal(info.AutoRenewPeriod, Duration.FromTimeSpan(TimeSpan.FromDays(90)));
+                Assert.Equal(info.AutoRenewPeriod, TimeSpan.FromDays(90));
                 Assert.Null(info.ProxyAccountId);
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }

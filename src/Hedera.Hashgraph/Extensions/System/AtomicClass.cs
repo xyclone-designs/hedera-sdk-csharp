@@ -2,7 +2,7 @@
 
 namespace System
 {
-    public sealed class AtomicReference<T>(T initialValue) where T : class
+    public sealed class AtomicClass<T>(T initialValue) where T : class
     {
         private T _value = initialValue;
 

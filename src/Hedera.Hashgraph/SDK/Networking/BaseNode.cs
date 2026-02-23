@@ -16,14 +16,15 @@ namespace Hedera.Hashgraph.SDK.Networking
 	/// </summary>
 	/// <param name="<N>">the n type</param>
 	/// <param name="<KeyT>">the key t type</param>
-	public abstract partial class BaseNode<N, KeyT> where N : BaseNode<N, KeyT>
+	public abstract partial class BaseNode<N, KeyT>: IDisposable where N : BaseNode<N, KeyT>
     {
         private static readonly int GET_STATE_INTERVAL_MILLIS = 50;
         private static readonly int GET_STATE_TIMEOUT_MILLIS = 10000;
         private static readonly int GET_STATE_MAX_ATTEMPTS = GET_STATE_TIMEOUT_MILLIS / GET_STATE_INTERVAL_MILLIS;
 
-        private bool hasConnected = false;
-        protected readonly ExecutorService executor;
+		private Channel? channel = null;
+		private bool hasConnected = false;
+        private ExecutorService Executor;
 
 		/// <summary>
 		/// Constructor.
@@ -49,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             Executor = executor;
             Address = address;
-			ReadmitTime = Instant.EPOCH;
+			ReadmitTime = DateTime.UnixEpoch;
 			CurrentBackoff = Client.DEFAULT_MIN_NODE_BACKOFF;
             MinBackoff = Client.DEFAULT_MIN_NODE_BACKOFF;
             MaxBackoff = Client.DEFAULT_MAX_NODE_BACKOFF;
@@ -74,52 +75,43 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// Get the gRPC channel for this node
 		/// </summary>
 		/// <returns>                         the channel</returns>
-		public virtual MergedChannel Channel
+		public virtual Channel Channel
 		{
 			get
 			{
 				lock (this)
 				{
-					if (field != null)
-						return field;
-
-					ManagedChannelBuilder<T> channelBuilder;
+					if (channel != null)
+						return channel;
 
 					if (Address.IsInProcess)
-						channelBuilder = InProcessChannelBuilder.ForName(ArgumentNullException.ThrowIfNull(Address.Name));
-					else if (Address.IsTransportSecurity)
 					{
-						channelBuilder = Grpc.NewChannelBuilder(Address.ToString(), GetChannelCredentials());
-						
-						if (Authority != null)
-							channelBuilder = channelBuilder.OverrideAuthority(Authority);
+						// InProcessChannelBuilder has no direct Grpc.Core equivalent.
+						// Assuming external logic handles this.
+						throw new NotSupportedException("InProcess channels not supported in Grpc.Core.");
 					}
-					else channelBuilder = ManagedChannelBuilder.ForTarget(Address.ToString()).UsePlaintext();
 
-					field = channelBuilder
-						.KeepAliveTimeout(10, TimeUnit.SECONDS)
-						.KeepAliveWithoutCalls(true)
-						.Intercept(new MetadataInterceptor())
-						.EnableRetry()
-						.Executor(executor).Build();
-					
-					return field;
+					channel = Address.IsTransportSecurity
+						? new Channel(Address.ToString(), GetChannelCredentials())
+						: new Channel(Address.ToString(), ChannelCredentials.Insecure);
+
+					return channel;
 				}
 			}
 		}
 		/// <summary>
 		/// Timestamp of when this node will be considered healthy again
 		/// </summary>
-		public Timestamp ReadmitTime { get; set; }
+		public DateTimeOffset ReadmitTime { get; set; }
 
 		/// <summary>
-		/// The current backoff duration. Uses exponential backoff so think 1s, 2s, 4s, 8s, etc until maxBackoff is hit
+		/// The current backoff duration. Uses exponential backoff so think 1s, 2s, 4s, 8s, etc until MaxBackoff is hit
 		/// </summary>
-		public Duration CurrentBackoff { get; set; }
+		public TimeSpan CurrentBackoff { get; set; }
 		/// <summary>
 		/// Minimum backoff used by node when receiving a bad gRPC status
 		/// </summary>
-		public virtual Duration MinBackoff 
+		public virtual TimeSpan MinBackoff 
         {
             get
             {
@@ -143,7 +135,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// Get the maximum backoff time
 		/// </summary>
 		/// <returns>                         the maximum backoff time</returns>
-		public virtual Duration MaxBackoff { get; set; }
+		public virtual TimeSpan MaxBackoff { get; set; }
 		/// <summary>
 		/// Address of this node
 		/// </summary>
@@ -153,20 +145,19 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// </summary>
 		public virtual long BadGrpcStatusCount { get; protected set; }
 		
-
-		private Task<bool> ChannelFailedToConnectAsync(int i, ConnectivityState state)
+		private Task<bool> ChannelFailedToConnectAsync(int i, ChannelState state)
 		{
-			hasConnected = (state == ConnectivityState.Ready);
+			hasConnected = (state == ChannelState.Ready);
 
 			if (i >= GET_STATE_MAX_ATTEMPTS || hasConnected)
 			{
 				return Task.FromResult(!hasConnected);
 			}
 
-			return Delayer.DelayFor(GET_STATE_INTERVAL_MILLIS, executor).ThenCompose((ignored) =>
-			{
-				return ChannelFailedToConnectAsync(i + 1, GetChannel().GetState(true));
-			});
+			return Delayer
+				.DelayFor(GET_STATE_INTERVAL_MILLIS, Executor)
+				.ContinueWith(_ => ChannelFailedToConnectAsync(i + 1, Channel.State))
+				.Unwrap();
 		}
 
 		/// <summary>
@@ -175,30 +166,28 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         did we fail to connect</returns>
 		public virtual bool ChannelFailedToConnect()
 		{
-			return ChannelFailedToConnect(Instant.MAX);
+			return ChannelFailedToConnect(DateTime.MaxValue);
 		}
-		public virtual bool ChannelFailedToConnect(Instant timeoutTime)
+		public virtual bool ChannelFailedToConnect(DateTime timeoutTime)
 		{
 			if (hasConnected)
 			{
 				return false;
 			}
 
-			hasConnected = (GetChannel().GetState(true) == ConnectivityState.READY);
+			hasConnected = Channel.State == ChannelState.Ready;
 
 			try
 			{
 				for (int i = 0; i < GET_STATE_MAX_ATTEMPTS && !hasConnected; i++)
 				{
-					Duration currentTimeout = Duration.Between(DateTimeOffset.UtcNow, timeoutTime);
-					if (currentTimeout.IsNegative() || currentTimeout.IsZero())
-					{
-						return false;
-					}
+					TimeSpan remaining = timeoutTime - DateTime.UtcNow;
 
-					TimeUnit.MILLISECONDS.Sleep(GET_STATE_INTERVAL_MILLIS);
+					if (remaining <= TimeSpan.Zero) return false;
 
-					hasConnected = Channel.GetState(true) == ConnectivityState.READY;
+					Thread.Sleep(GET_STATE_INTERVAL_MILLIS);
+
+					hasConnected = Channel.State == ChannelState.Ready;
 				}
 			}
 			catch (ThreadInterruptedException e)
@@ -219,7 +208,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				return Task.FromResult(false);
 			}
 
-			return ChannelFailedToConnectAsync(0, Channel.GetState(true));
+			return ChannelFailedToConnectAsync(0, Channel.State);
 		}
 		/// <summary>
 		/// Determines if this is node is healthy.
@@ -229,7 +218,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         is the node healthy</returns>
 		public virtual bool IsHealthy()
         {
-            return ReadmitTime.ToEpochMilli() < DateTimeOffset.UtcNow.ToEpochMilli();
+            return ReadmitTime.ToUnixTimeMilliseconds() < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
         /// <summary>
         /// Used when a node has received a bad gRPC status
@@ -238,11 +227,14 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             lock (this)
             {
-                BadGrpcStatusCount++;
-                ReadmitTime = DateTimeOffset.UtcNow.Plus(CurrentBackoff);
-                CurrentBackoff = CurrentBackoff.MultipliedBy(2);
-                CurrentBackoff = CurrentBackoff.CompareTo(MaxBackoff) < 0 ? CurrentBackoff : MaxBackoff;
-            }
+				BadGrpcStatusCount++;
+				ReadmitTime = DateTime.UtcNow + CurrentBackoff;
+
+				CurrentBackoff *= 2;
+
+				if (CurrentBackoff > MaxBackoff)
+					CurrentBackoff = MaxBackoff;
+			}
         }
         /// <summary>
         /// Used when a node has not received a bad gRPC status.
@@ -254,8 +246,10 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             lock (this)
             {
-                CurrentBackoff = CurrentBackoff.DividedBy(2);
-                CurrentBackoff = CurrentBackoff.CompareTo(MinBackoff) > 0 ? CurrentBackoff : MinBackoff;
+				CurrentBackoff /= 2;
+
+				if (CurrentBackoff < MinBackoff)
+					CurrentBackoff = MinBackoff;
             }
         }
 		/// <summary>
@@ -264,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         remaining back off time</returns>
 		public virtual long GetRemainingTimeForBackoff()
         {
-            return ReadmitTime.ToEpochMilli() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            return ReadmitTime.ToUnixTimeMilliseconds() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
         /// <summary>
         /// Create TLS credentials when transport security is enabled
@@ -272,7 +266,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// <returns>                         the channel credentials</returns>
         public virtual ChannelCredentials GetChannelCredentials()
         {
-            return TlsChannelCredentials.Create();
+            return new SslCredentials();
         }
 		/// <summary>
 		/// Extract the unhealthy backoff time remaining.
@@ -280,24 +274,25 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <returns>                         the unhealthy backoff time remaining</returns>
 		public virtual long UnhealthyBackoffRemaining()
 		{
-			return Math.Max(0, ReadmitTime.ToEpochMilli() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
+			return Math.Max(0, ReadmitTime.ToUnixTimeMilliseconds() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
 		}
         /// <summary>
         /// Close the current nodes channel
         /// </summary>
         /// <param name="timeout">the timeout value</param>
-        /// <exception cref="InterruptedException">thrown when a thread is interrupted while it's waiting, sleeping, or otherwise occupied</exception>
-        public virtual void Dispose(Duration timeout)
+        public virtual void Dispose(TimeSpan timeout)
         {
             lock (this)
             {
-                if (Channel != null)
-                {
-                    Channel.Shutdown();
-                    Channel.AwaitTermination(timeout.Seconds, TimeUnit.SECONDS);
-                    Channel = null;
-                }
-            }
+				channel?.ShutdownAsync().Wait(timeout);
+				channel = null;
+			}
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+		public void ChannelReset() { channel = null; }
     }
 }

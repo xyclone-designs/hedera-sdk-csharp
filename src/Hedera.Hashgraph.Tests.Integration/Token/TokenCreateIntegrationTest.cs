@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
+
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Tests.Integration;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -451,7 +452,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var autoRenewPeriod = Duration.FromTimeSpan(TimeSpan.FromSeconds(7890000));
+                var autoRenewPeriod = TimeSpan.FromSeconds(7890000);
                 var expirationTime = DateTimeOffset.UtcNow.Add(autoRenewPeriod.ToTimeSpan());
                 var response = new TokenCreateTransaction
                 {

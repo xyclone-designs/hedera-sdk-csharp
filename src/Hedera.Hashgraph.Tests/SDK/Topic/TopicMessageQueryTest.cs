@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 CompletionHandler = () => complete.Set(true),
                 EndTime = Timestamp.FromDateTimeOffset(START_TIME.AddSeconds(100)),
                 ErrorHandler = (t, r) => errors.Add(t),
-                MaxBackoff = Duration.FromTimeSpan(TimeSpan.FromMilliseconds(500)),
+                MaxBackoff = TimeSpan.FromMilliseconds(500),
                 StartTime = Timestamp.FromDateTimeOffset(START_TIME),
                 TopicId = TopicId.FromString("0.0.1000")
             };
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             SubscribeToMirror(received.Add());
             var message = Combine(response1.GetMessage().ToByteArray(), response2.GetMessage().ToByteArray());
             Assert.Empty(errors);
-            Assertions.Assert.Contains(received).HasSize(1).First().Returns(ToInstant(response2.GetConsensusTimestamp()), (t) => t.consensusTimestamp).Returns(response2.GetChunkInfo().GetInitialTransactionID(), (t) => t.transactionId).ToProtobuf()).Returns(message, (t) => t.contents).Returns(response2.GetRunningHash().ToByteArray(), (t) => t.runningHash).Returns(response2.GetSequenceNumber(), (t) => t.sequenceNumber).Extracting((t) => t.chunks).AsInstanceOf(InstanceOfAssertFactories.ARRAY).HasSize(2).Extracting((c) => ((TopicMessageChunk)c).sequenceNumber, 1, 2);
+            Assertions.Assert.Contains(received).HasSize(1).First().Returns(ToDateTime(response2.GetConsensusTimestamp()), (t) => t.consensusTimestamp).Returns(response2.GetChunkInfo().GetInitialTransactionID(), (t) => t.transactionId).ToProtobuf()).Returns(message, (t) => t.contents).Returns(response2.GetRunningHash().ToByteArray(), (t) => t.runningHash).Returns(response2.GetSequenceNumber(), (t) => t.sequenceNumber).Extracting((t) => t.chunks).AsInstanceOf(InstanceOfAssertFactories.ARRAY).HasSize(2).Extracting((c) => ((TopicMessageChunk)c).sequenceNumber, 1, 2);
         }
 
         public virtual void SubscribeNoResponse()
@@ -129,7 +129,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         public virtual void RetryRecovers(ResponseStatus.Code code, string description)
         {
             Proto.ConsensusTopicResponse response = Response(1);
-            DateTimeOffset nextTimestamp = ToInstant(response.GetConsensusTimestamp()).PlusNanos(1);
+            DateTimeOffset nextTimestamp = ToDateTime(response.GetConsensusTimestamp()).PlusNanos(1);
 			Proto.ConsensusTopicQuery request = Request();
             consensusServiceStub.requests.Add(request.Build());
             consensusServiceStub.requests.Add(request.SetConsensusStartTime(ToTimestamp(nextTimestamp)).Build());
@@ -165,7 +165,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         public virtual void RetryWithLimit()
         {
             Proto.ConsensusTopicResponse response = Response(1);
-            DateTimeOffset nextTimestamp = ToInstant(response.GetConsensusTimestamp()).PlusNanos(1);
+            DateTimeOffset nextTimestamp = ToDateTime(response.GetConsensusTimestamp()).PlusNanos(1);
             Proto.ConsensusTopicQuery request = Request();
             topicMessageQuery.SetLimit(2);
             consensusServiceStub.requests.Add(request.SetLimit(2).Build());
@@ -276,7 +276,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         private static Proto.ConsensusTopicQuery Request()
         {
-            return Proto.ConsensusTopicQuery.NewBuilder().SetConsensusEndTime(ToTimestamp(START_TIME.PlusSeconds(100))).SetConsensusStartTime(ToTimestamp(START_TIME)).SetTopicID(TopicID.NewBuilder().SetTopicNum(1000).Build());
+            return Proto.ConsensusTopicQuery.NewBuilder().SetConsensusEndTime(ToTimestamp(START_TIME.AddSeconds(100))).SetConsensusStartTime(ToTimestamp(START_TIME)).SetTopicID(TopicID.NewBuilder().SetTopicNum(1000).Build());
         }
 
         private static Proto.ConsensusTopicResponse Response(long sequenceNumber)
@@ -294,10 +294,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             }
 
             var message = ByteString.CopyFrom(Longs.ToByteArray(sequenceNumber));
-            return consensusTopicResponseBuilder.SetConsensusTimestamp(ToTimestamp(START_TIME.PlusSeconds(sequenceNumber))).SetSequenceNumber(sequenceNumber).SetMessage(message).SetRunningHash(message).SetRunningHashVersion(2).Build();
+            return consensusTopicResponseBuilder.SetConsensusTimestamp(ToTimestamp(START_TIME.AddSeconds(sequenceNumber))).SetSequenceNumber(sequenceNumber).SetMessage(message).SetRunningHash(message).SetRunningHashVersion(2).Build();
         }
 
-        private static DateTimeOffset ToInstant(Timestamp timestamp)
+        private static DateTimeOffset ToDateTime(Timestamp timestamp)
         {
             return DateTimeOffset.FromUnixTimeMilliseconds(timestamp.GetSeconds(), timestamp.GetNanos());
         }

@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly string testTokenSymbol = "test symbol";
         private static readonly string testTokenMemo = "test memo";
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
-        private static readonly Duration testAutoRenewPeriod = Duration.OfHours(10);
+        private static readonly TimeSpan testAutoRenewPeriod = Duration.OfHours(10);
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.UtcNow;
         private static readonly byte[] testMetadata = new byte[]
         {

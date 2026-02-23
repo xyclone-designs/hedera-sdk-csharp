@@ -96,10 +96,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
             {
                 var key = PrivateKey.GenerateED25519();
-                TransactionResponse response = new AccountCreateTransaction()
-                    Key = key,
-                    InitialBalance = new Hbar(1),
-                    .Execute(testEnv.Client);
+                TransactionResponse response = new AccountCreateTransaction
+                {
+					Key = key,
+					InitialBalance = new Hbar(1),
+				
+                }.Execute(testEnv.Client);
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 Assert.NotNull(accountId);
                 response = new TokenCreateTransaction
@@ -147,7 +149,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     transfer.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
-                }); Assert.Contains(ResponseStatus.SENDER_DOES_NOT_OWN_NFT_SERIAL_NO.ToString(), exception.Message);
+                }); Assert.Contains(ResponseStatus.SenderDoesNotOwnNftSerialNo.ToString(), exception.Message);
             }
         }
     }

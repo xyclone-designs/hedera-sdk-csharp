@@ -23,16 +23,16 @@ namespace Hedera.Hashgraph.SDK
 		public const int DEFAULT_MAX_ATTEMPTS = 10;
 
 		public static readonly Hbar DEFAULT_MAX_QUERY_PAYMENT = new(1);
-		public static readonly Duration 
-			DEFAULT_MAX_BACKOFF = Duration.FromTimeSpan(TimeSpan.FromSeconds(8)),
-			DEFAULT_MIN_BACKOFF = Duration.FromTimeSpan(TimeSpan.FromMilliseconds(250)),
-			DEFAULT_MAX_NODE_BACKOFF = Duration.FromTimeSpan(TimeSpan.FromHours(1)),
-			DEFAULT_MIN_NODE_BACKOFF = Duration.FromTimeSpan(TimeSpan.FromSeconds(8)),
-			DEFAULT_CLOSE_TIMEOUT = Duration.FromTimeSpan(TimeSpan.FromSeconds(30)),
-			DEFAULT_REQUEST_TIMEOUT = Duration.FromTimeSpan(TimeSpan.FromMinutes(2)),
-			DEFAULT_GRPC_DEADLINE = Duration.FromTimeSpan(TimeSpan.FromSeconds(10)),
-			DEFAULT_NETWORK_UPDATE_PERIOD = Duration.FromTimeSpan(TimeSpan.FromHours(24)),
-			NETWORK_UPDATE_INITIAL_DELAY = Duration.FromTimeSpan(TimeSpan.FromSeconds(10)); // Initial delay of 10 seconds before we update the Network for the first time, so that this doesn't happen in unit tests.
+		public static readonly TimeSpan
+			DEFAULT_MAX_BACKOFF = TimeSpan.FromSeconds(8),
+			DEFAULT_MIN_BACKOFF = TimeSpan.FromMilliseconds(250),
+			DEFAULT_MAX_NODE_BACKOFF = TimeSpan.FromHours(1),
+			DEFAULT_MIN_NODE_BACKOFF = TimeSpan.FromSeconds(8),
+			DEFAULT_CLOSE_TIMEOUT = TimeSpan.FromSeconds(30),
+			DEFAULT_REQUEST_TIMEOUT = TimeSpan.FromMinutes(2),
+			DEFAULT_GRPC_DEADLINE = TimeSpan.FromSeconds(10),
+			DEFAULT_NETWORK_UPDATE_PERIOD = TimeSpan.FromHours(24),
+			NETWORK_UPDATE_INITIAL_DELAY = TimeSpan.FromSeconds(10); // Initial delay of 10 seconds before we update the Network for the first time, so that this doesn't happen in unit tests.
 
 		/// <summary>
 		/// Set up the client for the selected Network.
@@ -165,7 +165,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForMainnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
 			
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), true, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForMainnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), false, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -199,7 +199,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForTestnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), true, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -216,7 +216,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForTestnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), false, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -234,7 +234,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForPreviewnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), true, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -252,7 +252,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForPreviewnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), false, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
 
 			oncreate?.Invoke(client);
 

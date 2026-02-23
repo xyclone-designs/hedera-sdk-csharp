@@ -47,12 +47,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
         private ContractUpdateTransaction SpawnTestTransaction()
         {
-            return new ContractUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetAdminKey(privateKey).SetMaxAutomaticTokenAssociations(101).SetAutoRenewPeriod(Duration.OfDays(1)).SetContractMemo("3").SetStakedAccountId(AccountId.FromString("0.0.3")).SetExpirationTime(Instant.OfEpochMilli(4)).SetProxyAccountId(new AccountId(0, 0, 4)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetAutoRenewAccountId(new AccountId(0, 0, 30)).Freeze().Sign(privateKey);
+            return new ContractUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetAdminKey(privateKey).SetMaxAutomaticTokenAssociations(101).SetAutoRenewPeriod(Duration.OfDays(1)).SetContractMemo("3").SetStakedAccountId(AccountId.FromString("0.0.3")).SetExpirationTime(DateTime.OfEpochMilli(4)).SetProxyAccountId(new AccountId(0, 0, 4)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetAutoRenewAccountId(new AccountId(0, 0, 30)).Freeze().Sign(privateKey);
         }
 
         private ContractUpdateTransaction SpawnTestTransaction2()
         {
-            return new ContractUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetAdminKey(privateKey).SetMaxAutomaticTokenAssociations(101).SetAutoRenewPeriod(Duration.OfDays(1)).SetContractMemo("3").SetStakedNodeId(4).SetExpirationTime(Instant.OfEpochMilli(4)).SetProxyAccountId(new AccountId(0, 0, 4)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetAutoRenewAccountId(new AccountId(0, 0, 30)).Freeze().Sign(privateKey);
+            return new ContractUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetAdminKey(privateKey).SetMaxAutomaticTokenAssociations(101).SetAutoRenewPeriod(Duration.OfDays(1)).SetContractMemo("3").SetStakedNodeId(4).SetExpirationTime(DateTime.OfEpochMilli(4)).SetProxyAccountId(new AccountId(0, 0, 4)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetAutoRenewAccountId(new AccountId(0, 0, 30)).Freeze().Sign(privateKey);
         }
 
         public virtual void ShouldBytes()
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Throws<InvalidOperationException>(() => tx.SetExpirationTime(Duration.OfSeconds(1)));
         }
 
-        public virtual void GetSetExpirationTimeInstant()
+        public virtual void GetSetExpirationTimeDateTime()
         {
             var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567);
             var tx = new ContractUpdateTransaction().SetExpirationTime(instant);

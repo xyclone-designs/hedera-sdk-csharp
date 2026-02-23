@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.LiveHashes;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// The duration for expiration time will extend every this many seconds. If there are insufficient funds, then it
         /// extends as long as possible. If it is empty when it expires, then it is deleted.
         /// </summary>
-        public readonly Duration AutoRenewPeriod;
+        public readonly TimeSpan AutoRenewPeriod;
         /// <summary>
         /// All the livehashes attached to the account (each of which is a hash along with the keys that authorized it and
         /// can delete it)
@@ -147,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <param name="maxAutomaticTokenAssociations">max number of token associations</param>
         /// <param name="aliasKey">public alias key</param>
         /// <param name="ledgerId">the ledger id</param>
-        private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId? proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, Timestamp expirationTime, Duration autoRenewPeriod, IList<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey? aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo? stakingInfo)
+        private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId? proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, Timestamp expirationTime, TimeSpan autoRenewPeriod, IList<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey? aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo? stakingInfo)
         {
             AccountId = accountId;
             ContractAccountId = contractAccountId;

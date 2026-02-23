@@ -6,7 +6,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 {
     public abstract class EvmHookStorageUpdate
     {
-        public abstract Proto.EvmHookStorageUpdate ToProtobuf();
+        public abstract Proto.Update ToProtobuf();
         public static EvmHookStorageUpdate FromProtobuf(Proto.EvmHookStorageUpdate proto)
         {
             return proto.UpdateCase switch

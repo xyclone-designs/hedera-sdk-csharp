@@ -16,7 +16,7 @@ namespace System
 
 		public int Value { get; }
 
-		public override bool Equals(IntNN other)
+		public bool Equals(IntNN other)
 		{
 			return Value.Equals(other.Value);
 		}

@@ -130,9 +130,9 @@ namespace Hedera.Hashgraph.SDK
             {
                 client.MirrorNetwork_ = mirrorNetwork.GetString() switch
                 {
-                    MAINNET => MirrorNetwork.ForMainnet(client.executor),
-                    TESTNET => MirrorNetwork.ForTestnet(client.executor),
-                    PREVIEWNET => MirrorNetwork.ForPreviewnet(client.executor),
+                    MAINNET => MirrorNetwork.ForMainnet(client.Executor),
+                    TESTNET => MirrorNetwork.ForTestnet(client.Executor),
+                    PREVIEWNET => MirrorNetwork.ForPreviewnet(client.Executor),
 
                     _ => throw new JsonException("Illegal argument for mirrorNetwork."),
                 };

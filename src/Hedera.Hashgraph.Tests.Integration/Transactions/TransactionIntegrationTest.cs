@@ -1,37 +1,40 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Com.Hedera.Hashgraph;
-using Proto;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Topic;
+using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TransactionIntegrationTest
     {
-        public virtual void TransactionHashInTransactionRecordIsEqualToTheDerivedTransactionHash()
+        public virtual async void TransactionHashInTransactionRecordIsEqualToTheDerivedTransactionHash()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction()Key = key,.FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
+                var transaction = new AccountCreateTransaction { Key = key, }.FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
                 var expectedHash = transaction.GetTransactionHashPerNode();
                 var response = transaction.Execute(testEnv.Client);
                 var record = response.GetRecord(testEnv.Client);
-                AssertThat(expectedHash[response.nodeId]).ContainsExactly(record.transactionHash.ToByteArray());
-                var accountId = record.receipt.accountId;
+                Assert.Equal(expectedHash[response.NodeId], record.TransactionHash.ToByteArray());
+                var accountId = record.Receipt.AccountId;
                 Assert.NotNull(accountId);
-                var transactionId = transaction.GetTransactionId();
+                var transactionId = transaction.TransactionId;
                 Assert.NotNull(transactionId.GetReceipt(testEnv.Client));
-                Assert.NotNull(transactionId.GetReceiptAsync(testEnv.Client).Get());
+                Assert.NotNull(await transactionId.GetReceiptAsync(testEnv.Client));
                 Assert.NotNull(transactionId.GetRecord(testEnv.Client));
-                Assert.NotNull(transactionId.GetRecordAsync(testEnv.Client).Get());
+                Assert.NotNull(await transactionId.GetRecordAsync(testEnv.Client));
             }
         }
 
@@ -41,14 +44,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var accountCreateTransaction = new AccountCreateTransaction()Key = publicKey,InitialBalance = new Hbar(1),;
-                var expectedNodeAccountIds = accountCreateTransaction.GetNodeAccountIds();
+                var accountCreateTransaction = new AccountCreateTransaction()
+                {
+					Key = publicKey,
+					InitialBalance = new Hbar(1),
+				};
+                var expectedNodeAccountIds = accountCreateTransaction.NodeAccountIds_Read;
                 var expectedBalance = new Hbar(1);
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
+                
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                Assert.Equal(expectedNodeAccountIds, accountCreateTransactionDeserialized.GetNodeAccountIds());
-                Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.GetInitialBalance());
-                Assert.Throws(typeof(InvalidOperationException), accountCreateTransactionDeserialized.GetTransactionId());
+                
+                Assert.Equal(expectedNodeAccountIds, accountCreateTransactionDeserialized.NodeAccountIds_Read);
+                Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.InitialBalance);
+                Assert.Throws(typeof(InvalidOperationException), accountCreateTransactionDeserialized.TransactionId);
             }
         }
 
@@ -58,15 +67,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
-                var accountCreateTransaction = new AccountCreateTransaction().SetNodeAccountIds(nodeAccountIds)Key = publicKey,InitialBalance = new Hbar(1),;
-                var expectedNodeAccountIds = accountCreateTransaction.GetNodeAccountIds();
+                var accountCreateTransaction = new AccountCreateTransaction
+                {
+					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					Key = publicKey,
+					InitialBalance = new Hbar(1),
+				};
+                var expectedNodeAccountIds = accountCreateTransaction.NodeAccountIds_Read;
                 var expectedBalance = new Hbar(1);
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
+                
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                Assert.Equal(expectedNodeAccountIds.Count, accountCreateTransactionDeserialized.GetNodeAccountIds().Count);
-                Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.GetInitialBalance());
-                Assert.Throws(typeof(InvalidOperationException), accountCreateTransactionDeserialized.GetTransactionId());
+                
+                Assert.Equal(expectedNodeAccountIds.Count, accountCreateTransactionDeserialized.NodeAccountIds_Read.Count);
+                Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.InitialBalance);
+                Assert.Throws(typeof(InvalidOperationException), accountCreateTransactionDeserialized.TransactionId);
             }
         }
 
@@ -76,11 +91,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var accountCreateTransaction = new AccountCreateTransaction()Key = publicKey,InitialBalance = new Hbar(1),;
+                var accountCreateTransaction = new AccountCreateTransaction
+                {
+					Key = publicKey,
+					InitialBalance = new Hbar(1),
+				};
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
+                
                 var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+                
+                new AccountDeleteTransaction
+                {
+					AccountId = txReceipt.AccountId,
+					TransferAccountId = testEnv.Client.OperatorAccountId,
+				
+                }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -90,12 +116,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
-                var accountCreateTransaction = new AccountCreateTransaction().SetNodeAccountIds(nodeAccountIds)Key = publicKey,InitialBalance = new Hbar(1),;
+
+                var accountCreateTransaction = new AccountCreateTransaction
+                {
+					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					Key = publicKey,
+					InitialBalance = new Hbar(1),
+				};
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
+                
                 var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+                
+                new AccountDeleteTransaction
+                {
+					AccountId = txReceipt.AccountId,
+					TransferAccountId = testEnv.Client.OperatorAccountId,
+				
+                }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -105,14 +143,24 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var accountCreateTransaction = new AccountCreateTransaction()Key = publicKey,;
+                var accountCreateTransaction = new AccountCreateTransaction { Key = publicKey, };
                 var expectedBalance = new Hbar(1);
-                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
+
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var txReceipt = accountCreateTransactionDeserializedInitialBalance = new Hbar(1),.SetNodeAccountIds(nodeAccountIds).SetTransactionId(TransactionId.Generate(testEnv.Client.GetOperatorAccountId())).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.GetInitialBalance());
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+				accountCreateTransactionDeserialized.InitialBalance = new Hbar(1);
+				accountCreateTransactionDeserialized.TransactionId = TransactionId.Generate(testEnv.Client.OperatorAccountId);
+
+				var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+				Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.InitialBalance);
+
+                new AccountDeleteTransaction
+                {
+					AccountId = txReceipt.AccountId,
+					TransferAccountId = testEnv.Client.OperatorAccountId,
+				
+                }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -122,14 +170,28 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 var adminKey = PrivateKey.GenerateECDSA();
                 var publicKey = adminKey.GetPublicKey();
-                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
-                var accountCreateTransaction = new AccountCreateTransaction().SetNodeAccountIds(nodeAccountIds)Key = publicKey,;
+                var accountCreateTransaction = new AccountCreateTransaction
+                {
+					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					Key = publicKey,
+				};
                 var expectedBalance = new Hbar(1);
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
+                
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                var txReceipt = accountCreateTransactionDeserializedInitialBalance = new Hbar(1),.SetTransactionId(TransactionId.Generate(testEnv.Client.GetOperatorAccountId())).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.GetInitialBalance());
-                new AccountDeleteTransaction().SetAccountId(txReceipt.accountId).SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+                accountCreateTransactionDeserialized.InitialBalance = new Hbar(1);
+                accountCreateTransactionDeserialized.TransactionId = TransactionId.Generate(testEnv.Client.OperatorAccountId);
+                
+                var txReceipt = accountCreateTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                
+                Assert.Equal(expectedBalance, accountCreateTransactionDeserialized.InitialBalance);
+                
+                new AccountDeleteTransaction
+                {
+					AccountId = txReceipt.AccountId,
+					TransferAccountId = testEnv.Client.OperatorAccountId,
+				
+                }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -141,18 +203,37 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var publicKey = adminKey.GetPublicKey();
                 var evmAddress = publicKey.ToEvmAddress();
                 var initialBalance = new Hbar(1);
-                var autoRenewPeriod = java.time.Duration.OfSeconds(2592000);
+                var autoRenewPeriod = TimeSpan.FromSeconds(2592000);
                 var memo = "test account memo";
                 var maxAutomaticTokenAssociations = 4;
-                var accountCreateTransaction = new AccountCreateTransaction()Key = publicKey,.SetInitialBalance(initialBalance).SetReceiverSignatureRequired(true).SetAutoRenewPeriod(autoRenewPeriod).SetAccountMemo(memo).SetMaxAutomaticTokenAssociations(maxAutomaticTokenAssociations).SetDeclineStakingReward(true).SetAlias(evmAddress).FreezeWith(testEnv.Client).Sign(adminKey);
+                var accountCreateTransaction = new AccountCreateTransaction
+                {
+					Key = publicKey,InitialBalance = initialBalance, 
+                    ReceiverSigRequired = true,
+					AutoRenewPeriod = autoRenewPeriod,
+					AccountMemo = memo,
+					MaxAutomaticTokenAssociations = maxAutomaticTokenAssociations,
+					DeclineStakingReward = true,
+					Alias = evmAddress
+				
+                }.FreezeWith(testEnv.Client).Sign(adminKey);
                 var transactionBytesSerialized = accountCreateTransaction.ToBytes();
+                
                 AccountCreateTransaction accountCreateTransactionDeserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var transactionBytesReserialized = accountCreateTransactionDeserialized.ToBytes();
                 Assert.Equal(transactionBytesSerialized, transactionBytesReserialized);
+                
                 AccountCreateTransaction accountCreateTransactionReserialized = (AccountCreateTransaction)Transaction.FromBytes(transactionBytesReserialized);
+                
                 var txResponse = accountCreateTransactionReserialized.Execute(testEnv.Client);
                 var accountId = txResponse.GetReceipt(testEnv.Client).AccountId;
-                new AccountDeleteTransaction()AccountId = accountId,.SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+                
+                new AccountDeleteTransaction
+                {
+					AccountId = accountId,
+					TransferAccountId = testEnv.Client.OperatorAccountId,
+				
+                }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
 
@@ -161,14 +242,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var transaction = new AccountCreateTransaction()Key = key,.FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
+                var transaction = new AccountCreateTransaction
+                {
+					Key = key,
+				
+                }.FreezeWith(testEnv.Client).SignWithOperator(testEnv.Client);
+
                 var expectedHash = transaction.GetTransactionHashPerNode();
                 var response = transaction.Execute(testEnv.Client);
                 var record = response.GetRecord(testEnv.Client);
-                AssertThat(expectedHash[response.nodeId]).ContainsExactly(record.transactionHash.ToByteArray());
-                var accountId = record.receipt.accountId;
+                Assert.Equal(expectedHash[response.NodeId], record.TransactionHash.ToByteArray());
+                var accountId = record.Receipt.AccountId;
+                
                 Assert.NotNull(accountId);
-                var deleteTransaction = new AccountDeleteTransaction()AccountId = accountId,.SetTransferAccountId(testEnv.OperatorId).FreezeWith(testEnv.Client);
+                
+                var deleteTransaction = new AccountDeleteTransaction
+                {
+					AccountId = accountId,
+					TransferAccountId = testEnv.OperatorId
+				
+                }.FreezeWith(testEnv.Client);
                 var updateBytes = deleteTransaction.ToBytes();
                 var sig1 = key.SignTransaction(deleteTransaction);
                 var deleteTransaction2 = Transaction.FromBytes(updateBytes);
@@ -181,20 +274,37 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var privateKey = PrivateKey.GenerateED25519();
-                var response = new FileCreateTransaction()Keys = [testEnv.OperatorKey],Contents = Encoding.UTF8.GetBytes("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var response = new FileCreateTransaction
+                {
+					Keys = [testEnv.OperatorKey],
+					Contents = Encoding.UTF8.GetBytes("[e2e::FileCreateTransaction]")
+				
+                }.Execute(testEnv.Client);
                 var fileId = response.GetReceipt(testEnv.Client).FileId;
+                
                 Thread.Sleep(5000);
-                var info = new FileInfoQuery()FileId = fileId,.Execute(testEnv.Client);
-                Assert.Equal(info.fileId, fileId);
-                Assert.Equal(info.size, 28);
-                Assert.False(info.isDeleted);
-                Assert.NotNull(info.keys);
-                Assert.Null(info.keys.Threshold);
-                Assert.Equal(info.keys, [testEnv.OperatorKey]);
-                var fileAppendTransaction = new FileAppendTransaction()FileId = fileId,.Contents = Encoding.UTF8.GetBytes(Contents.BIG_CONTENTS).FreezeWith(testEnv.Client).Sign(privateKey);
+
+                var info = new FileInfoQuery { FileId = fileId, }.Execute(testEnv.Client);
+                
+                Assert.Equal(info.FileId, fileId);
+                Assert.Equal(info.Size, 28);
+                Assert.False(info.IsDeleted);
+                Assert.NotNull(info.Keys);
+                Assert.Null(info.Keys.Threshold);
+                Assert.Equal(info.Keys, [testEnv.OperatorKey]);
+
+                var fileAppendTransaction = new FileAppendTransaction
+                {
+					FileId = fileId,
+					Contents = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
+
+				}.FreezeWith(testEnv.Client).Sign(privateKey);
                 var transactionBytesSerialized = fileAppendTransaction.ToBytes();
+                
                 FileAppendTransaction fileAppendTransactionDeserialized = (FileAppendTransaction)Transaction.FromBytes(transactionBytesSerialized);
+                
                 var transactionBytesReserialized = fileAppendTransactionDeserialized.ToBytes();
+                
                 Assert.Equal(transactionBytesSerialized, transactionBytesReserialized);
             }
         }
@@ -203,30 +313,48 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new FileCreateTransaction()Keys = [testEnv.OperatorKey],Contents = Encoding.UTF8.GetBytes("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var response = new FileCreateTransaction
+                {
+					Keys = [testEnv.OperatorKey],
+					Contents = Encoding.UTF8.GetBytes("[e2e::FileCreateTransaction]")
+				
+                }.Execute(testEnv.Client);
                 var fileId = response.GetReceipt(testEnv.Client).FileId;
+                
                 Thread.Sleep(5000);
-                var info = new FileInfoQuery()FileId = fileId,.Execute(testEnv.Client);
-                Assert.Equal(info.fileId, fileId);
-                Assert.Equal(info.size, 28);
-                Assert.False(info.isDeleted);
-                Assert.NotNull(info.keys);
-                Assert.Null(info.keys.Threshold);
-                Assert.Equal(info.keys, [testEnv.OperatorKey]);
-                var fileAppendTransaction = new FileAppendTransaction()FileId = fileId,.Contents = Encoding.UTF8.GetBytes(Contents.BIG_CONTENTS);
+
+                var info = new FileInfoQuery { FileId = fileId, }.Execute(testEnv.Client);
+                
+                Assert.Equal(info.FileId, fileId);
+                Assert.Equal(info.Size, 28);
+                Assert.False(info.IsDeleted);
+                Assert.NotNull(info.Keys);
+                Assert.Null(info.Keys.Threshold);
+                Assert.Equal(info.Keys, [testEnv.OperatorKey]);
+
+                var fileAppendTransaction = new FileAppendTransaction
+                {
+					FileId = fileId,
+                    Contents = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
+				};
                 var transactionBytesSerialized = fileAppendTransaction.ToBytes();
+                
                 FileAppendTransaction fileAppendTransactionDeserialized = (FileAppendTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 fileAppendTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var contents = new FileContentsQuery()FileId = fileId,.Execute(testEnv.Client);
+                var contents = new FileContentsQuery { FileId = fileId, }.Execute(testEnv.Client);
+                
                 Assert.Equal(contents.ToStringUtf8(), "[e2e::FileCreateTransaction]" + Contents.BIG_CONTENTS);
-                info = new FileInfoQuery()FileId = fileId,.Execute(testEnv.Client);
-                Assert.Equal(info.fileId, fileId);
-                Assert.Equal(info.size, 13522);
-                Assert.False(info.isDeleted);
-                Assert.NotNull(info.keys);
-                Assert.Null(info.keys.Threshold);
-                Assert.Equal(info.keys, [testEnv.OperatorKey]);
-                new FileDeleteTransaction()FileId = fileId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+                info = new FileInfoQuery { FileId = fileId, }.Execute(testEnv.Client);
+                
+                Assert.Equal(info.FileId, fileId);
+                Assert.Equal(info.Size, 13522);
+                Assert.False(info.IsDeleted);
+                Assert.NotNull(info.Keys);
+                Assert.Null(info.Keys.Threshold);
+                Assert.Equal(info.Keys, [testEnv.OperatorKey]);
+
+                new FileDeleteTransaction { FileId = fileId, }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -234,31 +362,50 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
-                var response = new FileCreateTransaction()Keys = [testEnv.OperatorKey],Contents = Encoding.UTF8.GetBytes("[e2e::FileCreateTransaction]").Execute(testEnv.Client);
+                var response = new FileCreateTransaction
+                {
+                    Keys = [testEnv.OperatorKey],
+                    Contents = Encoding.UTF8.GetBytes("[e2e::FileCreateTransaction]")
+
+                }.Execute(testEnv.Client);
                 var fileId = response.GetReceipt(testEnv.Client).FileId;
+
                 Thread.Sleep(5000);
-                var info = new FileInfoQuery()FileId = fileId,.Execute(testEnv.Client);
-                Assert.Equal(info.fileId, fileId);
-                Assert.Equal(info.size, 28);
-                Assert.False(info.isDeleted);
-                Assert.NotNull(info.keys);
-                Assert.Null(info.keys.Threshold);
-                Assert.Equal(info.keys, [testEnv.OperatorKey]);
-                var fileAppendTransaction = new FileAppendTransaction().SetNodeAccountIds(nodeAccountIds)FileId = fileId,.Contents = Encoding.UTF8.GetBytes(Contents.BIG_CONTENTS);
+
+                var info = new FileInfoQuery { FileId = fileId, }.Execute(testEnv.Client);
+                
+                Assert.Equal(info.FileId, fileId);
+                Assert.Equal(info.Size, 28);
+                Assert.False(info.IsDeleted);
+                Assert.NotNull(info.Keys);
+                Assert.Null(info.Keys.Threshold);
+                Assert.Equal(info.Keys, [testEnv.OperatorKey]);
+                
+                var fileAppendTransaction = new FileAppendTransaction
+                {
+                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+                    FileId = fileId,
+                    Contents = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
+                };
                 var transactionBytesSerialized = fileAppendTransaction.ToBytes();
+                
                 FileAppendTransaction fileAppendTransactionDeserialized = (FileAppendTransaction)Transaction.FromBytes(transactionBytesSerialized);
-                fileAppendTransactionDeserialized.SetTransactionId(TransactionId.Generate(testEnv.Client.GetOperatorAccountId())).Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var contents = new FileContentsQuery()FileId = fileId,.Execute(testEnv.Client);
+                fileAppendTransactionDeserialized.TransactionId = TransactionId.Generate(testEnv.Client.OperatorAccountId);
+                fileAppendTransactionDeserialized.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                var contents = new FileContentsQuery { FileId = fileId, }.Execute(testEnv.Client);
+                
                 Assert.Equal(contents.ToStringUtf8(), "[e2e::FileCreateTransaction]" + Contents.BIG_CONTENTS);
-                info = new FileInfoQuery()FileId = fileId,.Execute(testEnv.Client);
-                Assert.Equal(info.fileId, fileId);
-                Assert.Equal(info.size, 13522);
-                Assert.False(info.isDeleted);
-                Assert.NotNull(info.keys);
-                Assert.Null(info.keys.Threshold);
-                Assert.Equal(info.keys, [testEnv.OperatorKey]);
-                new FileDeleteTransaction()FileId = fileId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                
+                info = new FileInfoQuery { FileId = fileId }.Execute(testEnv.Client);
+                
+                Assert.Equal(info.FileId, fileId);
+                Assert.Equal(info.Size, 13522);
+                Assert.False(info.IsDeleted);
+                Assert.NotNull(info.Keys);
+                Assert.Null(info.Keys.Threshold);
+                Assert.Equal(info.Keys, [testEnv.OperatorKey]);
+                
+                new FileDeleteTransaction { FileId = fileId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -267,20 +414,35 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var privateKey = PrivateKey.GenerateED25519();
-                var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var response = new TopicCreateTransaction
+                {
+					AdminKey = testEnv.OperatorKey,
+					TopicMemo = "[e2e::TopicCreateTransaction]",
+				
+                }.Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
+                
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
-                Assert.Equal(info.topicId, topicId);
-                Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                Assert.Equal(info.sequenceNumber, 0);
-                Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction()TopicId = topicId,.SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS).FreezeWith(testEnv.Client).Sign(privateKey);
+
+                var info = new TopicInfoQuery { TopicId = topicId }.Execute(testEnv.Client);
+
+                Assert.Equal(info.TopicId, topicId);
+                Assert.Equal("[e2e::TopicCreateTransaction]", info.TopicMemo);
+                Assert.Equal((ulong)0, info.SequenceNumber);
+                Assert.Equal(info.AdminKey, testEnv.OperatorKey);
+                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction
+                {
+					TopicId = topicId,
+					MaxChunks = 15,
+					Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
+
+				}.FreezeWith(testEnv.Client).Sign(privateKey);
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction fileAppendTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var transactionBytesReserialized = fileAppendTransactionDeserialized.ToBytes();
                 Assert.Equal(transactionBytesSerialized, transactionBytesReserialized);
-                new TopicDeleteTransaction()TopicId = topicId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                
+                new TopicDeleteTransaction { TopicId = topicId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -288,29 +450,47 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var response = new TopicCreateTransaction
+                {
+					AdminKey = testEnv.OperatorKey,
+					TopicMemo = "[e2e::TopicCreateTransaction]",
+				
+                }.Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
+                
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
-                Assert.Equal(info.topicId, topicId);
-                Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                Assert.Equal(info.sequenceNumber, 0);
-                Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction()TopicId = topicId,.SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
+
+                var info = new TopicInfoQuery { TopicId = topicId }.Execute(testEnv.Client);
+
+                Assert.Equal(info.TopicId, topicId);
+                Assert.Equal("[e2e::TopicCreateTransaction]", info.TopicMemo);
+                Assert.Equal((ulong)0, info.SequenceNumber);
+                Assert.Equal(info.AdminKey, testEnv.OperatorKey);
+                
+                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction
+                {
+					TopicId = topicId,
+					MaxChunks = 15,
+					Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
+				};
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
+                
                 TopicMessageSubmitTransaction topicMessageSubmitTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
+                
                 var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.Client);
                 foreach (var resp in responses)
                 {
                     resp.GetReceipt(testEnv.Client);
                 }
 
-                info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
-                Assert.Equal(info.topicId, topicId);
-                Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                Assert.Equal(info.sequenceNumber, 14);
-                Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                new TopicDeleteTransaction()TopicId = topicId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                info = new TopicInfoQuery { TopicId = topicId }.Execute(testEnv.Client);
+
+                Assert.Equal(info.TopicId, topicId);
+                Assert.Equal("[e2e::TopicCreateTransaction]", info.TopicMemo);
+                Assert.Equal((ulong)14, info.SequenceNumber);
+                Assert.Equal(info.AdminKey, testEnv.OperatorKey);
+                
+                new TopicDeleteTransaction { TopicId = topicId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -318,16 +498,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                var nodeAccountIds = testEnv.Client.Network.Values().Stream().ToList();
-                var response = new TopicCreateTransaction()AdminKey = testEnv.OperatorKey,.SetTopicMemo("[e2e::TopicCreateTransaction]").Execute(testEnv.Client);
+                var response = new TopicCreateTransaction
+                {
+					AdminKey = testEnv.OperatorKey,
+					TopicMemo = "[e2e::TopicCreateTransaction]",
+				
+                }.Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId);
+                
                 Thread.Sleep(5000);
-                var info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
-                Assert.Equal(info.topicId, topicId);
-                Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                Assert.Equal(info.sequenceNumber, 0);
-                Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction().SetNodeAccountIds(nodeAccountIds)TopicId = topicId,.SetMaxChunks(15).SetMessage(Contents.BIG_CONTENTS);
+
+                var info = new TopicInfoQuery { TopicId = topicId }.Execute(testEnv.Client);
+
+                Assert.Equal(info.TopicId, topicId);
+                Assert.Equal("[e2e::TopicCreateTransaction]", info.TopicMemo);
+                Assert.Equal((ulong)0, info.SequenceNumber);
+                Assert.Equal(info.AdminKey, testEnv.OperatorKey);
+                var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction
+                {
+                    TopicId = topicId,
+                    MaxChunks = 15,
+					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
+				};
                 var transactionBytesSerialized = topicMessageSubmitTransaction.ToBytes();
                 TopicMessageSubmitTransaction topicMessageSubmitTransactionDeserialized = (TopicMessageSubmitTransaction)Transaction.FromBytes(transactionBytesSerialized);
                 var responses = topicMessageSubmitTransactionDeserialized.ExecuteAll(testEnv.Client);
@@ -336,12 +529,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     resp.GetReceipt(testEnv.Client);
                 }
 
-                info = new TopicInfoQuery()TopicId = topicId,.Execute(testEnv.Client);
-                Assert.Equal(info.topicId, topicId);
-                Assert.Equal(info.topicMemo, "[e2e::TopicCreateTransaction]");
-                Assert.Equal(info.sequenceNumber, 14);
-                Assert.Equal(info.adminKey, testEnv.OperatorKey);
-                new TopicDeleteTransaction()TopicId = topicId,.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                info = new TopicInfoQuery { TopicId = topicId }.Execute(testEnv.Client);
+
+                Assert.Equal(info.TopicId, topicId);
+                Assert.Equal("[e2e::TopicCreateTransaction]", info.TopicMemo);
+                Assert.Equal((ulong)14, info.SequenceNumber);
+                Assert.Equal(info.AdminKey, testEnv.OperatorKey);
+                
+                new TopicDeleteTransaction { TopicId = topicId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
 
@@ -350,50 +545,88 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         // Any way to fix it and bring it back?
         public virtual void TransactionFromToBytes2()
         {
-            AssertThatNoException(, () =>
+			var id = TransactionId.Generate(new AccountId(0, 0, 542348));
+			var transactionBodyBuilder = new Proto.TransactionBody
             {
-                var id = TransactionId.Generate(new AccountId(0, 0, 542348));
-                var transactionBodyBuilder = TransactionBody.NewBuilder();
-                transactionBodyBuilder.SetTransactionID(TransactionID.NewBuilder().SetTransactionValidStart(Timestamp.NewBuilder().SetNanos(id.validStart.GetNano()).SetSeconds(id.validStart.GetEpochSecond()).Build()).SetAccountID(AccountID.NewBuilder().SetAccountNum(542348).SetRealmNum(0).SetShardNum(0).Build()).Build()).SetNodeAccountID(AccountID.NewBuilder().SetAccountNum(3).SetRealmNum(0).SetShardNum(0).Build()).SetTransactionFee(200000000).SetTransactionValidDuration(Duration.NewBuilder().SetSeconds(120).Build()).SetGenerateRecord(false).SetMemo("").SetCryptoTransfer(CryptoTransferTransactionBody.NewBuilder().SetTransfers(TransferList.NewBuilder().AddAccountAmounts(AccountAmount.NewBuilder().SetAccountID(AccountID.NewBuilder().SetAccountNum(47439).SetRealmNum(0).SetShardNum(0).Build()).SetAmount(10).Build()).AddAccountAmounts(AccountAmount.NewBuilder().SetAccountID(AccountID.NewBuilder().SetAccountNum(542348).SetRealmNum(0).SetShardNum(0).Build()).SetAmount(-10).Build()).Build()).Build());
-                var bodyBytes = transactionBodyBuilder.Build().ToByteString();
-                var key1 = PrivateKey.FromString("302e020100300506032b6570042204203e7fda6dde63c3cdb3cb5ecf5264324c5faad7c9847b6db093c088838b35a110");
-                var key2 = PrivateKey.FromString("302e020100300506032b65700422042032d3d5a32e9d06776976b39c09a31fbda4a4a0208223da761c26a2ae560c1755");
-                var key3 = PrivateKey.FromString("302e020100300506032b657004220420195a919056d1d698f632c228dbf248bbbc3955adf8a80347032076832b8299f9");
-                var key4 = PrivateKey.FromString("302e020100300506032b657004220420b9962f17f94ffce73a23649718a11638cac4b47095a7a6520e88c7563865be62");
-                var key5 = PrivateKey.FromString("302e020100300506032b657004220420fef68591819080cd9d48b0cbaa10f65f919752abb50ffb3e7411ac66ab22692e");
-                var publicKey1 = key1.GetPublicKey();
-                var publicKey2 = key2.GetPublicKey();
-                var publicKey3 = key3.GetPublicKey();
-                var publicKey4 = key4.GetPublicKey();
-                var publicKey5 = key5.GetPublicKey();
-                var signature1 = key1.Sign(bodyBytes.ToByteArray());
-                var signature2 = key2.Sign(bodyBytes.ToByteArray());
-                var signature3 = key3.Sign(bodyBytes.ToByteArray());
-                var signature4 = key4.Sign(bodyBytes.ToByteArray());
-                var signature5 = key5.Sign(bodyBytes.ToByteArray());
-                var signedBuilder = SignedTransaction.NewBuilder();
-                signedBuilder.SetBodyBytes(bodyBytes).SetSigMap(SignatureMap.NewBuilder().AddSigPair(SignaturePair.NewBuilder().SetEd25519(ByteString.CopyFrom(signature1)).SetPubKeyPrefix(ByteString.CopyFrom(publicKey1.ToBytes())).Build()).AddSigPair(SignaturePair.NewBuilder().SetEd25519(ByteString.CopyFrom(signature2)).SetPubKeyPrefix(ByteString.CopyFrom(publicKey2.ToBytes())).Build()).AddSigPair(SignaturePair.NewBuilder().SetEd25519(ByteString.CopyFrom(signature3)).SetPubKeyPrefix(ByteString.CopyFrom(publicKey3.ToBytes())).Build()).AddSigPair(SignaturePair.NewBuilder().SetEd25519(ByteString.CopyFrom(signature4)).SetPubKeyPrefix(ByteString.CopyFrom(publicKey4.ToBytes())).Build()).AddSigPair(SignaturePair.NewBuilder().SetEd25519(ByteString.CopyFrom(signature5)).SetPubKeyPrefix(ByteString.CopyFrom(publicKey5.ToBytes())).Build()));
-                var byts = signedBuilder.Build().ToByteString();
-                byts = TransactionList.NewBuilder().AddTransactionList(Proto.Transaction.NewBuilder().SetSignedTransactionBytes(byts).Build()).Build().ToByteString();
-                var tx = (TransferTransaction)Transaction.FromBytes(byts.ToByteArray());
-                using (var testEnv = new IntegrationTestEnv(1))
+				GenerateRecord = false,
+				Memo = "",
+				TransactionID = new Proto.TransactionID
                 {
-                    Assert.Equal(tx.GetHbarTransfers()[new AccountId(0, 0, 542348)].ToTinybars(), -10);
-                    Assert.Equal(tx.GetHbarTransfers()[new AccountId(0, 0, 47439)].ToTinybars(), 10);
-                    Assert.NotNull(tx.GetNodeAccountIds());
-                    Assert.Equal(tx.GetNodeAccountIds().Count, 1);
-                    Assert.Equal(tx.GetNodeAccountIds()[0], new AccountId(0, 0, 3));
-                    var signatures = tx.GetSignatures();
-                    Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey1]), Arrays.ToString(signature1));
-                    Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey2]), Arrays.ToString(signature2));
-                    Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey3]), Arrays.ToString(signature3));
-                    Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey4]), Arrays.ToString(signature4));
-                    Assert.Equal(Arrays.ToString(signatures[new AccountId(0, 0, 3)][publicKey5]), Arrays.ToString(signature5));
-                    var resp = tx.Execute(testEnv.Client);
-                    resp.GetReceipt(testEnv.Client);
-                }
-            });
-        }
+                    AccountID = new Proto.AccountID
+                    {
+						AccountNum = 542348,
+						RealmNum = 0,
+						ShardNum = 0
+					},
+                    TransactionValidStart = new Proto.Timestamp
+                    {
+						Nanos = id.ValidStart.Nanos,
+						Seconds = id.ValidStart.Seconds,
+					},
+				},
+				TransactionFee = 200000000,
+				TransactionValidDuration = new Proto.Duration { Seconds = 120 },
+                CryptoTransfer = new Proto.CryptoTransferTransactionBody
+                {
+                    Transfers = new Proto.TransferList(),
+				},
+			};
+            transactionBodyBuilder.CryptoTransfer.Transfers.AccountAmounts.Add(new Proto.AccountAmount { Amount = 10, AccountID = new Proto.AccountID { AccountNum = 47439, RealmNum = 0, ShardNum = 0 } });
+            transactionBodyBuilder.CryptoTransfer.Transfers.AccountAmounts.Add(new Proto.AccountAmount { Amount = -10, AccountID = new Proto.AccountID { AccountNum = 542348, RealmNum = 0, ShardNum = 0 } });
+
+			var bodyBytes = transactionBodyBuilder.ToByteString();
+			var key1 = PrivateKey.FromString("302e020100300506032b6570042204203e7fda6dde63c3cdb3cb5ecf5264324c5faad7c9847b6db093c088838b35a110");
+			var key2 = PrivateKey.FromString("302e020100300506032b65700422042032d3d5a32e9d06776976b39c09a31fbda4a4a0208223da761c26a2ae560c1755");
+			var key3 = PrivateKey.FromString("302e020100300506032b657004220420195a919056d1d698f632c228dbf248bbbc3955adf8a80347032076832b8299f9");
+			var key4 = PrivateKey.FromString("302e020100300506032b657004220420b9962f17f94ffce73a23649718a11638cac4b47095a7a6520e88c7563865be62");
+			var key5 = PrivateKey.FromString("302e020100300506032b657004220420fef68591819080cd9d48b0cbaa10f65f919752abb50ffb3e7411ac66ab22692e");
+			var publicKey1 = key1.GetPublicKey();
+			var publicKey2 = key2.GetPublicKey();
+			var publicKey3 = key3.GetPublicKey();
+			var publicKey4 = key4.GetPublicKey();
+			var publicKey5 = key5.GetPublicKey();
+			var signature1 = key1.Sign(bodyBytes.ToByteArray());
+			var signature2 = key2.Sign(bodyBytes.ToByteArray());
+			var signature3 = key3.Sign(bodyBytes.ToByteArray());
+			var signature4 = key4.Sign(bodyBytes.ToByteArray());
+			var signature5 = key5.Sign(bodyBytes.ToByteArray());
+			var signedBuilder = new Proto.SignedTransaction()
+            {
+                BodyBytes = bodyBytes,
+                SigMap = new Proto.SignatureMap { }
+            };
+            signedBuilder.SigMap.SigPair.Add(new Proto.SignaturePair { Ed25519 = ByteString.CopyFrom(signature1), PubKeyPrefix = ByteString.CopyFrom(publicKey1.ToBytes()) });
+            signedBuilder.SigMap.SigPair.Add(new Proto.SignaturePair { Ed25519 = ByteString.CopyFrom(signature2), PubKeyPrefix = ByteString.CopyFrom(publicKey2.ToBytes()) });
+            signedBuilder.SigMap.SigPair.Add(new Proto.SignaturePair { Ed25519 = ByteString.CopyFrom(signature3), PubKeyPrefix = ByteString.CopyFrom(publicKey3.ToBytes()) });
+            signedBuilder.SigMap.SigPair.Add(new Proto.SignaturePair { Ed25519 = ByteString.CopyFrom(signature4), PubKeyPrefix = ByteString.CopyFrom(publicKey4.ToBytes()) });
+            signedBuilder.SigMap.SigPair.Add(new Proto.SignaturePair { Ed25519 = ByteString.CopyFrom(signature5), PubKeyPrefix = ByteString.CopyFrom(publicKey5.ToBytes()) });
+
+			var byts = signedBuilder.ToByteString();
+            var list = new Proto.TransactionList(); list.TransactionList_.Add(new Proto.Transaction { SignedTransactionBytes = byts });
+			byts = list.ToByteString();
+			var tx = (TransferTransaction)Transaction.FromBytes(byts.ToByteArray());
+
+			using (var testEnv = new IntegrationTestEnv(1))
+			{
+				Assert.Equal(tx.GetHbarTransfers()[new AccountId(0, 0, 542348)].ToTinybars(), -10);
+				Assert.Equal(tx.GetHbarTransfers()[new AccountId(0, 0, 47439)].ToTinybars(), 10);
+
+				Assert.NotNull(tx.NodeAccountIds_Read);
+				Assert.Equal(tx.NodeAccountIds_Read.Count, 1);
+				Assert.Equal(tx.NodeAccountIds_Read[0], new AccountId(0, 0, 3));
+				
+                IDictionary<AccountId, IDictionary<PublicKey, byte[]>> signatures = tx.GetSignatures();
+
+				Assert.Equal(signatures[new AccountId(0, 0, 3)][publicKey1], signature1);
+				Assert.Equal(signatures[new AccountId(0, 0, 3)][publicKey2], signature2);
+				Assert.Equal(signatures[new AccountId(0, 0, 3)][publicKey3], signature3);
+				Assert.Equal(signatures[new AccountId(0, 0, 3)][publicKey4], signature4);
+				Assert.Equal(signatures[new AccountId(0, 0, 3)][publicKey5], signature5);
+				
+                var resp = tx.Execute(testEnv.Client);
+				resp.GetReceipt(testEnv.Client);
+			}
+		}
 
         public virtual void CanAddSignatureToTransaction()
         {
@@ -404,13 +637,25 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newKey = PrivateKey.GenerateED25519();
 
                 // Step 2: Create account with the new key
-                var createResponse = new AccountCreateTransaction()Key = newKey.GetPublicKey(,).SetNodeAccountIds(testEnv.Client.Network.Values().Stream().ToList()).Execute(testEnv.Client);
+                var createResponse = new AccountCreateTransaction
+                {
+					Key = newKey.GetPublicKey(),
+					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
+				
+                }.Execute(testEnv.Client);
+
                 var createReceipt = createResponse.GetReceipt(testEnv.Client);
-                var accountId = createReceipt.accountId);
-                var nodeId = createResponse.nodeId;
+                var accountId = createReceipt.AccountId;
+                var nodeId = createResponse.NodeId;
 
                 // Step 3: Create account delete transaction and freeze it
-                var deleteTransaction = new AccountDeleteTransaction().SetNodeAccountIds(Arrays.AsList(nodeId))AccountId = accountId,.SetTransferAccountId(testEnv.Client.GetOperatorAccountId()).FreezeWith(testEnv.Client);
+                var deleteTransaction = new AccountDeleteTransaction
+                {
+					NodeAccountIds = [nodeId],
+					AccountId = accountId,
+					TransferAccountId = testEnv.Client.OperatorAccountId,
+				
+                }.FreezeWith(testEnv.Client);
 
                 // Step 4: Get signable body bytes list
                 var signableBodyList = deleteTransaction.GetSignableNodeBodyBytesList();
@@ -419,13 +664,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Step 5: Sign each signable body externally and add signatures back
                 foreach (var signableBody in signableBodyList)
                 {
-                    byte[] signature = newKey.Sign(signableBody.GetBody());
-                    deleteTransaction = deleteTransaction.AddSignature(newKey.GetPublicKey(), signature, signableBody.GetTransactionID(), signableBody.GetNodeID());
+                    byte[] signature = newKey.Sign(signableBody.Body);
+                    deleteTransaction = deleteTransaction.AddSignature(newKey.GetPublicKey(), signature, signableBody.TransactionID, signableBody.NodeID);
                 }
 
                 var deleteResponse = deleteTransaction.Execute(testEnv.Client);
                 var deleteReceipt = deleteResponse.GetReceipt(testEnv.Client);
-                Assert.Equal(deleteReceipt.status, ResponseStatus.Success);
+
+                Assert.Equal(ResponseStatus.Success, deleteReceipt.Status);
             }
         }
     }

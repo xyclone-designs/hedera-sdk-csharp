@@ -123,9 +123,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // verify the tokens are not associated with the receiver
                 Exception exception = Assert.Throws<Exception>(() =>
                 {
-                    new TransferTransaction().AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10).AddTokenTransfer(ftTokenId, receiverAccountId, 10)
+                    new TransferTransaction()
+                    .AddTokenTransfer(ftTokenId, testEnv.OperatorId, -10)
+                    .AddTokenTransfer(ftTokenId, receiverAccountId, 10)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
+
                 }); Assert.Contains("TOKEN_NOT_ASSOCIATED_TO_ACCOUNT", exception.Message);
                 new TokenDeleteTransaction
                 {
@@ -164,7 +167,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .GetReceipt(testEnv.Client);
 
                 // transfer nfts to the receiver
-                new TransferTransaction().AddNftTransfer(nftTokenId.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId).AddNftTransfer(nftTokenId.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
+                new TransferTransaction()
+                    .AddNftTransfer(nftTokenId.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId)
+                    .AddNftTransfer(nftTokenId.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
