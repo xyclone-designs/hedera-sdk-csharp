@@ -3,5 +3,5 @@
 /src/Hedera.Hashgraph/obj/
 /src/Hedera.Hashgraph.Tests/bin/
 /src/Hedera.Hashgraph.Tests/obj/
-/src/Hedera.Hashgraph.Tests.Intergration/bin/
-/src/Hedera.Hashgraph.Tests.Intergration/obj/
+/src/Hedera.Hashgraph.Tests.Integration/bin/
+/src/Hedera.Hashgraph.Tests.Integration/obj/
