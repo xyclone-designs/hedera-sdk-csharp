@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
+
+using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -20,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly AccountId testAccountId = AccountId.FromString("0.6.9");
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
         private static readonly long testAmount = 4;
-        private static readonly List<long> testSerialNumbers = Arrays.AsList(8, 9, 10);
+        private static readonly List<long> testSerialNumbers = [8, 9, 10];
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         public static void BeforeAll()
         {
@@ -40,13 +39,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenWipeTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenWipeTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private TokenWipeTransaction SpawnTestTransaction()
         {
-            return new TokenWipeTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(TokenId.FromString("0.0.111")).SetAccountId(testAccountId).SetAmount(testAmount).SetSerials(testSerialNumbers).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenWipeTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TokenId = TokenId.FromString("0.0.111"),
+				AccountId = testAccountId,
+				Amount = (ulong)testAmount,
+				Serials = testSerialNumbers,
+				MaxTransactionFee = new Hbar(1)
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldSerializeNft()
@@ -56,87 +67,116 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenWipeTransaction SpawnTestTransactionNft()
         {
-            return new TokenWipeTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(TokenId.FromString("0.0.111")).SetAccountId(testAccountId).SetSerials([444]).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenWipeTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TokenId = TokenId.FromString("0.0.111"),
+				AccountId = testAccountId,
+				Serials = [444],
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesFungible()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TokenWipeTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenWipeTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransactionNft();
-            var tx2 = TokenWipeTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenWipeTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenWipe(TokenWipeAccountTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+                TokenWipe = new Proto.TokenWipeAccountTransactionBody()
+            };
+            
+            var tx = Transaction.FromScheduledTransaction<TokenWipeTransaction>(transactionBody);
             Assert.IsType<TokenWipeTransaction>(tx);
         }
 
         public virtual void ConstructTokenWipeTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenWipeAccountTransactionBody.NewBuilder().SetToken(testTokenId.ToProtobuf()).SetAccount(testAccountId.ToProtobuf()).SetAmount(testAmount).AddAllSerialNumbers(testSerialNumbers).Build();
-            var txBody = TransactionBody.NewBuilder().SetTokenWipe(transactionBody).Build();
+            var transactionBody = new Proto.TokenWipeAccountTransactionBody
+            {
+				Token = testTokenId.ToProtobuf(),
+				Account = testAccountId.ToProtobuf(),
+				Amount = testAmount,
+			
+            }.AddAllSerialNumbers(testSerialNumbers).Build();
+            var txBody = new Proto.TransactionBody
+            {
+				TokenWipe = transactionBody
+			};
             var tokenWipeTransaction = new TokenWipeTransaction(txBody);
-            Assert.Equal(tokenWipeTransaction.GetTokenId(), testTokenId);
-            Assert.Equal(tokenWipeTransaction.GetAccountId(), testAccountId);
-            Assert.Equal(tokenWipeTransaction.GetAmount(), testAmount);
-            Assert.Equal(tokenWipeTransaction.GetSerials(), testSerialNumbers);
+
+            Assert.Equal(tokenWipeTransaction.TokenId, testTokenId);
+            Assert.Equal(tokenWipeTransaction.AccountId, testAccountId);
+            Assert.Equal(tokenWipeTransaction.Amount, testAmount);
+            Assert.Equal(tokenWipeTransaction.Serials, testSerialNumbers);
         }
 
         public virtual void GetSetTokenId()
         {
-            var tokenWipeTransaction = new TokenWipeTransaction().SetTokenId(testTokenId);
+            var tokenWipeTransaction = new TokenWipeTransaction
+            {
+				TokenId = testTokenId
+			};
             Assert.Equal(tokenWipeTransaction.GetTokenId(), testTokenId);
         }
 
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenId(testTokenId));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
 
         public virtual void GetSetAccountId()
         {
             var tx = SpawnTestTransaction();
-            Assert.Equal(tx.GetAccountId(), testAccountId);
+            Assert.Equal(tx.AccountId, testAccountId);
         }
 
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAccountId(testAccountId));
+            Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
 
         public virtual void GetSetAmount()
         {
             var tx = SpawnTestTransaction();
-            Assert.Equal(tx.GetAmount(), testAmount);
+            Assert.Equal(tx.Amount, (ulong)testAmount);
         }
 
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAmount(testAmount));
+            Assert.Throws<InvalidOperationException>(() => tx.Amount = (ulong)testAmount);
         }
 
         public virtual void GetSetSerialNumbers()
         {
             var tx = SpawnTestTransaction();
-            Assert.Equal(tx.GetSerials(), testSerialNumbers);
+            Assert.Equal(tx.Serials, testSerialNumbers);
         }
 
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetSerials(testSerialNumbers));
+            Assert.Throws<InvalidOperationException>(() => tx.Serials = testSerialNumbers);
         }
     }
 }

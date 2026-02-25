@@ -59,8 +59,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var validStart = transactionId.ValidStart;
             Assert.Equal(accountId.Shard, 0);
             Assert.Equal(accountId.Num, 23847);
-            Assert.Equal(validStart.EpochSecond, 1588539964);
-            Assert.Equal(validStart.Nano, 632521325);
+            Assert.Equal(validStart.ToDateTimeOffset().ToUnixTimeSeconds(), 1588539964);
+            Assert.Equal(validStart.Nanos, 632521325);
         }
 
         public virtual void ShouldParseScheduled()
@@ -157,7 +157,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void EqualsHashCodeContractWithNonce()
         {
             AccountId accountId = new AccountId(0, 0, 1000);
-            DateTimeOffset now = DateTimeOffset.UtcNow;
+            Timestamp now = DateTimeOffset.UtcNow.ToTimestamp();
             TransactionId txnId1 = TransactionId.WithValidStart(accountId, now);
             TransactionId txnId2 = TransactionId.WithValidStart(accountId, now);
             txnId2.Nonce = 0;

@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -19,31 +13,31 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ConstructWithTokenIdOwnerSpenderAmount()
         {
             TokenAllowance tokenAllowance = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount);
-            Assert.Equal(tokenAllowance.tokenId, testTokenId);
-            Assert.Equal(tokenAllowance.ownerAccountId, testOwnerAccountId);
-            Assert.Equal(tokenAllowance.spenderAccountId, testSpenderAccountId);
-            Assert.Equal(tokenAllowance.amount, testAmount);
+            Assert.Equal(tokenAllowance.TokenId, testTokenId);
+            Assert.Equal(tokenAllowance.OwnerAccountId, testOwnerAccountId);
+            Assert.Equal(tokenAllowance.SpenderAccountId, testSpenderAccountId);
+            Assert.Equal(tokenAllowance.Amount, testAmount);
         }
 
         public virtual void FromProtobuf()
         {
             var tokenAllowanceProtobuf = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount).ToProtobuf();
             var tokenAllowance = TokenAllowance.FromProtobuf(tokenAllowanceProtobuf);
-            Assert.Equal(tokenAllowance.tokenId, testTokenId);
-            Assert.Equal(tokenAllowance.ownerAccountId, testOwnerAccountId);
-            Assert.Equal(tokenAllowance.spenderAccountId, testSpenderAccountId);
-            Assert.Equal(tokenAllowance.amount, testAmount);
+            Assert.Equal(tokenAllowance.TokenId, testTokenId);
+            Assert.Equal(tokenAllowance.OwnerAccountId, testOwnerAccountId);
+            Assert.Equal(tokenAllowance.SpenderAccountId, testSpenderAccountId);
+            Assert.Equal(tokenAllowance.Amount, testAmount);
         }
 
         public virtual void ToProtobuf()
         {
             var tokenAllowanceProtobuf = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount).ToProtobuf();
-            Assert.True(tokenAllowanceProtobuf.HasTokenId());
-            Assert.Equal(TokenId.FromProtobuf(tokenAllowanceProtobuf.GetTokenId()), testTokenId);
-            Assert.True(tokenAllowanceProtobuf.HasOwner());
-            Assert.Equal(AccountId.FromProtobuf(tokenAllowanceProtobuf.GetOwner()), testOwnerAccountId);
-            Assert.True(tokenAllowanceProtobuf.HasSpender());
-            Assert.Equal(AccountId.FromProtobuf(tokenAllowanceProtobuf.GetSpender()), testSpenderAccountId);
+            Assert.True(tokenAllowanceProtobuf.TokenId is not null);
+            Assert.Equal(TokenId.FromProtobuf(tokenAllowanceProtobuf.TokenId), testTokenId);
+            Assert.True(tokenAllowanceProtobuf.Owner is not null);
+            Assert.Equal(AccountId.FromProtobuf(tokenAllowanceProtobuf.Owner), testOwnerAccountId);
+            Assert.True(tokenAllowanceProtobuf.Spender is not null);
+            Assert.Equal(AccountId.FromProtobuf(tokenAllowanceProtobuf.Spender), testSpenderAccountId);
         }
     }
 }

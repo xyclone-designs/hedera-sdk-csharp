@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
 
@@ -32,14 +31,25 @@ namespace Hedera.Hashgraph.SDK
 	{
 		internal static readonly Regex RST_STREAM = new(".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 	}
-    public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> : Executable where TProtoRequest : IMessage where TProtoResponse : IMessage
-    {
+
+    public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> : Executable where TProtoRequest : class, IMessage where TProtoResponse : class, IMessage
+	{
         protected static readonly Random random = new ();
+		protected Func<GrpcRequest, TProtoResponse> BlockingUnaryCall 
+		{
+			get => grpcRequest =>
+			{
+				var call = grpcRequest.CreateCall();
+				var request = grpcRequest.GetRequest();
+
+				return call.BlockingUnaryCall(GetMethod(), null, grpcRequest.CallOptions, request);
+			};
+		}
 
 		/// <summary>
 		/// List of healthy and unhealthy nodes with which execution will be attempted.
 		/// </summary>
-		protected LockableList<Node> Nodes
+		protected ListLockable<Node> Nodes
 		{
 			get => [.. field ??= []];
 			set
@@ -58,48 +68,50 @@ namespace Hedera.Hashgraph.SDK
 		/// subsequently retry the execution.)
 		/// </summary>
 		public TimeSpan GrpcDeadline { get; set; }
-        /// <summary>
-        /// The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
-        /// until it reaches this time.
-        /// </summary>
-        public TimeSpan MaxBackoff
-        {
-            get => field ?? Client.DEFAULT_MAX_BACKOFF;
-            set
-            {
-                if (field == null || field.Nanos < 0)
-                {
-                    throw new ArgumentException("maxBackoff must be a positive duration");
-                }
-                else if (field.CompareTo(MinBackoff) < 0)
-                {
-                    throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
-                }
+		/// <summary>
+		/// The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
+		/// until it reaches this time.
+		/// </summary>
+		public TimeSpan MaxBackoff
+		{
+			get => field;
+			set
+			{
+				if (field.Nanoseconds < 0)
+				{
+					throw new ArgumentException("maxBackoff must be a positive duration");
+				}
+				else if (field.CompareTo(MinBackoff) < 0)
+				{
+					throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
+				}
 
-                field = value;
-            }
-        }
-        /// <summary>
-        /// The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
-        /// exponentially until it reaches the maxBackoff.
-        /// </summary>
-        public TimeSpan MinBackoff
-        {
-            get => field ?? Client.DEFAULT_MIN_BACKOFF;
-            set
-            {
-                if (value == null || value.Nanos < 0)
-                {
-                    throw new ArgumentException("minBackoff must be a positive duration");
-                }
-                else if (value.CompareTo(MaxBackoff) > 0)
-                {
-                    throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
-                }
+				field = value;
+			}
 
-                field = value;
-            }
-        }
+		} = Client.DEFAULT_MAX_BACKOFF;
+		/// <summary>
+		/// The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
+		/// exponentially until it reaches the maxBackoff.
+		/// </summary>
+		public TimeSpan MinBackoff
+		{
+			get => field;
+			set
+			{
+				if (value.Nanoseconds < 0)
+				{
+					throw new ArgumentException("minBackoff must be a positive duration");
+				}
+				else if (value.CompareTo(MaxBackoff) > 0)
+				{
+					throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
+				}
+
+				field = value;
+			}
+
+		} = Client.DEFAULT_MIN_BACKOFF;
 		/// <summary>
 		/// The maximum times execution will be attempted
 		/// </summary>
@@ -126,7 +138,7 @@ namespace Hedera.Hashgraph.SDK
 		/// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
 		/// reports a fatal error, the SDK will try again with a different node.
 		/// </summary>
-		public LockableList<AccountId> NodeAccountIds
+		public ListLockable<AccountId> NodeAccountIds
         {
             protected get => field ??= [];
             set
@@ -361,138 +373,133 @@ namespace Hedera.Hashgraph.SDK
         {
             return Execute(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Execute this transaction or query with a timeout
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>Result of execution</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        public virtual TTransactionResponse Execute(Client client, TimeSpan timeout)
-        {
-            Exception? lastException = null;
+		/// <summary>
+		/// Execute this transaction or query with a timeout
+		/// </summary>
+		/// <param name="client">The client with which this will be executed.</param>
+		/// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+		/// <returns>Result of execution</returns>
+		/// <exception cref="TimeoutException">when the transaction times out</exception>
+		/// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+		public virtual TTransactionResponse Execute(Client client, TimeSpan timeout)
+		{
+			Exception? lastException = null;
 
-            if (IsBatchedAndNotBatchTransaction())
-            {
-                throw new ArgumentException("Cannot execute batchified transaction outside of BatchTransaction");
-            }
+			if (IsBatchedAndNotBatchTransaction())
+			{
+				throw new ArgumentException("Cannot execute batchified transaction outside of BatchTransaction");
+			}
 
-			// If the Logger on the request is not set, use the Logger in client
-			// (if set, otherwise do not use Logger)
-			Logger ??= client.Logger_;
+			// Use client logger if not set
+			//Logger ??= client.Logger_;
 
 			MergeFromClient(client);
-            OnExecute(client);
-            CheckNodeAccountIds();
-            SetNodesFromNodeAccountIds(client);
-            var timeoutTime = DateTimeOffset.UtcNow.Add(timeout.ToTimeSpan()); 
-            for (int attempt = 1;; attempt++)
-            {
-                if (attempt > MaxAttempts)
+			OnExecute(client);
+			CheckNodeAccountIds();
+			SetNodesFromNodeAccountIds(client);
+
+			DateTimeOffset timeoutTime = DateTimeOffset.UtcNow + timeout;
+
+			for (int attempt = 1; ; attempt++)
+			{
+				if (attempt > MaxAttempts)
 					throw new MaxAttemptsExceededException(lastException);
 
-				Duration currentTimeout = DateTimeOffset.UtcNow - timeoutTime;
-                if (currentTimeout.Nanos <= 0)
-                {
-                    throw new TimeoutException();
-                }
+				TimeSpan remainingTimeout = timeoutTime - DateTimeOffset.UtcNow;
 
-                GrpcRequest grpcRequest = new (this, client.Network_, attempt, currentTimeout);
+				if (remainingTimeout <= TimeSpan.Zero)
+					throw new TimeoutException();
 
-                TProtoResponse? response = default;
+				GrpcRequest grpcRequest = new(this, client.Network_, attempt, remainingTimeout);
 
-                // If we get an unhealthy node here, we've cycled through all the "good" nodes that have failed
-                // and have no choice but to try a bad one.
-                if (!grpcRequest.Node.IsHealthy())
-                {
-                    Delay(grpcRequest.Node.GetRemainingTimeForBackoff());
-                }
+				TProtoResponse? response = default;
 
-                if (grpcRequest.Node.ChannelFailedTosConnect(timeoutTime))
-                {
-                    Logger.Trace("Failed to connect channel for node {} for request #{}", grpcRequest.Node.AccountId, attempt);
-                    lastException = grpcRequest.ReactToConnectionFailure();
-                    AdvanceRequest(); // Advance to next node before retrying
-                    continue;
-                }
+				// If node is unhealthy, wait backoff
+				if (!grpcRequest.Node.IsHealthy())
+				{
+					Delay(grpcRequest.Node.GetRemainingTimeForBackoff());
+				}
 
-                currentTimeout = DateTimeOffset.UtcNow - timeoutTime;
-                grpcRequest.GrpcDeadline = currentTimeout;
-                try
-                {
-                    response = blockingUnaryCall.Apply(grpcRequest);
-                    LogTransaction(TransactionIdInternal, client, grpcRequest.Node, false, attempt, response, null);
-                }
-                catch (Exception e)
-                {
-                    if (e is RpcException)
-                    {
-                        RpcException rpcexception = (RpcException)e;
-                        if (rpcexception.StatusCode == StatusCode.DeadlineExceeded)
-                        {
-                            throw new TimeoutException();
-                        }
-                    }
+				if (grpcRequest.Node.ChannelFailedToConnect(timeoutTime))
+				{
+					lastException = grpcRequest.ReactToConnectionFailure();
+					AdvanceRequest(); // move to next node
+					continue;
+				}
 
-                    lastException = e;
-                    LogTransaction(TransactionIdInternal, client, grpcRequest.Node, false, attempt, null, e);
-                }
+				grpcRequest.GrpcDeadline = remainingTimeout;
 
-                if (response == null)
-                {
-                    if (grpcRequest.ShouldRetryExceptionally(lastException))
-                    {
-                        AdvanceRequest(); // Advance to next node before retrying
-                        continue;
-                    }
-                    else
-                    {
-                        throw new Exception(lastException);
-                    }
-                }
+				try
+				{
+					response = BlockingUnaryCall.Invoke(grpcRequest);
+					LogTransaction(TransactionIdInternal, client, grpcRequest.Node, false, attempt, response, null);
+				}
+				catch (RpcException rpcEx) when (rpcEx.StatusCode == StatusCode.DeadlineExceeded)
+				{
+					throw new TimeoutException();
+				}
+				catch (Exception e)
+				{
+					lastException = e;
+					LogTransaction(TransactionIdInternal, client, grpcRequest.Node, false, attempt, default, e);
+				}
 
-                var status = MapResponseStatus(Response);
-                var executionState = GetExecutionState(status, response);
-                grpcRequest.HandleResponse(response, status, executionState, client);
-                switch (executionState)
-                {
-                    case ExecutionState.Retry:
+				if (response == null)
+				{
+					if (grpcRequest.ShouldRetryExceptionally(lastException))
+					{
+						AdvanceRequest();
+						continue;
+					}
+					else
+					{
+						throw lastException ?? new Exception("Unknown error executing request");
+					}
+				}
 
-                        // Response is not ready yet from server, need to wait.
-                        // Handle INVALID_NODE_ACCOUNT: mark node as unusable and update network
-                        if (status == ResponseStatus.InvalidNodeAccount)
-                        {
-							Logger?.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", grpcRequest.Node.AccountId, attempt);
+				var status = MapResponseStatus(response);
+				var executionState = GetExecutionState(status, response);
 
+				grpcRequest.HandleResponse(response, status, executionState, client);
 
-							// Schedule async address book update
+				switch (executionState)
+				{
+					case ExecutionState.Retry:
+						if (status == ResponseStatus.InvalidNodeAccount)
+						{
+							Logger?.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {0} as unhealthy, attempt #{1}", grpcRequest.Node.AccountId, attempt);
+
+							// Async address book update
 							UpdateNetworkFromAddressBook(client);
 
-                            // Mark this node as unhealthy
-                            client.Network_.IncreaseBackoff(grpcRequest.Node);
-                        }
+							// Mark node as unhealthy
+							client.Network_.IncreaseBackoff(grpcRequest.Node);
+						}
 
-                        lastException = grpcRequest.MapStatusException();
-                        if (attempt < MaxAttempts)
-                        {
-                            currentTimeout = DateTimeOffset.UtcNow - timeoutTime;
-                            Delay(Math.Min(currentTimeout.ToTimeSpan().TotalMilliseconds, grpcRequest.Delay));
-                        }
+						lastException = grpcRequest.MapStatusException();
 
-                        continue;
-                    case ExecutionState.ServerError:
-                        lastException = grpcRequest.MapStatusException();
-                        AdvanceRequest(); // Advance to next node before retrying
-                        continue;
-                    case ExecutionState.RequestError:
-                        throw grpcRequest.MapStatusException();
-                    case ExecutionState.Success:
-                    default:
-                        return grpcRequest.MapResponse();
-                }
-            }
-        }
+						if (attempt < MaxAttempts)
+						{
+							remainingTimeout = timeoutTime - DateTimeOffset.UtcNow;
+							Delay((int)Math.Min(remainingTimeout.TotalMilliseconds, grpcRequest.Delay.TotalMilliseconds));
+						}
+
+						continue;
+
+					case ExecutionState.ServerError:
+						lastException = grpcRequest.MapStatusException();
+						AdvanceRequest();
+						continue;
+
+					case ExecutionState.RequestError:
+						throw grpcRequest.MapStatusException();
+
+					case ExecutionState.Success:
+					default:
+						return grpcRequest.MapResponse();
+				}
+			}
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
@@ -510,7 +517,9 @@ namespace Hedera.Hashgraph.SDK
         /// <returns>Future result of execution</returns>
         public virtual async Task<TTransactionResponse> ExecuteAsync(Client client, TimeSpan timeout)
         {
-			Task<TTransactionResponse> retval = Task.WhenAll<TTransactionResponse>(Task.FromResult(default), Task.Delay(timeout.ToTimeSpan()));
+			TaskCompletionSource<TTransactionResponse> retval = new ();
+
+			retval.SetResult(default);
 
 			MergeFromClient(client);
 
@@ -519,8 +528,10 @@ namespace Hedera.Hashgraph.SDK
 			CheckNodeAccountIds();
 			SetNodesFromNodeAccountIds(client);
 
-			ExecuteAsyncInternal(client, 1, null, retval, timeout);
-        }
+			await ExecuteAsyncInternal(client, 1, null, retval, timeout);
+
+			return await retval.Task;
+		}
         /// <summary>
         /// Execute this transaction or query asynchronously.
         /// </summary>
@@ -572,7 +583,7 @@ namespace Hedera.Hashgraph.SDK
         /// <param name="attempt">the attempt number</param>
         /// <param name="response">the transaction response if the transaction was successful</param>
         /// <param name="error">the error if the transaction was not successful</param>
-        protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, TProtoResponse response, Exception error)
+        protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, TProtoResponse? response, Exception? error)
         {
             Logger?.Trace("Execute{} Transaction ID: {}, submit to {}, node: {}, attempt: {}", isAsync ? "Async" : "", transactionId, client.Network_, node.AccountId, attempt);
             
@@ -609,114 +620,114 @@ namespace Hedera.Hashgraph.SDK
 			var request = MakeRequest();
 			return request;
 		}
-		private void ExecuteAsyncInternal(Client client, int attempt, Exception? lastException, Task<TTransactionResponse> returnFuture, TimeSpan timeout)
+		private async Task ExecuteAsyncInternal(Client client, int attempt, Exception? lastException, TaskCompletionSource<TTransactionResponse> returnFuture, TimeSpan timeout)
 		{
-			// If the Logger on the request is not set, use the Logger in client
-			// (if set, otherwise do not use Logger)
-			Logger ??= client.Logger_;
+			// Use client logger if not set
+			//Logger ??= client.Logger_;
 
-			if (returnFuture.IsCanceled || returnFuture.IsCompleted || returnFuture.IsCompletedSuccessfully)
-			{
+			if (returnFuture.Task.IsCompleted || returnFuture.Task.IsCanceled)
 				return;
-			}
 
 			if (attempt > MaxAttempts)
 			{
-				throw new MaxAttemptsExceededException(lastException);
+				returnFuture.TrySetException(new MaxAttemptsExceededException(lastException));
+				return;
 			}
 
-			var timeoutTime = DateTimeOffset.UtcNow.Add(timeout.ToTimeSpan());
-			GrpcRequest grpcRequest = new (client.Network_, attempt, (DateTimeOffset.UtcNow - timeoutTime));
-			Func<Task> afterUnhealthyDelay = () =>
+			DateTimeOffset timeoutTime = DateTimeOffset.UtcNow + timeout;
+			TimeSpan remainingTimeout = timeoutTime - DateTimeOffset.UtcNow;
+
+			var grpcRequest = new GrpcRequest(this, client.Network_, attempt, remainingTimeout);
+
+			try
 			{
-				return grpcRequest.Node.IsHealthy()
-					? Task.CompletedTask
-					: Delayer.DelayFor(grpcRequest.Node.GetRemainingTimeForBackoff(), client.Executor);
-			};
-			afterUnhealthyDelay.Get().ThenRun(() =>
-			{
-				grpcRequest.Node.ChannelFailedToConnectAsync().ThenAccept((connectionFailed) =>
+				// Wait if node is unhealthy
+				if (!grpcRequest.Node.IsHealthy())
 				{
-					if (connectionFailed)
+					await new Delayer(client.Executor).DelayAsync(TimeSpan.FromMilliseconds(grpcRequest.Node.GetRemainingTimeForBackoff()));
+				}
+
+				// Check if node channel failed to connect
+				if (grpcRequest.Node.ChannelFailedToConnect(timeoutTime))
+				{
+					var connectionException = grpcRequest.ReactToConnectionFailure();
+					AdvanceRequest();
+					await ExecuteAsyncInternal(client, attempt + 1, connectionException, returnFuture, timeoutTime - DateTimeOffset.UtcNow);
+					return;
+				}
+
+				// Execute the gRPC call
+				TProtoResponse response;
+				try
+				{
+					response = await grpcRequest
+						.CreateCall()
+						.AsyncUnaryCall(GetMethod(), null, grpcRequest.CallOptions, GetRequestForExecute())
+						.ResponseAsync;
+					
+					LogTransaction(TransactionIdInternal, client, grpcRequest.Node, true, attempt, response, null);
+				}
+				catch (RpcException rpcEx) when (rpcEx.StatusCode == StatusCode.DeadlineExceeded)
+				{
+					returnFuture.TrySetException(new TimeoutException());
+					return;
+				}
+				catch (Exception e)
+				{
+					lastException = e;
+					
+					LogTransaction(TransactionIdInternal, client, grpcRequest.Node, true, attempt, default, e);
+					
+					if (grpcRequest.ShouldRetryExceptionally(lastException))
 					{
-						var connectionException = grpcRequest.ReactToConnectionFailure();
-						AdvanceRequest(); // Advance to next node before retrying
-						ExecuteAsyncInternal(client, attempt + 1, connectionException, returnFuture, Duration.Between(DateTimeOffset.UtcNow, timeoutTime));
+						AdvanceRequest();
+						await ExecuteAsyncInternal(client, attempt + 1, lastException, returnFuture, timeoutTime - DateTimeOffset.UtcNow);
 						return;
 					}
+					returnFuture.TrySetException(e);
+					return;
+				}
 
-					ToTask(ClientCalls.FutureUnaryCall(grpcRequest.CreateCall(), grpcRequest.GetRequest())).Handle((response, error) =>
-					{
-						LogTransaction(TransactionIdInternal(), client, grpcRequest.Node, true, attempt, response, error);
-						if (grpcRequest.ShouldRetryExceptionally(error))
-						{
+				// Process response status
+				var status = MapResponseStatus(response);
+				var executionState = GetExecutionState(status, response);
+				grpcRequest.HandleResponse(response, status, executionState, client);
 
-							// the transaction had a network failure reaching Hedera
-							AdvanceRequest(); // Advance to next node before retrying
-							ExecuteAsyncInternal(client, attempt + 1, error, returnFuture, Duration.Between(DateTimeOffset.UtcNow, timeoutTime));
-							return null;
-						}
-
-						if (error != null)
-						{
-
-							// not a network failure, some other weirdness going on; just fail fast
-							returnFuture.CompleteExceptionally(new CompletionException(error));
-							return null;
-						}
-
-						var status = MapResponseStatus(response);
-						var executionState = GetExecutionState(status, response);
-						grpcRequest.HandleResponse(response, status, executionState, client);
-						switch (executionState)
-						{
-							case ExecutionState.Retry:
-
-								// Response is not ready yet from server, need to wait.
-								// Handle INVALID_NODE_ACCOUNT: mark node as unusable and update network
-								if (status == ResponseStatus.INVALID_NODE_ACCOUNT)
-								{
-									if (Logger.IsEnabledForLevel(LogLevel.TRACE))
-									{
-										Logger.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {} as unhealthy, attempt #{}", grpcRequest.Node.AccountId, attempt);
-									}
-
-
-									// Schedule async address book update
-									UpdateNetworkFromAddressBook(client);
-
-									// Mark this node as unhealthy
-									client.network.IncreaseBackoff(grpcRequest.Node);
-								}
-
-								Delayer.DelayFor((attempt < MaxAttempts) ? grpcRequest.GetDelay() : 0, client.Executor).ThenRun(() => ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(DateTimeOffset.UtcNow, timeoutTime)));
-								break;
-							case ExecutionState.ServerError:
-								AdvanceRequest(); // Advance to next node before retrying
-								ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, Duration.Between(DateTimeOffset.UtcNow, timeoutTime));
-								break;
-							case ExecutionState.RequestError:
-								returnFuture.CompleteExceptionally(new CompletionException(grpcRequest.MapStatusException()));
-								break;
-							case ExecutionState.Success:
-							default:
-								returnFuture.Complete(grpcRequest.MapResponse());
-								break;
-						}
-
-						return null;
-					}).Exceptionally((error) =>
-					{
-						returnFuture.CompleteExceptionally(error);
-						return null;
-					});
-				}).Exceptionally((error) =>
+				switch (executionState)
 				{
-					returnFuture.CompleteExceptionally(error);
-					return null;
-				});
-			});
+					case ExecutionState.Retry:
+						if (status == ResponseStatus.InvalidNodeAccount)
+						{
+							Logger?.Trace("Received INVALID_NODE_ACCOUNT; updating address book and marking node {0} as unhealthy, attempt #{1}", grpcRequest.Node.AccountId, attempt);
+							UpdateNetworkFromAddressBook(client);
+							client.Network_.IncreaseBackoff(grpcRequest.Node);
+						}
+
+						await new Delayer(client.Executor).DelayAsync(attempt < MaxAttempts ? grpcRequest.Delay : TimeSpan.Zero, () => { });
+						await ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, timeoutTime - DateTimeOffset.UtcNow);
+						break;
+
+					case ExecutionState.ServerError:
+						AdvanceRequest();
+						await ExecuteAsyncInternal(client, attempt + 1, grpcRequest.MapStatusException(), returnFuture, timeoutTime - DateTimeOffset.UtcNow);
+						break;
+
+					case ExecutionState.RequestError:
+						returnFuture.TrySetException(grpcRequest.MapStatusException());
+						break;
+
+					case ExecutionState.Success:
+					default:
+						returnFuture.TrySetResult(grpcRequest.MapResponse());
+						break;
+				}
+			}
+			catch (Exception ex)
+			{
+				returnFuture.TrySetException(ex);
+			}
 		}
+
 		/// <summary>
 		/// Updates the client's network from the address book if a mirror network is configured.
 		/// Logs any errors at TRACE level without throwing exceptions.

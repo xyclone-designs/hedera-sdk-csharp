@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal AccountUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal AccountUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -197,41 +197,26 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="hookDetails">list of hook creation details</param>
 		/// <returns>{@code this}</returns>
-		public IList<HookCreationDetails> HookCreationDetails
+		public ListFreezable<HookCreationDetails> HookCreationDetails
 		{
-			get
+			init; get => field ??= new ListFreezable<HookCreationDetails>
 			{
-				RequireNotFrozen();
-				return _HookCreationDetails;
-
-			}
-			set
-			{
-				RequireNotFrozen();
-				_HookCreationDetails = [.. value];
-			}
+				Frozen = RequireNotFrozen
+			};
 		}
-		public IReadOnlyList<HookCreationDetails> HookCreationDetails_Read { get => _HookCreationDetails.AsReadOnly(); }
 		/// <summary>
 		/// Mark hooks for deletion from the account.
 		/// </summary>
 		/// <param name="hookIds">list of hook ids to delete</param>
 		/// <returns>{@code this}</returns>
-		public IList<long> HookIdsToDelete
-		{
-			get
-			{
-				RequireNotFrozen();
-				return _HookIdsToDelete;
-
-			}
-			set
-			{
-				RequireNotFrozen();
-				_HookIdsToDelete = [.. value];
-			}
-		}
-		public IReadOnlyList<long> HookIdsToDelete_Read { get => _HookIdsToDelete.AsReadOnly(); }        
+		public ListFreezable<long> HookIdsToDelete
+        {
+            init; get => field ??= new ListFreezable<long>
+            {
+                Frozen = RequireNotFrozen
+            };
+        }
+       
 
         /// <summary>
         /// Initialize from the transaction body.

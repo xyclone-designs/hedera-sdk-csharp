@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Airdrops;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -30,10 +31,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenCancelAirdropTransaction SpawnTestTransaction()
         {
-            IList<PendingAirdropId> pendingAirdropIds = new List();
+            IList<PendingAirdropId> pendingAirdropIds = [];
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123)));
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123)));
-            return new TokenCancelAirdropTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetPendingAirdropIds(pendingAirdropIds).Freeze().Sign(privateKey);
+            
+            return new TokenCancelAirdropTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+				PendingAirdropIds = pendingAirdropIds,
+			}
+            .Freeze()
+            .Sign(privateKey);
         }
 
         public virtual void ShouldSerialize()
@@ -44,7 +54,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenCancelAirdropTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenCancelAirdropTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -55,75 +66,77 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void TestConstructorSetsDefaultMaxTransactionFee()
         {
-            Assertions.Assert.Equal(Hbar.From(1), transaction.GetDefaultMaxTransactionFee());
+            Assert.Equal(Hbar.From(1), transaction.DefaultMaxTransactionFee);
         }
 
         public virtual void TestGetAndSetPendingAirdropIds()
         {
-            IList<PendingAirdropId> pendingAirdropIds = new List();
+            IList<PendingAirdropId> pendingAirdropIds = [];
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123)));
             pendingAirdropIds.Add(new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123)));
-            transaction.SetPendingAirdropIds(pendingAirdropIds);
-            Assertions.Assert.Equal(pendingAirdropIds, transaction.GetPendingAirdropIds());
-        }
-
-        public virtual void TestSetPendingAirdropIdsNullThrowsException()
-        {
-            Assertions.Assert.Throws<NullReferenceException>(() => transaction.SetPendingAirdropIds(null));
+            transaction.PendingAirdropIds = pendingAirdropIds;
+            Assert.Equal(pendingAirdropIds, transaction.PendingAirdropIds);
         }
 
         public virtual void TestClearPendingAirdropIds()
         {
-            IList<PendingAirdropId> pendingAirdropIds = new List();
-            PendingAirdropId pendingAirdropId = new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
+            IList<PendingAirdropId> pendingAirdropIds = [];
+            PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
             pendingAirdropIds.Add(pendingAirdropId);
-            transaction.SetPendingAirdropIds(pendingAirdropIds);
-            transaction.ClearPendingAirdropIds();
-            Assertions.Assert.True(transaction.GetPendingAirdropIds().Count == 0);
+            transaction.PendingAirdropIds = pendingAirdropIds;
+            transaction.PendingAirdropIds.Clear();
+            Assert.True(transaction.PendingAirdropIds.Count == 0);
         }
 
         public virtual void TestAddAllPendingAirdrops()
         {
             PendingAirdropId pendingAirdropId1 = new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
             PendingAirdropId pendingAirdropId2 = new PendingAirdropId(new AccountId(0, 0, 458), new AccountId(0, 0, 459), new TokenId(0, 0, 123));
-            transaction.AddPendingAirdrop(pendingAirdropId1);
-            transaction.AddPendingAirdrop(pendingAirdropId2);
-            Assertions.Assert.Equal(2, transaction.GetPendingAirdropIds().Count);
-            Assertions.Assert.True(transaction.GetPendingAirdropIds().Contains(pendingAirdropId1));
-            Assertions.Assert.True(transaction.GetPendingAirdropIds().Contains(pendingAirdropId2));
+            
+            transaction.PendingAirdropIds.Add(pendingAirdropId1);
+            transaction.PendingAirdropIds.Add(pendingAirdropId2);
+            
+            Assert.Equal(2, transaction.PendingAirdropIds.Count);
+            Assert.True(transaction.PendingAirdropIds.Contains(pendingAirdropId1));
+            Assert.True(transaction.PendingAirdropIds.Contains(pendingAirdropId2));
         }
 
         public virtual void TestAddAllPendingAirdropsNullThrowsException()
         {
-            Assertions.Assert.Throws<NullReferenceException>(() => transaction.AddPendingAirdrop(null));
+            Assert.Throws<NullReferenceException>(() => transaction.PendingAirdropIds.Add(null));
         }
 
         public virtual void TestBuildTransactionBody()
         {
             PendingAirdropId pendingAirdropId = new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123));
-            transaction.AddPendingAirdrop(pendingAirdropId);
-            TokenCancelAirdropTransactionBody builder = transaction.Build();
-            Assertions.Assert.Equal(1, builder.GetPendingAirdropsCount());
-            Assertions.Assert.Equal(pendingAirdropId.ToProtobuf(), builder.GetPendingAirdrops(0));
+            transaction.PendingAirdropIds.Add(pendingAirdropId);
+            Proto.TokenCancelAirdropTransactionBody builder = transaction.ToProtobuf();
+
+            Assert.Equal(1, builder.PendingAirdrops.Count);
+            Assert.Equal(pendingAirdropId.ToProtobuf(), builder.PendingAirdrops[0]);
         }
 
         public virtual void TestGetMethodDescriptor()
         {
-            Assertions.Assert.Equal(TokenServiceGrpc.GetCancelAirdropMethod(), transaction.GetMethodDescriptor());
+            Assert.Equal(TokenServiceGrpc.GetCancelAirdropMethod(), transaction.GetMethodDescriptor());
         }
 
         public virtual void TestOnFreeze()
         {
-            var bodyBuilder = TransactionBody.NewBuilder();
+            var bodyBuilder = new Proto.TransactionBody();
+            
             transaction.OnFreeze(bodyBuilder);
-            Assertions.Assert.True(bodyBuilder.HasTokenCancelAirdrop());
+
+            Assert.True(bodyBuilder.TokenCancelAirdrop is not null);
         }
 
         public virtual void TestOnScheduled()
         {
-            SchedulableTransactionBody scheduled = SchedulableTransactionBody.NewBuilder();
+            Proto.SchedulableTransactionBody scheduled = new ();
+            
             transaction.OnScheduled(scheduled);
-            Assertions.Assert.True(scheduled.HasTokenCancelAirdrop());
+            
+            Assert.True(scheduled.TokenCancelAirdrop is not null);
         }
     }
 }

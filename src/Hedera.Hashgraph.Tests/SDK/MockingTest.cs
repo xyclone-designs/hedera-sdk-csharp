@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             using (var mocker = Mocker.WithResponses(responses))
             {
                 var balance = new AccountBalanceQuery().SetAccountId(new AccountId(0, 0, 10)).Execute(mocker.client);
-                Assertions.Assert.Equal(balance.hbars, Hbar.FromTinybars(100));
+                Assert.Equal(balance.hbars, Hbar.FromTinybars(100));
             }
         }
 
@@ -46,9 +46,9 @@ namespace Hedera.Hashgraph.Tests.SDK
             var service = new TestCryptoService();
             var server = new TestServer("getReceiptRetry" + sync, service);
             server.client.SetMaxAttempts(3);
-            service.buffer.EnqueueResponse(TestResponse.Transaction(com.hedera.hashgraph.sdk.Status.PLATFORM_NOT_ACTIVE));
+            service.buffer.EnqueueResponse(TestResponse.Transaction(Status.PLATFORM_NOT_ACTIVE));
             service.buffer.EnqueueResponse(TestResponse.TransactionOk());
-            com.hedera.hashgraph.sdk.TransactionResponse transactionResponse;
+            TransactionResponse transactionResponse;
             if (sync.Equals("sync"))
             {
                 transactionResponse = new AccountCreateTransaction().Execute(server.client);
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 transactionResponse = new AccountCreateTransaction().ExecuteAsync(server.client).Get();
             }
 
-            service.buffer.EnqueueResponse(TestResponse.Query(Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.PLATFORM_NOT_ACTIVE)).SetReceipt(TransactionReceipt.NewBuilder().SetStatus(ResponseCodeEnum.SUCCESS).Build()).Build()).Build())).EnqueueResponse(TestResponse.Receipt(com.hedera.hashgraph.sdk.Status.PLATFORM_NOT_ACTIVE)).EnqueueResponse(TestResponse.SuccessfulReceipt());
+            service.buffer.EnqueueResponse(TestResponse.Query(Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.PLATFORM_NOT_ACTIVE)).SetReceipt(TransactionReceipt.NewBuilder().SetStatus(ResponseCodeEnum.SUCCESS).Build()).Build()).Build())).EnqueueResponse(TestResponse.Receipt(Status.PLATFORM_NOT_ACTIVE)).EnqueueResponse(TestResponse.SuccessfulReceipt());
             if (sync.Equals("sync"))
             {
                 transactionResponse.GetReceipt(server.client);
@@ -74,9 +74,9 @@ namespace Hedera.Hashgraph.Tests.SDK
             var service = new TestCryptoService();
             var server = new TestServer("getRecordRetry" + sync, service);
             server.client.SetMaxAttempts(3);
-            service.buffer.EnqueueResponse(TestResponse.Transaction(com.hedera.hashgraph.sdk.Status.PLATFORM_NOT_ACTIVE));
+            service.buffer.EnqueueResponse(TestResponse.Transaction(Status.PLATFORM_NOT_ACTIVE));
             service.buffer.EnqueueResponse(TestResponse.TransactionOk());
-            com.hedera.hashgraph.sdk.TransactionResponse transactionResponse;
+            TransactionResponse transactionResponse;
             if (sync.Equals("sync"))
             {
                 transactionResponse = new AccountCreateTransaction().Execute(server.client);
@@ -133,41 +133,41 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
 
             Thread.Sleep(1000);
-            Assertions.Assert.Equal(3, cryptoService.buffer.queryRequestsReceived.Count);
-            Assertions.Assert.Equal(3, fileService.buffer.transactionRequestsReceived.Count);
-            Assertions.Assert.Equal(1, contractService.buffer.transactionRequestsReceived.Count);
-            var transactions = new List<com.hedera.hashgraph.sdk.Transaction<?>>();
+            Assert.Equal(3, cryptoService.buffer.queryRequestsReceived.Count);
+            Assert.Equal(3, fileService.buffer.transactionRequestsReceived.Count);
+            Assert.Equal(1, contractService.buffer.transactionRequestsReceived.Count);
+            var transactions = new List<Transaction<?>>();
             foreach (var request in fileService.buffer.transactionRequestsReceived)
             {
-                transactions.Add(com.hedera.hashgraph.sdk.Transaction.FromBytes(request.ToByteArray()));
+                transactions.Add(Transaction.FromBytes(request.ToByteArray()));
             }
 
-            transactions.Add(com.hedera.hashgraph.sdk.Transaction.FromBytes(contractService.buffer.transactionRequestsReceived[0].ToByteArray()));
+            transactions.Add(Transaction.FromBytes(contractService.buffer.transactionRequestsReceived[0].ToByteArray()));
             Assertions.AssertInstanceOf(typeof(FileCreateTransaction), transactions[0]);
-            Assertions.Assert.Equal(ContractCreateFlow.FILE_CREATE_MAX_BYTES, ((FileCreateTransaction)transactions[0]).GetContents().Count);
-            Assertions.Assert.True(cryptoService.buffer.queryRequestsReceived[0].HasTransactionGetReceipt());
+            Assert.Equal(ContractCreateFlow.FILE_CREATE_MAX_BYTES, ((FileCreateTransaction)transactions[0]).GetContents().Count);
+            Assert.True(cryptoService.buffer.queryRequestsReceived[0].HasTransactionGetReceipt());
             Assertions.AssertInstanceOf(typeof(FileAppendTransaction), transactions[1]);
             var fileAppendTx = (FileAppendTransaction)transactions[1];
-            Assertions.Assert.Equal(fileId, fileAppendTx.GetFileId());
-            Assertions.Assert.Equal(BIG_BYTECODE.Length - ContractCreateFlow.FILE_CREATE_MAX_BYTES, fileAppendTx.GetContents().Count);
+            Assert.Equal(fileId, fileAppendTx.GetFileId());
+            Assert.Equal(BIG_BYTECODE.Length - ContractCreateFlow.FILE_CREATE_MAX_BYTES, fileAppendTx.GetContents().Count);
             Assertions.AssertInstanceOf(typeof(ContractCreateTransaction), transactions[3]);
             var contractCreateTx = (ContractCreateTransaction)transactions[3];
-            Assertions.Assert.Equal("memo goes here", contractCreateTx.GetContractMemo());
-            Assertions.Assert.Equal(fileId, contractCreateTx.GetBytecodeFileId());
-            Assertions.Assert.Equal(ByteString.CopyFrom(new byte[] { 1, 2, 3 }), contractCreateTx.GetConstructorParameters());
-            Assertions.Assert.Equal(Duration.OfMinutes(1), contractCreateTx.GetAutoRenewPeriod());
-            Assertions.Assert.Equal(adminKey, contractCreateTx.GetAdminKey());
-            Assertions.Assert.Equal(100, contractCreateTx.GetGas());
-            Assertions.Assert.Equal(new Hbar(3), contractCreateTx.GetInitialBalance());
-            Assertions.Assert.Equal(maxAutomaticTokenAssociations, contractCreateTx.GetMaxAutomaticTokenAssociations());
-            Assertions.Assert.Equal(declineStakingReward, contractCreateTx.GetDeclineStakingReward());
+            Assert.Equal("memo goes here", contractCreateTx.GetContractMemo());
+            Assert.Equal(fileId, contractCreateTx.GetBytecodeFileId());
+            Assert.Equal(ByteString.CopyFrom(new byte[] { 1, 2, 3 }), contractCreateTx.GetConstructorParameters());
+            Assert.Equal(Duration.OfMinutes(1), contractCreateTx.GetAutoRenewPeriod());
+            Assert.Equal(adminKey, contractCreateTx.GetAdminKey());
+            Assert.Equal(100, contractCreateTx.GetGas());
+            Assert.Equal(new Hbar(3), contractCreateTx.GetInitialBalance());
+            Assert.Equal(maxAutomaticTokenAssociations, contractCreateTx.GetMaxAutomaticTokenAssociations());
+            Assert.Equal(declineStakingReward, contractCreateTx.GetDeclineStakingReward());
             if (stakeType.Equals("stakedAccount"))
             {
-                Assertions.Assert.Equal(stakedAccountId, contractCreateTx.GetStakedAccountId());
+                Assert.Equal(stakedAccountId, contractCreateTx.GetStakedAccountId());
             }
             else
             {
-                Assertions.Assert.Equal(stakedNode, contractCreateTx.GetStakedNodeId());
+                Assert.Equal(stakedNode, contractCreateTx.GetStakedNodeId());
             }
 
             Assertions.AssertInstanceOf(typeof(FileDeleteTransaction), transactions[2]);
@@ -194,25 +194,25 @@ namespace Hedera.Hashgraph.Tests.SDK
                 cryptoService.buffer.EnqueueResponse(TestResponse.Query(Response.NewBuilder().SetCryptoGetInfo(CryptoGetInfoResponse.NewBuilder().SetAccountInfo(CryptoGetInfoResponse.AccountInfo.NewBuilder().SetKey(privateKey.GetPublicKey().ToProtobufKey()).Build()).Build()).Build()));
             }
 
-            Assertions.Assert.True(AccountInfoFlow.VerifyTransactionSignature(server.client, accountId, properlySignedTx));
-            Assertions.Assert.False(AccountInfoFlow.VerifyTransactionSignature(server.client, accountId, improperlySignedTx));
-            Assertions.Assert.True(AccountInfoFlow.VerifySignature(server.client, accountId, BIG_BYTES, properBigBytesSignature));
-            Assertions.Assert.False(AccountInfoFlow.VerifySignature(server.client, accountId, BIG_BYTES, improperBigBytesSignature));
-            Assertions.Assert.True(AccountInfoFlow.VerifyTransactionSignatureAsync(server.client, accountId, properlySignedTx).Get());
-            Assertions.Assert.False(AccountInfoFlow.VerifyTransactionSignatureAsync(server.client, accountId, improperlySignedTx).Get());
-            Assertions.Assert.True(AccountInfoFlow.VerifySignatureAsync(server.client, accountId, BIG_BYTES, properBigBytesSignature).Get());
-            Assertions.Assert.False(AccountInfoFlow.VerifySignatureAsync(server.client, accountId, BIG_BYTES, improperBigBytesSignature).Get());
-            Assertions.Assert.Equal(16, cryptoService.buffer.queryRequestsReceived.Count);
+            Assert.True(AccountInfoFlow.VerifyTransactionSignature(server.client, accountId, properlySignedTx));
+            Assert.False(AccountInfoFlow.VerifyTransactionSignature(server.client, accountId, improperlySignedTx));
+            Assert.True(AccountInfoFlow.VerifySignature(server.client, accountId, BIG_BYTES, properBigBytesSignature));
+            Assert.False(AccountInfoFlow.VerifySignature(server.client, accountId, BIG_BYTES, improperBigBytesSignature));
+            Assert.True(AccountInfoFlow.VerifyTransactionSignatureAsync(server.client, accountId, properlySignedTx).Get());
+            Assert.False(AccountInfoFlow.VerifyTransactionSignatureAsync(server.client, accountId, improperlySignedTx).Get());
+            Assert.True(AccountInfoFlow.VerifySignatureAsync(server.client, accountId, BIG_BYTES, properBigBytesSignature).Get());
+            Assert.False(AccountInfoFlow.VerifySignatureAsync(server.client, accountId, BIG_BYTES, improperBigBytesSignature).Get());
+            Assert.Equal(16, cryptoService.buffer.queryRequestsReceived.Count);
             for (int i = 0; i < 16; i += 2)
             {
                 var costQueryRequest = cryptoService.buffer.queryRequestsReceived[i];
                 var queryRequest = cryptoService.buffer.queryRequestsReceived[i + 1];
-                Assertions.Assert.True(costQueryRequest.HasCryptoGetInfo());
-                Assertions.Assert.True(costQueryRequest.GetCryptoGetInfo().HasHeader());
-                Assertions.Assert.True(costQueryRequest.GetCryptoGetInfo().GetHeader().HasPayment());
-                Assertions.Assert.True(queryRequest.HasCryptoGetInfo());
-                Assertions.Assert.True(queryRequest.GetCryptoGetInfo().HasAccountID());
-                Assertions.Assert.Equal(accountId, AccountId.FromProtobuf(queryRequest.GetCryptoGetInfo().GetAccountID()));
+                Assert.True(costQueryRequest.HasCryptoGetInfo());
+                Assert.True(costQueryRequest.GetCryptoGetInfo().HasHeader());
+                Assert.True(costQueryRequest.GetCryptoGetInfo().GetHeader().HasPayment());
+                Assert.True(queryRequest.HasCryptoGetInfo());
+                Assert.True(queryRequest.GetCryptoGetInfo().HasAccountID());
+                Assert.Equal(accountId, AccountId.FromProtobuf(queryRequest.GetCryptoGetInfo().GetAccountID()));
             }
 
             server.Dispose();
@@ -224,7 +224,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var responses = List.Of(responses1);
             using (var mocker = Mocker.WithResponses(responses))
             {
-                Assertions.Assert.Throws<Exception>(() => new AccountBalanceQuery().SetAccountId(new AccountId(0, 0, 10)).Execute(mocker.client));
+                Assert.Throws<Exception>(() => new AccountBalanceQuery().SetAccountId(new AccountId(0, 0, 10)).Execute(mocker.client));
             }
         }
 
@@ -243,7 +243,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 new AccountCreateTransaction().SetNodeAccountIds(List.Of(AccountId.FromString("1.1.1"), AccountId.FromString("1.1.2"))).ExecuteAsync(server.client).Get();
             }
 
-            Assertions.Assert.Equal(2, service.buffer.transactionRequestsReceived.Count);
+            Assert.Equal(2, service.buffer.transactionRequestsReceived.Count);
             AssertFirstTwoRequestsNotDirectedAtSameNode(service);
             server.Dispose();
         }
@@ -270,18 +270,18 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 new AccountCreateTransaction().SetMaxAttempts(maxAttempts).SetNodeAccountIds(List.Of(AccountId.FromString("1.1.1"), AccountId.FromString("1.1.2"))).ExecuteAsync(server.client).Handle((response, error) =>
                 {
-                    Assertions.Assert.NotNull(error);
+                    Assert.NotNull(error);
                     Console.WriteLine(error);
-                    Assertions.Assert.True(error.GetCause() is MaxAttemptsExceededException);
+                    Assert.True(error.GetCause() is MaxAttemptsExceededException);
                     return null;
                 }).Get();
             }
 
-            Assertions.Assert.Equal(2, service.buffer.transactionRequestsReceived.Count);
+            Assert.Equal(2, service.buffer.transactionRequestsReceived.Count);
             server.Dispose();
         }
 
-        public virtual void ShouldRetryFunctionsCorrectly(com.hedera.hashgraph.sdk.Status status, int numberOfErrors, string sync)
+        public virtual void ShouldRetryFunctionsCorrectly(Status status, int numberOfErrors, string sync)
         {
             var service = new TestCryptoService();
             var server = new TestServer("shouldRetryFunctionsCorrectly" + status + numberOfErrors + sync, service);
@@ -301,10 +301,10 @@ namespace Hedera.Hashgraph.Tests.SDK
                 new AccountCreateTransaction().SetNodeAccountIds(List.Of(AccountId.FromString("1.1.1"), AccountId.FromString("1.1.2"))).ExecuteAsync(server.client).Get();
             }
 
-            Assertions.Assert.Equal(numberOfErrors + 1, service.buffer.transactionRequestsReceived.Count);
+            Assert.Equal(numberOfErrors + 1, service.buffer.transactionRequestsReceived.Count);
 
             // For BUSY and TRANSACTION_EXPIRED we retry on the same node; otherwise we expect a different node
-            if (status != com.hedera.hashgraph.sdk.Status.BUSY && status != com.hedera.hashgraph.sdk.Status.TRANSACTION_EXPIRED)
+            if (status != Status.BUSY && status != Status.TRANSACTION_EXPIRED)
             {
                 AssertFirstTwoRequestsNotDirectedAtSameNode(service);
             }
@@ -312,7 +312,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             server.Dispose();
         }
 
-        public virtual void HitsClientMaxAttemptsCorrectly(com.hedera.hashgraph.sdk.Status status, string sync)
+        public virtual void HitsClientMaxAttemptsCorrectly(Status status, string sync)
         {
             var service = new TestCryptoService();
             var server = new TestServer("shouldRetryFunctionsCorrectly" + status + sync, service);
@@ -333,16 +333,16 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 new AccountCreateTransaction().SetNodeAccountIds(List.Of(AccountId.FromString("1.1.1"), AccountId.FromString("1.1.2"))).ExecuteAsync(server.client).Handle((response, error) =>
                 {
-                    Assertions.Assert.NotNull(error);
-                    Assertions.Assert.True(error.GetCause() is MaxAttemptsExceededException);
+                    Assert.NotNull(error);
+                    Assert.True(error.GetCause() is MaxAttemptsExceededException);
                     return null;
                 }).Get();
             }
 
-            Assertions.Assert.Equal(2, service.buffer.transactionRequestsReceived.Count);
+            Assert.Equal(2, service.buffer.transactionRequestsReceived.Count);
 
             // BUSY retries stay on the same node; others advance to a different node
-            if (status != com.hedera.hashgraph.sdk.Status.BUSY)
+            if (status != Status.BUSY)
             {
                 AssertFirstTwoRequestsNotDirectedAtSameNode(service);
             }
@@ -357,7 +357,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var signedTx1 = SignedTransaction.ParseFrom(requests[1].GetSignedTransactionBytes());
             var txBody0 = TransactionBody.ParseFrom(signedTx0.GetBodyBytes());
             var txBody1 = TransactionBody.ParseFrom(signedTx1.GetBodyBytes());
-            Assertions.Assert.NotEqual(txBody0.GetNodeAccountID(), txBody1.GetNodeAccountID());
+            Assert.NotEqual(txBody0.GetNodeAccountID(), txBody1.GetNodeAccountID());
         }
 
         public virtual void DefaultMaxTransactionFeeTest()
@@ -370,17 +370,17 @@ namespace Hedera.Hashgraph.Tests.SDK
             server.client.SetDefaultMaxTransactionFee(new Hbar(1));
             new AccountDeleteTransaction().Execute(server.client);
             new AccountDeleteTransaction().SetMaxTransactionFee(new Hbar(3)).Execute(server.client);
-            Assertions.Assert.Equal(4, service.buffer.transactionRequestsReceived.Count);
-            var transactions = new List<com.hedera.hashgraph.sdk.Transaction<?>>();
+            Assert.Equal(4, service.buffer.transactionRequestsReceived.Count);
+            var transactions = new List<Transaction<?>>();
             foreach (var request in service.buffer.transactionRequestsReceived)
             {
-                transactions.Add(com.hedera.hashgraph.sdk.Transaction.FromBytes(request.ToByteArray()));
+                transactions.Add(Transaction.FromBytes(request.ToByteArray()));
             }
 
-            Assertions.Assert.Equal(new Hbar(2), transactions[0].GetMaxTransactionFee());
-            Assertions.Assert.Equal(new Hbar(5), transactions[1].GetMaxTransactionFee());
-            Assertions.Assert.Equal(new Hbar(1), transactions[2].GetMaxTransactionFee());
-            Assertions.Assert.Equal(new Hbar(3), transactions[3].GetMaxTransactionFee());
+            Assert.Equal(new Hbar(2), transactions[0].GetMaxTransactionFee());
+            Assert.Equal(new Hbar(5), transactions[1].GetMaxTransactionFee());
+            Assert.Equal(new Hbar(1), transactions[2].GetMaxTransactionFee());
+            Assert.Equal(new Hbar(3), transactions[3].GetMaxTransactionFee());
             server.Dispose();
         }
 
@@ -416,11 +416,11 @@ namespace Hedera.Hashgraph.Tests.SDK
             transaction.Execute(server.client);
 
             // Now we must go through the laborious process of digging info out of the response.  =(
-            Assertions.Assert.Equal(1, service.buffer.transactionRequestsReceived.Count);
+            Assert.Equal(1, service.buffer.transactionRequestsReceived.Count);
             var request = service.buffer.transactionRequestsReceived[0];
             var sigPairList = SignedTransaction.ParseFrom(request.GetSignedTransactionBytes()).GetSigMap().GetSigPairList();
-            Assertions.Assert.Equal(2, sigPairList.Count);
-            Assertions.Assert.NotEqual(sigPairList[0].GetEd25519().ToString(), sigPairList[1].GetEd25519().ToString());
+            Assert.Equal(2, sigPairList.Count);
+            Assert.NotEqual(sigPairList[0].GetEd25519().ToString(), sigPairList[1].GetEd25519().ToString());
             server.Dispose();
         }
 
@@ -430,7 +430,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             var server = new TestServer("canCancelExecuteAsync", service);
             server.client.SetMaxBackoff(Duration.OfSeconds(8));
             server.client.SetMinBackoff(Duration.OfSeconds(1));
-            var noReceiptResponse = TestResponse.Query(Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(com.hedera.hashgraph.sdk.Status.RECEIPT_NOT_FOUND.code))).Build());
+            var noReceiptResponse = TestResponse.Query(Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(Status.RECEIPT_NOT_FOUND.code))).Build());
             service.buffer.EnqueueResponse(noReceiptResponse);
             service.buffer.EnqueueResponse(noReceiptResponse);
             service.buffer.EnqueueResponse(noReceiptResponse);
@@ -438,7 +438,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Thread.Sleep(1500);
             future.Cancel(true);
             Thread.Sleep(5000);
-            Assertions.Assert.Equal(2, service.buffer.queryRequestsReceived.Count);
+            Assert.Equal(2, service.buffer.queryRequestsReceived.Count);
             server.Dispose();
         }
 
@@ -525,10 +525,10 @@ namespace Hedera.Hashgraph.Tests.SDK
             IList<object> responses1 = List.Of((Function<object, object>)(request) =>
             {
                 var metadata = metadataCaptor.GetLastMetadata();
-                Assertions.Assert.NotNull(metadata, "No metadata was captured");
+                Assert.NotNull(metadata, "No metadata was captured");
                 var userAgent = metadata[Metadata.Key.Of("x-user-agent", Metadata.ASCII_STRING_MARSHALLER)];
-                Assertions.Assert.NotNull(userAgent, "User agent header was not found");
-                Assertions.Assert.True(userAgent.StartsWith("hiero-sdk-java/"), "User agent header does not match expected format: " + userAgent);
+                Assert.NotNull(userAgent, "User agent header was not found");
+                Assert.True(userAgent.StartsWith("hiero-sdk-java/"), "User agent header does not match expected format: " + userAgent);
                 return Response.NewBuilder().SetCryptogetAccountBalance(CryptoGetAccountBalanceResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build()).SetAccountID(AccountID.NewBuilder().SetAccountNum(10).Build()).SetBalance(100).Build()).Build();
             });
             var responses = List.Of(responses1);

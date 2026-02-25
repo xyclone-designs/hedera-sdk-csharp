@@ -233,7 +233,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
-            com.hedera.hashgraph.sdk.TransactionResponse resp = (com.hedera.hashgraph.sdk.TransactionResponse)tx.Execute(client);
+            TransactionResponse resp = (TransactionResponse)tx.Execute(client);
             Assert.Equal(resp.nodeId, new AccountId(0, 0, 3));
             Assert.True(resp.GetValidateStatus());
             Assert.NotNull(resp.ToString());
@@ -265,7 +265,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
-            com.hedera.hashgraph.sdk.TransactionResponse resp = (com.hedera.hashgraph.sdk.TransactionResponse)tx.Execute(client);
+            TransactionResponse resp = (TransactionResponse)tx.Execute(client);
             Verify(node3).ChannelFailedToConnect(Any(typeof(DateTime)));
             Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
             Assert.Equal(resp.nodeId, new AccountId(0, 0, 4));
@@ -308,7 +308,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             txNodeAccountIds = nodeAccountIds,;
             var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
             tx.blockingUnaryCall = (grpcRequest) => txResp;
-            com.hedera.hashgraph.sdk.TransactionResponse resp = (com.hedera.hashgraph.sdk.TransactionResponse)tx.Execute(client);
+            TransactionResponse resp = (TransactionResponse)tx.Execute(client);
             Verify(node3, Times(2)).ChannelFailedToConnect(Any(typeof(DateTime)));
             Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
             Verify(node5).ChannelFailedToConnect(Any(typeof(DateTime)));

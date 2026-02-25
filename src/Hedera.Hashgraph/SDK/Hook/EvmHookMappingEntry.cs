@@ -26,13 +26,13 @@ namespace Hedera.Hashgraph.SDK.Hook
 		{
 			return new EvmHookMappingEntry(null, preimage, value);
 		}
-		public static EvmHookMappingEntry FromProtobuf(Proto.LambdaMappingEntry proto)
+		public static EvmHookMappingEntry FromProtobuf(Proto.EvmHookMappingEntry proto)
 		{
 			return proto.EntryKeyCase switch
 			{
-				Proto.LambdaMappingEntry.EntryKeyOneofCase.Key => EvmHookMappingEntry.OfKey(proto.Key.ToByteArray(), proto.Value.ToByteArray()),
-				Proto.LambdaMappingEntry.EntryKeyOneofCase.Preimage => EvmHookMappingEntry.WithPreimage(proto.Preimage.ToByteArray(), proto.Value.ToByteArray()),
-				Proto.LambdaMappingEntry.EntryKeyOneofCase.None or _ => throw new ArgumentException("EvmHookMappingEntry must have either key or preimage set")
+				Proto.EvmHookMappingEntry.EntryKeyOneofCase.Key => EvmHookMappingEntry.OfKey(proto.Key.ToByteArray(), proto.Value.ToByteArray()),
+				Proto.EvmHookMappingEntry.EntryKeyOneofCase.Preimage => EvmHookMappingEntry.WithPreimage(proto.Preimage.ToByteArray(), proto.Value.ToByteArray()),
+				Proto.EvmHookMappingEntry.EntryKeyOneofCase.None or _ => throw new ArgumentException("EvmHookMappingEntry must have either key or preimage set")
 			};
 		}
 
@@ -51,9 +51,9 @@ namespace Hedera.Hashgraph.SDK.Hook
             get => field.CopyArray();
         }
 
-        public virtual Proto.LambdaMappingEntry ToProtobuf()
+        public virtual Proto.EvmHookMappingEntry ToProtobuf()
         {
-            var builder = new Proto.LambdaMappingEntry();
+            var builder = new Proto.EvmHookMappingEntry();
 
             if (Key != null)
             {

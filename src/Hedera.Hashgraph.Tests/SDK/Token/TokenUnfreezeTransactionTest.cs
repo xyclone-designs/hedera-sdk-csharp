@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -41,20 +39,33 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenUnfreezeTransaction SpawnTestTransaction()
         {
-            return new TokenUnfreezeTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.222")).SetTokenId(TokenId.FromString("6.5.4")).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenUnfreezeTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = AccountId.FromString("0.0.222"),
+				TokenId = TokenId.FromString("6.5.4"),
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TokenUnfreezeTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUnfreezeTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenUnfreeze(TokenUnfreezeAccountTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				TokenUnfreeze = new Proto.TokenUnfreezeAccountTransactionBody()
+			};
+            var tx = Transaction.FromScheduledTransaction<TokenUnfreezeTransaction>(transactionBody);
+           
             Assert.IsType<TokenUnfreezeTransaction>(tx);
         }
     }

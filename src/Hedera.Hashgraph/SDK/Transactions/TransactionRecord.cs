@@ -5,6 +5,7 @@ using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Nfts;
@@ -75,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// All NFT Token transfers as a result of this transaction
         /// </summary>
-        public readonly Dictionary<TokenId, IList<TokenNftTransfer>> TokenNftTransfers;
+        public readonly Dictionary<TokenId, List<TokenNftTransfer>> TokenNftTransfers;
         /// <summary>
         /// Reference to the scheduled transaction ID that this transaction record represents
         /// </summary>
@@ -156,32 +157,56 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         public readonly List<PendingAirdropRecord> PendingAirdropRecords;
 
-        TransactionRecord(TransactionReceipt transactionReceipt, ByteString transactionHash, Timestamp consensusTimestamp, TransactionId transactionId, string transactionMemo, long transactionFee, ContractFunctionResult? contractFunctionResult, IList<Transfer> transfers, Dictionary<TokenId, Dictionary<AccountId, long>> tokenTransfers, IList<TokenTransfer> tokenTransferList, Dictionary<TokenId, IList<TokenNftTransfer>> tokenNftTransfers, ScheduleId scheduleRef, IList<AssessedCustomFee> assessedCustomFees, IList<TokenAssociation> automaticTokenAssociations, PublicKey? aliasKey, IList<TransactionRecord> children, IList<TransactionRecord> duplicates, Timestamp parentConsensusTimestamp, ByteString ethereumHash, IList<Transfer> paidStakingRewards, ByteString prngBytes, int prngNumber, ByteString evmAddress, IList<PendingAirdropRecord> pendingAirdropRecords)
+        TransactionRecord(
+            TransactionReceipt transactionReceipt, 
+            ByteString transactionHash, 
+            Timestamp consensusTimestamp, 
+            TransactionId transactionId,
+            string transactionMemo, 
+            long transactionFee, 
+            ContractFunctionResult? contractFunctionResult, 
+            IEnumerable<Transfer> transfers, 
+            IDictionary<TokenId, IDictionary<AccountId, long>> tokenTransfers, 
+            IEnumerable<TokenTransfer> tokenTransferList, 
+            IDictionary<TokenId, IEnumerable<TokenNftTransfer>> tokenNftTransfers, 
+            ScheduleId scheduleRef, 
+            IEnumerable<AssessedCustomFee> assessedCustomFees,
+			IEnumerable<TokenAssociation> automaticTokenAssociations, 
+            PublicKey? aliasKey,
+			IEnumerable<TransactionRecord> children,
+			IEnumerable<TransactionRecord> duplicates, 
+            Timestamp parentConsensusTimestamp, 
+            ByteString ethereumHash, 
+            IEnumerable<Transfer> paidStakingRewards,
+            ByteString prngBytes, 
+            int prngNumber, 
+            ByteString evmAddress,
+			IEnumerable<PendingAirdropRecord> pendingAirdropRecords)
         {
             Receipt = transactionReceipt;
             TransactionHash = transactionHash;
             ConsensusTimestamp = consensusTimestamp;
             TransactionMemo = transactionMemo;
             TransactionId = transactionId;
-            Transfers = transfers;
+            Transfers = [ ..transfers];
             ContractFunctionResult = contractFunctionResult;
             TransactionFee = Hbar.FromTinybars(transactionFee);
-            TokenTransfers = tokenTransfers;
-            TokenTransferList = tokenTransferList;
-            TokenNftTransfers = tokenNftTransfers;
+            TokenTransfers = tokenTransfers.ToDictionary(_ => _.Key, _ => new Dictionary<AccountId, long>(_.Value));
+            TokenTransferList = [ ..tokenTransferList];
+            TokenNftTransfers = tokenNftTransfers.ToDictionary(_ => _.Key, _ => new List<TokenNftTransfer>(_.Value));
             ScheduleRef = scheduleRef;
-            AssessedCustomFees = assessedCustomFees;
-            AutomaticTokenAssociations = automaticTokenAssociations;
+            AssessedCustomFees = [ ..assessedCustomFees];
+            AutomaticTokenAssociations = [ ..automaticTokenAssociations];
             AliasKey = aliasKey;
-            Children = children;
-            Duplicates = duplicates;
+            Children = [ ..children];
+            Duplicates = [ ..duplicates];
             ParentConsensusTimestamp = parentConsensusTimestamp;
             EthereumHash = ethereumHash;
-            PendingAirdropRecords = pendingAirdropRecords;
+            PendingAirdropRecords = [ ..pendingAirdropRecords];
             HbarAllowanceAdjustments = [];
             TokenAllowanceAdjustments = [];
             TokenNftAllowanceAdjustments = [];
-            PaidStakingRewards = paidStakingRewards;
+            PaidStakingRewards = [ ..paidStakingRewards];
             PrngBytes = prngBytes;
             PrngNumber = prngNumber;
             EvmAddress = evmAddress;

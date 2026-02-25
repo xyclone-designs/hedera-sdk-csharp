@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 		{
 			InitFromTransactionBody();
 		}
-		internal EthereumTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal EthereumTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }

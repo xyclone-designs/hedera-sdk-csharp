@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.SDK.Hook
         /// <param name="hookId">the ID to create the hook at</param>
         /// <param name="hook">the hook implementation</param>
         /// <param name="adminKey">the admin key for managing the hook</param>
-        public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, LambdaEvmHook hook, Key? adminKey)
+        public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, EvmHook hook, Key? adminKey)
         {
             ExtensionPoint = extensionPoint;
             HookId = hookId;
@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 		/// <param name="extensionPoint">the extension point for the hook</param>
 		/// <param name="hookId">the ID to create the hook at</param>
 		/// <param name="hook">the hook implementation</param>
-		public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, LambdaEvmHook hook) : this(extensionPoint, hookId, hook, null) { }
+		public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, EvmHook hook) : this(extensionPoint, hookId, hook, null) { }
 
 		/// <summary>
 		/// Create HookCreationDetails from a protobuf message.
@@ -45,12 +45,12 @@ namespace Hedera.Hashgraph.SDK.Hook
 		{
 			var adminKey = proto.AdminKey is not null ? Key.FromProtobufKey(proto.AdminKey) : null;
 
-			return new HookCreationDetails((HookExtensionPoint)proto.ExtensionPoint, proto.HookId, LambdaEvmHook.FromProtobuf(proto.LambdaEvmHook), adminKey);
+			return new HookCreationDetails((HookExtensionPoint)proto.ExtensionPoint, proto.HookId, EvmHook.FromProtobuf(proto.EvmHook), adminKey);
 		}
 
 		public HookExtensionPoint ExtensionPoint { get; }
 		public long HookId { get; }
-		public LambdaEvmHook Hook { get; }
+		public EvmHook Hook { get; }
 		public Key? AdminKey { get; }
 		public bool HasAdminKey { get => AdminKey is not null; }
 
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Hook
             {
 				ExtensionPoint = (Proto.HookExtensionPoint)ExtensionPoint,
 				HookId = HookId,
-				LambdaEvmHook = Hook.ToProtobuf(),
+				EvmHook = Hook.ToProtobuf(),
 			};
 
             if (AdminKey != null)

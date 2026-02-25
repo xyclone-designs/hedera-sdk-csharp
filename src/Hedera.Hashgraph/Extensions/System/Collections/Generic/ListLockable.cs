@@ -5,24 +5,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK
+namespace System.Collections.Generic
 {
     /// <summary>
     /// Internal utility struct for a lockable list type, ported from Java.
     /// </summary>
-    public class LockableList<T> : IList<T>
+    public class ListLockable<T> : IList<T>
 	{
 		private readonly List<T> _list;
 		private readonly int _index;
 		private readonly bool _locked;
 
-		public LockableList()
+		public ListLockable()
 		{
 			_list = [];
 			_index = 0;
 			_locked = false;
 		}
-		public LockableList(List<T> list, int index = 0, bool locked = false)
+		public ListLockable(List<T> list, int index = 0, bool locked = false)
 		{
 			_list = list ?? throw new ArgumentNullException(nameof(list));
 			_index = index;
@@ -49,29 +49,29 @@ namespace Hedera.Hashgraph.SDK
 		}
 
         public List<T> GetList() => _list;
-		public LockableList<T> EnsureCapacity(int capacity)
+		public ListLockable<T> EnsureCapacity(int capacity)
 		{
 			_list.EnsureCapacity(capacity);
 			return this;
 		}
-		public LockableList<T> SetList(IEnumerable<T> newList)
+		public ListLockable<T> SetList(IEnumerable<T> newList)
 		{
 			RequireNotLocked();
-			return new LockableList<T>(new List<T>(newList), 0, _locked);
+			return new ListLockable<T>(new List<T>(newList), 0, _locked);
 		}
-		public LockableList<T> Add(params T[] elements)
-		{
-			RequireNotLocked();
-			_list.AddRange(elements);
-			return this;
-		}
-		public LockableList<T> AddAll(IEnumerable<T> elements)
+		public ListLockable<T> Add(params T[] elements)
 		{
 			RequireNotLocked();
 			_list.AddRange(elements);
 			return this;
 		}
-		public LockableList<T> Shuffle()
+		public ListLockable<T> AddAll(IEnumerable<T> elements)
+		{
+			RequireNotLocked();
+			_list.AddRange(elements);
+			return this;
+		}
+		public ListLockable<T> Shuffle()
 		{
 			RequireNotLocked();
 			var rng = new Random();
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 			return this;
 		}
-		public LockableList<T> Remove(T element)
+		public ListLockable<T> Remove(T element)
 		{
 			RequireNotLocked();
 			_list.Remove(element);
@@ -102,16 +102,16 @@ namespace Hedera.Hashgraph.SDK
 		}
 		public T Get(int index) => _list[index];
 
-		public LockableList<T> Set(int index, T item)
+		public ListLockable<T> Set(int index, T item)
 		{
 			RequireNotLocked();
 			if (index == _list.Count) _list.Add(item);
 			else _list[index] = item;
 			return this;
 		}
-		public LockableList<T> SetLocked(bool locked) => new(_list, _index, locked);
-		public LockableList<T> SetIndex(int index) => new(_list, index, _locked);
-		public LockableList<T> Clear()
+		public ListLockable<T> SetLocked(bool locked) => new(_list, _index, locked);
+		public ListLockable<T> SetIndex(int index) => new(_list, index, _locked);
+		public ListLockable<T> Clear()
 		{
 			RequireNotLocked();
 			_list.Clear();

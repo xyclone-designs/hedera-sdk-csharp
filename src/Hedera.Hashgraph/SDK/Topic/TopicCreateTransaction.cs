@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal TopicCreateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal TopicCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -159,20 +159,30 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="feeExemptKeys">the keys to be set</param>
 		/// <returns>{@code this}</returns>
-		public IList<Key> FeeExemptKeys { get { RequireNotFrozen(); return _FeeExemptKeys; } set { RequireNotFrozen(); _FeeExemptKeys = value; } }
-		public IReadOnlyList<Key> FeeExemptKeys_Read { get => _FeeExemptKeys.AsReadOnly(); }
+		public ListFreezable<Key> FeeExemptKeys
+		{
+			init; get => field ??= new ListFreezable<Key>
+			{
+				Frozen = RequireNotFrozen
+			};
+		}
 		/// <summary>
 		/// Sets the fixed fees to assess when a message is submitted to the new topic.
 		/// </summary>
 		/// <param name="">customFees List of CustomFixedFee</param>
 		/// <returns>{@code this}</returns>
-		public IList<CustomFixedFee> CustomFees { get { RequireNotFrozen(); return _CustomFees; } set { RequireNotFrozen(); _CustomFees = value; } } 
-		public IReadOnlyList<CustomFixedFee> CustomFees_Read { get => _CustomFees.AsReadOnly(); }
+		public ListFreezable<CustomFixedFee> CustomFees
+		{
+			init; get => field ??= new ListFreezable<CustomFixedFee>
+			{
+				Frozen = RequireNotFrozen
+			};
+		}
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
-        void InitFromTransactionBody()
+		/// <summary>
+		/// Initialize from the transaction body.
+		/// </summary>
+		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusCreateTopic;
 

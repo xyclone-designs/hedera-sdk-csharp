@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal AccountDeleteTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal AccountDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }

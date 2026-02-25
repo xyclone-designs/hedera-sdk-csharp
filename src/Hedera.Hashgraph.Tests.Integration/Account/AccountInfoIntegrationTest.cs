@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     info.Execute(testEnv.Client);
                 });
 
-                Assert.Equal(exception.Message, "com.hedera.hashgraph.sdk.MaxQueryPaymentExceededException: cost for AccountInfoQuery, of " + cost.ToString() + ", without explicit payment is greater than the maximum allowed payment of 1 tℏ");
+                Assert.Equal(exception.Message, "MaxQueryPaymentExceededException: cost for AccountInfoQuery, of " + cost.ToString() + ", without explicit payment is greater than the maximum allowed payment of 1 tℏ");
             }
         }
         public virtual void GetCostInsufficientTxFeeAccountInfoForClientOperator()

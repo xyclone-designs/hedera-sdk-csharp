@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal TopicMessageSubmitTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal TopicMessageSubmitTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -72,12 +72,13 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// The maximum custom fee that the user is willing to pay for the message. If left empty, the user is willing to pay any custom fee.
 		/// If used with a transaction type that does not support custom fee limits, the transaction will fail.
 		/// </summary>
-		public IList<CustomFixedFee> CustomFees 
-        { 
-            get { RequireNotFrozen(); return _CustomFees; } 
-            set { RequireNotFrozen(); _CustomFees = value; } 
-        }
-		public IReadOnlyList<CustomFixedFee> CustomFees_Read { get => _CustomFees.AsReadOnly(); }
+		public IList<CustomFixedFee> CustomFees
+		{
+			init; get => field ??= new ListFreezable<CustomFixedFee>
+			{
+				Frozen = RequireNotFrozen
+			};
+		}
 
 		/// <summary>
 		/// Initialize from the transaction body.

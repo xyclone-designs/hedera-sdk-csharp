@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		public static T FromBytes<T>(byte[] bytes) where T : Transaction<T>
 		{
 			var list = Proto.TransactionList.Parser.ParseFrom(bytes);
-			var txsMap = new LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>>();
+			var txsMap = new DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>>();
 
 			Proto.TransactionBody.DataOneofCase dataCase;
 
@@ -73,11 +73,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <summary>
 		/// Add a transaction to the transaction map
 		/// </summary>
-		private static void AddTransactionToMap(Proto.Transaction transaction, Proto.TransactionBody txBody, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
+		private static void AddTransactionToMap(Proto.Transaction transaction, Proto.TransactionBody txBody, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txsMap)
 		{
 			var account = txBody.NodeAccountID is not null ? AccountId.FromProtobuf(txBody.NodeAccountID) : DUMMY_ACCOUNT_ID;
 			var transactionId = txBody.TransactionID is not null ? TransactionId.FromProtobuf(txBody.TransactionID) : DUMMY_TRANSACTION_ID;
-			var linked = txsMap.ContainsKey(transactionId) ? txsMap[transactionId] : new LinkedDictionary<AccountId, Proto.Transaction>();
+			var linked = txsMap.ContainsKey(transactionId) ? txsMap[transactionId] : new DictionaryLinked<AccountId, Proto.Transaction>();
 
 			linked.Add(account, transaction);
 			txsMap.Add(transactionId, linked);
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <summary>
 		/// Creates the appropriate transaction type based on the data case.
 		/// </summary>
-		private static T CreateTransactionFromDataCase<T>(Proto.TransactionBody.DataOneofCase dataCase, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) where T : Transaction<T>
+		private static T CreateTransactionFromDataCase<T>(Proto.TransactionBody.DataOneofCase dataCase, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) where T : Transaction<T>
 		{
 			return dataCase switch
 			{
@@ -405,7 +405,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <summary>
 		/// Process a single transaction
 		/// </summary>
-		private static Proto.TransactionBody.DataOneofCase ProcessSingleTransaction(byte[] bytes, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
+		private static Proto.TransactionBody.DataOneofCase ProcessSingleTransaction(byte[] bytes, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txsMap)
 		{
 			var transaction = Proto.Transaction.Parser.ParseFrom(bytes);
 			var builtTransaction = PrepareSingleTransaction(transaction);
@@ -419,7 +419,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <summary>
 		/// Process a list of transactions with integrity verification
 		/// </summary>
-		private static Proto.TransactionBody.DataOneofCase ProcessTransactionList(List<Proto.Transaction> transactionList, LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txsMap)
+		private static Proto.TransactionBody.DataOneofCase ProcessTransactionList(List<Proto.Transaction> transactionList, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txsMap)
 		{
 			if (transactionList.Count == 0)
 			{
@@ -613,7 +613,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// List of IDs for the transaction based on the operator because the transaction ID includes the operator's account
         /// </summary>
-        protected LockableList<TransactionId> TransactionIds = [];
+        protected ListLockable<TransactionId> TransactionIds = [];
         /// <summary>
         /// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
         /// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
@@ -661,9 +661,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// This constructor is used to construct via fromBytes
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		internal Transaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs)
+		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs)
         {
-			LinkedDictionary<AccountId, Proto.Transaction> transactionMap = txs.First().Value;
+			DictionaryLinked<AccountId, Proto.Transaction> transactionMap = txs.First().Value;
 
             if (transactionMap.Count != 0 && transactionMap.Keys.First().Equals(DUMMY_ACCOUNT_ID) && BatchKey != null)
             {
@@ -741,8 +741,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				FrozenBodyBuilder = SourceTransactionBody;
 
 		}
-        
-        
 
         /// <summary>
         /// The maximum transaction fee the operator (paying account) is willing to pay.

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
@@ -7,16 +8,11 @@ using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Networking;
-using Hedera.Hashgraph.SDK.Queries;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
-using static Grpc.Core.Metadata;
 
 namespace Hedera.Hashgraph.SDK
 {
@@ -26,14 +22,12 @@ namespace Hedera.Hashgraph.SDK
 	public sealed partial class Client : IDisposable
     {
 		private readonly bool ShouldShutdownExecutor;
-		private readonly ExecutorService Executor;
-        private readonly AtomicClass<TimeSpan> _GrpcDeadline = new (DEFAULT_GRPC_DEADLINE);
+		internal readonly ExecutorService Executor;
+        private readonly AtomicStruct<TimeSpan> _GrpcDeadline = new (DEFAULT_GRPC_DEADLINE);
         private readonly HashSet<SubscriptionHandle> Subscriptions = [];
 
-		private volatile TimeSpan _MaxBackoff = DEFAULT_MAX_BACKOFF;
-		private volatile TimeSpan _MinBackoff = DEFAULT_MIN_BACKOFF;
- 
         private Task? NetworkUpdateFuture;
+        private CancellationTokenSource? NetworkUpdateFutureCancellationTokenSource;
         
         /// <summary>
         /// Constructor.
@@ -55,19 +49,7 @@ namespace Hedera.Hashgraph.SDK
             ScheduleNetworkUpdate(networkUpdateInitialDelay);
         }
 
-		/// <summary>
-		/// Extract the executor.
-		/// </summary>
-		/// <returns>the executor service</returns>
-		private static ExecutorService CreateExecutor()
-        {
-            var threadFactory = new ThreadFactoryBuilder().SetNameFormat("hedera-sdk-%d").SetDaemon(true).Build();
-            int nThreads = Runtime.GetRuntime().AvailableProcessors();
-            
-            return new ThreadPoolExecutor(nThreads, nThreads, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), threadFactory, new CallerRunsPolicy());
-        }
-
-		public Logger Logger_ { get; set; } = new(LogLevel.Silent);
+		//public Logger Logger_ { get; set; } = new(LogLevel.Silent);
 		public Network Network_ { get; internal set; }
 		public MirrorNetwork MirrorNetwork_ { get; internal set; }
 
@@ -75,15 +57,14 @@ namespace Hedera.Hashgraph.SDK
 		/// Current name of the Network; corresponds to ledger ID in entity ID checksum calculations.
 		/// </summary>
 		/// <remarks>@deprecated Use <see cref="LedgerId"/> instead.</remarks>
+		[Obsolete]
 		public NetworkName NetworkName
 		{
 			get
 			{
 				lock (this)
 				{
-					var ledgerId = Network_.LedgerId;
-
-					return ledgerId.ToNetworkName();
+					return Network_.LedgerId?.ToNetworkName() ?? NetworkName.TestNet;
 				}
 			}
 			set
@@ -247,7 +228,7 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		public TimeSpan MinBackoff
 		{
-			get => _MinBackoff;
+			get => TimeSpan.FromTicks(Volatile.Read(ref _MinBackoff));
 			set
 			{
 				if (value.TotalNanoseconds < 0)
@@ -260,15 +241,16 @@ namespace Hedera.Hashgraph.SDK
 					throw new ArgumentException("MinBackoff must be less than or equal to MaxBackoff");
 				}
 
-				_MinBackoff = value;
+				Volatile.Write(ref _MinBackoff, value.Ticks);
 			}
-		}
+
+		} private long _MinBackoff = DEFAULT_MIN_BACKOFF.Ticks;
 		/// <summary>
 		/// The maximum amount of time to wait between retries.
 		/// </summary>
 		public TimeSpan MaxBackoff
 		{
-			get => _MaxBackoff;
+			get => TimeSpan.FromTicks(Volatile.Read(ref _MaxBackoff));
 			set
 			{
 				if (value.TotalNanoseconds < 0)
@@ -281,9 +263,10 @@ namespace Hedera.Hashgraph.SDK
 					throw new ArgumentException("MaxBackoff must be greater than or equal to MinBackoff");
 				}
 
-				_MaxBackoff = value;
+				Volatile.Write(ref _MaxBackoff, value.Ticks);
 			}
-		}
+
+		} private long _MaxBackoff = DEFAULT_MAX_BACKOFF.Ticks;
 		/// <summary>
 		/// The minimum backoff time for any node in the Network.
 		/// </summary>
@@ -528,36 +511,25 @@ namespace Hedera.Hashgraph.SDK
 					NetworkUpdateFuture = null;
 					return;
 				}
-
-				NetworkUpdateFuture = Delayer
-					.DelayFor(delay.Value.TotalMilliseconds, Executor)
-					.ContinueWith((task) =>
+				
+				NetworkUpdateFuture = new Delayer(Executor)
+					.DelayAsync(delay.Value, () =>
 					{
-						task.GetAwaiter().GetResult();
-
 						// Checking NetworkUpdatePeriod != null must be synchronized, so I've put it in a synchronized method.
 						RequireNetworkUpdatePeriodNotNull(async () =>
 						{
 							var fileId = FileId.GetAddressBookFileIdFor(Shard, Realm);
 
-							NodeAddressBook addressbook = await new AddressBookQuery { FileId = fileId, }.ExecuteAsync(this);
-							RequireNetworkUpdatePeriodNotNull(() =>
+							await RequireNetworkUpdatePeriodNotNull(async () =>
 							{
 								try
 								{
-									NetworkFromAddressBook = addressBook;
+									NetworkFromAddressBook = await new AddressBookQuery { FileId = fileId, }.ExecuteAsync(this);
 								}
 								catch (Exception) { }
-
-							}).Exceptionally((error) =>
-							{
-								logger.Warn("Failed to update address book via mirror node query ", error);
-								return null;
 							});
 
 							ScheduleNetworkUpdate(NetworkUpdatePeriod);
-
-							return null;
 						});
 					});
 			}
@@ -569,7 +541,7 @@ namespace Hedera.Hashgraph.SDK
 		}
 		internal void CancelScheduledNetworkUpdate()
 		{
-			NetworkUpdateFuture?.Cancel(true);
+			NetworkUpdateFutureCancellationTokenSource?.Cancel(true);
 		}
 		internal void TrackSubscription(SubscriptionHandle subscriptionHandle)
 		{
@@ -578,6 +550,13 @@ namespace Hedera.Hashgraph.SDK
 		internal void UntrackSubscription(SubscriptionHandle subscriptionHandle)
 		{
 			Subscriptions.Remove(subscriptionHandle);
+		}
+		internal Task RequireNetworkUpdatePeriodNotNull(Func<Task> task)
+		{
+			lock (this)
+			{
+				return NetworkUpdatePeriod != null ? task() : Task.CompletedTask;
+			}
 		}
 		internal Task<T?> RequireNetworkUpdatePeriodNotNull<T>(Func<Task<T?>> task)
 		{
@@ -600,24 +579,24 @@ namespace Hedera.Hashgraph.SDK
 				try
 				{
 					var fileId = FileId.GetAddressBookFileIdFor(Shard, Realm);
-					logger.Debug("Fetching address book from file {}", fileId);
+					//logger.Debug("Fetching address book from file {}", fileId);
 
 					// Execute synchronously - no async complexity
 					var addressBook = new AddressBookQuery { FileId = fileId, }.Execute(this); // ← Synchronous!
-					logger.Debug("Received address book with {} nodes", addressBook.NodeAddresses.Count);
+					//logger.Debug("Received address book with {} nodes", addressBook.NodeAddresses.Count);
 
 					// Update the Network
 					NetworkFromAddressBook = addressBook;
 
-					logger.Info("Address book update completed successfully");
+					//logger.Info("Address book update completed successfully");
 				}
 				catch (TimeoutException e)
 				{
-					logger.Warn("Failed to fetch address book: {}", e.Message);
+					//logger.Warn("Failed to fetch address book: {}", e.Message);
 				}
 				catch (Exception e)
 				{
-					logger.Warn("Failed to update address book", e);
+					//logger.Warn("Failed to update address book", e);
 				}
 
 				return this;
@@ -639,16 +618,16 @@ namespace Hedera.Hashgraph.SDK
                 Dispose(CloseTimeout);
             }
         }
-        /// <summary>
-        /// Initiates an orderly shutdown of all channels (to the Hedera Network) in which preexisting transactions or
-        /// queries continue but more would be immediately cancelled.
-        /// 
-        /// <p>After this method returns, this client can be re-used. Channels will be re-established as
-        /// needed.
-        /// </summary>
-        /// <param name="timeout">The TimeSpan to be set</param>
-        /// <exception cref="TimeoutException">if the mirror Network doesn't close in time</exception>
-        public void Dispose(TimeSpan timeout)
+		/// <summary>
+		/// Initiates an orderly shutdown of all channels (to the Hedera Network) in which preexisting transactions or
+		/// queries continue but more would be immediately cancelled.
+		/// 
+		/// <p>After this method returns, this client can be re-used. Channels will be re-established as
+		/// needed.
+		/// </summary>
+		/// <param name="timeout">The TimeSpan to be set</param>
+		/// <exception cref="TimeoutException">if the mirror Network doesn't close in time</exception>
+		public void Dispose(TimeSpan timeout)
         {
             lock (this)
             {
@@ -663,28 +642,30 @@ namespace Hedera.Hashgraph.SDK
                 var NetworkError = Network_.AwaitClose(closeDeadline, null);
                 var MirrorNetwork_Error = MirrorNetwork_.AwaitClose(closeDeadline, NetworkError);
 
-                // https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ExecutorService.html
-                if (ShouldShutdownExecutor)
-                {
-                    try
-                    {
-                        Executor.Shutdown();
-                        if (!Executor.AwaitTermination(timeout.Seconds / 2, TimeUnit.SECONDS))
-                        {
-                            Executor.ShutdownNow();
-                            if (!Executor.AwaitTermination(timeout.Seconds / 2, TimeUnit.SECONDS))
-                            {
-                                logger.Warn("Pool did not terminate");
-                            }
-                        }
-                    }
-                    catch (ThreadInterruptedException)
-                    {
-                        Executor.ShutdownNow();
-                        
-                        Thread.CurrentThread.Interrupt();
-                    }
-                }
+				if (ShouldShutdownExecutor && Executor != null)
+				{
+					try
+					{
+						Executor.Dispose();
+
+						TimeSpan waitTime = TimeSpan.FromTicks(timeout.Ticks / 2);
+					
+						if (!Executor.WaitForTermination(waitTime))
+						{
+							Executor.ForceShutdown();
+
+							if (!Executor.WaitForTermination(waitTime))
+							{
+								//logger.LogWarning("Executor pool did not terminate in time");
+							}
+						}
+					}
+					catch (ThreadInterruptedException)
+					{
+						Executor.ForceShutdown();
+						Thread.CurrentThread.Interrupt();
+					}
+				}
 
                 if (MirrorNetwork_Error != null)
                 {

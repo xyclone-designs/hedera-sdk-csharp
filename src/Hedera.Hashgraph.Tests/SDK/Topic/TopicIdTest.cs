@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api;
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Org.Bouncycastle.Util.Encoders;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
+using Hedera.Hashgraph.SDK.Topic;
+using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
@@ -52,32 +49,32 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
 
             // Test with an EVM address that's too short
-            ArgumentException exception = ArgumentException exception = Assert.Throws<ArgumentException>(() =>
+            ArgumentException exception1 = Assert.Throws<ArgumentException>(() =>
             {
                 TopicId.FromEvmAddress(0, 0, "abc123");
             });
-            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception1.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with an EVM address that's too long
-            exception = ArgumentException exception = Assert.Throws<ArgumentException>(() =>
+            ArgumentException exception2 = Assert.Throws<ArgumentException>(() =>
             {
                 TopicId.FromEvmAddress(0, 0, "0123456789abcdef0123456789abcdef0123456789abcdef");
             });
-            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception2.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with a 0x prefix that gets removed but then is too short
-            exception = ArgumentException exception = Assert.Throws<ArgumentException>(() =>
+            ArgumentException exception3 = Assert.Throws<ArgumentException>(() =>
             {
                 TopicId.FromEvmAddress(0, 0, "0xabc123");
             });
-            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.True(exception3.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
 
             // Test with non-long-zero address
-            exception = ArgumentException exception = Assert.Throws<ArgumentException>(() =>
+            ArgumentException exception4 = Assert.Throws<ArgumentException>(() =>
             {
                 TopicId.FromEvmAddress(0, 0, "742d35Cc6634C0532925a3b844Bc454e4438f44e");
             });
-            Assert.True(exception.Message.Contains("EVM address is not a correct long zero address"));
+            Assert.True(exception4.Message.Contains("EVM address is not a correct long zero address"));
         }
 
         public virtual void TestTopicIdFromEvmAddress()
@@ -86,15 +83,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             // Test with a long zero address representing topic 1234
             string evmAddress = "00000000000000000000000000000000000004d2";
             TopicId id = TopicId.FromEvmAddress(0, 0, evmAddress);
-            Assert.Equal(0, id.shard);
-            Assert.Equal(0, id.realm);
-            Assert.Equal(1234, id.num);
+            Assert.Equal(0, id.Shard);
+            Assert.Equal(0, id.Realm);
+            Assert.Equal(1234, id.Num);
 
             // Test with a different shard and realm
             id = TopicId.FromEvmAddress(1, 1, evmAddress);
-            Assert.Equal(1, id.shard);
-            Assert.Equal(1, id.realm);
-            Assert.Equal(1234, id.num);
+            Assert.Equal(1, id.Shard);
+            Assert.Equal(1, id.Realm);
+            Assert.Equal(1234, id.Num);
         }
 
         public virtual void TestTopicIdToEvmAddress()

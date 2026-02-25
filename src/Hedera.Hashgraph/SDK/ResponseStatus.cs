@@ -1582,10 +1582,10 @@ namespace Hedera.Hashgraph.SDK
         /// A hook id was not found.
         /// </summary>
         HookNotFound = Proto.ResponseCodeEnum.HookNotFound,
-        /// <summary>
-        /// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value exceeded 32 bytes.
-        /// </summary>
-        LambdaStorageUpdateBytesTooLong = Proto.ResponseCodeEnum.LambdaStorageUpdateBytesTooLong,
+		/// <summary>
+		/// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value exceeded 32 bytes.
+		/// </summary>
+		LambdaStorageUpdateBytesTooLong = Proto.ResponseCodeEnum.LambdaStorageUpdateBytesTooLong,
         /// <summary>
         /// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value failed to use the
         /// minimal representation (i.e. = Proto.ResponseCodeEnum.., no leading zeros).
@@ -1595,10 +1595,10 @@ namespace Hedera.Hashgraph.SDK
         /// A hook id was invalid.
         /// </summary>
         InvalidHookId = Proto.ResponseCodeEnum.InvalidHookId,
-        /// <summary>
-        /// A lambda storage update had no contents.
-        /// </summary>
-        EmptyLambdaStorageUpdate = Proto.ResponseCodeEnum.EmptyLambdaStorageUpdate,
+		/// <summary>
+		/// A lambda storage update had no contents.
+		/// </summary>
+		EmptyLambdaStorageUpdate = Proto.ResponseCodeEnum.EmptyLambdaStorageUpdate,
         /// <summary>
         /// A user repeated the same hook id in a creation details list.
         /// </summary>
@@ -1615,10 +1615,10 @@ namespace Hedera.Hashgraph.SDK
         /// A hook was deleted.
         /// </summary>
         HookDeleted = Proto.ResponseCodeEnum.HookDeleted,
-        /// <summary>
-        /// The LambdaSStore tried to update too many storage slots in a single transaction.
-        /// </summary>
-        TooManyLambdaStorageUpdates = Proto.ResponseCodeEnum.TooManyLambdaStorageUpdates,
+		/// <summary>
+		/// The LambdaSStore tried to update too many storage slots in a single transaction.
+		/// </summary>
+		TooManyLambdaStorageUpdates = Proto.ResponseCodeEnum.TooManyLambdaStorageUpdates,
         /// <summary>
         /// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value failed to use the
         /// minimal representation (i.e. = Proto.ResponseCodeEnum.., no leading zeros).

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
+	/// <summary>
+	/// ExecutorService replacement for Hedera SDK.
+	/// Provides a fixed thread pool with unbounded queue and caller-runs policy.
+	/// </summary>
 	public sealed class ExecutorService : IDisposable
 	{
 		private readonly BlockingCollection<Action> _queue;
@@ -16,7 +19,6 @@ namespace Hedera.Hashgraph.SDK
 			int nThreads = Environment.ProcessorCount;
 
 			_queue = new BlockingCollection<Action>(new ConcurrentQueue<Action>());
-
 			_threads = new Thread[nThreads];
 
 			for (int i = 0; i < nThreads; i++)
@@ -26,35 +28,71 @@ namespace Hedera.Hashgraph.SDK
 				_threads[i] = new Thread(() =>
 				{
 					foreach (var action in _queue.GetConsumingEnumerable())
+					{
 						try { action(); }
-						catch
-						{
-							// Match Java executor behavior (swallow task exceptions)
-						}
+						catch { /* swallow exceptions to match Java ExecutorService */ }
+					}
 				})
 				{
-					IsBackground = true, // daemon=true equivalent
+					IsBackground = true,
 					Name = $"hedera-sdk-{threadIndex}"
 				};
-
 				_threads[i].Start();
 			}
 		}
 
+		/// <summary>
+		/// Schedules an action for execution (caller-runs if queue is full).
+		/// </summary>
 		public void Execute(Action action)
 		{
-			// Unbounded queue like LinkedBlockingQueue
-			// CallerRunsPolicy equivalent if adding fails
 			if (!_queue.TryAdd(action))
 			{
-				action();
+				action(); // caller runs policy
 			}
 		}
+		/// <summary>
+		/// Immediately clears remaining queued tasks and signals threads to exit.
+		/// </summary>
+		public void ForceShutdown()
+		{
+			while (_queue.TryTake(out _)) { }
+			_queue.CompleteAdding();
+		}
+		/// <summary>
+		/// Waits for all tasks to complete or timeout to elapse.
+		/// </summary>
+		/// <summary>
+		/// Submits a task and returns a Task for async usage.
+		/// </summary>
+		public Task Submit(Action action)
+		{
+			var tcs = new TaskCompletionSource<bool>();
+			Execute(() =>
+			{
+				try { action(); tcs.SetResult(true); }
+				catch (Exception e) { tcs.SetException(e); }
+			});
+			return tcs.Task;
+		}
+		public bool WaitForTermination(TimeSpan timeout)
+		{
+			DateTime end = DateTime.UtcNow + timeout;
+			foreach (var thread in _threads)
+			{
+				TimeSpan remaining = end - DateTime.UtcNow;
+				if (remaining <= TimeSpan.Zero) return false;
+				if (!thread.Join(remaining)) return false;
+			}
+			return true;
+		}
 
+		/// <summary>
+		/// Gracefully shuts down the executor (stops accepting new tasks).
+		/// </summary>
 		public void Dispose()
 		{
 			_queue.CompleteAdding();
 		}
 	}
-
 }

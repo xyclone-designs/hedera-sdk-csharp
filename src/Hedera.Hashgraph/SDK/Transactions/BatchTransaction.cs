@@ -56,12 +56,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         private static readonly HashSet<Type> BLACKLISTED_TRANSACTIONS = [typeof(FreezeTransaction), typeof(BatchTransaction)];
 
-        /// <summary>
-        /// Creates a new empty BatchTransaction.
-        /// </summary>
-        public BatchTransaction()
-        {
-        }
+		/// <summary>
+		/// Creates a new empty BatchTransaction.
+		/// </summary>
+		public BatchTransaction() { }
 		/// <summary>
 		/// Constructor for internal use when recreating a transaction from a TransactionBody.
 		/// </summary>
@@ -76,37 +74,44 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal BatchTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal BatchTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
 		/// <summary>
-		/// Get the list of transactions this BatchTransaction is currently configured to execute.
+		/// GET: Get the list of transactions this BatchTransaction is currently configured to execute.
 		/// <p>
 		/// Note: This returns the actual list of transactions. Modifications to this list will affect
 		/// the batch transaction if it is not frozen.
 		/// </summary>
 		/// <returns>The list of inner transactions</returns>
-		public IList<Transaction<T>> InnerTransactions { get; private set; } = [];
-		/// <summary>
-		/// Get the list of transaction IDs of each inner transaction of this BatchTransaction.
+		/// 
+		/// SET: Set the list of transactions to be executed as part of this BatchTransaction.
 		/// <p>
-		/// This method is particularly useful after execution to:
+		/// Requirements for each inner transaction:
 		/// <ul>
-		///     <li>Track individual transaction results</li>
-		///     <li>Query receipts for specific inner transactions</li>
-		///     <li>Monitor the status of each transaction in the batch</li>
+		///     <li>Must be frozen (use {@link Transaction#freeze()} or {@link Transaction#freezeWith(Client)})</li>
+		///     <li>Must have a batch key set (use {@link Transaction#setBatchKey(Key)}} or {@link Transaction#batchify(Client, Key)})</li>
+		///     <li>Must not be a blacklisted transaction type</li>
 		/// </ul>
 		/// <p>
-		/// <b>NOTE:</b> Transaction IDs will only be meaningful after the batch transaction has been
-		/// executed or the IDs have been explicitly set on the inner transactions.
+		/// Note: This method creates a defensive copy of the provided list.
 		/// </summary>
-		/// <returns>The list of inner transaction IDs</returns>
-		public IEnumerable<TransactionId> InnerTransactionIds
+		/// <param name="transactions">The list of transactions to be executed</param>
+		/// <returns>{@code this}</returns>
+		/// <exception cref="NullPointerException">if transactions is null</exception>
+		/// <exception cref="IllegalStateException">if this transaction is frozen</exception>
+		/// <exception cref="IllegalStateException">if any inner transaction is not frozen or missing a batch key</exception>
+		/// <exception cref="IllegalArgumentException">if any transaction is of a blacklisted type</exception>
+		public ListFreezable<Transaction<T>> InnerTransactions 
 		{
-			get => InnerTransactions.Select(_ => _.TransactionId);
-		}
+			init; get => field ??= new ListFreezable<Transaction<T>>
+			{
+				Frozen = RequireNotFrozen,
+				Validate = ValidateInnerTransaction
+			};
+		} 
 
 		/// <summary>
 		/// Initialize from the transaction body.
@@ -156,62 +161,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			}
 		}
 
-		/// <summary>
-		/// Append a transaction to the list of transactions this BatchTransaction will execute.
-		/// <p>
-		/// Requirements for the inner transaction:
-		/// <ul>
-		///     <li>Must be frozen (use {@link Transaction#freeze()} or {@link Transaction#freezeWith(Client)})</li>
-		///     <li>Must have a batch key set (use {@link Transaction#setBatchKey(Key)}} or {@link Transaction#batchify(Client, Key)})</li>
-		///     <li>Must not be a blacklisted transaction type</li>
-		/// </ul>
-		/// </summary>
-		/// <param name="transaction">The transaction to be added</param>
-		/// <returns>{@code this}</returns>
-		/// <exception cref="NullPointerException">if transaction is null</exception>
-		/// <exception cref="IllegalStateException">if this transaction is frozen</exception>
-		/// <exception cref="IllegalStateException">if the inner transaction is not frozen or missing a batch key</exception>
-		/// <exception cref="IllegalArgumentException">if the transaction is of a blacklisted type</exception>
-		public BatchTransaction AddInnerTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
-		{
-			ArgumentNullException.ThrowIfNull(transaction);
-			RequireNotFrozen();
-			ValidateInnerTransaction(transaction);
-			InnerTransactions.Add(transaction);
-			return this;
-		}
-		/// <summary>
-		/// Set the list of transactions to be executed as part of this BatchTransaction.
-		/// <p>
-		/// Requirements for each inner transaction:
-		/// <ul>
-		///     <li>Must be frozen (use {@link Transaction#freeze()} or {@link Transaction#freezeWith(Client)})</li>
-		///     <li>Must have a batch key set (use {@link Transaction#setBatchKey(Key)}} or {@link Transaction#batchify(Client, Key)})</li>
-		///     <li>Must not be a blacklisted transaction type</li>
-		/// </ul>
-		/// <p>
-		/// Note: This method creates a defensive copy of the provided list.
-		/// </summary>
-		/// <param name="transactions">The list of transactions to be executed</param>
-		/// <returns>{@code this}</returns>
-		/// <exception cref="NullPointerException">if transactions is null</exception>
-		/// <exception cref="IllegalStateException">if this transaction is frozen</exception>
-		/// <exception cref="IllegalStateException">if any inner transaction is not frozen or missing a batch key</exception>
-		/// <exception cref="IllegalArgumentException">if any transaction is of a blacklisted type</exception>
-		public BatchTransaction SetInnerTransactions<T>(IList<Transaction<T>> transactions) where T : Transaction<T>
-		{
-            ArgumentNullException.ThrowIfNull(transactions);
-            RequireNotFrozen();
-
-			// Validate all transactions before setting
-			foreach (Transaction<T> transaction in transactions) 
-                ValidateInnerTransaction(transaction);
-
-			InnerTransactions = [.. transactions];
-
-            return this;
-        }
-
         /// <summary>
         /// Create the builder.
         /// </summary>
@@ -252,7 +201,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             throw new NotImplementedException();
         }
-
         public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();

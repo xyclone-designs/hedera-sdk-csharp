@@ -21,13 +21,13 @@ namespace Hedera.Hashgraph.SDK.Airdrops
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal PendingAirdropLogic(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs) { }
+		internal PendingAirdropLogic(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs) { }
 
         /// <summary>
         /// Extract the pending airdrop ids
         /// </summary>
         /// <returns>the pending airdrop ids</returns>
-        public virtual List<PendingAirdropId> PendingAirdropIds
+        public virtual IList<PendingAirdropId> PendingAirdropIds
         {
             get { RequireNotFrozen(); return field; }
             set { RequireNotFrozen(); field = value; }

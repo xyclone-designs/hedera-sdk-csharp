@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal TokenBurnTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal TokenBurnTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -95,8 +95,13 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="serials">list of token serials</param>
 		/// <returns>{@code this}</returns>
-		public virtual List<long> Serials { get { RequireNotFrozen(); return _Serials; } set { RequireNotFrozen(); _Serials = value; } }
-		public virtual IReadOnlyList<long> Serials_Read { get => _Serials.AsReadOnly(); }
+		public virtual ListFreezable<long> Serials
+		{
+			init; get => field ??= new ListFreezable<long>
+			{
+				Frozen = RequireNotFrozen
+			};
+		}
 
 		/// <summary>
 		/// Build the transaction body.

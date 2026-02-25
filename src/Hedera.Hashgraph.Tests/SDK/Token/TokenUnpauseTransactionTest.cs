@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Transactions;
+
+using Google.Protobuf.WellKnownTypes;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -31,13 +28,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual TokenUnpauseTransaction SpawnTestTransaction()
         {
-            return new TokenUnpauseTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(testTokenId).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenUnpauseTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TokenId = testTokenId,
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUnpauseTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUnpauseTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -49,35 +54,48 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TokenCreateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenCreateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenUnpause(TokenUnpauseTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				TokenUnpause = new Proto.TokenUnpauseTransactionBody()
+			};
+            var tx = Transaction.FromScheduledTransaction<TokenUnpauseTransaction>(transactionBody);
+            
             Assert.IsType<TokenUnpauseTransaction>(tx);
         }
 
         public virtual void ConstructTokenUnpauseTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenUnpauseTransactionBody.NewBuilder().SetToken(testTokenId.ToProtobuf()).Build();
-            var tx = TransactionBody.NewBuilder().SetTokenUnpause(transactionBody).Build();
+            var tx = new Proto.TransactionBody
+            {
+				TokenUnpause = new Proto.TokenUnpauseTransactionBody
+				{
+					Token = testTokenId.ToProtobuf()
+				}
+			};
             var tokenUnpauseTransaction = new TokenUnpauseTransaction(tx);
-            Assert.Equal(tokenUnpauseTransaction.GetTokenId(), testTokenId);
+
+            Assert.Equal(tokenUnpauseTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetTokenId()
         {
-            var tokenUnpauseTransaction = new TokenUnpauseTransaction().SetTokenId(testTokenId);
-            Assert.Equal(tokenUnpauseTransaction.GetTokenId(), testTokenId);
+            var tokenUnpauseTransaction = new TokenUnpauseTransaction
+            {
+				TokenId = testTokenId
+			};
+            Assert.Equal(tokenUnpauseTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenId(testTokenId));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
     }
 }

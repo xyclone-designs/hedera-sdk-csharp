@@ -7,7 +7,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
     class EvmHookStorageUpdateTest
     {
-        public virtual void LambdaStorageSlotConstructsAndDefensiveCopies()
+        public virtual void EvmHookStorageSlotConstructsAndDefensiveCopies()
         {
             byte[] key = new byte[]
             {
@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(new byte[] { 0x03, 0x04 }, slot.Value);
         }
 
-        public virtual void LambdaStorageSlotProtobufRoundTrip()
+        public virtual void EvmHookStorageSlotProtobufRoundTrip()
         {
             var original = new EvmHookStorageSlot(new byte[] { 0x0A }, new byte[] { 0x0B });
             var proto = original.ToProtobuf();
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.True(original.ToString().Contains("key"));
         }
 
-        public virtual void LambdaMappingEntriesConstructsValidatesAndCopies()
+        public virtual void EvmHookMappingEntriesConstructsValidatesAndCopies()
         {
             byte[] mappingSlot = new byte[]
             {
@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(list1, list2);
         }
 
-        public virtual void LambdaMappingEntriesValidation()
+        public virtual void EvmHookMappingEntriesValidation()
         {
 
             // mappingSlot cannot be null
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             AssertDoesNotThrow(() => new EvmHookMappingEntries(new byte[] { 0x00, 0x01 }, []));
         }
 
-        public virtual void LambdaMappingEntriesProtobufRoundTrip()
+        public virtual void EvmHookMappingEntriesProtobufRoundTrip()
         {
             var entry1 = EvmHookMappingEntry.OfKey(new byte[] { 0x11 }, new byte[] { 0x22 });
             var entry2 = EvmHookMappingEntry.WithPreimage(new byte[] { 0x33 }, new byte[] { 0x44 });

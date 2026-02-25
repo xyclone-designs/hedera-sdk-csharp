@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal AccountCreateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal AccountCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -260,20 +260,14 @@ namespace Hedera.Hashgraph.SDK.Account
         /// Get the hook creation details for this account.
         /// </summary>
         /// <returns>a copy of the hook creation details list</returns>
-        public IList<HookCreationDetails> HookCreationDetails 
-        {
-            get
-            {
-				RequireNotFrozen();
-                return _HookCreationDetails;
-			}
-            set 
-            { 
-                RequireNotFrozen();
-				_HookCreationDetails = value;
-            } 
-        }
-		public IReadOnlyList<HookCreationDetails> HookCreationDetails_Read { get { return _HookCreationDetails.AsReadOnly(); } }
+        public ListFreezable<HookCreationDetails> HookCreationDetails
+		{
+			init; get => field ??= new ListFreezable<HookCreationDetails>
+			{
+				Frozen = RequireNotFrozen
+			};
+		}
+
 
 		/// <summary>
 		/// Build the transaction body.

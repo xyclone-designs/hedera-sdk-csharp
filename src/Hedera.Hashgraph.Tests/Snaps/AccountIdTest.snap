@@ -1,73 +1,73 @@
-com.hedera.hashgraph.sdk.AccountIdTest.fromBytes=[
+AccountIdTest.fromBytes=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromBytesAlias=[
+AccountIdTest.fromBytesAlias=[
   "0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromBytesEvmAddress=[
+AccountIdTest.fromBytesEvmAddress=[
   "0.0.302a300506032b6570032100114e6abc371b82da"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromSolidityAddress=[
+AccountIdTest.fromSolidityAddress=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromSolidityAddressWith0x=[
+AccountIdTest.fromSolidityAddressWith0x=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromString=[
+AccountIdTest.fromString=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromStringWithAliasKey=[
+AccountIdTest.fromStringWithAliasKey=[
   "0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromStringWithChecksumOnMainnet=[
+AccountIdTest.fromStringWithChecksumOnMainnet=[
   "0.0.123-vfmkw"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromStringWithChecksumOnPreviewnet=[
+AccountIdTest.fromStringWithChecksumOnPreviewnet=[
   "0.0.123-ogizo"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromStringWithChecksumOnTestnet=[
+AccountIdTest.fromStringWithChecksumOnTestnet=[
   "0.0.123-esxsf"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.fromStringWithEvmAddress=[
+AccountIdTest.fromStringWithEvmAddress=[
   "0.0.302a300506032b6570032100114e6abc371b82da"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.toBytes=[
+AccountIdTest.toBytes=[
   "188d27"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.toBytesAlias=[
+AccountIdTest.toBytesAlias=[
   "22221220114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.toBytesEvmAddress=[
+AccountIdTest.toBytesEvmAddress=[
   "2214302a300506032b6570032100114e6abc371b82da"
 ]
 
 
-com.hedera.hashgraph.sdk.AccountIdTest.toSolidityAddress=[
+AccountIdTest.toSolidityAddress=[
   "000000000000000000000000000000000000138d"
 ]

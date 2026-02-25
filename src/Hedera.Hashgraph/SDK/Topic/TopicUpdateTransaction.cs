@@ -44,13 +44,10 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal TopicUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal TopicUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
-
-		private List<Key>? _FeeExemptKeys = null;
-		private List<CustomFixedFee>? _CustomFees = null;
 
 		/// <summary>
 		/// The topic ID specifying the topic to update.
@@ -148,23 +145,25 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="feeExemptKeys">List of feeExemptKeys</param>
 		/// <returns>{@code this}</returns>
-		public IList<Key>? FeeExemptKeys 
+		public ListFreezable<Key> FeeExemptKeys
 		{
-			get { RequireNotFrozen(); return _FeeExemptKeys; } 
-			set { RequireNotFrozen(); _FeeExemptKeys = value is null ? null : [.. value]; }
+			init; get => field ??= new ListFreezable<Key>
+			{
+				Frozen = RequireNotFrozen
+			};
 		}
-		public IReadOnlyList<Key>? FeeExemptKeys_Read { get => _FeeExemptKeys?.AsReadOnly(); }
 		/// <summary>
 		/// Sets the fixed fees to assess when a message is submitted to the new topic.
 		/// </summary>
 		/// <param name="customFees">List of CustomFixedFee customFees</param>
 		/// <returns>{@code this}</returns>
-		public IList<CustomFixedFee>? CustomFees
+		public ListFreezable<CustomFixedFee> CustomFees
 		{
-			get { RequireNotFrozen(); return _CustomFees; }
-			set { RequireNotFrozen(); _CustomFees = value is null ? null : [.. value]; }
+			init; get => field ??= new ListFreezable<CustomFixedFee>
+			{
+				Frozen = RequireNotFrozen
+			};
 		}
-		public IReadOnlyList<CustomFixedFee>? CustomFees_Read { get => _CustomFees?.AsReadOnly(); }
 
 
 		/// <summary>

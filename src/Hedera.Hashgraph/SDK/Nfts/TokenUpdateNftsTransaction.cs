@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal TokenUpdateNftsTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal TokenUpdateNftsTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -68,29 +68,22 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// </summary>
 		/// <param name="serials">the list of serial numbers</param>
 		/// <returns>{@code this}</returns>
-		public virtual List<long> Serials 
+		public virtual ListFreezable<long> Serials
 		{
-			get 
-			{ 
-				RequireNotFrozen(); 
-				return _Serials;
-			} 
-			set 
-			{ 
-				RequireNotFrozen();
-				_Serials = [.. value];
-			} 
+			init; get => field ??= new ListFreezable<long>
+			{
+				Frozen = RequireNotFrozen
+			};
 		}
-		public virtual IReadOnlyList<long> Serials_Read { get => _Serials.AsReadOnly(); }
-        /// <summary>
-        /// A new value for the metadata.
-        /// <p>
-        /// If this field is not set, the metadata SHALL NOT change.<br/>
-        /// This value, if set, MUST NOT exceed 100 bytes.
-        /// </summary>
-        /// <param name="metadata">the metadata</param>
-        /// <returns>{@code this}</returns>
-        public virtual byte[]? Metadata { get; set { RequireNotFrozen(); field = value; } } = [];
+		/// <summary>
+		/// A new value for the metadata.
+		/// <p>
+		/// If this field is not set, the metadata SHALL NOT change.<br/>
+		/// This value, if set, MUST NOT exceed 100 bytes.
+		/// </summary>
+		/// <param name="metadata">the metadata</param>
+		/// <returns>{@code this}</returns>
+		public virtual byte[]? Metadata { get; set { RequireNotFrozen(); field = value; } } = [];
 
 		/// <summary>
 		/// Initialize from the transaction body.

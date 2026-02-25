@@ -1,28 +1,28 @@
-com.hedera.hashgraph.sdk.DelegateContractIdTest.fromBytes=[
+DelegateContractIdTest.fromBytes=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.DelegateContractIdTest.fromSolidityAddress=[
+DelegateContractIdTest.fromSolidityAddress=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.DelegateContractIdTest.fromSolidityAddressWith0x=[
+DelegateContractIdTest.fromSolidityAddressWith0x=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.DelegateContractIdTest.fromString=[
+DelegateContractIdTest.fromString=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.DelegateContractIdTest.toBytes=[
+DelegateContractIdTest.toBytes=[
   "188d27"
 ]
 
 
-com.hedera.hashgraph.sdk.DelegateContractIdTest.toSolidityAddress=[
+DelegateContractIdTest.toSolidityAddress=[
   "000000000000000000000000000000000000138d"
 ]

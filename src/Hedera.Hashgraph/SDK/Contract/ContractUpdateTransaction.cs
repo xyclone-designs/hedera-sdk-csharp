@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// </summary>
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) record</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal ContractUpdateTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal ContractUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -295,30 +295,24 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// Get the list of hooks to be created.
 		/// </summary>
 		/// <returns>a copy of the hook creation details list</returns>
-		public IList<HookCreationDetails> HookCreationDetails_
+		public ListFreezable<HookCreationDetails> HookCreationDetails_
 		{
-			get { RequireNotFrozen(); return _HookCreationDetails; }
-			set
+			init; get => field ??= new ListFreezable<HookCreationDetails>
 			{
-				RequireNotFrozen();
-				_HookCreationDetails = [.. value];
-			}
+				Frozen = RequireNotFrozen
+			};
 		}
 		/// <summary>
 		/// Get the list of hook IDs to be deleted.
 		/// </summary>
 		/// <returns>a copy of the hook IDs list</returns>
-		public IList<long> HookIdsToDelete
+		public ListFreezable<long> HookIdsToDelete
 		{
-			get { RequireNotFrozen(); return _HookIdsToDelete; }
-			set
+			init; get => field ??= new ListFreezable<long>
 			{
-				RequireNotFrozen();
-				_HookIdsToDelete = [.. value];
-			}
+				Frozen = RequireNotFrozen
+			};
 		}
-		public IReadOnlyList<HookCreationDetails> HookCreationDetails_Read { get => _HookCreationDetails.AsReadOnly(); }
-		public IReadOnlyList<long> HookIdsToDelete_Read { get => _HookIdsToDelete.AsReadOnly(); }
 
 
 		/// <summary>

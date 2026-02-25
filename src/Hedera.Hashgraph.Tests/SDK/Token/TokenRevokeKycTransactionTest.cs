@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
+
+using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -37,60 +34,79 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenRevokeKycTransaction SpawnTestTransaction()
         {
-            return new TokenRevokeKycTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(testAccountId).SetTokenId(testTokenId).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenRevokeKycTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = testAccountId,
+				TokenId = testTokenId,
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenRevokeKycTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenRevokeKycTransaction>(tx.ToBytes());
+            
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TokenRevokeKycTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenRevokeKycTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenRevokeKyc(TokenRevokeKycTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				TokenRevokeKyc = new Proto.TokenRevokeKycTransactionBody()
+			};
+			var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TokenRevokeKycTransaction>(tx);
         }
 
         public virtual void ConstructTokenRevokeKycTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenRevokeKycTransactionBody.NewBuilder().SetAccount(testAccountId.ToProtobuf()).SetToken(testTokenId.ToProtobuf()).Build();
-            var tx = TransactionBody.NewBuilder().SetTokenRevokeKyc(transactionBody).Build();
+            var transactionBody = new Proto.TokenRevokeKycTransactionBody
+            {
+				Account = testAccountId.ToProtobuf(),
+				Token = testTokenId.ToProtobuf()
+			};
+            var tx = new Proto.TransactionBody { TokenRevokeKyc = transactionBody };
             var tokenRevokeKycTransaction = new TokenRevokeKycTransaction(tx);
-            Assert.Equal(tokenRevokeKycTransaction.GetTokenId(), testTokenId);
+
+            Assert.Equal(tokenRevokeKycTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetAccountId()
         {
-            var tokenRevokeKycTransaction = new TokenRevokeKycTransaction().SetAccountId(testAccountId);
-            Assert.Equal(tokenRevokeKycTransaction.GetAccountId(), testAccountId);
+            var tokenRevokeKycTransaction = new TokenRevokeKycTransaction { AccountId = testAccountId };
+            Assert.Equal(tokenRevokeKycTransaction.AccountId, testAccountId);
         }
 
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAccountId(testAccountId));
+            Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
 
         public virtual void GetSetTokenId()
         {
-            var tokenRevokeKycTransaction = new TokenRevokeKycTransaction().SetTokenId(testTokenId);
-            Assert.Equal(tokenRevokeKycTransaction.GetTokenId(), testTokenId);
+            var tokenRevokeKycTransaction = new TokenRevokeKycTransaction { TokenId = testTokenId };
+            Assert.Equal(tokenRevokeKycTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenId(testTokenId));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
     }
 }

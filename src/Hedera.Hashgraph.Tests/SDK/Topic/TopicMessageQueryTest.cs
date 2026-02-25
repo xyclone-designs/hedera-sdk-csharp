@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             SubscribeToMirror(received.Add());
             var message = Combine(response1.GetMessage().ToByteArray(), response2.GetMessage().ToByteArray());
             Assert.Empty(errors);
-            Assertions.Assert.Contains(received).HasSize(1).First().Returns(ToDateTime(response2.GetConsensusTimestamp()), (t) => t.consensusTimestamp).Returns(response2.GetChunkInfo().GetInitialTransactionID(), (t) => t.transactionId).ToProtobuf()).Returns(message, (t) => t.contents).Returns(response2.GetRunningHash().ToByteArray(), (t) => t.runningHash).Returns(response2.GetSequenceNumber(), (t) => t.sequenceNumber).Extracting((t) => t.chunks).AsInstanceOf(InstanceOfAssertFactories.ARRAY).HasSize(2).Extracting((c) => ((TopicMessageChunk)c).sequenceNumber, 1, 2);
+            Assert.Contains(received).HasSize(1).First().Returns(ToDateTime(response2.GetConsensusTimestamp()), (t) => t.consensusTimestamp).Returns(response2.GetChunkInfo().GetInitialTransactionID(), (t) => t.transactionId).ToProtobuf()).Returns(message, (t) => t.contents).Returns(response2.GetRunningHash().ToByteArray(), (t) => t.runningHash).Returns(response2.GetSequenceNumber(), (t) => t.sequenceNumber).Extracting((t) => t.chunks).AsInstanceOf(InstanceOfAssertFactories.ARRAY).HasSize(2).Extracting((c) => ((TopicMessageChunk)c).sequenceNumber, 1, 2);
         }
 
         public virtual void SubscribeNoResponse()
@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.requests.Add(Request().Build());
             SubscribeToMirror(received.Add());
             Assert.Empty(errors);
-            Assertions.Assert.Empty(received);
+            Assert.Empty(received);
         }
 
         public virtual void ErrorDuringOnNext()
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 throw new Exception();
             });
             Assert.IsType<Exception>(errors).HasSize(1).First();
-            Assertions.Assert.Empty(received);
+            Assert.Empty(received);
         }
 
         public virtual void RetryRecovers(ResponseStatus.Code code, string description)
@@ -146,7 +146,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.requests.Add(Request().Build());
             consensusServiceStub.responses.Add(code.ToStatus().WithDescription(description).AsRuntimeException());
             SubscribeToMirror(received.Add());
-            Assertions.Assert.Empty(received);
+            Assert.Empty(received);
             Assert.Equal(errors).HasSize(1).First().IsInstanceOf(typeof(StatusRuntimeException)).Extracting((t) => ((StatusRuntimeException)t).GetStatus().GetCode(), code);
         }
 
@@ -186,7 +186,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.responses.Add(ResponseStatus.RESOURCE_EXHAUSTED.AsRuntimeException());
             consensusServiceStub.responses.Add(ResponseStatus.RESOURCE_EXHAUSTED.AsRuntimeException());
             SubscribeToMirror(received.Add());
-            Assertions.Assert.Empty(received);
+            Assert.Empty(received);
             Assert.Equal(errors).HasSize(1).First().IsInstanceOf(typeof(StatusRuntimeException)).Extracting((t) => ((StatusRuntimeException)t).GetStatus(), Status.RESOURCE_EXHAUSTED);
         }
 
@@ -196,7 +196,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.responses.Add(ResponseStatus.CANCELLED.AsRuntimeException());
             SubscribeToMirror(received.Add());
             Assert.Equal(errors).HasSize(1).First().IsInstanceOf(typeof(StatusRuntimeException)).Extracting((t) => ((StatusRuntimeException)t).GetStatus(), Status.CANCELLED);
-            Assertions.Assert.Empty(received);
+            Assert.Empty(received);
         }
 
         public virtual void UnsubscribeDoesNotInvokeErrorOrRetry()
@@ -206,7 +206,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             handle.Unsubscribe();
             Uninterruptibles.SleepUninterruptibly(100, TimeUnit.MILLISECONDS);
             Assert.Empty(errors);
-            Assertions.Assert.Empty(received);
+            Assert.Empty(received);
         }
 
         public virtual void ServerCancelledRetriesWhenCustomRetryAllows()
@@ -236,7 +236,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             firstHandle.Unsubscribe();
             Uninterruptibles.SleepUninterruptibly(100, TimeUnit.MILLISECONDS);
             Assert.Empty(errors);
-            Assertions.Assert.Empty(received);
+            Assert.Empty(received);
             consensusServiceStub.requests.Add(Request().Build());
             consensusServiceStub.requests.Add(Request().Build());
             consensusServiceStub.responses.Add(ResponseStatus.CANCELLED.AsRuntimeException());

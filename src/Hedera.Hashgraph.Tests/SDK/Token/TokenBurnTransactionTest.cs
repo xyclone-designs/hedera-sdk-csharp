@@ -11,6 +11,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -38,7 +43,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenBurnTransaction SpawnTestTransaction()
         {
-            return new TokenBurnTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(testTokenId).SetAmount(testAmount).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenBurnTransaction()
+                .SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")))
+                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)))
+                .SetTokenId(testTokenId)
+                .SetAmount(testAmount)
+                .SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -55,7 +65,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         private TokenBurnTransaction SpawnTestTransactionNft()
         {
-            return new TokenBurnTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(testTokenId).SetSerials(testSerials).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenBurnTransaction()
+                .SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")))
+                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)))
+                .SetTokenId(testTokenId)
+                .SetSerials(testSerials)
+                .SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesFungible()
@@ -74,55 +89,74 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenBurn(TokenBurnTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = SchedulableTransactionBody.NewBuilder()
+                .SetTokenBurn(TokenBurnTransactionBody.NewBuilder().Build()).Build();
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TokenBurnTransaction>(tx);
         }
 
         public virtual void ConstructTokenBurnTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenBurnTransactionBody.NewBuilder().SetToken(testTokenId.ToProtobuf()).SetAmount(testAmount).AddAllSerialNumbers(testSerials).Build();
-            var tx = TransactionBody.NewBuilder().SetTokenBurn(transactionBody).Build();
+            var transactionBody = new Proto.TokenBurnTransactionBody
+            {
+				Token = testTokenId.ToProtobuf(),
+				Amount = testAmount,
+			
+            }.AddAllSerialNumbers(testSerials).Build();
+            var tx = new Proto.TransactionBody
+            {
+                TokenBurn = transactionBody
+            };
+
             var tokenBurnTransaction = new TokenBurnTransaction(tx);
-            Assert.Equal(tokenBurnTransaction.GetTokenId(), testTokenId);
-            Assert.Equal(tokenBurnTransaction.GetAmount(), testAmount);
-            Assert.Equal(tokenBurnTransaction.GetSerials(), testSerials);
+            
+            Assert.Equal(tokenBurnTransaction.TokenId, testTokenId);
+            Assert.Equal(tokenBurnTransaction.Amount, testAmount);
+            Assert.Equal(tokenBurnTransaction.Serials, testSerials);
         }
 
         public virtual void GetSetTokenId()
         {
-            var tokenBurnTransaction = new TokenBurnTransaction().SetTokenId(testTokenId);
-            Assert.Equal(tokenBurnTransaction.GetTokenId(), testTokenId);
+            var tokenBurnTransaction = new TokenBurnTransaction().TokenId = (ulong)testTokenId;
+            
+            Assert.Equal(tokenBurnTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenId(testTokenId));
+            
+            Assert.Throws<InvalidOperationException>(() => tx.TokenId = (ulong)testTokenId);
         }
 
         public virtual void GetSetAmount()
         {
-            var tokenBurnTransaction = new TokenBurnTransaction().SetAmount(testAmount);
-            Assert.Equal(tokenBurnTransaction.GetAmount(), testAmount);
+            var tokenBurnTransaction = new TokenBurnTransaction { Amount = (ulong)testAmount };
+
+            Assert.Equal(tokenBurnTransaction.Amount, testAmount);
         }
 
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAmount(testAmount));
+            Assert.Throws<InvalidOperationException>(() => tx.Amount = (ulong)testAmount);
         }
 
         public virtual void GetSetSerials()
         {
-            var tokenBurnTransaction = new TokenBurnTransaction().SetSerials(testSerials);
-            Assert.Equal(tokenBurnTransaction.GetSerials(), testSerials);
+            var tokenBurnTransaction = new TokenBurnTransaction
+            {
+				Serials = testSerials
+			};
+            
+            Assert.Equal(tokenBurnTransaction.Serials, testSerials);
         }
 
         public virtual void GetSetSerialsFrozen()
         {
             var tx = SpawnTestTransactionNft();
-            Assert.Throws<InvalidOperationException>(() => tx.SetSerials(testSerials));
+            
+            Assert.Throws<InvalidOperationException>(() => tx.Serials = testSerials);
         }
     }
 }

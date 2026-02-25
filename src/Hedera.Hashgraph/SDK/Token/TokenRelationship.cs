@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         public bool AutomaticAssociation { get; }
 
-        TokenRelationship(TokenId tokenId, string symbol, ulong balance, bool kycStatus, bool freezeStatus, uint decimals, bool automaticAssociation)
+        internal TokenRelationship(TokenId tokenId, string symbol, ulong balance, bool kycStatus, bool freezeStatus, uint decimals, bool automaticAssociation)
         {
             TokenId = tokenId;
             Symbol = symbol;

@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			InitFromTransactionBody();
 		}
-		internal LambdaSStoreTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal LambdaSStoreTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
 		{
 			InitFromTransactionBody();
 		}
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="update">the update to add</param>
 		/// <returns>this</returns>
-		public virtual LambdaSStoreTransaction AddStorageUpdate(LambdaStorageUpdate update)
+		public virtual LambdaSStoreTransaction AddStorageUpdate(EvmHookStorageUpdate update)
 		{
 			RequireNotFrozen();
 			StorageUpdates.Add(update);
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="updates">list of updates</param>
 		/// <returns>this</returns>
-		public virtual LambdaSStoreTransaction SetStorageUpdates(IList<LambdaStorageUpdate> updates)
+		public virtual LambdaSStoreTransaction SetStorageUpdates(IList<EvmHookStorageUpdate> updates)
 		{
 			RequireNotFrozen();
 			ArgumentNullException.ThrowIfNull(updates);
@@ -66,7 +66,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return this;
 		}
 
-		public virtual List<LambdaStorageUpdate> StorageUpdates { get; private set; } = [];
+		public virtual List<EvmHookStorageUpdate> StorageUpdates { get; private set; } = [];
 
 		public virtual Proto.LambdaSStoreTransactionBody ToProtobuf()
 		{
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			StorageUpdates = [];
 			foreach (var protoUpdate in body.StorageUpdates)
 			{
-				StorageUpdates.Add(LambdaStorageUpdate.FromProtobuf(protoUpdate));
+				StorageUpdates.Add(EvmHookStorageUpdate.FromProtobuf(protoUpdate));
 			}
 		}
 

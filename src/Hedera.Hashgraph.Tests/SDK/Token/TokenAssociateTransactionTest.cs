@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -18,7 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly AccountId accountId = AccountId.FromString("1.2.3");
-        private static readonly List<TokenId> tokenIds = List.Of(TokenId.FromString("4.5.6"), TokenId.FromString("7.8.9"), TokenId.FromString("10.11.12"));
+        private static readonly List<TokenId> tokenIds = [TokenId.FromString("4.5.6"), TokenId.FromString("7.8.9"), TokenId.FromString("10.11.12")];
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         public static void BeforeAll()
         {
@@ -38,60 +37,88 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenAssociateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenAssociateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private TokenAssociateTransaction SpawnTestTransaction()
         {
-            return new TokenAssociateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetAccountId(AccountId.FromString("0.0.222")).SetTokenIds([TokenId.FromString("0.0.666"])).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenAssociateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				AccountId = AccountId.FromString("0.0.222"),
+				TokenIds = [TokenId.FromString("0.0.666")],
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TokenAssociateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenAssociateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenAssociate(TokenAssociateTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+                TokenAssociate = new Proto.TokenAssociateTransactionBody()
+            };
+            var tx = Transaction.FromScheduledTransaction<TokenAssociateTransaction>(transactionBody);
             Assert.IsType<TokenAssociateTransaction>(tx);
         }
 
         public virtual void ConstructTokenDeleteTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenAssociateTransactionBody.NewBuilder().AddAllTokens(tokenIds.Stream().Map(TokenId.ToProtobuf()).ToList()).SetAccount(accountId.ToProtobuf()).Build();
-            var txBody = TransactionBody.NewBuilder().SetTokenAssociate(transactionBody).Build();
+            var transactionBody = new Proto.TokenAssociateTransactionBody
+            {
+				Account = accountId.ToProtobuf(),
+
+            };
+            transactionBody.Tokens.AddRange(tokenIds.Select(_ => _.ToProtobuf()));
+
+            var txBody = new Proto.TransactionBody
+            {
+				TokenAssociate = transactionBody
+			};
             var tokenAssociateTransaction = new TokenAssociateTransaction(txBody);
-            Assert.Equal(tokenAssociateTransaction.GetAccountId(), accountId);
-            AssertThat(tokenAssociateTransaction.GetTokenIds()).HasSize(tokenIds.Count);
+            Assert.Equal(tokenAssociateTransaction.AccountId, accountId);
+
+            Assert.Equal(tokenAssociateTransaction.TokenIds.Count, tokenIds.Count);
         }
 
         public virtual void GetSetAccountId()
         {
-            var transaction = new TokenAssociateTransaction()AccountId = accountId,;
-            Assert.Equal(transaction.GetAccountId(), accountId);
+            var transaction = new TokenAssociateTransaction
+            {
+				AccountId = accountId,
+			};
+            Assert.Equal(transaction.AccountId, accountId);
         }
 
         public virtual void GetSetAccountIdFrozen()
         {
             var transaction = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => transactionAccountId = accountId,);
+            Assert.Throws<InvalidOperationException>(() => transaction.AccountId = accountId);
         }
 
         public virtual void GetSetTokenIds()
         {
-            var transaction = new TokenAssociateTransaction().SetTokenIds(tokenIds);
-            Assert.Equal(transaction.GetTokenIds(), tokenIds);
+            var transaction = new TokenAssociateTransaction
+            {
+				TokenIds = tokenIds
+			};
+            Assert.Equal(transaction.TokenIds, tokenIds);
         }
 
         public virtual void GetSetTokenIdFrozen()
         {
             var transaction = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => transaction.SetTokenIds(tokenIds));
+            Assert.Throws<InvalidOperationException>(() => transaction.TokenIds = tokenIds);
         }
     }
 }

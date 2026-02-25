@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		{
 			InitFromTransactionBody();
 		}
-		internal AccountAllowanceAdjustTransaction(LinkedDictionary<TransactionId, LinkedDictionary<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal AccountAllowanceAdjustTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }

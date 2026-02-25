@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Io.Github.JsonSnapshot;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Hedera.Hashgraph.SDK.Token;
+
+using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -32,8 +27,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var originalTokenRelationship = SpawnTokenRelationshipExample();
             byte[] tokenRelationshipBytes = originalTokenRelationship.ToBytes();
             var copyTokenRelationship = TokenRelationship.FromBytes(tokenRelationshipBytes);
-            Assert.Equal(copyTokenRelationship.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), originalTokenRelationship.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
-            SnapshotMatcher.Expect(originalTokenRelationship.ToString().ReplaceAll("@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            
+            Assert.Equal(Regex.Replace(copyTokenRelationship.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalTokenRelationship.ToString(), "@[A-Za-z0-9]+", ""));
+            
+            SnapshotMatcher.Expect(Regex.Replace(originalTokenRelationship.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
         }
     }
 }

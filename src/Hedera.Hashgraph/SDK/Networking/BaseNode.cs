@@ -1,11 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
-
 using Grpc.Core;
 
 using System;
-using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -145,19 +141,17 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// </summary>
 		public virtual long BadGrpcStatusCount { get; protected set; }
 		
-		private Task<bool> ChannelFailedToConnectAsync(int i, ChannelState state)
+		private async Task<bool> ChannelFailedToConnectAsync(int i, ChannelState state)
 		{
 			hasConnected = (state == ChannelState.Ready);
 
 			if (i >= GET_STATE_MAX_ATTEMPTS || hasConnected)
 			{
-				return Task.FromResult(!hasConnected);
+				return await Task.FromResult(!hasConnected);
 			}
 
-			return Delayer
-				.DelayFor(GET_STATE_INTERVAL_MILLIS, Executor)
-				.ContinueWith(_ => ChannelFailedToConnectAsync(i + 1, Channel.State))
-				.Unwrap();
+			return await await new Delayer(Executor)
+				.DelayAsync(TimeSpan.FromMilliseconds(GET_STATE_INTERVAL_MILLIS), () => ChannelFailedToConnectAsync(i + 1, Channel.State));
 		}
 
 		/// <summary>
@@ -168,7 +162,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		{
 			return ChannelFailedToConnect(DateTime.MaxValue);
 		}
-		public virtual bool ChannelFailedToConnect(DateTime timeoutTime)
+		public virtual bool ChannelFailedToConnect(DateTimeOffset timeoutTime)
 		{
 			if (hasConnected)
 			{

@@ -6,6 +6,7 @@ namespace Hedera.Hashgraph.SDK.Logging
     /// </summary>
     public class Logger
     {
+        //private org.slf4j.Logger internalLogger;
         private org.slf4j.Logger internalLogger;
         private LogLevel currentLevel;
         private LogLevel previousLevel;
@@ -15,7 +16,7 @@ namespace Hedera.Hashgraph.SDK.Logging
         /// <param name="level">the current log level</param>
         public Logger(LogLevel level)
         {
-            internalLogger = LoggerFactory.GetLogger(GetType());
+            //internalLogger = LoggerFactory.GetLogger(GetType());
             currentLevel = level;
             previousLevel = level;
         }

@@ -355,7 +355,7 @@ namespace Hedera.Hashgraph.SDK.Networking
                 node.DecreaseBackoff();
             }
         }
-		public virtual Exception? AwaitClose(Timestamp deadline, Exception previousError)
+		public virtual Exception? AwaitClose(Timestamp deadline, Exception? previousError)
 		{
 			lock (this)
 			{

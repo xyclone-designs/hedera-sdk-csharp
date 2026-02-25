@@ -1,0 +1,8 @@
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\bin\Debug\net10.0\.msCoverageSourceRootsMapping_Hedera.Hashgraph.Tests.Integration
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\bin\Debug\net10.0\CoverletSourceRootsMapping_Hedera.Hashgraph.Tests.Integration
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\obj\Debug\net10.0\Hedera.Hashgraph.Tests.Integration.csproj.AssemblyReference.cache
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\obj\Debug\net10.0\Hedera.Hashgraph.Tests.Integration.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\obj\Debug\net10.0\Hedera.Hashgraph.Tests.Integration.AssemblyInfoInputs.cache
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\obj\Debug\net10.0\Hedera.Hashgraph.Tests.Integration.AssemblyInfo.cs
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\obj\Debug\net10.0\Hedera.Hashgraph.Tests.Integration.csproj.CoreCompileInputs.cache
+C:\Users\Thando Ndlovu\Desktop\github\xyclone-designs\hedera-sdk-csharp\src\Hedera.Hashgraph.Tests.Integration\obj\Debug\net10.0\Hedera.Hashgraph.Tests.Integration.sourcelink.json

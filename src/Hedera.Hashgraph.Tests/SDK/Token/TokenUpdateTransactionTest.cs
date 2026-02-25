@@ -1,17 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Google.Protobuf;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
+
+using Google.Protobuf.WellKnownTypes;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -32,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly string testTokenSymbol = "test symbol";
         private static readonly string testTokenMemo = "test memo";
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
-        private static readonly TimeSpan testAutoRenewPeriod = Duration.OfHours(10);
+        private static readonly TimeSpan testAutoRenewPeriod = TimeSpan.FromSeconds(10);
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.UtcNow;
         private static readonly byte[] testMetadata = new byte[]
         {
@@ -61,268 +60,378 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUpdateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private TokenUpdateTransaction SpawnTestTransaction()
         {
-            return new TokenUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(testTokenId)FeeScheduleKey = testFeeScheduleKey,.SetSupplyKey(testSupplyKey).SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetFreezeKey(testFreezeKey).SetWipeKey(testWipeKey).SetTokenSymbol(testTokenSymbol).SetKycKey(testKycKey).SetPauseKey(testPauseKey)MetadataKey = testMetadataKey,.SetExpirationTime(validStart).SetTreasuryAccountId(testTreasuryAccountId).SetTokenName(testTokenName).SetTokenMemo(testTokenMemo).SetMaxTransactionFee(new Hbar(1)).SetTokenMetadata(testMetadata).SetKeyVerificationMode(TokenKeyValidation.NoValidation).Freeze().Sign(unusedPrivateKey);
+            return new TokenUpdateTransaction()
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TokenId = testTokenId,
+				FeeScheduleKey = testFeeScheduleKey,
+				SupplyKey = testSupplyKey,
+				AdminKey = testAdminKey,
+				AutoRenewAccountId = testAutoRenewAccountId,
+				AutoRenewPeriod = testAutoRenewPeriod.ToDuration(),
+				FreezeKey = testFreezeKey,
+				WipeKey = testWipeKey,
+				TokenSymbol = testTokenSymbol,
+				KycKey = testKycKey,
+				PauseKey = testPauseKey,
+				MetadataKey = testMetadataKey,
+				ExpirationTime = validStart.ToTimestamp(),
+				TreasuryAccountId = testTreasuryAccountId,
+				TokenName = testTokenName,
+				TokenMemo = testTokenMemo,
+				MaxTransactionFee = new Hbar(1),
+				TokenMetadata = testMetadata,
+				TokenKeyVerificationMode = TokenKeyValidation.NoValidation,
+		
+            }.Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TokenUpdateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenUpdate(TokenUpdateTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				TokenUpdate = new Proto.TokenUpdateTransactionBody()
+			};
+
+            var tx = Transaction.FromScheduledTransaction<TokenUpdateTransaction>(transactionBody);
+            
             Assert.IsType<TokenUpdateTransaction>(tx);
         }
 
         public virtual void ConstructTokenUpdateTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenUpdateTransactionBody.NewBuilder().SetToken(testTokenId.ToProtobuf()).SetName(testTokenName).SetSymbol(testTokenSymbol).SetTreasury(testTreasuryAccountId.ToProtobuf()).SetAdminKey(testAdminKey.ToProtobufKey()).SetKycKey(testKycKey.ToProtobufKey()).SetFreezeKey(testFreezeKey.ToProtobufKey()).SetWipeKey(testWipeKey.ToProtobufKey()).SetSupplyKey(testSupplyKey.ToProtobufKey()).SetAutoRenewAccount(testAutoRenewAccountId.ToProtobuf()).SetAutoRenewPeriod(Proto.Duration.NewBuilder().SetSeconds(testAutoRenewPeriod.ToSeconds()).Build()).SetExpiry(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond()).Build()).SetMemo(StringValue.NewBuilder().SetValue(testTokenMemo).Build())FeeScheduleKey = testFeeScheduleKey.ToProtobufKey(),.SetPauseKey(testPauseKey.ToProtobufKey())MetadataKey = testMetadataKey.ToProtobufKey(),.SetMetadata(BytesValue.Of(ByteString.CopyFrom(testMetadata))).SetKeyVerificationMode(Proto.TokenKeyValidation.NoValidation).Build();
-            var tx = TransactionBody.NewBuilder().SetTokenUpdate(transactionBody).Build();
+            var transactionBody = new Proto.TokenUpdateTransactionBody
+            {
+                Token = testTokenId.ToProtobuf(),
+                Name = testTokenName,
+                Symbol = testTokenSymbol,
+                Treasury = testTreasuryAccountId.ToProtobuf(),
+                AdminKey = testAdminKey.ToProtobufKey(),
+                KycKey = testKycKey.ToProtobufKey(),
+                FreezeKey = testFreezeKey.ToProtobufKey(),
+                WipeKey = testWipeKey.ToProtobufKey(),
+                SupplyKey = testSupplyKey.ToProtobufKey(),
+                AutoRenewAccount = testAutoRenewAccountId.ToProtobuf(),
+                AutoRenewPeriod = new Proto.Duration
+                {
+                    Seconds = (long)testAutoRenewPeriod.TotalSeconds
+                },
+                Expiry = new Proto.Timestamp
+                {
+                    Seconds = testExpirationTime.ToUnixTimeSeconds()
+                },
+                Memo = testTokenMemo,
+                FeeScheduleKey = testFeeScheduleKey.ToProtobufKey(),
+                PauseKey = testPauseKey.ToProtobufKey(),
+                MetadataKey = testMetadataKey.ToProtobufKey(),
+                Metadata = ByteString.CopyFrom(testMetadata),
+                KeyVerificationMode = Proto.TokenKeyValidation.NoValidation
+            };
+            
+            var tx = new Proto.TransactionBody
+            {
+                TokenUpdate = transactionBody
+            };
             var tokenUpdateTransaction = new TokenUpdateTransaction(tx);
-            Assert.Equal(tokenUpdateTransaction.GetTokenId(), testTokenId);
-            Assert.Equal(tokenUpdateTransaction.GetTokenName(), testTokenName);
-            Assert.Equal(tokenUpdateTransaction.GetTokenSymbol(), testTokenSymbol);
-            Assert.Equal(tokenUpdateTransaction.GetTreasuryAccountId(), testTreasuryAccountId);
-            Assert.Equal(tokenUpdateTransaction.GetAdminKey(), testAdminKey);
-            Assert.Equal(tokenUpdateTransaction.GetKycKey(), testKycKey);
-            Assert.Equal(tokenUpdateTransaction.GetFreezeKey(), testFreezeKey);
-            Assert.Equal(tokenUpdateTransaction.GetWipeKey(), testWipeKey);
-            Assert.Equal(tokenUpdateTransaction.GetSupplyKey(), testSupplyKey);
-            Assert.Equal(tokenUpdateTransaction.GetAutoRenewAccountId(), testAutoRenewAccountId);
-            Assert.Equal(tokenUpdateTransaction.GetAutoRenewPeriod().ToSeconds(), testAutoRenewPeriod.ToSeconds());
-            Assert.Equal(tokenUpdateTransaction.GetExpirationTime().GetEpochSecond(), testExpirationTime.GetEpochSecond());
-            Assert.Equal(tokenUpdateTransaction.GetTokenMemo(), testTokenMemo);
-            Assert.Equal(tokenUpdateTransaction.GetFeeScheduleKey(), testFeeScheduleKey);
-            Assert.Equal(tokenUpdateTransaction.GetPauseKey(), testPauseKey);
-            Assert.Equal(tokenUpdateTransaction.GetMetadataKey(), testMetadataKey);
-            Assert.Equal(tokenUpdateTransaction.GetTokenMetadata(), testMetadata);
-            Assert.Equal(tokenUpdateTransaction.GetKeyVerificationMode(), TokenKeyValidation.NoValidation);
+
+            Assert.Equal(tokenUpdateTransaction.TokenId, testTokenId);
+            Assert.Equal(tokenUpdateTransaction.TokenName, testTokenName);
+            Assert.Equal(tokenUpdateTransaction.TokenSymbol, testTokenSymbol);
+            Assert.Equal(tokenUpdateTransaction.TreasuryAccountId, testTreasuryAccountId);
+            Assert.Equal(tokenUpdateTransaction.AdminKey, testAdminKey);
+            Assert.Equal(tokenUpdateTransaction.KycKey, testKycKey);
+            Assert.Equal(tokenUpdateTransaction.FreezeKey, testFreezeKey);
+            Assert.Equal(tokenUpdateTransaction.WipeKey, testWipeKey);
+            Assert.Equal(tokenUpdateTransaction.SupplyKey, testSupplyKey);
+            Assert.Equal(tokenUpdateTransaction.AutoRenewAccountId, testAutoRenewAccountId);
+            Assert.Equal(tokenUpdateTransaction.AutoRenewPeriod.ToTimeSpan().TotalSeconds, testAutoRenewPeriod.TotalSeconds);
+            Assert.Equal(tokenUpdateTransaction.ExpirationTime?.ToDateTimeOffset().ToUnixTimeSeconds(), testExpirationTime.ToUnixTimeSeconds());
+            Assert.Equal(tokenUpdateTransaction.TokenMemo, testTokenMemo);
+            Assert.Equal(tokenUpdateTransaction.FeeScheduleKey, testFeeScheduleKey);
+            Assert.Equal(tokenUpdateTransaction.PauseKey, testPauseKey);
+            Assert.Equal(tokenUpdateTransaction.MetadataKey, testMetadataKey);
+            Assert.Equal(tokenUpdateTransaction.TokenMetadata, testMetadata);
+            Assert.Equal(tokenUpdateTransaction.TokenKeyVerificationMode, TokenKeyValidation.NoValidation);
         }
 
         public virtual void GetSetTokenId()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetTokenId(testTokenId);
-            Assert.Equal(tokenUpdateTransaction.GetTokenId(), testTokenId);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                TokenId = testTokenId
+            };
+            Assert.Equal(tokenUpdateTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenId(testTokenId));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
 
         public virtual void GetSetName()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetTokenName(testTokenName);
-            Assert.Equal(tokenUpdateTransaction.GetTokenName(), testTokenName);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                TokenName = testTokenName
+            };
+            Assert.Equal(tokenUpdateTransaction.TokenName, testTokenName);
         }
 
         public virtual void GetSetNameFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenName(testTokenName));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenName = testTokenName);
         }
 
         public virtual void GetSetSymbol()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetTokenSymbol(testTokenSymbol);
-            Assert.Equal(tokenUpdateTransaction.GetTokenSymbol(), testTokenSymbol);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                TokenSymbol = testTokenSymbol
+            };
+            Assert.Equal(tokenUpdateTransaction.TokenSymbol, testTokenSymbol);
         }
 
         public virtual void GetSetSymbolFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenSymbol(testTokenSymbol));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenSymbol = testTokenSymbol);
         }
 
         public virtual void GetSetTreasuryAccountId()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetTreasuryAccountId(testTreasuryAccountId);
-            Assert.Equal(tokenUpdateTransaction.GetTreasuryAccountId(), testTreasuryAccountId);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                TreasuryAccountId = testTreasuryAccountId
+            };
+            Assert.Equal(tokenUpdateTransaction.TreasuryAccountId, testTreasuryAccountId);
         }
 
         public virtual void GetSetTreasuryAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTreasuryAccountId(testTreasuryAccountId));
+            Assert.Throws<InvalidOperationException>(() => tx.TreasuryAccountId = testTreasuryAccountId);
         }
 
         public virtual void GetSetAdminKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetAdminKey(testAdminKey);
-            Assert.Equal(tokenUpdateTransaction.GetAdminKey(), testAdminKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                AdminKey = testAdminKey
+            };
+            Assert.Equal(tokenUpdateTransaction.AdminKey, testAdminKey);
         }
 
         public virtual void GetSetAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAdminKey(testAdminKey));
+            Assert.Throws<InvalidOperationException>(() => tx.AdminKey = testAdminKey);
         }
 
         public virtual void GetSetKycKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetKycKey(testKycKey);
-            Assert.Equal(tokenUpdateTransaction.GetKycKey(), testKycKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                KycKey = testKycKey
+            };
+            Assert.Equal(tokenUpdateTransaction.KycKey, testKycKey);
         }
 
         public virtual void GetSetKycKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetKycKey(testKycKey));
+            Assert.Throws<InvalidOperationException>(() => tx.KycKey = testKycKey);
         }
 
         public virtual void GetSetFreezeKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetFreezeKey(testFreezeKey);
-            Assert.Equal(tokenUpdateTransaction.GetFreezeKey(), testFreezeKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                FreezeKey = testFreezeKey
+            };
+            Assert.Equal(tokenUpdateTransaction.FreezeKey, testFreezeKey);
         }
 
         public virtual void GetSetFreezeKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetFreezeKey(testFreezeKey));
+            Assert.Throws<InvalidOperationException>(() => tx.FreezeKey = testFreezeKey);
         }
 
         public virtual void GetSetWipeKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetWipeKey(testWipeKey);
-            Assert.Equal(tokenUpdateTransaction.GetWipeKey(), testWipeKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                WipeKey = testWipeKey
+            };
+            Assert.Equal(tokenUpdateTransaction.WipeKey, testWipeKey);
         }
 
         public virtual void GetSetWipeKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetWipeKey(testWipeKey));
+            Assert.Throws<InvalidOperationException>(() => tx.WipeKey = testWipeKey);
         }
 
         public virtual void GetSetSupplyKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetSupplyKey(testSupplyKey);
-            Assert.Equal(tokenUpdateTransaction.GetSupplyKey(), testSupplyKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                SupplyKey = testSupplyKey
+            };
+            Assert.Equal(tokenUpdateTransaction.SupplyKey, testSupplyKey);
         }
 
         public virtual void GetSetSupplyKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetSupplyKey(testSupplyKey));
+            Assert.Throws<InvalidOperationException>(() => tx.SupplyKey = testSupplyKey);
         }
 
         public virtual void GetSetAutoRenewAccountId()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetAutoRenewAccountId(testAutoRenewAccountId);
-            Assert.Equal(tokenUpdateTransaction.GetAutoRenewAccountId(), testAutoRenewAccountId);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                AutoRenewAccountId = testAutoRenewAccountId
+            };
+            Assert.Equal(tokenUpdateTransaction.AutoRenewAccountId, testAutoRenewAccountId);
         }
 
         public virtual void GetSetAutoRenewAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAutoRenewAccountId(testAutoRenewAccountId));
+            Assert.Throws<InvalidOperationException>(() => tx.AutoRenewAccountId = testAutoRenewAccountId);
         }
 
         public virtual void GetSetAutoRenewPeriod()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetAutoRenewPeriod(testAutoRenewPeriod);
-            Assert.Equal(tokenUpdateTransaction.GetAutoRenewPeriod(), testAutoRenewPeriod);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                AutoRenewPeriod = testAutoRenewPeriod.ToDuration()
+            };
+            Assert.Equal(tokenUpdateTransaction.AutoRenewPeriod, testAutoRenewPeriod.ToDuration());
         }
 
         public virtual void GetSetAutoRenewPeriodFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAutoRenewPeriod(testAutoRenewPeriod));
+            Assert.Throws<InvalidOperationException>(() => tx.AutoRenewPeriod = testAutoRenewPeriod.ToDuration());
         }
 
         public virtual void GetSetExpirationTime()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetExpirationTime(testExpirationTime);
-            Assert.Equal(tokenUpdateTransaction.GetExpirationTime(), testExpirationTime);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                ExpirationTime = testExpirationTime.ToTimestamp()
+            };
+            Assert.Equal(tokenUpdateTransaction.ExpirationTime, testExpirationTime.ToTimestamp());
         }
 
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetExpirationTime(testExpirationTime));
+            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = testExpirationTime.ToTimestamp());
         }
 
         public virtual void GetSetTokenMemo()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetTokenMemo(testTokenMemo);
-            Assert.Equal(tokenUpdateTransaction.GetTokenMemo(), testTokenMemo);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                TokenMemo = testTokenMemo
+            };
+            Assert.Equal(tokenUpdateTransaction.TokenMemo, testTokenMemo);
         }
 
         public virtual void GetSetTokenMemoFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenMemo(testTokenMemo));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenMemo = testTokenMemo);
         }
 
         public virtual void GetSetFeeScheduleKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction()FeeScheduleKey = testFeeScheduleKey,;
-            Assert.Equal(tokenUpdateTransaction.GetFeeScheduleKey(), testFeeScheduleKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+				FeeScheduleKey = testFeeScheduleKey,
+			};
+            Assert.Equal(tokenUpdateTransaction.FeeScheduleKey, testFeeScheduleKey);
         }
 
         public virtual void GetSetFeeScheduleKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => txFeeScheduleKey = testFeeScheduleKey,);
+            Assert.Throws<InvalidOperationException>(() => tx.FeeScheduleKey = testFeeScheduleKey);
         }
 
         public virtual void GetSetPauseKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction().SetPauseKey(testPauseKey);
-            Assert.Equal(tokenUpdateTransaction.GetPauseKey(), testPauseKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+                PauseKey = testPauseKey
+            };
+            Assert.Equal(tokenUpdateTransaction.PauseKey, testPauseKey);
         }
 
         public virtual void GetSetPauseKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetPauseKey(testPauseKey));
+            Assert.Throws<InvalidOperationException>(() => tx.PauseKey = testPauseKey);
         }
 
         public virtual void GetSetMetadataKey()
         {
-            var tokenUpdateTransaction = new TokenUpdateTransaction()MetadataKey = testMetadataKey,;
-            Assert.Equal(tokenUpdateTransaction.GetMetadataKey(), testMetadataKey);
+            var tokenUpdateTransaction = new TokenUpdateTransaction
+            {
+				MetadataKey = testMetadataKey,
+			};
+            Assert.Equal(tokenUpdateTransaction.MetadataKey, testMetadataKey);
         }
 
         public virtual void GetSetMetadataKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => txMetadataKey = testMetadataKey,);
+            Assert.Throws<InvalidOperationException>(() => tx.MetadataKey = testMetadataKey);
         }
 
         public virtual void GetSetMetadata()
         {
             var tx = SpawnTestTransaction();
-            Assert.Equal(tx.GetTokenMetadata(), testMetadata);
+            Assert.Equal(tx.TokenMetadata, testMetadata);
         }
 
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenMetadata(testMetadata));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenMetadata = testMetadata);
         }
 
         public virtual void GetSetKeyVerificationMode()
         {
             var tx = SpawnTestTransaction();
-            Assert.Equal(tx.GetKeyVerificationMode(), TokenKeyValidation.NoValidation);
+            Assert.Equal(tx.TokenKeyVerificationMode, TokenKeyValidation.NoValidation);
         }
 
         public virtual void GetSetKeyVerificationModeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetKeyVerificationMode(TokenKeyValidation.NoValidation));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenKeyVerificationMode = TokenKeyValidation.NoValidation);
         }
     }
 }

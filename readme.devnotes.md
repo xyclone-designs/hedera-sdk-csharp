@@ -4,6 +4,7 @@ Java source files are [located here](https://github/com/hiero-ledger/hiero-sdk-j
 C# ported files are [located here](https://github.com/xyclone-designs/hedera-sdk-csharp/tree/main/src/Hedera.Hashgraph/SDK)
 
 General Notes
+- Client and Executble were ported in part with AI. (To check later in inredible detail)
 - A lot of deprecated fields (mostly to do with Tokens) in classes from protobuf generation are still in use.
 - Object and value cloning is iffy.
 - Date.Now vs DateTime.Utc.Now and all other similar variations (EPOCH, Offsets etc). [Reason for Duration (From java port or for Proto.Duration)]

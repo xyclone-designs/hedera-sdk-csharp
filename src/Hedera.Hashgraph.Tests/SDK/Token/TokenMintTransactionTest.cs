@@ -1,18 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Google.Common.Collect;
-using Com.Google.Protobuf;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -21,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
         private static readonly long testAmount = 10;
-        private static readonly List<byte[]> testMetadataList = List.Of(new byte[] { 1, 2, 3, 4, 5 });
+        private static readonly List<byte[]> testMetadataList = [new byte[] { 1, 2, 3, 4, 5 }];
         private static readonly ByteString testMetadataByteString = ByteString.CopyFrom(new byte[] { 1, 2, 3, 4, 5 });
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         public static void BeforeAll()
@@ -47,91 +45,129 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenMintTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenMintTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private TokenMintTransaction SpawnTestTransaction()
         {
-            return new TokenMintTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(testTokenId).SetAmount(testAmount).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenMintTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TokenId = testTokenId,
+				Amount = testAmount,
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         private TokenMintTransaction SpawnMetadataTestTransaction()
         {
-            return new TokenMintTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTokenId(TokenId.FromString("1.2.3")).SetMetadata(testMetadataList).SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
+            return new TokenMintTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TokenId = TokenId.FromString("1.2.3"),
+				Metadata = testMetadataList,
+				MaxTransactionFee = new Hbar(1),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TokenUpdateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUpdateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesMetadata()
         {
             var tx = SpawnMetadataTestTransaction();
-            var tx2 = TokenUpdateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TokenUpdateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetTokenMint(TokenMintTransactionBody.NewBuilder().Build()).Build();
-            var tx = Transaction.FromScheduledTransaction(transactionBody);
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+				TokenMint = new Proto.TokenMintTransactionBody()
+			};
+            var tx = Transaction.FromScheduledTransaction<TokenMintTransaction>(transactionBody);
             Assert.IsType<TokenMintTransaction>(tx);
         }
 
         public virtual void ConstructTokenMintTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = TokenMintTransactionBody.NewBuilder().SetToken(testTokenId.ToProtobuf()).SetAmount(testAmount).AddMetadata(testMetadataByteString).Build();
-            var tx = TransactionBody.NewBuilder().SetTokenMint(transactionBody).Build();
+            var transactionBody = new Proto.TokenMintTransactionBody
+            {
+				Token = testTokenId.ToProtobuf(),
+				Amount = testAmount
+			
+            }.AddMetadata(testMetadataByteString);
+            var tx = new Proto.TransactionBody
+            {
+				TokenMint = transactionBody
+			};
             var tokenMintTransaction = new TokenMintTransaction(tx);
-            Assert.Equal(tokenMintTransaction.GetTokenId(), testTokenId);
-            Assert.Equal(tokenMintTransaction.GetAmount(), testAmount);
-            Assert.Equal(Iterables.GetLast(tokenMintTransaction.GetMetadata()), testMetadataByteString.ToByteArray());
+
+            Assert.Equal(tokenMintTransaction.TokenId, testTokenId);
+            Assert.Equal(tokenMintTransaction.Amount, testAmount);
+            Assert.Equal(tokenMintTransaction.MetadataList.Last(), testMetadataByteString.ToByteArray());
         }
 
         public virtual void GetSetTokenId()
         {
-            var tokenMintTransaction = new TokenMintTransaction().SetTokenId(testTokenId);
-            Assert.Equal(tokenMintTransaction.GetTokenId(), testTokenId);
+            var tokenMintTransaction = new TokenMintTransaction
+            {
+				TokenId = testTokenId
+			};
+            Assert.Equal(tokenMintTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTokenId(testTokenId));
+            Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
 
         public virtual void GetSetAmount()
         {
-            var tokenMintTransaction = new TokenMintTransaction().SetAmount(testAmount);
-            Assert.Equal(tokenMintTransaction.GetAmount(), testAmount);
+            var tokenMintTransaction = new TokenMintTransaction
+            {
+				Amount = testAmount
+			};
+            Assert.Equal(tokenMintTransaction.Amount, testAmount);
         }
 
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAmount(testAmount));
+            Assert.Throws<InvalidOperationException>(() => tx.Amount = testAmount);
         }
 
         public virtual void GetSetMetadata()
         {
-            var tokenMintTransaction = new TokenMintTransaction().SetMetadata(testMetadataList);
-            Assert.Equal(tokenMintTransaction.GetMetadata(), testMetadataList);
+            var tokenMintTransaction = new TokenMintTransaction().MetadataList = testMetadataList;
+            Assert.Equal(tokenMintTransaction.MetadataList, testMetadataList);
         }
 
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetMetadata(testMetadataList));
+            Assert.Throws<InvalidOperationException>(() => tx.MetadataList = testMetadataList);
         }
 
         public virtual void AddMetadata()
         {
-            var tokenMintTransaction = new TokenMintTransaction().AddMetadata(Iterables.GetLast(testMetadataList));
-            Assert.Equal(Iterables.GetLast(tokenMintTransaction.GetMetadata()), Iterables.GetLast(testMetadataList));
+            var tokenMintTransaction = new TokenMintTransaction().AddMetadata(testMetadataList.Last());
+            
+            Assert.Equal(tokenMintTransaction.MetadataList.Last(), testMetadataList.Last());
         }
     }
 }

@@ -14,23 +14,23 @@ namespace System
 
         public T Get()
         {
-            return Interlocked.Read(ref _value);
+            return Volatile.Read<T>(ref _value);
         }
 		public T GetAndSet(T newValue)
 		{
-			return Interlocked.Exchange(ref _value, newValue);
+			return Volatile.Exchange(ref _value, newValue);
 		}
 		public T IncrementAndGet()
 		{
-			return Interlocked.Increment(ref _value);
+			return Volatile.Increment(ref _value);
 		}
 		public void Set(T newValue)
         {
-			Interlocked.Write(ref _value, newValue);
+			Volatile.Write(ref _value, newValue);
         }
         public bool CompareAndSet(T expected, T update)
         {
-            return Interlocked.CompareExchange(ref _value, update, expected).Equals(expected);
+            return Volatile.CompareExchange(ref _value, update, expected).Equals(expected);
         }
 	}
 }

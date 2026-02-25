@@ -112,11 +112,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var protoKey = Key.NewBuilder().SetKeyList(protoKeyList).Build();
 
             // when
-            var cut = com.hedera.hashgraph.sdk.Key.FromProtobufKey(protoKey);
+            var cut = Key.FromProtobufKey(protoKey);
 
             // then
-            Assert.Equal(cut.GetType(), typeof(com.hedera.hashgraph.sdk.KeyList));
-            var keyList = (com.hedera.hashgraph.sdk.KeyList)cut;
+            Assert.Equal(cut.GetType(), typeof(KeyList));
+            var keyList = (KeyList)cut;
             var actual = keyList.ToProtobufKey().GetKeyList();
             Assert.Equal(actual.GetKeysCount(), 2);
             AssertThat(actual.GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
@@ -142,11 +142,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var protoKey = Key.NewBuilder().SetThresholdKey(protoThresholdKey).Build();
 
             // when
-            var cut = com.hedera.hashgraph.sdk.Key.FromProtobufKey(protoKey);
+            var cut = Key.FromProtobufKey(protoKey);
 
             // then
-            Assert.Equal(cut.GetType(), typeof(com.hedera.hashgraph.sdk.KeyList));
-            var thresholdKey = (com.hedera.hashgraph.sdk.KeyList)cut;
+            Assert.Equal(cut.GetType(), typeof(KeyList));
+            var thresholdKey = (KeyList)cut;
             var actual = thresholdKey.ToProtobufKey().GetThresholdKey();
             Assert.Equal(actual.Threshold, 1);
             Assert.Equal(actual.GetKeys().GetKeysCount(), 2);
@@ -163,7 +163,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
                 2
             };
             var protoKey = Key.NewBuilder().SetRSA3072(ByteString.CopyFrom(keyBytes)).Build();
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => com.hedera.hashgraph.sdk.Key.FromProtobufKey(protoKey));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => Key.FromProtobufKey(protoKey));
         }
 
         public virtual void KeyEquals()
@@ -186,7 +186,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var key1 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
             var key2 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e11");
             var key3 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e12");
-            var keyList = com.hedera.hashgraph.sdk.KeyList.WithThreshold(1);
+            var keyList = KeyList.WithThreshold(1);
             keyList.Add(key1);
             keyList.AddAll(List.Of(key2, key3));
             Assert.False(keyList.IsEmpty());
@@ -198,7 +198,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(arr[0], key1);
             Assert.Equal(arr[1], key2);
             Assert.Equal(arr[2], key3);
-            arr = new com.hedera.hashgraph.sdk.Key[]
+            arr = new Key[]
             {
                 null,
                 null,
@@ -254,8 +254,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var protoKey = Key.NewBuilder().SetKeyList(protoKeyList).Build();
             var bytes = protoKey.ToByteArray();
             var cut = FromBytes(bytes);
-            Assert.Equal(cut.GetType(), typeof(com.hedera.hashgraph.sdk.KeyList));
-            var keyList = (com.hedera.hashgraph.sdk.KeyList)cut;
+            Assert.Equal(cut.GetType(), typeof(KeyList));
+            var keyList = (KeyList)cut;
             var actual = keyList.ToProtobufKey().GetKeyList();
             Assert.Equal(actual.GetKeysCount(), 2);
             AssertThat(actual.GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
@@ -279,8 +279,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var protoKey = Key.NewBuilder().SetThresholdKey(protoThresholdKey).Build();
             var bytes = protoKey.ToByteArray();
             var cut = FromBytes(bytes);
-            Assert.Equal(cut.GetType(), typeof(com.hedera.hashgraph.sdk.KeyList));
-            var thresholdKey = (com.hedera.hashgraph.sdk.KeyList)cut;
+            Assert.Equal(cut.GetType(), typeof(KeyList));
+            var thresholdKey = (KeyList)cut;
             var actual = thresholdKey.ToProtobufKey().GetThresholdKey();
             Assert.Equal(actual.Threshold, 1);
             Assert.Equal(actual.GetKeys().GetKeysCount(), 2);

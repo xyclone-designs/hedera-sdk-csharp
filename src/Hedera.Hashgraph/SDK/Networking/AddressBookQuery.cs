@@ -2,7 +2,7 @@
 using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.File;
-
+using Hedera.Hashgraph.SDK.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -210,7 +210,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 
         private void WarnAndDelay(int attempt, Exception error)
         {
-            var delay = Math.Min(500 * (long)Math.Pow(2, attempt), maxBackoff.ToMillis());
+            var delay = Math.Min(500 * (long)Math.Pow(2, attempt), MaxBackoff.ToMillis());
             LOGGER.Warn("Error fetching address book at FileId {} during attempt #{}. Waiting {} ms before next attempt: {}", fileId, attempt, delay, error.Message);
             try
             {

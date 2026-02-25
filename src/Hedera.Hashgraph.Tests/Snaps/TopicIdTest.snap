@@ -1,23 +1,23 @@
-com.hedera.hashgraph.sdk.TopicIdTest.fromBytes=[
+TopicIdTest.fromBytes=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.TopicIdTest.fromSolidityAddress=[
+TopicIdTest.fromSolidityAddress=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.TopicIdTest.shouldSerializeFromString=[
+TopicIdTest.shouldSerializeFromString=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.TopicIdTest.toBytes=[
+TopicIdTest.toBytes=[
   "188d27"
 ]
 
 
-com.hedera.hashgraph.sdk.TopicIdTest.toSolidityAddress=[
+TopicIdTest.toSolidityAddress=[
   "000000000000000000000000000000000000138d"
 ]

@@ -1,10 +1,10 @@
-com.hedera.hashgraph.sdk.TokenSupplyTypeTest.fromProtobuf=[
+TokenSupplyTypeTest.fromProtobuf=[
   "INFINITE",
   "FINITE"
 ]
 
 
-com.hedera.hashgraph.sdk.TokenSupplyTypeTest.toProtobuf=[
+TokenSupplyTypeTest.toProtobuf=[
   "INFINITE",
   "FINITE"
 ]

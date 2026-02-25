@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Networking;
+
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -42,7 +41,23 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly bool testTokenFreezeStatus = true;
         private static readonly bool testTokenKycStatus = true;
         private static readonly bool testTokenIsDeleted = false;
-        private static readonly List<CustomFee> testTokenCustomFees = Arrays.AsList(new CustomFixedFee().SetFeeCollectorAccountId(new AccountId(0, 0, 4322)).SetDenominatingTokenId(new TokenId(0, 0, 483902)).SetAmount(10), new CustomFractionalFee().SetFeeCollectorAccountId(new AccountId(0, 0, 389042)).SetNumerator(3).SetDenominator(7).SetMin(3).SetMax(100));
+        private static readonly List<CustomFee> testTokenCustomFees =
+        [
+            new CustomFixedFee
+            {
+				FeeCollectorAccountId = new AccountId(0, 0, 4322),
+			    DenominatingTokenId = new TokenId(0, 0, 483902),
+			    Amount = 10
+			},
+			new CustomFractionalFee
+			{
+				FeeCollectorAccountId = new AccountId(0, 0, 389042),
+				Numerator = 3,
+				Denominator = 7,
+				Min = 3,
+				Max = 100,
+			}
+		];
         private static readonly TokenType testTokenType = TokenType.FungibleCommon;
         private static readonly TokenSupplyType testTokenTokenSupplyType = TokenSupplyType.Finite;
         private static readonly long testTokenMaxSupply = 1000000;
@@ -78,7 +93,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var originalTokenInfo = SpawnTokenInfoExample();
             byte[] tokenInfoBytes = originalTokenInfo.ToBytes();
             var copyTokenInfo = TokenInfo.FromBytes(tokenInfoBytes);
+            
             Assert.Equal(copyTokenInfo.ToString(), originalTokenInfo.ToString());
+
             SnapshotMatcher.Expect(originalTokenInfo.ToString()).ToMatchSnapshot();
         }
 
@@ -86,113 +103,116 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
             var tokenInfo = TokenInfo.FromProtobuf(tokenInfoProto);
-            Assert.Equal(tokenInfo.tokenId, testTokenId);
-            Assert.Equal(tokenInfo.name, testTokenName);
-            Assert.Equal(tokenInfo.symbol, testTokenSymbol);
-            Assert.Equal(tokenInfo.decimals, testTokenDecimals);
-            Assert.Equal(tokenInfo.totalSupply, testTokenTotalSupply);
-            Assert.Equal(tokenInfo.treasuryAccountId, testTreasuryAccountId);
-            Assert.Equal(tokenInfo.adminKey.ToBytes(), testAdminKey.ToBytes());
-            Assert.Equal(tokenInfo.kycKey.ToBytes(), testKycKey.ToBytes());
-            Assert.Equal(tokenInfo.freezeKey.ToBytes(), testFreezeKey.ToBytes());
-            Assert.Equal(tokenInfo.wipeKey.ToBytes(), testWipeKey.ToBytes());
-            Assert.Equal(tokenInfo.supplyKey.ToBytes(), testSupplyKey.ToBytes());
-            Assert.Equal(tokenInfo.defaultFreezeStatus, testTokenFreezeStatus);
-            Assert.Equal(tokenInfo.defaultKycStatus, testTokenKycStatus);
-            Assert.Equal(tokenInfo.isDeleted, testTokenIsDeleted);
-            Assert.Equal(tokenInfo.autoRenewAccount, testAutoRenewAccountId);
-            Assert.Equal(tokenInfo.autoRenewPeriod, testAutoRenewPeriod);
-            Assert.Equal(tokenInfo.expirationTime, testExpirationTime);
-            Assert.Equal(tokenInfo.tokenMemo, testTokenMemo);
-            Assert.Equal(tokenInfo.tokenType, testTokenType);
-            Assert.Equal(tokenInfo.supplyType, testTokenSupplyType);
-            Assert.Equal(tokenInfo.maxSupply, testTokenMaxSupply);
-            Assert.Equal(tokenInfo.feeScheduleKey.ToBytes(), testFeeScheduleKey.ToBytes());
-            AssertThat(tokenInfo.customFees).HasSize(testTokenCustomFees.Count);
-            Assert.Equal(tokenInfo.pauseKey.ToBytes(), testPauseKey.ToBytes());
-            Assert.Equal(tokenInfo.pauseStatus, testTokenPauseStatus);
-            Assert.Equal(tokenInfo.metadata, testMetadata);
-            Assert.Equal(tokenInfo.metadataKey.ToBytes(), testMetadataKey.ToBytes());
-            Assert.Equal(tokenInfo.ledgerId, testTokenLedgerId);
+
+            Assert.Equal(tokenInfo.TokenId, testTokenId);
+            Assert.Equal(tokenInfo.Name, testTokenName);
+            Assert.Equal(tokenInfo.Symbol, testTokenSymbol);
+            Assert.Equal(tokenInfo.Decimals, (ulong)testTokenDecimals);
+            Assert.Equal(tokenInfo.TotalSupply, (ulong)testTokenTotalSupply);
+            Assert.Equal(tokenInfo.TreasuryAccountId, testTreasuryAccountId);
+            Assert.Equal(tokenInfo.AdminKey.ToBytes(), testAdminKey.ToBytes());
+            Assert.Equal(tokenInfo.KycKey.ToBytes(), testKycKey.ToBytes());
+            Assert.Equal(tokenInfo.FreezeKey.ToBytes(), testFreezeKey.ToBytes());
+            Assert.Equal(tokenInfo.WipeKey.ToBytes(), testWipeKey.ToBytes());
+            Assert.Equal(tokenInfo.SupplyKey.ToBytes(), testSupplyKey.ToBytes());
+            Assert.Equal(tokenInfo.DefaultFreezeStatus, testTokenFreezeStatus);
+            Assert.Equal(tokenInfo.DefaultKycStatus, testTokenKycStatus);
+            Assert.Equal(tokenInfo.IsDeleted, testTokenIsDeleted);
+            Assert.Equal(tokenInfo.AutoRenewAccount, testAutoRenewAccountId);
+            Assert.Equal(tokenInfo.AutoRenewPeriod, testAutoRenewPeriod);
+            Assert.Equal(tokenInfo.ExpirationTime, testExpirationTime);
+            Assert.Equal(tokenInfo.TokenMemo, testTokenMemo);
+            Assert.Equal(tokenInfo.TokenType, testTokenType);
+            Assert.Equal(tokenInfo.SupplyType, testTokenSupplyType);
+            Assert.Equal(tokenInfo.MaxSupply, testTokenMaxSupply);
+            Assert.Equal(tokenInfo.FeeScheduleKey.ToBytes(), testFeeScheduleKey.ToBytes());
+			Assert.Equal(tokenInfo.CustomFees.Count, testTokenCustomFees.Count);
+            Assert.Equal(tokenInfo.PauseKey.ToBytes(), testPauseKey.ToBytes());
+            Assert.Equal(tokenInfo.PauseStatus, testTokenPauseStatus);
+            Assert.Equal(tokenInfo.Metadata, testMetadata);
+            Assert.Equal(tokenInfo.MetadataKey.ToBytes(), testMetadataKey.ToBytes());
+            Assert.Equal(tokenInfo.LedgerId, testTokenLedgerId);
         }
 
         public virtual void FromBytes()
         {
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
             var tokenInfo = TokenInfo.FromBytes(tokenInfoProto.ToByteArray());
-            Assert.Equal(tokenInfo.tokenId, testTokenId);
-            Assert.Equal(tokenInfo.name, testTokenName);
-            Assert.Equal(tokenInfo.symbol, testTokenSymbol);
-            Assert.Equal(tokenInfo.decimals, testTokenDecimals);
-            Assert.Equal(tokenInfo.totalSupply, testTokenTotalSupply);
-            Assert.Equal(tokenInfo.treasuryAccountId, testTreasuryAccountId);
-            Assert.Equal(tokenInfo.adminKey.ToBytes(), testAdminKey.ToBytes());
-            Assert.Equal(tokenInfo.kycKey.ToBytes(), testKycKey.ToBytes());
-            Assert.Equal(tokenInfo.freezeKey.ToBytes(), testFreezeKey.ToBytes());
-            Assert.Equal(tokenInfo.wipeKey.ToBytes(), testWipeKey.ToBytes());
-            Assert.Equal(tokenInfo.supplyKey.ToBytes(), testSupplyKey.ToBytes());
-            Assert.Equal(tokenInfo.defaultFreezeStatus, testTokenFreezeStatus);
-            Assert.Equal(tokenInfo.defaultKycStatus, testTokenKycStatus);
-            Assert.Equal(tokenInfo.isDeleted, testTokenIsDeleted);
-            Assert.Equal(tokenInfo.autoRenewAccount, testAutoRenewAccountId);
-            Assert.Equal(tokenInfo.autoRenewPeriod, testAutoRenewPeriod);
-            Assert.Equal(tokenInfo.expirationTime, testExpirationTime);
-            Assert.Equal(tokenInfo.tokenMemo, testTokenMemo);
-            Assert.Equal(tokenInfo.tokenType, testTokenType);
-            Assert.Equal(tokenInfo.supplyType, testTokenSupplyType);
-            Assert.Equal(tokenInfo.maxSupply, testTokenMaxSupply);
-            Assert.Equal(tokenInfo.feeScheduleKey.ToBytes(), testFeeScheduleKey.ToBytes());
-            AssertThat(tokenInfo.customFees).HasSize(testTokenCustomFees.Count);
-            Assert.Equal(tokenInfo.pauseKey.ToBytes(), testPauseKey.ToBytes());
-            Assert.Equal(tokenInfo.pauseStatus, testTokenPauseStatus);
-            Assert.Equal(tokenInfo.metadata, testMetadata);
-            Assert.Equal(tokenInfo.metadataKey.ToBytes(), testMetadataKey.ToBytes());
-            Assert.Equal(tokenInfo.ledgerId, testTokenLedgerId);
+
+            Assert.Equal(tokenInfo.TokenId, testTokenId);
+            Assert.Equal(tokenInfo.Name, testTokenName);
+            Assert.Equal(tokenInfo.Symbol, testTokenSymbol);
+            Assert.Equal(tokenInfo.Decimals, (ulong)testTokenDecimals);
+            Assert.Equal(tokenInfo.TotalSupply, (ulong)testTokenTotalSupply);
+            Assert.Equal(tokenInfo.TreasuryAccountId, testTreasuryAccountId);
+            Assert.Equal(tokenInfo.AdminKey.ToBytes(), testAdminKey.ToBytes());
+            Assert.Equal(tokenInfo.KycKey.ToBytes(), testKycKey.ToBytes());
+            Assert.Equal(tokenInfo.FreezeKey.ToBytes(), testFreezeKey.ToBytes());
+            Assert.Equal(tokenInfo.WipeKey.ToBytes(), testWipeKey.ToBytes());
+            Assert.Equal(tokenInfo.SupplyKey.ToBytes(), testSupplyKey.ToBytes());
+            Assert.Equal(tokenInfo.DefaultFreezeStatus, testTokenFreezeStatus);
+            Assert.Equal(tokenInfo.DefaultKycStatus, testTokenKycStatus);
+            Assert.Equal(tokenInfo.IsDeleted, testTokenIsDeleted);
+            Assert.Equal(tokenInfo.AutoRenewAccount, testAutoRenewAccountId);
+            Assert.Equal(tokenInfo.AutoRenewPeriod, testAutoRenewPeriod);
+            Assert.Equal(tokenInfo.ExpirationTime.ToDateTime(), testExpirationTime);
+            Assert.Equal(tokenInfo.TokenMemo, testTokenMemo);
+            Assert.Equal(tokenInfo.TokenType, testTokenType);
+            Assert.Equal(tokenInfo.SupplyType, testTokenSupplyType);
+            Assert.Equal(tokenInfo.MaxSupply, testTokenMaxSupply);
+            Assert.Equal(tokenInfo.FeeScheduleKey.ToBytes(), testFeeScheduleKey.ToBytes());
+			Assert.Equal(tokenInfo.CustomFees.Count, testTokenCustomFees.Count);
+            Assert.Equal(tokenInfo.PauseKey.ToBytes(), testPauseKey.ToBytes());
+            Assert.Equal(tokenInfo.PauseStatus, testTokenPauseStatus);
+            Assert.Equal(tokenInfo.Metadata, testMetadata);
+            Assert.Equal(tokenInfo.MetadataKey.ToBytes(), testMetadataKey.ToBytes());
+            Assert.Equal(tokenInfo.LedgerId, testTokenLedgerId);
         }
 
         public virtual void ToProtobuf()
         {
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTokenId().GetShardNum(), testTokenId.shard);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTokenId().GetRealmNum(), testTokenId.realm);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTokenId().GetTokenNum(), testTokenId.num);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetName(), testTokenName);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetSymbol(), testTokenSymbol);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetDecimals(), testTokenDecimals);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTotalSupply(), testTokenTotalSupply);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTreasury().GetShardNum(), testTreasuryAccountId.shard);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTreasury().GetRealmNum(), testTreasuryAccountId.realm);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTreasury().GetAccountNum(), testTreasuryAccountId.num);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetAdminKey().GetEd25519().ToByteArray(), testAdminKey.ToBytesRaw());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetKycKey().GetEd25519().ToByteArray(), testKycKey.ToBytesRaw());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetFreezeKey().GetEd25519().ToByteArray(), testFreezeKey.ToBytesRaw());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetWipeKey().GetEd25519().ToByteArray(), testWipeKey.ToBytesRaw());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetSupplyKey().GetEd25519().ToByteArray(), testSupplyKey.ToBytesRaw());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetDefaultFreezeStatus(), TokenInfo.FreezeStatusToProtobuf(testTokenFreezeStatus));
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetDefaultKycStatus(), TokenInfo.KycStatusToProtobuf(testTokenKycStatus));
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetDeleted(), testTokenIsDeleted);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetAutoRenewAccount().GetShardNum(), testAutoRenewAccountId.shard);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetAutoRenewAccount().GetRealmNum(), testAutoRenewAccountId.realm);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetAutoRenewAccount().GetAccountNum(), testAutoRenewAccountId.num);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetAutoRenewPeriod().GetSeconds(), testAutoRenewPeriod.ToSeconds());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetExpiry().GetSeconds(), testExpirationTime.GetEpochSecond());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetMemo(), testTokenMemo);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetTokenType(), Proto.TokenType.ValueOf(testTokenType.Name()));
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetSupplyType(), Proto.TokenSupplyType.ValueOf(testTokenSupplyType.Name()));
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetMaxSupply(), testTokenMaxSupply);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetFeeScheduleKey().GetEd25519().ToByteArray(), testFeeScheduleKey.ToBytesRaw());
-            AssertThat(tokenInfoProto.GetTokenInfo().GetCustomFeesList()).HasSize(testTokenCustomFees.Count);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetPauseKey().GetEd25519().ToByteArray(), testPauseKey.ToBytesRaw());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetPauseStatus(), TokenInfo.PauseStatusToProtobuf(testTokenPauseStatus));
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetMetadata().ToByteArray(), testMetadata);
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetMetadataKey().GetEd25519().ToByteArray(), testMetadataKey.ToBytesRaw());
-            Assert.Equal(tokenInfoProto.GetTokenInfo().GetLedgerId(), testTokenLedgerId.ToByteString());
+            Assert.Equal(tokenInfoProto.TokenInfo.TokenId.ShardNum, testTokenId.Shard);
+            Assert.Equal(tokenInfoProto.TokenInfo.TokenId.RealmNum, testTokenId.Realm);
+            Assert.Equal(tokenInfoProto.TokenInfo.TokenId.TokenNum, testTokenId.Num);
+            Assert.Equal(tokenInfoProto.TokenInfo.Name, testTokenName);
+            Assert.Equal(tokenInfoProto.TokenInfo.Symbol, testTokenSymbol);
+            Assert.Equal(tokenInfoProto.TokenInfo.Decimals, (ulong)testTokenDecimals);
+            Assert.Equal(tokenInfoProto.TokenInfo.TotalSupply, (ulong)testTokenTotalSupply);
+            Assert.Equal(tokenInfoProto.TokenInfo.Treasury.ShardNum, testTreasuryAccountId.Shard);
+            Assert.Equal(tokenInfoProto.TokenInfo.Treasury.RealmNum, testTreasuryAccountId.Realm);
+            Assert.Equal(tokenInfoProto.TokenInfo.Treasury.AccountNum, testTreasuryAccountId.Num);
+            Assert.Equal(tokenInfoProto.TokenInfo.AdminKey.Ed25519.ToByteArray(), testAdminKey.ToBytesRaw());
+            Assert.Equal(tokenInfoProto.TokenInfo.KycKey.Ed25519.ToByteArray(), testKycKey.ToBytesRaw());
+            Assert.Equal(tokenInfoProto.TokenInfo.FreezeKey.Ed25519.ToByteArray(), testFreezeKey.ToBytesRaw());
+            Assert.Equal(tokenInfoProto.TokenInfo.WipeKey.Ed25519.ToByteArray(), testWipeKey.ToBytesRaw());
+            Assert.Equal(tokenInfoProto.TokenInfo.SupplyKey.Ed25519.ToByteArray(), testSupplyKey.ToBytesRaw());
+            Assert.Equal(tokenInfoProto.TokenInfo.DefaultFreezeStatus, TokenInfo.FreezeStatusToProtobuf(testTokenFreezeStatus));
+            Assert.Equal(tokenInfoProto.TokenInfo.DefaultKycStatus, TokenInfo.KycStatusToProtobuf(testTokenKycStatus));
+            Assert.Equal(tokenInfoProto.TokenInfo.Deleted, testTokenIsDeleted);
+            Assert.Equal(tokenInfoProto.TokenInfo.AutoRenewAccount.ShardNum, testAutoRenewAccountId.Shard);
+            Assert.Equal(tokenInfoProto.TokenInfo.AutoRenewAccount.RealmNum, testAutoRenewAccountId.Realm);
+            Assert.Equal(tokenInfoProto.TokenInfo.AutoRenewAccount.AccountNum, testAutoRenewAccountId.Num);
+            Assert.Equal(tokenInfoProto.TokenInfo.AutoRenewPeriod.Seconds, testAutoRenewPeriod.TotalSeconds);
+            Assert.Equal(tokenInfoProto.TokenInfo.Expiry.Seconds, testExpirationTime.ToUnixTimeSeconds());
+            Assert.Equal(tokenInfoProto.TokenInfo.Memo, testTokenMemo);
+            Assert.Equal(tokenInfoProto.TokenInfo.TokenType, Proto.TokenType.ValueOf(testTokenType.Name()));
+            Assert.Equal(tokenInfoProto.TokenInfo.SupplyType, Proto.TokenSupplyType.ValueOf(testTokenSupplyType.Name()));
+            Assert.Equal(tokenInfoProto.TokenInfo.MaxSupply, testTokenMaxSupply);
+            Assert.Equal(tokenInfoProto.TokenInfo.FeeScheduleKey.Ed25519.ToByteArray(), testFeeScheduleKey.ToBytesRaw());
+			Assert.Equal(tokenInfoProto.TokenInfo.CustomFees.Count, testTokenCustomFees.Count);
+            Assert.Equal(tokenInfoProto.TokenInfo.PauseKey.Ed25519.ToByteArray(), testPauseKey.ToBytesRaw());
+            Assert.Equal(tokenInfoProto.TokenInfo.PauseStatus, TokenInfo.PauseStatusToProtobuf(testTokenPauseStatus));
+            Assert.Equal(tokenInfoProto.TokenInfo.Metadata.ToByteArray(), testMetadata);
+            Assert.Equal(tokenInfoProto.TokenInfo.MetadataKey.Ed25519.ToByteArray(), testMetadataKey.ToBytesRaw());
+            Assert.Equal(tokenInfoProto.TokenInfo.LedgerId, testTokenLedgerId.ToByteString());
         }
 
         public virtual void ToBytes()
         {
             var tokenInfo = SpawnTokenInfoExample();
             var bytes = tokenInfo.ToBytes();
+
             Assert.Equal(bytes, tokenInfo.ToProtobuf().ToByteArray());
         }
     }

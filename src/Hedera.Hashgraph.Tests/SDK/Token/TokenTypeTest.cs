@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-using Proto;
-using Io.Github.JsonSnapshot;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
+
+using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -26,12 +29,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(com.hedera.hashgraph.sdk.TokenType.ValueOf(tokenTypeFungible).ToString(), com.hedera.hashgraph.sdk.TokenType.ValueOf(tokenTypeNonFungible).ToString()).ToMatchSnapshot();
+            SnapshotMatcher.Expect(tokenTypeFungible.ToString(), tokenTypeNonFungible.ToString()).ToMatchSnapshot();
+
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(com.hedera.hashgraph.sdk.TokenType.ValueOf(tokenTypeFungible).ToProtobuf(), com.hedera.hashgraph.sdk.TokenType.ValueOf(tokenTypeNonFungible).ToProtobuf()).ToMatchSnapshot();
+            SnapshotMatcher.Expect((Proto.TokenType)tokenTypeFungible, (Proto.TokenType)tokenTypeNonFungible).ToMatchSnapshot();
         }
     }
 }

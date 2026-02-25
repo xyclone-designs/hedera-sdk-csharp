@@ -1,23 +1,23 @@
-com.hedera.hashgraph.sdk.TokenIdTest.fromBytes=[
+TokenIdTest.fromBytes=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.TokenIdTest.fromSolidityAddress=[
+TokenIdTest.fromSolidityAddress=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.TokenIdTest.shouldSerializeFromString=[
+TokenIdTest.shouldSerializeFromString=[
   "0.0.5005"
 ]
 
 
-com.hedera.hashgraph.sdk.TokenIdTest.toBytes=[
+TokenIdTest.toBytes=[
   "188d27"
 ]
 
 
-com.hedera.hashgraph.sdk.TokenIdTest.toSolidityAddress=[
+TokenIdTest.toSolidityAddress=[
   "000000000000000000000000000000000000138d"
 ]
