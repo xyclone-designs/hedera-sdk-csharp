@@ -15,9 +15,9 @@ namespace Hedera.Hashgraph.SDK.Utils
 		/// </summary>
 		/// <param name="duration">the duration protobuf</param>
 		/// <returns>                         the duration object</returns>
-		internal static TimeSpan FromProtobuf(Proto.Duration duration)
+		internal static Duration FromProtobuf(Proto.Duration duration)
         {
-            return TimeSpan.FromSeconds(duration.Seconds);
+            return Duration.FromTimeSpan(TimeSpan.FromSeconds(duration.Seconds));
         }
 
         /// <summary>
@@ -26,6 +26,13 @@ namespace Hedera.Hashgraph.SDK.Utils
         /// <param name="duration">the duration object</param>
         /// <returns>                         the protobuf</returns>
         internal static Proto.Duration ToProtobuf(TimeSpan duration)
+        {
+            return new Proto.Duration 
+            {
+                Seconds = duration.Seconds 
+            };
+        }
+        internal static Proto.Duration ToProtobuf(Duration duration)
         {
             return new Proto.Duration 
             {

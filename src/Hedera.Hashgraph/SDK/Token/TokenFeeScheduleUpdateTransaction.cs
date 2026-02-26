@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="customFees">the list of custom fees</param>
 		/// <returns>{@code this}</returns>
-		public virtual List<CustomFee> CustomFees 
+		public virtual IList<CustomFee> CustomFees 
         { 
             get => CustomFee.DeepCloneList(field);
 			set 
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

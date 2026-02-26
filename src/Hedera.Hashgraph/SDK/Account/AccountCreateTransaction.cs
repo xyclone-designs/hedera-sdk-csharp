@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="AutoRenewPeriod">the auto renew period for this account.</param>
 		/// <returns>{@code this}</returns>
-		public TimeSpan AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } } = DEFAULT_AUTO_RENEW_PERIOD;
+		public TimeSpan AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } } = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
 		/// <summary>
 		/// A maximum number of tokens that can be auto-associated
 		/// with this account.<br/>
@@ -342,7 +342,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (body.AutoRenewPeriod is not null)
             {
-                AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+                AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod).ToTimeSpan();
             }
 
             InitialBalance = Hbar.FromTinybars((long)body.InitialBalance);
@@ -383,7 +383,7 @@ namespace Hedera.Hashgraph.SDK.Account
             throw new NotImplementedException();
         }
 
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

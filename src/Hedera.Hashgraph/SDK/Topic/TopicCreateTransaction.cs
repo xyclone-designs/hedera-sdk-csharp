@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// </summary>
         public TopicCreateTransaction()
         {
-            AutoRenewPeriod = DEFAULT_AUTO_RENEW_PERIOD;
+            AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD.ToDuration();
             DefaultMaxTransactionFee = new Hbar(25);
         }
 		/// <summary>
@@ -213,12 +213,12 @@ namespace Hedera.Hashgraph.SDK.Topic
 
             if (body.FeeExemptKeyList is not null)
             {
-                FeeExemptKeys = [.. body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>()];
+                FeeExemptKeys.ClearAndSet(body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
             }
 
             if (body.CustomFees is not null)
             {
-                CustomFees = [.. body.CustomFees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee))];
+                CustomFees.ClearAndSet(body.CustomFees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
             }
 
             TopicMemo = body.Memo;
@@ -293,7 +293,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

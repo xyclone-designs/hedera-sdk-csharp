@@ -146,33 +146,19 @@ namespace Hedera.Hashgraph.SDK.Contract
 		{
 			// don't try to Get wider than a `long` as it should just be filled with padding
 			bitWidth = Math.Min(bitWidth, 64);
-			ByteString.Output output = ByteString.NewOutput(bitWidth / 8);
+			byte[] output = new byte[bitWidth / 8];
 
-			try
+			// write bytes in big-endian order
+			for (int i = bitWidth - 8; i >= 0; i -= 8)
 			{
-				// write bytes in big-endian order
-				for (int i = bitWidth - 8; i >= 0; i -= 8)
-				{
-					// widening conversion sign-extends so we don't have to do anything special when
-					// truncating a previously widened value
-					byte u8 = (byte)(val >> i);
-					output.write(u8);
-				}
+				// widening conversion sign-extends so we don't have to do anything special when
+				// truncating a previously widened value
+				byte u8 = (byte)(val >> i);
+				output = [.. output, u8];
+			}
 
-				// byte padding will sign-extend appropriately
-				return LeftPad32(output.toByteString(), signed && val < 0);
-			}
-			finally
-			{
-				try
-				{
-					output.close();
-				}
-				catch (Exception)
-				{
-					// do nothing
-				}
-			}
+			// byte padding will sign-extend appropriately
+			return LeftPad32(ByteString.CopyFrom(output), signed && val < 0);
 		}
 		private static ByteString Int256(BigInteger bigInt, int bitWidth)
 		{
@@ -2467,33 +2453,14 @@ namespace Hedera.Hashgraph.SDK.Contract
 		private ContractFunctionParameters AddFunction(byte[] address, byte[] selector)
 		{
 			if (selector.Length != SELECTOR_LEN)
-			{
 				throw new ArgumentException("function selectors must be 4 bytes or 8 hex chars");
-			}
 
-			ByteString.Output output = ByteString.NewOutput(ADDRESS_LEN + SELECTOR_LEN);
+			ByteString output = ByteString.CopyFrom([.. address, .. selector]);
 
-			try
-			{
-				output.write(address, 0, address.Length);
-				output.write(selector, 0, selector.Length);
+			// function reference Encodes as `bytes24`
+			args.Add(new Argument("function", RightPad32(output), false));
 
-				// function reference Encodes as `bytes24`
-				args.Add(new Argument("function", RightPad32(output.toByteString()), false));
-
-				return this;
-			}
-			finally
-			{
-				try
-				{
-					output.close();
-				}
-				catch (Exception ignored)
-				{
-					// do nothing
-				}
-			}
+			return this;
 		}
 
 		/**

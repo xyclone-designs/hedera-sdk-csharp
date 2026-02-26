@@ -30,11 +30,11 @@ namespace Hedera.Hashgraph.SDK.Exceptions
 		/// <param name="mnemonic">the mnemonic</param>
 		/// <param name="reason">the reason</param>
 		/// <param name="unknownWordIndices">the indices</param>
-		internal BadMnemonicException(Mnemonic mnemonic, BadMnemonicReason reason, IList<int> unknownWordIndices)
+		internal BadMnemonicException(Mnemonic mnemonic, BadMnemonicReason reason, IEnumerable<int> unknownWordIndices)
         {
             Mnemonic = mnemonic;
             Reason = reason;
-            UnknownWordIndices = unknownWordIndices;
+            UnknownWordIndices = [.. unknownWordIndices];
         }
 
 		/// <summary>

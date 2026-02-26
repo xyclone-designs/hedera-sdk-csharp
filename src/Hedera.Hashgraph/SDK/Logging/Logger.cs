@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
+using Grpc.Core.Logging;
+
 namespace Hedera.Hashgraph.SDK.Logging
 {
     /// <summary>
@@ -7,7 +9,7 @@ namespace Hedera.Hashgraph.SDK.Logging
     public class Logger
     {
         //private org.slf4j.Logger internalLogger;
-        private org.slf4j.Logger internalLogger;
+        private ILogger internalLogger;
         private LogLevel currentLevel;
         private LogLevel previousLevel;
         /// <summary>
@@ -31,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Logging
 		/// </summary>
 		/// <param name="logger">the new logger</param>
 		/// <returns>{@code this}</returns>
-		public virtual Logger SetLogger(org.slf4j.Logger logger)
+		public virtual Logger SetLogger(ILogger logger)
         {
             internalLogger = logger;
             return this;
@@ -76,7 +78,8 @@ namespace Hedera.Hashgraph.SDK.Logging
         {
             if (IsEnabledForLevel(LogLevel.Trace))
             {
-                internalLogger.Trace(message, arguments);
+                // TODO
+                internalLogger.Debug(message, arguments);
             }
         }
         /// <summary>
@@ -112,7 +115,7 @@ namespace Hedera.Hashgraph.SDK.Logging
         {
             if (IsEnabledForLevel(LogLevel.Warn))
             {
-                internalLogger.Warn(message, arguments);
+                internalLogger.Warning(message, arguments);
             }
         }
         /// <summary>

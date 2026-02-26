@@ -233,8 +233,8 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>byte</returns>
         public byte GetInt8(int valIndex)
         {
-            return GetByteBuffer(valIndex * 32 + 31).Get();
-        }
+            return GetByteBuffer(valIndex * 32).Span[31];
+		}
 
         /// <summary>
         /// Get the nth returned value as a 32-bit integer.
@@ -261,7 +261,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>long</returns>
         public long GetInt64(int valIndex)
         {
-            return GetByteBuffer(valIndex * 32 + 24).GetLong();
+            ReadOnlySpan<byte> bytes = GetByteBuffer(valIndex * 32 + 24).Span;
+			
+            return BinaryPrimitives.ReadInt64BigEndian(bytes);
 		}
 
         /// <summary>
@@ -311,7 +313,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>int</returns>
         public uint GetUint32(int valIndex)
         {
-            return GetInt32(valIndex);
+            return (uint)GetInt32(valIndex);
         }
 
         /// <summary>
@@ -328,7 +330,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <returns>long</returns>
         public ulong GetUint64(int valIndex)
         {
-            return GetInt64(valIndex);
+            return (ulong)GetInt64(valIndex);
         }
 
         /// <summary>
@@ -368,10 +370,12 @@ namespace Hedera.Hashgraph.SDK.Contract
             return Hex.ToHexString(GetByteString(offset + 12, offset + 32).ToByteArray());
         }
 
-        private int GetIntValueAt(int valueOffset)
-        {
-            return GetByteBuffer(valueOffset + 28).GetInt();
-        }
+		private int GetIntValueAt(int valueOffset)
+		{
+            ReadOnlySpan<byte> bytes = GetByteBuffer(valueOffset + 28).Span;
+
+			return BinaryPrimitives.ReadInt32BigEndian(bytes);
+		}
 
 		private ReadOnlyMemory<byte> GetByteBuffer(int offset)
 		{

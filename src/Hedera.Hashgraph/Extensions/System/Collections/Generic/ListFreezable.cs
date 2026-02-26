@@ -8,8 +8,12 @@ namespace System.Collections.Generic
         private readonly List<T> list = [];
 
         public T this[int index] 
-        { 
-            get => list[index];
+        {
+            get
+            {
+                Frozen?.Invoke();
+                return list[index];
+            }
             set
             {
                 Frozen?.Invoke();

@@ -6,7 +6,6 @@ using Hedera.Hashgraph.SDK.Account;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
@@ -104,9 +103,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <exception cref="IllegalStateException">if this transaction is frozen</exception>
 		/// <exception cref="IllegalStateException">if any inner transaction is not frozen or missing a batch key</exception>
 		/// <exception cref="IllegalArgumentException">if any transaction is of a blacklisted type</exception>
-		public ListFreezable<Transaction<T>> InnerTransactions 
+		public ListFreezable<TransactionWrapped> InnerTransactions 
 		{
-			init; get => field ??= new ListFreezable<Transaction<T>>
+			init; get => field ??= new ListFreezable<TransactionWrapped>
 			{
 				Frozen = RequireNotFrozen,
 				Validate = ValidateInnerTransaction
@@ -127,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					SignedTransactionBytes = atomicTransactionBytes
 				};
 
-				InnerTransactions.Add(Transaction.FromBytes(transaction.ToByteArray()));
+				InnerTransactions.Add(TransactionWrapped.FromBytes(transaction.ToByteArray()));
 			}
 		}
 		/// <summary>
@@ -146,32 +145,37 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		private void ValidateInnerTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
 		{
 			if (BLACKLISTED_TRANSACTIONS.Contains(transaction.GetType()))
-			{
 				throw new ArgumentException("Transaction type " + transaction.GetType().Name + " is not allowed in a batch transaction");
-			}
 
 			if (!transaction.IsFrozen())
-			{
 				throw new InvalidOperationException("Inner transaction should be frozen");
-			}
 
 			if (transaction.BatchKey == null)
-			{
 				throw new InvalidOperationException("Batch key needs to be set");
-			}
+		}
+		private void ValidateInnerTransaction(TransactionWrapped transaction) 
+		{
+			if (BLACKLISTED_TRANSACTIONS.Contains(transaction.Type))
+				throw new ArgumentException("Transaction type " + transaction.Type.Name + " is not allowed in a batch transaction");
+
+			if (!transaction.IsFrozen)
+				throw new InvalidOperationException("Inner transaction should be frozen");
+
+			if (transaction.BatchKey == null)
+				throw new InvalidOperationException("Batch key needs to be set");
 		}
 
-        /// <summary>
-        /// Create the builder.
-        /// </summary>
-        /// <returns>the transaction builder</returns>
-        public Proto.AtomicBatchTransactionBody ToProtobuf()
+		/// <summary>
+		/// Create the builder.
+		/// </summary>
+		/// <returns>the transaction builder</returns>
+		public Proto.AtomicBatchTransactionBody ToProtobuf()
         {
             var builder = new Proto.AtomicBatchTransactionBody();
 
             foreach (var transaction in InnerTransactions)
             {
-                builder.Transactions.Add(transaction.MakeRequest().SignedTransactionBytes);
+                builder.Transactions.Add(transaction.ProtoTransaction.SignedTransactionBytes);
             }
 
             return builder;
@@ -179,8 +183,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		public override void ValidateChecksums(Client client)
 		{
-			foreach (Transaction<T> transaction in InnerTransactions)
-				transaction.ValidateChecksums(client);
+			foreach (TransactionWrapped transaction in InnerTransactions)
+				transaction.ValidateChecksums?.Invoke(client);
 		}
 		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
@@ -201,9 +205,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }
+
+		
     }
 }

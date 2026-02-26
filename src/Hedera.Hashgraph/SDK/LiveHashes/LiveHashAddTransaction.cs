@@ -113,9 +113,9 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
                 hashBuilder.Keys = Keys.ToProtobuf();
             }
 
-            if (Duration != null)
+            if (TimeSpan != null)
             {
-                hashBuilder.Duration = Utils.DurationConverter.ToProtobuf(Duration);
+                hashBuilder.Duration = Utils.DurationConverter.ToProtobuf(TimeSpan);
             }
 
             builder.LiveHash = hashBuilder;
@@ -147,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

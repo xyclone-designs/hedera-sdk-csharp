@@ -20,7 +20,8 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 		private Channel? channel = null;
 		private bool hasConnected = false;
-        private ExecutorService Executor;
+        
+		protected ExecutorService Executor;
 
 		/// <summary>
 		/// Constructor.

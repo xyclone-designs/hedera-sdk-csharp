@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				NodeAddresses = addresses
 			};
 		}
-		public static IList<NodeAddress> CloneNodeAddresses(IList<NodeAddress> addresses)
+		public static List<NodeAddress> CloneNodeAddresses(IList<NodeAddress> addresses)
 		{
 			List<NodeAddress> cloneAddresses = new(addresses.Count);
 

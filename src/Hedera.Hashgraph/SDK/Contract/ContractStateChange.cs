@@ -28,10 +28,10 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// </summary>
         /// <param name="contractId">the contract id</param>
         /// <param name="storageChanges">the list of storage change objects</param>
-        ContractStateChange(ContractId contractId, IList<StorageChange> storageChanges)
+        ContractStateChange(ContractId contractId, IEnumerable<StorageChange> storageChanges)
         {
             ContractId = contractId;
-            StorageChanges = storageChanges;
+            StorageChanges = [.. storageChanges];
         } // /**
         //  * Create contract stage change object from protobuf.
         //  *

@@ -7,6 +7,7 @@ using Hedera.Hashgraph.SDK.File;
 using System.Runtime.CompilerServices;
 
 using Grpc.Core;
+using System.Threading;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
@@ -14,8 +15,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
     {
         public virtual void RegeneratesTransactionIdsWhenTransactionExpiredIsReturned()
         {
+			int count = 0;
 			HashSet<TransactionId> transactionIds = [];
-            AtomicStruct<int> count = new (0);
             List<Proto.TransactionResponse>  responses = 
             [
 				new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.TransactionExpired },
@@ -28,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 try
                 {
-                    var transaction = (Transaction)o;
+                    var transaction = (Transaction<>)o;
                     var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(transaction.SignedTransactionBytes);
                     var transactionBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
                     var transactionId = TransactionId.FromProtobuf(transactionBody.TransactionID);
@@ -39,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
                     transactionIds.Add(transactionId);
 
-                    return responses[count.IncrementAndGet()];
+                    return responses[Interlocked.Increment(ref count)];
                 }
                 catch (Exception e)
                 {

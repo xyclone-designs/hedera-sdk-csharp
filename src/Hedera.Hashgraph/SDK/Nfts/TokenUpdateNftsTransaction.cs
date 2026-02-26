@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             if (body.Token is not null)
 				TokenId = TokenId.FromProtobuf(body.Token);
 
-			Serials = body.SerialNumbers;
+			Serials.ClearAndSet(body.SerialNumbers);
 
             if (body.Metadata is not null)
                 Metadata = body.Metadata.ToByteArray();
@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

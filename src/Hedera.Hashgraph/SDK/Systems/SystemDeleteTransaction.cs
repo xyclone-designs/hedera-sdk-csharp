@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.File;
@@ -10,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Hedera.Hashgraph.SDK.System
+namespace Hedera.Hashgraph.SDK.Systems
 {
     /// <summary>
     /// </summary>
@@ -19,14 +21,16 @@ namespace Hedera.Hashgraph.SDK.System
     /// This transaction is obsolete, not supported, and SHALL fail with a
     /// pre-check result of `NOT_SUPPORTED`.
     /// 
-    /// Recover a file or contract bytecode deleted from the Hedera File
-    /// System (HFS) by a `systemDelete` transaction.
+    /// Delete a file or contract bytecode as an administrative transaction.
     /// > Note
     /// >> A system delete/undelete for a `contractID` is not supported and
     /// >> SHALL return `INVALID_FILE_ID` or `MISSING_ENTITY_ID`.
     /// 
-    /// This transaction can _only_ recover a file removed with the `systemDelete`
-    /// transaction. A file deleted via `fileDelete` SHALL be irrecoverable.<br/>
+    /// This transaction MAY be reversed by the `systemUndelete` transaction.
+    /// A file deleted via `fileDelete`, however SHALL be irrecoverable.<br/>
+    /// This transaction MUST specify an expiration timestamp (with seconds
+    /// precision). The file SHALL be permanently removed from state when
+    /// network consensus time exceeds the specified expiration time.<br/>
     /// This transaction MUST be signed by an Hedera administrative ("system")
     /// account.
     /// 
@@ -39,17 +43,17 @@ namespace Hedera.Hashgraph.SDK.System
     /// None
     /// </remarks>
     [Obsolete("Obsolete")]
-    public sealed class SystemUndeleteTransaction : Transaction<SystemUndeleteTransaction>
+    public sealed class SystemDeleteTransaction : Transaction<SystemDeleteTransaction>
     {
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SystemUndeleteTransaction() { }
+        public SystemDeleteTransaction() { }
 		/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="txBody">protobuf TransactionBody</param>
-		internal SystemUndeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal SystemDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
@@ -59,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.System
 		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
 		///            records</param>
 		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		internal SystemUndeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal SystemDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -68,17 +72,48 @@ namespace Hedera.Hashgraph.SDK.System
 		/// A file identifier.
 		/// <p>
 		/// The identified file MUST exist in the HFS.<br/>
-		/// The identified file MUST be deleted.<br/>
-		/// The identified file deletion MUST be a result of a
-		/// `systemDelete` transaction.<br/>
+		/// The identified file MUST NOT be deleted.<br/>
 		/// The identified file MUST NOT be a "system" file.<br/>
 		/// This field is REQUIRED.
 		/// 
 		/// Mutually exclusive with {@link #setContractId(ContractId)}.
 		/// </summary>
-		/// <param name="fileId">The FileId to be set</param>
-		/// <returns>{@code this}</returns>
 		public FileId? FileId
+		{
+			get;
+			set
+			{
+				RequireNotFrozen();
+				field = value;
+				ContractId = null; // Reset ContractId
+			}
+		}
+        /// <summary>
+        /// A contract identifier.
+        /// <p>
+        /// The identified contract MUST exist in network state.<br/>
+        /// The identified contract bytecode MUST NOT be deleted.<br/>
+        /// <p>
+        /// Mutually exclusive with {@link #setFileId(FileId)}.
+        /// </summary>
+        public ContractId? ContractId
+        {
+            get;
+            set
+            {
+				RequireNotFrozen();
+				field = value;
+				FileId = null; // Reset FileIds
+			}
+        }
+		/// <summary>
+		/// A timestamp indicating when the file will be removed from state.
+		/// <p>
+		/// This value SHALL be expressed in seconds since the `epoch`. The `epoch`
+		/// SHALL be the UNIX epoch with 0 at `1970-01-01T00:00:00.000Z`.<br/>
+		/// This field is REQUIRED.
+		/// </summary>
+		public Timestamp? ExpirationTime
 		{
 			get;
 			set
@@ -87,25 +122,31 @@ namespace Hedera.Hashgraph.SDK.System
 				field = value;
 			}
 		}
+
         /// <summary>
-        /// A contract identifier.
-        /// <p>
-        /// The identified contract MUST exist in network state.<br/>
-        /// The identified contract bytecode MUST be deleted.<br/>
-        /// The identified contract deletion MUST be a result of a
-        /// `systemDelete` transaction.
-        /// <p>
+        /// Build the transaction body.
         /// </summary>
-        /// <param name="contractId">The ContractId to be set</param>
-        /// <returns>{@code this}</returns>
-        public ContractId? ContractId 
+        /// <returns>{@link Proto.SystemDeleteTransactionBody}</returns>
+        public Proto.SystemDeleteTransactionBody ToProtobuf()
         {
-            get;
-            set
+            var builder = new Proto.SystemDeleteTransactionBody();
+
+            if (FileId != null)
             {
-				RequireNotFrozen();
-				field = value;
-			}
+                builder.FileID = FileId.ToProtobuf();
+            }
+
+            if (ContractId != null)
+            {
+                builder.ContractID = ContractId.ToProtobuf();
+            }
+
+            if (ExpirationTime != null)
+            {
+                builder.ExpirationTime = Utils.TimestampConverter.ToSecondsProtobuf(ExpirationTime);
+            }
+
+            return builder;
         }
 
         /// <summary>
@@ -113,25 +154,12 @@ namespace Hedera.Hashgraph.SDK.System
         /// </summary>
         void InitFromTransactionBody()
         {
-            var body = SourceTransactionBody.SystemUndelete;
+			var body = SourceTransactionBody.SystemDelete;
 
-            FileId = FileId.FromProtobuf(body.FileID);
-            ContractId = ContractId.FromProtobuf(body.ContractID);
-        }
-
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.SystemUndeleteTransactionBody}</returns>
-        public Proto.SystemUndeleteTransactionBody ToProtobuf()
-        {
-            var builder = new Proto.SystemUndeleteTransactionBody();
-
-            if (FileId is not null) builder.FileID = FileId.ToProtobuf();
-            if (ContractId is not null) builder.ContractID = ContractId.ToProtobuf();
-
-            return builder;
-        }
+			FileId = FileId.FromProtobuf(body.FileID);
+			ContractId = ContractId.FromProtobuf(body.ContractID);
+			ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+		}
 
         public override void ValidateChecksums(Client client)
         {
@@ -143,31 +171,30 @@ namespace Hedera.Hashgraph.SDK.System
             int modesEnabled = (FileId != null ? 1 : 0) + (ContractId != null ? 1 : 0);
             if (modesEnabled != 1)
             {
-                throw new InvalidOperationException("SystemDeleteTransaction must have exactly 1 of the following fields set: contractId, fileId");
+                throw new InvalidOperationException("SystemDeleteTransaction must have exactly 1 of the following fields set: ContractId, FileId");
             }
 
             return Task.CompletedTask;
         }
         public override void OnFreeze(Proto.TransactionBody bodyBuilder)
         {
-            bodyBuilder.SystemUndelete = ToProtobuf();
+            bodyBuilder.SystemDelete = ToProtobuf();
         }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
-            scheduled.SystemUndelete = ToProtobuf();
-        }
-
+			scheduled.SystemDelete = ToProtobuf();
+		}
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			if (FileId is not null)
-			{
-				string methodname = nameof(Proto.FileService.FileServiceClient.systemUndelete);
+            if (FileId is not null)
+            {
+                string methodname = nameof(Proto.FileService.FileServiceClient.systemDelete);
 
-				return Proto.FileService.Descriptor.FindMethodByName(methodname);
-			}
-			else
-			{
-				string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.systemUndelete);
+                return Proto.FileService.Descriptor.FindMethodByName(methodname);
+            }
+            else
+            {
+				string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.systemDelete);
 
 				return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
 			}
@@ -177,7 +204,7 @@ namespace Hedera.Hashgraph.SDK.System
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

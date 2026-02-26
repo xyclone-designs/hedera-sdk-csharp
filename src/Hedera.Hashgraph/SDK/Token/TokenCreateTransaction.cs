@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         public TokenCreateTransaction()
         {
-            AutoRenewPeriod = DEFAULT_AUTO_RENEW_PERIOD;
+            AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD.ToDuration();
             DefaultMaxTransactionFee = new Hbar(40);
         }
 		/// <summary>
@@ -144,7 +144,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// </summary>
 		/// <param name="customFees">the custom fees</param>
 		/// <returns>{@code this}</returns>
-		public virtual List<CustomFee> CustomFees
+		public virtual IList<CustomFee> CustomFees
 		{
 			get => CustomFee.DeepCloneList(field);
 			set => field = CustomFee.DeepCloneList(value);
@@ -575,7 +575,7 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 		public override TokenCreateTransaction FreezeWith(Client? client)
 		{
-			if (AutoRenewAccountId == null && client.OperatorAccountId != null && AutoRenewPeriod != null && AutoRenewPeriod.Seconds == 0)
+			if (AutoRenewAccountId == null && client?.OperatorAccountId != null && AutoRenewPeriod != null && AutoRenewPeriod.Seconds == 0)
 			{
 				AutoRenewAccountId = TransactionIds != null && TransactionIds.Count != 0 && TransactionIds.GetCurrent() != null ? TransactionIds.GetCurrent().AccountId : client.OperatorAccountId;
 			}
@@ -594,7 +594,7 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

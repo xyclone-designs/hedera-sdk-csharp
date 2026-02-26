@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <returns>{@link Client}</returns>
 		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, Action<Client>? oncreate = null)
 		{
-			ExecutorService executor = CreateExecutor();
+			ExecutorService executor = new ();
 
 			var isValidNetwork = true;
 			long shard = 0;
@@ -140,7 +140,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <returns></returns>
 		public static Client ForMirrorNetwork(IList<string> mirrorNetworkList, long shard, long realm)
 		{
-			var executor = CreateExecutor();
+			var executor = new ExecutorService();
 			var network = Network.ForNetwork(executor, []);
 			var mirrorNetwork = MirrorNetwork.ForNetwork(executor, mirrorNetworkList);
 			var client = new Client(executor, network, mirrorNetwork, null, true, null, shard, realm);
@@ -161,11 +161,11 @@ namespace Hedera.Hashgraph.SDK
 		/// <returns>{@link Client}</returns>
 		public static Client ForMainnet(Action<Client>? oncreate = null)
 		{
-			var executor = CreateExecutor();
+			var executor = new ExecutorService();
 			var network = Network.ForMainnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
 			
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), true, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForMainnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), false, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -195,11 +195,11 @@ namespace Hedera.Hashgraph.SDK
 		/// <returns>{@link Client}</returns>
 		public static Client ForTestnet(Action<Client>? oncreate = null)
 		{
-			var executor = CreateExecutor();
+			var executor = new ExecutorService();
 			var network = Network.ForTestnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), true, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -216,7 +216,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForTestnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), false, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -230,11 +230,11 @@ namespace Hedera.Hashgraph.SDK
 		/// <returns>{@link Client}</returns>
 		public static Client ForPreviewnet(Action<Client>? oncreate = null)
 		{
-			var executor = CreateExecutor();
+			var executor = new ExecutorService();
 			var network = Network.ForPreviewnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), true, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
 			oncreate?.Invoke(client);
 
@@ -252,7 +252,7 @@ namespace Hedera.Hashgraph.SDK
 			var network = Network.ForPreviewnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
 
-			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY.ToDuration(), false, DEFAULT_NETWORK_UPDATE_PERIOD.ToDuration(), 0, 0);
+			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
 			oncreate?.Invoke(client);
 

@@ -34,11 +34,11 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="bloom">the bloom filter</param>
         /// <param name="topics">list of topics</param>
         /// <param name="data">the event data</param>
-        private ContractLogInfo(ContractId contractId, ByteString bloom, IList<ByteString> topics, ByteString data)
+        private ContractLogInfo(ContractId contractId, ByteString bloom, IEnumerable<ByteString> topics, ByteString data)
         {
             ContractId = contractId;
             Bloom = bloom;
-            Topics = topics;
+            Topics = [.. topics];
             Data = data;
         }
 

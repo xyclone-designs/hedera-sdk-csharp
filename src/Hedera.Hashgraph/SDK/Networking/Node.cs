@@ -2,6 +2,7 @@
 using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Account;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
@@ -76,7 +77,9 @@ namespace Hedera.Hashgraph.SDK.Networking
 
         public override ChannelCredentials GetChannelCredentials()
         {
-            return Proto. TlsChannelCredentials.NewBuilder().TrustManager(new HederaTrustManager(AddressBookEntry.CertHash, VerifyCertificates)).Build();
-        }
+			return ChannelCredentials.SecureSsl;
+			// TODO
+			//return Proto.TlsChannelCredentials.NewBuilder().TrustManager(new HederaTrustManager(AddressBookEntry.CertHash, VerifyCertificates)).Build();
+		}
     }
 }

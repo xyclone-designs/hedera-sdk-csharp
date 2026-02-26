@@ -9,7 +9,9 @@ using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -106,30 +108,34 @@ namespace Hedera.Hashgraph.SDK.Utils
             }
         }
 
-        /// <summary>
-        /// Generate a solidity address.
-        /// </summary>
-        /// <param name="shard">the shard part</param>
-        /// <param name="realm">the realm part</param>
-        /// <param name="num">the num part</param>
-        /// <returns>the solidity address</returns>
-        public static string ToSolidityAddress(long shard, long realm, long num)
-        {
-            if (Long.HighestOneBit(shard) > 32)
-            {
-                throw new InvalidOperationException("shard out of 32-bit range " + shard);
-            }
+		/// <summary>
+		/// Generate a solidity address.
+		/// </summary>
+		/// <param name="shard">the shard part</param>
+		/// <param name="realm">the realm part</param>
+		/// <param name="num">the num part</param>
+		/// <returns>the solidity address</returns>
+		public static string ToSolidityAddress(long shard, long realm, long num)
+		{
+			if (shard < 0 || shard > 0xFFFFFFFF)
+				throw new InvalidOperationException("shard out of 32-bit range " + shard);
 
-            return Hex.ToHexString(ByteBuffer.Allocate(20).PutInt((int)shard).PutLong(realm).PutLong(num).Array());
-        }
+			byte[] bytes = new byte[20];
 
-        /// <summary>
-        /// Generate a checksum.
-        /// </summary>
-        /// <param name="ledgerId">the ledger id</param>
-        /// <param name="addr">the address</param>
-        /// <returns>the checksum</returns>
-        public static string Checksum(LedgerId ledgerId, string addr)
+			BinaryPrimitives.WriteInt32BigEndian(bytes.AsSpan(0, 4), (int)shard);
+			BinaryPrimitives.WriteInt64BigEndian(bytes.AsSpan(4, 8), realm);
+			BinaryPrimitives.WriteInt64BigEndian(bytes.AsSpan(12, 8), num);
+
+			return Convert.ToHexStringLower(bytes);
+		}
+
+		/// <summary>
+		/// Generate a checksum.
+		/// </summary>
+		/// <param name="ledgerId">the ledger id</param>
+		/// <param name="addr">the address</param>
+		/// <returns>the checksum</returns>
+		public static string Checksum(LedgerId ledgerId, string addr)
         {
             StringBuilder answer = new ();
             List<int> d = []; // Digits with 10 for ".", so if addr == "0.0.123" then d == [0, 10, 0, 10, 1, 2, 3]
@@ -140,7 +146,7 @@ namespace Hedera.Hashgraph.SDK.Utils
             long c = 0; // The checksum, as a single number
             long p3 = 26 * 26 * 26; // 3 digits in base 26
             long p5 = 26 * 26 * 26 * 26 * 26; // 5 digits in base 26
-            long asciiA = Character.CodePointAt("a", 0); // 97
+            long asciiA = 'a'; // 97
             long m = 1000003; // min prime greater than a million. Used for the final permutation.
             long w = 31; // Sum s of digit values weights them by powers of w. Should be coprime to p5.
             List<byte> h = new (ledgerId.ToBytes().Length + 6);
@@ -187,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Utils
                 c /= 26;
             }
 
-            return answer.Reverse().ToString();
+            return string.Join(string.Empty, answer.ToString().Reverse());
         }
 
         /// <summary>
@@ -296,9 +302,6 @@ namespace Hedera.Hashgraph.SDK.Utils
 
         /// <summary>
         /// Get ContractId num from mirror node using evm address.
-        /// 
-        /// <p>Note: This method requires API level 33 or higher. It will not work on devices running API versions below 33
-        /// because it uses features introduced in API level 33 (Android 13).</p>*
         /// </summary>
         /// <param name="client"></param>
         /// <param name="evmAddress"></param>
@@ -315,46 +318,53 @@ namespace Hedera.Hashgraph.SDK.Utils
             return PerformQueryToMirrorNodeAsync(client.MirrorRestBaseUrl, apiEndpoint, jsonBody);
         }
 
-        public static async Task<string> PerformQueryToMirrorNodeAsync(string baseUrl, string apiEndpoint, string jsonBody)
-        {
-            string apiUrl = baseUrl + apiEndpoint;
-            HttpClient httpClient = HttpClient.NewHttpClient();
-            var httpBuilder = HttpRequest.NewBuilder().Timeout(MIRROR_NODE_CONNECTION_TIMEOUT).Uri(URI.Create(apiUrl));
-            if (jsonBody != null)
-            {
-                httpBuilder.Header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.OfString(jsonBody));
-            }
+		public static async Task<string> PerformQueryToMirrorNodeAsync(string baseUrl, string apiEndpoint, string? jsonBody)
+		{
+			string apiUrl = baseUrl + apiEndpoint;
 
-            var httpRequest = httpBuilder.Build();
-            return httpClient.SendAsync(httpRequest, HttpResponse.BodyHandlers.OfString()).Handle((response, ex) =>
-            {
-                if (ex != null)
-                {
-                    if (ex is HttpTimeoutException)
-                    {
-                        throw new CompletionException(new Exception("Request to Mirror Node timed out", ex));
-                    }
-                    else
-                    {
-                        throw new CompletionException(new Exception("Failed to send request to Mirror Node", ex));
-                    }
-                }
+			using var httpClient = new HttpClient
+			{
+				Timeout = MIRROR_NODE_CONNECTION_TIMEOUT
+			};
 
-                int statusCode = response.StatusCode();
-                if (statusCode != 200)
-                {
-                    throw new CompletionException(new Exception("Received non-200 response from Mirror Node: " + response.Body()));
-                }
+			using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
 
-                return response.Body();
-            });
-        }
+			if (!string.IsNullOrEmpty(jsonBody))
+			{
+				request.Content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+			}
+
+			try
+			{
+				using var response = await httpClient.SendAsync(request);
+
+				string responseBody = await response.Content.ReadAsStringAsync();
+
+				if (!response.IsSuccessStatusCode)
+				{
+					throw new Exception(
+						$"Received non-200 response from Mirror Node: {responseBody}");
+				}
+
+				return responseBody;
+			}
+			catch (TaskCanceledException ex) when (!ex.CancellationToken.IsCancellationRequested)
+			{
+				// timeout
+				throw new Exception("Request to Mirror Node timed out", ex);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Failed to send request to Mirror Node", ex);
+			}
+		}
 
         private static string ParseStringMirrorNodeResponse(string responseBody, string memberName)
         {
-            JsonObject jsonObject = JsonParser.ParseString(responseBody).GetAsJsonObject();
-            string evmAddress = jsonObject[memberName].GetAsString();
-            return evmAddress.Substring(evmAddress.LastIndexOf(".") + 1);
+            JsonNode jsonnode = JsonNode.Parse(responseBody) ?? throw new ArgumentException();
+            string evmAddress = jsonnode[memberName]?.GetValue<string>() ?? throw new ArgumentException();
+
+            return evmAddress?[(evmAddress.LastIndexOf('.') + 1)..] ?? throw new ArgumentException();
         }
 
         private static long ParseNumFromMirrorNodeResponse(string responseBody, string memberName)

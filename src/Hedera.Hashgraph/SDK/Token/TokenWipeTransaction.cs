@@ -146,7 +146,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 AccountId = AccountId.FromProtobuf(body.Account);
 
             Amount = body.Amount;
-            Serials = body.SerialNumbers;
+            Serials.ClearAndSet(body.SerialNumbers);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

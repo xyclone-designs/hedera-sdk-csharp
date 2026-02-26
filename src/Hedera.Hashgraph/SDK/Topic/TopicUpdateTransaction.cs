@@ -196,12 +196,12 @@ namespace Hedera.Hashgraph.SDK.Topic
             if (body.FeeScheduleKey is not null)
                 FeeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
 
-            if (body.FeeExemptKeyList is not null)
-                FeeExemptKeys = [.. body.FeeExemptKeyList.Keys.Select(_ => Key.FromProtobufKey(_)).OfType<Key>()];
+			if (body.FeeExemptKeyList is not null)
+				FeeExemptKeys.ClearAndSet(body.FeeExemptKeyList.Keys.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
 
-            if (body.CustomFees is not null)
-                CustomFees = [..body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee))];
-        }
+			if (body.CustomFees is not null)
+				CustomFees.ClearAndSet(body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
+		}
 
         /// <summary>
         /// Build the transaction body.
@@ -292,7 +292,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

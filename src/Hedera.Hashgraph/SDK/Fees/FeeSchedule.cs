@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 		public virtual List<TransactionFeeSchedule> TransactionFeeSchedules
 		{
 			set => field = value.CloneToList();
-			get => new ReadOnlyCollection<TransactionFeeSchedule>(field.CloneToList());
+			get => field.CloneToList();
 
 		} = [];
 

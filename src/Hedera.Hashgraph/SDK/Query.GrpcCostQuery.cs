@@ -1,6 +1,7 @@
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Networking;
+using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
@@ -32,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 			{
 				Parent.ChosenQueryPayment = Cost;
 				Parent.PaymentOperator = Operator;
-				Parent.PaymentTransactions = Parent;
+				Parent.PaymentTransactions = [.. Enumerable.Range(0, Parent.NodeAccountIds_Read.Count).Select<int, Proto.Transaction?>(_ => null)];
 			}
 			public bool ShouldError()
 			{

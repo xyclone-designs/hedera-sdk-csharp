@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.File
         /// </summary
         public FileCreateTransaction()
         {
-            ExpirationTime = Timestamp.FromDateTime(DateTime.UtcNow.Add(DEFAULT_AUTO_RENEW_PERIOD.ToTimeSpan()));
+            ExpirationTime = Timestamp.FromDateTime(DateTime.UtcNow.Add(Transaction.DEFAULT_AUTO_RENEW_PERIOD));
             DefaultMaxTransactionFee = new Hbar(5);
         }
 		/// <summary>
@@ -293,7 +293,7 @@ namespace Hedera.Hashgraph.SDK.File
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

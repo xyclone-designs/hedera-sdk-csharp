@@ -161,10 +161,10 @@ namespace Hedera.Hashgraph.SDK.Keys
 			}
 
 			Array.Copy(entropy, 0, seed, 0, entropy.Length);
-            byte[] salt = [-1];
+            byte[] salt = [0xFF];
 			Pkcs5S2ParametersGenerator pbkdf2 = new (new Sha512Digest());
             pbkdf2.Init(seed, salt, 2048);
-            KeyParameter key = (KeyParameter)pbkdf2.GenerateDerivedParameters(256);
+            KeyParameter key = (KeyParameter)pbkdf2.GenerateDerivedParameters("AES256", 256);
             
 			return key.GetKey();
         }

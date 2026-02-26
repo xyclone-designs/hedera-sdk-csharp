@@ -11,6 +11,7 @@ using Hedera.Hashgraph.SDK.Networking;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace Hedera.Hashgraph.SDK
     {
 		private readonly bool ShouldShutdownExecutor;
 		internal readonly ExecutorService Executor;
-        private readonly AtomicStruct<TimeSpan> _GrpcDeadline = new (DEFAULT_GRPC_DEADLINE);
+        private long _GrpcDeadline_Ticks = DEFAULT_GRPC_DEADLINE.Ticks;
         private readonly HashSet<SubscriptionHandle> Subscriptions = [];
 
         private Task? NetworkUpdateFuture;
@@ -480,8 +481,8 @@ namespace Hedera.Hashgraph.SDK
 		/// </summary>
 		public TimeSpan GrpcDeadline
 		{
-			get => _GrpcDeadline.Get();
-			set => _GrpcDeadline.Set(value);
+			set => Volatile.Write(ref _GrpcDeadline_Ticks, value.Ticks);
+			get => TimeSpan.FromTicks(Volatile.Read(ref _GrpcDeadline_Ticks));
 		}
 		/// <summary>
 		/// The period for updating the Address Book

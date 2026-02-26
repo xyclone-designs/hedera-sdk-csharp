@@ -230,7 +230,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 KycStatusFromProtobuf(response.TokenInfo.DefaultKycStatus),
 				response.TokenInfo.Deleted,
 				AccountId.FromProtobuf(response.TokenInfo.AutoRenewAccount),
-				DurationConverter.FromProtobuf(response.TokenInfo.AutoRenewPeriod),
+				DurationConverter.FromProtobuf(response.TokenInfo.AutoRenewPeriod).ToTimeSpan(),
 				TimestampConverter.FromProtobuf(response.TokenInfo.Expiry),
 				response.TokenInfo.Memo, 
                 CustomFeesFromProto(response.TokenInfo), 

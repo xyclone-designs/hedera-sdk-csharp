@@ -3,10 +3,10 @@ using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Macs;
 using Org.BouncyCastle.Crypto.Modes;
-using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Math.EC;
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK
 			Pkcs5S2ParametersGenerator gen = new (new Sha256Digest());
 			gen.Init(Encoding.UTF8.GetBytes(passphrase), salt, iterations);
 
-			return (KeyParameter)gen.GenerateDerivedParameters(dkLenBytes * 8);
+			return (KeyParameter)gen.GenerateDerivedParameters("AES256", dkLenBytes * 8);
 		}
 		/// <summary>
 		/// Initialize an advanced encryption standard counter mode cipher.

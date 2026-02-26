@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.SDK
 		public virtual List<AccountId> NodeAccountIds
         {
 			set => field = [.. value];
-			get => field?.AsReadOnly() ?? [];
+			get => field ?? [];
         }
 		public virtual string CreateBytecode { get; set; } = string.Empty;
 		public virtual string AppendBytecode { get; set; } = string.Empty;

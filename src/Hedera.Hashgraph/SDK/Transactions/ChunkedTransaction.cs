@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				var offset = txIndex * nodeCount;
 				for (var nodeIndex = 0; nodeIndex < nodeCount; ++nodeIndex)
 				{
-					hashes.Add(NodeAccountIds[nodeIndex], GenerateHash(OuterTransactions[offset + nodeIndex].SignedTransactionBytes.ToByteArray()));
+					hashes.Add(NodeAccountIds[nodeIndex], Transaction.GenerateHash(OuterTransactions[offset + nodeIndex].SignedTransactionBytes.ToByteArray()));
 				}
 
 				transactionHashes.Add(hashes);
@@ -285,7 +285,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <returns>List of integers that represent the size of each chunk</returns>
 		public virtual List<int> BodySizeAllChunks()
 		{
-			IList<int> list = [];
+			List<int> list = [];
 			int originalIndex = TransactionIds.Index;
 			try
 			{

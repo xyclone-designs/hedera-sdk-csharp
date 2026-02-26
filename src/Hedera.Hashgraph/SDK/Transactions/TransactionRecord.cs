@@ -168,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             IEnumerable<Transfer> transfers, 
             IDictionary<TokenId, IDictionary<AccountId, long>> tokenTransfers, 
             IEnumerable<TokenTransfer> tokenTransferList, 
-            IDictionary<TokenId, IEnumerable<TokenNftTransfer>> tokenNftTransfers, 
+            IDictionary<TokenId, IList<TokenNftTransfer>> tokenNftTransfers, 
             ScheduleId scheduleRef, 
             IEnumerable<AssessedCustomFee> assessedCustomFees,
 			IEnumerable<TokenAssociation> automaticTokenAssociations, 
@@ -247,7 +247,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 transfers.Add(Transfer.FromProtobuf(accountAmount));
             }
 
-            var tokenTransfers = new Dictionary<TokenId, Dictionary<AccountId, long>>();
+            var tokenTransfers = new Dictionary<TokenId, IDictionary<AccountId, long>>();
             var tokenNftTransfers = new Dictionary<TokenId, IList<TokenNftTransfer>>();
             var allTokenTransfers = new List<TokenTransfer>();
 
@@ -258,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
                 foreach (var transfer in tokenTransfersList)
                 {
-                    var current = tokenTransfers.TryGetValue(transfer.TokenId, out Dictionary<AccountId, long>? value) ? value : [];
+                    var current = tokenTransfers.TryGetValue(transfer.TokenId, out IDictionary<AccountId, long>? value) ? value : new Dictionary<AccountId, long> { };
 
                     current.Add(transfer.AccountId, transfer.Amount);
                     tokenTransfers.Add(transfer.TokenId, current);

@@ -169,7 +169,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// <returns>BigDecimal</returns>
         public BigDecimal To(HbarUnit unit)
         {
-            return BigDecimal.ValueOf(valueInTinybar).Divide(BigDecimal.ValueOf(unit.Tinybar), MathContext.UNLIMITED);
+            return BigDecimal.ValueOf(valueInTinybar).Divide(BigDecimal.ValueOf(unit.Tinybar));
         }
 
         /// <summary>

@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Contract
                 contractInfo.ContractAccountID,
 				Key.FromProtobufKey(contractInfo.AdminKey), 
                 TimestampConverter.FromProtobuf(contractInfo.ExpirationTime), 
-                DurationConverter.FromProtobuf(contractInfo.AutoRenewPeriod), 
+                DurationConverter.FromProtobuf(contractInfo.AutoRenewPeriod).ToTimeSpan(), 
                 AccountId.FromProtobuf(contractInfo.AutoRenewAccountId), 
                 contractInfo.Storage, 
                 contractInfo.Memo, 

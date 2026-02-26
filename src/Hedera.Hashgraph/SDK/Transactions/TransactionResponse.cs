@@ -49,8 +49,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// The scheduled transaction ID
         /// </summary>
-        public readonly TransactionId ScheduledTransactionId;
-        private readonly Transaction<T> Transaction;
+        public readonly TransactionId? ScheduledTransactionId;
 
         /// <summary>
         /// Constructor.
@@ -59,47 +58,52 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <param name="transactionId">the transaction id</param>
         /// <param name="transactionHash">the transaction hash</param>
         /// <param name="scheduledTransactionId">the scheduled transaction id</param>
-        TransactionResponse(AccountId nodeId, TransactionId transactionId, byte[] transactionHash, TransactionId scheduledTransactionId, Transaction<T> transaction)
+        internal TransactionResponse(AccountId nodeId, TransactionId transactionId, byte[] transactionHash, TransactionId scheduledTransactionId, Func<Client, TransactionResponse, TransactionReceipt> onretry)
         {
             this.NodeId = nodeId;
-			this.Transaction = transaction;
 			this.TransactionId = transactionId;
             this.TransactionHash = transactionHash;
             this.ScheduledTransactionId = scheduledTransactionId;
-        }
+            this.OnRetry = onretry;
 
-		private TransactionReceipt RetryTransaction(Client client)
-		{
-			// reset the transaction body
-			Transaction.FrozenBodyBuilder = null;
-
-			// regenerate the transaction id
-			Transaction.RegenerateTransactionId(client);
-
-			TransactionResponse transactionResponse = Transaction.Execute(client);
-
-			return new TransactionReceiptQuery
-			{
-				TransactionId = transactionResponse.TransactionId,
-				NodeAccountIds = [transactionResponse.NodeId]
-
-			}.Execute(client).ValidateStatus(ValidateStatus);
 		}
+
+        internal static TransactionResponse Init<T>(AccountId nodeId, TransactionId transactionId, byte[] transactionHash, TransactionId? scheduledTransactionId, Transaction<T> transaction) where T : Transaction<T>
+        {
+            return new TransactionResponse(nodeId, transactionId, transactionHash, scheduledTransactionId, (client, oldresponse) =>
+            {
+                // reset the transaction body
+                transaction.FrozenBodyBuilder = null;
+
+                // regenerate the transaction id
+                transaction.RegenerateTransactionId(client);
+
+                TransactionResponse transactionResponse = transaction.Execute(client);
+
+                return new TransactionReceiptQuery
+                {
+                    TransactionId = transactionResponse.TransactionId,
+                    NodeAccountIds = [transactionResponse.NodeId]
+
+                }.Execute(client).ValidateStatus(oldresponse.ValidateStatus);
+            });   
+        }
 
 		/// <summary>
 		/// </summary>
 		/// <returns>whether getReceipt() or getRecord() will throw an exception if the receipt status is not SUCCESS</returns>
 		public bool ValidateStatus { get; set; } = true;
+		public Func<Client, TransactionResponse, TransactionReceipt> OnRetry { get; set; }
 
-        /// <summary>
-        /// Fetch the receipt of the transaction.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <returns>the transaction receipt</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        /// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
-        public TransactionReceipt GetReceipt(Client client)
+		/// <summary>
+		/// Fetch the receipt of the transaction.
+		/// </summary>
+		/// <param name="client">The client with which this will be executed.</param>
+		/// <returns>the transaction receipt</returns>
+		/// <exception cref="TimeoutException">when the transaction times out</exception>
+		/// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+		/// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+		public TransactionReceipt GetReceipt(Client client)
         {
             return GetReceipt(client, client.RequestTimeout);
         }
@@ -143,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                                 backoffMs *= 2;
 
                                 // Retry the transaction
-                                return RetryTransaction(client);
+                                return OnRetry.Invoke(client, this);
                             }
                             catch (ThreadInterruptedException ie)
                             {

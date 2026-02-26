@@ -200,7 +200,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// Called after receiving the query response from Hedera. The derived class should map into its output type.
 		/// </summary>
-		public abstract TTransactionResponse MapResponse(Proto.Response response, AccountId nodeId, TProtoRequest request);
+		public abstract TTransactionResponse MapResponse(TProtoResponse response, AccountId nodeId, TProtoRequest request);
 
 		protected virtual void CheckNodeAccountIds()
 		{
@@ -457,7 +457,7 @@ namespace Hedera.Hashgraph.SDK
 					}
 				}
 
-				var status = MapResponseStatus(response);
+				var status = MapResponseStatus(response as Proto.Response);
 				var executionState = GetExecutionState(status, response);
 
 				grpcRequest.HandleResponse(response, status, executionState, client);
@@ -689,7 +689,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 
 				// Process response status
-				var status = MapResponseStatus(response);
+				var status = MapResponseStatus(response as Proto.Response);
 				var executionState = GetExecutionState(status, response);
 				grpcRequest.HandleResponse(response, status, executionState, client);
 

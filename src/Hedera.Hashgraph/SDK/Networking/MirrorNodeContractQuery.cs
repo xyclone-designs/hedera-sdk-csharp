@@ -3,7 +3,8 @@ using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
-
+using Hedera.Hashgraph.SDK.Logging;
+using Hedera.Hashgraph.SDK.Utils;
 using Org.BouncyCastle.Asn1;
 using Org.BouncyCastle.Utilities.Encoders;
 
@@ -163,31 +164,42 @@ namespace Hedera.Hashgraph.SDK.Networking
 		{
 			return ParseHexEstimateToLong(await ExecuteMirrorNodeRequest(client, "latest", true));
 		}
-		private Task<string> ExecuteMirrorNodeRequest(Client client, string blockNumber, bool estimate)
+		private async Task<string> ExecuteMirrorNodeRequest(Client client, string blockNumber, bool estimate)
 		{
-			string apiEndpoint = "/Contracts/call";
-			string jsonPayload = CreateJsonPayload(CallData, SenderEvmAddress, ContractEvmAddress, GasLimit, GasPrice, Value, blockNumber, estimate);
+			string apiEndpoint = "/contracts/call";
+			string jsonPayload = CreateJsonPayload(
+				CallData,
+				SenderEvmAddress,
+				ContractEvmAddress,
+				GasLimit,
+				GasPrice,
+				Value,
+				blockNumber,
+				estimate);
+
 			string baseUrl = client.MirrorRestBaseUrl;
 
-			// For localhost Contract calls, override to use port 8545 unless system property overrides
+			// For localhost contract calls, override to use port 8545 unless environment variable overrides
 			if (baseUrl.Contains("localhost:5551") || baseUrl.Contains("127.0.0.1:5551"))
 			{
-				string ContractPort = System.GetProperty("hedera.mirror.Contract.port");
-				if (ContractPort != null && ContractPort.Length != 0)
-				{
-					baseUrl = baseUrl.Replace(":5551", ":" + ContractPort);
-				}
-				else
-				{
-					baseUrl = baseUrl.Replace(":5551", ":8545");
-				}
+				string? contractPort =
+					Environment.GetEnvironmentVariable("hedera.mirror.Contract.port");
+
+				baseUrl = !string.IsNullOrWhiteSpace(contractPort)
+					? baseUrl.Replace(":5551", ":" + contractPort)
+					: baseUrl.Replace(":5551", ":8545");
 			}
 
-			return PerformQueryToMirrorNodeAsync(baseUrl, apiEndpoint, jsonPayload).Exceptionally((ex) =>
+			try
 			{
-				client.GetLogger().Error("Error while performing post request to Mirror Node: " + ex.GetMessage());
-				throw new CompletionException(ex);
-			});
+				return await EntityIdHelper.PerformQueryToMirrorNodeAsync(baseUrl, apiEndpoint, jsonPayload);
+			}
+			catch (Exception ex)
+			{
+				// client.Logger?.Error($"Error while performing post request to Mirror Node: {ex.Message}");
+
+				throw; // preserves stack trace (VERY important)
+			}
 		}
 		private async Task<string> GetContractCallResultFromMirrorNodeAsync(Client client, string blockNumber)
 		{

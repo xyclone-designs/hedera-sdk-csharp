@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 		 */
 		public static uint ToHardenedIndex(int index)
 		{
-			return index | HARDENED_BIT;
+			return (uint)index | HARDENED_BIT;
 		}
 
 		/**

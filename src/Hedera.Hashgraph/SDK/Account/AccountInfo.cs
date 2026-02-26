@@ -161,7 +161,7 @@ namespace Hedera.Hashgraph.SDK.Account
             IsReceiverSigRequired = receiverSignatureRequired;
             ExpirationTime = expirationTime;
             AutoRenewPeriod = autoRenewPeriod;
-            LiveHashes = liveHashes;
+            LiveHashes = [.. liveHashes];
             TokenRelationships = new Dictionary<TokenId, TokenRelationship>(tokenRelationships);
             AccountMemo = accountMemo;
             OwnedNfts = ownedNfts;
@@ -204,7 +204,7 @@ namespace Hedera.Hashgraph.SDK.Account
                 (long)accountInfo.GenerateReceiveRecordThreshold, 
                 accountInfo.ReceiverSigRequired, 
                 Utils.TimestampConverter.FromProtobuf(accountInfo.ExpirationTime),
-                Utils.DurationConverter.FromProtobuf(accountInfo.AutoRenewPeriod),
+                Utils.DurationConverter.FromProtobuf(accountInfo.AutoRenewPeriod).ToTimeSpan(),
 				[.. accountInfo.LiveHashes.Select(_ => LiveHash.FromProtobuf(_))],
 				accountInfo.TokenRelationships.ToDictionary(_ => TokenId.FromProtobuf(_.TokenId), _ => TokenRelationship.FromProtobuf(_)), 
                 accountInfo.Memo,

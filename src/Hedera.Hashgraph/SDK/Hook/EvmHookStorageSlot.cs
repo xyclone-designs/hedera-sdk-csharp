@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // Using fully qualified names to avoid conflicts with generated classes
+using Google.Protobuf;
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 
 		public static EvmHookStorageSlot FromProtobuf(Proto.EvmHookStorageSlot proto)
 		{
-			return new EvmHookStorageSlot(proto.GetKey().ToByteArray(), proto.GetValue().ToByteArray());
+			return new EvmHookStorageSlot(proto.Key.ToByteArray(), proto.Value.ToByteArray());
 		}
 
 		public virtual byte[] Key

@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 Utils.TimestampConverter.FromProtobuf(topicInfoResponse.TopicInfo.ExpirationTime),
 				Key.FromProtobufKey(topicInfoResponse.TopicInfo.AdminKey),
 				Key.FromProtobufKey(topicInfoResponse.TopicInfo.SubmitKey), 
-                Utils.DurationConverter.FromProtobuf(topicInfoResponse.TopicInfo.AutoRenewPeriod),
+                Utils.DurationConverter.FromProtobuf(topicInfoResponse.TopicInfo.AutoRenewPeriod).ToTimeSpan(),
 				AccountId.FromProtobuf(topicInfoResponse.TopicInfo.AutoRenewAccount), 
                 LedgerId.FromByteString(topicInfoResponse.TopicInfo.LedgerId),
 				Key.FromProtobufKey(topicInfoResponse.TopicInfo.FeeScheduleKey), 

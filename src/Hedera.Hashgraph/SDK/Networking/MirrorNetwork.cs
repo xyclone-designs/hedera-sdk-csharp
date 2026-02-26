@@ -83,18 +83,18 @@ namespace Hedera.Hashgraph.SDK.Networking
 			{
                 lock (this)
 				{
-					var map = new Dictionary<string, IList<BaseNodeAddress>>(value.Count);
+					var map = new Dictionary<BaseNodeAddress, IList<MirrorNode>>(value.Count);
 					foreach (var address in value)
-						map[address] = [BaseNodeAddress.FromString(address)];
+						map[BaseNodeAddress.FromString(address)] = [new MirrorNode(address, Executor)];
 
 					base.Network = map;
 				}
 			}
 		}
 
-		protected override MirrorNode CreateNodeFromNetworkEntry(KeyValuePair<String, BaseNodeAddress> entry)
+		protected override MirrorNode CreateNodeFromNetworkEntry(KeyValuePair<string, BaseNodeAddress> entry)
         {
-            return new MirrorNode(entry.Key, executor);
+            return new MirrorNode(entry.Value, Executor);
         }
 
 		/// <summary>

@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// </summary>
         public ContractCreateTransaction()
         {
-            AutoRenewPeriod = DEFAULT_AUTO_RENEW_PERIOD;
+            AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD.ToDuration();
             DefaultMaxTransactionFee = new Hbar(20);
         }
 		/// <summary>
@@ -406,7 +406,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.Response response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
         {
             throw new NotImplementedException();
         }

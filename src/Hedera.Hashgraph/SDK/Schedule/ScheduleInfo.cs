@@ -188,7 +188,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
         /// <returns>                         the transaction</returns>
         public object GetScheduledTransaction()
         {
-            return (object)Transaction.FromScheduledTransaction<T>(TransactionBody);
+            return Transaction.FromScheduledTransaction(TransactionBody);
         }
 		/// <summary>
 		/// Extract the transaction.

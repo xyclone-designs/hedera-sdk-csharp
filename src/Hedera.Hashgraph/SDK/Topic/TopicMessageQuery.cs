@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Topic
@@ -25,6 +24,8 @@ namespace Hedera.Hashgraph.SDK.Topic
     {
 		private readonly Proto.ConsensusTopicQuery _Proto = new();
 		private static readonly Logger LOGGER = LoggerFactory.GetLogger(typeof(TopicMessageQuery));
+        private long Counter = 0;
+        private bool CancelledByClient = false;
         
         public TopicId TopicId { set => _Proto.TopicID = value.ToProtobuf(); }
 		public Timestamp StartTime { set => _Proto.ConsensusStartTime = TimestampConverter.ToProtobuf(value); }
@@ -97,7 +98,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             Dictionary<Proto.TransactionID, List<Proto.ConsensusTopicResponse>> pendingMessages = [];
             try
             {
-                MakeStreamingCall(client, subscriptionHandle, onNext, 0, new AtomicStruct<long>(default), new AtomicClass<Proto.ConsensusTopicResponse>(default), pendingMessages);
+                MakeStreamingCall(client, subscriptionHandle, onNext, 0, null, new AtomicClass<Proto.ConsensusTopicResponse>(default), pendingMessages);
             }
             catch (ThreadInterruptedException e)
             {
@@ -112,11 +113,13 @@ namespace Hedera.Hashgraph.SDK.Topic
             SubscriptionHandle subscriptionHandle,
             Action<TopicMessage> onNext,
             int attempt,
-            AtomicStruct<long> counter,
+            long? counter,
             AtomicClass<Proto.ConsensusTopicResponse> lastMessage,
             Dictionary<Proto.TransactionID, List<Proto.ConsensusTopicResponse>> pendingMessages)
         {
-            var callInvoker = client.MirrorNetwork_
+            Counter = counter ?? 0;
+
+			var callInvoker = client.MirrorNetwork_
                 .GetNextMirrorNode()
                 .Channel
                 .CreateCallInvoker();
@@ -135,13 +138,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.ConsensusTopicQuery.Parser.ParseFrom(data)),
 				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.ConsensusTopicResponse.Parser.ParseFrom(data)));
 
-			var cancelledByClient = new AtomicStruct<bool>(false);
-
             CancellationTokenSource cts = new();
 
             subscriptionHandle.SetOnUnsubscribe(() =>
             {
-                cancelledByClient.Value = true;
+				Volatile.Write(ref CancelledByClient, true);
                 client.UntrackSubscription(subscriptionHandle);
                 cts.Cancel();
             });
@@ -157,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 
                 if (_Proto.Limit > 0)
                 {
-                    newBuilder.Limit = _Proto.Limit - (ulong)counter.Get();
+                    newBuilder.Limit = _Proto.Limit - (ulong)Interlocked.Read(ref Counter);
                 }
 
                 var lastStartTime = lastMessage.Get().ConsensusTimestamp;
@@ -177,7 +178,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 {
                     while (await call.ResponseStream.MoveNext(cts.Token))
                     {
-                        counter.IncrementAndGet();
+                        Interlocked.Increment(ref Counter);
                         lastMessage.Set(call.ResponseStream.Current);
 
                         // No chunk or single chunk
@@ -226,8 +227,11 @@ namespace Hedera.Hashgraph.SDK.Topic
                 }
                 catch (Exception ex)
                 {
-                    if (cancelledByClient.Get())
+                    if (Volatile.Read(ref CancelledByClient))
+                    {
+                        Volatile.Write(ref CancelledByClient, false);
                         return;
+					}
 
                     if (attempt >= MaxAttempts || !RetryHandler(ex))
                     {

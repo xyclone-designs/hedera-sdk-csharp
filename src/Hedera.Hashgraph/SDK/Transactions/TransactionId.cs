@@ -7,6 +7,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Queries;
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
@@ -23,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		private static readonly long NANOSECONDS_PER_MILLISECOND = 1000000;
 		private static readonly long TIMESTAMP_INCREMENT_NANOSECONDS = 1000;
 		private static readonly long NANOSECONDS_TO_REMOVE = 10000000000;
-		private static readonly AtomicStruct<long> monotonicTime = new (-1);
+		private static long monotonicTime = -1;
 
         
         /// <summary>
@@ -62,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				currentTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * NANOSECONDS_PER_MILLISECOND - NANOSECONDS_TO_REMOVE;
 
 				// Get the last recorded timestamp.
-				lastTime = monotonicTime.Get();
+				lastTime = Interlocked.Read(ref monotonicTime);
 
 				// If the current time is less than or equal to the last recorded time,
 				// adjust the timestamp to ensure it is strictly increasing.
@@ -71,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					currentTime = lastTime + TIMESTAMP_INCREMENT_NANOSECONDS;
 				}
 			}
-			while (!monotonicTime.CompareAndSet(lastTime, currentTime));
+			while (Interlocked.CompareExchange(ref monotonicTime, lastTime, currentTime) != lastTime) ;
 
 			return new TransactionId(accountId, new Timestamp
 			{

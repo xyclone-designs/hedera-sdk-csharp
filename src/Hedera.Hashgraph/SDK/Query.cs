@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		/**
 		 * List of payment transactions
 		 */
-		public List<Proto.Transaction>? PaymentTransactions { get; internal set; }
+		public List<Proto.Transaction?>? PaymentTransactions { get; internal set; }
 		/**
 		 * Set an explicit payment amount for this query.
 		 * <p>
