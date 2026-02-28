@@ -35,9 +35,6 @@ namespace Hedera.Hashgraph.SDK.Account
     /// </summary>
     public sealed class AccountUpdateTransaction : Transaction<AccountUpdateTransaction>
     {
-        private List<long> _HookIdsToDelete = [];
-        private List<HookCreationDetails> _HookCreationDetails = [];
-
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -114,8 +111,8 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="expirationTime">The Timestamp to be set as the expiration time</param>
 		/// <returns>{@code this}</returns>
-		public Timestamp? ExpirationTime { get; set { RequireNotFrozen(); field = value; } }
-		public Duration? ExpirationTimeDuration { get; set { RequireNotFrozen(); field = value; ExpirationTime = null; } }
+		public DateTimeOffset? ExpirationTime { get; set { RequireNotFrozen(); field = value; } }
+		public TimeSpan? ExpirationTimeDuration { get; set { RequireNotFrozen(); field = value; ExpirationTime = null; } }
         /// <summary>
         /// A duration to extend account expiration.<br/>
         /// An amount of time, in seconds, to extend the expiration date for this
@@ -128,7 +125,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// </summary>
         /// <param name="autoRenewPeriod">The TimeSpan to be set for auto renewal</param>
         /// <returns>{@code this}</returns>
-        public Duration? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
+        public TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
 		/// <summary>
 		/// Removed to distinguish between unset and a default value.<br/>
 		/// Do NOT use this field to set a false value because the server cannot
@@ -197,11 +194,11 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="hookDetails">list of hook creation details</param>
 		/// <returns>{@code this}</returns>
-		public ListFreezable<HookCreationDetails> HookCreationDetails
+		public ListGuarded<HookCreationDetails> HookCreationDetails
 		{
-			init; get => field ??= new ListFreezable<HookCreationDetails>
+			init; get => field ??= new ListGuarded<HookCreationDetails>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 		/// <summary>
@@ -209,11 +206,11 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// </summary>
 		/// <param name="hookIds">list of hook ids to delete</param>
 		/// <returns>{@code this}</returns>
-		public ListFreezable<long> HookIdsToDelete
+		public ListGuarded<long> HookIdsToDelete
         {
-            init; get => field ??= new ListFreezable<long>
+            init; get => field ??= new ListGuarded<long>
             {
-                Frozen = RequireNotFrozen
+                OnRequireNotFrozen = RequireNotFrozen
             };
         }
        
@@ -242,12 +239,12 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (body.ExpirationTime is not null)
             {
-                ExpirationTime = TimestampConverter.FromProtobuf(body.ExpirationTime);
+                ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
             }
 
             if (body.AutoRenewPeriod is not null)
             {
-                AutoRenewPeriod = DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+                AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
             }
 
             if (body.ReceiverSigRequiredWrapper is not null)
@@ -278,11 +275,11 @@ namespace Hedera.Hashgraph.SDK.Account
 			StakedNodeId = body.StakedNodeId;
 
 			// Initialize hook create/delete details
-			_HookCreationDetails.Clear();
-			_HookCreationDetails.AddRange(body.HookCreationDetails.Select(_ => Hook.HookCreationDetails.FromProtobuf(_)));
+			HookCreationDetails.Clear();
+			HookCreationDetails.AddRange(body.HookCreationDetails.Select(_ => Hook.HookCreationDetails.FromProtobuf(_)));
 
-			_HookIdsToDelete.Clear();
-            _HookIdsToDelete.AddRange(body.HookIdsToDelete);
+			HookIdsToDelete.Clear();
+            HookIdsToDelete.AddRange(body.HookIdsToDelete);
         }
 
         /// <summary>
@@ -313,17 +310,17 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (ExpirationTime != null)
             {
-                proto.ExpirationTime = TimestampConverter.ToProtobuf(ExpirationTime);
+                proto.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
             }
 
             if (ExpirationTimeDuration != null)
             {
-                proto.ExpirationTime = TimestampConverter.ToProtobuf(ExpirationTimeDuration);
+                proto.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
             }
 
             if (AutoRenewPeriod != null)
             {
-                proto.AutoRenewPeriod = DurationConverter.ToProtobuf(AutoRenewPeriod);
+                proto.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
             }
 
             if (AccountMemo != null)
@@ -350,14 +347,14 @@ namespace Hedera.Hashgraph.SDK.Account
                 proto.DeclineReward = DeclineStakingReward;
             }
 
-            foreach (HookCreationDetails hookDetails in _HookCreationDetails)
+            foreach (HookCreationDetails hookDetails in HookCreationDetails.Read)
             {
                 proto.HookCreationDetails.Add(hookDetails.ToProtobuf());
             }
 
-            if (_HookIdsToDelete.Count != 0)
+            if (HookIdsToDelete.Read.Count != 0)
             {
-                proto.HookIdsToDelete.AddRange(_HookIdsToDelete);
+                proto.HookIdsToDelete.AddRange(HookIdsToDelete.Read);
             }
 
             return proto;

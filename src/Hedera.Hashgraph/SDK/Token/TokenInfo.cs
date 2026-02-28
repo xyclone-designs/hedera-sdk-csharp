@@ -91,7 +91,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <summary>
         /// The epoch second at which the token will expire
         /// </summary>
-        public readonly Timestamp ExpirationTime;
+        public readonly DateTimeOffset ExpirationTime;
         /// <summary>
         /// The memo associated with the token
         /// </summary>
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         public readonly LedgerId LedgerId;
         
-        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, TimeSpan autoRenewPeriod, Timestamp expirationTime, string tokenMemo, IList<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
+        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, TimeSpan autoRenewPeriod, DateTimeOffset expirationTime, string tokenMemo, IEnumerable<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
         {
             TokenId = tokenId;
             Name = name;
@@ -157,7 +157,7 @@ namespace Hedera.Hashgraph.SDK.Token
             AutoRenewPeriod = autoRenewPeriod;
             ExpirationTime = expirationTime;
             TokenMemo = tokenMemo;
-            CustomFees = customFees;
+            CustomFees = [..customFees];
             TokenType = tokenType;
             SupplyType = supplyType;
             MaxSupply = maxSupply;
@@ -230,8 +230,8 @@ namespace Hedera.Hashgraph.SDK.Token
                 KycStatusFromProtobuf(response.TokenInfo.DefaultKycStatus),
 				response.TokenInfo.Deleted,
 				AccountId.FromProtobuf(response.TokenInfo.AutoRenewAccount),
-				DurationConverter.FromProtobuf(response.TokenInfo.AutoRenewPeriod).ToTimeSpan(),
-				TimestampConverter.FromProtobuf(response.TokenInfo.Expiry),
+				response.TokenInfo.AutoRenewPeriod.ToTimeSpan(),
+				response.TokenInfo.Expiry.ToDateTimeOffset(),
 				response.TokenInfo.Memo, 
                 CustomFeesFromProto(response.TokenInfo), 
                 (TokenType)response.TokenInfo.TokenType, 
@@ -271,12 +271,12 @@ namespace Hedera.Hashgraph.SDK.Token
             Proto.TokenInfo proto = new()
             {
 				AutoRenewAccount = AutoRenewAccount.ToProtobuf(),
-				AutoRenewPeriod = DurationConverter.ToProtobuf(AutoRenewPeriod),
+				AutoRenewPeriod = AutoRenewPeriod.ToProtoDuration(),
 				Decimals = Decimals,
 				DefaultFreezeStatus = FreezeStatusToProtobuf(DefaultFreezeStatus),
 				DefaultKycStatus = KycStatusToProtobuf(DefaultKycStatus),
 				Deleted = IsDeleted,
-				Expiry = TimestampConverter.ToProtobuf(ExpirationTime),
+				Expiry = ExpirationTime.ToProtoTimestamp(),
 				LedgerId = LedgerId.ToByteString(),
 				PauseStatus = PauseStatusToProtobuf(PauseStatus),
 				MaxSupply = MaxSupply,

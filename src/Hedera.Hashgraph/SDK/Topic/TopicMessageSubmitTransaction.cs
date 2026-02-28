@@ -74,9 +74,9 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		public IList<CustomFixedFee> CustomFees
 		{
-			init; get => field ??= new ListFreezable<CustomFixedFee>
+			init; get => field ??= new ListGuarded<CustomFixedFee>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 

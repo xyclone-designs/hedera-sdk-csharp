@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 				header.Payment = new TransferTransaction
 				{
 					NodeAccountIds = [ new AccountId(0, 0, 0) ],
-					TransactionId = TransactionId.WithValidStart(new AccountId(0, 0, 0), Timestamp.FromDateTimeOffset(DateTimeOffset.FromUnixTimeMilliseconds(0)))
+					TransactionId = TransactionId.WithValidStart(new AccountId(0, 0, 0), DateTimeOffset.FromUnixTimeMilliseconds(0))
 
 				}.Freeze().MakeRequest();;
 			}

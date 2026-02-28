@@ -177,7 +177,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
 				NodeAccountIds = testNodeAccountIds,
 				MaxTransactionFee = new Hbar(1),
-				TransactionValidDuration = Duration.OfHours(1),
+				TransactionValidDuration = TimeSpan.FromHours(1),
 			
             }.Freeze();
             Assert.True(noOptionalFieldsTransaction.GetTransactionBodySize() < fullOptionalFieldsTransaction.GetTransactionBodySize());

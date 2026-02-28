@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
                 AccountId.FromProtobuf(liveHash.AccountId), 
                 liveHash.Hash,
                 KeyList.FromProtobuf(liveHash.Keys, null), 
-                Utils.DurationConverter.FromProtobuf(liveHash.Duration).ToTimeSpan());
+                liveHash.Duration.ToTimeSpan());
         }
 
 		/// <summary>
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 			{
 				AccountId = AccountId.ToProtobuf(),
 				Hash = Hash,
-				Duration = Utils.DurationConverter.ToProtobuf(Duration),
+				Duration = Duration.ToProtoDuration(),
                 Keys = Keys.ToProtobuf(),
 			};
         }

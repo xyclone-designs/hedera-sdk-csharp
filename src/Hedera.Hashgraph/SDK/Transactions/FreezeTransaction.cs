@@ -56,15 +56,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			InitFromTransactionBody();
 		}
 
-		public Timestamp StartTime
+		public DateTimeOffset StartTime
 		{
-			get => field ?? Timestamp.FromDateTimeOffset(DateTimeOffset.UnixEpoch);
+			get;
 			set
 			{
 				RequireNotFrozen();
 				field = value;
 			}
-		}
+		} = DateTimeOffset.UnixEpoch;
 		public FileId? FileId
 		{
 			get => field;
@@ -129,7 +129,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			if (body.StartTime != null)
 			{
-				StartTime = Utils.TimestampConverter.FromProtobuf(body.StartTime);
+				StartTime = body.StartTime.ToDateTimeOffset();
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			if (StartTime != null)
 			{
-				builder.StartTime = Utils.TimestampConverter.ToProtobuf(StartTime);
+				builder.StartTime = StartTime.ToProtoTimestamp();
 			}
 
 			return builder;

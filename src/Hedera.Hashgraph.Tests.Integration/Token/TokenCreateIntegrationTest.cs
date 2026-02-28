@@ -453,7 +453,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var autoRenewPeriod = TimeSpan.FromSeconds(7890000);
-                var expirationTime = DateTimeOffset.UtcNow.Add(autoRenewPeriod.ToTimeSpan());
+                var expirationTime = DateTimeOffset.UtcNow.Add(autoRenewPeriod);
                 var response = new TokenCreateTransaction
                 {
 					TokenName = "ffff",
@@ -470,7 +470,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				.Execute(testEnv.Client);
                 Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId);
                 Assert.Equal(tokenInfo.AutoRenewPeriod, autoRenewPeriod);
-                Assert.Equal(tokenInfo.ExpirationTime.Seconds, expirationTime.ToUnixTimeSeconds());
+                Assert.Equal(tokenInfo.ExpirationTime.ToUnixTimeSeconds(), expirationTime.ToUnixTimeSeconds());
             }
         }
 
@@ -483,7 +483,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					TokenName = "ffff",
 					TokenSymbol = "F",
-					ExpirationTime = Timestamp.FromDateTimeOffset(expirationTime),
+					ExpirationTime = expirationTime,
 					TreasuryAccountId = testEnv.OperatorId,
 				}
                 .Execute(testEnv.Client);
@@ -493,7 +493,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenId = tokenId
 				}
 				.Execute(testEnv.Client);
-                Assert.Equal(tokenInfo.ExpirationTime.Seconds, expirationTime.ToUnixTimeSeconds());
+                Assert.Equal(tokenInfo.ExpirationTime.ToUnixTimeSeconds(), expirationTime.ToUnixTimeSeconds());
             }
         }
 
@@ -647,7 +647,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					InitialSupply = 1,
 					MaxTransactionFee = new Hbar(100),
 					TreasuryAccountId = testEnv.OperatorId,
-					ExpirationTime = Timestamp.FromDateTimeOffset(expirationTime),
+					ExpirationTime = expirationTime,
 					Decimals = 0,
 				}
                 .Execute(testEnv.Client);
@@ -665,7 +665,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(TokenType.FungibleCommon, tokenInfo.TokenType);
                 Assert.Equal(TokenSupplyType.Infinite, tokenInfo.SupplyType);
                 Assert.Equal(tokenInfo.AutoRenewAccount, testEnv.OperatorId);
-                Assert.Equal(tokenInfo.ExpirationTime.Seconds, expirationTime.ToUnixTimeSeconds());
+                Assert.Equal(tokenInfo.ExpirationTime.ToUnixTimeSeconds(), expirationTime.ToUnixTimeSeconds());
             }
         }
     }

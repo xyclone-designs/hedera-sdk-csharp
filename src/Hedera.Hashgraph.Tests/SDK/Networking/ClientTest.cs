@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void SetMaxBackoffInvalid(long maxBackoffMillis)
         {
-            TimeSpan maxBackoff = maxBackoffMillis != null ? Duration.OfMillis(maxBackoffMillis) : null;
+            TimeSpan maxBackoff = maxBackoffMillis != null ? TimeSpan.FromMilliseconds(maxBackoffMillis) : null;
             var client = Client.ForNetwork([]);
             Assert.Throws<ArgumentException>(() =>
             {
@@ -85,12 +85,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void SetMaxBackoffValid(long maxBackoff)
         {
-            Client.ForNetwork([]).SetMaxBackoff(Duration.OfMillis(maxBackoff)).Dispose();
+            Client.ForNetwork([]).SetMaxBackoff(TimeSpan.FromMilliseconds(maxBackoff)).Dispose();
         }
 
         public virtual void SetMinBackoffInvalid(long minBackoffMillis)
         {
-            TimeSpan minBackoff = minBackoffMillis != null ? Duration.OfMillis(minBackoffMillis) : null;
+            TimeSpan minBackoff = minBackoffMillis != null ? TimeSpan.FromMilliseconds(minBackoffMillis) : null;
             var client = Client.ForNetwork([]);
             Assert.Throws<ArgumentException>(() =>
             {
@@ -101,7 +101,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void SetMinBackoffValid(long minBackoff)
         {
-            Client.ForNetwork([]).SetMinBackoff(Duration.OfMillis(minBackoff)).Dispose();
+            Client.ForNetwork([]).SetMinBackoff(TimeSpan.FromMilliseconds(minBackoff)).Dispose();
         }
 
         public virtual void SetMaxTransactionFeeNegative()
@@ -221,8 +221,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         public virtual void TestExecuteAsyncTimeout(string timeoutSite)
         {
             AccountId accountId = AccountId.FromString("0.0.1");
-            TimeSpan timeout = Duration.OfSeconds(5);
-            Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0));
+            TimeSpan timeout = TimeSpan.FromSeconds(5);
+            Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(TimeSpan.FromMilliseconds(0)).SetNodeMaxBackoff(TimeSpan.FromMilliseconds(0)).SetMinNodeReadmitTime(TimeSpan.FromMilliseconds(0)).SetMaxNodeReadmitTime(TimeSpan.FromMilliseconds(0));
             AccountBalanceQuery query = new AccountBalanceQuery()AccountId = accountId,.SetMaxAttempts(3);
             DateTimeOffset start = DateTimeOffset.UtcNow;
             try
@@ -257,9 +257,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             // e.g. setting a timeout of 15 seconds, the request could fail within the range
             // of [5 seconds, 25 seconds]. The 10 second timeout for connecting to gRPC nodes
             // is not configurable.
-            TimeSpan timeout = Duration.OfSeconds(5);
-            Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0));
-            AccountBalanceQuery query = new AccountBalanceQuery()AccountId = accountId,.SetMaxAttempts(3).SetGrpcDeadline(Duration.OfSeconds(5));
+            TimeSpan timeout = TimeSpan.FromSeconds(5);
+            Client client = Client.ForNetwork(Map.Of("1.1.1.1:50211", accountId)).SetNodeMinBackoff(TimeSpan.FromMilliseconds(0)).SetNodeMaxBackoff(TimeSpan.FromMilliseconds(0)).SetMinNodeReadmitTime(TimeSpan.FromMilliseconds(0)).SetMaxNodeReadmitTime(TimeSpan.FromMilliseconds(0));
+            AccountBalanceQuery query = new AccountBalanceQuery()AccountId = accountId,.SetMaxAttempts(3).SetGrpcDeadline(TimeSpan.FromSeconds(5));
             DateTimeOffset start = DateTimeOffset.UtcNow;
             try
             {

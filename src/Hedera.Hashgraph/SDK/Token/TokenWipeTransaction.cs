@@ -124,11 +124,11 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="serials">the list of serial numbers</param>
         /// <returns>{@code this}</returns>
-        public virtual ListFreezable<long> Serials
+        public virtual ListGuarded<long> Serials
 		{
-			init; get => field ??= new ListFreezable<long>
+			init; get => field ??= new ListGuarded<long>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 

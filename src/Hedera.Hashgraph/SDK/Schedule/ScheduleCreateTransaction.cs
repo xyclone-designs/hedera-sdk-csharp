@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// Note: This field is unused and forced to be unset until Long Term Scheduled Transactions are enabled - Transactions will always
 		///       expire in 30 minutes if Long Term Scheduled Transactions are not enabled.
 		/// </summary>
-		public Timestamp? ExpirationTime 
+		public DateTimeOffset? ExpirationTime 
         {
             get;
             set
@@ -126,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// <summary>
 		/// Overload: set the expiration time using a TimeSpan value.
 		/// </summary>
-		public Duration? ExpirationTimeDuration
+		public TimeSpan? ExpirationTimeDuration
 		{
 			get;
 			set
@@ -237,9 +237,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
 				builder.AdminKey = AdminKey.ToProtobufKey();
 
 			if (ExpirationTime != null)
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime);
+				builder.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 			else if (ExpirationTimeDuration != null)
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTimeDuration);
+				builder.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
 
 			builder.Memo = ScheduleMemo;
             builder.WaitForExpiry = WaitForExpiry;
@@ -258,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			AdminKey = Key.FromProtobufKey(body.AdminKey);
 			ScheduledTransactionBody = body.ScheduledTransactionBody;
 			PayerAccountId = AccountId.FromProtobuf(body.PayerAccountID);
-			ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+			ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
         }
 
         public override void ValidateChecksums(Client client)

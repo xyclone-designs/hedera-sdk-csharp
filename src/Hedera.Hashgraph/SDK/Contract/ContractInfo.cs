@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Utils;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <param name="isDeleted">does it still exist</param>
         /// <param name="tokenRelationships">list of compound token id and relationship records</param>
         /// <param name="ledgerId">the ledger id</param>
-        private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, Timestamp expirationTime, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
+        private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, DateTimeOffset expirationTime, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
         {
             this.ContractId = contractId;
             this.AccountId = accountId;
@@ -75,8 +74,8 @@ namespace Hedera.Hashgraph.SDK.Contract
                 AccountId.FromProtobuf(contractInfo.AccountID), 
                 contractInfo.ContractAccountID,
 				Key.FromProtobufKey(contractInfo.AdminKey), 
-                TimestampConverter.FromProtobuf(contractInfo.ExpirationTime), 
-                DurationConverter.FromProtobuf(contractInfo.AutoRenewPeriod).ToTimeSpan(), 
+                contractInfo.ExpirationTime.ToDateTimeOffset(), 
+                contractInfo.AutoRenewPeriod.ToTimeSpan(), 
                 AccountId.FromProtobuf(contractInfo.AutoRenewAccountId), 
                 contractInfo.Storage, 
                 contractInfo.Memo, 
@@ -115,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <summary>
 		/// The current time at which this contract instance (and its account) is set to expire.
 		/// </summary>
-		public readonly Timestamp ExpirationTime;
+		public readonly DateTimeOffset ExpirationTime;
 		/// <summary>
 		/// The expiration time will extend every this many seconds. If there are insufficient funds,
 		/// then it extends as long as possible. If the account is empty when it expires,
@@ -178,8 +177,8 @@ namespace Hedera.Hashgraph.SDK.Contract
 				ContractID = ContractId.ToProtobuf(),
 				AccountID = AccountId.ToProtobuf(),
 				ContractAccountID = ContractAccountId,
-				ExpirationTime = TimestampConverter.ToProtobuf(ExpirationTime),
-				AutoRenewPeriod = DurationConverter.ToProtobuf(AutoRenewPeriod),
+				ExpirationTime = ExpirationTime.ToProtoTimestamp(),
+				AutoRenewPeriod = AutoRenewPeriod.ToProtoDuration(),
 				Storage = Storage,
 				Memo = ContractMemo,
 				Balance = (ulong)Balance.ToTinybars(),

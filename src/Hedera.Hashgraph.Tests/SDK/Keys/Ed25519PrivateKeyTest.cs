@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
             byte[] key1Bytes = key1.ToBytes();
-            PrivateKey key2 = PrivateKey.FromBytes(key1Bytes);
+            PrivateKey key2 = Transaction.FromBytes<PrivateKey>(key1Bytes);
             byte[] key2Bytes = key2.ToBytes();
             Assert.Equal(key2Bytes, key1Bytes);
         }
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesRaw();
             PrivateKey key2 = PrivateKey.FromBytesED25519(key1Bytes);
             byte[] key2Bytes = key2.ToBytesRaw();
-            PrivateKey key3 = PrivateKey.FromBytes(key1Bytes);
+            PrivateKey key3 = Transaction.FromBytes<PrivateKey>(key1Bytes);
             byte[] key3Bytes = key3.ToBytesRaw();
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesDER();
             PrivateKey key2 = PrivateKey.FromBytesDER(key1Bytes);
             byte[] key2Bytes = key2.ToBytesDER();
-            PrivateKey key3 = PrivateKey.FromBytes(key1Bytes);
+            PrivateKey key3 = Transaction.FromBytes<PrivateKey>(key1Bytes);
             byte[] key3Bytes = key3.ToBytesDER();
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);

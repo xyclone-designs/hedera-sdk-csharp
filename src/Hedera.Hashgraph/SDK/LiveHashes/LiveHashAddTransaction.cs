@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 		/// </summary>
 		/// <param name="duration">The TimeSpan to be set</param>
 		/// <returns>{@code this}</returns>
-		public Duration? TimeSpan { get; set { RequireNotFrozen(); field = value; } }
+		public TimeSpan? Timespan { get; set { RequireNotFrozen(); field = value; } }
 
 		/// <summary>
 		/// Initialize from the transaction body.
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 
             if (hashBody.Duration is not null)
             {
-                TimeSpan = Utils.DurationConverter.FromProtobuf(hashBody.Duration);
+                Timespan = hashBody.Duration.ToTimeSpan();
             }
         }
 
@@ -113,9 +113,9 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
                 hashBuilder.Keys = Keys.ToProtobuf();
             }
 
-            if (TimeSpan != null)
+            if (Timespan != null)
             {
-                hashBuilder.Duration = Utils.DurationConverter.ToProtobuf(TimeSpan);
+                hashBuilder.Duration = Timespan.Value.ToProtoDuration();
             }
 
             builder.LiveHash = hashBuilder;

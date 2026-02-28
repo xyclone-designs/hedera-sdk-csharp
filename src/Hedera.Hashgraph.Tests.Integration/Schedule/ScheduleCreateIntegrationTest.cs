@@ -37,8 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				};
                 var response = new ScheduleCreateTransaction
                 {
-					ScheduledTransactionBody
-					ScheduledTransaction = transaction,
+					ScheduledTransactionBody = transaction,
 					AdminKey = testEnv.OperatorKey,
 					PayerAccountId = testEnv.OperatorId
 
@@ -67,13 +66,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 };
                 var response = new ScheduleCreateTransaction
                 {
-                    ScheduledTransaction = transaction,
+                    ScheduledTransactionBody = transaction,
                     AdminKey = testEnv.OperatorKey,
                     PayerAccountId = testEnv.OperatorId
                 }
                 .Execute(testEnv.Client);
 
-                var scheduleId = response.GetReceipt(testEnv.Client).ScheduleId);
+                var scheduleId = response.GetReceipt(testEnv.Client).ScheduleId;
                 var info = new ScheduleInfoQuery
                 {
 					ScheduleId = scheduleId
@@ -98,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var tx = transaction.Schedule();
                 tx.AdminKey = testEnv.OperatorKey;
 				var response = tx.Execute(testEnv.Client);
-                var scheduleId = response.GetReceipt(testEnv.Client).ScheduleId);
+                var scheduleId = response.GetReceipt(testEnv.Client).ScheduleId;
                 var info = new ScheduleInfoQuery
                 {
                     ScheduleId = scheduleId
@@ -251,7 +250,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = accountId
 				
                 }.Execute(testEnv.Client);
-                Assert.Equal(balanceQuery1.Tokens[tokenId], 0);
+                Assert.Equal(balanceQuery1.Tokens[tokenId], (ulong)0);
                 new ScheduleSignTransaction
                 {
 					ScheduleId = scheduleId
@@ -265,7 +264,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = accountId
 				
                 }.Execute(testEnv.Client);
-                Assert.Equal(balanceQuery2.Tokens[tokenId], 10);
+                Assert.Equal(balanceQuery2.Tokens[tokenId], (ulong)10);
             }
         }
 
@@ -464,7 +463,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Schedule the transaction
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => transfer.Schedule()
-                .SetExpirationTime(DateTimeOffset.UtcNow.Plus(Duration.OfDays(365)))
+                .SetExpirationTime(DateTimeOffset.UtcNow.Plus(TimeSpan.FromDays(365)))
                 .SetScheduleMemo("HIP-423 Integration Test")
             .Execute(testEnv.Client)
             .GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.SCHEDULE_EXPIRATION_TIME_TOO_FAR_IN_FUTURE.ToString());

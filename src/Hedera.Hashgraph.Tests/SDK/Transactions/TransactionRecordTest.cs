@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var originalRecord = SpawnRecordExample(ByteString.CopyFromUtf8("very random bytes"), null);
             byte[] recordBytes = originalRecord.ToBytes();
-            var copyRecord = TransactionRecord.FromBytes(recordBytes);
+            var copyRecord = Transaction.FromBytes<TransactionRecord>(recordBytes);
             Assert.Equal(copyRecord.ToString(), originalRecord.ToString());
 
             SnapshotMatcher.Expect(originalRecord.ToString()).ToMatchSnapshot();
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var originalRecord = SpawnRecordExample(null, 4);
             byte[] recordBytes = originalRecord.ToBytes();
-            var copyRecord = TransactionRecord.FromBytes(recordBytes);
+            var copyRecord = Transaction.FromBytes<TransactionRecord>(recordBytes);
             Assert.Equal(copyRecord.ToString(), originalRecord.ToString());
 
             SnapshotMatcher.Expect(originalRecord.ToString()).ToMatchSnapshot();

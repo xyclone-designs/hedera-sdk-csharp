@@ -6,6 +6,7 @@ using Hedera.Hashgraph.SDK.Topic;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Token;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -49,12 +50,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Submit a message to the revenue generating topic with custom fee limit using scheduled transaction
                 // Create a new client with the payer account as operator
-                var payerClient = Client.ForNetwork(testEnv.Client.Network);
-                payerClient.SetMirrorNetwork(testEnv.Client.GetMirrorNetwork());
+                var payerClient = Client.ForNetwork(testEnv.Client.Network_.Network_Read);
+                payerClient.MirrorNetwork_ = testEnv.Client.MirrorNetwork_;
                 payerClient.OperatorSet(payerAccountId, payerKey);
                 var submitMessageTransaction = new TopicMessageSubmitTransaction
                 {
-					Message = "hello!",
+					Message = ByteString.CopyFromUtf8("hello!"),
 					TopicId = topicId,
 					CustomFeeLimits = [customFeeLimit]
 				};
@@ -131,7 +132,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 payerClient.OperatorSet(payerAccountId, payerKey);
                 new TopicMessageSubmitTransaction()
                 {
-					Message = "Hello",
+					Message = ByteString.CopyFromUtf8("hello!"),
 					TopicId = topicId,
 					CustomFeeLimits = [customFeeLimit],
 				}
@@ -232,7 +233,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 new TopicMessageSubmitTransaction
                 {
-					Message = "Hello!",
+					Message = ByteString.CopyFromUtf8("hello!"),
 					TopicId = topicId,
 					CustomFeeLimits = [customFeeLimit],
 				}

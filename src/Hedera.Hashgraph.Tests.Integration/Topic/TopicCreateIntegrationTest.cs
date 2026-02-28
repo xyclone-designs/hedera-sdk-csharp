@@ -80,8 +80,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					FeeScheduleKey = testEnv.OperatorKey,
 					SubmitKey = testEnv.OperatorKey,
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = feeExemptKeys,
-					CustomFees = customFixedFees,
+					FeeExemptKeys = [..feeExemptKeys],
+					CustomFees = [..customFixedFees],
 				}
                 .Execute(testEnv.Client);
 
@@ -138,9 +138,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				var updateResponse = new TopicUpdateTransaction
                 {
 					TopicId = topicId,
-					FeeExemptKeys = newFeeExemptKeys,
+					FeeExemptKeys = [..newFeeExemptKeys],
 					FeeScheduleKey = newFeeScheduleKey.GetPublicKey(),
-					CustomFees = newCustomFixedFees,
+					CustomFees = [..newCustomFixedFees],
 				
                 }.Execute(testEnv.Client);
                 
@@ -179,13 +179,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Action duplicatesExecutable = () => new TopicCreateTransaction
                 {
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = feeExemptKeyListWithDuplicates,
+					FeeExemptKeys = [.. feeExemptKeyListWithDuplicates],
 				
                 }.Execute(testEnv.Client);
 
                 // Expect failure due to duplicated fee exempt keys
                 PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(duplicatesExecutable);
-                Assert.Equal(exception.Status, Proto.ResponseCodeEnum.FeeExemptKeyListContainsDuplicatedKeys);
+                Assert.Equal((Proto.ResponseCodeEnum)exception.Status, Proto.ResponseCodeEnum.FeeExemptKeyListContainsDuplicatedKeys);
 
                 var invalidKey = PublicKey.FromString("000000000000000000000000000000000000000000000000000000000000000000");
 
@@ -198,7 +198,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Expect failure due to invalid fee exempt key
                 ReceiptStatusException exception2 = Assert.Throws<ReceiptStatusException>(invalidKeyExecutable);
-                Assert.Equal(exception2.Status, Proto.ResponseCodeEnum.InvalidKeyInFeeExemptKeyList);
+                Assert.Equal((Proto.ResponseCodeEnum)exception2.Receipt.Status, Proto.ResponseCodeEnum.InvalidKeyInFeeExemptKeyList);
 
                 // Create 11 keys (exceeding the limit of 10)
                 IList<Key> feeExemptKeyListExceedingLimit = [.. Enumerable.Range(0, 11).Select(_ => PrivateKey.GenerateECDSA())];
@@ -206,13 +206,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Action exceedKeyListLimitExecutable = () => new TopicCreateTransaction
                 {
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = feeExemptKeyListExceedingLimit
+					FeeExemptKeys = [.. feeExemptKeyListExceedingLimit]
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 // Expect failure due to exceeding fee exempt key list limit
                 ReceiptStatusException exception3 = Assert.Throws<ReceiptStatusException>(exceedKeyListLimitExecutable);
-                Assert.Equal(exception3.status, Proto.ResponseCodeEnum.MaxEntriesForFeeExemptKeyListExceeded);
+                Assert.Equal((Proto.ResponseCodeEnum)exception3.Receipt.Status, Proto.ResponseCodeEnum.MaxEntriesForFeeExemptKeyListExceeded);
             }
         }
         public virtual void FailsToUpdateFeeScheduleKeyWithoutPermissions()
@@ -236,7 +236,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(updateExecutable);
-                Assert.Equal(exception.Status, Proto.ResponseCodeEnum.FeeScheduleKeyCannotBeUpdated);
+                Assert.Equal((Proto.ResponseCodeEnum)exception.Receipt.Status, Proto.ResponseCodeEnum.FeeScheduleKeyCannotBeUpdated);
             }
         }
         public virtual void FailsToUpdateCustomFeesWithoutFeeScheduleKey()
@@ -271,12 +271,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Action updateExecutable = () => new TopicUpdateTransaction
                 {
 					TopicId = topicId,
-					CustomFees = customFees,
+					CustomFees = [.. customFees],
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
 				ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(updateExecutable);
-				Assert.Equal(exception.Status, Proto.ResponseCodeEnum.FeeScheduleKeyNotSet);
+				Assert.Equal((Proto.ResponseCodeEnum)exception.Receipt.Status, Proto.ResponseCodeEnum.FeeScheduleKeyNotSet);
             }
         }
         public virtual void ChargesHbarFeesWithLimitsApplied()
@@ -440,8 +440,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					FeeScheduleKey = testEnv.OperatorKey,
 					SubmitKey = testEnv.OperatorKey,
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = feeExemptKeys,
-					CustomFees = customFixedFees
+					FeeExemptKeys = [..feeExemptKeys],
+					CustomFees = [..customFixedFees]
 
 				}.Execute(testEnv.Client);
 				var topicId = response.GetReceipt(testEnv.Client).TopicId;
@@ -523,8 +523,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					FeeScheduleKey = testEnv.OperatorKey,
 					SubmitKey = testEnv.OperatorKey,
 					AdminKey = testEnv.OperatorKey,
-					FeeExemptKeys = feeExemptKeys,
-					CustomFees = customFixedFees,
+					FeeExemptKeys = [..feeExemptKeys],
+					CustomFees = [..customFixedFees],
 				}
 				.Execute(testEnv.Client);
 

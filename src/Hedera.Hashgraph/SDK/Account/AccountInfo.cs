@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <summary>
         /// The time at which this account is set to expire.
         /// </summary>
-        public readonly Timestamp ExpirationTime;
+        public readonly DateTimeOffset ExpirationTime;
         /// <summary>
         /// The duration for expiration time will extend every this many seconds. If there are insufficient funds, then it
         /// extends as long as possible. If it is empty when it expires, then it is deleted.
@@ -147,7 +147,7 @@ namespace Hedera.Hashgraph.SDK.Account
         /// <param name="maxAutomaticTokenAssociations">max number of token associations</param>
         /// <param name="aliasKey">public alias key</param>
         /// <param name="ledgerId">the ledger id</param>
-        private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId? proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, Timestamp expirationTime, TimeSpan autoRenewPeriod, IList<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey? aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo? stakingInfo)
+        private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId? proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, DateTimeOffset expirationTime, TimeSpan autoRenewPeriod, IEnumerable<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey? aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo? stakingInfo)
         {
             AccountId = accountId;
             ContractAccountId = contractAccountId;
@@ -203,8 +203,8 @@ namespace Hedera.Hashgraph.SDK.Account
                 (long)accountInfo.GenerateSendRecordThreshold, 
                 (long)accountInfo.GenerateReceiveRecordThreshold, 
                 accountInfo.ReceiverSigRequired, 
-                Utils.TimestampConverter.FromProtobuf(accountInfo.ExpirationTime),
-                Utils.DurationConverter.FromProtobuf(accountInfo.AutoRenewPeriod).ToTimeSpan(),
+                accountInfo.ExpirationTime.ToDateTimeOffset(),
+                accountInfo.AutoRenewPeriod.ToTimeSpan(),
 				[.. accountInfo.LiveHashes.Select(_ => LiveHash.FromProtobuf(_))],
 				accountInfo.TokenRelationships.ToDictionary(_ => TokenId.FromProtobuf(_.TokenId), _ => TokenRelationship.FromProtobuf(_)), 
                 accountInfo.Memo,
@@ -240,8 +240,8 @@ namespace Hedera.Hashgraph.SDK.Account
 				GenerateSendRecordThreshold = (ulong)SendRecordThreshold.ToTinybars(),
 				GenerateReceiveRecordThreshold = (ulong)ReceiveRecordThreshold.ToTinybars(),
 				ReceiverSigRequired = IsReceiverSigRequired,
-				ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime),
-				AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod),
+				ExpirationTime = ExpirationTime.ToProtoTimestamp(),
+				AutoRenewPeriod = AutoRenewPeriod.ToProtoDuration(),
 				Memo = AccountMemo,
 				OwnedNfts = OwnedNfts,
 				MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations,

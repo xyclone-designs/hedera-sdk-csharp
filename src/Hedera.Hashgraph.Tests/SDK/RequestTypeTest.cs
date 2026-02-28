@@ -30,16 +30,16 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void ValueOfMapsNewFunctions()
         {
-            Assert.Equal(RequestType.ValueOf(Proto.HederaFunctionality.AtomicBatch), RequestType.ATOMIC_BATCH);
-            Assert.Equal(RequestType.ValueOf(Proto.HederaFunctionality.LambdaSStore), RequestType.LAMBDA_S_STORE);
-            Assert.Equal(RequestType.ValueOf(Proto.HederaFunctionality.HookDispatch), RequestType.HOOK_DISPATCH);
+            Assert.Equal((RequestType)Proto.HederaFunctionality.AtomicBatch, RequestType.AtomicBatch);
+            Assert.Equal((RequestType)Proto.HederaFunctionality.LambdaSstore, RequestType.LambdaSstore);
+            Assert.Equal((RequestType)Proto.HederaFunctionality.HookDispatch, RequestType.HookDispatch);
         }
 
         public virtual void ToStringStableForNewEntries()
         {
-            Assert.Equal(RequestType.ATOMIC_BATCH.ToString(), "ATOMIC_BATCH");
-            Assert.Equal(RequestType.LAMBDA_S_STORE.ToString(), "LAMBDA_S_STORE");
-            Assert.Equal(RequestType.HOOK_DISPATCH.ToString(), "HOOK_DISPATCH");
+            Assert.Equal(RequestType.AtomicBatch.ToString(), "ATOMIC_BATCH");
+            Assert.Equal(RequestType.LambdaSstore.ToString(), "LAMBDA_S_STORE");
+            Assert.Equal(RequestType.HookDispatch.ToString(), "HOOK_DISPATCH");
         }
 
         public virtual void RoundTripNewEntries()
@@ -49,25 +49,27 @@ namespace Hedera.Hashgraph.Tests.SDK
                 new[]
                 {
                     Proto.HederaFunctionality.AtomicBatch,
-                    RequestType.ATOMIC_BATCH
+                    RequestType.AtomicBatch
                 },
                 new[]
                 {
-                    Proto.HederaFunctionality.LambdaSStore,
-                    RequestType.LAMBDA_S_STORE
+                    Proto.HederaFunctionality.LambdaSstore,
+                    RequestType.LambdaSstore
                 },
                 new[]
                 {
                     Proto.HederaFunctionality.HookDispatch,
-                    RequestType.HOOK_DISPATCH
-                }
+                    RequestType.HookDispatch
+				}
             };
+
             foreach (var pair in pairs)
             {
-                var code = (HederaFunctionality)pair[0];
+                var code = (Proto.HederaFunctionality)pair[0];
                 var req = (RequestType)pair[1];
-                Assert.Equal(RequestType.ValueOf(code), req);
-                Assert.Equal(req.code, code);
+
+                Assert.Equal((RequestType)code, req);
+                Assert.Equal((Proto.Hede)req, code);
             }
         }
     }

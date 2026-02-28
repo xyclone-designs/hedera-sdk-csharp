@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// </summary>
         public TopicCreateTransaction()
         {
-            AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD.ToDuration();
+            AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
             DefaultMaxTransactionFee = new Hbar(25);
         }
 		/// <summary>
@@ -128,7 +128,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="autoRenewPeriod">The TimeSpan to be set for auto renewal</param>
 		/// <returns>{@code this}</returns>
-		public Duration? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
+		public TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
 		/// <summary>
 		/// The ID of the account to be charged renewal fees at the topic's
 		/// expirationTime to extend the lifetime of the topic.
@@ -159,11 +159,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="feeExemptKeys">the keys to be set</param>
 		/// <returns>{@code this}</returns>
-		public ListFreezable<Key> FeeExemptKeys
+		public ListGuarded<Key> FeeExemptKeys
 		{
-			init; get => field ??= new ListFreezable<Key>
+			init; get => field ??= new ListGuarded<Key>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 		/// <summary>
@@ -171,11 +171,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="">customFees List of CustomFixedFee</param>
 		/// <returns>{@code this}</returns>
-		public ListFreezable<CustomFixedFee> CustomFees
+		public ListGuarded<CustomFixedFee> CustomFees
 		{
-			init; get => field ??= new ListFreezable<CustomFixedFee>
+			init; get => field ??= new ListGuarded<CustomFixedFee>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 
@@ -203,7 +203,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 
             if (body.AutoRenewPeriod is not null)
             {
-                AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+                AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
             }
 
             if (body.FeeScheduleKey is not null)
@@ -246,7 +246,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 				builder.SubmitKey = SubmitKey.ToProtobufKey();
 
             if (AutoRenewPeriod != null)
-				builder.AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod);
+				builder.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
 
             if (FeeScheduleKey != null)
 				builder.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
@@ -276,7 +276,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         {
             if (client.OperatorAccountId != null && AutoRenewAccountId == null)
             {
-				AutoRenewAccountId = TransactionIds != null && TransactionIds.Count != 0 && TransactionIds.GetCurrent() != null ? TransactionIds.GetCurrent().AccountId : client.OperatorAccountId;
+				AutoRenewAccountId = TransactionIds != null && TransactionIds.Count != 0 && TransactionIds.Current != null ? TransactionIds.Current.AccountId : client.OperatorAccountId;
             }
 
             return base.FreezeWith(client);

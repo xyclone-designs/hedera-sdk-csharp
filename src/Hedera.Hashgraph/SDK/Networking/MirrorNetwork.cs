@@ -11,13 +11,13 @@ namespace Hedera.Hashgraph.SDK.Networking
     /// </summary>
     public class MirrorNetwork : BaseNetwork<MirrorNetwork, BaseNodeAddress, MirrorNode>
     {
-		internal MirrorNetwork(ExecutorService executor, IList<string> addresses) : base(executor)
+		internal MirrorNetwork(ExecutorService executor, IEnumerable<string> addresses) : base(executor)
         {
             TransportSecurity = true;
 
             try
             {
-                Network = addresses;
+                Network = [..addresses];
             }
             catch (ThreadInterruptedException e) { }
             catch (TimeoutException) { }
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <param name="executor">the executor service</param>
 		/// <param name="addresses">the arbitrary address for the network</param>
 		/// <returns>the new mirror network object</returns>
-		internal static MirrorNetwork ForNetwork(ExecutorService executor, IList<string> addresses)
+		internal static MirrorNetwork ForNetwork(ExecutorService executor, IEnumerable<string> addresses)
 		{
 			return new MirrorNetwork(executor, addresses);
 		}

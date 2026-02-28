@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var originalTokenRelationship = SpawnTokenRelationshipExample();
             byte[] tokenRelationshipBytes = originalTokenRelationship.ToBytes();
-            var copyTokenRelationship = TokenRelationship.FromBytes(tokenRelationshipBytes);
+            var copyTokenRelationship = Transaction.FromBytes<TokenRelationship>(tokenRelationshipBytes);
             
             Assert.Equal(Regex.Replace(copyTokenRelationship.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalTokenRelationship.ToString(), "@[A-Za-z0-9]+", ""));
             

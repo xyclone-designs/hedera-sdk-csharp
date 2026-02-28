@@ -260,11 +260,11 @@ namespace Hedera.Hashgraph.SDK.Account
         /// Get the hook creation details for this account.
         /// </summary>
         /// <returns>a copy of the hook creation details list</returns>
-        public ListFreezable<HookCreationDetails> HookCreationDetails
+        public ListGuarded<HookCreationDetails> HookCreationDetails
 		{
-			init; get => field ??= new ListFreezable<HookCreationDetails>
+			init; get => field ??= new ListGuarded<HookCreationDetails>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 
@@ -279,7 +279,7 @@ namespace Hedera.Hashgraph.SDK.Account
             {
 				InitialBalance = (ulong)InitialBalance.ToTinybars(),
 				ReceiverSigRequired = ReceiverSigRequired,
-				AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod),
+				AutoRenewPeriod = AutoRenewPeriod.ToProtoDuration(),
 				Memo = AccountMemo,
 				MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations,
 				DeclineReward = DeclineStakingReward,
@@ -342,7 +342,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (body.AutoRenewPeriod is not null)
             {
-                AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod).ToTimeSpan();
+                AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
             }
 
             InitialBalance = Hbar.FromTinybars((long)body.InitialBalance);

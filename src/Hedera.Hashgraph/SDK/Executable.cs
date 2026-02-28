@@ -49,13 +49,12 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// List of healthy and unhealthy nodes with which execution will be attempted.
 		/// </summary>
-		protected ListLockable<Node> Nodes
+		protected ListGuarded<Node> Nodes
 		{
 			get => [.. field ??= []];
 			set
 			{
 				field = value;
-                field.SetLocked(false);
 			}
 		}
 
@@ -138,18 +137,13 @@ namespace Hedera.Hashgraph.SDK
 		/// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
 		/// reports a fatal error, the SDK will try again with a different node.
 		/// </summary>
-		public ListLockable<AccountId> NodeAccountIds
+		public ListGuarded<AccountId> NodeAccountIds
         {
-            protected get => field ??= [];
+            get => field ??= [];
             set
             {
                 field = value;
-                field.SetLocked(false);
             }
-        }
-		public IList<AccountId> NodeAccountIds_Read
-        {
-            get => NodeAccountIds.AsReadOnly();
         }
         /// <summary>
         /// Set a callback that will be called right before the request is sent. As input, the callback will receive the
@@ -243,7 +237,8 @@ namespace Hedera.Hashgraph.SDK
 				// NOTE: _i is NOT the index into nodes, it is just keeping track of how many times we've iterated.
 				// In the event of ServerErrors, this method depends on the nodes list to have advanced to
 				// the next node.
-				node = Nodes.GetCurrent();
+				node = Nodes.Current;
+
 				if (!node.IsHealthy())
 				{
 
@@ -271,7 +266,7 @@ namespace Hedera.Hashgraph.SDK
 
 				// If we've tried all nodes, index will be +1 too far. Index increment happens outside
 				// this method so try to be consistent with happy path.
-				NodeAccountIds.SetIndex(Math.Max(0, NodeAccountIds.Index));
+				NodeAccountIds.Index = Math.Max(0, NodeAccountIds.Index);
 			}
 
 			// node won't be null at this point because execute() validates before this method is called.

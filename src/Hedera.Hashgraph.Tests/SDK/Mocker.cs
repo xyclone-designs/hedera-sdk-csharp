@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 }
             }
 
-            this.client = Client.ForNetwork(network).OperatorSet(new AccountId(0, 0, 1800), PRIVATE_KEY).SetMinBackoff(Duration.OfMillis(0)).SetMaxBackoff(Duration.OfMillis(0)).SetNodeMinBackoff(Duration.OfMillis(0)).SetNodeMaxBackoff(Duration.OfMillis(0)).SetMinNodeReadmitTime(Duration.OfMillis(0)).SetMaxNodeReadmitTime(Duration.OfMillis(0)).SetLogger(new Logger(LogLevel.SILENT));
+            this.client = Client.ForNetwork(network).OperatorSet(new AccountId(0, 0, 1800), PRIVATE_KEY).SetMinBackoff(TimeSpan.FromMilliseconds(0)).SetMaxBackoff(TimeSpan.FromMilliseconds(0)).SetNodeMinBackoff(TimeSpan.FromMilliseconds(0)).SetNodeMaxBackoff(TimeSpan.FromMilliseconds(0)).SetMinNodeReadmitTime(TimeSpan.FromMilliseconds(0)).SetMaxNodeReadmitTime(TimeSpan.FromMilliseconds(0)).SetLogger(new Logger(LogLevel.SILENT));
         }
 
         protected virtual void ConfigureServerBuilder(InProcessServerBuilder builder)

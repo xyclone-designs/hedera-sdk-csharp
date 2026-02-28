@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tokenMintTransaction.TokenId, testTokenId);
             Assert.Equal(tokenMintTransaction.Amount, testAmount);
-            Assert.Equal(tokenMintTransaction.MetadataList.Last(), testMetadataByteString.ToByteArray());
+            Assert.Equal(tokenMintTransaction.Metadata.Last(), testMetadataByteString.ToByteArray());
         }
 
         public virtual void GetSetTokenId()
@@ -153,14 +153,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void GetSetMetadata()
         {
-            var tokenMintTransaction = new TokenMintTransaction().MetadataList = testMetadataList;
+            var tokenMintTransaction = new TokenMintTransaction().Metadata = testMetadataList;
             Assert.Equal(tokenMintTransaction.MetadataList, testMetadataList);
         }
 
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.MetadataList = testMetadataList);
+            Assert.Throws<InvalidOperationException>(() => tx.Metadata = testMetadataList);
         }
 
         public virtual void AddMetadata()

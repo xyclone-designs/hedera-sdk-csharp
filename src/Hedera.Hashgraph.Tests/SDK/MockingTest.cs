@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             cryptoService.buffer.EnqueueResponse(TestResponse.Query(Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetReceipt(TransactionReceipt.NewBuilder().SetFileID(fileId.ToProtobuf()).SetStatus(ResponseCodeEnum.SUCCESS).Build()).Build()).Build())).EnqueueResponse(TestResponse.SuccessfulReceipt()).EnqueueResponse(TestResponse.SuccessfulReceipt());
             fileService.buffer.EnqueueResponse(TestResponse.TransactionOk()).EnqueueResponse(TestResponse.TransactionOk()).EnqueueResponse(TestResponse.TransactionOk());
             contractService.buffer.EnqueueResponse(TestResponse.TransactionOk());
-            var flow = new ContractCreateFlow().SetBytecode(BIG_BYTECODE).SetContractMemo("memo goes here").SetConstructorParameters(new byte[] { 1, 2, 3 }).SetAutoRenewPeriod(Duration.OfMinutes(1)).SetAdminKey(adminKey).SetGas(100).SetInitialBalance(new Hbar(3)).SetMaxAutomaticTokenAssociations(maxAutomaticTokenAssociations).SetDeclineStakingReward(declineStakingReward);
+            var flow = new ContractCreateFlow().SetBytecode(BIG_BYTECODE).SetContractMemo("memo goes here").SetConstructorParameters(new byte[] { 1, 2, 3 }).SetAutoRenewPeriod(TimeSpan.FromMinutes(1)).SetAdminKey(adminKey).SetGas(100).SetInitialBalance(new Hbar(3)).SetMaxAutomaticTokenAssociations(maxAutomaticTokenAssociations).SetDeclineStakingReward(declineStakingReward);
             if (stakeType.Equals("stakedAccount"))
             {
                 flow.SetStakedAccountId(stakedAccountId);
@@ -143,19 +143,19 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
 
             transactions.Add(Transaction.FromBytes(contractService.buffer.transactionRequestsReceived[0].ToByteArray()));
-            Assertions.AssertInstanceOf(typeof(FileCreateTransaction), transactions[0]);
+            Assert.InstanceOf(typeof(FileCreateTransaction), transactions[0]);
             Assert.Equal(ContractCreateFlow.FILE_CREATE_MAX_BYTES, ((FileCreateTransaction)transactions[0]).GetContents().Count);
             Assert.True(cryptoService.buffer.queryRequestsReceived[0].HasTransactionGetReceipt());
-            Assertions.AssertInstanceOf(typeof(FileAppendTransaction), transactions[1]);
+            Assert.InstanceOf(typeof(FileAppendTransaction), transactions[1]);
             var fileAppendTx = (FileAppendTransaction)transactions[1];
             Assert.Equal(fileId, fileAppendTx.GetFileId());
             Assert.Equal(BIG_BYTECODE.Length - ContractCreateFlow.FILE_CREATE_MAX_BYTES, fileAppendTx.GetContents().Count);
-            Assertions.AssertInstanceOf(typeof(ContractCreateTransaction), transactions[3]);
+            Assert.InstanceOf(typeof(ContractCreateTransaction), transactions[3]);
             var contractCreateTx = (ContractCreateTransaction)transactions[3];
             Assert.Equal("memo goes here", contractCreateTx.GetContractMemo());
             Assert.Equal(fileId, contractCreateTx.GetBytecodeFileId());
             Assert.Equal(ByteString.CopyFrom(new byte[] { 1, 2, 3 }), contractCreateTx.GetConstructorParameters());
-            Assert.Equal(Duration.OfMinutes(1), contractCreateTx.GetAutoRenewPeriod());
+            Assert.Equal(TimeSpan.FromMinutes(1), contractCreateTx.GetAutoRenewPeriod());
             Assert.Equal(adminKey, contractCreateTx.GetAdminKey());
             Assert.Equal(100, contractCreateTx.GetGas());
             Assert.Equal(new Hbar(3), contractCreateTx.GetInitialBalance());
@@ -170,7 +170,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 Assert.Equal(stakedNode, contractCreateTx.GetStakedNodeId());
             }
 
-            Assertions.AssertInstanceOf(typeof(FileDeleteTransaction), transactions[2]);
+            Assert.InstanceOf(typeof(FileDeleteTransaction), transactions[2]);
             server.Dispose();
         }
 
@@ -428,8 +428,8 @@ namespace Hedera.Hashgraph.Tests.SDK
         {
             var service = new TestCryptoService();
             var server = new TestServer("canCancelExecuteAsync", service);
-            server.client.SetMaxBackoff(Duration.OfSeconds(8));
-            server.client.SetMinBackoff(Duration.OfSeconds(1));
+            server.client.SetMaxBackoff(TimeSpan.FromSeconds(8));
+            server.client.SetMinBackoff(TimeSpan.FromSeconds(1));
             var noReceiptResponse = TestResponse.Query(Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetHeader(ResponseHeader.NewBuilder().SetNodeTransactionPrecheckCode(Status.RECEIPT_NOT_FOUND.code))).Build());
             service.buffer.EnqueueResponse(noReceiptResponse);
             service.buffer.EnqueueResponse(noReceiptResponse);

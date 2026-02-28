@@ -14,12 +14,12 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// </summary>
     public class AssessedCustomFee
     {
-        public AssessedCustomFee(long amount, TokenId tokenId, AccountId feeCollectorAccountId, IList<AccountId> payerAccountIdList)
+        public AssessedCustomFee(long amount, TokenId tokenId, AccountId feeCollectorAccountId, IEnumerable<AccountId> payerAccountIdList)
         {
             Amount = amount;
             TokenId = tokenId;
             FeeCollectorAccountId = feeCollectorAccountId;
-            PayerAccountIdList = payerAccountIdList;
+            PayerAccountIdList = [.. payerAccountIdList];
         }
 
 		/// <summary>

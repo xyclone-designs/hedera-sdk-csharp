@@ -1,18 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Hashgraph;
+using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Topic;
-using Java.Nio.Charset;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent.Atomic;
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api;
+
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 
@@ -48,21 +40,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var handle = new TopicMessageQuery
                 {
 					TopicId = topicId,
-					StartTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UnixEpoch),
+					StartTime = DateTimeOffset.UnixEpoch,
 
 				}.Subscribe(testEnv.Client, (message) =>
                 {
-                    receivedMessage[0] = new string (message.contents, StandardCharsets.UTF_8).Equals("Hello, from HCS!");
+                    receivedMessage[0] = Encoding.UTF8.GetString(message.Contents).Equals("Hello, from HCS!");
                 });
                 Thread.Sleep(3000);
                 new TopicMessageSubmitTransaction
                 {
 					TopicId = topicId,
-					Message = "Hello, from HCS!",
+					Message = ByteString.CopyFromUtf8("Hello, from HCS!"),
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 while (!receivedMessage[0])
                 {
-                    if (Duration.Between(start, DateTimeOffset.UtcNow).CompareTo(Duration.OfSeconds(60)) > 0)
+                    if (Duration.Between(start, DateTimeOffset.UtcNow).CompareTo(TimeSpan.FromSeconds(60)) > 0)
                     {
                         throw new Exception("TopicMessage was not received in 60 seconds or less");
                     }
@@ -109,23 +101,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var handle = new TopicMessageQuery
                 {
 					TopicId = topicId,
-					StartTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UnixEpoch),
+					StartTime = DateTimeOffset.UnixEpoch,
 
 				}.Subscribe(testEnv.Client, (message) =>
                 {
-                    receivedMessage[0] = new string (message.contents, StandardCharsets.UTF_8).Equals(Contents.BIG_CONTENTS);
+                    receivedMessage[0] = Encoding.UTF8.GetString(message.Contents).Equals(Contents.BIG_CONTENTS);
                 });
                 new TopicMessageSubmitTransaction
                 {
 					TopicId = topicId,
-					Message = Contents.BIG_CONTENTS,
+					Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS),
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
 
                 while (!receivedMessage[0])
                 {
-                    if (Duration.Between(start, DateTimeOffset.UtcNow).CompareTo(Duration.OfSeconds(60)) > 0)
+                    if (Duration.Between(start, DateTimeOffset.UtcNow).CompareTo(TimeSpan.FromSeconds(60)) > 0)
                     {
                         throw new Exception("TopicMessage was not received in 60 seconds or less");
                     }
@@ -151,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TopicMemo = "[e2e::TopicCreateTransaction]"
 				
                 }.Execute(testEnv.Client);
-                var topicId = response.GetReceipt(testEnv.Client).TopicId);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 var receivedMessage = new AtomicBoolean(false);
                 var retryWarningLogged = new AtomicBoolean(false);
                 var errorHandlerInvoked = new AtomicBoolean(false);

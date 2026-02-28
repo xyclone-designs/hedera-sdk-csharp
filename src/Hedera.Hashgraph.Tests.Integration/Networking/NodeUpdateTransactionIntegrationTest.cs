@@ -12,6 +12,8 @@ using System.Text;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK.HBar;
+using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -31,8 +33,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 client.OperatorSet(new AccountId(0, 0, 2), originalOperatorKey);
 
                 // Set up grpcWebProxyEndpoint address
-                var grpcWebProxyEndpoint = new Endpoint().SetDomainName("testWebUpdated.com").SetPort(123456);
-                var response = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetDeclineReward(true).SetGrpcWebProxyEndpoint(grpcWebProxyEndpoint).Execute(client);
+                var grpcWebProxyEndpoint = new Endpoint()
+                    .SetDomainName("testWebUpdated.com")
+                    .SetPort(123456);
+                var response = new NodeUpdateTransaction()
+                    .SetNodeId(0)
+                    .SetDescription("testUpdated")
+                    .SetDeclineReward(true)
+                    .SetGrpcWebProxyEndpoint(grpcWebProxyEndpoint).Execute(client);
                 response.GetReceipt(client);
             }
         }
@@ -49,7 +57,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Set the operator to be account 0.0.2
                 var originalOperatorKey = PrivateKey.FromString("302e020100300506032b65700422042091132178e72057a1d7528025956fe39b0b847f200ab59b2fdd367017f3087137");
                 client.OperatorSet(new AccountId(0, 0, 2), originalOperatorKey);
-                var response = new NodeUpdateTransaction().SetNodeId(0).DeleteGrpcWebProxyEndpoint().Execute(client);
+                var response = new NodeUpdateTransaction()
+                    .SetNodeId(0).DeleteGrpcWebProxyEndpoint().Execute(client);
                 response.GetReceipt(client);
             }
         }
@@ -63,8 +72,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
-            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
+            };
+            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600"))
+                .SetTransportSecurity(false))
             {
 
                 // Set the operator to be account 0.0.2
@@ -80,7 +90,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var nodeAdminKey = PrivateKey.GenerateED25519();
 
                 // When: A NodeUpdateTransaction is submitted to change the account ID
-                var nodeUpdateTransaction = new NodeUpdateTransaction().SetNodeId(0).SetAccountId(newAccountId).SetAdminKey(nodeAdminKey.GetPublicKey()).SetMaxTransactionFee(Hbar.From(10)).SetTransactionMemo("Update node account ID for DAB testing");
+                var nodeUpdateTransaction = new NodeUpdateTransaction
+                {
+					NodeId = 0,
+					AccountId = newAccountId,
+					AdminKey = nodeAdminKey.GetPublicKey(),
+					MaxTransactionFee = Hbar.From(10),
+					TransactionMemo = "Update node account ID for DAB testing",
+				};
 
                 // Sign with both the node admin key and the new account key
                 nodeUpdateTransaction.FreezeWith(client).Sign(nodeAdminKey).Sign(newAccountKey);
@@ -107,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
+            };
             using (var client = Client.ForNetwork(network).SetTransportSecurity(false).SetMirrorNetwork(List.Of("localhost:5600")))
             {
 
@@ -117,10 +134,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Given: A node with an existing account ID (0.0.3)
                 // When: A NodeUpdateTransaction is submitted to change the account ID to the same account (0.0.3)
-                var resp = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(new AccountId(0, 0, 3)).SetNodeAccountIds(List.Of(new AccountId(0, 0, 3))).Execute(client);
+                var resp = new NodeUpdateTransaction
+                {
+					NodeId = 0,
+					Description = "testUpdated",
+					AccountId = new AccountId(0, 0, 3),
+					NodeAccountIds = [new AccountId(0, 0, 3)],
+				
+                }.Execute(client);
 
                 // Then: The transaction should succeed
-                var receipt = resp.SetValidateStatus(true).GetReceipt(client);
+                var receipt = resp
+                    .SetValidateStatus(true).GetReceipt(client);
                 Assert.Equal(receipt.status, ResponseStatus.Success);
             }
         }
@@ -133,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
+            };
             using (var client = Client.ForNetwork(network).SetTransportSecurity(false).SetMirrorNetwork(List.Of("localhost:5600")))
             {
 
@@ -146,12 +171,19 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(newNodeAccountID);
 
                 // Update node account id (0.0.3 -> newNodeAccountID)
-                var resp = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(newNodeAccountID).Execute(client);
-                Console.WriteLine("Transaction node: " + resp.nodeId);
-                Console.WriteLine("Receipt query nodes: " + resp.GetReceiptQuery().GetNodeAccountIds());
+                var resp = new NodeUpdateTransaction
+                {
+					NodeId = 0,
+					Description = "testUpdated",
+					AccountId = newNodeAccountID,
+
+				}.Execute(client);
+                Console.WriteLine("Transaction node: " + resp.NodeId);
+                Console.WriteLine("Receipt query nodes: " + resp.GetReceiptQuery().NodeAccountIds);
                 Console.WriteLine("Client network: " + client.Network);
-                var receipt = resp.SetValidateStatus(true).GetReceipt(client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                resp.ValidateStatus = true;
+                var receipt = resp.GetReceipt(client);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
 
                 // Wait for mirror node to import data
                 Thread.Sleep(10000);
@@ -164,13 +196,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // 3. Update the address book asynchronously
                 // 4. Mark node 3 as unhealthy
                 // 5. Retry with node 4 which should succeed
-                ExecuteAccountCreate(client, List.Of(new AccountId(0, 0, 3), new AccountId(0, 0, 4)));
+                ExecuteAccountCreate(client, [new AccountId(0, 0, 3), new AccountId(0, 0, 4)]);
 
                 // This transaction should succeed using the updated node account ID
-                ExecuteAccountCreate(client, List.Of(newNodeAccountID));
+                ExecuteAccountCreate(client, [ newNodeAccountID ]);
 
                 // Revert the node account id (newNodeAccountID -> 0.0.3)
-                resp = new NodeUpdateTransaction().SetNodeId(0).SetNodeAccountIds(List.Of(newNodeAccountID)).SetDescription("testUpdated").SetAccountId(new AccountId(0, 0, 3)).Execute(client);
+                resp = new NodeUpdateTransaction
+                {
+					NodeId = 0,
+					NodeAccountIds = [newNodeAccountID],
+					Description = "testUpdated",
+					AccountId = new AccountId(0, 0, 3),
+				
+                }.Execute(client);
                 receipt = resp.SetValidateStatus(true).GetReceipt(client);
                 Assert.Equal(receipt.status, ResponseStatus.Success);
             }
@@ -184,8 +223,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
-            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
+            };
+            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600"))
+                .SetTransportSecurity(false))
             {
 
                 // Set the operator to be account 0.0.2 initially to create a new account
@@ -201,7 +241,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // When: A NodeUpdateTransaction is submitted without node admin signature
                 // (only has the new operator's signature, which is not sufficient)
-                var nodeUpdateTransaction = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(new AccountId(0, 0, 3)).SetNodeAccountIds(List.Of(new AccountId(0, 0, 3)));
+                var nodeUpdateTransaction = new NodeUpdateTransaction()
+                    .SetNodeId(0)
+                    .SetDescription("testUpdated")
+                    .SetAccountId(new AccountId(0, 0, 3))
+                    .SetNodeAccountIds(List.Of(new AccountId(0, 0, 3)));
 
                 // Then: The transaction should fail with INVALID_SIGNATURE
                 AssertThatThrownBy(() =>
@@ -224,8 +268,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
-            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
+            };
+            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600"))
+                .SetTransportSecurity(false))
             {
 
                 // Set the operator to be account 0.0.2 (has node admin privileges)
@@ -238,7 +283,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // When: A NodeUpdateTransaction is submitted with node admin signature
                 // but WITHOUT the new account ID's signature
-                var nodeUpdateTransaction = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(newAccountId).SetNodeAccountIds(List.Of(new AccountId(0, 0, 3)));
+                var nodeUpdateTransaction = new NodeUpdateTransaction()
+                    .SetNodeId(0)
+                    .SetDescription("testUpdated")
+                    .SetAccountId(newAccountId)
+                    .SetNodeAccountIds(List.Of(new AccountId(0, 0, 3)));
 
                 // Note: The operator (0.0.2) has node admin privileges, so the transaction
                 // is automatically signed with the operator's key (node admin signature).
@@ -265,8 +314,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
-            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
+            };
+            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600"))
+                .SetTransportSecurity(false))
             {
 
                 // Set the operator to be account 0.0.2 (has admin privileges)
@@ -275,7 +325,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Given: A node with an existing account ID (0.0.3)
                 // When: A NodeUpdateTransaction is submitted to change to a non-existent account (0.0.9999999)
-                var nodeUpdateTransaction = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(new AccountId(0, 0, 9999999)).SetNodeAccountIds(List.Of(new AccountId(0, 0, 3)));
+                var nodeUpdateTransaction = new NodeUpdateTransaction()
+                    .SetNodeId(0)
+                    .SetDescription("testUpdated")
+                    .SetAccountId(new AccountId(0, 0, 9999999))
+                    .SetNodeAccountIds(List.Of(new AccountId(0, 0, 3)));
 
                 // Then: The transaction should fail with INVALID_NODE_ACCOUNT_ID
                 AssertThatThrownBy(() =>
@@ -300,8 +354,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
-            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600")).SetTransportSecurity(false))
+            };
+            using (var client = Client.ForNetwork(network).SetMirrorNetwork(List.Of("localhost:5600"))
+                .SetTransportSecurity(false))
             {
 
                 // Set the operator to be account 0.0.2 (has admin privileges)
@@ -313,12 +368,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newAccountId = CreateAccount(client, newAccountKey.GetPublicKey(), Hbar.From(2));
 
                 // Delete the account (transfer balance to operator account)
-                var deleteResponse = new AccountDeleteTransaction().SetAccountId(newAccountId).SetTransferAccountId(client.GetOperatorAccountId()).FreezeWith(client).Sign(newAccountKey).Execute(client);
+                var deleteResponse = new AccountDeleteTransaction()
+                    .SetAccountId(newAccountId)
+                    .SetTransferAccountId(client.GetOperatorAccountId()).FreezeWith(client).Sign(newAccountKey).Execute(client);
                 var deleteReceipt = deleteResponse.GetReceipt(client);
                 Assert.Equal(deleteReceipt.status, ResponseStatus.Success);
 
                 // When: A NodeUpdateTransaction is submitted to change to the deleted account
-                var nodeUpdateTransaction = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(newAccountId).SetNodeAccountIds(List.Of(new AccountId(0, 0, 3))).FreezeWith(client).Sign(newAccountKey);
+                var nodeUpdateTransaction = new NodeUpdateTransaction()
+                    .SetNodeId(0)
+                    .SetDescription("testUpdated")
+                    .SetAccountId(newAccountId)
+                    .SetNodeAccountIds(List.Of(new AccountId(0, 0, 3))).FreezeWith(client).Sign(newAccountKey);
 
                 // Then: The transaction should fail with ACCOUNT_DELETED
                 AssertThatThrownBy(() =>
@@ -358,8 +419,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(newNodeAccountID);
 
                 // Update node 0's account id (0.0.3 -> newNodeAccountID)
-                var resp = new NodeUpdateTransaction().SetNodeId(0).SetDescription("testUpdated").SetAccountId(newNodeAccountID).Execute(client);
-                var receipt = resp.SetValidateStatus(true).GetReceipt(client);
+                var resp = new NodeUpdateTransaction()
+                    .SetNodeId(0)
+                    .SetDescription("testUpdated")
+                    .SetAccountId(newNodeAccountID).Execute(client);
+                var receipt = resp
+                    .SetValidateStatus(true).GetReceipt(client);
                 Assert.Equal(receipt.status, ResponseStatus.Success);
 
                 // Wait for mirror node to import data
@@ -371,11 +436,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 ExecuteAccountCreate(client, List.Of(new AccountId(0, 0, 3), new AccountId(0, 0, 4)));
 
                 // When: Subsequent transaction targets the NEW node account ID directly
-                ExecuteAccountCreate(client, List.Of(newNodeAccountID));
+                ExecuteAccountCreate(client, [ newNodeAccountID ]);
 
                 // Cleanup: Revert the node account id (newNodeAccountID -> 0.0.3)
-                resp = new NodeUpdateTransaction().SetNodeId(0).SetNodeAccountIds(List.Of(newNodeAccountID)).SetDescription("testUpdated").SetAccountId(new AccountId(0, 0, 3)).Execute(client);
-                receipt = resp.SetValidateStatus(true).GetReceipt(client);
+                resp = new NodeUpdateTransaction()
+                    .SetNodeId(0)
+                    .SetNodeAccountIds([ newNodeAccountID ])
+                    .SetDescription("testUpdated")
+                    .SetAccountId(new AccountId(0, 0, 3)).Execute(client);
+                receipt = resp
+                    .SetValidateStatus(true).GetReceipt(client);
                 Assert.Equal(receipt.status, ResponseStatus.Success);
             }
         }
@@ -386,7 +456,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", new AccountId(0, 0, 3) },
                 { "localhost:51211", new AccountId(0, 0, 4) }
-            }
+            };
             using (var client = Client.ForNetwork(network).SetTransportSecurity(false).SetMirrorNetwork(List.Of("localhost:5600")))
             {
                 var originalOperatorKey = PrivateKey.FromString("302e020100300506032b65700422042091132178e72057a1d7528025956fe39b0b847f200ab59b2fdd367017f3087137");
@@ -400,7 +470,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 ExecuteAccountCreate(client, List.Of(new AccountId(0, 0, 3), new AccountId(0, 0, 4)));
 
                 // Verify subsequent transaction with new node account ID
-                ExecuteAccountCreate(client, List.Of(newNodeAccountID));
+                ExecuteAccountCreate(client, [ newNodeAccountID ]);
 
                 // Verify the network configuration now includes the new account ID
                 var finalNetwork = client.Network;
@@ -408,35 +478,44 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(hasNewAccountId).As("Client network should contain the new node account ID after address book update");
 
                 // Cleanup
-                UpdateNodeAccountId(client, 0, new AccountId(0, 0, 3), List.Of(newNodeAccountID));
+                UpdateNodeAccountId(client, 0, new AccountId(0, 0, 3), [ newNodeAccountID ]);
             }
         }
 
         private AccountId CreateAccount(Client client, Key key, Hbar initialBalance)
         {
-            var resp = new AccountCreateTransaction().SetKey(key).SetInitialBalance(initialBalance).Execute(client);
-            return resp.SetValidateStatus(true).GetReceipt(client).accountId;
+            var resp = new AccountCreateTransaction()
+                .SetKey(key)
+                .SetInitialBalance(initialBalance).Execute(client);
+            return resp
+                .SetValidateStatus(true).GetReceipt(client).accountId;
         }
 
         private void UpdateNodeAccountId(Client client, long nodeId, AccountId newAccountId, IList<AccountId> nodeAccountIds)
         {
-            var transaction = new NodeUpdateTransaction().SetNodeId(nodeId).SetDescription("testUpdated").SetAccountId(newAccountId);
+            var transaction = new NodeUpdateTransaction()
+                .SetNodeId(nodeId)
+                .SetDescription("testUpdated")
+                .SetAccountId(newAccountId);
             if (nodeAccountIds != null)
             {
                 transactionNodeAccountIds = nodeAccountIds,;
             }
 
             var resp = transaction.Execute(client);
-            var receipt = resp.SetValidateStatus(true).GetReceipt(client);
+            var receipt = resp
+                .SetValidateStatus(true).GetReceipt(client);
             Assert.Equal(receipt.status, ResponseStatus.Success);
         }
 
         private void ExecuteAccountCreate(Client client, IList<AccountId> nodeAccountIds)
         {
             var newAccountKey = PrivateKey.GenerateED25519();
-            var resp = new AccountCreateTransaction().SetKey(newAccountKey.GetPublicKey())NodeAccountIds = nodeAccountIds,.Execute(client);
+            var resp = new AccountCreateTransaction()
+                .SetKey(newAccountKey.GetPublicKey())NodeAccountIds = nodeAccountIds,.Execute(client);
             Assert.NotNull(resp);
-            var receipt = resp.SetValidateStatus(true).GetReceipt(client);
+            var receipt = resp
+                .SetValidateStatus(true).GetReceipt(client);
             Assert.Equal(receipt.status, ResponseStatus.Success);
         }
     }

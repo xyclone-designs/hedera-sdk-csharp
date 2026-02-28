@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// </summary>
         public ContractCreateTransaction()
         {
-            AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD.ToDuration();
+            AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
             DefaultMaxTransactionFee = new Hbar(20);
         }
 		/// <summary>
@@ -193,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <summary>
 		/// Auto-renew period for the contract.
 		/// </summary>
-		public Duration? AutoRenewPeriod
+		public TimeSpan? AutoRenewPeriod
 		{
 			get;
 			set
@@ -290,11 +290,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// Get the list of hooks to be created.
 		/// </summary>
 		/// <returns>a copy of the hook creation details list</returns>
-		public ListFreezable<HookCreationDetails> HookCreationDetails_
+		public ListGuarded<HookCreationDetails> HookCreationDetails_
 		{
-			init; get => field ??= new ListFreezable<HookCreationDetails>
+			init; get => field ??= new ListGuarded<HookCreationDetails>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 
@@ -323,7 +323,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			builder.MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations;
 
             if (AutoRenewPeriod != null)
-				builder.AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod);
+				builder.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
 
 			builder.Gas = Gas;
             builder.InitialBalance = InitialBalance.ToTinybars();
@@ -368,7 +368,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			AdminKey = Key.FromProtobufKey(body.AdminKey);
 
 			MaxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
-			AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+			AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
 
 			Gas = body.Gas;
             InitialBalance = Hbar.FromTinybars(body.InitialBalance);

@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         {
             var originalStakingInfo = SpawnStakingInfoAccountExample();
             byte[] stakingInfoBytes = originalStakingInfo.ToBytes();
-            var copyStakingInfo = StakingInfo.FromBytes(stakingInfoBytes);
+            var copyStakingInfo = Transaction.FromBytes<StakingInfo>(stakingInfoBytes);
             
             Assert.Equal(Regex.Replace(copyStakingInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalStakingInfo.ToString(), "@[A-Za-z0-9]+", ""));
             
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         {
             var originalStakingInfo = SpawnStakingInfoNodeExample();
             byte[] stakingInfoBytes = originalStakingInfo.ToBytes();
-            var copyStakingInfo = StakingInfo.FromBytes(stakingInfoBytes);
+            var copyStakingInfo = Transaction.FromBytes<StakingInfo>(stakingInfoBytes);
             
             Assert.Equal(Regex.Replace(copyStakingInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalStakingInfo.ToString(), "@[A-Za-z0-9]+", ""));
             

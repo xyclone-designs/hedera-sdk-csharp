@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// value, the transaction SHALL fail with response
 		/// code `EXPIRATION_REDUCTION_NOT_ALLOWED`.
 		/// </summary>
-		public Timestamp? ExpirationTime
+		public DateTimeOffset? ExpirationTime
 		{
 			get;
 			set
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				ExpirationTimeDuration = null;
 			}
 		}
-		public Duration? ExpirationTimeDuration
+		public TimeSpan? ExpirationTimeDuration
 		{
 			get;
 			set
@@ -173,7 +173,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// </summary>
 		/// <param name="autoRenewPeriod">The TimeSpan to be set for auto-renewal</param>
 		/// <returns>{@code this}</returns>
-		public Duration? AutoRenewPeriod
+		public TimeSpan? AutoRenewPeriod
 		{
 			get;
 			set
@@ -295,22 +295,22 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// Get the list of hooks to be created.
 		/// </summary>
 		/// <returns>a copy of the hook creation details list</returns>
-		public ListFreezable<HookCreationDetails> HookCreationDetails_
+		public ListGuarded<HookCreationDetails> HookCreationDetails_
 		{
-			init; get => field ??= new ListFreezable<HookCreationDetails>
+			init; get => field ??= new ListGuarded<HookCreationDetails>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 		/// <summary>
 		/// Get the list of hook IDs to be deleted.
 		/// </summary>
 		/// <returns>a copy of the hook IDs list</returns>
-		public ListFreezable<long> HookIdsToDelete
+		public ListGuarded<long> HookIdsToDelete
 		{
-			init; get => field ??= new ListFreezable<long>
+			init; get => field ??= new ListGuarded<long>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 
@@ -324,13 +324,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             ContractId = ContractId.FromProtobuf(body.ContractID);
             ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
-            ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+            ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 
             if (body.AdminKey is not null)
 				AdminKey = Key.FromProtobufKey(body.AdminKey);
 
 			MaxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;
-            AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+            AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
             ContractMemo = body.MemoWrapper;
             DeclineStakingReward = body.DeclineReward;
             StakedAccountId = AccountId.FromProtobuf(body.StakedAccountId);
@@ -360,10 +360,10 @@ namespace Hedera.Hashgraph.SDK.Contract
 				builder.ProxyAccountID = ProxyAccountId.ToProtobuf();
 
             if (ExpirationTime != null)
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime);
+				builder.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 
             if (ExpirationTimeDuration != null)
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTimeDuration);
+				builder.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
 
             if (AdminKey != null)
 				builder.AdminKey = AdminKey.ToProtobufKey();
@@ -372,7 +372,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				builder.MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations;
 
 			if (AutoRenewPeriod != null)
-				builder.AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod);
+				builder.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
 
             if (ContractMemo != null)
 				builder.MemoWrapper = ContractMemo;

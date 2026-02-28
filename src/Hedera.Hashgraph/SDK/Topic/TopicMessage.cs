@@ -3,7 +3,7 @@ using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Transactions;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         /// <param name="lastSequenceNumber">the last sequence number</param>
         /// <param name="chunks">the array of chunks</param>
         /// <param name="transactionId">the transaction id</param>
-        public TopicMessage(Timestamp lastConsensusTimestamp, byte[] message, byte[] lastRunningHash, ulong lastSequenceNumber, TopicMessageChunk[] chunks, TransactionId? transactionId)
+        public TopicMessage(DateTimeOffset lastConsensusTimestamp, byte[] message, byte[] lastRunningHash, ulong lastSequenceNumber, TopicMessageChunk[] chunks, TransactionId? transactionId)
         {
             ConsensusTimestamp = lastConsensusTimestamp;
             Contents = message;
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Topic
         public static TopicMessage OfSingle(Proto.ConsensusTopicResponse response)
         {
             return new TopicMessage(
-                Utils.TimestampConverter.FromProtobuf(response.ConsensusTimestamp), 
+                response.ConsensusTimestamp.ToDateTimeOffset(), 
                 response.Message.ToByteArray(), 
                 response.RunningHash.ToByteArray(), 
                 response.SequenceNumber, 
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             var lastReceived = responses[responses.Count - 1];
 
             return new TopicMessage(
-                Utils.TimestampConverter.FromProtobuf(lastReceived.ConsensusTimestamp), 
+                lastReceived.ConsensusTimestamp.ToDateTimeOffset(), 
                 wholeMessage, 
                 lastReceived.RunningHash.ToByteArray(),
                 lastReceived.SequenceNumber, 
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// <summary>
 		/// The consensus timestamp of the message in seconds.nanoseconds
 		/// </summary>
-		public Timestamp ConsensusTimestamp { get; }
+		public DateTimeOffset ConsensusTimestamp { get; }
 		/// <summary>
 		/// The content of the message
 		/// </summary>

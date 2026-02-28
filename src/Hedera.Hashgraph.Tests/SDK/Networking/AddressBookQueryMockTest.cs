@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         {
             addressBookServiceStub.requests.Add(Proto.mirror.AddressBookQuery.NewBuilder().SetFileId(FileId.ADDRESS_BOOK.ToProtobuf()).Build());
             addressBookServiceStub.responses.Add(new NodeAddress().SetAccountId(AccountId.FromString("0.0.3")).SetAddresses([SpawnEndpoint(])).ToProtobuf());
-            client.SetNetworkUpdatePeriod(Duration.OfSeconds(1));
+            client.SetNetworkUpdatePeriod(TimeSpan.FromSeconds(1));
             Thread.Sleep(1400);
             var clientNetwork = client.Network;
             Assert.Single(clientNetwork);

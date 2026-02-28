@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
@@ -192,7 +191,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// When the network consensus time exceeds the then-current
 		/// `expirationTime`, the network SHALL expire the file.
 		/// </summary>
-		public Timestamp? ExpirationTime
+		public DateTimeOffset? ExpirationTime
 		{
 			get => field;
 			set
@@ -202,7 +201,7 @@ namespace Hedera.Hashgraph.SDK.File
 				ExpirationTimeDuration = null;
 			}
 		}
-		public Duration? ExpirationTimeDuration
+		public TimeSpan? ExpirationTimeDuration
 		{
 			get => field;
 			set
@@ -231,10 +230,10 @@ namespace Hedera.Hashgraph.SDK.File
 				builder.Keys = Keys.ToProtobuf();
 
 			if (ExpirationTime != null)
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime);
+				builder.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 
             if (ExpirationTimeDuration != null)
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTimeDuration);
+				builder.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
 
             if (FileMemo != null)
 				builder.Memo = FileMemo;
@@ -288,7 +287,7 @@ namespace Hedera.Hashgraph.SDK.File
 				Keys = KeyList.FromProtobuf(body.Keys, null);
 
 			if (body.ExpirationTime is not null)
-				ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+				ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 
 			if (body.Memo is not null)
 				FileMemo = body.Memo;

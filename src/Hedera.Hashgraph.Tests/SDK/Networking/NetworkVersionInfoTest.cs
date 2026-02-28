@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         {
             var originalNetworkVersionInfo = SpawnNetworkVerionInfoExample();
             byte[] networkVersionInfoBytes = originalNetworkVersionInfo.ToBytes();
-            var copyNetworkVersionInfo = NetworkVersionInfo.FromBytes(networkVersionInfoBytes);
+            var copyNetworkVersionInfo = Transaction.FromBytes<NetworkVersionInfo>(networkVersionInfoBytes);
             
             Assert.Equal(Regex.Replace(originalNetworkVersionInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(copyNetworkVersionInfo.ToString(), "@[A-Za-z0-9]+", ""));
             

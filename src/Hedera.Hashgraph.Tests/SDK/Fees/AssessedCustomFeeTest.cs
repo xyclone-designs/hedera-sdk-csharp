@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             var originalAssessedCustomFee = SpawnAssessedCustomFeeExample();
             byte[] assessedCustomFeeBytes = originalAssessedCustomFee.ToBytes();
-            var copyAssessedCustomFee = AssessedCustomFee.FromBytes(assessedCustomFeeBytes);
+            var copyAssessedCustomFee = Transaction.FromBytes<AssessedCustomFee>(assessedCustomFeeBytes);
             
             Assert.Equal(originalAssessedCustomFee.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), copyAssessedCustomFee.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
             

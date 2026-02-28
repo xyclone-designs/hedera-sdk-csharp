@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.responses.Add(Response(2));
             SubscribeToMirror(received.Add());
             Assert.Empty(errors);
-            Assertions.AssertThat(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
+            Assert.That(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
         }
 
         public virtual void SubscribeChunked()
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.responses.Add(code.ToStatus().WithDescription(description).AsRuntimeException());
             consensusServiceStub.responses.Add(Response(2));
             SubscribeToMirror(received.Add());
-            Assertions.AssertThat(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
+            Assert.That(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
             Assert.Empty(errors);
         }
 
@@ -158,7 +158,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.responses.Add(Response(1));
             topicMessageQuery.SetRetryHandler((t) => true);
             SubscribeToMirror(received.Add());
-            Assertions.AssertThat(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
+            Assert.That(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
             Assert.Empty(errors);
         }
 
@@ -174,7 +174,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.responses.Add(ResponseStatus.RESOURCE_EXHAUSTED.AsRuntimeException());
             consensusServiceStub.Responses.Add(Response(2));
             SubscribeToMirror(received.Add());
-            Assertions.AssertThat(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
+            Assert.That(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
             Assert.Empty(errors);
         }
 
@@ -225,7 +225,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 return false;
             });
             SubscribeToMirror(received.Add());
-            Assertions.AssertThat(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
+            Assert.That(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
             Assert.Empty(errors);
         }
 
@@ -258,7 +258,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             }
 
             Assert.Empty(errors);
-            Assertions.AssertThat(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
+            Assert.That(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
             secondHandle.Unsubscribe();
         }
 

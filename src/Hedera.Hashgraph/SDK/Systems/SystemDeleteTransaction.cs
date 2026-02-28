@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 		/// SHALL be the UNIX epoch with 0 at `1970-01-01T00:00:00.000Z`.<br/>
 		/// This field is REQUIRED.
 		/// </summary>
-		public Timestamp? ExpirationTime
+		public DateTimeOffset? ExpirationTime
 		{
 			get;
 			set
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 
             if (ExpirationTime != null)
             {
-                builder.ExpirationTime = Utils.TimestampConverter.ToSecondsProtobuf(ExpirationTime);
+                builder.ExpirationTime = ExpirationTime.Value.ToProtoTimestampSeconds();
             }
 
             return builder;
@@ -158,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 
 			FileId = FileId.FromProtobuf(body.FileID);
 			ContractId = ContractId.FromProtobuf(body.ContractID);
-			ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+			ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 		}
 
         public override void ValidateChecksums(Client client)

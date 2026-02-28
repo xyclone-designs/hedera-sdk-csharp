@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <summary>
 		/// Set the private key that this transaction will be signed with.
 		/// </summary>
-		private PrivateKey? SignPrivateKey 
+		public PrivateKey? SignPrivateKey 
         { 
             get;
             set 

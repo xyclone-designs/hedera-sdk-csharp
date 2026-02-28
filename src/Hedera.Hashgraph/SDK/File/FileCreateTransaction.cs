@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.File
         /// </summary
         public FileCreateTransaction()
         {
-            ExpirationTime = Timestamp.FromDateTime(DateTime.UtcNow.Add(Transaction.DEFAULT_AUTO_RENEW_PERIOD));
+            ExpirationTime = DateTimeOffset.UtcNow.Add(Transaction.DEFAULT_AUTO_RENEW_PERIOD);
             DefaultMaxTransactionFee = new Hbar(5);
         }
 		/// <summary>
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// 
 		/// <p>May be extended using {@link FileUpdateTransaction#setExpirationTime(Timestamp)}.
 		/// </summary>
-		public Timestamp? ExpirationTime
+		public DateTimeOffset? ExpirationTime
 		{
 			get;
 			set
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// 
 		/// <p>May be extended using {@link FileUpdateTransaction#setExpirationTime(Timestamp)}.
 		/// </summary>
-		public Duration? ExpirationTimeDuration
+		public TimeSpan? ExpirationTimeDuration
 		{
 			get;
 			set
@@ -234,7 +234,7 @@ namespace Hedera.Hashgraph.SDK.File
 			var body = SourceTransactionBody.FileCreate;
 
 			if (body.ExpirationTime is not null)
-				ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+				ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 
 			if (body.Keys is not null)
 				Keys = KeyList.FromProtobuf(body.Keys, null);
@@ -253,12 +253,12 @@ namespace Hedera.Hashgraph.SDK.File
 
 			if (ExpirationTime != null)
 			{
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime);
+				builder.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 			}
 
 			if (ExpirationTimeDuration != null)
 			{
-				builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTimeDuration);
+				builder.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
 			}
 
 			if (Keys != null)

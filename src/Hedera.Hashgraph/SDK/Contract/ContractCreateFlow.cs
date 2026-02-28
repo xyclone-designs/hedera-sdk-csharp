@@ -121,7 +121,7 @@ namespace Hedera.Hashgraph.SDK
 		/// <summary>
 		/// Sets the period that the instance will charge its account every this many seconds to renew.
 		/// </summary>
-		public virtual Duration? AutoRenewPeriod { get; set; }
+		public virtual TimeSpan? AutoRenewPeriod { get; set; }
 		/// <summary>
 		/// Set the account ID which will be charged for renewing this account
 		/// </summary>

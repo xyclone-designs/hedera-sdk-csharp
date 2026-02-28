@@ -54,8 +54,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(Duration.OfMillis(10));
-            tx.SetMaxBackoff(Duration.OfMillis(1000));
+            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
+            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node3);
         }
@@ -66,9 +66,9 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(Duration.OfMillis(10));
-            tx.SetMaxBackoff(Duration.OfMillis(1000));
-            tx.SetGrpcDeadline(Duration.OfSeconds(10));
+            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
+            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
+            tx.SetGrpcDeadline(TimeSpan.FromSeconds(10));
             var grpcRequest = tx.GetGrpcRequest(1);
             var timeRemaining = grpcRequest.GetCallOptions().GetDeadline().TimeRemaining(TimeUnit.MILLISECONDS);
             Assert.True(timeRemaining < 10000);
@@ -81,16 +81,16 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(Duration.OfMillis(10));
-            tx.SetMaxBackoff(Duration.OfMillis(1000));
+            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
+            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
             tx.SetMaxAttempts(10);
-            var timeout = Duration.OfSeconds(5);
+            var timeout = TimeSpan.FromSeconds(5);
             var currentTimeRemaining = new AtomicLong(timeout.ToMillis());
             long minimumRetryDelayMs = 100;
             long defaultDeadlineMs = timeout.ToMillis() - (minimumRetryDelayMs * (tx.GetMaxAttempts() / 2));
 
             // later on when the transaction is executed its grpc deadline should not be modified...
-            tx.SetGrpcDeadline(Duration.OfMillis(defaultDeadlineMs));
+            tx.SetGrpcDeadline(TimeSpan.FromMilliseconds(defaultDeadlineMs));
             tx.blockingUnaryCall = (grpcRequest) =>
             {
                 var grpc = (GrpcRequest)grpcRequest;
@@ -137,8 +137,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(Duration.OfMillis(10));
-            tx.SetMaxBackoff(Duration.OfMillis(1000));
+            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
+            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node4);
         }
@@ -154,9 +154,9 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(Duration.OfMillis(10));
-            tx.SetMaxBackoff(Duration.OfMillis(1000));
-            tx.nodeAccountIds.SetIndex(1);
+            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
+            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
+            tx.nodeAccountIds.Index = 1;
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node4);
         }
@@ -171,8 +171,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(Duration.OfMillis(10));
-            tx.SetMaxBackoff(Duration.OfMillis(1000));
+            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
+            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node3);
             tx.nodeAccountIds.Advance();
@@ -213,8 +213,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var tx = new DummyTransaction();
             txNodeAccountIds = nodeAccountIds,;
             tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(Duration.OfMillis(10));
-            tx.SetMaxBackoff(Duration.OfMillis(1000));
+            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
+            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node5);
             i.IncrementAndGet();
@@ -379,7 +379,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             };
             When(node3.IsHealthy()).ThenReturn(true);
             When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
-            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => transactionResponse.GetReceipt(client, Duration.OfSeconds(2)));
+            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => transactionResponse.GetReceipt(client, TimeSpan.FromSeconds(2)));
         }
 
         public virtual void ExecuteQueryDelay()

@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
+using Grpc.Core;
+
+using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Account;
-using Io.Grpc;
-using Io.Grpc.Inprocess;
-using Java.Io;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
+using Hedera.Hashgraph.SDK.Keys;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -34,19 +30,26 @@ namespace Hedera.Hashgraph.Tests.SDK
                 grpcServers[i] = serverBuilder.DirectExecutor().Build().Start();
             }
 
-            var network = new Dictionary<string, AccountId>();
-            network.Put("in-process:" + name + "[0]", AccountId.FromString("1.1.1"));
-            network.Put("in-process:" + name + "[1]", AccountId.FromString("1.1.2"));
-            client = Client.ForNetwork(network).SetNodeMinBackoff(Duration.OfMillis(500)).SetNodeMaxBackoff(Duration.OfMillis(500)).OperatorSet(AccountId.FromString("2.2.2"), PrivateKey.Generate());
+            var network = new Dictionary<string, AccountId>
+            {
+				{ "in-process:" + name + "[0]", AccountId.FromString("1.1.1") },
+			{ "in-process:" + name + "[1]", AccountId.FromString("1.1.2") },
+			};
+            
+            client = Client.ForNetwork(network, client =>
+            {
+                client.NodeMinBackoff = TimeSpan.FromMilliseconds(500);
+                client.NodeMaxBackoff = TimeSpan.FromMilliseconds(500);
+				client.OperatorSet(AccountId.FromString("2.2.2"), PrivateKey.Generate());
+			});
         }
 
-        public virtual void Dispose()
+        public virtual async void Dispose()
         {
             client.Dispose();
             foreach (var server in grpcServers)
             {
-                server.Shutdown();
-                server.AwaitTermination();
+                await server.ShutdownAsync();
             }
         }
     }

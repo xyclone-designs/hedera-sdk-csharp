@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
         {
             var originalScheduleInfo = SpawnScheduleInfoExample();
             byte[] scheduleInfoBytes = originalScheduleInfo.ToBytes();
-            var copyScheduleInfo = ScheduleInfo.FromBytes(scheduleInfoBytes);
+            var copyScheduleInfo = Transaction.FromBytes<ScheduleInfo>(scheduleInfoBytes);
             
             Assert.Equal(Regex.Replace(copyScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
             
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
         {
             var originalScheduleInfo = SpawnScheduleInfoDeletedExample();
             byte[] scheduleInfoBytes = originalScheduleInfo.ToBytes();
-            var copyScheduleInfo = ScheduleInfo.FromBytes(scheduleInfoBytes);
+            var copyScheduleInfo = Transaction.FromBytes<ScheduleInfo>(scheduleInfoBytes);
             
             Assert.Equal(Regex.Replace(copyScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
             

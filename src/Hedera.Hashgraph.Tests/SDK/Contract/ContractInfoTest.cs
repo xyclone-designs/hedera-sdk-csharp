@@ -15,7 +15,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractInfoTest
     {
-        private readonly ContractGetInfoResponse.ContractInfo info = ContractGetInfoResponse.ContractInfo.NewBuilder().SetContractID(new ContractId(0, 0, 1).ToProtobuf()).SetAccountID(new AccountId(0, 0, 2).ToProtobuf()).SetContractAccountID("3").SetExpirationTime(DateTimeConverter.ToProtobuf(DateTime.OfEpochMilli(4))).SetAutoRenewPeriod(DurationConverter.ToProtobuf(Duration.OfDays(5))).SetStorage(6).SetMemo("7").SetBalance(8).SetLedgerId(LedgerId.TESTNET.ToByteString()).Build();
+        private readonly ContractGetInfoResponse.ContractInfo info = ContractGetInfoResponse.ContractInfo.NewBuilder().SetContractID(new ContractId(0, 0, 1).ToProtobuf()).SetAccountID(new AccountId(0, 0, 2).ToProtobuf()).SetContractAccountID("3").SetExpirationTime(DateTimeConverter.ToProtobuf(DateTime.OfEpochMilli(4))).SetAutoRenewPeriod(TimeSpan.FromDays(5.ToProtoDuration())).SetStorage(6).SetMemo("7").SetBalance(8).SetLedgerId(LedgerId.TESTNET.ToByteString()).Build();
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());

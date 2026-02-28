@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// </summary>
     public class FeeSchedule : ICloneable
     {
-        private Timestamp ExpirationTime = new ();
+        private DateTimeOffset ExpirationTime = new ();
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         {
             return new FeeSchedule
 			{
-                ExpirationTime = feeSchedule.ExpiryTime is not null ? Utils.TimestampConverter.FromProtobuf(feeSchedule.ExpiryTime) : new Timestamp(),
+                ExpirationTime = feeSchedule.ExpiryTime.ToDateTimeOffset(),
                 TransactionFeeSchedules = [.. feeSchedule.TransactionFeeSchedule.Select(_ => TransactionFeeSchedule.FromProtobuf(_))]
             };
         }
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 		{
 			Proto.FeeSchedule proto = new()
 			{
-				ExpiryTime = Utils.TimestampConverter.ToSecondsProtobuf(ExpirationTime)
+				ExpiryTime = ExpirationTime.ToProtoTimestampSeconds()
 			};
 
 			proto.TransactionFeeSchedule.AddRange(TransactionFeeSchedules.Select(_ => _.ToProtobuf()));

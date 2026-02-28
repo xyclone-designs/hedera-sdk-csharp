@@ -346,7 +346,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new TokenCancelAirdropTransaction
                     {
 						TransactionId = TransactionId.Generate(randomAccount),
-                        PendingAirdropIds = [.. record.PendingAirdropRecords[0].PendingAirdropId ],
+                        PendingAirdropIds = [ record.PendingAirdropRecords[0].PendingAirdropId ],
                         
                     }.Execute(testEnv.Client).GetRecord(testEnv.Client);
                 }); 

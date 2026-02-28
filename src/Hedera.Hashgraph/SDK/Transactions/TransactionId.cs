@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// </summary>
         /// <param name="accountId">the account id</param>
         /// <param name="ValidStart">the valid start time</param>
-        public TransactionId(AccountId accountId, Timestamp validStart)
+        public TransactionId(AccountId accountId, DateTimeOffset validStart)
         {
             AccountId = accountId;
             ValidStart = validStart;
@@ -72,13 +72,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					currentTime = lastTime + TIMESTAMP_INCREMENT_NANOSECONDS;
 				}
 			}
-			while (Interlocked.CompareExchange(ref monotonicTime, lastTime, currentTime) != lastTime) ;
+			while (Interlocked.CompareExchange(ref monotonicTime, lastTime, currentTime) != lastTime);
 
-			return new TransactionId(accountId, new Timestamp
-			{
-				Seconds = 0,
-				Nanos = (int)(currentTime + Random.Shared.NextInt64(1000))
-			});
+			return new TransactionId(accountId, DateTimeOffset.UtcNow.AddNanoseconds((int)(currentTime + Random.Shared.NextInt64(1000))));
 		}
 		/// <summary>
 		/// Create a transaction id.
@@ -86,9 +82,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <param name="accountId">the account id</param>
 		/// <param name="ValidStart">the valid start time</param>
 		/// <returns>                         the new transaction id</returns>
-		public static TransactionId WithValidStart(AccountId accountId, Timestamp ValidStart)
+		public static TransactionId WithValidStart(AccountId accountId, DateTimeOffset validStart)
         {
-            return new TransactionId(accountId, ValidStart);
+            return new TransactionId(accountId, validStart);
         }
 
         /// <summary>
@@ -115,12 +111,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 throw new ArgumentException("expecting {account}@{seconds}.{nanos}");
             }
 
-            Timestamp ValidStart = new ()
-			{
-				Seconds = long.Parse(ValidStartParts[0]),
-				Nanos = int.Parse(ValidStartParts[1])
-			};
-            return new TransactionId(accountId, ValidStart)
+			DateTimeOffset validStart = DateTimeOffset.UtcNow
+				.AddSeconds(long.Parse(ValidStartParts[0]))
+				.AddNanoseconds(long.Parse(ValidStartParts[1]));
+
+            return new TransactionId(accountId, validStart)
             {
 				Scheduled = scheduled,
 				Nonce = nonce
@@ -143,7 +138,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <returns>                         the new transaction id</returns>
 		public static TransactionId FromProtobuf(Proto.TransactionID transactionID)
 		{
-			return new TransactionId(AccountId.FromProtobuf(transactionID.AccountID), Utils.TimestampConverter.FromProtobuf(transactionID.TransactionValidStart))
+			return new TransactionId(AccountId.FromProtobuf(transactionID.AccountID), transactionID.TransactionValidStart.ToDateTimeOffset())
 			{
 				Scheduled = transactionID.Scheduled,
 				Nonce = transactionID.Nonce != 0 ? transactionID.Nonce : null
@@ -168,11 +163,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <p>When a transaction is submitted there is additionally a validDuration (defaults to 120s)
 		/// and together they define a time window that a transaction may be processed in.
 		/// </summary>
-		public Timestamp ValidStart { get; }
+		public DateTimeOffset ValidStart { get; }
 
 		private string ToStringPostfix()
 		{
-			return "@" + ValidStart.Seconds + "." + ValidStart.Nanos + (Scheduled ? "?scheduled" : "") + (Nonce != null ? "/" + Nonce : "");
+			return "@" + ValidStart.ToUnixTimeSeconds() + "." + ValidStart.Nanosecond + (Scheduled ? "?scheduled" : "") + (Nonce != null ? "/" + Nonce : "");
 		}
 
 		/// <summary>
@@ -408,7 +403,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			if (!thisStartIsNull)
 			{
-				return ValidStart!.CompareTo(o?.ValidStart);
+				return ValidStart!.CompareTo(o.ValidStart);
 			}
 
 			return 0;
@@ -438,7 +433,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				proto.AccountID = AccountId.ToProtobuf();
 
 			if (ValidStart != null)
-				proto.TransactionValidStart = Utils.TimestampConverter.ToProtobuf(ValidStart);
+				proto.TransactionValidStart = ValidStart.ToProtoTimestamp();
 
 			return proto;
 		}

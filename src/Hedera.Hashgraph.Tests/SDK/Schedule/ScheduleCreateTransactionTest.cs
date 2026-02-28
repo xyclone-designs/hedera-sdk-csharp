@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
 				PayerAccountId = AccountId.FromString("0.0.222"),
 				ScheduleMemo = "with-duration",
 				MaxTransactionFee = new Hbar(1),
-				ExpirationTime = Duration.OfSeconds(1234),
+				ExpirationTime = TimeSpan.FromSeconds(1234),
 			}
                 .AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10))
                 .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));

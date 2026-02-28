@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 new TokenBurnTransaction
                 {
-					Serials = mintReceipt.Serials[0..4),
+					Serials = [.. mintReceipt.Serials[0..4]],
 					TokenId = tokenId,
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -178,7 +178,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
-                var tokenId = createReceipt.tokenId);
+                var tokenId = createReceipt.TokenId;
                 var serials = new TokenMintTransaction
                 {
 					TokenId = tokenId,
@@ -213,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     new TokenBurnTransaction
                     {
-						Serials = serials,
+						Serials = [.. serials],
 						TokenId = tokenId,
 
 					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);

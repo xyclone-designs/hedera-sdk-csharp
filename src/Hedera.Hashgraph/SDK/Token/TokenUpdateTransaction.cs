@@ -246,7 +246,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="expirationTime">the expiration time</param>
         /// <returns>{@code this}</returns>
-        public virtual Timestamp? ExpirationTime
+        public virtual DateTimeOffset? ExpirationTime
 		{
             get; 
             set 
@@ -258,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
 			} 
         }
-        public virtual Duration? ExpirationTimeDuration 
+        public virtual TimeSpan? ExpirationTimeDuration 
         {
             get; 
             set 
@@ -309,7 +309,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="period">the auto renew period</param>
         /// <returns>{@code this}</returns>
-        public virtual Duration? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
+        public virtual TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
 		/// <summary>
 		/// A short description for this token.
 		/// <p>
@@ -394,10 +394,10 @@ namespace Hedera.Hashgraph.SDK.Token
                 MetadataKey = Key.FromProtobufKey(body.MetadataKey);
 
             if (body.Expiry is not null)
-                ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.Expiry);
+                ExpirationTime = body.Expiry.ToDateTimeOffset();
 
             if (body.AutoRenewPeriod is not null)
-				AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+				AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
 
 			if (body.Memo is not null)
 				TokenMemo = body.Memo;
@@ -456,13 +456,13 @@ namespace Hedera.Hashgraph.SDK.Token
                 builder.MetadataKey = MetadataKey.ToProtobufKey();
 
             if (ExpirationTime != null)
-                builder.Expiry = Utils.TimestampConverter.ToProtobuf(ExpirationTime);
+                builder.Expiry = ExpirationTime.Value.ToProtoTimestamp();
 
             if (ExpirationTimeDuration != null)
-                builder.Expiry = Utils.TimestampConverter.ToProtobuf(ExpirationTimeDuration);
+                builder.Expiry = ExpirationTimeDuration.Value.ToProtoTimestamp();
 
             if (AutoRenewPeriod != null)
-				builder.AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod);
+				builder.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
 
 			if (TokenMemo != null)
 				builder.Memo = TokenMemo;

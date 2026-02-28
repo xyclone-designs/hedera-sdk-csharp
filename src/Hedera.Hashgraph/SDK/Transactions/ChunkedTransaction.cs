@@ -131,8 +131,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new InvalidOperationException("transaction must have been frozen before calculating the hash will be stable, try calling `freeze`");
 			}
 
-			TransactionIds.SetLocked(true);
-			NodeAccountIds.SetLocked(true);
+			TransactionIds.IsLocked = true;
+			NodeAccountIds.IsLocked = true;
 			BuildAllTransactions();
 			var txCount = TransactionIds.Count;
 			var nodeCount = NodeAccountIds.Count;
@@ -292,13 +292,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				// Calculate size for each chunk
 				for (int i = 0; i < GetRequiredChunks(); i++)
 				{
-					TransactionIds.SetIndex(i);
+					TransactionIds.Index = i;
 					list.Add(GetTransactionBodySize());
 				}
 			}
 			finally
 			{
-				TransactionIds.SetIndex(originalIndex);
+				TransactionIds.Index = originalIndex;
 			}
 
 			return list;

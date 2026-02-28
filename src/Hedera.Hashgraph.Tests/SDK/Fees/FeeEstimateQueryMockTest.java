@@ -36,7 +36,7 @@ class FeeEstimateQueryMockTest {
         stub.start();
 
         client = Client.forNetwork(Collections.emptyMap());
-        client.setRequestTimeout(Duration.ofSeconds(10));
+        client.setRequestTimeout(TimeSpan.FromSeconds(10));
         client.setMirrorNetwork(["localhost:" + stub.getPort(]));
 
         query = new FeeEstimateQuery();
@@ -55,7 +55,7 @@ class FeeEstimateQueryMockTest {
     @DisplayName(
             "Given a FeeEstimateQuery is executed when the Mirror service is unavailable, when the query is executed, then it retries according to the existing query retry policy for HTTP 503 errors")
     void retriesOnUnavailableErrors() throws IOException, InterruptedException {
-        query.setTransaction(DUMMY_TRANSACTION).setMaxAttempts(3).setMaxBackoff(Duration.ofMillis(500));
+        query.setTransaction(DUMMY_TRANSACTION).setMaxAttempts(3).setMaxBackoff(TimeSpan.FromMilliseconds(500));
 
         stub.enqueue(new StubResponse(503, "transient error"));
         stub.enqueue(new StubResponse(200, newSuccessResponse(FeeEstimateMode.STATE, 2, 6, 8)));
@@ -71,7 +71,7 @@ class FeeEstimateQueryMockTest {
     @DisplayName(
             "Given a FeeEstimateQuery times out, when the query is executed, then it retries according to the existing query retry policy for HTTP timeouts")
     void retriesOnDeadlineExceededErrors() throws IOException, InterruptedException {
-        query.setTransaction(DUMMY_TRANSACTION).setMaxAttempts(3).setMaxBackoff(Duration.ofMillis(500));
+        query.setTransaction(DUMMY_TRANSACTION).setMaxAttempts(3).setMaxBackoff(TimeSpan.FromMilliseconds(500));
 
         stub.enqueue(new StubResponse(504, "gateway timeout"));
         stub.enqueue(new StubResponse(200, newSuccessResponse(FeeEstimateMode.STATE, 4, 8, 20)));

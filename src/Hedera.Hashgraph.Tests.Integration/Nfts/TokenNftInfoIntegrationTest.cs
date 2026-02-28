@@ -31,10 +31,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 var tokenId = createReceipt.TokenId;
-                byte[] metadata = new[]
-                {
-                    50
-                };
+                byte[] metadata = [50];
                 var mintReceipt = new TokenMintTransaction
                 {
                     TokenId = tokenId, 
@@ -71,10 +68,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 var tokenId = createReceipt.TokenId;
-                byte[] metadata = new[]
-                {
-                    50
-                };
+                byte[] metadata = [50];
                 var mintReceipt = new TokenMintTransaction
                 {
                     TokenId = tokenId,
@@ -112,10 +106,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 var tokenId = createReceipt.TokenId;
-                byte[] metadata = new[]
-                {
-                    50
-                };
+                byte[] metadata = [50];
                 var mintReceipt = new TokenMintTransaction
                 {
                     TokenId = tokenId, 
@@ -170,7 +161,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var serials = new List<long>(mintReceipt.Serials);
                 foreach (var info in nftInfos)
                 {
-                    Assert.Equal(info.NftId.tokenId, tokenId);
+                    Assert.Equal(info.NftId.TokenId, tokenId);
                     Assert.True(serials.Remove(info.NftId.Serial));
                     Assert.Equal(info.AccountId, testEnv.OperatorId);
                 }
@@ -196,7 +187,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
-                var tokenId = createReceipt.tokenId);
+
+                var tokenId = createReceipt.TokenId;
                 List<byte[]> metadatas = NftMetadataGenerator.Generate((byte)10);
                 var mintReceipt = new TokenMintTransaction
                 {

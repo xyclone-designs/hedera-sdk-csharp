@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var originalTokenAssociation = SpawnTokenAssociationExample();
             byte[] tokenAssociationBytes = originalTokenAssociation.ToBytes();
-            var copyTokenAssociation = TokenAssociation.FromBytes(tokenAssociationBytes);
+            var copyTokenAssociation = Transaction.FromBytes<TokenAssociation>(tokenAssociationBytes);
             
             Assert.Equal(Regex.Replace(copyTokenAssociation.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalTokenAssociation.ToString(), "@[A-Za-z0-9]+", ""));
             

@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// </summary>
         /// <param name="metadataList">the metadata list</param>
         /// <returns>{@code this}</returns>
-        public virtual List<byte[]> MetadataList { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
+        public virtual List<byte[]> Metadata { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
 
 		/// <summary>
 		/// Initialize from the transaction body.
@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             foreach (var metadata in body.Metadata)
             {
-                MetadataList.Add(metadata.ToByteArray());
+                Metadata.Add(metadata.ToByteArray());
             }
         }
 
@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             builder.Amount = (ulong)Amount;
 
-            foreach (var metadata in MetadataList)
+            foreach (var metadata in Metadata)
             {
                 builder.Metadata.Add(ByteString.CopyFrom(metadata));
             }

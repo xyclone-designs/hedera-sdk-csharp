@@ -33,12 +33,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
-				
-                }.AddHookToCreate(hookDetails).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+				    HookCreationDetails = { hookDetails }
+                }
+                .FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
                 var transferResponse = new TransferTransaction()
-                    .SetNodeAccountIds(new List(testEnv.Client.Network.Values())).AddHbarTransfer(testEnv.OperatorId, new Hbar(-1)).AddHbarTransferWithHook(accountId, new Hbar(1), hookCall).Execute(testEnv.Client);
+                    .SetNodeAccountIds(testEnv.Client.Network_.Network_Read.Keys)
+                    .AddHbarTransfer(testEnv.OperatorId, new Hbar(-1))
+                    .AddHbarTransferWithHook(accountId, new Hbar(1), hookCall).Execute(testEnv.Client);
                 var transferReceipt = transferResponse.GetReceipt(testEnv.Client);
              
                 Assert.Equal(transferReceipt.Status, ResponseStatus.Success);
@@ -77,10 +80,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new AccountUpdateTransaction 
                 { 
                     AccountId = acct1,
-                    MaxTransactionFee = Hbar.From(10) 
-                
-                }
-                .AddHookToCreate(hookDetails1)
+                    MaxTransactionFee = Hbar.From(10),
+					HookCreationDetails = [hookDetails1],
+				}
                 .FreezeWith(testEnv.Client)
                 .Sign(key1)
                 .Execute(testEnv.Client)
@@ -88,10 +90,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new AccountUpdateTransaction 
                 { 
                     AccountId = acct2,
-                    MaxTransactionFee = Hbar.From(10) 
-                
+                    MaxTransactionFee = Hbar.From(10),
+                    HookCreationDetails = [hookDetails2],
                 }
-                .AddHookToCreate(hookDetails2)
                 .FreezeWith(testEnv.Client)
                 .Sign(key2)
                 .Execute(testEnv.Client)
@@ -104,10 +105,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // One transaction that touches both accounts; both hooks must approve
                 var resp = new TransferTransaction
                 {
-                    NodeAccountIds = [.. testEnv.Client.Network]
+                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys ]
                 }
+                
                 .AddHbarTransfer(testEnv.OperatorId, new Hbar(-2))
+                
                 .AddHbarTransferWithHook(acct1, new Hbar(1), hookCall1)
+                
                 .AddHbarTransferWithHook(acct2, new Hbar(1), hookCall2)
                 .Execute(testEnv.Client);
                 var receipt = resp.GetReceipt(testEnv.Client);
@@ -133,15 +137,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
+					HookCreationDetails = [hookDetails],
 				}
-                .AddHookToCreate(hookDetails).FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                .FreezeWith(testEnv.Client)
+                .Sign(accountKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PrePostTxAllowanceHook);
                 var resp = new TransferTransaction
                 {
-                    NodeAccountIds = [.. testEnv.Client.Network]
+                    NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
                 }
-                    .AddHbarTransfer(testEnv.OperatorId, new Hbar(-1))
-                    .AddHbarTransferWithHook(accountId, new Hbar(1), hookCall)
+                    
+                .AddHbarTransfer(testEnv.OperatorId, new Hbar(-1))
+                    
+                .AddHbarTransferWithHook(accountId, new Hbar(1), hookCall)
                     .Execute(testEnv.Client);
                 var receipt = resp.GetReceipt(testEnv.Client);
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
@@ -171,8 +182,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = receiverId,
 					MaxTransactionFee = Hbar.From(10),
+					HookCreationDetails = [hookDetails],
 				}
-                .AddHookToCreate(hookDetails)
                 .FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
                 .Execute(testEnv.Client)
@@ -200,7 +211,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenAssociateTransaction
                 {
 					AccountId = receiverId,
-					TokenIds = List.Of(tokenId),
+					TokenIds = [tokenId],
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
@@ -219,13 +230,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new AccountUpdateTransaction
                 {
 					AccountId = testEnv.OperatorId,
+                    HookCreationDetails = [hookDetails2],
+                    MaxTransactionFee = Hbar.From(10),
 				}
-                    .AddHookToCreate(hookDetails2)
-                    .SetMaxTransactionFee(Hbar.From(10))
-                    .FreezeWith(testEnv.Client)
-                    .SignWithOperator(testEnv.Client)
-                    .Execute(testEnv.Client)
-                    .GetReceipt(testEnv.Client);
+                .FreezeWith(testEnv.Client)
+                .SignWithOperator(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Build transfer with PRE sender allowance hook (sender is operator)
                 var hookCall = new FungibleHookCall(2, new EvmHookCall(new byte[] { }, 25000), FungibleHookType.PreTxAllowanceHook);
@@ -233,8 +244,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 { 
                     NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys ]
 				}
-                    .AddTokenTransferWithHook(tokenId, testEnv.OperatorId, -1000, hookCall)
-                    .AddTokenTransfer(tokenId, receiverId, 1000)
+                    
+                .AddTokenTransferWithHook(tokenId, testEnv.OperatorId, -1000, hookCall)
+                    
+                .AddTokenTransfer(tokenId, receiverId, 1000)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
@@ -270,8 +283,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = senderId,
 					MaxTransactionFee = Hbar.From(10),
+					HookCreationDetails = [hookDetails],
 				}
-				.AddHookToCreate(hookDetails)
 				.FreezeWith(testEnv.Client)
                 .Sign(senderKey)
                 .Execute(testEnv.Client)
@@ -282,8 +295,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = receiverId,
 					MaxTransactionFee = Hbar.From(10),
+					HookCreationDetails = [hookDetails],
 				}
-				.AddHookToCreate(hookDetails)
 				.FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
                 .Execute(testEnv.Client)
@@ -317,7 +330,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenAssociateTransaction
                 {
 					AccountId = receiverId,
-					TokenIds = List.Of(tokenId),
+					TokenIds = [tokenId],
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
@@ -325,7 +338,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
 
                 // Use the serial from first mint (sender already owns it as treasury)
-                var serial = firstMint.serials[0];
+                var serial = firstMint.Serials[0];
 
                 // Now perform sender -> receiver with a PRE sender allowance hook
                 var senderHookCall = new NftHookCall(2, new EvmHookCall(new byte[] { }, 25000), NftHookType.PreHookSender);
@@ -334,7 +347,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
                 }
-                    .AddNftTransferWithHook(tokenId.Nft(serial), senderId, receiverId, senderHookCall, receiverHookCall)
+                    
+                .AddNftTransferWithHook(tokenId.Nft(serial), senderId, receiverId, senderHookCall, receiverHookCall)
                 .FreezeWith(testEnv.Client)
                 .SignWithOperator(testEnv.Client)
                 .Sign(senderKey)
@@ -375,7 +389,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = senderId,
 					MaxTransactionFee = Hbar.From(10),
-					HookToCreate = senderHookDetails,
+					HookCreationDetails = [senderHookDetails],
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(senderKey)
@@ -386,7 +400,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = receiverId,
 					MaxTransactionFee = Hbar.From(10),
-					HookToCreate = receiverHookDetails,
+					HookCreationDetails = [receiverHookDetails],
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(receiverKey)
@@ -399,7 +413,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys]
                 }
+                
                 .AddHbarTransferWithHook(senderId, new Hbar(-1), senderHookCall2)
+                
                 .AddHbarTransferWithHook(receiverId, new Hbar(1), receiverHookCall2)
                 .FreezeWith(testEnv.Client)
                 .SignWithOperator(testEnv.Client)

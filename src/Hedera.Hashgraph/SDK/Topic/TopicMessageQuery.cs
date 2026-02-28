@@ -28,8 +28,8 @@ namespace Hedera.Hashgraph.SDK.Topic
         private bool CancelledByClient = false;
         
         public TopicId TopicId { set => _Proto.TopicID = value.ToProtobuf(); }
-		public Timestamp StartTime { set => _Proto.ConsensusStartTime = TimestampConverter.ToProtobuf(value); }
-		public Timestamp EndTime { set => _Proto.ConsensusEndTime  = TimestampConverter.ToProtobuf(value); }
+		public DateTimeOffset StartTime { set => _Proto.ConsensusStartTime = value.ToProtoTimestamp(); }
+		public DateTimeOffset EndTime { set => _Proto.ConsensusEndTime  = value.ToProtoTimestamp(); }
 		public ulong Limit { set => _Proto.Limit = value; }
         public Action CompletionHandler 
         { 

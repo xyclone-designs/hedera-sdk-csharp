@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenUpdateNftsTransaction
                 {
 					TokenId = tokenId,
-					Serials = nftSerials,
+					Serials = [ ..nftSerials],
 					Metadata = updatedMetadata,
 				}
                 .FreezeWith(testEnv.Client)
@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenUpdateNftsTransaction
                 {
 					TokenId = tokenId,
-					Serials = nftSerialsToUpdate,
+					Serials = [ ..nftSerialsToUpdate],
 					Metadata = updatedMetadata,
 
 				}.FreezeWith(testEnv.Client).Sign(metadataKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // check that remaining NFTs were not updated
                 var nftSerialsSame = nftSerials[(nftCount / 2) .. nftCount];
                 List<byte[]> metadataList = [ ..GetMetadataList(testEnv.Client, tokenId, nftSerialsSame)];
-                Assert.Equal(metadataList, initialMetadataList[(nftCount / 2) .. nftCount]];
+                Assert.Equal(metadataList, initialMetadataList[(nftCount / 2) .. nftCount]);
             }
         }
 
@@ -174,7 +174,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenUpdateNftsTransaction
                 {
 					TokenId = tokenId,
-					Serials = nftSerials,
+					Serials = [ ..nftSerials],
 				}                    
                 .FreezeWith(testEnv.Client)
                 .Sign(metadataKey)
@@ -228,7 +228,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenUpdateNftsTransaction
                 {
 					TokenId = tokenId,
-					Serials = nftSerials,
+					Serials = [ ..nftSerials],
 					Metadata = emptyMetadata,
 				}
                 .FreezeWith(testEnv.Client)
@@ -295,7 +295,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new TokenUpdateNftsTransaction
                     {
 						TokenId = tokenId,
-						Serials = nftSerials,
+						Serials = [ ..nftSerials],
 						Metadata = updatedMetadata,
 					}
                     .Execute(testEnv.Client)
@@ -358,7 +358,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new TokenUpdateNftsTransaction
                     {
 						TokenId = tokenId,
-						Serials = nftSerials,
+						Serials = [ ..nftSerials],
 						Metadata = updatedMetadata,
 					}
                     .FreezeWith(testEnv.Client)

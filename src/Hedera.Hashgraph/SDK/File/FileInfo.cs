@@ -4,6 +4,7 @@ using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
+using System;
 
 namespace Hedera.Hashgraph.SDK.File
 {
@@ -14,7 +15,7 @@ namespace Hedera.Hashgraph.SDK.File
     /// </summary>
     public sealed class FileInfo
     {
-        private FileInfo(FileId fileId, long size, Timestamp expirationTime, bool isDeleted, KeyList keys, string fileMemo, LedgerId ledgerId)
+        private FileInfo(FileId fileId, long size, DateTimeOffset expirationTime, bool isDeleted, KeyList keys, string fileMemo, LedgerId ledgerId)
         {
             FileId = fileId;
             Size = size;
@@ -35,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.File
             return new FileInfo(
 				FileId.FromProtobuf(fileInfo.FileID), 
 				fileInfo.Size, 
-				Utils.TimestampConverter.FromProtobuf(fileInfo.ExpirationTime), 
+				fileInfo.ExpirationTime.ToDateTimeOffset(), 
 				fileInfo.Deleted,
 				KeyList.FromProtobuf(fileInfo.Keys, null), 
 				fileInfo.Memo, 
@@ -63,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.File
 		/// <summary>
 		/// The current time at which this account is set to expire.
 		/// </summary>
-		public Timestamp ExpirationTime { get; }
+		public DateTimeOffset ExpirationTime { get; }
 		/// <summary>
 		/// True if deleted but not yet expired.
 		/// </summary>
@@ -98,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.File
 			{
 				FileID = FileId.ToProtobuf(),
 				Size = Size,
-				ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime),
+				ExpirationTime = ExpirationTime.ToProtoTimestamp(),
 				Deleted = IsDeleted,
 				Memo = FileMemo,
 				LedgerId = LedgerId.ToByteString(),

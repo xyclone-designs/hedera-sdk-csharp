@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 				// Get a list of node AccountId's if the user has not set them manually.
 				try
 				{
-					NodeAccountIds.SetList(client.Network_.GetNodeAccountIdsForExecute());
+					NodeAccountIds.ClearAndSet(client.Network_.GetNodeAccountIdsForExecute());
 				}
 				catch (ThreadInterruptedException e)
 				{

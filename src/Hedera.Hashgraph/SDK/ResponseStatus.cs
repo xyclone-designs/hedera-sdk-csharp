@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK
         InvalidTransactionStart = Proto.ResponseCodeEnum.InvalidTransactionStart,
         /// <summary>
         /// The given transactionValidDuration was either non-Positive = Proto.ResponseCodeEnum.Positive, or greater than the maximum
-        /// valid duration of 180 secs.
+        /// valid TimeSpan.From 180 secs.
         /// </summary>
         InvalidTransactionDuration = Proto.ResponseCodeEnum.InvalidTransactionDuration,
         /// <summary>

@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             .SetRunningHash(ByteString.CopyFrom(hash))
             .SetSequenceNumber(3)
             .SetExpirationTime(DateTimeConverter.ToProtobuf(DateTime.OfEpochMilli(4)))
-            .SetAutoRenewPeriod(DurationConverter.ToProtobuf(Duration.OfDays(5)))
+            .SetAutoRenewPeriod(TimeSpan.FromDays(5.ToProtoDuration()))
             .SetAdminKey(privateKey.GetPublicKey().ToProtobufKey())
             .SetSubmitKey(privateKey.GetPublicKey().ToProtobufKey())
             FeeScheduleKey = feeScheduleKey.GetPublicKey().ToProtobufKey(),.AddAllFeeExemptKeyList(feeExemptKeys.Stream().Map((k) => k.GetPublicKey().ToProtobufKey()).ToList()).AddAllCustomFees(customFees.Stream().Map(CustomFixedFee.ToTopicFeeProtobuf()).ToList())

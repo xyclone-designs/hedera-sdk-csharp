@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.SDK.Hook
         /// </summary>
         /// <param name="contractId">underlying contract of the hook</param>
         /// <param name="storageUpdates">the initial storage updates for the lambda</param>
-        public EvmHook(ContractId contractId, IList<EvmHookStorageUpdate> storageUpdates) : base(contractId)
+        public EvmHook(ContractId contractId, IEnumerable<EvmHookStorageUpdate> storageUpdates) : base(contractId)
         {
             StorageUpdates = [.. storageUpdates];
         }

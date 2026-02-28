@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.SDK.Topic
          * @param autoRenewPeriod The TimeSpan to be set for auto renewal
          * @return {@code this}
          */
-		public Duration? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
+		public TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
 		/// <summary>
 		/// An updated ID for the account to be charged renewal fees at the topic's
 		/// `expirationTime` to extend the lifetime of the topic.
@@ -132,8 +132,8 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="expirationTime">the new expiration time</param>
 		/// <returns>{@code this}</returns>
-		public Timestamp? ExpirationTime { get; set { RequireNotFrozen(); field = value; ExpirationTimeDuration = null; } }
-		public Duration? ExpirationTimeDuration { get; set { RequireNotFrozen(); field = value; ExpirationTime = null; } }
+		public DateTimeOffset? ExpirationTime { get; set { RequireNotFrozen(); field = value; ExpirationTimeDuration = null; } }
+		public TimeSpan? ExpirationTimeDuration { get; set { RequireNotFrozen(); field = value; ExpirationTime = null; } }
 		/// <summary>
 		/// Sets the key which allows updates to the new topic’s fees.
 		/// </summary>
@@ -145,11 +145,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="feeExemptKeys">List of feeExemptKeys</param>
 		/// <returns>{@code this}</returns>
-		public ListFreezable<Key> FeeExemptKeys
+		public ListGuarded<Key> FeeExemptKeys
 		{
-			init; get => field ??= new ListFreezable<Key>
+			init; get => field ??= new ListGuarded<Key>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 		/// <summary>
@@ -157,11 +157,11 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// </summary>
 		/// <param name="customFees">List of CustomFixedFee customFees</param>
 		/// <returns>{@code this}</returns>
-		public ListFreezable<CustomFixedFee> CustomFees
+		public ListGuarded<CustomFixedFee> CustomFees
 		{
-			init; get => field ??= new ListFreezable<CustomFixedFee>
+			init; get => field ??= new ListGuarded<CustomFixedFee>
 			{
-				Frozen = RequireNotFrozen
+				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
 
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 SubmitKey = Key.FromProtobufKey(body.SubmitKey);
 
             if (body.AutoRenewPeriod is not null)
-                AutoRenewPeriod = Utils.DurationConverter.FromProtobuf(body.AutoRenewPeriod);
+                AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
 
             if (body.AutoRenewAccount is not null)
                 AutoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccount);
@@ -191,7 +191,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 TopicMemo = body.Memo;
 
             if (body.ExpirationTime is not null)
-                ExpirationTime = Utils.TimestampConverter.FromProtobuf(body.ExpirationTime);
+                ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 
             if (body.FeeScheduleKey is not null)
                 FeeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
@@ -225,16 +225,16 @@ namespace Hedera.Hashgraph.SDK.Topic
                 builder.SubmitKey = SubmitKey?.ToProtobufKey();
 
             if (AutoRenewPeriod != null)
-                builder.AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod);
+                builder.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
 
             if (TopicMemo != null)
 				builder.Memo = TopicMemo;
 
 			if (ExpirationTime != null)
-                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime);
+                builder.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 
             if (ExpirationTimeDuration != null)
-                builder.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTimeDuration);
+                builder.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
 
             if (FeeScheduleKey != null)
                 builder.FeeScheduleKey = FeeScheduleKey?.ToProtobufKey();

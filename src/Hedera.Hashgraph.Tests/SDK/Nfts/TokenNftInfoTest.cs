@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         {
             var originalTokenInfo = SpawnTokenNftInfoExample(AccountId.FromString("8.9.10"));
             byte[] tokenInfoBytes = originalTokenInfo.ToBytes();
-            var copyTokenInfo = TokenNftInfo.FromBytes(tokenInfoBytes);
+            var copyTokenInfo = Transaction.FromBytes<TokenNftInfo>(tokenInfoBytes);
             Assert.Equal(copyTokenInfo.ToString(), originalTokenInfo.ToString());
             SnapshotMatcher.Expect(originalTokenInfo.ToString()).ToMatchSnapshot();
         }
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         {
             var originalTokenInfo = SpawnTokenNftInfoExample(null);
             byte[] tokenInfoBytes = originalTokenInfo.ToBytes();
-            var copyTokenInfo = TokenNftInfo.FromBytes(tokenInfoBytes);
+            var copyTokenInfo = Transaction.FromBytes<TokenNftInfo>(tokenInfoBytes);
             Assert.Equal(copyTokenInfo.ToString(), originalTokenInfo.ToString());
             SnapshotMatcher.Expect(originalTokenInfo.ToString()).ToMatchSnapshot();
         }

@@ -40,10 +40,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenRejectFlow
                 {
 					OwnerId = receiverAccountId,
-					TokenId = ftTokenId,
+					TokenIds = [ftTokenId],
+					FreezeWithClient = testEnv.Client,
+                    SignPrivateKey = receiverAccountKey
 				}
-                .FreezeWith(testEnv.Client)
-                .Sign(receiverAccountKey)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
 
@@ -107,9 +107,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					OwnerId = receiverAccountId,
 					TokenIds = [ftTokenId],
 					FreezeWithClient = testEnv.Client,
+                    SignPrivateKey = receiverAccountKey,
 				}
-                .Sign(receiverAccountKey)
-                .ExecuteAsync(testEnv.Client).Get()
+                .ExecuteAsync(testEnv.Client)
+                .GetAwaiter()
+                .GetResult()
                 .GetReceipt(testEnv.Client);
 
                 // verify the tokens are transferred back to the treasury
@@ -179,8 +181,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					OwnerId = receiverAccountId,
 					NftIds = [nftTokenId.Nft(nftSerials[0]), nftTokenId.Nft(nftSerials[1])],
 					FreezeWithClient = testEnv.Client,
+                    SignPrivateKey = receiverAccountKey
 				}
-                    .Sign(receiverAccountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
@@ -251,8 +253,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 						OwnerId = receiverAccountId,
 						NftIds = [ nftTokenId1.Nft(nftSerials[1]) ],
 						FreezeWithClient = testEnv.Client,
+                        SignPrivateKey = receiverAccountKey
 					}
-                    .Sign(receiverAccountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 

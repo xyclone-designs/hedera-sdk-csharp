@@ -82,10 +82,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					ValidateStatus = true
 				}
-                    .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId)
-                    .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
-                    .AddTokenTransfer(tokenID, receiverAccountId, amount)
-                    .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client);
+                .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId)
+                .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
+                .AddTokenTransfer(tokenID, receiverAccountId, amount)
+                .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client);
                 txn.GetReceipt(testEnv.Client);
                 var record = txn.GetRecord(testEnv.Client);
 
@@ -99,7 +99,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Null(receiverAccountBalance.Tokens[nftID]);
 
                 // verify the operator does hold the tokens
-                var operatorBalance = new AccountBalanceQuery()AccountId = testEnv.OperatorId,.Execute(testEnv.Client);
+                var operatorBalance = new AccountBalanceQuery
+                {
+					AccountId = testEnv.OperatorId,
+				
+                }.Execute(testEnv.Client);
                 Assert.Equal(fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
                 Assert.Equal(mitedNfts, operatorBalance.Tokens[nftID]);
             }

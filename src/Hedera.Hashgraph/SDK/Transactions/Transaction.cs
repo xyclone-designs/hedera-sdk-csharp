@@ -33,898 +33,17 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-	public static class Transaction
-	{
-		/// <summary>
-		/// Default auto renew duration for accounts, contracts, topics, and files (entities)
-		/// </summary>
-		internal static readonly TimeSpan DEFAULT_AUTO_RENEW_PERIOD = TimeSpan.FromDays(90);
-		/// <summary>
-		/// Dummy account ID used to assist in deserializing incomplete Transactions.
-		/// </summary>
-		internal static readonly AccountId DUMMY_ACCOUNT_ID = new(0, 0, 0);
-		/// <summary>
-		/// Dummy transaction ID used to assist in deserializing incomplete Transactions.
-		/// </summary>
-		internal static readonly TransactionId DUMMY_TRANSACTION_ID = TransactionId.WithValidStart(DUMMY_ACCOUNT_ID, Timestamp.FromDateTimeOffset(DateTimeOffset.UnixEpoch));
-		/// <summary>
-		/// Default transaction duration
-		/// </summary>
-		internal static readonly TimeSpan DEFAULT_TRANSACTION_VALID_DURATION = TimeSpan.FromSeconds(120);
-		internal static readonly string ATOMIC_BATCH_NODE_ACCOUNT_ID = "0.0.0";
-
-		/// <summary>
-		/// Create the correct transaction from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>the new transaction</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-		public static T FromBytes<T>(byte[] bytes) where T : Transaction<T>
-		{
-			var list = Proto.TransactionList.Parser.ParseFrom(bytes);
-			var txsMap = new DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>>();
-
-			Proto.TransactionBody.DataOneofCase dataCase;
-
-			if (list.TransactionList_.Count != 0)
-				dataCase = ProcessTransactionList([.. list.TransactionList_], txsMap);
-			else dataCase = ProcessSingleTransaction(bytes, txsMap);
-
-			return CreateTransactionFromDataCase<T>(dataCase, txsMap);
-		}
-
-		/// <summary>
-		/// Generate a hash from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>the hash</returns>
-		public static byte[] GenerateHash(byte[] bytes)
-		{
-			var digest = new Sha384Digest();
-			var hash = new byte[digest.GetDigestSize()];
-			digest.BlockUpdate(bytes, 0, bytes.Length);
-			digest.DoFinal(hash, 0);
-			return hash;
-		}
-
-		/// <summary>
-		/// Add a transaction to the transaction map
-		/// </summary>
-		internal static void AddTransactionToMap(Proto.Transaction transaction, Proto.TransactionBody txBody, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txsMap)
-		{
-			var account = txBody.NodeAccountID is not null ? AccountId.FromProtobuf(txBody.NodeAccountID) : DUMMY_ACCOUNT_ID;
-			var transactionId = txBody.TransactionID is not null ? TransactionId.FromProtobuf(txBody.TransactionID) : DUMMY_TRANSACTION_ID;
-			var linked = txsMap.ContainsKey(transactionId) ? txsMap[transactionId] : new DictionaryLinked<AccountId, Proto.Transaction>();
-
-			linked.Add(account, transaction);
-			txsMap.Add(transactionId, linked);
-		}
-
-		/// <summary>
-		/// Creates the appropriate transaction type based on the data case.
-		/// </summary>
-		internal static T CreateTransactionFromDataCase<T>(Proto.TransactionBody.DataOneofCase dataCase, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) where T : Transaction<T>
-		{
-			return dataCase switch
-			{
-				Proto.TransactionBody.DataOneofCase.ContractCall => new ContractExecuteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ContractCreateInstance => new ContractCreateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ContractUpdateInstance => new ContractUpdateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ContractDeleteInstance => new ContractDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.EthereumTransaction => new EthereumTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoAddLiveHash => new LiveHashAddTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoCreateAccount => new AccountCreateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoDelete => new AccountDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoDeleteLiveHash => new LiveHashDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoTransfer => new TransferTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoUpdateAccount => new AccountUpdateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.FileAppend => new FileAppendTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.FileCreate => new FileCreateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.FileDelete => new FileDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.FileUpdate => new FileUpdateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.NodeCreate => new NodeCreateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.NodeUpdate => new NodeUpdateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.NodeDelete => new NodeDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.SystemDelete => new SystemDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.SystemUndelete => new SystemUndeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.Freeze => new FreezeTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ConsensusCreateTopic => new TopicCreateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ConsensusUpdateTopic => new TopicUpdateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ConsensusDeleteTopic => new TopicDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ConsensusSubmitMessage => new TopicMessageSubmitTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenAssociate => new TokenAssociateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenBurn => new TokenBurnTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenCreation => new TokenCreateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenDeletion => new TokenDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenDissociate => new TokenDissociateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenFreeze => new TokenFreezeTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenGrantKyc => new TokenGrantKycTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenMint => new TokenMintTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenRevokeKyc => new TokenRevokeKycTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenUnfreeze => new TokenUnfreezeTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenUpdate => new TokenUpdateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenUpdateNfts => new TokenUpdateNftsTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenWipe => new TokenWipeTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenFeeScheduleUpdate => new TokenFeeScheduleUpdateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ScheduleCreate => new ScheduleCreateTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ScheduleDelete => new ScheduleDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.ScheduleSign => new ScheduleSignTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenPause => new TokenPauseTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenUnpause => new TokenUnpauseTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenReject => new TokenRejectTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenAirdrop => new TokenAirdropTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenCancelAirdrop => new TokenCancelAirdropTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.TokenClaimAirdrop => new TokenClaimAirdropTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoApproveAllowance => new AccountAllowanceApproveTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.CryptoDeleteAllowance => new AccountAllowanceDeleteTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.AtomicBatch => new BatchTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.LambdaSstore => new LambdaSStoreTransaction(txs) as T,
-
-				_ => throw new ArgumentException("parsed transaction body has no data")
-
-			} ?? throw new ArgumentException("transaction body has no counterpart");
-		}
-		/// <summary>
-		/// Process a single transaction
-		/// </summary>
-		internal static Proto.TransactionBody.DataOneofCase ProcessSingleTransaction(byte[] bytes, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txsMap)
-		{
-			var transaction = Proto.Transaction.Parser.ParseFrom(bytes);
-			var builtTransaction = PrepareSingleTransaction(transaction);
-			var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(builtTransaction.SignedTransactionBytes);
-			var txBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
-
-			AddTransactionToMap(builtTransaction, txBody, txsMap);
-
-			return txBody.DataCase;
-		}
-		/// <summary>
-		/// Process a list of transactions with integrity verification
-		/// </summary>
-		internal static Proto.TransactionBody.DataOneofCase ProcessTransactionList(List<Proto.Transaction> transactionList, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txsMap)
-		{
-			if (transactionList.Count == 0)
-			{
-				return Proto.TransactionBody.DataOneofCase.None;
-			}
-
-			var firstTransaction = transactionList[0];
-			var firstSignedTransaction = Proto.SignedTransaction.Parser.ParseFrom(firstTransaction.SignedTransactionBytes);
-			var firstTxBody = Proto.TransactionBody.Parser.ParseFrom(firstSignedTransaction.BodyBytes);
-			var dataCase = firstTxBody.DataCase;
-
-			foreach (Proto.Transaction transaction in transactionList)
-			{
-				var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(transaction.SignedTransactionBytes);
-				var txBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
-
-				AddTransactionToMap(transaction, txBody, txsMap);
-			}
-
-			return dataCase;
-		}
-
-		/// <summary>
-		/// Create the correct transaction from a scheduled transaction.
-		/// </summary>
-		/// <param name="scheduled">the scheduled transaction</param>
-		/// <returns>the new transaction</returns>
-		public static T FromScheduledTransaction<T>(Proto.SchedulableTransactionBody scheduled) where T : Transaction<T>
-		{
-			T? transaction = null;
-
-			Proto.TransactionBody proto = new()
-			{
-				Memo = scheduled.Memo,
-				TransactionFee = scheduled.TransactionFee,
-			};
-
-			proto.MaxCustomFees.AddRange(scheduled.MaxCustomFees);
-			
-			switch (scheduled.DataCase)
-			{
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractCall:
-					proto.ContractCall = scheduled.ContractCall;
-					transaction = new ContractExecuteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractCreateInstance:
-					proto.ContractCreateInstance = scheduled.ContractCreateInstance;
-					transaction = new ContractCreateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractUpdateInstance:
-					proto.ContractUpdateInstance = scheduled.ContractUpdateInstance;
-					transaction = new ContractUpdateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractDeleteInstance:
-					proto.ContractDeleteInstance = scheduled.ContractDeleteInstance;
-					transaction = new ContractDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoApproveAllowance:
-					proto.CryptoApproveAllowance = scheduled.CryptoApproveAllowance;
-					transaction = new AccountAllowanceApproveTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoDeleteAllowance:
-					proto.CryptoDeleteAllowance = scheduled.CryptoDeleteAllowance;
-					transaction = new AccountAllowanceDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoCreateAccount:
-					proto.CryptoCreateAccount = scheduled.CryptoCreateAccount;
-					transaction = new AccountCreateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoDelete:
-					proto.CryptoDelete = scheduled.CryptoDelete;
-					transaction = new AccountDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoTransfer:
-					proto.CryptoTransfer = scheduled.CryptoTransfer;
-					transaction = new TransferTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoUpdateAccount:
-					proto.CryptoUpdateAccount = scheduled.CryptoUpdateAccount;
-					transaction = new AccountUpdateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileAppend:
-					proto.FileAppend = scheduled.FileAppend;
-					transaction = new FileAppendTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileCreate:
-					proto.FileCreate = scheduled.FileCreate;
-					transaction = new FileCreateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileDelete:
-					proto.FileDelete = scheduled.FileDelete;
-					transaction = new FileDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileUpdate:
-					proto.FileUpdate = scheduled.FileUpdate;
-					transaction = new FileUpdateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.NodeCreate:
-					proto.NodeCreate = scheduled.NodeCreate;
-					transaction = new NodeCreateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.NodeUpdate:
-					proto.NodeUpdate = scheduled.NodeUpdate;
-					transaction = new NodeUpdateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.NodeDelete:
-					proto.NodeDelete = scheduled.NodeDelete;
-					transaction = new NodeDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.SystemDelete:
-					proto.SystemDelete = scheduled.SystemDelete;
-					transaction = new SystemDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.SystemUndelete:
-					proto.SystemUndelete = scheduled.SystemUndelete;
-					transaction = new SystemUndeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.Freeze:
-					proto.Freeze = scheduled.Freeze;
-					transaction = new FreezeTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusCreateTopic:
-					proto.ConsensusCreateTopic = scheduled.ConsensusCreateTopic;
-					transaction = new TopicCreateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusUpdateTopic:
-					proto.ConsensusUpdateTopic = scheduled.ConsensusUpdateTopic;
-					transaction = new TopicUpdateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusDeleteTopic:
-					proto.ConsensusDeleteTopic = scheduled.ConsensusDeleteTopic;
-					transaction = new TopicDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusSubmitMessage:
-					proto.ConsensusSubmitMessage = scheduled.ConsensusSubmitMessage;
-					transaction = new TopicMessageSubmitTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenCreation:
-					proto.TokenCreation = scheduled.TokenCreation;
-					transaction = new TokenCreateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenFreeze:
-					proto.TokenFreeze = scheduled.TokenFreeze;
-					transaction = new TokenFreezeTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUnfreeze:
-					proto.TokenUnfreeze = scheduled.TokenUnfreeze;
-					transaction = new TokenUnfreezeTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenGrantKyc:
-					proto.TokenGrantKyc = scheduled.TokenGrantKyc;
-					transaction = new TokenGrantKycTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenRevokeKyc:
-					proto.TokenRevokeKyc = scheduled.TokenRevokeKyc;
-					transaction = new TokenRevokeKycTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenDeletion:
-					proto.TokenDeletion = scheduled.TokenDeletion;
-					transaction = new TokenDeleteTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUpdate:
-					proto.TokenUpdate = scheduled.TokenUpdate;
-					transaction = new TokenUpdateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUpdateNfts:
-					proto.TokenUpdateNfts = scheduled.TokenUpdateNfts;
-					transaction = new TokenUpdateNftsTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenMint:
-					proto.TokenMint = scheduled.TokenMint;
-					transaction = new TokenMintTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenBurn:
-					proto.TokenBurn = scheduled.TokenBurn;
-					transaction = new TokenBurnTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenWipe:
-					proto.TokenWipe = scheduled.TokenWipe;
-					transaction = new TokenWipeTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenAssociate:
-					proto.TokenAssociate = scheduled.TokenAssociate;
-					transaction = new TokenAssociateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenDissociate:
-					proto.TokenDissociate = scheduled.TokenDissociate;
-					transaction = new TokenDissociateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenFeeScheduleUpdate:
-					proto.TokenFeeScheduleUpdate = scheduled.TokenFeeScheduleUpdate;
-					transaction = new TokenFeeScheduleUpdateTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenPause:
-					proto.TokenPause = scheduled.TokenPause;
-					transaction = new TokenPauseTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUnpause:
-					proto.TokenUnpause = scheduled.TokenUnpause;
-					transaction = new TokenUnpauseTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenReject:
-					proto.TokenReject = scheduled.TokenReject;
-					transaction = new TokenRejectTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenAirdrop:
-					proto.TokenAirdrop = scheduled.TokenAirdrop;
-					transaction = new TokenAirdropTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenCancelAirdrop:
-					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
-					transaction = new TokenCancelAirdropTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenClaimAirdrop:
-					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
-					transaction = new TokenClaimAirdropTransaction(proto) as T;
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ScheduleDelete:
-					proto.ScheduleDelete = scheduled.ScheduleDelete;
-					transaction = new ScheduleDeleteTransaction(proto) as T;
-					break;
-
-				default: break;
-			}
-
-			return transaction ?? throw new InvalidOperationException("schedulable transaction did not have a transaction set");
-		}
-		public static object FromScheduledTransaction(Proto.SchedulableTransactionBody scheduled) 
-		{
-			object? transaction = null;
-
-			Proto.TransactionBody proto = new()
-			{
-				Memo = scheduled.Memo,
-				TransactionFee = scheduled.TransactionFee,
-			};
-
-			proto.MaxCustomFees.AddRange(scheduled.MaxCustomFees);
-
-			switch (scheduled.DataCase)
-			{
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractCall:
-					proto.ContractCall = scheduled.ContractCall;
-					transaction = new ContractExecuteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractCreateInstance:
-					proto.ContractCreateInstance = scheduled.ContractCreateInstance;
-					transaction = new ContractCreateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractUpdateInstance:
-					proto.ContractUpdateInstance = scheduled.ContractUpdateInstance;
-					transaction = new ContractUpdateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ContractDeleteInstance:
-					proto.ContractDeleteInstance = scheduled.ContractDeleteInstance;
-					transaction = new ContractDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoApproveAllowance:
-					proto.CryptoApproveAllowance = scheduled.CryptoApproveAllowance;
-					transaction = new AccountAllowanceApproveTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoDeleteAllowance:
-					proto.CryptoDeleteAllowance = scheduled.CryptoDeleteAllowance;
-					transaction = new AccountAllowanceDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoCreateAccount:
-					proto.CryptoCreateAccount = scheduled.CryptoCreateAccount;
-					transaction = new AccountCreateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoDelete:
-					proto.CryptoDelete = scheduled.CryptoDelete;
-					transaction = new AccountDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoTransfer:
-					proto.CryptoTransfer = scheduled.CryptoTransfer;
-					transaction = new TransferTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.CryptoUpdateAccount:
-					proto.CryptoUpdateAccount = scheduled.CryptoUpdateAccount;
-					transaction = new AccountUpdateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileAppend:
-					proto.FileAppend = scheduled.FileAppend;
-					transaction = new FileAppendTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileCreate:
-					proto.FileCreate = scheduled.FileCreate;
-					transaction = new FileCreateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileDelete:
-					proto.FileDelete = scheduled.FileDelete;
-					transaction = new FileDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.FileUpdate:
-					proto.FileUpdate = scheduled.FileUpdate;
-					transaction = new FileUpdateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.NodeCreate:
-					proto.NodeCreate = scheduled.NodeCreate;
-					transaction = new NodeCreateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.NodeUpdate:
-					proto.NodeUpdate = scheduled.NodeUpdate;
-					transaction = new NodeUpdateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.NodeDelete:
-					proto.NodeDelete = scheduled.NodeDelete;
-					transaction = new NodeDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.SystemDelete:
-					proto.SystemDelete = scheduled.SystemDelete;
-					transaction = new SystemDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.SystemUndelete:
-					proto.SystemUndelete = scheduled.SystemUndelete;
-					transaction = new SystemUndeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.Freeze:
-					proto.Freeze = scheduled.Freeze;
-					transaction = new FreezeTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusCreateTopic:
-					proto.ConsensusCreateTopic = scheduled.ConsensusCreateTopic;
-					transaction = new TopicCreateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusUpdateTopic:
-					proto.ConsensusUpdateTopic = scheduled.ConsensusUpdateTopic;
-					transaction = new TopicUpdateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusDeleteTopic:
-					proto.ConsensusDeleteTopic = scheduled.ConsensusDeleteTopic;
-					transaction = new TopicDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ConsensusSubmitMessage:
-					proto.ConsensusSubmitMessage = scheduled.ConsensusSubmitMessage;
-					transaction = new TopicMessageSubmitTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenCreation:
-					proto.TokenCreation = scheduled.TokenCreation;
-					transaction = new TokenCreateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenFreeze:
-					proto.TokenFreeze = scheduled.TokenFreeze;
-					transaction = new TokenFreezeTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUnfreeze:
-					proto.TokenUnfreeze = scheduled.TokenUnfreeze;
-					transaction = new TokenUnfreezeTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenGrantKyc:
-					proto.TokenGrantKyc = scheduled.TokenGrantKyc;
-					transaction = new TokenGrantKycTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenRevokeKyc:
-					proto.TokenRevokeKyc = scheduled.TokenRevokeKyc;
-					transaction = new TokenRevokeKycTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenDeletion:
-					proto.TokenDeletion = scheduled.TokenDeletion;
-					transaction = new TokenDeleteTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUpdate:
-					proto.TokenUpdate = scheduled.TokenUpdate;
-					transaction = new TokenUpdateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUpdateNfts:
-					proto.TokenUpdateNfts = scheduled.TokenUpdateNfts;
-					transaction = new TokenUpdateNftsTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenMint:
-					proto.TokenMint = scheduled.TokenMint;
-					transaction = new TokenMintTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenBurn:
-					proto.TokenBurn = scheduled.TokenBurn;
-					transaction = new TokenBurnTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenWipe:
-					proto.TokenWipe = scheduled.TokenWipe;
-					transaction = new TokenWipeTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenAssociate:
-					proto.TokenAssociate = scheduled.TokenAssociate;
-					transaction = new TokenAssociateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenDissociate:
-					proto.TokenDissociate = scheduled.TokenDissociate;
-					transaction = new TokenDissociateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenFeeScheduleUpdate:
-					proto.TokenFeeScheduleUpdate = scheduled.TokenFeeScheduleUpdate;
-					transaction = new TokenFeeScheduleUpdateTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenPause:
-					proto.TokenPause = scheduled.TokenPause;
-					transaction = new TokenPauseTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenUnpause:
-					proto.TokenUnpause = scheduled.TokenUnpause;
-					transaction = new TokenUnpauseTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenReject:
-					proto.TokenReject = scheduled.TokenReject;
-					transaction = new TokenRejectTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenAirdrop:
-					proto.TokenAirdrop = scheduled.TokenAirdrop;
-					transaction = new TokenAirdropTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenCancelAirdrop:
-					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
-					transaction = new TokenCancelAirdropTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.TokenClaimAirdrop:
-					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
-					transaction = new TokenClaimAirdropTransaction(proto);
-					break;
-				case Proto.SchedulableTransactionBody.DataOneofCase.ScheduleDelete:
-					proto.ScheduleDelete = scheduled.ScheduleDelete;
-					transaction = new ScheduleDeleteTransaction(proto);
-					break;
-
-				default: break;
-			}
-
-			return transaction ?? throw new InvalidOperationException("schedulable transaction did not have a transaction set");
-		}
-		/// <summary>
-		/// Parses the transaction body from a signed transaction bytestring.
-		/// </summary>
-		/// <param name="signedTransactionBuilder">The signed transaction builder</param>
-		/// <returns>The parsed transaction body, or null if parsing fails</returns>
-		internal static Proto.TransactionBody ParseTransactionBody(ByteString signedTransactionBuilder)
-		{
-			try
-			{
-				return Proto.TransactionBody.Parser.ParseFrom(signedTransactionBuilder);
-			}
-			catch (InvalidProtocolBufferException e)
-			{
-				throw new Exception("Failed to parse transaction body", e);
-			}
-		}
-		/// <summary>
-		/// Parses the transaction body from a signed transaction builder.
-		/// </summary>
-		/// <param name="signedTransactionBuilder">The signed transaction builder</param>
-		/// <returns>The parsed transaction body, or null if parsing fails</returns>
-		internal static Proto.TransactionBody ParseTransactionBody(Proto.SignedTransaction signedTransactionBuilder)
-		{
-			try
-			{
-				return Proto.TransactionBody.Parser.ParseFrom(signedTransactionBuilder.BodyBytes);
-			}
-			catch (InvalidProtocolBufferException e)
-			{
-				throw new Exception("Failed to parse transaction body", e);
-			}
-		}
-		/// <summary>
-		/// Prepare a single transaction by ensuring it has SignedTransactionBytes
-		/// </summary>
-		internal static Proto.Transaction PrepareSingleTransaction(Proto.Transaction transaction)
-		{
-			if (transaction.SignedTransactionBytes.Length == 0)
-			{
-				transaction.SignedTransactionBytes = new Proto.SignedTransaction
-				{
-					BodyBytes = transaction.BodyBytes,
-					SigMap = transaction.SigMap,
-
-				}.ToByteString();
-
-				return transaction;
-			}
-
-			return transaction;
-		}
-
-		internal static bool PublicKeyIsInSigPairList(ByteString publicKeyBytes, IList<Proto.SignaturePair> sigPairList)
-		{
-			foreach (var pair in sigPairList)
-			{
-				if (pair.PubKeyPrefix.Equals(publicKeyBytes))
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-		internal static void RequireProtoMatches(object? protoA, object? protoB, HashSet<string> ignoreSet, string thisFieldName)
-		{
-			var aIsNull = protoA == null;
-			var bIsNull = protoB == null;
-
-			if (aIsNull != bIsNull)
-				ThrowProtoMatchException(thisFieldName, aIsNull ? "null" : "not null", bIsNull ? "null" : "not null");
-
-			if (aIsNull) return;
-
-			var protoAClass = protoA.GetType();
-			var protoBClass = protoB.GetType();
-
-			if (!protoAClass.Equals(protoBClass))
-				ThrowProtoMatchException(thisFieldName, "of class " + protoAClass, "of class " + protoBClass);
-
-			if (protoA is bool || protoA is int || protoA is long || protoA is float || protoA is Double || protoA is string || protoA is ByteString)
-			{
-				// System.out.println("values A = " + protoA.toString() + ", B = " + protoB.toString());
-				if (!protoA.Equals(protoB))
-				{
-					ThrowProtoMatchException(thisFieldName, protoA.ToString(), protoB.ToString());
-				}
-			}
-
-			foreach (var method in protoAClass.GetMethods())
-			{
-				if (method.GetParameters().Length != 0)
-				{
-					continue;
-				}
-
-				if ((!method.IsPublic) || method.IsStatic)
-				{
-					continue;
-				}
-
-				var methodName = method.Name;
-				if (!methodName.StartsWith("get"))
-				{
-					continue;
-				}
-
-				var isList = methodName.EndsWith("List") && typeof(IList).IsAssignableFrom(method.ReturnType);
-				var methodFieldName = methodName.Substring(3, methodName.Length - (isList ? 4 : 0));
-				if (ignoreSet.Contains(methodFieldName) || methodFieldName.Equals("DefaultInstance"))
-				{
-					continue;
-				}
-
-				if (!isList)
-				{
-					try
-					{
-						var hasMethod = protoAClass.GetMethod("has" + methodFieldName);
-						bool hasA = (bool)hasMethod.Invoke(protoA, null)!;
-						bool hasB = (bool)hasMethod.Invoke(protoB, null)!;
-
-						if (!hasA.Equals(hasB))
-							ThrowProtoMatchException(methodFieldName, hasA ? "present" : "not present", hasB ? "present" : "not present");
-
-						if (!hasA)
-							continue;
-					}
-					catch (MissingMethodException) { }
-					catch (ArgumentException)
-					{
-						throw;
-					}
-					catch (Exception error)
-					{
-						throw new ArgumentException("fromBytes() failed due to error", error);
-					}
-				}
-
-				try
-				{
-					var retvalA = method.Invoke(protoA, null);
-					var retvalB = method.Invoke(protoB, null);
-
-					if (isList)
-					{
-						var listA = retvalA as IList;
-						var listB = retvalB as IList;
-
-						if (listA?.Count != listB?.Count)
-						{
-							ThrowProtoMatchException(methodFieldName, "of size " + listA?.Count, "of size " + listB?.Count);
-						}
-
-						for (int i = 0; i < listA?.Count; i++)
-						{
-							// System.out.println("comparing " + thisFieldName + "." + methodFieldName + "[" + i + "]");
-							RequireProtoMatches(listA?[i], listB?[i], ignoreSet, methodFieldName + "[" + i + "]");
-						}
-					}
-					else
-					{
-
-						// System.out.println("comparing " + thisFieldName + "." + methodFieldName);
-						RequireProtoMatches(retvalA, retvalB, ignoreSet, methodFieldName);
-					}
-				}
-				catch (ArgumentException) { throw; }
-				catch (Exception error)
-				{
-					throw new ArgumentException("fromBytes() failed due to error", error);
-				}
-			}
-		}
-		internal static void ThrowProtoMatchException(string fieldName, string aWas, string bWas)
-		{
-			throw new ArgumentException("fromBytes() failed because " + fieldName + " fields in TransactionBody protobuf messages in the TransactionList did not match: A was " + aWas + ", B was " + bWas);
-		}
-	}
-	public sealed class TransactionWrapped
-	{
-		private TransactionWrapped(Key? batchKey, bool isFrozen, System.Type type, Proto.Transaction protoTransaction)
-		{
-			IsFrozen = isFrozen;
-			BatchKey = batchKey;
-			Type = type;
-			ProtoTransaction = protoTransaction;
-		}
-
-		public Key? BatchKey { get; }
-		public bool IsFrozen { get; }
-		public System.Type Type { get; }
-		public Proto.Transaction ProtoTransaction { get; }
-		public Action<Client>? ValidateChecksums { get; set; }
-
-		public static TransactionWrapped FromBytes(byte[] bytes)
-		{
-			var list = Proto.TransactionList.Parser.ParseFrom(bytes);
-			var txsMap = new DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>>();
-
-			Proto.TransactionBody.DataOneofCase dataCase;
-
-			if (list.TransactionList_.Count != 0)
-				dataCase = Transaction.ProcessTransactionList([.. list.TransactionList_], txsMap);
-			else dataCase = Transaction.ProcessSingleTransaction(bytes, txsMap);
-
-			return dataCase switch
-			{
-				Proto.TransactionBody.DataOneofCase.ContractCall => FromTransaction(new ContractExecuteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ContractCreateInstance => FromTransaction(new ContractCreateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ContractUpdateInstance => FromTransaction(new ContractUpdateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ContractDeleteInstance => FromTransaction(new ContractDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.EthereumTransaction => FromTransaction(new EthereumTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoAddLiveHash => FromTransaction(new LiveHashAddTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoCreateAccount => FromTransaction(new AccountCreateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoDelete => FromTransaction(new AccountDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoDeleteLiveHash => FromTransaction(new LiveHashDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoTransfer => FromTransaction(new TransferTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoUpdateAccount => FromTransaction(new AccountUpdateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.FileAppend => FromTransaction(new FileAppendTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.FileCreate => FromTransaction(new FileCreateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.FileDelete => FromTransaction(new FileDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.FileUpdate => FromTransaction(new FileUpdateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.NodeCreate => FromTransaction(new NodeCreateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.NodeUpdate => FromTransaction(new NodeUpdateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.NodeDelete => FromTransaction(new NodeDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.SystemDelete => FromTransaction(new SystemDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.SystemUndelete => FromTransaction(new SystemUndeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.Freeze => FromTransaction(new FreezeTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ConsensusCreateTopic => FromTransaction(new TopicCreateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ConsensusUpdateTopic => FromTransaction(new TopicUpdateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ConsensusDeleteTopic => FromTransaction(new TopicDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ConsensusSubmitMessage => FromTransaction(new TopicMessageSubmitTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenAssociate => FromTransaction(new TokenAssociateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenBurn => FromTransaction(new TokenBurnTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenCreation => FromTransaction(new TokenCreateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenDeletion => FromTransaction(new TokenDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenDissociate => FromTransaction(new TokenDissociateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenFreeze => FromTransaction(new TokenFreezeTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenGrantKyc => FromTransaction(new TokenGrantKycTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenMint => FromTransaction(new TokenMintTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenRevokeKyc => FromTransaction(new TokenRevokeKycTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenUnfreeze => FromTransaction(new TokenUnfreezeTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenUpdate => FromTransaction(new TokenUpdateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenUpdateNfts => FromTransaction(new TokenUpdateNftsTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenWipe => FromTransaction(new TokenWipeTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenFeeScheduleUpdate => FromTransaction(new TokenFeeScheduleUpdateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ScheduleCreate => FromTransaction(new ScheduleCreateTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ScheduleDelete => FromTransaction(new ScheduleDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.ScheduleSign => FromTransaction(new ScheduleSignTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenPause => FromTransaction(new TokenPauseTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenUnpause => FromTransaction(new TokenUnpauseTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenReject => FromTransaction(new TokenRejectTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenAirdrop => FromTransaction(new TokenAirdropTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenCancelAirdrop => FromTransaction(new TokenCancelAirdropTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.TokenClaimAirdrop => FromTransaction(new TokenClaimAirdropTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoApproveAllowance => FromTransaction(new AccountAllowanceApproveTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.CryptoDeleteAllowance => FromTransaction(new AccountAllowanceDeleteTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.AtomicBatch => FromTransaction(new BatchTransaction(txsMap)),
-				Proto.TransactionBody.DataOneofCase.LambdaSstore => FromTransaction(new LambdaSStoreTransaction(txsMap)),
-				
-				_ => throw new ArgumentException("parsed transaction body has no data")
-			};
-		}
-		public static TransactionWrapped FromTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
-		{
-			return new TransactionWrapped(
-				type: transaction.GetType(),
-				batchKey: transaction.BatchKey,
-				isFrozen: transaction.IsFrozen(),
-				protoTransaction: transaction.MakeRequest()) { ValidateChecksums = client => transaction.ValidateChecksums(client), };
-		}
-	}
 
 	/// <summary>
 	/// Base class for all transactions that may be built and submitted to Hedera.
 	/// </summary>
 	/// <param name="<T>">The type of the transaction. Used to enable chaining.</param>
-	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse> where T : Transaction<T>
+	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>
     {
-        /// <summary>
-        /// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
-        /// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
-        /// response, we try a different transaction and thus a different node.
-        /// </summary>
-        protected List<Proto.Transaction> OuterTransactions = [];
 		/// <summary>
-		/// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
-		/// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
-		/// response, we try a different transaction and thus a different node.
+		/// The maximum transaction fee the client is willing to pay
 		/// </summary>
-		public List<Proto.SignedTransaction> InnerSignedTransactions = [];
-        /// <summary>
-        /// A set of signatures corresponding to every unique public key used to sign the transaction.
-        /// </summary>
-        protected List<Proto.SignatureMap> SigPairLists = [];
-        /// <summary>
-        /// List of IDs for the transaction based on the operator because the transaction ID includes the operator's account
-        /// </summary>
-        protected ListLockable<TransactionId> TransactionIds = [];
-        /// <summary>
-        /// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
-        /// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
-        /// the signer is not available (likely because this came from fromBytes())
-        /// </summary>
-        public  IList<PublicKey> PublicKeys = [];
-        /// <summary>
-        /// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
-        /// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
-        /// the signer is not available (likely because this came from fromBytes())
-        /// </summary>
-        protected List<Func<byte[], byte[]>?> Signers = [];
-        /// <summary>
-        /// The maximum transaction fee the client is willing to pay
-        /// </summary>
-        protected Hbar DefaultMaxTransactionFee = new (2);
+		protected Hbar DefaultMaxTransactionFee = new (2);
         /// <summary>
         /// Should the transaction id be regenerated
         /// </summary>
@@ -940,7 +59,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             TransactionValidDuration = Transaction.DEFAULT_TRANSACTION_VALID_DURATION;
             SourceTransactionBody = new Proto.TransactionBody();
-        }
+			TransactionIds = new ListGuarded<TransactionId>
+			{
+				OnRequireNotFrozen = RequireNotFrozen
+			};
+
+		}
 		/// <summary>
 		/// This constructor is used to construct from a scheduled transaction body
 		/// </summary>
@@ -951,6 +75,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			MaxTransactionFee = Hbar.FromTinybars((long)txBody.TransactionFee);
 			TransactionMemo = txBody.Memo;
 			SourceTransactionBody = txBody;
+			TransactionIds = new ListGuarded<TransactionId>
+			{
+				OnRequireNotFrozen = RequireNotFrozen
+			};
 		}
 		/// <summary>
 		/// This constructor is used to construct via fromBytes
@@ -958,6 +86,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <param name="txBody">protobuf TransactionBody</param>
 		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs)
         {
+			TransactionIds = new ListGuarded<TransactionId>
+			{
+				OnRequireNotFrozen = RequireNotFrozen
+			};
+
 			DictionaryLinked<AccountId, Proto.Transaction> transactionMap = txs.First().Value;
 
             if (transactionMap.Count != 0 && transactionMap.Keys.First().Equals(Transaction.DUMMY_ACCOUNT_ID) && BatchKey != null)
@@ -978,6 +111,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 InnerSignedTransactions = new List<Proto.SignedTransaction>(nodeCount * txCount);
 
                 TransactionIds.EnsureCapacity(txCount);
+
                 foreach (var transactionEntry in txs)
                 {
                     if (!transactionEntry.Key.Equals(Transaction.DUMMY_TRANSACTION_ID))
@@ -1024,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 SourceTransactionBody = Transaction.ParseTransactionBody(InnerSignedTransactions[0].BodyBytes);
             }
 
-            TransactionValidDuration = Utils.DurationConverter.FromProtobuf(SourceTransactionBody.TransactionValidDuration).ToTimeSpan();
+            TransactionValidDuration = SourceTransactionBody.TransactionValidDuration.ToTimeSpan();
             MaxTransactionFee = Hbar.FromTinybars(SourceTransactionBody.TransactionFee);
             TransactionMemo = SourceTransactionBody.Memo;
             
@@ -1123,18 +257,51 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					throw new InvalidOperationException("No transaction ID generated yet. Try freezing the transaction or manually setting the transaction ID.");
 				}
 
-				return TransactionIds.SetLocked(true).GetCurrent();
+				TransactionIds.IsLocked = true;
+				return TransactionIds.Current;
 			}
 			set
 			{
-				RequireNotFrozen();
-				TransactionIds.SetList([value]).SetLocked(true);
+				TransactionIds.ClearAndSet(value);
+				TransactionIds.IsLocked = true;
 			}
 		}
+		/// <summary>
+		/// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
+		/// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
+		/// response, we try a different transaction and thus a different node.
+		/// </summary>
+		public List<Proto.Transaction> OuterTransactions { get; internal set; }
+		/// <summary>
+		/// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
+		/// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
+		/// response, we try a different transaction and thus a different node.
+		/// </summary>
+		public List<Proto.SignedTransaction> InnerSignedTransactions { get; internal set; }
+		/// <summary>
+		/// A set of signatures corresponding to every unique public key used to sign the transaction.
+		/// </summary>
+		public List<Proto.SignatureMap> SigPairLists { get; internal set; }
+		/// <summary>
+		/// List of IDs for the transaction based on the operator because the transaction ID includes the operator's account
+		/// </summary>
+		public ListGuarded<TransactionId> TransactionIds { get; internal set; }
+		/// <summary>
+		/// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
+		/// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
+		/// the signer is not available (likely because this came from fromBytes())
+		/// </summary>
+		public IList<PublicKey> PublicKeys { get; internal set; }
+		/// <summary>
+		/// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
+		/// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
+		/// the signer is not available (likely because this came from fromBytes())
+		/// </summary>
+		public List<Func<byte[], byte[]>?> Signers { get; internal set; }
 
 		public override TransactionId TransactionIdInternal
 		{
-			get => TransactionIds.GetCurrent();
+			get => TransactionIds.Current;
 		}
 
 		/// <summary>
@@ -1235,7 +402,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			{
 				Memo = Memo,
 				TransactionFee = (ulong)(MaxTransactionFee ?? client?.DefaultMaxTransactionFee ?? DefaultMaxTransactionFee).ToTinybars(),
-				TransactionValidDuration = Utils.DurationConverter.ToProtobuf(TransactionValidDuration),
+				TransactionValidDuration = TransactionValidDuration.ToProtoDuration(),
 			};
 
 			if (BatchKey is not null)
@@ -1265,8 +432,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				return (T)this;
 			}
 
-			TransactionIds.SetLocked(true);
-			NodeAccountIds.SetLocked(true);
+			TransactionIds.IsLocked = true;
+			NodeAccountIds.IsLocked = true;
+
 			for (int i = 0; i < OuterTransactions.Count; i++)
 				OuterTransactions[i] = null;
 
@@ -1296,7 +464,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				return (T)this;
 			}
 
-			TransactionIds.SetLocked(true);
+			TransactionIds.IsLocked = true;
 
 			for (int index = 0; index < InnerSignedTransactions.Count; index++)
 				if (ProcessedSignatureForTransaction(index, publicKey, signature, transactionID, nodeID))
@@ -1311,8 +479,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		public virtual void BuildAllTransactions()
         {
-            TransactionIds.SetLocked(true);
-            NodeAccountIds.SetLocked(true);
+            TransactionIds.IsLocked = true;
+            NodeAccountIds.IsLocked = true;
 
             for (var i = 0; i < InnerSignedTransactions.Count; ++i)
 				BuildTransaction(i);
@@ -1370,7 +538,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					if (@operator != null)
 					{
 						// Set a default transaction ID, generated from the operator account ID
-						TransactionIds.SetList([TransactionId.Generate(@operator.AccountId)]);
+						TransactionIds.ClearAndSet([TransactionId.Generate(@operator.AccountId)]);
 					}
 					else
 					{
@@ -1392,9 +560,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				try
 				{
 					if (BatchKey == null)
-						NodeAccountIds.SetList(client.Network_.GetNodeAccountIdsForExecute());
+						NodeAccountIds.ClearAndSet(client.Network_.GetNodeAccountIdsForExecute());
 					else 
-						NodeAccountIds.SetList([AccountId.FromString(Transaction.ATOMIC_BATCH_NODE_ACCOUNT_ID)]);
+						NodeAccountIds.ClearAndSet([AccountId.FromString(Transaction.ATOMIC_BATCH_NODE_ACCOUNT_ID)]);
 				}
 				catch (ThreadInterruptedException e)
 				{
@@ -1503,8 +671,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new InvalidOperationException("transaction must have been frozen before calculating the hash will be stable, try calling `freeze`");
 			}
 
-			TransactionIds.SetLocked(true);
-			NodeAccountIds.SetLocked(true);
+			TransactionIds.IsLocked = true;
+			NodeAccountIds.IsLocked = true;
 
 			var index = TransactionIds.Index * NodeAccountIds.Count + NodeAccountIds.Index;
 
@@ -1541,11 +709,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			var locked = TransactionIds.IsLocked;
 
-			TransactionIds.SetLocked(false);
+			TransactionIds.IsLocked = false;
 
 			if (count == 1)
 			{
-				TransactionIds.SetList([initialTransactionId]);
+				TransactionIds.ClearAndSet([initialTransactionId]);
 				return;
 			}
 
@@ -1562,7 +730,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				nextTransactionId.TransactionValidStart = nextValidStart;
 			}
 
-			TransactionIds.SetLocked(locked);
+			TransactionIds.IsLocked = locked;
 		}
 		/// <summary>
 		/// Check if transaction is frozen.
@@ -1589,10 +757,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		public virtual Transaction<T> RegenerateTransactionId(Client client)
 		{
 			ArgumentNullException.ThrowIfNull(client.OperatorAccountId);
-			TransactionIds.SetLocked(false);
+			TransactionIds.IsLocked = false;
 			var newTransactionID = TransactionId.Generate(client.OperatorAccountId);
 			TransactionIds[TransactionIds.Index] = newTransactionID;
-			TransactionIds.SetLocked(true);
+			TransactionIds.IsLocked = true;
 			return this;
 		}
 		/// <summary>
@@ -1853,7 +1021,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// </summary>
 		/// <param name="NodeAccountIds">The list of node AccountIds to be set</param>
 		/// <returns>{@code this}</returns>
-		public virtual T SetNodeAccountIds(IList<AccountId> nodeaccountids)
+		public virtual T SetNodeAccountIds(IEnumerable<AccountId> nodeaccountids)
 		{
 			RequireNotFrozen();
 

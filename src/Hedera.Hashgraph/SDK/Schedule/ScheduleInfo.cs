@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
+using System;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
         /// <param name="deleted">the time it was deleted</param>
         /// <param name="ledgerId">the ledger id</param>
         /// <param name="waitForExpiry">the wait for expiry field</param>
-        public ScheduleInfo(ScheduleId scheduleId, AccountId creatorAccountId, AccountId payerAccountId, Proto.SchedulableTransactionBody transactionBody, KeyList signers, Key? adminKey, TransactionId scheduledTransactionId, string memo, Timestamp expirationTime, Timestamp executed, Timestamp deleted, LedgerId ledgerId, bool waitForExpiry)
+        public ScheduleInfo(ScheduleId scheduleId, AccountId creatorAccountId, AccountId payerAccountId, Proto.SchedulableTransactionBody transactionBody, KeyList signers, Key? adminKey, TransactionId scheduledTransactionId, string memo, DateTimeOffset expirationTime, DateTimeOffset executed, DateTimeOffset deleted, LedgerId ledgerId, bool waitForExpiry)
         {
             ScheduleId = scheduleId;
             CreatorAccountId = creatorAccountId;
@@ -76,9 +76,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
 				Key.FromProtobufKey(info.AdminKey),
 				TransactionId.FromProtobuf(info.ScheduledTransactionID), 
                 info.Memo, 
-                Utils.TimestampConverter.FromProtobuf(info.ExpirationTime),
-                Utils.TimestampConverter.FromProtobuf(info.ExecutionTime), 
-                Utils.TimestampConverter.FromProtobuf(info.DeletionTime), 
+                info.ExpirationTime.ToDateTimeOffset(),
+                info.ExecutionTime.ToDateTimeOffset(), 
+                info.DeletionTime.ToDateTimeOffset(), 
                 LedgerId.FromByteString(info.LedgerId), 
                 info.WaitForExpiry);
         }
@@ -117,17 +117,17 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// <summary>
 		/// The date and time the schedule transaction will expire
 		/// </summary>
-		public Timestamp ExpirationTime { get; }
+		public DateTimeOffset ExpirationTime { get; }
 		/// <summary>
 		/// The time the schedule transaction was executed. If the schedule
 		/// transaction has not executed this field will be left null.
 		/// </summary>
-		public Timestamp ExecutedAt { get; }
+		public DateTimeOffset ExecutedAt { get; }
 		/// <summary>
 		/// The consensus time the schedule transaction was deleted. If the
 		/// schedule transaction was not deleted, this field will be left null.
 		/// </summary>
-		public Timestamp DeletedAt { get; }
+		public DateTimeOffset DeletedAt { get; }
 		/// <summary>
 		/// The scheduled transaction (inner transaction).
 		/// </summary>
@@ -171,13 +171,13 @@ namespace Hedera.Hashgraph.SDK.Schedule
                 proto.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
 
             if (ExpirationTime != null)
-                proto.ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime);
+                proto.ExpirationTime = ExpirationTime.ToProtoTimestamp();
 
             if (ExecutedAt != null)
-                proto.ExecutionTime = Utils.TimestampConverter.ToProtobuf(ExecutedAt);
+                proto.ExecutionTime = ExecutedAt.ToProtoTimestamp();
 
             if (DeletedAt != null)
-                proto.DeletionTime = Utils.TimestampConverter.ToProtobuf(DeletedAt);
+                proto.DeletionTime = DeletedAt.ToProtoTimestamp();
 
             return proto;
 		}

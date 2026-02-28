@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var originalTransactionReceipt = SpawnReceiptExample();
             byte[] transactionReceiptBytes = originalTransactionReceipt.ToBytes();
-            var copyTransactionReceipt = TransactionReceipt.FromBytes(transactionReceiptBytes);
+            var copyTransactionReceipt = Transaction.FromBytes<TransactionReceipt>(transactionReceiptBytes);
             Assert.Equal(copyTransactionReceipt.ToString(), originalTransactionReceipt.ToString());
             
             SnapshotMatcher.Expect(originalTransactionReceipt.ToString()).ToMatchSnapshot();

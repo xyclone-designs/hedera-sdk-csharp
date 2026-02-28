@@ -18,7 +18,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         private static readonly Proto.LiveHash liveHash = new ()
         {
 			AccountId = new AccountId(0, 0, 10).ToProtobuf(),
-			Duration = DurationConverter.ToProtobuf(TimeSpan.FromDays(11)),
+			Duration = TimeSpan.FromDays(11.ToProtoDuration()),
 			Hash = ByteString.CopyFrom(hash),
 			Keys = new Proto.KeyList 
             {
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             GenerateReceiveRecordThreshold = 5,
             ReceiverSigRequired = true,
             ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(6),
-            AutoRenewPeriod = DurationConverter.ToProtobuf(TimeSpan.FromDays(7)),
+            AutoRenewPeriod = TimeSpan.FromDays(7.ToProtoDuration()),
             ProxyAccountID = new AccountId(0, 0, 8).ToProtobuf(),
             LedgerId = LedgerId.PREVIEWNET.ToByteString(),
             EthereumNonce = 1001,

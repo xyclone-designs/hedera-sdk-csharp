@@ -176,7 +176,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             tx.AddHookToCreate(hookDetails);
             tx.AddHookToDelete(123);
             var bytes = tx.ToBytes();
-            var deserializedTx = (ContractUpdateTransaction)Transaction.FromBytes(bytes);
+            var deserializedTx = Transaction.FromBytes<ContractUpdateTransaction>(bytes);
             Assert.Single(deserializedTx.GetHooksToCreate());
             Assert.Single(deserializedTx.GetHooksToDelete());
             Assert.Contains(deserializedTx.GetHooksToDelete(), 123);

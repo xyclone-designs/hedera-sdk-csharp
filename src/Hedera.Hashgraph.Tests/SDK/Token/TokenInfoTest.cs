@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly long testTokenMaxSupply = 1000000;
         private static readonly bool testTokenPauseStatus = true;
         private static readonly LedgerId testTokenLedgerId = LedgerId.MAINNET;
-        private static readonly TimeSpan testAutoRenewPeriod = Duration.OfHours(10);
+        private static readonly TimeSpan testAutoRenewPeriod = TimeSpan.FromHours(10);
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         private static readonly byte[] testMetadata = new byte[]
         {
@@ -92,7 +92,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var originalTokenInfo = SpawnTokenInfoExample();
             byte[] tokenInfoBytes = originalTokenInfo.ToBytes();
-            var copyTokenInfo = TokenInfo.FromBytes(tokenInfoBytes);
+            var copyTokenInfo = Transaction.FromBytes<TokenInfo>(tokenInfoBytes);
             
             Assert.Equal(copyTokenInfo.ToString(), originalTokenInfo.ToString());
 

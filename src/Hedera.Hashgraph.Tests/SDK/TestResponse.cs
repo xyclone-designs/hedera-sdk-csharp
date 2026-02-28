@@ -1,14 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
-using Proto;
-using Io.Grpc;
-using Javax.Annotation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.HBar;
+
 using Grpc.Core;
 
 namespace Hedera.Hashgraph.Tests.SDK
@@ -37,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public static TestResponse TransactionOk(Hbar cost)
         {
-            return Transaction(ResponseStatus.OK, cost);
+            return Transaction(ResponseStatus.Ok, cost);
         }
 
         public static TestResponse TransactionOk()

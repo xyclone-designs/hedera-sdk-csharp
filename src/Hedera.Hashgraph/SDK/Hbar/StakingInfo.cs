@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
+
+using System;
 
 namespace Hedera.Hashgraph.SDK.HBar
 {
@@ -18,7 +19,7 @@ namespace Hedera.Hashgraph.SDK.HBar
     /// <param name="stakedToMe">the total of balance of all accounts staked to this account or contract</param>
     /// <param name="stakedAccountId">the account to which this account or contract is staking</param>
     /// <param name="stakedNodeId">the ID of the node this account or contract is staked to</param>
-    public class StakingInfo(bool declineStakingReward, Timestamp stakePeriodStart, Hbar pendingReward, Hbar stakedToMe, AccountId? stakedAccountId, long? stakedNodeId)
+    public class StakingInfo(bool declineStakingReward, DateTimeOffset stakePeriodStart, Hbar pendingReward, Hbar stakedToMe, AccountId? stakedAccountId, long? stakedNodeId)
     {
         /// <summary>
         /// Convert a byte array to a staking info object.
@@ -34,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         {
             return new StakingInfo(
                 info.DeclineReward,
-                Utils.TimestampConverter.FromProtobuf(info.StakePeriodStart),
+                info.StakePeriodStart.ToDateTimeOffset(),
                 Hbar.FromTinybars(info.PendingReward),
                 Hbar.FromTinybars(info.StakedToMe),
                 AccountId.FromProtobuf(info.StakedAccountId),
@@ -50,7 +51,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// staking or changing staked_node_id) or the most recent reward was earned, whichever is later. If this account or contract
         /// is not currently staked to a node, then this field is not set.
         /// </summary>
-        public Timestamp StakePeriodStart { get; } = stakePeriodStart;
+        public DateTimeOffset StakePeriodStart { get; } = stakePeriodStart;
         /// <summary>
         /// The amount in Hbar that will be received in the next reward situation.
         /// </summary>
@@ -81,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.HBar
 			Proto.StakingInfo proto = new ()
             {
 				DeclineReward = DeclineStakingReward,
-				StakePeriodStart = Utils.TimestampConverter.ToProtobuf(StakePeriodStart),
+				StakePeriodStart = StakePeriodStart.ToProtoTimestamp(),
 				PendingReward = PendingReward.ToTinybars(),
 				StakedToMe = StakedToMe.ToTinybars(),
 			};

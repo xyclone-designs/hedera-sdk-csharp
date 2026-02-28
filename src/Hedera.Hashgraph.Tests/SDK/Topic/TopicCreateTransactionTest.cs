@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         private TopicCreateTransaction SpawnTestTransaction()
         {
-            return new TopicCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetSubmitKey(unusedPrivateKey).SetAdminKey(unusedPrivateKey).SetAutoRenewAccountId(AccountId.FromString("0.0.5007")).SetAutoRenewPeriod(Duration.OfHours(24)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetTopicMemo("hello memo").Freeze().Sign(unusedPrivateKey);
+            return new TopicCreateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetSubmitKey(unusedPrivateKey).SetAdminKey(unusedPrivateKey).SetAutoRenewAccountId(AccountId.FromString("0.0.5007")).SetAutoRenewPeriod(TimeSpan.FromHours(24)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetTopicMemo("hello memo").Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()

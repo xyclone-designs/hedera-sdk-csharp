@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             network.Put("1.testnet.hedera.com:50211", new AccountId(0, 0, 4));
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                testEnv.Client.SetMaxQueryPayment(new Hbar(2)).SetRequestTimeout(Duration.OfMinutes(2)).SetNetwork(network);
+                testEnv.Client.SetMaxQueryPayment(new Hbar(2)).SetRequestTimeout(TimeSpan.FromMinutes(2)).SetNetwork(network);
                 Assert.NotNull(testEnv.OperatorId);
 
                 // Execute two simple queries so we create a channel for each network node.

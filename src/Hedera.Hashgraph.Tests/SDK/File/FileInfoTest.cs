@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
 			FileID = new FileId(0, 0, 1).ToProtobuf(),
 			Size = 2,
-			ExpirationTime = TimestampConverter.ToProtobuf(DateTimeOffset.FromUnixTimeMilliseconds(3).ToTimestamp()),
+			ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(3.ToProtoTimestamp().ToTimestamp()),
 			Deleted = true,
 			Keys = Proto.KeyList.Parser.ParseFrom(keys),
 			LedgerId = LedgerId.MAINNET.ToByteString(),

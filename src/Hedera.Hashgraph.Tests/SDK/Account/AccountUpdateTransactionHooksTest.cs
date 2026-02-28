@@ -212,7 +212,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             tx.AddHookToDelete(123);
             
             var bytes = tx.ToBytes();
-            var deserializedTx = (AccountUpdateTransaction)Transaction.FromBytes(bytes);
+            var deserializedTx = Transaction.FromBytes<AccountUpdateTransaction>(bytes);
             
             Assert.Single(deserializedTx.GetHooksToCreate());
             Assert.Single(deserializedTx.GetHooksToDelete());

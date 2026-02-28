@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client);
 
-                var topicId = response.GetReceipt(testEnv.Client).TopicId);
+                var topicId = response.GetReceipt(testEnv.Client).TopicId;
                 new TopicUpdateTransaction
                 { 
                     TopicMemo = "hello",

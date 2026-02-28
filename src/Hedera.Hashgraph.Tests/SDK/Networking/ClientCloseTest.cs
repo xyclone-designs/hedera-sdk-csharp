@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void CloseHandlesExecutorTerminatingInTime()
         {
-            var duration = Duration.OfSeconds(30);
+            var duration = TimeSpan.FromSeconds(30);
             var executor = Mock(typeof(ThreadPoolExecutor));
             var network = Network.ForNetwork(executor, Collections.EmptyMap());
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
@@ -106,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void CloseHandlesExecutorNotTerminatingInTime()
         {
-            var duration = Duration.OfSeconds(30);
+            var duration = TimeSpan.FromSeconds(30);
             var executor = Mock(typeof(ThreadPoolExecutor));
             var network = Network.ForNetwork(executor, Collections.EmptyMap());
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void CloseHandlesExecutorWhenThreadIsInterrupted()
         {
-            var duration = Duration.OfSeconds(30);
+            var duration = TimeSpan.FromSeconds(30);
             var executor = Mock(typeof(ThreadPoolExecutor));
             var network = Network.ForNetwork(executor, Collections.EmptyMap());
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());

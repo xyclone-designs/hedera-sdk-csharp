@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var serials = new TokenMintTransaction
                 {
 					TokenId = nftTokenId,
-                    MetadataList = [Encoding.UTF8.GetBytes("asd")]
+                    Metadata = [Encoding.UTF8.GetBytes("asd")]
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).Serials;
@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var serials = new TokenMintTransaction
                 {
 					TokenId = nftTokenId,
-                    MetadataList = 
+                    Metadata = 
                     [
 						Encoding.UTF8.GetBytes("asd1"),
 						Encoding.UTF8.GetBytes("asd2"),
@@ -225,7 +225,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var serials = new TokenMintTransaction
                 {
 					TokenId = nftTokenId,
-                    MetadataList =
+                    Metadata =
                     [
 						Encoding.UTF8.GetBytes("asd1"),
 						Encoding.UTF8.GetBytes("asd2"),
@@ -335,7 +335,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var serials = new TokenMintTransaction
                 {
 					TokenId = nftTokenId,
-                    MetadataList = 
+                    Metadata = 
                     [
 						Encoding.UTF8.GetBytes("asd1"),
 						Encoding.UTF8.GetBytes("asd2"),

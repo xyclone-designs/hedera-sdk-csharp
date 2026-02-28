@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             var originalFeeSchedules = SpawnFeeSchedulesExample();
             byte[] feeSchedulesBytes = originalFeeSchedules.ToBytes();
-            var copyFeeSchedules = FeeSchedules.FromBytes(feeSchedulesBytes);
+            var copyFeeSchedules = Transaction.FromBytes<FeeSchedules>(feeSchedulesBytes);
             Assert.Equal(copyFeeSchedules.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), originalFeeSchedules.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
             SnapshotMatcher.Expect(originalFeeSchedules.ToString().ReplaceAll("@[A-Za-z0-9]+", "")).ToMatchSnapshot();
         }
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             var originalFeeSchedules = new FeeSchedules();
             byte[] feeSchedulesBytes = originalFeeSchedules.ToBytes();
-            var copyFeeSchedules = FeeSchedules.FromBytes(feeSchedulesBytes);
+            var copyFeeSchedules = Transaction.FromBytes<FeeSchedules>(feeSchedulesBytes);
             Assert.Equal(copyFeeSchedules.ToString(), originalFeeSchedules.ToString());
         }
     }

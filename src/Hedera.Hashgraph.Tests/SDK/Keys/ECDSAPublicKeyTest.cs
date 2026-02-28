@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         {
             PublicKey key1 = PrivateKey.GenerateECDSA().GetPublicKey();
             byte[] key1Bytes = key1.ToBytes();
-            PublicKey key2 = PublicKey.FromBytes(key1Bytes);
+            PublicKey key2 = Transaction.FromBytes<PublicKey>(key1Bytes);
             byte[] key2Bytes = key2.ToBytes();
             Assert.Equal(key2Bytes, key1Bytes);
         }
@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         public virtual void KeyByteValidation()
         {
             byte[] invalidKeyECDSA = new byte[33];
-            _ = PublicKey.FromBytes(invalidKeyECDSA);
+            _ = Transaction.FromBytes<PublicKey>(invalidKeyECDSA);
             _ = PublicKey.FromBytesECDSA(invalidKeyECDSA);
             byte[] invalidCompressedKey = new byte[]
             {
@@ -141,7 +141,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesDER();
             PublicKey key2 = PublicKey.FromBytesDER(key1Bytes);
             byte[] key2Bytes = key2.ToBytesDER();
-            PublicKey key3 = PublicKey.FromBytes(key1Bytes);
+            PublicKey key3 = Transaction.FromBytes<PublicKey>(key1Bytes);
             byte[] key3Bytes = key3.ToBytesDER();
 
 			Assert.Equal(key2Bytes, key1Bytes);

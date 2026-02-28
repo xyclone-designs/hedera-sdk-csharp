@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 
-using Hedera.Hashgraph.SDK.System;
+using Hedera.Hashgraph.SDK.Systems;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.File;
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new SystemDeleteTransaction
                     {
                         ContractId = contractId,
-                        ExpirationTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow),
+                        ExpirationTime = DateTimeOffset.UtcNow,
                     }
                     .Execute(testEnv.Client);
 
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     new SystemDeleteTransaction
                     {
                         FileId = fileId,
-                        ExpirationTime = Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow),
+                        ExpirationTime = DateTimeOffset.UtcNow,
                     }
                     .Execute(testEnv.Client);
 

@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 
-                var serialsToTransfer = new List<long>(mintReceipt.Serials[0 .. 4)];
+                var serialsToTransfer = new List<long>(mintReceipt.Serials[0 .. 4]);
                 var transfer = new TransferTransaction();
 
                 foreach (var serial in serialsToTransfer)
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					TokenId = tokenId,
 					AccountId = accountId,
-					Serials = serialsToTransfer
+					Serials = [.. serialsToTransfer]
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Sign(key)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
-                var serialsToTransfer = new List<long>(mintReceipt.Serials[0 .. 4)];
+                var serialsToTransfer = new List<long>(mintReceipt.Serials[0 .. 4]);
                 var transfer = new TransferTransaction();
                 foreach (var serial in serialsToTransfer)
                 {

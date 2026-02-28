@@ -55,7 +55,7 @@ enum ResponseCodeEnum {
 
     /**
      * The given transactionValidDuration was either non-positive, or greater than the maximum
-     * valid duration of 180 secs.
+     * valid TimeSpan.From 180 secs.
      *
      */
     INVALID_TRANSACTION_DURATION = 6;

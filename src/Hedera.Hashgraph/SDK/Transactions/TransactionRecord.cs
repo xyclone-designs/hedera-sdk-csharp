@@ -11,7 +11,7 @@ using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Token;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <summary>
         /// The consensus timestamp (or null if didn't reach consensus yet).
         /// </summary>
-        public readonly Timestamp ConsensusTimestamp;
+        public readonly DateTimeOffset ConsensusTimestamp;
         /// <summary>
         /// The ID of the transaction this record represents.
         /// </summary>
@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// In the record of an internal transaction, the consensus timestamp of the user
         /// transaction that spawned it.
         /// </summary>
-        public readonly Timestamp ParentConsensusTimestamp;
+        public readonly DateTimeOffset ParentConsensusTimestamp;
         /// <summary>
         /// The keccak256 hash of the ethereumData. This field will only be populated for
         /// EthereumTransaction.
@@ -160,7 +160,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         TransactionRecord(
             TransactionReceipt transactionReceipt, 
             ByteString transactionHash, 
-            Timestamp consensusTimestamp, 
+            DateTimeOffset consensusTimestamp, 
             TransactionId transactionId,
             string transactionMemo, 
             long transactionFee, 
@@ -174,8 +174,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			IEnumerable<TokenAssociation> automaticTokenAssociations, 
             PublicKey? aliasKey,
 			IEnumerable<TransactionRecord> children,
-			IEnumerable<TransactionRecord> duplicates, 
-            Timestamp parentConsensusTimestamp, 
+			IEnumerable<TransactionRecord> duplicates,
+			DateTimeOffset parentConsensusTimestamp, 
             ByteString ethereumHash, 
             IEnumerable<Transfer> paidStakingRewards,
             ByteString prngBytes, 
@@ -238,7 +238,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <param name="children">the list of children</param>
 		/// <param name="duplicates">the list of duplicates</param>
 		/// <returns>the new transaction record</returns>
-		public static TransactionRecord FromProtobuf(Proto.TransactionRecord transactionRecord, IList<TransactionRecord> children, IList<TransactionRecord> duplicates, TransactionId? transactionId)
+		public static TransactionRecord FromProtobuf(Proto.TransactionRecord transactionRecord, IEnumerable<TransactionRecord> children, IEnumerable<TransactionRecord> duplicates, TransactionId? transactionId)
         {
             var transfers = new List<Transfer>(transactionRecord.TransferList.AccountAmounts.Count);
 
@@ -304,7 +304,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return new TransactionRecord(
                 TransactionReceipt.FromProtobuf(transactionRecord.Receipt, [], [], transactionId), 
                 transactionRecord.TransactionHash,
-                Utils.TimestampConverter.FromProtobuf(transactionRecord.ConsensusTimestamp), 
+                transactionRecord.ConsensusTimestamp.ToDateTimeOffset(), 
                 TransactionId.FromProtobuf(transactionRecord.TransactionID), 
                 transactionRecord.Memo, 
                 (long)transactionRecord.TransactionFee, 
@@ -319,7 +319,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 aliasKey, 
                 children, 
                 duplicates,
-				Utils.TimestampConverter.FromProtobuf(transactionRecord.ParentConsensusTimestamp), 
+				transactionRecord.ParentConsensusTimestamp.ToDateTimeOffset(), 
                 transactionRecord.EthereumHash, 
                 paidStakingRewards,
 				transactionRecord.PrngBytes, 
@@ -346,7 +346,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			{
 				Receipt = Receipt.ToProtobuf(),
                 TransactionHash = TransactionHash,
-                ConsensusTimestamp = Utils.TimestampConverter.ToProtobuf(ConsensusTimestamp),
+                ConsensusTimestamp = ConsensusTimestamp.ToProtoTimestamp(),
                 TransactionID = TransactionId.ToProtobuf(),
                 Memo = TransactionMemo,
                 TransactionFee = (ulong)TransactionFee.ToTinybars(),
@@ -419,7 +419,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				proto.Alias = AliasKey.ToProtobufKey().ToByteString();
 
             if (ParentConsensusTimestamp != null)
-				proto.ParentConsensusTimestamp = Utils.TimestampConverter.ToProtobuf(ParentConsensusTimestamp);
+				proto.ParentConsensusTimestamp = ParentConsensusTimestamp.ToProtoTimestamp();
 
 			if (PrngBytes != null)
 				proto.PrngBytes = PrngBytes;

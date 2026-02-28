@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Topic
     /// </summary>
     public sealed class TopicInfo
     {
-        private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, Timestamp expirationTime, Key? adminKey, Key? submitKey, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key? feeScheduleKey, IList<Key> feeExemptKeys, IList<CustomFixedFee> customFees)
+        private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, DateTimeOffset expirationTime, Key? adminKey, Key? submitKey, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key? feeScheduleKey, IEnumerable<Key> feeExemptKeys, IEnumerable<CustomFixedFee> customFees)
         {
             TopicId = topicId;
             TopicMemo = topicMemo;
@@ -30,8 +30,8 @@ namespace Hedera.Hashgraph.SDK.Topic
             AutoRenewAccountId = autoRenewAccountId;
             LedgerId = ledgerId;
             FeeScheduleKey = feeScheduleKey;
-            FeeExemptKeys = feeExemptKeys;
-            CustomFees = customFees;
+            FeeExemptKeys = [ .. feeExemptKeys];
+            CustomFees = [ .. customFees];
         }
 
 		/// <summary>
@@ -56,10 +56,10 @@ namespace Hedera.Hashgraph.SDK.Topic
 				topicInfoResponse.TopicInfo.Memo, 
                 topicInfoResponse.TopicInfo.RunningHash, 
                 topicInfoResponse.TopicInfo.SequenceNumber,
-                Utils.TimestampConverter.FromProtobuf(topicInfoResponse.TopicInfo.ExpirationTime),
+                topicInfoResponse.TopicInfo.ExpirationTime.ToDateTimeOffset(),
 				Key.FromProtobufKey(topicInfoResponse.TopicInfo.AdminKey),
 				Key.FromProtobufKey(topicInfoResponse.TopicInfo.SubmitKey), 
-                Utils.DurationConverter.FromProtobuf(topicInfoResponse.TopicInfo.AutoRenewPeriod).ToTimeSpan(),
+                topicInfoResponse.TopicInfo.AutoRenewPeriod.ToTimeSpan(),
 				AccountId.FromProtobuf(topicInfoResponse.TopicInfo.AutoRenewAccount), 
                 LedgerId.FromByteString(topicInfoResponse.TopicInfo.LedgerId),
 				Key.FromProtobufKey(topicInfoResponse.TopicInfo.FeeScheduleKey), 
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		/// <summary>
 		/// Effective consensus timestamp at (and after) which submitMessage calls will no longer succeed on the topic.
 		/// </summary>
-		public Timestamp ExpirationTime { get; }
+		public DateTimeOffset ExpirationTime { get; }
 		/// <summary>
 		/// Access control for update/delete of the topic. Null if there is no key.
 		/// </summary>
@@ -135,8 +135,8 @@ namespace Hedera.Hashgraph.SDK.Topic
 					Memo = TopicMemo,
 					RunningHash = RunningHash,
 					SequenceNumber = SequenceNumber,
-					ExpirationTime = Utils.TimestampConverter.ToProtobuf(ExpirationTime),
-					AutoRenewPeriod = Utils.DurationConverter.ToProtobuf(AutoRenewPeriod),
+					ExpirationTime = ExpirationTime.ToProtoTimestamp(),
+					AutoRenewPeriod = AutoRenewPeriod.ToProtoDuration(),
 					LedgerId = LedgerId.ToByteString(),
 					AutoRenewAccount = AutoRenewAccountId.ToProtobuf(),
 				}

@@ -5,6 +5,8 @@ using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Networking;
 
+using System;
+
 namespace Hedera.Hashgraph.SDK.Nfts
 {
 	/// <summary>
@@ -23,7 +25,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
         /// <summary>
         /// The effective consensus timestamp at which the NFT was minted
         /// </summary>
-        public Timestamp CreationTime;
+        public DateTimeOffset CreationTime;
         /// <summary>
         /// Represents the unique metadata of the NFT
         /// </summary>
@@ -46,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
         /// <param name="metadata">the unique metadata</param>
         /// <param name="ledgerId">the ledger id of the response</param>
         /// <param name="spenderId">the spender of the allowance (null if not an allowance)</param>
-        internal TokenNftInfo(NftId nftId, AccountId accountId, Timestamp creationTime, byte[] metadata, LedgerId ledgerId, AccountId spenderId)
+        internal TokenNftInfo(NftId nftId, AccountId accountId, DateTimeOffset creationTime, byte[] metadata, LedgerId ledgerId, AccountId spenderId)
         {
             NftId = nftId;
             AccountId = accountId;
@@ -76,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return new TokenNftInfo(
                 NftId.FromProtobuf(info.NftID), 
                 AccountId.FromProtobuf(info.AccountID), 
-                Utils.TimestampConverter.FromProtobuf(info.CreationTime), 
+                info.CreationTime.ToDateTimeOffset(), 
                 info.Metadata.ToByteArray(), 
                 LedgerId.FromByteString(info.LedgerId), 
                 AccountId.FromProtobuf(info.SpenderId));
@@ -100,7 +102,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             {
 				NftID = NftId.ToProtobuf(),
 				AccountID = AccountId.ToProtobuf(),
-				CreationTime = Utils.TimestampConverter.ToProtobuf(CreationTime),
+				CreationTime = CreationTime.ToProtoTimestamp(),
 				Metadata = ByteString.CopyFrom(Metadata),
 				LedgerId = LedgerId.ToByteString(),
 			};
