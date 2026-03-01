@@ -17,14 +17,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             bool succeededAtLeastOnce = false;
             foreach (var entry in client.Network_.Network_Read)
             {
-                Assert.True(entry.Key.EndsWith(":50212"));
+                Assert.True(entry.Key.ToString().EndsWith(":50212"));
                 try
                 {
                     new AccountBalanceQuery()
                     {
 						MaxAttempts = 1,
-						NodeAccountIds = [entry.Value],
-						AccountId = entry.Value,
+						NodeAccountIds = [..entry.Value.Select(_ => _.AccountId)],
+						AccountId = entry.Key,
 					}
                     .Execute(client);
                     Console.WriteLine("succeeded for " + entry);
@@ -46,14 +46,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			bool succeededAtLeastOnce = false;
             foreach (var entry in client.Network_.Network_Read)
             {
-                Assert.True(entry.Key.EndsWith(":50212"));
+                Assert.True(entry.Key.ToString().EndsWith(":50212"));
                 try
                 {
                     new AccountBalanceQuery()
                     {
 						MaxAttempts = 1,
-						NodeAccountIds = [entry.Value],
-						AccountId = entry.Value,
+						NodeAccountIds = [.. entry.Value.Select(_ => _.AccountId)],
+						AccountId = entry.Key,
 					}
                     .Execute(client);
                     Console.WriteLine("succeeded for " + entry);
@@ -75,14 +75,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			bool succeededAtLeastOnce = false;
             foreach (var entry in client.Network_.Network_Read)
             {
-                Assert.True(entry.Key.EndsWith(":50212"));
+                Assert.True(entry.Key.ToString().EndsWith(":50212"));
                 try
                 {
                     new AccountBalanceQuery()
                     {
 						MaxAttempts = 1,
-						NodeAccountIds = [entry.Value],
-						AccountId = entry.Value,
+						NodeAccountIds = [.. entry.Value.Select(_ => _.AccountId)],
+						AccountId = entry.Key,
 					}
                     .Execute(client);
                     Console.WriteLine("succeeded for " + entry);
@@ -105,22 +105,22 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 client.TransportSecurity = true;
                 client.VerifyCertificates = true;
-                client.NetworkName = null;  
+                // client.NetworkName = null;  
             });
 
             Assert.NotEmpty(client.Network_.Network_Read);
 
             foreach (var entry in client.Network_.Network_Read)
             {
-                Assert.True(entry.Key.EndsWith(":50212"));
+                Assert.True(entry.Key.ToString().EndsWith(":50212"));
                 InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() =>
                 {
                     new AccountBalanceQuery()
-                    {
-						NodeAccountIds = [entry.Value],
-						AccountId = entry.Value,
-					
-                    }.Execute(client);
+					{
+						NodeAccountIds = [.. entry.Value.Select(_ => _.AccountId)],
+						AccountId = entry.Key,
+
+					}.Execute(client);
                 });
             }
 

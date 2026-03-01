@@ -1,17 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Exceptions;
+using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -28,22 +25,42 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Create an account that will own the hook and sign updates
                 var adminKey = PrivateKey.GenerateED25519();
-                var ownerId = new AccountCreateTransaction()Key = adminKey,.SetInitialBalance(new Hbar(10)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var ownerId = new AccountCreateTransaction
+                {
+					Key = adminKey,
+					InitialBalance = new Hbar(10),
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
 
                 // Attach a lambda hook (id 3) to the owner with optional initial storage
                 var initialSlot = new EvmHookStorageSlot(new byte[] { 0x01 }, new byte[] { 0x01 });
-                var lambdaHook = new EvmHook(hookContractId, List.Of(initialSlot));
+                var lambdaHook = new EvmHook(hookContractId, [initialSlot]);
                 var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaHook, adminKey.GetPublicKey());
-                new AccountUpdateTransaction().SetAccountId(ownerId).AddHookToCreate(hookDetails).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new AccountUpdateTransaction
+				{
+					AccountId = ownerId,
+					HookCreationDetails = [hookDetails],
+					MaxTransactionFee = Hbar.From(10),
+				}
+				.FreezeWith(testEnv.Client)
+                .Sign(adminKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Build full HookId for the lambda owned by ownerId with id 3
                 var hookId = new HookId(new HookEntityId(ownerId), 3);
 
                 // Prepare a storage update to set key=0x01 -> value=0x02
                 var update = new EvmHookStorageSlot(new byte[] { 0x01 }, new byte[] { 0x02 });
-                var resp = new HookStoreTransaction().SetNodeAccountIds(new List(testEnv.Client.Network.Values())).SetHookId(hookId).AddStorageUpdate(update).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
+                var resp = new HookStoreTransaction
+                {
+					HookId = hookId,
+					NodeAccountIds = [.. testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
+					StorageUpdates = [update]
+				
+                }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
                 var receipt = resp.GetReceipt(testEnv.Client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
 
@@ -57,13 +74,27 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Create an account that will own the hook
                 var adminKey = PrivateKey.GenerateED25519();
-                var ownerId = new AccountCreateTransaction()Key = adminKey,.SetInitialBalance(new Hbar(10)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var ownerId = new AccountCreateTransaction
+                {
+					Key = adminKey,
+					InitialBalance = new Hbar(10)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
 
                 // Attach a lambda hook (id 3) to the owner
                 var initialSlot = new EvmHookStorageSlot(new byte[] { 0x01 }, new byte[] { 0x01 });
-                var lambdaHook = new EvmHook(hookContractId, List.Of(initialSlot));
+                var lambdaHook = new EvmHook(hookContractId, [initialSlot]);
                 var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 3, lambdaHook, adminKey.GetPublicKey());
-                new AccountUpdateTransaction().SetAccountId(ownerId).SetMaxTransactionFee(Hbar.From(10)).AddHookToCreate(hookDetails).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new AccountUpdateTransaction
+				{
+					AccountId = ownerId,
+					HookCreationDetails = [hookDetails],
+					MaxTransactionFee = Hbar.From(10),
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(adminKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Build full HookId for the lambda owned by ownerId with id 3
                 var hookId = new HookId(new HookEntityId(ownerId), 3);
@@ -73,8 +104,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Create a different key that doesn't have permission to update the hook
                 var unauthorizedKey = PrivateKey.GenerateED25519();
-                var tx = new HookStoreTransaction().SetNodeAccountIds(new List(testEnv.Client.Network.Values())).SetHookId(hookId).AddStorageUpdate(update).FreezeWith(testEnv.Client);
-                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => tx.Sign(unauthorizedKey).Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.InvalidSignature.ToString());
+                var tx = new HookStoreTransaction
+                {
+                    NodeAccountIds = [..testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
+                    HookId = hookId,
+                    StorageUpdates = [update]
+
+                }.FreezeWith(testEnv.Client);
+
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => tx.Sign(unauthorizedKey).Execute(testEnv.Client).GetReceipt(testEnv.Client));
+                Assert.Contains(exception.Message, ResponseStatus.InvalidSignature.ToString());
             }
         }
 
@@ -85,13 +124,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Create a signer account (no hook actually created)
                 var signerKey = PrivateKey.GenerateED25519();
-                var signerId = new AccountCreateTransaction()Key = signerKey,.SetInitialBalance(new Hbar(10)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var signerId = new AccountCreateTransaction
+                {
+					Key = signerKey,
+					InitialBalance = new Hbar(10)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
 
                 // Build a HookId that does not exist (id 9999 for the signer)
                 var hookId = new HookId(new HookEntityId(signerId), 9999);
                 var update = new EvmHookStorageSlot(new byte[] { 0x0A }, new byte[] { 0x0B });
-                var tx = new HookStoreTransaction().SetNodeAccountIds(new List(testEnv.Client.Network.Values())).SetHookId(hookId).AddStorageUpdate(update).FreezeWith(testEnv.Client).Sign(signerKey);
-                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => tx.Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.HOOK_NOT_FOUND.ToString());
+                var tx = new HookStoreTransaction
+                {
+					HookId = hookId,
+					NodeAccountIds = [.. testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
+					StorageUpdates = [update]
+				
+                }.FreezeWith(testEnv.Client).Sign(signerKey);
+                
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => tx.Execute(testEnv.Client).GetReceipt(testEnv.Client));
+				Assert.Contains(exception.Message, ResponseStatus.HookNotFound.ToString());
             }
         }
 
@@ -104,12 +156,26 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Create an account that will own the hook and sign updates
                 var adminKey = PrivateKey.GenerateED25519();
-                var ownerId = new AccountCreateTransaction()Key = adminKey,.SetInitialBalance(new Hbar(10)).Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var ownerId = new AccountCreateTransaction
+                {
+					Key = adminKey,
+					InitialBalance = new Hbar(10)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
 
                 // Attach a lambda hook (id 7) to the owner
                 var lambdaHook = new EvmHook(hookContractId);
                 var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook, adminKey.GetPublicKey());
-                new AccountUpdateTransaction().SetAccountId(ownerId).AddHookToCreate(hookDetails).SetMaxTransactionFee(Hbar.From(10)).FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+                new AccountUpdateTransaction
+                {
+					AccountId = ownerId,
+					HookCreationDetails = [hookDetails],
+					MaxTransactionFee = Hbar.From(10),
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(adminKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
 
                 // Build full HookId
                 var hookId = new HookId(new HookEntityId(ownerId), 1);
@@ -122,25 +188,48 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     updates.Add(slot);
                 }
 
-                var tx = new HookStoreTransaction().SetNodeAccountIds(new List(testEnv.Client.Network.Values())).SetHookId(hookId).SetStorageUpdates(updates).FreezeWith(testEnv.Client).Sign(adminKey);
+                var tx = new HookStoreTransaction
+                {
+					HookId = hookId,
+					NodeAccountIds = [.. testEnv.Client.Network_.Nodes.Select(_ => _.AccountId)],
+					StorageUpdates = [..updates]
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(adminKey);
 
                 // Expect TOO_MANY_LAMBDA_STORAGE_UPDATES
-                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => tx.Execute(testEnv.Client).GetReceipt(testEnv.Client)).WithMessageContaining(ResponseStatus.TOO_MANY_LAMBDA_STORAGE_UPDATES.ToString());
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => tx.Execute(testEnv.Client).GetReceipt(testEnv.Client));
+
+                Assert.Contains(exception.Message, ResponseStatus.TooManyLambdaStorageUpdates.ToString());
             }
         }
 
         private FileId CreateBytecodeFile(IntegrationTestEnv testEnv)
         {
-            var response = new FileCreateTransaction()Keys = [testEnv.OperatorKey],.SetContents(SMART_CONTRACT_BYTECODE).Execute(testEnv.Client);
+            var response = new FileCreateTransaction
+            {
+                Keys = [testEnv.OperatorKey],
+                Contents_String = SMART_CONTRACT_BYTECODE
+
+			}.Execute(testEnv.Client);
+            
             return response.GetReceipt(testEnv.Client).FileId;
         }
 
         private ContractId CreateContractId(IntegrationTestEnv testEnv)
         {
             var fileId = CreateBytecodeFile(testEnv);
-            var response = new ContractCreateTransaction()AdminKey = testEnv.OperatorKey,.SetGas(1000000).SetBytecodeFileId(fileId).Execute(testEnv.Client);
+            var response = new ContractCreateTransaction
+            {
+				AdminKey = testEnv.OperatorKey,
+				Gas = 1000000,
+				BytecodeFileId = fileId,
+			
+            }.Execute(testEnv.Client);
+
             var receipt = response.GetReceipt(testEnv.Client);
-            return receipt.contractId;
+            
+            return receipt.ContractId;
         }
     }
 }

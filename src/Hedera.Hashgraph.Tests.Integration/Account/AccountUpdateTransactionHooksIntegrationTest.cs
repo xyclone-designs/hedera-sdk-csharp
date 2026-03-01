@@ -37,12 +37,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
+                    HookCreationDetails = [hookDetails],
 				}
-                .AddHookToCreate(hookDetails)
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
+                
                 var receipt = response.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void AccountUpdateWithDuplicateHookIdsInSameTransactionFails()
@@ -70,9 +72,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
+						HookCreationDetails = [hookDetails1, hookDetails2],
 					}
-                    .AddHookToCreate(hookDetails1)
-                    .AddHookToCreate(hookDetails2)
                     .FreezeWith(testEnv.Client)
                     .Sign(accountKey)
                     .Execute(testEnv.Client)
@@ -96,8 +97,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					Key = accountKey,
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
+					HookCreationDetails = [hookDetails1],
 				}
-                .AddHook(hookDetails1)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
@@ -112,15 +113,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
+                        HookCreationDetails = [hookDetails2]
 					}
-					.AddHookToCreate(hookDetails2)
 					.FreezeWith(testEnv.Client)
                     .Sign(accountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
-				});
-
-                Assert.Equal(exception.Receipt.Status, ResponseStatus.HookIdInUse);
+				
+                }); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookIdInUse);
 			}
         }
         public virtual void AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds()
@@ -147,13 +147,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
+					HookCreationDetails = [hookDetails],
 				}
-                .AddHookToCreate(hookDetails)
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
 
                 var receipt = response.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void AccountUpdateWithHookIdAlreadyInUseFails()
@@ -171,8 +171,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
 					Key = accountKey,
+					HookCreationDetails = [hookDetails1],
 				}
-                .AddHook(hookDetails1)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
@@ -184,16 +184,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     new AccountUpdateTransaction
                     {
-						AccountId = accountId
+						AccountId = accountId,
+                        HookCreationDetails = [hookDetails2],
+						MaxTransactionFee = Hbar.From(10)
 					}
-                    .AddHookToCreate(hookDetails2)
-                    .SetMaxTransactionFee(Hbar.From(10))
                     .FreezeWith(testEnv.Client)
                     .Sign(accountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-				}).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_ID_IN_USE));
+				}); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookIdInUse);
             }
         }
         public virtual void AccountUpdateWithHookDeletionSucceeds()
@@ -211,8 +211,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
 					Key = accountKey,
+					HookCreationDetails = [hookDetails],
 				}
-                .AddHook(hookDetails)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
@@ -221,13 +221,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
+                    HookIdsToDelete = [1]
 				}
-                .AddHookToDelete(1)
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
                 
                 var receipt = response.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void AccountUpdateWithNonExistentHookIdDeletionFails()
@@ -245,8 +245,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					InitialBalance = new Hbar(1),
 					MaxTransactionFee = Hbar.From(10),
 					Key = accountKey,
+					HookCreationDetails = [hookDetails],
 				}
-                .AddHook(hookDetails)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
@@ -257,14 +257,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
+						HookIdsToDelete = [999]
 					}
-                    .AddHookToDelete(999)
                     .FreezeWith(testEnv.Client)
                     .Sign(accountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
-                }).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_NOT_FOUND));
+                }); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
         public virtual void AccountUpdateWithAddAndDeleteSameHookIdFails()
@@ -293,15 +293,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(20),
+						HookCreationDetails = [hookDetails],
+                        HookIdsToDelete = [1]
 					}
-                    .AddHookToCreate(hookDetails)
-                    .AddHookToDelete(1)
                     .FreezeWith(testEnv.Client)
                     .Sign(accountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
-                }).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_NOT_FOUND));
+                }); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
         public virtual void AccountUpdateWithAlreadyDeletedHookFails()
@@ -319,8 +319,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					MaxTransactionFee = Hbar.From(10),
 					InitialBalance = new Hbar(1),
 					Key = accountKey,
+					HookCreationDetails = [hookDetails],
 				}
-                .AddHook(hookDetails)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client).AccountId;
 
@@ -329,13 +329,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					AccountId = accountId,
 					MaxTransactionFee = Hbar.From(10),
+					HookIdsToDelete = [1],
 				}
-                .AddHookToDelete(1)
                 .FreezeWith(testEnv.Client)
                 .Sign(accountKey);
 
                 var deleteReceipt = deleteResponse.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                Assert.Equal(deleteReceipt.status, ResponseStatus.Success);
+                Assert.Equal(deleteReceipt.Status, ResponseStatus.Success);
 
                 // Try to delete the same hook again
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => 
@@ -344,14 +344,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 						AccountId = accountId,
 						MaxTransactionFee = Hbar.From(10),
+						HookIdsToDelete = [1],
 					}
-					.AddHookToDelete(1)
 					.FreezeWith(testEnv.Client)
                     .Sign(accountKey)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
                 
-                }).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_NOT_FOUND));
+                }); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
     }

@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction()Key = key,.Execute(testEnv.Client);
+                var response = new AccountCreateTransaction { Key = key }.Execute(testEnv.Client);
                 var receipt = new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
             }
         }
@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction()Key = key,.Execute(testEnv.Client);
+                var response = new AccountCreateTransaction { Key = key }.Execute(testEnv.Client);
                 new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
                 new TransactionRecordQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
             }
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction()Key = key,.Execute(testEnv.Client);
+                var response = new AccountCreateTransaction { Key = key }.Execute(testEnv.Client);
                 new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
                 var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId };
                 recordQuery.GetCost(testEnv.Client);
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction()Key = key,.Execute(testEnv.Client);
+                var response = new AccountCreateTransaction { Key = key }.Execute(testEnv.Client);
                 new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
                 var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId, MaxQueryPayment = new Hbar(1000) };
                 recordQuery.GetCost(testEnv.Client);
@@ -59,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction()Key = key,.Execute(testEnv.Client);
+                var response = new AccountCreateTransaction { Key = key }.Execute(testEnv.Client);
                 var receipt = new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
                 var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId, MaxQueryPayment = Hbar.FromTinybars(1) };
                 var cost = recordQuery.GetCost(testEnv.Client);
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var key = PrivateKey.GenerateED25519();
-                var response = new AccountCreateTransaction()Key = key,.Execute(testEnv.Client);
+                var response = new AccountCreateTransaction { Key = key }.Execute(testEnv.Client);
                 var receipt = new TransactionReceiptQuery { TransactionId = response.TransactionId }.Execute(testEnv.Client);
                 var recordQuery = new TransactionRecordQuery { TransactionId = response.TransactionId };
 				PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>

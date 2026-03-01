@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 { "localhost:50211", LOCAL_CONSENSUS_NODE_ACCOUNT_ID }
             };
-            using (var client = Client.ForNetwork(network, client => client.MirrorNetwork = ["localhost:5600"]))
+            using (var client = Client.ForNetwork(network, client => client.MirrorNetwork_.Network = ["localhost:5600"]))
             {
 
                 // Set the operator to be account 0.0.2

@@ -12,6 +12,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.LiveHashes;
 using Hedera.Hashgraph.SDK.Networking;
@@ -158,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Proto.TransactionBody.DataOneofCase.CryptoApproveAllowance => new AccountAllowanceApproveTransaction(txs) as T,
 				Proto.TransactionBody.DataOneofCase.CryptoDeleteAllowance => new AccountAllowanceDeleteTransaction(txs) as T,
 				Proto.TransactionBody.DataOneofCase.AtomicBatch => new BatchTransaction(txs) as T,
-				Proto.TransactionBody.DataOneofCase.LambdaSstore => new LambdaSStoreTransaction(txs) as T,
+				Proto.TransactionBody.DataOneofCase.HookStore => new HookStoreTransaction(txs) as T,
 
 				_ => throw new ArgumentException("parsed transaction body has no data")
 

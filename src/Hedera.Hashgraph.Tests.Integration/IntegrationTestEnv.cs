@@ -110,8 +110,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             OperatorId = new AccountCreateTransaction
             {
 				InitialBalance = initialBalance,
+				Key = key,
 			}
-            Key = key,
             .Execute(Client)
             .GetReceipt(Client).AccountId;
             Client = SDK.Client.ForNetwork(originalClient.Network);

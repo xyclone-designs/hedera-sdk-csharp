@@ -26,13 +26,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     InitialBalance = new Hbar(1),
                     MaxTransactionFee = Hbar.From(10),
 					Key = PrivateKey.GenerateED25519(),
-				}
-                .AddHook(hookDetails)
-                .Execute(testEnv.Client);
+                    HookCreationDetails = [ hookDetails ],
+                
+                }.Execute(testEnv.Client);
 
                 var receipt = response.GetReceipt(testEnv.Client);
 
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void AccountCreateWithLambdaHookAndStorageUpdatesSucceeds()
@@ -49,13 +49,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     MaxTransactionFee = Hbar.From(10),
                     InitialBalance = new Hbar(1),
                     Key = PrivateKey.GenerateED25519(),
-                }
-                .AddHook(hookDetails)
-                .Execute(testEnv.Client);
+                    HookCreationDetails = [ hookDetails ],
+                
+                }.Execute(testEnv.Client);
 
                 var receipt = response.GetReceipt(testEnv.Client);
 
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void AccountCreateWithDuplicateHookIdsFailsPrecheck()
@@ -73,9 +73,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                         InitialBalance = new Hbar(1),
                         MaxTransactionFee = Hbar.From(10),
                         Key = PrivateKey.GenerateED25519(),
+                        HookCreationDetails = [hookDetails1, hookDetails2],
                     }
-                    .AddHook(hookDetails1)
-                    .AddHook(hookDetails2)
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
@@ -95,14 +94,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					MaxTransactionFee = Hbar.From(10),
 					InitialBalance = new Hbar(1),
                     Key = PrivateKey.GenerateED25519(),
-                }
-                .AddHook(hookDetails)
-                .FreezeWith(testEnv.Client)
+                    HookCreationDetails = [ hookDetails ],
+                
+                }.FreezeWith(testEnv.Client)
                 .Sign(adminKey);
 
                 var receipt = tx.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
     }

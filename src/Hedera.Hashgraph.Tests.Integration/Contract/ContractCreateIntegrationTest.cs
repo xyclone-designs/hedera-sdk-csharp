@@ -20,6 +20,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					Contents = Encoding.UTF8.GetBytes(SMART_CONTRACT_BYTECODE),
 				}
                 .Execute(testEnv.Client);
+
                 var fileId = response.GetReceipt(testEnv.Client).FileId;
                 response = new ContractCreateTransaction
                 {
@@ -30,12 +31,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					ContractMemo = "[e2e::ContractCreateTransaction]",
 				}
                 .Execute(testEnv.Client);
+
                 var contractId = response.GetReceipt(testEnv.Client).ContractId;
                 var info = new ContractInfoQuery
                 {
 					ContractId = contractId
 
 				}.Execute(testEnv.Client);
+                
                 Assert.Equal(info.ContractId, contractId);
                 Assert.NotNull(info.AccountId);
                 Assert.Equal(info.AccountId.ToString(), contractId.ToString());
@@ -43,6 +46,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.AdminKey.ToString(), testEnv.OperatorKey.ToString());
                 Assert.Equal(info.Storage, 128);
                 Assert.Equal(info.ContractMemo, "[e2e::ContractCreateTransaction]");
+
                 new ContractDeleteTransaction
                 {
 					TransferAccountId = testEnv.OperatorId,
@@ -50,6 +54,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 new FileDeleteTransaction
                 {
 					FileId = fileId
@@ -79,12 +84,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					ContractMemo = "[e2e::ContractCreateTransaction]",
 				}
                 .Execute(testEnv.Client);
+                
                 var contractId = response.GetReceipt(testEnv.Client).ContractId;
                 var info = new ContractInfoQuery
                 {
 					ContractId = contractId
 
 				}.Execute(testEnv.Client);
+
                 Assert.Equal(info.ContractId, contractId);
                 Assert.NotNull(info.AccountId);
                 Assert.Equal(info.AccountId.ToString(), contractId.ToString());

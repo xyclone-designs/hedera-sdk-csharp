@@ -187,7 +187,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var chunkSize = 1024;
             byte[] content = new byte[chunkSize * 3];
-            Arrays.Fill(content, (byte)'a');
+            Array.Fill(content, (byte)'a');
             var fileAppentTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),
@@ -207,7 +207,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             // Small enough for one chunk
             byte[] smallContent = new byte[500];
-            Arrays.Fill(smallContent, (byte)'a');
+            Array.Fill(smallContent, (byte)'a');
             var fileAppendTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void ChunkedFileAppendTransactionShouldReturnProperSizes()
         {
             byte[] largeContent = new byte[2048];
-            Arrays.Fill(largeContent, (byte)'a');
+            Array.Fill(largeContent, (byte)'a');
             var largeFileAppendTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),
@@ -251,7 +251,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             long largeSize = largeFileAppendTx.GetTransactionSize();
             byte[] smallContent = new byte[512];
-            Arrays.Fill(smallContent, (byte)'a');
+            Array.Fill(smallContent, (byte)'a');
             var smallFileAppendTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),

@@ -34,12 +34,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-				}
-                .AddHookToCreate(hookDetails)
+                    HookCreationDetails_ = [ hookDetails ],
+                }
                 .Execute(testEnv.Client);
                 var receipt = response.GetReceipt(testEnv.Client);
 
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void ContractUpdateWithDuplicateHookIdsInSameTransactionFails()
@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					{
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-						HooksToCreate = [hookDetails, hookDetails],
+						HookCreationDetails_ = [hookDetails, hookDetails],
 
 					}.Execute(testEnv.Client);
 				
@@ -90,6 +90,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client).ContractId;
 
                 ContractId targetHookContractId = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
+
                 var lambdaHook = new EvmHook(targetHookContractId);
                 var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
                 
@@ -97,8 +98,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-				}
-				.AddHookToCreate(hookDetails)
+                    HookCreationDetails_ = [ hookDetails ],
+                }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
 
@@ -106,15 +107,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
                     var response = new ContractUpdateTransaction
                     {
-						ContractId = createdContractId,
-						MaxTransactionFee = Hbar.From(20),
-					}
-					.AddHookToCreate(hookDetails)
+                        ContractId = createdContractId,
+                        MaxTransactionFee = Hbar.From(20),
+                        HookCreationDetails_ = [hookDetails],
+                    }
                     .Execute(testEnv.Client);
 
                     response.GetReceipt(testEnv.Client);
-
-                }).Satisfies((e) => Assert.Equal(e.receipt.status, ResponseStatus.HookIdInUse));
+                });
+                
+                Assert.Equal(exception.Receipt.Status, ResponseStatus.HookIdInUse);
             }
         }
         public virtual void ContractUpdateWithLambdaHookAndStorageUpdatesSucceeds()
@@ -133,6 +135,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client).ContractId;
 
                 ContractId targetHookContractId = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
+
                 var storageSlot = new EvmHookStorageSlot(new byte[] { 0x01 }, new byte[] { 0x02 });
                 var lambdaHook = new EvmHook(targetHookContractId, [storageSlot]);
                 var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
@@ -140,11 +143,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
+                    HookCreationDetails_ = [ hookDetails ],
 
-				}.AddHookToCreate(hookDetails).Execute(testEnv.Client);
+                }.Execute(testEnv.Client);
+
                 var receipt = response.GetReceipt(testEnv.Client);
 
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void ContractUpdateWithHookIdAlreadyInUseFails()
@@ -163,14 +168,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client).ContractId;
 
                 ContractId targetHookContractId1 = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
+
                 var lambdaHook1 = new EvmHook(targetHookContractId1);
                 var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook1);
                 new ContractUpdateTransaction
                 {
                     MaxTransactionFee = Hbar.From(20), 
-                    ContractId = createdContractId
+                    ContractId = createdContractId,
+                    HookCreationDetails_ = [ hookDetails1 ],
                 }
-                .AddHookToCreate(hookDetails1)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
                 ContractId targetHookContractId2 = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
@@ -183,12 +189,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-					}
-					.AddHookToCreate(hookDetails2)
+                        HookCreationDetails_ = [ hookDetails2 ],
+                    }
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
-
-				}).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_ID_IN_USE));
+				});
+                
+                Assert.Equal(exception.Receipt.Status, ResponseStatus.HookIdInUse);
             }
         }
         public virtual void ContractUpdateWithHookDeletionSucceeds()
@@ -207,27 +214,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client).ContractId;
 
                 ContractId targetHookContractId = EntityHelper.CreateContract(testEnv, testEnv.OperatorKey);
+                
                 var lambdaHook = new EvmHook(targetHookContractId);
                 var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
                 new ContractUpdateTransaction
                 {
                     MaxTransactionFee = Hbar.From(20), 
-                    ContractId = createdContractId
+                    ContractId = createdContractId,
+                    HookCreationDetails_ = [ hookDetails ],
                 }
-                .AddHookToCreate(hookDetails)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 var response = new ContractUpdateTransaction
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-				}
-                .AddHookToDelete(1)
-                .Execute(testEnv.Client);
+                    HookIdsToDelete = [ 1 ],
+				
+                }.Execute(testEnv.Client);
 
                 var receipt = response.GetReceipt(testEnv.Client);
 
-                Assert.Equal(receipt.status, ResponseStatus.Success);
+                Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
         public virtual void ContractUpdateWithNonExistentHookIdDeletionFails()
@@ -252,23 +261,25 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					MaxTransactionFee = Hbar.From(20),
 					ContractId = createdContractId,
-				}
-                .AddHookToCreate(hookDetails)
+                    HookCreationDetails_ = [ hookDetails ],
+                }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
+
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
                 {
                     var response = new ContractUpdateTransaction()
                     {
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-					}
-                    .AddHookToDelete(123)
-                    .Execute(testEnv.Client);
+						HookIdsToDelete = [123],
+					
+                    }.Execute(testEnv.Client);
 
                     response.GetReceipt(testEnv.Client);
-
-                }).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_NOT_FOUND));
+                });
+                
+                Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
         public virtual void ContractUpdateWithAddAndDeleteSameHookIdFails()
@@ -295,14 +306,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
 						ContractId = createdContractId,
 						MaxTransactionFee = Hbar.From(20),
-						HooksToCreate = [hookDetails],
-					}
-                    .AddHookToDelete(1)
-                    .Execute(testEnv.Client);
+						HookCreationDetails_ = [hookDetails],
+						HookIdsToDelete = [1],
+					
+                    }.Execute(testEnv.Client);
 
                     response.GetReceipt(testEnv.Client);
-
-                }).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_NOT_FOUND));
+                });
+                
+                Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
         public virtual void ContractUpdateWithAlreadyDeletedHookFails()
@@ -328,9 +340,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new ContractUpdateTransaction
                 {
                     MaxTransactionFee = Hbar.From(20), 
-                    ContractId = createdContractId
+                    ContractId = createdContractId,
+                    HookCreationDetails_ = [ hookDetails ],
                 }
-                .AddHookToCreate(hookDetails)
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
 
@@ -339,11 +351,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 {
 					ContractId = createdContractId,
 					MaxTransactionFee = Hbar.From(20),
-				}
-                .AddHookToDelete(1)
-                .Execute(testEnv.Client);
+					HookIdsToDelete = [1],
+				
+                }.Execute(testEnv.Client);
+                
                 var firstDeleteReceipt = firstDeleteResponse.GetReceipt(testEnv.Client);
-                Assert.Equal(firstDeleteReceipt.status, ResponseStatus.Success);
+
+                Assert.Equal(firstDeleteReceipt.Status, ResponseStatus.Success);
 
                 // Second deletion - should fail with HOOK_DELETED
                 ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
@@ -351,13 +365,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     var response = new ContractUpdateTransaction
                     {
                         MaxTransactionFee = Hbar.From(20), 
-                        ContractId = createdContractId
-                    }
-                    .AddHookToDelete(1)
-                    .Execute(testEnv.Client);
-                    response.GetReceipt(testEnv.Client);
+                        ContractId = createdContractId,
+						HookIdsToDelete = [1],
+					
+                    }.Execute(testEnv.Client);
 
-                }).Satisfies((e) => Assert.Equal(e.receipt.status, Status.HOOK_NOT_FOUND));
+                    response.GetReceipt(testEnv.Client);
+                });
+                
+                Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
 

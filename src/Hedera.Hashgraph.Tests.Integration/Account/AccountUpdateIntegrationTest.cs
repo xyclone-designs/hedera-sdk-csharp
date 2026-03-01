@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.HBar;
@@ -23,12 +21,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					Key = key1
 
 				}.Execute(testEnv.Client);
+
                 var accountId = response.GetReceipt(testEnv.Client).AccountId;
                 var info = new AccountInfoQuery
                 {
 					AccountId = accountId
 
 				}.Execute(testEnv.Client);
+
                 Assert.Equal(info.AccountId, accountId);
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key1.GetPublicKey().ToString());
@@ -36,17 +36,20 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.AutoRenewPeriod, TimeSpan.FromDays(90));
                 Assert.Null(info.ProxyAccountId);
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
+                
                 new AccountUpdateTransaction
                 {
 					AccountId = accountId,
 					Key = key2.GetPublicKey(),
 				
                 }.FreezeWith(testEnv.Client).Sign(key1).Sign(key2).Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 info = new AccountInfoQuery
                 {
 					AccountId = accountId
 
 				}.Execute(testEnv.Client);
+
                 Assert.Equal(info.AccountId, accountId);
                 Assert.False(info.IsDeleted);
                 Assert.Equal(info.Key.ToString(), key2.GetPublicKey().ToString());
@@ -66,6 +69,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                         .Execute(testEnv.Client)
                         .GetReceipt(testEnv.Client);
                 });
+
                 Assert.Contains(exception.Message, ResponseStatus.AccountIdDoesNotExist.ToString());
             }
         }

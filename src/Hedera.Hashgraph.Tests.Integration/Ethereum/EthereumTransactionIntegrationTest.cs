@@ -1,27 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Esaulpaugh.Headlong.Rlp;
-using Com.Esaulpaugh.Headlong.Util;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Math;
-using Java.Util;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Ethereum;
+
 using Org.BouncyCastle.Utilities.Encoders;
 using Org.BouncyCastle.Utilities;
 using Org.BouncyCastle.Math;
-using Hedera.Hashgraph.SDK.Ethereum;
+
 using Google.Protobuf;
+using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -64,7 +56,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 byte[] maxPriorityGas = Hex.Decode("00");
                 byte[] maxGas = Hex.Decode("d1385c7bf0");
                 byte[] to = Hex.Decode(contractId.ToEvmAddress());
-                byte[] callData = new ContractExecuteTransaction().SetFunction("setMessage", new ContractFunctionParameters().AddString("new message")).GetFunctionParameters().ToByteArray();
+                byte[] callData = new ContractExecuteTransaction()
+                    .SetFunction("setMessage", new ContractFunctionParameters().AddString("new message"))
+                    .FunctionParameters
+                    .ToByteArray();
                 var sequence = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, new object[0] });
                 byte[] signedBytes = privateKey.Sign(sequence);
 
@@ -83,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var ethereumTransactionResponse = ethereumTransaction.Execute(testEnv.Client);
                 var ethereumTransactionRecord = ethereumTransactionResponse.GetRecord(testEnv.Client);
                 
-                Assert.Equal(ethereumTransactionRecord.contractFunctionResult.signerNonce, 1);
+                Assert.Equal(ethereumTransactionRecord.ContractFunctionResult.SignerNonce, 1);
                
                 new ContractDeleteTransaction()
                 {
@@ -117,8 +112,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 var fileCreateTransactionResponse = new FileCreateTransaction 
                 { 
-                    Keys = testEnv.OperatorKey, 
-                    Contents = SMART_CONTRACT_BYTECODE_JUMBO
+                    Keys = [testEnv.OperatorKey], 
+                    Contents = Encoding.UTF8.GetBytes(SMART_CONTRACT_BYTECODE_JUMBO)
                 
                 }.Execute(testEnv.Client);
                 var fileId = fileCreateTransactionResponse.GetReceipt(testEnv.Client).FileId;
@@ -132,7 +127,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client);
                 var contractId = contractCreateTransactionResponse.GetReceipt(testEnv.Client).ContractId;
                 byte[] largeCalldata = new byte[1024 * 120];
-                var callData = new ContractExecuteTransaction().SetFunction("consumeLargeCalldata", new ContractFunctionParameters().AddBytes(largeCalldata)).GetFunctionParameters().ToByteArray();
+                var callData = new ContractExecuteTransaction().SetFunction("consumeLargeCalldata", new ContractFunctionParameters().AddBytes(largeCalldata)).FunctionParameters.ToByteArray();
                 int nonce = 0;
                 byte[] chainId = Hex.Decode("012a");
                 byte[] maxPriorityGas = Hex.Decode("00");
@@ -158,7 +153,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var ethereumTransactionResponse = ethereumTransaction.Execute(testEnv.Client);
                 var ethereumTransactionRecord = ethereumTransactionResponse.GetRecord(testEnv.Client);
                 
-                Assert.Equal(ethereumTransactionRecord.contractFunctionResult.signerNonce, 1);
+                Assert.Equal(ethereumTransactionRecord.ContractFunctionResult.SignerNonce, 1);
                
                 new ContractDeleteTransaction()
                 {

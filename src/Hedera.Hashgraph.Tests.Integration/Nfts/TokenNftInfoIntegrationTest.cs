@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var mintReceipt = new TokenMintTransaction
                 {
                     TokenId = tokenId, 
-                    Metadata = metadata
+                    Metadata = [metadata]
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var mintReceipt = new TokenMintTransaction
                 {
                     TokenId = tokenId,
-                    Metadata = metadata
+                    Metadata = [metadata]
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);
@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var mintReceipt = new TokenMintTransaction
                 {
                     TokenId = tokenId, 
-                    Metadata = metadata
+                    Metadata = [metadata]
                 }
                 .Execute(testEnv.Client)
                 .GetReceipt(testEnv.Client);

@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var key = PrivateKey.GenerateED25519();
                 var response = new AccountCreateTransaction()
                 {
-					TransactionId = TransactionId.WithValidStart(testEnv.OperatorId, Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow.AddSeconds(-40))),
+					TransactionId = TransactionId.WithValidStart(testEnv.OperatorId, DateTimeOffset.UtcNow.AddSeconds(-40)),
 					TransactionValidDuration = TimeSpan.FromSeconds(30),
 					Key = key,
 				}

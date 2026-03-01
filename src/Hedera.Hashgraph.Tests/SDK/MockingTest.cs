@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual string MakeBigString(int size)
         {
             char[] chars = new char[size];
-            Arrays.Fill(chars, 'A');
+            Array.Fill(chars, 'A');
             return new string (chars);
         }
 

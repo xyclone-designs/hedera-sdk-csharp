@@ -7,6 +7,7 @@ using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Text;
 using System.Threading;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -42,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new FileAppendTransaction
                 {
 					FileId = fileId,
-					Contents = Encoding.UTF8.GetBytes("[e2e::FileAppendTransaction]")
+					Contents = ByteString.CopyFromUtf8("[e2e::FileAppendTransaction]")
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 
@@ -94,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new FileAppendTransaction
                 {
 					FileId = fileId,
-                    Contents = Encoding.UTF8.GetBytes(Contents.BIG_CONTENTS)
+                    Contents = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 var contents = new FileContentsQuery { FileId = fileId, }.Execute(testEnv.Client);
@@ -158,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var appendTx = new FileAppendTransaction
                 {
 					FileId = fileId,
-                    Contents = Encoding.UTF8.GetBytes(Contents.BIG_CONTENTS),
+                    Contents = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS),
 					TransactionValidDuration = TimeSpan.FromSeconds(25)
 
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
@@ -191,9 +192,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var newKey = PrivateKey.GenerateED25519();
                 var createTransaction = new FileCreateTransaction
                 {
-					Keys = newKey.GetPublicKey(),
-					NodeAccountIds = testEnv.Client.Network_.Network_Read.Keys,
-					Contents = "Hello",
+					Keys = [newKey.GetPublicKey()],
+					NodeAccountIds = [.. testEnv.Client.Network_.Network_Read.Keys],
+					Contents = Encoding.UTF8.GetBytes("Hello"),
 					TransactionMemo = "java sdk e2e tests",
 
 				}.FreezeWith(testEnv.Client).Sign(newKey);
@@ -206,7 +207,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var appendTransaction = new FileAppendTransaction
                 {
 					FileId = fileId,
-                    Contents = Encoding.UTF8.GetBytes(Contents.BIG_CONTENTS)
+                    Contents = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS)
 
 				}.FreezeWith(testEnv.Client);
 

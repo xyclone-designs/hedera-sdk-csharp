@@ -4,6 +4,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Keys;
+
 using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
@@ -29,7 +30,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     AdminKey = testEnv.OperatorKey,
                     Gas = 400000, 
                     BytecodeFileId = fileId,
-                    Hooks = [hookDetails]
+                    HookCreationDetails_ = [hookDetails]
                 
                 }.Execute(testEnv.Client);
                 var receipt = response.GetReceipt(testEnv.Client);
@@ -54,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     AdminKey = testEnv.OperatorKey,
                     Gas = 400000,
                     BytecodeFileId = fileId,
-                    Hooks = [hookDetails]
+					HookCreationDetails_ = [hookDetails]
                 
                 }.Execute(testEnv.Client);
                 var receipt = response.GetReceipt(testEnv.Client);
@@ -79,9 +80,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                         AdminKey = testEnv.OperatorKey,
                         Gas = 400000,
                         BytecodeFileId = fileId,
-                    }
-                    .AddHook(hookDetails1)
-                    .AddHook(hookDetails2)
+						HookCreationDetails_ = [hookDetails1, hookDetails2],
+					}
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
@@ -103,11 +103,12 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     AdminKey = testEnv.OperatorKey,
                     Gas = 400000, 
                     BytecodeFileId = fileId,
-                    Hooks = [hookDetails]
+					HookCreationDetails_ = [hookDetails]
                 
                 }.FreezeWith(testEnv.Client).Sign(adminKey);
 
                 var receipt = tx.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
 				Assert.NotNull(receipt.ContractId);
 			}
