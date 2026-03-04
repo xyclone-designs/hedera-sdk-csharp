@@ -6,21 +6,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// Specifies the details of a hook's creation.
-    /// <p>
-    /// This class contains all the information needed to create a new hook,
-    /// including the extension point, hook ID, implementation, and optional admin key.
-    /// </summary>
+    /// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="T:HookCreationDetails"]/*' />
     public class HookCreationDetails
     {
-        /// <summary>
-        /// Create new hook creation details with an admin key.
-        /// </summary>
-        /// <param name="extensionPoint">the extension point for the hook</param>
-        /// <param name="hookId">the ID to create the hook at</param>
-        /// <param name="hook">the hook implementation</param>
-        /// <param name="adminKey">the admin key for managing the hook</param>
+        /// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook,Key)"]/*' />
         public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, EvmHook hook, Key? adminKey)
         {
             ExtensionPoint = extensionPoint;
@@ -28,19 +17,10 @@ namespace Hedera.Hashgraph.SDK.Hook
             Hook = hook;
             AdminKey = adminKey;
         }
-		/// <summary>
-		/// Create new hook creation details without an admin key.
-		/// </summary>
-		/// <param name="extensionPoint">the extension point for the hook</param>
-		/// <param name="hookId">the ID to create the hook at</param>
-		/// <param name="hook">the hook implementation</param>
+		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook)"]/*' />
 		public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, EvmHook hook) : this(extensionPoint, hookId, hook, null) { }
 
-		/// <summary>
-		/// Create HookCreationDetails from a protobuf message.
-		/// </summary>
-		/// <param name="proto">the protobuf HookCreationDetails</param>
-		/// <returns>a new HookCreationDetails instance</returns>
+		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.FromProtobuf(Proto.HookCreationDetails)"]/*' />
 		public static HookCreationDetails FromProtobuf(Proto.HookCreationDetails proto)
 		{
 			var adminKey = proto.AdminKey is not null ? Key.FromProtobufKey(proto.AdminKey) : null;
@@ -54,10 +34,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 		public Key? AdminKey { get; }
 		public bool HasAdminKey { get => AdminKey is not null; }
 
-		/// <summary>
-		/// Convert this HookCreationDetails to a protobuf message.
-		/// </summary>
-		/// <returns>the protobuf HookCreationDetails</returns>
+		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.ToProtobuf"]/*' />
 		public virtual Proto.HookCreationDetails ToProtobuf()
         {
             Proto.HookCreationDetails proto = new()

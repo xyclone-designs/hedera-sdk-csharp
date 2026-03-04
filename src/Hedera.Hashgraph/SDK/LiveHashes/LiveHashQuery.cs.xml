@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+    <summary></summary>
+    <remarks>
+    @deprecatedThis query is no longer supported.
+    Requests a livehash associated to an account.
+    </remarks>
+  </member>
+  <member name="P:.AccountId">
+    <summary>
+    The account to which the livehash is associated
+    </summary>
+    <param name="AccountId">The AccountId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:CopyArray">
+    <summary>
+    The SHA-384 data in the livehash
+    </summary>
+    <param name="hash">The array of bytes to be set as hash</param>
+    <returns>{@code this}</returns>
+  </member>
+</docs>

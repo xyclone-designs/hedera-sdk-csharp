@@ -1,21 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Protobuf;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Nio.Charset;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Google.Protobuf;
+
+using Hedera.Hashgraph.SDK.Contract;
+
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractLogInfoTest
     {
-        private static readonly ContractLoginfo info = ContractLoginfo.NewBuilder().SetContractID(new ContractId(0, 0, 10).ToProtobuf()).SetBloom(ByteString.CopyFrom("bloom", StandardCharsets.UTF_8)).AddTopic(ByteString.CopyFrom("bloom", StandardCharsets.UTF_8)).SetData(ByteString.CopyFrom("data", StandardCharsets.UTF_8)).Build();
+        private static readonly Proto.ContractLoginfo info = new Proto.ContractLoginfo
+        {
+			ContractID = new ContractId(0, 0, 10).ToProtobuf(),
+			Bloom = ByteString.CopyFromUtf8("bloom"),
+			//Topic = [ByteString.CopyFromUtf8("bloom")],
+			Data = ByteString.CopyFromUtf8("data"),
+		};
+        
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());

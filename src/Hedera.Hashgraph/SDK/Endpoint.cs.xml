@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Endpoint">
+    <summary>
+    Utility class used internally by the sdk.
+    </summary>
+  </member>
+  <member name="P:Endpoint.Port">
+    <summary>
+    The desired port.
+    </summary>
+  </member>
+  <member name="P:Endpoint.Address">
+    <summary>
+    The ipv4 address.
+    </summary>
+  </member>
+  <member name="P:Endpoint.DomainName">
+    <summary>
+    The desired port.
+    </summary>
+  </member>
+  <member name="M:Endpoint.FromProtobuf(Proto.ServiceEndpoint)">
+    <summary>
+    Create an endpoint object from a service endpoint protobuf.
+    </summary>
+    <param name="serviceEndpoint">the service endpoint protobuf</param>
+    <returns>the endpoint object</returns>
+  </member>
+  <member name="M:Endpoint.ValidateNoIpAndDomain(Endpoint)">
+    <summary>
+    Validate that the endpoint does not contain both an IP address and a domain name.
+    </summary>
+    <param name="endpoint">the endpoint to validate</param>
+    <exception cref="IllegalArgumentException">if both ipAddressV4 and domainName are present</exception>
+  </member>
+  <member name="M:Endpoint.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+</docs>

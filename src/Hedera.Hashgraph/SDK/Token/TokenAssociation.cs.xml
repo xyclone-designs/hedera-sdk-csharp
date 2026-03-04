@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenAssociation">
+    <summary>
+    Associates the provided Hedera account with the provided Hedera token(s).
+    Hedera accounts must be associated with a fungible or non-fungible token
+    first before you can transfer tokens to that account. In the case of
+    NON_FUNGIBLE Type, once an account is associated, it can hold any number
+    of NFTs (serial numbers) of that token type. The Hedera account that is
+    being associated with a token is required to sign the transaction.
+    
+    See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/associate-tokens-to-an-account">Hedera Documentation</a></summary>
+  </member>
+  <member name="F:TokenAssociation.TokenId">
+    <summary>
+    The token involved in the association
+    </summary>
+  </member>
+  <member name="F:TokenAssociation.AccountId">
+    <summary>
+    The account involved in the association
+    </summary>
+  </member>
+  <member name="M:TokenAssociation.TokenAssociation(TokenId,AccountId)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+  </member>
+  <member name="M:TokenAssociation.FromBytes(System.Byte[])">
+    <summary>
+    Create a token association from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new token association</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenAssociation.FromProtobuf(Proto.TokenAssociation)">
+    <summary>
+    Create a token association from a protobuf.
+    </summary>
+    <param name="tokenAssociation">the protobuf</param>
+    <returns>the new token association</returns>
+  </member>
+  <member name="M:TokenAssociation.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TokenAssociation.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+</docs>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FeeDataType">
+    <summary>
+    Enum for the fee data types.
+    </summary>
+  </member>
+  <member name="T:FeeDataType_2">
+    <summary>
+    The resource cost for the transaction type has no additional attributes
+    </summary>
+  </member>
+  <member name="T:FeeDataType_3">
+    <summary>
+    The resource cost for the transaction type includes an operation on a
+    fungible/common token
+    </summary>
+  </member>
+  <member name="T:FeeDataType_4">
+    <summary>
+    The resource cost for the transaction type includes an operation on
+    a non-fungible/unique token
+    </summary>
+  </member>
+  <member name="T:FeeDataType_5">
+    <summary>
+    The resource cost for the transaction type includes an operation on a
+    fungible/common token with a custom fee schedule
+    </summary>
+  </member>
+  <member name="T:FeeDataType_6">
+    <summary>
+    The resource cost for the transaction type includes an operation on a
+    non-fungible/unique token with a custom fee schedule
+    </summary>
+  </member>
+  <member name="T:FeeDataType_7">
+    <summary>
+    The resource cost for the transaction type includes a ScheduleCreate
+    containing a ContractCall.
+    </summary>
+  </member>
+  <member name="T:FeeDataType_8">
+    <summary>
+    The resource cost for the transaction type includes a TopicCreate
+    with custom fees.
+    </summary>
+  </member>
+  <member name="T:FeeDataType_9">
+    <summary>
+    The resource cost for the transaction type includes a ConsensusSubmitMessage
+    for a topic with custom fees.
+    </summary>
+  </member>
+</docs>

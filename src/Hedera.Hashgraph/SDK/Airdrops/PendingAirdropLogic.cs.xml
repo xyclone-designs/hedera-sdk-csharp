@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:PendingAirdropLogic(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:PendingAirdropLogic(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:RequireNotFrozen">
+    <summary>
+    Extract the pending airdrop ids
+    </summary>
+    <returns>the pending airdrop ids</returns>
+  </member>
+</docs>

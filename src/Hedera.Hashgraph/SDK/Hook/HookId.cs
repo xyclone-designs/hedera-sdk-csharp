@@ -2,26 +2,13 @@
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// The ID of a hook.
-    /// <p>
-    /// This class represents the HookId protobuf message, which contains the hook's creating entity ID
-    /// and an arbitrary 64-bit identifier.
-    /// </summary>
-    /// <remarks>
-    /// Create a new HookId.
-    /// </remarks>
-    /// <param name="entityId">the hook's creating entity ID</param>
-    /// <param name="hookId">the arbitrary 64-bit identifier</param>
+    /// <include file="HookId.cs.xml" path='docs/member[@name="T:HookId"]/*' />
     public class HookId(HookEntityId entityId, long hookId)
     {
         public HookEntityId EntityId { get; } = entityId;
         public long HookId_ { get; } = hookId;
 
-        /// <summary>
-        /// Convert this HookId to a protobuf message.
-        /// </summary>
-        /// <returns>the protobuf HookId</returns>
+        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.ToProtobuf"]/*' />
         public virtual Proto.HookId ToProtobuf()
         {
             return new Proto.HookId
@@ -31,11 +18,7 @@ namespace Hedera.Hashgraph.SDK.Hook
             };
         }
 
-        /// <summary>
-        /// Create a HookId from a protobuf message.
-        /// </summary>
-        /// <param name="proto">the protobuf HookId</param>
-        /// <returns>a new HookId instance</returns>
+        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.FromProtobuf(Proto.HookId)"]/*' />
         public static HookId FromProtobuf(Proto.HookId proto)
         {
             return new HookId(HookEntityId.FromProtobuf(proto.EntityId), proto.HookId_);

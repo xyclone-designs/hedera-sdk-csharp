@@ -11,86 +11,31 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Associate a Hedera Token Service (HTS) token and an account.
-    /// 
-    /// An association MUST exist between an account and a token before that
-    /// account may transfer or receive that token.<br/>
-    /// If the identified account is not found,
-    /// the transaction SHALL return `INVALID_ACCOUNT_ID`.<br/>
-    /// If the identified account has been deleted,
-    /// the transaction SHALL return `ACCOUNT_DELETED`.<br/>
-    /// If any of the identified tokens is not found,
-    /// the transaction SHALL return `INVALID_TOKEN_REF`.<br/>
-    /// If any of the identified tokens has been deleted,
-    /// the transaction SHALL return `TOKEN_WAS_DELETED`.<br/>
-    /// If an association already exists for any of the identified tokens,
-    /// the transaction SHALL return `TOKEN_ALREADY_ASSOCIATED_TO_ACCOUNT`.<br/>
-    /// The identified account MUST sign this transaction.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="T:TokenAssociateTransaction"]/*' />
     public class TokenAssociateTransaction : Transaction<TokenAssociateTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor"]/*' />
         public TokenAssociateTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenAssociateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenAssociateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// An account identifier.
-        /// <p>
-        /// The identified account SHALL be associated to each of the
-        /// tokens identified in the `tokens` field.<br/>
-        /// This field is REQUIRED and MUST be a valid account identifier.<br/>
-        /// The identified account MUST exist in state.<br/>
-        /// The identified account MUST NOT be deleted.<br/>
-        /// The identified account MUST NOT be expired.
-        /// </summary>
-        /// <param name="accountId">the account id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.RequireNotFrozen"]/*' />
         public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-        /// <summary>
-        /// A list of token identifiers.
-        /// <p>
-        /// Each token identified in this list SHALL be separately associated with
-        /// the account identified in the `account` field.<br/>
-        /// This list MUST NOT be empty.
-        /// Each entry in this list MUST be a valid token identifier.<br/>
-        /// Each entry in this list MUST NOT be currently associated to the
-        /// account identified in `account`.<br/>
-        /// Each entry in this list MUST NOT be expired.<br/>
-        /// Each entry in this list MUST NOT be deleted.
-        /// </summary>
-        /// <param name="tokens">the list of token id's</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.RequireNotFrozen_2"]/*' />
         public virtual List<TokenId> TokenIds { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenAssociate;
@@ -105,10 +50,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				TokenIds.Add(TokenId.FromProtobuf(token));
 			}
 		}
-		/// <summary>
-		/// Build the transaction body.
-		/// </summary>
-		/// <returns>{@link Proto.TokenAssociateTransactionBody}</returns>
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.ToProtobuf"]/*' />
 		public virtual Proto.TokenAssociateTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenAssociateTransactionBody();

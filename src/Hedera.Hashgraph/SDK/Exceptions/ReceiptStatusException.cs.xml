@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ReceiptStatusException">
+    <summary>&lt;summary&gt;
+    An Exception thrown on error status by {@link TransactionId#getReceipt(Client)}.
+    &lt;p&gt;
+    The receipt is included, though only the {@link TransactionReceipt#status} field will be
+    initialized; all the getters should throw.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ReceiptStatusException.#ctor(TransactionId,TransactionReceipt)">
+    <summary>
+    The ID of the transaction that failed, in case that context is no longer available
+    (e.g. the exception was bubbled up).
+    </summary>
+  </member>
+  <member name="M:ReceiptStatusException.#ctor(TransactionId,TransactionReceipt)_2">
+    <summary>
+    The receipt of the transaction that failed; the only initialized field is
+    {@link TransactionReceipt#status}.
+    </summary>
+  </member>
+  <member name="M:ReceiptStatusException.#ctor(TransactionId,TransactionReceipt)_3">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="transactionId">the transaction id</param>
+    <param name="receipt">the receipt</param>
+  </member>
+</docs>

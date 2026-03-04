@@ -10,46 +10,24 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <summary>
-	/// Internal utility class.
-	/// </summary>
+	/// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="T:TokenNftTransfer"]/*' />
 	public class TokenNftTransfer : IComparable<TokenNftTransfer>
     {
-        /// <summary>
-        /// The ID of the token
-        /// </summary>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.TokenId"]/*' />
         public readonly TokenId TokenId;
-        /// <summary>
-        /// The accountID of the sender
-        /// </summary>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Sender"]/*' />
         public readonly AccountId Sender;
-        /// <summary>
-        /// The accountID of the receiver
-        /// </summary>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Receiver"]/*' />
         public readonly AccountId Receiver;
-        /// <summary>
-        /// The serial number of the NFT
-        /// </summary>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Serial"]/*' />
         public readonly long Serial;
-        /// <summary>
-        /// If true then the transfer is expected to be an approved allowance and the sender is expected to be the owner. The
-        /// default is false.
-        /// </summary>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.IsApproved"]/*' />
         public bool IsApproved;
         // Optional typed hook calls for sender/receiver
         public NftHookCall? SenderHookCall;
         public NftHookCall? ReceiverHookCall;
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="tokenId">the token id</param>
-		/// <param name="sender">the sender account id</param>
-		/// <param name="receiver">the receiver account id</param>
-		/// <param name="serial">the serial number</param>
-		/// <param name="isApproved">is it approved</param>
-		/// <param name="senderHookCall">NftHookCall for sender</param>
-		/// <param name="receiverHookCall">NftHookCall for reciever</param>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.#ctor(TokenId,AccountId,AccountId,System.Int64,System.Boolean,NftHookCall,NftHookCall)"]/*' />
         public TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved, NftHookCall? senderHookCall, NftHookCall? receiverHookCall)
         {
             TokenId = tokenId;
@@ -91,12 +69,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return nftTransfers;
         }
 
-        /// <summary>
-        /// Convert a byte array to a token NFT transfer object.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>the converted token nft transfer object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.FromBytes(System.Byte[])"]/*' />
         public static TokenNftTransfer FromBytes(byte[] bytes)
         {
             Proto.TokenTransferList proto = new()
@@ -109,10 +82,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return FromProtobuf(proto)[0];
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>the protobuf representation</returns>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToProtobuf"]/*' />
         public virtual Proto.NftTransfer ToProtobuf()
         {
             Proto.NftTransfer proto = new()
@@ -150,10 +120,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return proto;
         }
 
-        /// <summary>
-        /// Convert the token NFT transfer object to a byte array.
-        /// </summary>
-        /// <returns>the converted token NFT transfer object</returns>
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

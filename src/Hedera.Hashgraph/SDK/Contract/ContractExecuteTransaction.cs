@@ -11,54 +11,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// Call a function of the given smart contract instance, giving it parameters as its inputs.
-    /// <p>
-    /// It can use the given amount of gas, and any unspent gas will be refunded to the paying account.
-    /// <p>
-    /// If this function stores information, it is charged gas to store it.
-    /// There is a fee in hbars to maintain that storage until the expiration time, and that fee is
-    /// added as part of the transaction fee.
-    /// </summary>
+    /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="T:ContractExecuteTransaction"]/*' />
     public sealed class ContractExecuteTransaction : Transaction<ContractExecuteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor"]/*' />
         public ContractExecuteTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal ContractExecuteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal ContractExecuteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A maximum limit to the amount of gas to use for this call.
-        /// <p>
-        /// The network SHALL charge the greater of the following, but
-        /// SHALL NOT charge more than the value of this field.
-        /// <ol>
-        ///   <li>The actual gas consumed by the smart contract call.</li>
-        ///   <li>`80%` of this value.</li>
-        /// </ol>
-        /// The `80%` factor encourages reasonable estimation, while allowing for
-        /// some overage to ensure successful execution.
-        /// </summary>
-        /// <param name="gas">The long to be set as gas</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen"]/*' />
         public long Gas
         {
             get;
@@ -72,9 +41,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
         }
-		/// <summary>
-		/// Sets the number of hbars sent with this function call.
-		/// </summary>
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_2"]/*' />
 		public Hbar PayableAmount
         {
             get;
@@ -84,11 +51,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
         } = new Hbar(0);
-		/// <summary>
-		/// Sets the contract instance to call.
-		/// </summary>
-		/// <param name="contractId">The ContractId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_3"]/*' />
 		public ContractId? ContractId
 		{
 			get;
@@ -98,16 +61,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-        /// <summary>
-        /// Sets the function parameters as their raw bytes.
-        /// <p>
-        /// Use this instead of {@link #setFunction(String, ContractFunctionParameters)} if you have already
-        /// pre-encoded a solidity function call.
-        /// 
-        /// This MUST contain The application binary interface (ABI) encoding of the
-        /// function call per the Ethereum contract ABI standard, giving the
-        /// function signature and arguments being passed to the function.
-        /// </summary>
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.RequireNotFrozen_4"]/*' />
         public ByteString FunctionParameters
         {
             get;
@@ -118,24 +72,12 @@ namespace Hedera.Hashgraph.SDK.Contract
             }
         } = ByteString.CopyFrom([]);
 
-		/// <summary>
-		/// Sets the function name to call.
-		/// <p>
-		/// The function will be called with no parameters. Use {@link #setFunction(String, ContractFunctionParameters)}
-		/// to call a function with parameters.
-		/// </summary>
-		/// <param name="name">The String to be set as the function name</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.SetFunction(System.String)"]/*' />
 		public ContractExecuteTransaction SetFunction(string name)
         {
             return SetFunction(name, new ContractFunctionParameters());
         }
-        /// <summary>
-        /// Sets the function to call, and the parameters to pass to the function.
-        /// </summary>
-        /// <param name="name">The String to be set as the function name</param>
-        /// <param name="params">The function parameters to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.SetFunction(System.String,ContractFunctionParameters @)"]/*' />
         public ContractExecuteTransaction SetFunction(string name, ContractFunctionParameters @params)
         {
             FunctionParameters = ByteString.CopyFrom(@params.ToBytes(name).ToByteArray());
@@ -143,9 +85,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             return this;
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ContractCall;
@@ -156,10 +96,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             FunctionParameters = body.FunctionParameters;
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link ContractCallTransactionBody}</returns>
+        /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.ToProtobuf"]/*' />
         public Proto.ContractCallTransactionBody ToProtobuf()
         {
             var builder = new Proto.ContractCallTransactionBody

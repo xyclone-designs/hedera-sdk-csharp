@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:DeriveKeySha256(System.String,System.Byte[],System.Int32,System.Int32)">
+    <summary>
+    Derive a sha 256 key.
+    </summary>
+    <param name="passphrase">the password will be converted into bytes</param>
+    <param name="salt">the salt to be mixed in</param>
+    <param name="iterations">the iterations for mixing</param>
+    <param name="dkLenBytes">the key length in bytes</param>
+    <returns>the key parameter object</returns>
+  </member>
+  <member name="M:InitAesCtr128(KeyParameter,System.Byte[])">
+    <summary>
+    Initialize an advanced encryption standard counter mode cipher.
+    </summary>
+    <param name="cipherKey">the cipher key</param>
+    <param name="iv">the initialization vector byte array</param>
+    <param name="forDecrypt">is this for decryption</param>
+    <returns>the aes ctr cipher</returns>
+  </member>
+  <member name="M:InitAesCbc128Encrypt(KeyParameter,System.Byte[])">
+    <summary>
+    Initialize an advanced encryption standard cipher block chaining mode
+    cipher for encryption.
+    </summary>
+    <param name="cipherKey">the cipher key</param>
+    <param name="iv">the initialization vector byte array</param>
+    <returns>the aes cbc cipher</returns>
+  </member>
+  <member name="M:InitAesCbc128Decrypt(KeyParameter,System.Byte[])">
+    <summary>
+    Initialize an advanced encryption standard cipher block chaining mode
+    cipher for decryption.
+    </summary>
+    <param name="cipherKey">the cipher key</param>
+    <param name="parameters">the algorithm parameters</param>
+    <returns>the aes cbc cipher</returns>
+  </member>
+  <member name="M:EncryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])">
+    <summary>
+    Encrypt a byte array with the aes ctr cipher.
+    </summary>
+    <param name="cipherKey">the cipher key</param>
+    <param name="iv">the initialization vector</param>
+    <param name="input">the byte array to encrypt</param>
+    <returns>the encrypted byte array</returns>
+  </member>
+  <member name="M:DecryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])">
+    <summary>
+    Decrypt a byte array with the aes ctr cipher.
+    </summary>
+    <param name="cipherKey">the cipher key</param>
+    <param name="iv">the initialization vector</param>
+    <param name="input">the byte array to decrypt</param>
+    <returns>the decrypted byte array</returns>
+  </member>
+  <member name="M:RunCipher(BufferedBlockCipher,System.Byte[])">
+    <summary>
+    Run the cipher on the given input.
+    </summary>
+    <param name="cipher">the cipher</param>
+    <param name="input">the byte array</param>
+    <returns>the output of running the cipher</returns>
+  </member>
+  <member name="M:CalcHmacSha384(KeyParameter,System.Byte[],System.Byte[])">
+    <summary>
+    Calculate a hash message authentication code using the secure hash
+    algorithm variant 384.
+    </summary>
+    <param name="cipherKey">the cipher key</param>
+    <param name="iv">the initialization vector</param>
+    <param name="input">the byte array</param>
+    <returns>the hmac using sha 384</returns>
+  </member>
+  <member name="M:CalcKeccak256(System.Byte[])">
+    <summary>
+    Calculate a keccak 256-bit hash.
+    </summary>
+    <param name="message">the message to be hashed</param>
+    <returns>the hash</returns>
+  </member>
+  <member name="M:RandomBytes(System.Int32)">
+    <summary>
+    Generate some randomness.
+    </summary>
+    <param name="len">the number of bytes requested</param>
+    <returns>the byte array of randomness</returns>
+  </member>
+  <member name="M:RecoverPublicKeyECDSAFromSignature(System.Int32,BigInteger,BigInteger,System.Byte[])">
+    <summary>&lt;summary&gt;
+    Given the r and s components of a signature and the hash value of the message, recover and return the public key
+    according to the algorithm in &lt;a href="https://www.secg.org/sec1-v2.pdf"&gt;SEC1v2 section 4.1.6.&lt;/a&gt;
+    &lt;p&gt;
+    Calculations and explanations in this method were taken and adapted from
+    &lt;a href="https://github.com/apache/incubator-tuweni/blob/0852e0b01ad126b47edae51b26e808cb73e294b1/crypto/src/main/java/org/apache/tuweni/crypto/SECP256K1.java#L199-L215"&gt;incubator-tuweni lib&lt;/a&gt;
+    &lt;/summary&gt;
+    &lt;param name="recId"&gt;Which possible key to recover.&lt;/param&gt;
+    &lt;param name="r"&gt;The R component of the signature.&lt;/param&gt;
+    &lt;param name="s"&gt;The S component of the signature.&lt;/param&gt;
+    &lt;param name="messageHash"&gt;Hash of the data that was signed.&lt;/param&gt;
+    &lt;returns&gt;A ECKey containing only the public part, or {@code null} if recovery wasn't possible.&lt;/returns&gt;</summary>
+  </member>
+</docs>

@@ -5,31 +5,18 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// Utility class used internally by the sdk.
-    /// </summary>
+    /// <include file="FeeComponents.cs.xml" path='docs/member[@name="T:FeeComponents"]/*' />
     public class FeeComponents : ICloneable
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.#ctor"]/*' />
         public FeeComponents() { }
 
-		/// <summary>
-		/// Create a fee component object from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the fee component object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromBytes(System.Byte[])"]/*' />
 		public static FeeComponents FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.FeeComponents.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a fee components object from a protobuf.
-		/// </summary>
-		/// <param name="feeComponents">the protobuf</param>
-		/// <returns>                         the fee component object</returns>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromProtobuf(Proto.FeeComponents)"]/*' />
 		public static FeeComponents FromProtobuf(Proto.FeeComponents feeComponents)
         {
             return new FeeComponents
@@ -48,55 +35,30 @@ namespace Hedera.Hashgraph.SDK.Fees
             };
         }
 
-		/// <summary>
-		/// A minimum, the calculated fee must be greater than this value
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Min"]/*' />
 		public long Min { get; set; }
-		/// <summary>
-		/// A maximum, the calculated fee must be less than this value
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Max"]/*' />
 		public long Max { get; set; }
-		/// <summary>
-		/// A constant contribution to the fee
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.Constant"]/*' />
 		public long Constant { get; set; }
-		/// <summary>
-		/// The price of bandwidth consumed by a transaction, measured in bytes
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionBandwidthByte"]/*' />
 		public long TransactionBandwidthByte { get; set; }
-		/// <summary>
-		/// The price per signature verification for a transaction
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionVerification"]/*' />
 		public long TransactionVerification { get; set; }
-		/// <summary>
-		/// The price of RAM consumed by a transaction, measured in byte-hours
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionRamByteHour"]/*' />
 		public long TransactionRamByteHour { get; set; }
-		/// <summary>
-		/// The price of storage consumed by a transaction, measured in byte-hours
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransactionStorageByteHour"]/*' />
 		public long TransactionStorageByteHour { get; set; }
-		/// <summary>
-		/// The price of computation for a smart contract transaction, measured in gas
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ContractTransactionGas"]/*' />
 		public long ContractTransactionGas { get; set; }
-		/// <summary>
-		/// The price per hbar transferred for a transfer
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.TransferVolumeHbar"]/*' />
 		public long TransferVolumeHbar { get; set; }
-		/// <summary>
-		/// The price of bandwidth for data retrieved from memory for a response, measured in bytes
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ResponseMemoryByte"]/*' />
 		public long ResponseMemoryByte { get; set; }
-		/// <summary>
-		/// The price of bandwidth for data retrieved from disk for a response, measured in bytes
-		/// </summary>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="P:FeeComponents.ResponseDiskByte"]/*' />
 		public long ResponseDiskByte { get; set; }
 
-		/// <summary>
-		/// Convert fee component object to protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf</returns>
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.ToProtobuf"]/*' />
 		public virtual Proto.FeeComponents ToProtobuf()
         {
             return new Proto.FeeComponents
@@ -115,10 +77,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
         }
 
-        /// <summary>
-        /// Convert fee component object to byte array.
-        /// </summary>
-        /// <returns>                         the byte array</returns>
+        /// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

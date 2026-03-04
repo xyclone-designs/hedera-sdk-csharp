@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:BadKeyException">
+    <summary>&lt;summary&gt;
+    Signals that a key could not be realized from the given input.
+    &lt;p&gt;
+    This exception can be raised by any of the {@code from} methods
+    on {@link PrivateKey} or {@link PublicKey}.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:BadKeyException.#ctor(System.String)">
+    <summary></summary>
+    <param name="message">the message</param>
+  </member>
+  <member name="M:BadKeyException.#ctor(System.Exception)">
+    <summary></summary>
+    <param name="cause">the cause</param>
+  </member>
+</docs>

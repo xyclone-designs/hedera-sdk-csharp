@@ -5,58 +5,27 @@ using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.SDK.HBar
 {
-    /// <summary>
-    /// Represents a quantity of hbar.
-    /// <p>
-    /// Implemented as a wrapper class to force handling of units. Direct interfacing with Hedera accepts amounts
-    /// in Tinybars however the nominal unit is hbar.
-    /// </summary>
+    /// <include file="Hbar.cs.xml" path='docs/member[@name="T:Hbar"]/*' />
     public sealed class Hbar : IComparable<Hbar>
     {
-        /// <summary>
-        /// A constant value of zero hbars.
-        /// </summary>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.FromTinybars(0)"]/*' />
         public static readonly Hbar ZERO = Hbar.FromTinybars(0);
-        /// <summary>
-        /// A constant value of the maximum number of hbars.
-        /// </summary>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.From(50000000000)"]/*' />
         public static readonly Hbar MAX = Hbar.From(50000000000);
-        /// <summary>
-        /// A constant value of the minimum number of hbars.
-        /// </summary>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.From(-)"]/*' />
         public static readonly Hbar MIN = Hbar.From(-50000000000);
         private static readonly Regex FROM_STRING_PATTERN = new ("^((?:\\+|\\-)?\\d+(?:\\.\\d+)?)(\\ (tℏ|μℏ|mℏ|ℏ|kℏ|Mℏ|Gℏ))?$");
         private readonly long valueInTinybar;
-        /// <summary>
-        /// Constructs a new Hbar of the specified value.
-        /// </summary>
-        /// <param name="amount">The amount of Hbar</param>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.#ctor(System.Int64)"]/*' />
         public Hbar(long amount) : this(amount, HbarUnit.HBAR) { }
-        /// <summary>
-        /// Constructs a new Hbar of the specified, possibly fractional value.
-        /// <p>
-        /// The equivalent amount in Tinybar must be an integer and fit in a {@code long} (64-bit signed integer).
-        /// <p>
-        /// E.g., {@code 1.23456789} is a valid amount of hbar but {@code 0.123456789} is not.
-        /// </summary>
-        /// <param name="amount">The amount of Hbar</param>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.#ctor(BigDecimal)"]/*' />
         public Hbar(BigDecimal amount) : this(amount, HbarUnit.HBAR) { }
-		/// <summary>
-		/// Constructs a new hbar of the specified value in the specified unit.
-		/// {@link HbarUnit}
-		/// </summary>
-		/// <param name="amount">the amount</param>
-		/// <param name="unit">the unit for amount</param>
+		/// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.#ctor(System.Int64,HbarUnit)"]/*' />
 		internal Hbar(long amount, HbarUnit unit)
         {
             valueInTinybar = amount * unit.Tinybar;
         }
-        /// <summary>
-        /// Constructs a new hbar of the specified value in the specified unit.
-        /// {@link HbarUnit}
-        /// </summary>
-        /// <param name="amount">the amount</param>
-        /// <param name="unit">the unit for amount</param>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.#ctor(BigDecimal,HbarUnit)"]/*' />
         internal Hbar(BigDecimal amount, HbarUnit unit)
         {
             var tinybars = amount.Multiply(BigDecimal.ValueOf(unit.Tinybar));
@@ -82,11 +51,7 @@ namespace Hedera.Hashgraph.SDK.HBar
             throw new ArgumentException("Attempted to convert string to Hbar, but unit symbol \"" + symbolString + "\" was not recognized");
         }
 
-        /// <summary>
-        /// Converts the provided string into an amount of hbars.
-        /// </summary>
-        /// <param name="text">The string representing the amount of Hbar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.FromString(System.String)"]/*' />
         public static Hbar FromString(string text)
         {
             if (FROM_STRING_PATTERN.Count(text) == 0)
@@ -95,105 +60,61 @@ namespace Hedera.Hashgraph.SDK.HBar
 			string[] parts = text.Split(' ');
             return new Hbar(BigDecimal.Parse(parts[0]), parts.Length == 2 ? GetUnit(parts[1]) : HbarUnit.HBAR);
         }
-        /// <summary>
-        /// Converts the provided string into an amount of hbars.
-        /// </summary>
-        /// <param name="text">The string representing the amount of set units</param>
-        /// <param name="unit">The unit to convert from to Hbar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.FromString(System.String,HbarUnit)"]/*' />
         public static Hbar FromString(string text, HbarUnit unit)
         {
             return new Hbar(BigDecimal.Parse(text.ToString()), unit);
         }
-        /// <summary>
-        /// Returns an Hbar whose value is equal to the specified long.
-        /// </summary>
-        /// <param name="hbars">The value of Hbar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.From(System.Int64)"]/*' />
         public static Hbar From(long hbars)
         {
             return new Hbar(hbars, HbarUnit.HBAR);
         }
-        /// <summary>
-        /// Returns an Hbar representing the value in the given units.
-        /// </summary>
-        /// <param name="amount">The long representing the amount of set units</param>
-        /// <param name="unit">The unit to convert from to Hbar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.From(System.Int64,HbarUnit)"]/*' />
         public static Hbar From(long amount, HbarUnit unit)
         {
             return new Hbar(amount, unit);
         }
-        /// <summary>
-        /// Returns an Hbar whose value is equal to the specified long.
-        /// </summary>
-        /// <param name="hbars">The BigDecimal representing the amount of Hbar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.From(BigDecimal)"]/*' />
         public static Hbar From(BigDecimal hbars)
         {
             return new Hbar(hbars, HbarUnit.HBAR);
         }
-        /// <summary>
-        /// Returns an Hbar representing the value in the given units.
-        /// </summary>
-        /// <param name="amount">The BigDecimal representing the amount of set units</param>
-        /// <param name="unit">The unit to convert from to Hbar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.From(BigDecimal,HbarUnit)"]/*' />
         public static Hbar From(BigDecimal amount, HbarUnit unit)
         {
             return new Hbar(amount, unit);
         }
-        /// <summary>
-        /// Returns an Hbar converted from the specified number of Tinybars.
-        /// </summary>
-        /// <param name="Tinybars">The long representing the amount of Tinybar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.FromTinybars(System.Int64)"]/*' />
         public static Hbar FromTinybars(long tinybars)
         {
             return new Hbar(tinybars, HbarUnit.TINYBAR);
         }
-        /// <summary>
-        /// Returns an Hbar converted from the specified number of Tinybars.
-        /// </summary>
-        /// <param name="Tinybars">The long representing the amount of Tinybar</param>
-        /// <returns>{@link Hbar}</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.FromTinybars(System.UInt64)"]/*' />
         public static Hbar FromTinybars(ulong tinybars)
         {
             return new Hbar((long)tinybars, HbarUnit.TINYBAR);
         }
 
-        /// <summary>
-        /// Convert this hbar value to a different unit.
-        /// </summary>
-        /// <param name="unit">The unit to convert to from Hbar</param>
-        /// <returns>BigDecimal</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.To(HbarUnit)"]/*' />
         public BigDecimal To(HbarUnit unit)
         {
             return BigDecimal.ValueOf(valueInTinybar).Divide(BigDecimal.ValueOf(unit.Tinybar));
         }
 
-        /// <summary>
-        /// Convert this hbar value to Tinybars.
-        /// </summary>
-        /// <returns>long</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.ToTinybars"]/*' />
         public long ToTinybars()
         {
             return valueInTinybar;
         }
 
-        /// <summary>
-        /// Returns the number of Hbars.
-        /// </summary>
-        /// <returns>BigDecimal</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.GetValue"]/*' />
         public BigDecimal GetValue()
         {
             return To(HbarUnit.HBAR);
         }
 
-        /// <summary>
-        /// Returns a Hbar whose value is {@code -this}.
-        /// </summary>
-        /// <returns>Hbar</returns>
+        /// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.Negated"]/*' />
         public Hbar Negated()
         {
             return Hbar.FromTinybars(-valueInTinybar);
@@ -204,11 +125,7 @@ namespace Hedera.Hashgraph.SDK.HBar
 			return valueInTinybar.CompareTo(o?.valueInTinybar);
 		}
 
-		/// <summary>
-		/// Convert hbar to string representation in specified units.
-		/// </summary>
-		/// <param name="unit">the desired unit</param>
-		/// <returns>                         the string representation</returns>
+		/// <include file="Hbar.cs.xml" path='docs/member[@name="M:Hbar.ToString(HbarUnit)"]/*' />
 		public string ToString(HbarUnit unit)
 		{
 			return To(unit).ToString();

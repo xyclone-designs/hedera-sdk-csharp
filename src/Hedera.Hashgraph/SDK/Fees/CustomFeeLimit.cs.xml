@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:CustomFeeLimit">
+    <summary>&lt;summary&gt;
+    A maximum custom fee that the user is willing to pay.
+    &lt;p&gt;
+    This message is used to specify the maximum custom fee that given user is
+    willing to pay.
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

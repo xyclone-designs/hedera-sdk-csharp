@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using Google.Protobuf;
+
+using Hedera.Hashgraph.SDK.Contract;
+
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractNonceInfoTest
     {
-        private readonly Proto.ContractNonceInfo info = Proto.ContractNonceInfo.NewBuilder().SetContractId(new ContractId(0, 0, 1).ToProtobuf()).SetNonce(2).Build();
+        private readonly Proto.ContractNonceInfo info = new Proto.ContractNonceInfo
+        {
+			ContractId = new ContractId(0, 0, 1).ToProtobuf(),
+			Nonce = 2,
+		};
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());

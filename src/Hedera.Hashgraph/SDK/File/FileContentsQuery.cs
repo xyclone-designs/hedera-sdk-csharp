@@ -11,21 +11,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <summary>
-    /// Get the contents of a file. The content field is empty (no bytes) if the
-    /// file is empty.
-    /// 
-    /// A query to get the contents of a file. Queries do not change the state of
-    /// the file or require network consensus. The information is returned from a
-    /// single node processing the query.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/file-storage/get-file-contents">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="FileContentsQuery.cs.xml" path='docs/member[@name="T:FileContentsQuery"]/*' />
     public sealed class FileContentsQuery : Query<ByteString, FileContentsQuery>
     {
-        /// <summary>
-        /// Sets the file ID of the file whose contents are requested.
-        /// </summary>
+        /// <include file="FileContentsQuery.cs.xml" path='docs/member[@name="P:FileContentsQuery.FileId"]/*' />
         public FileId? FileId { get; set; }
 
 		public override async Task<Hbar> GetCostAsync(Client client)

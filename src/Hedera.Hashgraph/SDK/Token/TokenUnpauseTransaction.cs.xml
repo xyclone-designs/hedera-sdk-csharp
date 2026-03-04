@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenUnpauseTransaction">
+    <summary>
+    Resume transaction activity for a token.
+    
+    This transaction MUST be signed by the Token `pause_key`.<br />
+    The `token` identified MUST exist, and MUST NOT be deleted.<br />
+    The `token` identified MAY not be paused; if the token is not paused,
+    this transaction SHALL have no effect.
+    The `token` identified MUST have a `pause_key` set, the `pause_key` MUST be
+    a valid `Key`, and the `pause_key` MUST NOT be an empty `KeyList`.<br />
+    An `unpaused` token MAY be transferred or otherwise modified.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:TokenUnpauseTransaction.#ctor">
+    <summary>
+    Constructor
+    </summary>
+  </member>
+  <member name="M:TokenUnpauseTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenUnpauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenUnpauseTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A token identifier.
+    &lt;p&gt;
+    The identified token SHALL be "unpaused". Subsequent transactions
+    involving that token MAY succeed.
+    &lt;/summary&gt;
+    &lt;param name="TokenId"&gt;the token id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenUnpauseTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TokenUnpauseTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.TokenUnpauseTransactionBody}</returns>
+  </member>
+</docs>

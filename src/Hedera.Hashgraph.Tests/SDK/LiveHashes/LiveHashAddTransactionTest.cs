@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
             return new LiveHashAddTransaction()
             {
 				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				AccountId = AccountId.FromString("0.0.100"),
 				Hash = Encoding.UTF8.GetBytes("hash"),
 				Keys = KeyList.Of(null, privateKey),

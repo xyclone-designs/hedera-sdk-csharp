@@ -4,10 +4,7 @@ using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// Custom fixed fee utility class.
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#fixed-fee">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="T:CustomFixedFee"]/*' />
     public class CustomFixedFee : CustomFeeBase<CustomFixedFee>
     {
         public long Amount { get; set; }
@@ -20,21 +17,13 @@ namespace Hedera.Hashgraph.SDK.Fees
 				Amount = value.ToTinybars();
 			}
         }
-        /// <summary>
-        /// The shard, realm, number of the tokens.
-        /// </summary>
+        /// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.#ctor"]/*' />
         internal TokenId? DenominatingTokenId { get; set; }
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.#ctor_2"]/*' />
         public CustomFixedFee() { }
 
-		/// <summary>
-		/// Create a custom fixed fee from a fixed fee protobuf.
-		/// </summary>
-		/// <param name="fixedFee">the fixed fee protobuf</param>
-		/// <returns>                         the new custom fixed fee object</returns>
+		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.FromProtobuf(Proto.FixedFee)"]/*' />
 		public static CustomFixedFee FromProtobuf(Proto.FixedFee fixedFee)
         {
 			return new CustomFixedFee
@@ -69,10 +58,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         }
 
 
-        /// <summary>
-        /// Assign the default token 0.0.0.
-        /// </summary>
-        /// <returns>{@code this}</returns>
+        /// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.SetDenominatingTokenToSameToken"]/*' />
         public virtual CustomFixedFee SetDenominatingTokenToSameToken()
         {
             DenominatingTokenId = new TokenId(0, 0, 0);
@@ -86,10 +72,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 			DenominatingTokenId?.ValidateChecksum(client);
 		}
 
-		/// <summary>
-		/// Convert to a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf converted object</returns>
+		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.ToFixedFeeProtobuf"]/*' />
 		public virtual Proto.FixedFee ToFixedFeeProtobuf()
         {
 			return new Proto.FixedFee
@@ -98,10 +81,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 				DenominatingTokenId = DenominatingTokenId?.ToProtobuf()
 			};
         }
-		/// <summary>
-		/// Convert to a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf converted object</returns>
+		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.ToFixedCustomFeeProtobuf"]/*' />
 		public virtual Proto.FixedCustomFee ToFixedCustomFeeProtobuf()
 		{
 			return new Proto.FixedCustomFee

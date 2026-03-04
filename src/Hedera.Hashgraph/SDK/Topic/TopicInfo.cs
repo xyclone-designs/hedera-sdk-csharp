@@ -12,9 +12,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
-    /// <summary>
-    /// Current state of a topic.
-    /// </summary>
+    /// <include file="TopicInfo.cs.xml" path='docs/member[@name="T:TopicInfo"]/*' />
     public sealed class TopicInfo
     {
         private TopicInfo(TopicId topicId, string topicMemo, ByteString runningHash, ulong sequenceNumber, DateTimeOffset expirationTime, Key? adminKey, Key? submitKey, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, LedgerId ledgerId, Key? feeScheduleKey, IEnumerable<Key> feeExemptKeys, IEnumerable<CustomFixedFee> customFees)
@@ -34,21 +32,12 @@ namespace Hedera.Hashgraph.SDK.Topic
             CustomFees = [ .. customFees];
         }
 
-		/// <summary>
-		/// Create a topic info object from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new topic info object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromBytes(System.Byte[])"]/*' />
 		public static TopicInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.ConsensusGetTopicInfoResponse.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a topic info object from a protobuf.
-		/// </summary>
-		/// <param name="topicInfoResponse">the protobuf</param>
-		/// <returns>                         the new topic info object</returns>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromProtobuf(Proto.ConsensusGetTopicInfoResponse)"]/*' />
 		public static TopicInfo FromProtobuf(Proto.ConsensusGetTopicInfoResponse topicInfoResponse)
         {
             return new TopicInfo(TopicId.FromProtobuf(
@@ -67,64 +56,36 @@ namespace Hedera.Hashgraph.SDK.Topic
                 [.. topicInfoResponse.TopicInfo.CustomFees.Select(_ => CustomFixedFee.FromProtobuf(_.FixedFee))]);
         }
 
-		/// <summary>
-		/// The ID of the topic for which information is requested.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.TopicId"]/*' />
 		public TopicId TopicId { get; }
-		/// <summary>
-		/// Short publicly visible memo about the topic. No guarantee of uniqueness.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.TopicMemo"]/*' />
 		public string TopicMemo { get; }
-		/// <summary>
-		/// SHA-384 running hash of (previousRunningHash, topicId, consensusTimestamp, sequenceNumber, message).
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.RunningHash"]/*' />
 		public ByteString RunningHash { get; }
-		/// <summary>
-		/// Sequence number (starting at 1 for the first submitMessage) of messages on the topic.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.SequenceNumber"]/*' />
 		public ulong SequenceNumber { get; }
-		/// <summary>
-		/// Effective consensus timestamp at (and after) which submitMessage calls will no longer succeed on the topic.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.ExpirationTime"]/*' />
 		public DateTimeOffset ExpirationTime { get; }
-		/// <summary>
-		/// Access control for update/delete of the topic. Null if there is no key.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AdminKey"]/*' />
 		public Key? AdminKey { get; }
-		/// <summary>
-		/// Access control for ConsensusService.submitMessage. Null if there is no key.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.SubmitKey"]/*' />
 		public Key? SubmitKey { get; }
-		/// <summary>
-		/// If an auto-renew account is specified, when the topic expires, its lifetime will be extended
-		/// by up to this duration (depending on the solvency of the auto-renew account). If the
-		/// auto-renew account has no funds at all, the topic will be deleted instead.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AutoRenewPeriod"]/*' />
 		public TimeSpan AutoRenewPeriod { get; }
-		/// <summary>
-		/// The account, if any, to charge for automatic renewal of the topic's lifetime upon expiry.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.AutoRenewAccountId"]/*' />
 		public AccountId AutoRenewAccountId { get; }
-		/// <summary>
-		/// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
-		/// </summary>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="P:TopicInfo.LedgerId"]/*' />
 		public LedgerId LedgerId { get; }
 		public Key? FeeScheduleKey { get; }
 		public IList<Key> FeeExemptKeys { get; }
 		public IList<CustomFixedFee> CustomFees { get; }
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.ToBytes"]/*' />
 		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.ToProtobuf"]/*' />
 		public Proto.ConsensusGetTopicInfoResponse ToProtobuf()
 		{
 			Proto.ConsensusGetTopicInfoResponse proto = new()

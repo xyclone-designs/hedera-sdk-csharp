@@ -11,55 +11,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <summary>
-    /// Mark a schedule in the network state as deleted.
-    /// 
-    /// This transaction MUST be signed by the `adminKey` for the
-    /// identified schedule.<br/>
-    /// If a schedule does not have `adminKey` set or if `adminKey` is an empty
-    /// `KeyList`, that schedule SHALL be immutable and MUST NOT be deleted.<br/>
-    /// A deleted schedule SHALL not be executed.<br/>
-    /// A deleted schedule MUST NOT be the subject of a subsequent
-    /// `scheduleSign` transaction.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="T:ScheduleDeleteTransaction"]/*' />
     public sealed class ScheduleDeleteTransaction : Transaction<ScheduleDeleteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor"]/*' />
         public ScheduleDeleteTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal ScheduleDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal ScheduleDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A schedule identifier.
-        /// <p>
-        /// This MUST identify the schedule which SHALL be deleted.
-        /// </summary>
-        /// <param name="scheduleId">the schedule id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.RequireNotFrozen"]/*' />
         public ScheduleId? ScheduleId
 		{
             get;
@@ -70,19 +41,14 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			}
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.InitFromTransactionBody"]/*' />
         private void InitFromTransactionBody()
         {
             if (SourceTransactionBody.ScheduleDelete.ScheduleID is not null)
 				ScheduleId = ScheduleId.FromProtobuf(SourceTransactionBody.ScheduleDelete.ScheduleID);
 		}
 
-        /// <summary>
-        /// Build the correct transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.ScheduleDeleteTransactionBody builder }</returns>
+        /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.ToProtobuf"]/*' />
         public Proto.ScheduleDeleteTransactionBody ToProtobuf()
         {
 			Proto.ScheduleDeleteTransactionBody proto =  new ();

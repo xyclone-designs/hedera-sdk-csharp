@@ -15,43 +15,24 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// A common base for file and topic message transactions.
-    /// </summary>
+    /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="T:ChunkedTransaction"]/*' />
     public abstract class ChunkedTransaction<T> : Transaction<T> where T : ChunkedTransaction<T>
     {
-		/// <summary>
-		/// Constructor.
-		/// </summary>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor"]/*' />
 		public ChunkedTransaction() : base() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal ChunkedTransaction(Proto.TransactionBody txBody) : base(txBody) { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal ChunkedTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs) { }
 
-		/// <summary>
-		/// Assign the Data via a byte string.
-		/// </summary>
-		/// <param name="Data">the byte string</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.RequireNotFrozen"]/*' />
 		public virtual ByteString Data 
         {
             get;
             set { RequireNotFrozen(); field = value; }
             
         } = ByteString.Empty;
-		/// <summary>
-		/// Assign the Data via a byte array.
-		/// </summary>
-		/// <param name="Data">the byte array</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.RequireNotFrozen_2"]/*' />
 		public virtual byte[] Data_Bytes
 		{
 			set
@@ -60,11 +41,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Data = ByteString.CopyFrom(value);
 			}
 		}
-		/// <summary>
-		/// Assign the Data via a string.
-		/// </summary>
-		/// <param name="text">the byte array</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.RequireNotFrozen_3"]/*' />
 		public virtual string Data_String 
         {
             set
@@ -73,10 +50,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Data = ByteString.CopyFromUtf8(value);
 			} 
         }
-		/// <summary>
-		/// Maximum number of chunks this message will get broken up into when
-		/// it's frozen.
-		/// </summary>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.RequireNotFrozen_4"]/*' />
 		public virtual int MaxChunks
         {
             get;
@@ -87,11 +61,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
 
         } = 20;
-		/// <summary>
-		/// Assign the chunk size.
-		/// </summary>
-		/// <param name="ChunkSize">the chunk size</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.RequireNotFrozen_5"]/*' />
 		public virtual int ChunkSize
 		{
             get;
@@ -120,10 +90,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			}
 		}
 
-		/// <summary>
-		/// Extract the list of transaction hashes.
-		/// </summary>
-		/// <returns>                         the list of transaction hashes</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.GetAllTransactionHashesPerNode"]/*' />
 		public List<IDictionary<AccountId, byte[]>> GetAllTransactionHashesPerNode()
 		{
 			if (!IsFrozen())
@@ -276,13 +243,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return responses[0];
 		}
 
-		/// <summary>
-		/// Get the body sizes for all chunks in a FileAppendTransaction.
-		/// For transactions with multiple chunks (like large file appends),
-		/// this returns an array containing the size of each chunk's transaction body.
-		/// The size is calculated by encoding the transaction body to protobuf format.
-		/// </summary>
-		/// <returns>List of integers that represent the size of each chunk</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.BodySizeAllChunks"]/*' />
 		public virtual List<int> BodySizeAllChunks()
 		{
 			List<int> list = [];
@@ -303,10 +264,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return list;
 		}
-		/// <summary>
-		/// Extract the list of all signers.
-		/// </summary>
-		/// <returns>                         the list of all signatures</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.GetAllSignatures"]/*' />
 		public virtual List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>> GetAllSignatures()
 		{
 			if (PublicKeys.Any() is false)
@@ -325,34 +283,18 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return retval;
 		}
-		/// <summary>
-		/// Should the receipt be retrieved?
-		/// </summary>
-		/// <returns>                         by default do not get a receipt</returns>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ShouldGetReceipt"]/*' />
 		public virtual bool ShouldGetReceipt()
 		{
 			return false;
 		}
 
-		/// <summary>
-		/// Execute this transaction or query
-		/// </summary>
-		/// <param name="client">The client with which this will be executed.</param>
-		/// <returns>Result of execution for each chunk</returns>
-		/// <exception cref="TimeoutException">when the transaction times out</exception>
-		/// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAll(Client)"]/*' />
 		public virtual List<TransactionResponse> ExecuteAll(Client client)
         {
             return ExecuteAll(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Execute this transaction or query
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeoutPerChunk">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>Result of execution for each chunk</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAll(Client,System.TimeSpan)"]/*' />
         public virtual List<TransactionResponse> ExecuteAll(Client client, TimeSpan timeoutPerChunk)
         {
             FreezeAndSign(client);
@@ -375,21 +317,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             return responses;
         }
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <returns>Future result of execution for each chunk</returns>
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAllAsync(Client)"]/*' />
         public virtual Task<IList<TransactionResponse>> ExecuteAllAsync(Client client)
         {
             return ExecuteAllAsync(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeoutPerChunk">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>Future result of execution for each chunk</returns>
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.TimeSpan)"]/*' />
         public virtual async Task<IList<TransactionResponse>> ExecuteAllAsync(Client client, TimeSpan timeoutPerChunk)
         {
             FreezeAndSign(client);
@@ -408,50 +341,28 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return list;
         }
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.Action{System.Collections.Generic.IList{TransactionResponse},System.Exception})"]/*' />
         public virtual async void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAllAsync(client), callback);
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.TimeSpan,System.Action{System.Collections.Generic.IList{TransactionResponse},System.Exception})"]/*' />
         public virtual async void ExecuteAllAsync(Client client, TimeSpan timeout, Action<IList<TransactionResponse>?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAllAsync(client, timeout), callback);
 		}
-		/// <summary>
-		/// Execute this transaction or query asynchronously.
-		/// </summary>
-		/// <param name="client">The client with which this will be executed.</param>
-		/// <param name="onSuccess">a Action which consumes the result on success.</param>
-		/// <param name="onFailure">a Action which consumes the error on failure.</param>
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.Action{System.Collections.Generic.IList{TransactionResponse}},System.Action{System.Exception})"]/*' />
 		public virtual async void ExecuteAllAsync(Client client, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAllAsync(client), onSuccess, onFailure);
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.TimeSpan,System.Action{System.Collections.Generic.IList{TransactionResponse}},System.Action{System.Exception})"]/*' />
         public virtual async void ExecuteAllAsync(Client client, TimeSpan timeout, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAllAsync(client, timeout), onSuccess, onFailure);
 		}
 
-        /// <summary>
-        /// A common base for file and topic message transactions.
-        /// </summary>
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.OnFreezeChunk(Proto.TransactionBody,Proto.TransactionID,System.Int32,System.Int32,System.Int32,System.Int32)"]/*' />
         public abstract void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total);       
     }
 }

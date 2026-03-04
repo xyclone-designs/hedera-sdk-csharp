@@ -38,12 +38,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         private TopicMessageSubmitTransaction SpawnTestTransactionString()
         {
-            return new TopicMessageSubmitTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTopicId(testTopicId).SetMessage(new string (testMessageBytes)).Freeze().Sign(unusedPrivateKey);
+            return new TopicMessageSubmitTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetTopicId(testTopicId).SetMessage(new string (testMessageBytes)).Freeze().Sign(unusedPrivateKey);
         }
 
         private TopicMessageSubmitTransaction SpawnTestTransactionBytes()
         {
-            return new TopicMessageSubmitTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTopicId(testTopicId).SetMessage(testMessageBytes).Freeze().Sign(unusedPrivateKey);
+            return new TopicMessageSubmitTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetTopicId(testTopicId).SetMessage(testMessageBytes).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesNoSetters()

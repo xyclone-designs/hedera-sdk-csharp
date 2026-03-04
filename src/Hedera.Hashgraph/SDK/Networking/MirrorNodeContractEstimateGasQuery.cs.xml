@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Execute(Client)">
+    <summary>
+    Returns gas estimation for the EVM execution.
+    </summary>
+    <param name="client">The Client instance to perform the operation with</param>
+    <returns>The estimated gas cost</returns>
+    <exception cref="ExecutionException"></exception>
+    <exception cref="InterruptedException"></exception>
+  </member>
+</docs>

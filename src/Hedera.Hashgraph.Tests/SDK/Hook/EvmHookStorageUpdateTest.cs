@@ -36,8 +36,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             var proto = original.ToProtobuf();
             var restored = EvmHookStorageUpdate.FromProtobuf(proto);
             Assert.Equal(original, restored);
-            Assert.True(restored is EvmHookStorageUpdate.EvmHookStorageSlot);
-            var restoredSlot = (EvmHookStorageUpdate.EvmHookStorageSlot)restored;
+            Assert.True(restored is EvmHookStorageSlot);
+            var restoredSlot = (EvmHookStorageSlot)restored;
             Assert.Equal(new byte[] { 0x0A }, restoredSlot.Key);
             Assert.Equal(new byte[] { 0x0B }, restoredSlot.Value);
             Assert.True(original.ToString().Contains("key"));
@@ -62,13 +62,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             // Returned entries list is a copy
             var list1 = updates.Entries;
             var list2 = updates.Entries;
-            AssertNotSame(list1, list2);
+            Assert.NotSame(list1, list2);
             Assert.Equal(list1, list2);
         }
 
         public virtual void EvmHookMappingEntriesValidation()
         {
-
             // mappingSlot cannot be null
             Assert.Throws<NullReferenceException>(() => new EvmHookMappingEntries(null, []));
 
@@ -76,10 +75,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Throws<NullReferenceException>(() => new EvmHookMappingEntries(new byte[] { 0x01 }, null));
 
             // current behavior: length > 32 is allowed
-            AssertDoesNotThrow(() => new EvmHookMappingEntries(new byte[33], []));
+            new EvmHookMappingEntries(new byte[33], []);
 
             // current behavior: leading zeros are allowed
-            AssertDoesNotThrow(() => new EvmHookMappingEntries(new byte[] { 0x00, 0x01 }, []));
+            new EvmHookMappingEntries(new byte[] { 0x00, 0x01 }, []);
         }
 
         public virtual void EvmHookMappingEntriesProtobufRoundTrip()
@@ -90,16 +89,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             var proto = original.ToProtobuf();
             var restored = EvmHookStorageUpdate.FromProtobuf(proto);
             Assert.Equal(original, restored);
-            Assert.True(restored is EvmHookStorageUpdate.EvmHookMappingEntries);
-            var restoredME = (EvmHookStorageUpdate.EvmHookMappingEntries)restored;
-            Assert.Equal(new byte[] { 0x09 }, restoredME.GetMappingSlot());
-            Assert.Equal(List.Of(entry1, entry2), restoredME.GetEntries());
+            Assert.True(restored is EvmHookMappingEntries);
+            var restoredME = (EvmHookMappingEntries)restored;
+            Assert.Equal(new byte[] { 0x09 }, restoredME.MappingSlot);
+            Assert.Equal([entry1, entry2], restoredME.Entries);
             Assert.True(original.ToString().Contains("mappingSlot"));
         }
 
         public virtual void FromProtobufWithoutUpdateThrows()
         {
-            var emptyProto = Proto.EvmHookStorageUpdate.NewBuilder().Build();
+            var emptyProto = new Proto.EvmHookStorageUpdate();
 
             Assert.Throws<ArgumentException>(() => EvmHookStorageUpdate.FromProtobuf(emptyProto));
         }

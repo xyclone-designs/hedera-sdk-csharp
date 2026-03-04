@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+    <summary></summary>
+    <remarks>
+    @deprecated
+    This transaction is obsolete, not supported, and SHALL fail with a
+    pre-check result of `NOT_SUPPORTED`.
+    
+    Delete a specific live Hash associated to a given account.
+    This transaction MUST be signed by either the key of the associated account,
+    or at least one of the keys listed in the live Hash.
+    ### Block Stream Effects
+    None
+    </remarks>
+  </member>
+  <member name="M:LiveHashDeleteTransaction">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:LiveHashDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:RequireNotFrozen">
+    <summary>
+    The account owning the liveHash
+    </summary>
+  </member>
+  <member name="M:RequireNotFrozen_2">
+    <summary>
+    The SHA-384 liveHash to delete from the account
+    </summary>
+  </member>
+  <member name="M:InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:ToProtobuf">
+    <summary>
+    Build the correct transaction body.
+    </summary>
+    <returns>{@link Proto.CryptoAddLiveHashTransactionBody}</returns>
+  </member>
+</docs>

@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.LiveHashes;
 using Hedera.Hashgraph.SDK.Networking;
-using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Utils;
+
 using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
@@ -18,12 +16,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         private static readonly Proto.LiveHash liveHash = new ()
         {
 			AccountId = new AccountId(0, 0, 10).ToProtobuf(),
-			Duration = TimeSpan.FromDays(11.ToProtoDuration()),
+			Duration = TimeSpan.FromDays(11).ToProtoDuration(),
 			Hash = ByteString.CopyFrom(hash),
-			Keys = new Proto.KeyList 
-            {
-                Keys = [ privateKey.GetPublicKey().ToProtobufKey() ]
-			}
+
+			// Keys = new Proto.KeyList([privateKey.GetPublicKey().ToProtobufKey()]) 
         };
 
         private static readonly Proto.CryptoGetInfoResponse.Types.AccountInfo info = new()
@@ -36,8 +32,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             GenerateSendRecordThreshold = 4,
             GenerateReceiveRecordThreshold = 5,
             ReceiverSigRequired = true,
-            ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(6),
-            AutoRenewPeriod = TimeSpan.FromDays(7.ToProtoDuration()),
+            ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(6).ToProtoTimestamp(),
+            AutoRenewPeriod = TimeSpan.FromDays(7).ToProtoDuration(),
             ProxyAccountID = new AccountId(0, 0, 8).ToProtobuf(),
             LedgerId = LedgerId.PREVIEWNET.ToByteString(),
             EthereumNonce = 1001,

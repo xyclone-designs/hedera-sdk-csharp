@@ -7,50 +7,28 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <summary>
-    /// The ethereum transaction data, in the legacy format
-    /// </summary>
+    /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="T:EthereumTransactionDataLegacy"]/*' />
     public class EthereumTransactionDataLegacy : EthereumTransactionData
     {
-        /// <summary>
-        /// ID of the chain
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.ChainId"]/*' />
         public byte[] ChainId = [];
-        /// <summary>
-        /// Transaction's nonce
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.Nonce"]/*' />
         public byte[] Nonce;
-        /// <summary>
-        /// The price for 1 gas
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.GasPrice"]/*' />
         public byte[] GasPrice;
-        /// <summary>
-        /// The amount of gas available for the transaction
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.GasLimit"]/*' />
         public byte[] GasLimit;
-        /// <summary>
-        /// The receiver of the transaction
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.To"]/*' />
         public byte[] To;
-        /// <summary>
-        /// The transaction value
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.Value"]/*' />
         public byte[] Value;
-        /// <summary>
-        /// The V value of the signature
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])"]/*' />
         public byte[] V;
-        /// <summary>
-        /// recovery parameter used to ease the signature verification
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_2"]/*' />
         public int RecoveryId;
-        /// <summary>
-        /// The R value of the signature
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_3"]/*' />
         public byte[] R;
-        /// <summary>
-        /// The S value of the signature
-        /// </summary>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_4"]/*' />
         public byte[] S;
 
         public EthereumTransactionDataLegacy(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] v, byte[] r, byte[] s) : base(callData)
@@ -71,11 +49,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             }
         }
 
-		/// <summary>
-		/// Convert a byte array to an ethereum transaction data.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the ethereum transaction data</returns>
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.FromBytes(System.Byte[])"]/*' />
         public new static EthereumTransactionDataLegacy FromBytes(byte[] bytes)
 	    {
 		    if (bytes == null || bytes.Length == 0)

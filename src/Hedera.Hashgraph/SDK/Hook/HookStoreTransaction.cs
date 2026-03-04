@@ -11,27 +11,18 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// Adds or removes key/value pairs in the storage of an EVM hook.
-    /// </summary>
+    /// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="T:HookStoreTransaction"]/*' />
     public class HookStoreTransaction : Transaction<HookStoreTransaction>
     {
         public HookStoreTransaction()
         {
         }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal HookStoreTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal HookStoreTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
 		{
 			InitFromTransactionBody();
@@ -54,10 +45,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 			};
 		}
 
-		/// <summary>
-		/// Create the builder.
-		/// </summary>
-		/// <returns>                         the transaction builder</returns>
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.ToProtobuf"]/*' />
 		public Proto.HookStoreTransactionBody ToProtobuf()
 		{
 			Proto.HookStoreTransactionBody builder = new ();

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:EthereumTransactionData">
+    <summary>&lt;summary&gt;
+    This class represents the data of an Ethereum transaction.
+    &lt;p&gt;
+    It may be of subclass {@link EthereumTransactionDataLegacy} or of subclass {@link EthereumTransactionDataEip1559}
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="P:EthereumTransactionData.CallData">
+    <summary>
+    The raw call data.
+    </summary>
+  </member>
+  <member name="M:EthereumTransactionData.ToBytes">
+    <summary>
+    Serialize the ethereum transaction data into bytes using RLP
+    </summary>
+    <returns>the serialized transaction as a byte array</returns>
+  </member>
+  <member name="M:EthereumTransactionData.ToString">
+    <summary>
+    Serialize the ethereum transaction data into a string
+    </summary>
+    <returns>the serialized transaction as a string</returns>
+  </member>
+</docs>

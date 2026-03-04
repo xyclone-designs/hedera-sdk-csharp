@@ -20,27 +20,19 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-    /// <summary>
-    /// Encapsulate the ECDSA private key.
-    /// </summary>
+    /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="T:PrivateKeyECDSA"]/*' />
     public class PrivateKeyECDSA : PrivateKey
     {
         private readonly BigInteger KeyData;
         private readonly KeyParameter? ChainCode;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="keyData">the key data</param>
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.PrivateKeyECDSA(BigInteger,KeyParameter)"]/*' />
         PrivateKeyECDSA(BigInteger keyData, KeyParameter? chainCode)
         {
             KeyData = keyData;
             ChainCode = chainCode;
         }
 
-		/// <summary>
-		/// Create a new private ECDSA key.
-		/// </summary>
-		/// <returns>                         the new key</returns>
+		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.GenerateInternal"]/*' />
 		internal static PrivateKeyECDSA GenerateInternal()
         {
             var generator = new ECKeyPairGenerator();
@@ -50,11 +42,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             var privParams = (ECPrivateKeyParameters)keypair.Private;
             return new PrivateKeyECDSA(privParams.D, null);
         }
-		/// <summary>
-		/// Create a new private key from a private key ino object.
-		/// </summary>
-		/// <param name="privateKeyInfo">the private key info object</param>
-		/// <returns>                         the new key</returns>
+		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromPrivateKeyInfoInternal(PrivateKeyInfo)"]/*' />
 		internal static PrivateKey FromPrivateKeyInfoInternal(PrivateKeyInfo privateKeyInfo)
         {
             try
@@ -80,20 +68,12 @@ namespace Hedera.Hashgraph.SDK.Keys
                 throw new BadKeyException(e);
             }
         }
-		/// <summary>
-		/// Create a new private key from a ECPrivateKey object.
-		/// </summary>
-		/// <param name="privateKey">the ECPrivateKey object</param>
-		/// <returns>                         the new key</returns>
+		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromECPrivateKeyInternal(ECPrivateKeyStructure)"]/*' />
 		internal static PrivateKey FromECPrivateKeyInternal(ECPrivateKeyStructure privateKey)
         {
             return new PrivateKeyECDSA(privateKey.GetKey(), null);
         }
-        /// <summary>
-        /// Create a private key from a byte array.
-        /// </summary>
-        /// <param name="privateKey">the byte array</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromBytesInternal(System.Byte[])"]/*' />
         internal static PrivateKey FromBytesInternal(byte[] privateKey)
         {
             if (privateKey.Length == 32)
@@ -106,12 +86,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             return FromECPrivateKeyInternal(ECPrivateKeyStructure.GetInstance(privateKey));
         }
 
-        /// <summary>
-        /// Throws an exception when trying to derive a child key.
-        /// </summary>
-        /// <param name="entropy">entropy byte array</param>
-        /// <param name="index">the child key index</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.LegacyDeriveChildKey(System.Byte[],System.Int64)"]/*' />
         public static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
         {
             throw new InvalidOperationException("ECDSA secp256k1 keys do not currently support derivation");
@@ -157,22 +132,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             return new PrivateKeyECDSA(ki, new KeyParameter(ir));
         }
 
-        /// <summary>
-        /// Create an ECDSA key from seed.
-        /// Implement the published algorithm as defined in BIP32 in order to derive the primary account key from the
-        /// original (and never stored) master key.
-        /// The original master key, which is a secure key generated according to the BIP39 specification, is input to this
-        /// operation, and provides the base cryptographic seed material required to ensure the output is sufficiently random
-        /// to maintain strong cryptographic assurances.
-        /// The fromSeed() method must be provided with cryptographically secure material; otherwise, it will produce
-        /// insecure output.
-        /// </summary>
-        /// <param name="seed">the seed bytes</param>
-        /// <returns>                         the new key</returns>
-        /// <remarks>
-        /// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">BIP-32 Definition</a>
-        /// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-39 Definition</a>
-        /// </remarks>
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromSeed(System.Byte[])"]/*' />
         public static PrivateKey FromSeed(byte[] seed)
         {
             var hmacSha512 = new HMac(new Sha512Digest());
@@ -183,25 +143,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             return DerivableKeyECDSA(derivedState);
         }
 
-        /// <summary>
-        /// Create a derived key.
-        /// The industry standard protocol for deriving an active ECDSA keypair from a BIP39 master key is described in
-        /// BIP32. By using this deterministic mechanism to derive cryptographically secure keypairs from a single original
-        /// secret, the user maintains secure access to their wallet, even if they lose access to a particular system or
-        /// wallet local data store.
-        /// The active keypair can always be re-derived from the original master key.
-        /// The use of the fixed "key" values in this code is defined by this deterministic protocol, and this data is mixed,
-        /// in a deterministic but cryptographically secure manner, with the original master key and/or other derived keys
-        /// "higher" in the tree to produce a cryptographically secure derived key.
-        /// This "Key Derivation Function" makes use of secure hash algorithm and a secure hash based message authentication
-        /// code to produce an initialization vector, and then produces the actual key from a portion of that vector.
-        /// </summary>
-        /// <param name="deriveData">data to derive the key</param>
-        /// <returns>                         the new key</returns>
-        /// <remarks>
-        /// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">BIP-32 Definition</a>
-        /// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-39 Definition</a>
-        /// </remarks>
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.DerivableKeyECDSA(System.Byte[])"]/*' />
         static PrivateKeyECDSA DerivableKeyECDSA(byte[] deriveData)
         {
             var keyData = deriveData.CopyArray(0, 32);
@@ -269,11 +211,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             return ToBytesDER();
         }
 
-        /// <summary>
-        /// Create a big int byte array.
-        /// </summary>
-        /// <param name="n">the big integer</param>
-        /// <returns>                         the 32 byte array</returns>
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.BigIntTo32Bytes(BigInteger)"]/*' />
         private static byte[] BigIntTo32Bytes(BigInteger n)
         {
             byte[] bytes = n.ToByteArray();

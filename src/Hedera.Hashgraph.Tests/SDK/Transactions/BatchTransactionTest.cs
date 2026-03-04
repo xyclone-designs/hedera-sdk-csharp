@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             return new AccountCreateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ReceiverSigRequired = true,
 				AutoRenewPeriod = TimeSpan.FromHours(10),
 				StakedAccountId = AccountId.FromString("0.0.3"),
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             return new BatchTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				InnerTransactions = INNER_TRANSACTIONS,
 			}
             .Freeze()
@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void GetInnerTransactionIdsShouldReturnCorrectIds()
         {
             var batchTransaction = SpawnTestTransaction();
-            var expectedTransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart));
+            var expectedTransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart);
             var transactionIds = batchTransaction.InnerTransactions.Select(_ => _.TransactionId);
             
             Assert.Equal(transactionIds.Count(), 3);
@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 InnerTransactions = [SpawnTestTransactionAccountCreate()],
 
 			} .Freeze();
@@ -152,7 +152,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				StartTime = DateTimeOffset.UtcNow.ToTimestamp(),
 				FreezeType = FreezeType.FreezeOnly,
 				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 
 			}.Freeze();
 
@@ -164,7 +164,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var batchTransaction = new BatchTransaction
             {
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]
 
 			}.Freeze();
@@ -182,7 +182,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				StartTime = DateTimeOffset.UtcNow.ToTimestamp(),
 				FreezeType = FreezeType.FreezeOnly,
 				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
 			
@@ -196,7 +196,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var unfrozenTransaction = new AccountCreateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			};
 
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransaction));
@@ -208,7 +208,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction
             {
 				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
             
@@ -221,7 +221,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var batchTransaction = new BatchTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
             
@@ -256,7 +256,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var transactionWithoutBatchKey = new AccountCreateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			
             }.Freeze();
             
@@ -271,7 +271,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var transactionWithoutBatchKey = new AccountCreateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 
 			}.Freeze();
             
@@ -287,7 +287,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var unfrozenTransactionWithoutBatchKey = new AccountCreateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			};
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransactionWithoutBatchKey));
             Assert.Contains(exception.Message, "Inner transaction should be frozen");
@@ -303,7 +303,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				StartTime = DateTimeOffset.UtcNow.ToTimestamp(),
 				FreezeType = FreezeType.FreezeOnly,
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				BatchKey = privateKeyECDSA
 			
             }.Freeze();
@@ -318,7 +318,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var validTransaction = new AccountCreateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				BatchKey = privateKeyECDSA,
 
 			}.Freeze();
@@ -334,7 +334,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var transaction = new AccountCreateTransaction
             {
                 NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))
+                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)
             };
 
             // First check should be for frozen state

@@ -5,19 +5,10 @@ using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.HBar
 {
-    /// <summary>
-    /// An approved allowance of hbar transfers for a spender.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/cryptoallowance">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="HbarAllowance.cs.xml" path='docs/member[@name="T:HbarAllowance"]/*' />
     public class HbarAllowance
     {        
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="ownerAccountId">the owner granting the allowance</param>
-        /// <param name="spenderAccountId">the spender</param>
-        /// <param name="amount">the amount of hbar</param>
+        /// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.#ctor(AccountId,AccountId,Hbar)"]/*' />
         internal HbarAllowance(AccountId? ownerAccountId, AccountId? spenderAccountId, Hbar? amount)
         {
             OwnerAccountId = ownerAccountId;
@@ -25,71 +16,42 @@ namespace Hedera.Hashgraph.SDK.HBar
             Amount = amount;
         }
 
-		/// <summary>
-		/// Create a hbar allowance from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new hbar allowance</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromBytes(System.Byte[])"]/*' />
 		public static HbarAllowance FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.CryptoAllowance.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a hbar allowance from a crypto allowance protobuf.
-		/// </summary>
-		/// <param name="allowanceProto">the crypto allowance protobuf</param>
-		/// <returns>                         the new hbar allowance</returns>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.CryptoAllowance)"]/*' />
 		public static HbarAllowance FromProtobuf(Proto.CryptoAllowance allowanceProto)
         {
             return new HbarAllowance(AccountId.FromProtobuf(allowanceProto.Owner), AccountId.FromProtobuf(allowanceProto.Spender), Hbar.FromTinybars(allowanceProto.Amount));
         }
-		/// <summary>
-		/// Create a hbar allowance from a granted crypto allowance protobuf.
-		/// </summary>
-		/// <param name="allowanceProto">the granted crypto allowance protobuf</param>
-		/// <returns>                         the new hbar allowance</returns>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.GrantedCryptoAllowance)"]/*' />
 		public static HbarAllowance FromProtobuf(Proto.GrantedCryptoAllowance allowanceProto)
         {
             return new HbarAllowance(null, AccountId.FromProtobuf(allowanceProto.Spender), Hbar.FromTinybars(allowanceProto.Amount));
         }
 
-		/// <summary>
-		/// The amount of the spender's allowance in Tinybars
-		/// </summary>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="P:HbarAllowance.Amount"]/*' />
 		public Hbar? Amount { get; init; }
-		/// <summary>
-		/// The account ID of the hbar owner (ie. the grantor of the allowance)
-		/// </summary>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="P:HbarAllowance.OwnerAccountId"]/*' />
 		public AccountId? OwnerAccountId { get; init; }
-		/// <summary>
-		/// The account ID of the spender of the hbar allowance
-		/// </summary>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="P:HbarAllowance.SpenderAccountId"]/*' />
 		public AccountId? SpenderAccountId { get; init; }
 
-		/// <summary>
-		/// Validate that the client is configured correctly.
-		/// </summary>
-		/// <param name="client">the client to verify</param>
-		/// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.ValidateChecksums(Client)"]/*' />
 		public virtual void ValidateChecksums(Client client)
         {
             OwnerAccountId?.ValidateChecksum(client);
 			SpenderAccountId?.ValidateChecksum(client);
 		}
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         a byte array representation</returns>
+        /// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <summary>
-		/// Convert a crypto allowance into a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf</returns>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.ToProtobuf"]/*' />
 		public virtual Proto.CryptoAllowance ToProtobuf()
 		{
 			Proto.CryptoAllowance proto = new();
@@ -105,10 +67,7 @@ namespace Hedera.Hashgraph.SDK.HBar
 
 			return proto;
 		}
-		/// <summary>
-		/// Convert a crypto allowance into a granted crypto allowance protobuf.
-		/// </summary>
-		/// <returns>                         the granted crypto allowance</returns>
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.ToGrantedProtobuf"]/*' />
 		public virtual Proto.GrantedCryptoAllowance ToGrantedProtobuf()
 		{
 			Proto.GrantedCryptoAllowance proto = new();

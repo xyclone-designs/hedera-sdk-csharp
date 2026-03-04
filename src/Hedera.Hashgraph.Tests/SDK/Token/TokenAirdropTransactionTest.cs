@@ -49,8 +49,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private TokenAirdropTransaction SpawnTestTransaction()
         {
             return new TokenAirdropTransaction()
-                .SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")))
-                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)))
+                .SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")])
+                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart))
                 .AddTokenTransfer(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.5008"), 400)
                 .AddTokenTransferWithDecimals(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.5006"), -800, 3)
                 .AddTokenTransferWithDecimals(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.5007"), 400, 3)

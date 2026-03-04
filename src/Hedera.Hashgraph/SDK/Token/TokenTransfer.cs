@@ -7,11 +7,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// A token transfer record.
-    /// <p>
-    /// Internal utility class.
-    /// </summary>
+    /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="T:TokenTransfer"]/*' />
     public class TokenTransfer
     {
         public readonly TokenId TokenId;
@@ -21,23 +17,10 @@ namespace Hedera.Hashgraph.SDK.Token
         public bool IsApproved;
         public FungibleHookCall? HookCall;
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="tokenId">the token id</param>
-		/// <param name="accountId">the account id</param>
-		/// <param name="amount">the amount</param>
-		/// <param name="isApproved">is it approved</param>
+		/// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.Boolean)"]/*' />
 		public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, bool isApproved) : this(tokenId, accountId, amount, null, isApproved) { }
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="tokenId">the token id</param>
-		/// <param name="accountId">the account id</param>
-		/// <param name="amount">the amount</param>
-		/// <param name="expectedDecimals">the expected decimals</param>
-		/// <param name="isApproved">is it approved</param>
+		/// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.UInt32,System.Boolean)"]/*' />
 		public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, uint? expectedDecimals, bool isApproved)
         {
             TokenId = tokenId;
@@ -87,10 +70,7 @@ namespace Hedera.Hashgraph.SDK.Token
             return tokenTransfers;
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>an account amount protobuf</returns>
+        /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.ToProtobuf"]/*' />
         public virtual Proto.AccountAmount ToProtobuf()
         {
 			Proto.AccountAmount proto = new()

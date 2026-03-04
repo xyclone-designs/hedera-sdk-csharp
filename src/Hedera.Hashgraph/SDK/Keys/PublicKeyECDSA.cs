@@ -12,28 +12,19 @@ using Hedera.Hashgraph.SDK.Ethereum;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-    /// <summary>
-    /// Encapsulate the ECDSA public key.
-    /// </summary>
+    /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="T:PublicKeyECDSA"]/*' />
     public class PublicKeyECDSA : PublicKey
     {
         // Compressed 33 byte form
         private readonly byte[] KeyData;
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="KeyData">the byte array representing the key</param>
+        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.#ctor(System.Byte[])"]/*' />
         private PublicKeyECDSA(byte[] keyData)
         {
             KeyData = keyData;
         }
 
-        /// <summary>
-        /// Create a key from a byte array representation.
-        /// </summary>
-        /// <param name="publicKey">the byte array representing the key</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.FromBytesInternal(System.Byte[])"]/*' />
         public static PublicKeyECDSA FromBytesInternal(byte[] publicKey)
         {
 
@@ -48,11 +39,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 			// Assume a DER-encoded public key descriptor
 			return FromSubjectKeyInfoInternal(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
-        /// <summary>
-        /// Create a key from a subject public key info object.
-        /// </summary>
-        /// <param name="subjectPublicKeyInfo">the subject public key info object</param>
-        /// <returns>                         the new public key</returns>
+        /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)"]/*' />
         public static PublicKeyECDSA FromSubjectKeyInfoInternal(SubjectPublicKeyInfo subjectPublicKeyInfo)
         {
             return FromBytesInternal(subjectPublicKeyInfo.PublicKeyData.GetBytes());

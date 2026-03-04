@@ -2,26 +2,16 @@
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Enum for the execution states.
-    /// </summary>
+    /// <include file="ExecutionState.cs.xml" path='docs/member[@name="T:ExecutionState"]/*' />
     public enum ExecutionState
     {
-        /// <summary>
-        /// Indicates that the execution was successful
-        /// </summary>
+        /// <include file="ExecutionState.cs.xml" path='docs/member[@name="T:ExecutionState_2"]/*' />
         Success,
-        /// <summary>
-        /// Indicates that the call was successful but the operation did not complete. Retry with same/new node
-        /// </summary>
+        /// <include file="ExecutionState.cs.xml" path='docs/member[@name="T:ExecutionState_3"]/*' />
         Retry,
-        /// <summary>
-        /// Indicates that the receiver was bad node. Retry with new node
-        /// </summary>
+        /// <include file="ExecutionState.cs.xml" path='docs/member[@name="T:ExecutionState_4"]/*' />
         ServerError,
-        /// <summary>
-        /// Indicates that the request was incorrect
-        /// </summary>
+        /// <include file="ExecutionState.cs.xml" path='docs/member[@name="T:ExecutionState_5"]/*' />
         RequestError
     }
 }

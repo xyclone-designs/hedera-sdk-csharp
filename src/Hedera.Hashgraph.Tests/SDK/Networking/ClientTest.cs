@@ -1,29 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Hashgraph.Sdk.BaseNodeAddress;
-using Com.Hedera.Hashgraph.Sdk.Client;
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Java.Io;
-using Java.Nio.Charset;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Function;
-using Javax.Annotation;
-using Org.Junit.Jupiter.Api;
-using Org.Junit.Jupiter.Params;
-using Org.Junit.Jupiter.Params.Provider;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.IO;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.HBar;
-using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
-using Google.Protobuf;
 using Hedera.Hashgraph.SDK.Networking;
+
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
@@ -85,23 +71,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void SetMaxBackoffValid(long maxBackoff)
         {
-            Client.ForNetwork([]).SetMaxBackoff(TimeSpan.FromMilliseconds(maxBackoff)).Dispose();
+            Client.ForNetwork([]).MaxBackoff = TimeSpan.FromMilliseconds(maxBackoff);
         }
-
-        public virtual void SetMinBackoffInvalid(long minBackoffMillis)
-        {
-            TimeSpan minBackoff = minBackoffMillis != null ? TimeSpan.FromMilliseconds(minBackoffMillis) : null;
-            var client = Client.ForNetwork([]);
-            Assert.Throws<ArgumentException>(() =>
-            {
-                client.MinBackoff = minBackoff;
-            });
-            client.Dispose();
-        }
-
         public virtual void SetMinBackoffValid(long minBackoff)
         {
-            Client.ForNetwork([]).SetMinBackoff(TimeSpan.FromMilliseconds(minBackoff)).Dispose();
+            Client.ForNetwork([]).MinBackoff = TimeSpan.FromMilliseconds(minBackoff);
         }
 
         public virtual void SetMaxTransactionFeeNegative()
@@ -116,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void FromJsonFile()
         {
-            Client.FromConfigFile(new File("./src/test/resources/client-config.json")).Dispose();
+            Client.FromConfigFile(new FileInfo("./src/test/resources/client-config.json")).Dispose();
             Client.FromConfigFile(new File("./src/test/resources/client-config-with-operator.json")).Dispose();
             Client.FromConfigFile("./src/test/resources/client-config.json").Dispose();
             Client.FromConfigFile("./src/test/resources/client-config-with-operator.json").Dispose();

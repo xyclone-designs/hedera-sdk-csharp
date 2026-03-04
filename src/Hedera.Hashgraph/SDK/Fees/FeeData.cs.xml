@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FeeData">
+    <summary>
+    The total fees charged for a transaction. It contains three parts namely
+    node data, network data and service data.
+    </summary>
+  </member>
+  <member name="M:FeeData.FromProtobuf(Proto.FeeData)">
+    <summary>
+    Initialize fee data object from a protobuf.
+    </summary>
+    <param name="feeData">the protobuf</param>
+    <returns>the fee data object</returns>
+  </member>
+  <member name="M:FeeData.FromBytes(System.Byte[])">
+    <summary>
+    Initialize fee data object from byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the fee data object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:FeeData.ToProtobuf">
+    <summary>
+    Convert the fee data type into a protobuf.
+    </summary>
+    <returns>the protobuf</returns>
+  </member>
+  <member name="M:FeeData.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>a byte array representation</returns>
+  </member>
+</docs>

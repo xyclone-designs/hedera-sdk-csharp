@@ -14,85 +14,29 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
-    /// <summary>
-    /// Update a topic.
-    /// <p>
-    /// If there is no adminKey, the only authorized update (available to anyone) is to extend the expirationTime.
-    /// Otherwise transaction must be signed by the adminKey.
-    /// <p>
-    /// If an adminKey is updated, the transaction must be signed by the pre-update adminKey and post-update adminKey.
-    /// <p>
-    /// If a new autoRenewAccount is specified (not just being removed), that account must also sign the transaction.
-    /// </summary>
+    /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction"]/*' />
     public sealed class TopicUpdateTransaction : Transaction<TopicUpdateTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor"]/*' />
         public TopicUpdateTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TopicUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TopicUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// The topic ID specifying the topic to update.
-		/// <p>
-		/// A topic with this ID MUST exist and MUST NOT be deleted.<br/>
-		/// This value is REQUIRED.
-		/// </summary>
-		/// <param name="topicId">The TopicId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen"]/*' />
 		public TopicId? TopicId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// An updated memo to be associated with this topic.
-		/// <p>
-		/// If this value is set, the current `adminKey` for the topic MUST sign
-		/// this transaction.<br/>
-		/// This value, if set, SHALL be encoded UTF-8 and SHALL NOT exceed
-		/// 100 bytes when so encoded.
-		/// </summary>
-		/// <param name="memo">The memo to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_2"]/*' />
 		public string? TopicMemo { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// Updated access control for modification of the topic.
-		/// <p>
-		/// If this field is set, that key and the previously set key MUST both
-		/// sign this transaction.<br/>
-		/// If this value is an empty `KeyList`, the prior key MUST sign this
-		/// transaction, and the topic SHALL be immutable after this transaction
-		/// completes, except for expiration and renewal.
-		/// </summary>
-		/// <param name="adminKey">The Key to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_3"]/*' />
 		public Key? AdminKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// Updated access control for message submission to the topic.
-		/// <p>
-		/// If this value is set, the current `adminKey` for the topic MUST sign
-		/// this transaction.<br/>
-		/// If this value is set to an empty `KeyList`, the `submitKey` for the
-		/// topic will be unset after this transaction completes. When the
-		/// `submitKey` is unset, any account may submit a message on the topic,
-		/// without restriction.
-		/// </summary>
-		/// <param name="submitKey">The Key to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_4"]/*' />
 		public Key? SubmitKey { get; set { RequireNotFrozen(); field = value; } }
 		/*
          * An updated value for the number of seconds by which the topic expiration
@@ -110,41 +54,14 @@ namespace Hedera.Hashgraph.SDK.Topic
          * @return {@code this}
          */
 		public TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// An updated ID for the account to be charged renewal fees at the topic's
-		/// `expirationTime` to extend the lifetime of the topic.
-		/// <p>
-		/// If this value is set and not the "sentinel account", the referenced
-		/// account MUST sign this transaction.<br/>
-		/// If this value is set, the current `adminKey` for the topic MUST sign
-		/// this transaction.<br/>
-		/// If this value is set to the "sentinel account", which is `0.0.0`, the
-		/// `autoRenewAccount` SHALL be removed from the topic.
-		/// </summary>
-		/// <param name="autoRenewAccountId">The AccountId to be set for auto renewal</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_5"]/*' />
 		public AccountId? AutoRenewAccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// Sets the effective consensus timestamp at (and after) which all consensus transactions and queries will fail.
-		/// The expirationTime may be no longer than MAX_AUTORENEW_PERIOD (8000001 seconds) from the consensus timestamp of
-		/// this transaction.
-		/// On topics with no adminKey, extending the expirationTime is the only updateTopic option allowed on the topic.
-		/// </summary>
-		/// <param name="expirationTime">the new expiration time</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_6"]/*' />
 		public DateTimeOffset? ExpirationTime { get; set { RequireNotFrozen(); field = value; ExpirationTimeDuration = null; } }
 		public TimeSpan? ExpirationTimeDuration { get; set { RequireNotFrozen(); field = value; ExpirationTime = null; } }
-		/// <summary>
-		/// Sets the key which allows updates to the new topic’s fees.
-		/// </summary>
-		/// <param name="feeScheduleKey">the feeScheduleKey</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_7"]/*' />
 		public Key? FeeScheduleKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// Sets the keys that will be exempt from paying fees.
-		/// </summary>
-		/// <param name="feeExemptKeys">List of feeExemptKeys</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction_2"]/*' />
 		public ListGuarded<Key> FeeExemptKeys
 		{
 			init; get => field ??= new ListGuarded<Key>
@@ -152,11 +69,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
-		/// <summary>
-		/// Sets the fixed fees to assess when a message is submitted to the new topic.
-		/// </summary>
-		/// <param name="customFees">List of CustomFixedFee customFees</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody"]/*' />
 		public ListGuarded<CustomFixedFee> CustomFees
 		{
 			init; get => field ??= new ListGuarded<CustomFixedFee>
@@ -166,9 +79,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 		}
 
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody_2"]/*' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusUpdateTopic;
@@ -203,11 +114,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 				CustomFees.ClearAndSet(body.CustomFees.Fees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
 		}
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.ConsensusUpdateTopicTransactionBody}</returns>
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.ToProtobuf"]/*' />
         public Proto.ConsensusUpdateTopicTransactionBody ToProtobuf()
         {
             var builder = new Proto.ConsensusUpdateTopicTransactionBody();

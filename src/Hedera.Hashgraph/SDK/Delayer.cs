@@ -3,10 +3,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <summary>
-	/// Provides a delay mechanism for executing actions after a given time.
-	/// Uses the provided ExecutorService for scheduling.
-	/// </summary>
+	/// <include file="Delayer.cs.xml" path='docs/member[@name="T:Delayer"]/*' />
 	public class Delayer
 	{
 		private readonly ExecutorService _executor;
@@ -16,11 +13,7 @@ namespace Hedera.Hashgraph.SDK
 			_executor = executor ?? throw new ArgumentNullException(nameof(executor));
 		}
 
-		/// <summary>
-		/// Schedules an action to run after the specified delay.
-		/// </summary>
-		/// <param name="delay">Time to wait before executing the action.</param>
-		/// <param name="action">Action to execute.</param>
+		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync(System.TimeSpan)"]/*' />
 		public Task DelayAsync(TimeSpan delay)
 		{
 			return _executor.Submit(async () =>
@@ -29,11 +22,7 @@ namespace Hedera.Hashgraph.SDK
 			});
 		}
 		
-		/// <summary>
-		/// Schedules an action to run after the specified delay.
-		/// </summary>
-		/// <param name="delay">Time to wait before executing the action.</param>
-		/// <param name="action">Action to execute.</param>
+		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync(System.TimeSpan,System.Action)"]/*' />
 		public Task DelayAsync(TimeSpan delay, Action action)
 		{
 			if (action == null) throw new ArgumentNullException(nameof(action));
@@ -45,9 +34,7 @@ namespace Hedera.Hashgraph.SDK
 			});
 		}
 
-		/// <summary>
-		/// Schedules a function returning a value after a delay.
-		/// </summary>
+		/// <include file="Delayer.cs.xml" path='docs/member[@name="M:Delayer.DelayAsync``1(System.TimeSpan,System.Func{``0})"]/*' />
 		public Task<T> DelayAsync<T>(TimeSpan delay, Func<T> func)
 		{
 			if (func == null) throw new ArgumentNullException(nameof(func));

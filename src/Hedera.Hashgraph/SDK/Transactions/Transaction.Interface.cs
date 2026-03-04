@@ -36,83 +36,33 @@ namespace Hedera.Hashgraph.SDK.Transactions
 {
 	public interface ITransaction
 	{
-		/// <summary>
-		/// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
-		/// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
-		/// response, we try a different transaction and thus a different node.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.OuterTransactions"]/*' />
 		public List<Proto.Transaction> OuterTransactions { get; }
-		/// <summary>
-		/// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
-		/// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
-		/// response, we try a different transaction and thus a different node.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.InnerSignedTransactions"]/*' />
 		public List<Proto.SignedTransaction> InnerSignedTransactions { get; }
-		/// <summary>
-		/// A set of signatures corresponding to every unique public key used to sign the transaction.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SigPairLists"]/*' />
 		public List<Proto.SignatureMap> SigPairLists { get; }
-		/// <summary>
-		/// List of IDs for the transaction based on the operator because the transaction ID includes the operator's account
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionIds"]/*' />
 		public ListGuarded<TransactionId> TransactionIds { get; }
-		/// <summary>
-		/// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
-		/// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
-		/// the signer is not available (likely because this came from fromBytes())
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.PublicKeys"]/*' />
 		public IList<PublicKey> PublicKeys { get; }
-		/// <summary>
-		/// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
-		/// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
-		/// the signer is not available (likely because this came from fromBytes())
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="M:operator(paying)"]/*' />
 		public List<Func<byte[], byte[]>?> Signers { get; }
-		/// <summary>
-		/// The maximum transaction fee the operator (paying account) is willing to pay.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.MaxTransactionFee"]/*' />
 		public Hbar? MaxTransactionFee { get; set; }
-		/// <summary>
-		/// Extract the memo for the transaction.
-		/// </summary>
-		/// <returns>the memo for the transaction</returns>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionMemo"]/*' />
 		public string TransactionMemo { get; set; }
-		/// <summary>
-		/// Sets the duration that this transaction is valid for.
-		/// <p>
-		/// This is defaulted by the SDK to 120 seconds (or two minutes).
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionValidDuration"]/*' />
 		public TimeSpan TransactionValidDuration { get; set; }
-		/// <summary>
-		/// Transaction constructors end their work by setting sourceTransactionBody. The expectation is that the Transaction
-		/// subclass constructor will pick up where the Transaction superclass constructor left off, and will unpack the data
-		/// in the transaction body.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SourceTransactionBody"]/*' />
 		public Proto.TransactionBody SourceTransactionBody { get; }
-		/// <summary>
-		/// The builder that gets re-used to build each outer transaction. freezeWith() will create the frozenBodyBuilder.
-		/// The presence of frozenBodyBuilder indicates that this transaction is frozen.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.FrozenBodyBuilder"]/*' />
 		public Proto.TransactionBody? FrozenBodyBuilder { get; }
-		/// <summary>
-		/// The key that will sign the batch of which this Transaction is a part of.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.BatchKey"]/*' />
 		public Key? BatchKey { get; }
-		/// <summary>
-		/// Should the transaction id be regenerated.
-		/// </summary>
-		/// <returns>should the transaction id be regenerated</returns>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.ShouldRegenerateTransactionId"]/*' />
 		public bool ShouldRegenerateTransactionId { get; }
-		/// <summary>
-		/// Set the ID for this transaction.
-		/// <p>
-		/// The transaction ID includes the operator's account ( the account paying the transaction fee). If two transactions
-		/// have the same transaction ID, they won't both have an effect. One will complete normally and the other will fail
-		/// with a duplicate transaction status.
-		/// <p>
-		/// Normally, you should not use this method. Just before a transaction is executed, a transaction ID will be
-		/// generated from the operator on the client.
-		/// </summary>
+		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionId"]/*' />
 		public TransactionId TransactionId { get; }
 
 		bool IsFrozen();

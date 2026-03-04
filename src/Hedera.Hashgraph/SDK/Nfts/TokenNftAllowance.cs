@@ -8,20 +8,10 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <summary>
-	/// Class to encapsulate the nft methods for token allowance's.
-	/// </summary>
+	/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="T:TokenNftAllowance"]/*' />
 	public class TokenNftAllowance
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <param name="ownerAccountId">the grantor's account id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <param name="delegatingSpender">the delegating spender's account id</param>
-        /// <param name="serialNumbers">the list of serial numbers</param>
-        /// <param name="allSerials">grant for all serial's</param>
+        /// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.#ctor(TokenId,AccountId,AccountId,AccountId,System.Collections.Generic.IEnumerable{System.Int64},System.Boolean)"]/*' />
         internal TokenNftAllowance(TokenId tokenId, AccountId? ownerAccountId, AccountId? spenderAccountId, AccountId? delegatingSpender, IEnumerable<long> serialNumbers, bool? allSerials)
         {
             TokenId = tokenId;
@@ -32,57 +22,30 @@ namespace Hedera.Hashgraph.SDK.Nfts
             AllSerials = allSerials;
         }
 
-		/// <summary>
-		/// The NFT token type that the allowance pertains to
-		/// </summary>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.TokenId"]/*' />
 		public readonly TokenId TokenId;
-		/// <summary>
-		/// The account ID of the token owner (ie. the grantor of the allowance)
-		/// </summary>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.OwnerAccountId"]/*' />
 		public readonly AccountId? OwnerAccountId;
-		/// <summary>
-		/// The account ID of the token allowance spender
-		/// </summary>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SpenderAccountId"]/*' />
 		public readonly AccountId? SpenderAccountId;
-		/// <summary>
-		/// The account ID of the spender who is granted approvedForAll allowance and granting
-		/// approval on an NFT serial to another spender.
-		/// </summary>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.DelegatingSpender"]/*' />
 		public readonly AccountId? DelegatingSpender;
-		/// <summary>
-		/// The list of serial numbers that the spender is permitted to transfer.
-		/// </summary>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SerialNumbers"]/*' />
 		public readonly List<long> SerialNumbers;
-		/// <summary>
-		/// If true, the spender has access to all of the owner's NFT units of type tokenId (currently
-		/// owned and any in the future).
-		/// </summary>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.AllSerials"]/*' />
 		public readonly bool? AllSerials;
 
-		/// <summary>
-		/// Create a copy of a nft token allowance object.
-		/// </summary>
-		/// <param name="allowance">the nft token allowance to copj</param>
-		/// <returns>                         a new copy</returns>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.CopyFrom(TokenNftAllowance)"]/*' />
 		public static TokenNftAllowance CopyFrom(TokenNftAllowance allowance)
         {
             return new TokenNftAllowance(allowance.TokenId, allowance.OwnerAccountId, allowance.SpenderAccountId, allowance.DelegatingSpender, allowance.SerialNumbers, allowance.AllSerials);
         }
-		/// <summary>
-		/// Create a nft token allowance from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the nft token allowance</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromBytes(System.Byte[])"]/*' />
 		public static TokenNftAllowance FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.NftAllowance.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a nft token allowance from a protobuf.
-		/// </summary>
-		/// <param name="allowanceProto">the protobuf</param>
-		/// <returns>                         the nft token allowance</returns>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromProtobuf(Proto.NftAllowance)"]/*' />
 		public static TokenNftAllowance FromProtobuf(Proto.NftAllowance allowanceProto)
         {
             return new TokenNftAllowance(
@@ -94,18 +57,12 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 allowanceProto.ApprovedForAll);
         }
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToProtobuf"]/*' />
 		public virtual Proto.NftAllowance ToProtobuf()
         {
             Proto.NftAllowance proto = new()
@@ -125,10 +82,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
             return proto;
         }
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the remove protobuf</returns>
+        /// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToRemoveProtobuf"]/*' />
         public virtual Proto.NftRemoveAllowance ToRemoveProtobuf()
         {
 			Proto.NftRemoveAllowance proto = new()
@@ -144,11 +98,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return proto;
         }
 
-		/// <summary>
-		/// Validate the configured client.
-		/// </summary>
-		/// <param name="client">the configured client</param>
-		/// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ValidateChecksums(Client)"]/*' />
 		public virtual void ValidateChecksums(Client client)
 		{
 			TokenId.ValidateChecksum(client);

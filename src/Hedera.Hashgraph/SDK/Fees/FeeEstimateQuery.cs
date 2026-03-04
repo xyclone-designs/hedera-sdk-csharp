@@ -90,9 +90,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 			throw new HttpIOException(HttpRequestError.InvalidResponse, "Failed to fetch fee estimate after " + MaxAttempts + " attempts");
         }
 
-        /// <summary>
-        /// Handle the HTTP response and return the result or null if retry is needed.
-        /// </summary>
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleResponse(HttpResponseMessage,FeeEstimateMode,System.Int32)"]/*' />
         private FeeEstimateResponse? HandleResponse(HttpResponseMessage response, FeeEstimateMode resolvedMode, int attempt)
         {
             if (IsSuccessfulResponse(response.StatusCode))
@@ -110,9 +108,7 @@ namespace Hedera.Hashgraph.SDK.Fees
             return null;
         }
 
-        /// <summary>
-        /// Handle errors during execution.
-        /// </summary>
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleError(System.Exception,System.Int32)"]/*' />
         private void HandleError(Exception error, int attempt)
         {
             if (!ShouldRetry(error) || attempt >= MaxAttempts)
@@ -159,9 +155,7 @@ namespace Hedera.Hashgraph.SDK.Fees
             HandleAsyncResponse(client, timeout, resolvedMode, returnFuture, attempt, httpresponsemessage);
 		}
 
-        /// <summary>
-        /// Handle async error response.
-        /// </summary>
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncError(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,System.Exception)"]/*' />
         private void HandleAsyncError(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, Exception error)
         {
             if (attempt >= MaxAttempts || !ShouldRetry(error))
@@ -175,9 +169,7 @@ namespace Hedera.Hashgraph.SDK.Fees
             ExecuteAsync(client, timeout, resolvedMode, returnFuture, attempt + 1);
         }
 
-        /// <summary>
-        /// Handle async success response.
-        /// </summary>
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncResponse(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,HttpResponseMessage)"]/*' />
         private async void HandleAsyncResponse(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, HttpResponseMessage response)
         {
             if (IsSuccessfulResponse(response.StatusCode))

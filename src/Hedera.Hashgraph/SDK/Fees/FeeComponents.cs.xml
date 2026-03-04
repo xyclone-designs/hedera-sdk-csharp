@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FeeComponents">
+    <summary>
+    Utility class used internally by the sdk.
+    </summary>
+  </member>
+  <member name="M:FeeComponents.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:FeeComponents.FromBytes(System.Byte[])">
+    <summary>
+    Create a fee component object from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the fee component object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:FeeComponents.FromProtobuf(Proto.FeeComponents)">
+    <summary>
+    Create a fee components object from a protobuf.
+    </summary>
+    <param name="feeComponents">the protobuf</param>
+    <returns>the fee component object</returns>
+  </member>
+  <member name="P:FeeComponents.Min">
+    <summary>
+    A minimum, the calculated fee must be greater than this value
+    </summary>
+  </member>
+  <member name="P:FeeComponents.Max">
+    <summary>
+    A maximum, the calculated fee must be less than this value
+    </summary>
+  </member>
+  <member name="P:FeeComponents.Constant">
+    <summary>
+    A constant contribution to the fee
+    </summary>
+  </member>
+  <member name="P:FeeComponents.TransactionBandwidthByte">
+    <summary>
+    The price of bandwidth consumed by a transaction, measured in bytes
+    </summary>
+  </member>
+  <member name="P:FeeComponents.TransactionVerification">
+    <summary>
+    The price per signature verification for a transaction
+    </summary>
+  </member>
+  <member name="P:FeeComponents.TransactionRamByteHour">
+    <summary>
+    The price of RAM consumed by a transaction, measured in byte-hours
+    </summary>
+  </member>
+  <member name="P:FeeComponents.TransactionStorageByteHour">
+    <summary>
+    The price of storage consumed by a transaction, measured in byte-hours
+    </summary>
+  </member>
+  <member name="P:FeeComponents.ContractTransactionGas">
+    <summary>
+    The price of computation for a smart contract transaction, measured in gas
+    </summary>
+  </member>
+  <member name="P:FeeComponents.TransferVolumeHbar">
+    <summary>
+    The price per hbar transferred for a transfer
+    </summary>
+  </member>
+  <member name="P:FeeComponents.ResponseMemoryByte">
+    <summary>
+    The price of bandwidth for data retrieved from memory for a response, measured in bytes
+    </summary>
+  </member>
+  <member name="P:FeeComponents.ResponseDiskByte">
+    <summary>
+    The price of bandwidth for data retrieved from disk for a response, measured in bytes
+    </summary>
+  </member>
+  <member name="M:FeeComponents.ToProtobuf">
+    <summary>
+    Convert fee component object to protobuf.
+    </summary>
+    <returns>the protobuf</returns>
+  </member>
+  <member name="M:FeeComponents.ToBytes">
+    <summary>
+    Convert fee component object to byte array.
+    </summary>
+    <returns>the byte array</returns>
+  </member>
+</docs>

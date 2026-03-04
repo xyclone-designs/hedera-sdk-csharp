@@ -15,65 +15,21 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
-    /// <summary>
-    /// Create a topic to accept and group consensus messages.
-    /// 
-    /// If `autoRenewAccount` is specified, that account Key MUST also sign this
-    /// transaction.<br/>
-    /// If `adminKey` is set, that Key MUST sign the transaction.<br/>
-    /// On success, the resulting `TransactionReceipt` SHALL contain the newly
-    /// created `TopicId`.
-    /// 
-    /// The `autoRenewPeriod` on a topic MUST be set to a value between
-    /// `autoRenewPeriod.minDuration` and `autoRenewPeriod.maxDuration`. These
-    /// values are configurable, typically 30 and 92 days.<br/>
-    /// This also sets the initial expirationTime of the topic.
-    /// 
-    /// If no `adminKey` is set on a topic
-    ///   -`autoRenewAccount` SHALL NOT be set on the topic.
-    ///   - A `deleteTopic` transaction SHALL fail.
-    ///   - An `updateTopic` transaction that only extends the expirationTime MAY
-    ///     succeed.
-    ///   - Any other `updateTopic` transaction SHALL fail.
-    /// 
-    /// If the topic expires and is not automatically renewed, the topic SHALL enter
-    /// the `EXPIRED` state.
-    ///   - All transactions on the topic SHALL fail with TOPIC_EXPIRED
-    ///      - Except an updateTopic() call that only extends the expirationTime.
-    ///   - getTopicInfo() SHALL succeed, and show the topic is expired.
-    /// The topic SHALL remain in the `EXPIRED` state for a time determined by the
-    /// `autorenew.gracePeriod` (configurable, originally 7 days).<br/>
-    /// After the grace period, if the topic's expirationTime is not extended, the
-    /// topic SHALL be automatically deleted from state entirely, and cannot be
-    /// recovered or recreated.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="T:TopicCreateTransaction"]/*' />
     public sealed class TopicCreateTransaction : Transaction<TopicCreateTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.#ctor"]/*' />
         public TopicCreateTransaction()
         {
             AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
             DefaultMaxTransactionFee = new Hbar(25);
         }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TopicCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TopicCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -82,83 +38,19 @@ namespace Hedera.Hashgraph.SDK.Topic
         private List<CustomFixedFee> _CustomFees = [];
         private List<Key> _FeeExemptKeys = [];
 
-		/// <summary>
-		/// Set a short publicly visible memo on the new topic.
-		/// </summary>
-		/// <param name="memo">The memo to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.RequireNotFrozen"]/*' />
 		public string TopicMemo { get; set { RequireNotFrozen(); field = value; } } = string.Empty;
-		/// <summary>
-		/// Access control for modification of the topic after it is created.
-		/// <p>
-		/// If this field is set, that key MUST sign this transaction.<br/>
-		/// If this field is set, that key MUST sign each future transaction to
-		/// update or delete the topic.<br/>
-		/// An updateTopic transaction that _only_ extends the topic expirationTime
-		/// (a "manual renewal" transaction) SHALL NOT require admin key
-		/// signature.<br/>
-		/// A topic without an admin key SHALL be immutable, except for expiration
-		/// and renewal.<br/>
-		/// If adminKey is not set, then `autoRenewAccount` SHALL NOT be set.
-		/// </summary>
-		/// <param name="adminKey">The Key to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.RequireNotFrozen_2"]/*' />
 		public Key? AdminKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// Access control for message submission to the topic.
-		/// <p>
-		/// If this field is set, that key MUST sign each consensus submit message
-		/// for this topic.<br/>
-		/// If this field is not set then any account may submit a message on the
-		/// topic, without restriction.
-		/// </summary>
-		/// <param name="submitKey">The Key to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.RequireNotFrozen_3"]/*' />
 		public Key? SubmitKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// The initial lifetime, in seconds, for the topic.<br/>
-		/// This is also the number of seconds for which the topic SHALL be
-		/// automatically renewed upon expiring, if it has a valid auto-renew
-		/// account.
-		/// <p>
-		/// This value MUST be set.<br/>
-		/// This value MUST be greater than the configured
-		/// MIN_AUTORENEW_PERIOD.<br/>
-		/// This value MUST be less than the configured MAX_AUTORENEW_PERIOD.
-		/// </summary>
-		/// <param name="autoRenewPeriod">The TimeSpan to be set for auto renewal</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.RequireNotFrozen_4"]/*' />
 		public TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// The ID of the account to be charged renewal fees at the topic's
-		/// expirationTime to extend the lifetime of the topic.
-		/// <p>
-		/// The topic lifetime SHALL be extended by the smallest of the following:
-		/// <ul>
-		///   <li>The current `autoRenewPeriod` duration.</li>
-		///   <li>The maximum duration that this account has funds to purchase.</li>
-		///   <li>The configured MAX_AUTORENEW_PERIOD at the time of automatic
-		///       renewal.</li>
-		/// </ul>
-		/// If this value is set, the referenced account MUST sign this
-		/// transaction.<br/>
-		/// If this value is set, the `adminKey` field MUST also be set (though that
-		/// key MAY not have any correlation to this account).
-		/// </summary>
-		/// <param name="autoRenewAccountId">The AccountId to be set for auto renewal</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.RequireNotFrozen_5"]/*' />
 		public AccountId? AutoRenewAccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// Sets the key which allows updates to the new topic’s fees.
-		/// </summary>
-		/// <param name="feeScheduleKey">the feeScheduleKey to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.RequireNotFrozen_6"]/*' />
 		public Key? FeeScheduleKey { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// Sets the keys that will be exempt from paying fees.
-		/// </summary>
-		/// <param name="feeExemptKeys">the keys to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="T:TopicCreateTransaction_2"]/*' />
 		public ListGuarded<Key> FeeExemptKeys
 		{
 			init; get => field ??= new ListGuarded<Key>
@@ -166,11 +58,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
-		/// <summary>
-		/// Sets the fixed fees to assess when a message is submitted to the new topic.
-		/// </summary>
-		/// <param name="">customFees List of CustomFixedFee</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.InitFromTransactionBody"]/*' />
 		public ListGuarded<CustomFixedFee> CustomFees
 		{
 			init; get => field ??= new ListGuarded<CustomFixedFee>
@@ -179,9 +67,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 			};
 		}
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.InitFromTransactionBody_2"]/*' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusCreateTopic;
@@ -224,11 +110,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             TopicMemo = body.Memo;
         }
 
-		/// <summary>
-		/// Build the transaction body.
-		/// </summary>
-		/// <returns>{@link
-		///         Proto.ConsensusCreateTopicTransactionBody}</returns>
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.ToProtobuf"]/*' />
 		public Proto.ConsensusCreateTopicTransactionBody ToProtobuf()
         {
             var builder = new Proto.ConsensusCreateTopicTransactionBody

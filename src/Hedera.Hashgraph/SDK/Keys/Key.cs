@@ -13,15 +13,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-    /// <summary>
-    /// A common base for the signing authority or key that entities in Hedera may have.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/key">Hedera Documentation</a>
-    /// </summary>
-    /// <remarks>
-    /// @seeKeyList
-    /// @seePublicKey
-    /// </remarks>
+    /// <include file="Key.cs.xml" path='docs/member[@name="T:Key"]/*' />
     public abstract class Key
     {
         internal static readonly DerObjectIdentifier ID_ED25519 = new ("1.3.101.112");
@@ -30,21 +22,12 @@ namespace Hedera.Hashgraph.SDK.Keys
         internal static readonly X9ECParameters ECDSA_SECP256K1_CURVE = SecNamedCurves.GetByName("secp256k1");
         internal static readonly ECDomainParameters ECDSA_SECP256K1_DOMAIN = new (ECDSA_SECP256K1_CURVE.Curve, ECDSA_SECP256K1_CURVE.G, ECDSA_SECP256K1_CURVE.N, ECDSA_SECP256K1_CURVE.H);
 
-		/// <summary>
-		/// Create Key from proto.Key byte array
-		/// </summary>
-		/// <param name="bytes"></param>
-		/// <returns>Key representation</returns>
-		/// <exception cref="InvalidProtocolBufferException"></exception>
+		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromBytes(System.Byte[])"]/*' />
 		public static Key? FromBytes(byte[] bytes)
 		{
 			return FromProtobufKey(Proto.Key.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a specific key type from the protobuf.
-		/// </summary>
-		/// <param name="key">the protobuf key of unknown type</param>
-		/// <returns>                         the differentiated key</returns>
+		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromProtobufKey(Proto.Key)"]/*' />
 		public static Key? FromProtobufKey(Proto.Key key)
         {
             return key.KeyCase switch
@@ -64,15 +47,10 @@ namespace Hedera.Hashgraph.SDK.Keys
             };
         }
 
-        /// <summary>
-        /// Serialize this key as a protobuf object
-        /// </summary>
+        /// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToProtobufKey"]/*' />
         public abstract Proto.Key ToProtobufKey();
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
         {
             return ToProtobufKey().ToByteArray();

@@ -31,25 +31,15 @@ namespace Hedera.Hashgraph.SDK
                 subtotal: jsonnode["subtotal"]?.GetValue<long>() ?? throw new ArgumentException(null, "subtotal"));
 		}
 
-		/// <summary>
-		/// The charged count of items as calculated by max(0, count - included).
-		/// </summary>
+		/// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Charged"]/*' />
 		public int Charged { get; }
-        /// <summary>
-        /// The actual count of items received.
-        /// </summary>
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Count"]/*' />
         public int Count { get; }
-        /// <summary>
-        /// The fee price per unit in tinycents.
-        /// </summary>
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.FeePerUnit"]/*' />
         public long FeePerUnit { get; }
-        /// <summary>
-        /// The count of this "extra" that is included for free.
-        /// </summary>
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Included"]/*' />
         public int Included { get; }
-        /// <summary>
-        /// The unique name of this extra fee as defined in the fee schedule.
-        /// </summary>
+        /// <include file="FeeExtra.cs.xml" path='docs/member[@name="P:.Name"]/*' />
         public string? Name { get; }
         public long Subtotal { get; }
 

@@ -6,28 +6,16 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// Shared specifications for an EVM hook.
-    /// <p>
-    /// This class defines the source of EVM bytecode for a hook implementation.
-    /// Currently, hooks can only be implemented by referencing an existing contract
-    /// that implements the extension point API.
-    /// </summary>
+    /// <include file="EvmHookSpec.cs.xml" path='docs/member[@name="T:EvmHookSpec"]/*' />
     public abstract class EvmHookSpec
     {
-        /// <summary>
-        /// Create a new EvmHookSpec that references a contract.
-        /// </summary>
-        /// <param name="contractId">the ID of the contract that implements the hook</param>
+        /// <include file="EvmHookSpec.cs.xml" path='docs/member[@name="M:EvmHookSpec.#ctor(ContractId)"]/*' />
         protected EvmHookSpec(ContractId contractId)
         {
             ContractId = contractId;
         }
 
-        /// <summary>
-        /// Get the contract ID that implements this hook.
-        /// </summary>
-        /// <returns>the contract ID</returns>
+        /// <include file="EvmHookSpec.cs.xml" path='docs/member[@name="P:EvmHookSpec.ContractId"]/*' />
         public virtual ContractId ContractId { get; }
 
         public override bool Equals(object? o)

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:AssessedCustomFee">
+    <summary>
+    A custom transfer fee that was assessed during the handling of a CryptoTransfer.
+    </summary>
+  </member>
+  <member name="M:AssessedCustomFee.FromBytes(System.Byte[])">
+    <summary>
+    Convert a byte array into an assessed custom fee object.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the converted assessed custom fee object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:AssessedCustomFee.FromProtobuf(Proto.AssessedCustomFee)">
+    <summary>
+    Convert the protobuf object to an assessed custom fee object.
+    </summary>
+    <param name="assessedCustomFee">protobuf response object</param>
+    <returns>the converted assessed custom fee object</returns>
+  </member>
+  <member name="P:AssessedCustomFee.Amount">
+    <summary>
+    The number of units assessed for the fee
+    </summary>
+  </member>
+  <member name="P:AssessedCustomFee.TokenId">
+    <summary>
+    The denomination of the fee; taken as hbar if left unset
+    </summary>
+  </member>
+  <member name="P:AssessedCustomFee.FeeCollectorAccountId">
+    <summary>
+    The account to receive the assessed fee
+    </summary>
+  </member>
+  <member name="P:AssessedCustomFee.PayerAccountIdList">
+    <summary>
+    The account(s) whose final balances would have been higher in the absence of this assessed fee
+    </summary>
+  </member>
+  <member name="M:AssessedCustomFee.ToBytes">
+    <summary>
+    Create a byte array representation.
+    </summary>
+    <returns>the converted assessed custom fees</returns>
+  </member>
+  <member name="M:AssessedCustomFee.ToProtobuf">
+    <summary>
+    Create the protobuf representation.
+    </summary>
+    <returns>{@link Proto.AssessedCustomFee}</returns>
+  </member>
+</docs>

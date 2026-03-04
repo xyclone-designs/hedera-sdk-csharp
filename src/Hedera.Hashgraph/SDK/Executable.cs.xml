@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Executable">
+    <summary>&lt;summary&gt;
+    Abstract base utility class.
+    &lt;/summary&gt;
+    &lt;param name="&lt;SdkRequestT&gt;"&gt;the sdk request&lt;/param&gt;
+    &lt;param name="&lt;ProtoRequestT&gt;"&gt;the proto request&lt;/param&gt;
+    &lt;param name="&lt;ResponseT&gt;"&gt;the response&lt;/param&gt;
+    &lt;param name="&lt;O&gt;"&gt;the O type&lt;/param&gt;</summary>
+  </member>
+  <member name="T:Executable_2">
+    <summary>
+    List of healthy and unhealthy nodes with which execution will be attempted.
+    </summary>
+  </member>
+  <member name="P:Executable.AttemptedAllNodes">
+    <summary>
+    Indicates if the request has been attempted to be sent to all nodes
+    </summary>
+  </member>
+  <member name="P:Executable.GrpcDeadline">
+    <summary>
+    When execution is attempted, a single attempt will timeout when this deadline is reached. (The SDK may
+    subsequently retry the execution.)
+    </summary>
+  </member>
+  <member name="T:Executable_3">
+    <summary>
+    The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
+    until it reaches this time.
+    </summary>
+  </member>
+  <member name="T:Executable_4">
+    <summary>
+    The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
+    exponentially until it reaches the maxBackoff.
+    </summary>
+  </member>
+  <member name="T:Executable_5">
+    <summary>
+    The maximum times execution will be attempted
+    </summary>
+  </member>
+  <member name="T:Executable_6">
+    <summary>&lt;summary&gt;
+    Set the account IDs of the nodes that this transaction will be submitted to.
+    &lt;p&gt;
+    Providing an explicit node account ID interferes with client-side load balancing of the network. By default, the
+    SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
+    reports a fatal error, the SDK will try again with a different node.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:Executable_7">
+    <summary>
+    Set a callback that will be called right before the request is sent. As input, the callback will receive the
+    protobuf of the request, and the callback should return the request protobuf.  This means the callback has an
+    opportunity to read, copy, or modify the request that will be sent.
+    </summary>
+  </member>
+  <member name="T:Executable_8">
+    <summary>
+    Set a callback that will be called right before the response is returned. As input, the callback will receive the
+    protobuf of the response, and the callback should return the response protobuf.  This means the callback has an
+    opportunity to read, copy, or modify the response that will be read.
+    </summary>
+  </member>
+  <member name="P:Executable.Logger">
+    <summary>
+    Set the Logger
+    </summary>
+    <param name="Logger">the new Logger</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:Executable.GetMethod">
+    <summary>
+    Called to direct the invocation of the query to the appropriate gRPC service.
+    </summary>
+  </member>
+  <member name="M:Executable.MapResponse(TProtoResponse,AccountId,TProtoRequest)">
+    <summary>
+    Called after receiving the query response from Hedera. The derived class should map into its output type.
+    </summary>
+  </member>
+  <member name="M:Executable.GetNodeForExecute(System.Int32)">
+    <summary>
+    Return the next node for execution. Will select the first node that is deemed healthy. If we cannot find such a
+    node and have tried n nodes (n being the size of the node list), we will select the node with the smallest
+    remaining delay. All delays MUST be executed in calling layer as this method will be called for sync + async
+    scenarios.
+    </summary>
+  </member>
+  <member name="M:Executable.GetExecutionState(ResponseStatus,TProtoResponse)">
+    <summary>
+    Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
+    the query response from Hedera. By default it triggers a retry when the pre-check status is {@code BUSY}.
+    </summary>
+  </member>
+  <member name="M:Executable.Execute(Client)">
+    <summary>
+    Execute this transaction or query
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>Result of execution</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+  </member>
+  <member name="M:Executable.Execute(Client,System.TimeSpan)">
+    <summary>
+    Execute this transaction or query with a timeout
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>Result of execution</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+  </member>
+  <member name="M:Executable.ExecuteAsync(Client)">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>Future result of execution</returns>
+  </member>
+  <member name="M:Executable.ExecuteAsync(Client,System.TimeSpan)">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>Future result of execution</returns>
+  </member>
+  <member name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse,System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse,System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse},System.Action{System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse},System.Action{System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:Executable.LogTransaction(TransactionId,Client,Node,System.Boolean,System.Int32,TProtoResponse,System.Exception)">
+    <summary>
+    Logs the transaction's parameters
+    </summary>
+    <param name="transactionId">the transaction's id</param>
+    <param name="client">the client that executed the transaction</param>
+    <param name="node">the node the transaction was sent to</param>
+    <param name="isAsync">whether the transaction was executed asynchronously</param>
+    <param name="attempt">the attempt number</param>
+    <param name="response">the transaction response if the transaction was successful</param>
+    <param name="error">the error if the transaction was not successful</param>
+  </member>
+  <member name="M:Executable.UpdateNetworkFromAddressBook(Client)">
+    <summary>
+    Updates the client's network from the address book if a mirror network is configured.
+    Logs any errors at TRACE level without throwing exceptions.
+    </summary>
+    <param name="client">The client whose network should be updated</param>
+  </member>
+</docs>

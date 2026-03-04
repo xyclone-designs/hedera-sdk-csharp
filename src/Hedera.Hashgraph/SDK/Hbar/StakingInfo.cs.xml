@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:StakingInfo">
+    <summary>
+    Staking metadata for an account or a contract returned in CryptoGetInfo or ContractGetInfo queries
+    </summary>
+    <remarks>
+    Constructor
+    </remarks>
+    <param name="declineStakingReward">the declineStakingReward</param>
+    <param name="stakePeriodStart">the stakePeriodStart</param>
+    <param name="pendingReward">the amount in Hbar that will be received in the next reward situation</param>
+    <param name="stakedToMe">the total of balance of all accounts staked to this account or contract</param>
+    <param name="stakedAccountId">the account to which this account or contract is staking</param>
+    <param name="stakedNodeId">the ID of the node this account or contract is staked to</param>
+  </member>
+  <member name="M:StakingInfo.FromBytes(System.Byte[])">
+    <summary>
+    Convert a byte array to a staking info object.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the converted staking info object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="P:StakingInfo.DeclineStakingReward">
+    <summary>
+    If true, the contract declines receiving a staking reward. The default value is false.
+    </summary>
+  </member>
+  <member name="P:StakingInfo.StakePeriodStart">
+    <summary>
+    The staking period during which either the staking settings for this account or contract changed (such as starting
+    staking or changing staked_node_id) or the most recent reward was earned, whichever is later. If this account or contract
+    is not currently staked to a node, then this field is not set.
+    </summary>
+  </member>
+  <member name="P:StakingInfo.PendingReward">
+    <summary>
+    The amount in Hbar that will be received in the next reward situation.
+    </summary>
+  </member>
+  <member name="P:StakingInfo.StakedToMe">
+    <summary>
+    The total of balance of all accounts staked to this account or contract.
+    </summary>
+  </member>
+  <member name="P:StakingInfo.StakedAccountId">
+    <summary>
+    The account to which this account or contract is staking.
+    </summary>
+  </member>
+  <member name="P:StakingInfo.StakedNodeId">
+    <summary>
+    The ID of the node this account or contract is staked to.
+    </summary>
+  </member>
+  <member name="M:StakingInfo.ToBytes">
+    <summary>
+    Convert the staking info object to a byte array.
+    </summary>
+    <returns>the converted staking info object</returns>
+  </member>
+</docs>

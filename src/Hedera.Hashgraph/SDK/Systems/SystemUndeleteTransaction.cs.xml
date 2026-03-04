@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+    <summary></summary>
+    <remarks>
+    @deprecated
+    This transaction is obsolete, not supported, and SHALL fail with a
+    pre-check result of `NOT_SUPPORTED`.
+    
+    Recover a file or contract bytecode deleted from the Hedera File
+    System (HFS) by a `systemDelete` transaction.
+    &gt; Note
+    &gt;&gt; A system delete/undelete for a `contractID` is not supported and
+    &gt;&gt; SHALL return `INVALID_FILE_ID` or `MISSING_ENTITY_ID`.
+    
+    This transaction can _only_ recover a file removed with the `systemDelete`
+    transaction. A file deleted via `fileDelete` SHALL be irrecoverable.<br />
+    This transaction MUST be signed by an Hedera administrative ("system")
+    account.
+    
+    ### What is a "system" file
+    A "system" file is any file with a file number less than or equal to the
+    current configuration value for `ledger.numReservedSystemEntities`,
+    typically `750`.
+    
+    ### Block Stream Effects
+    None
+    </remarks>
+  </member>
+  <member name="M:SystemUndeleteTransaction">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:SystemUndeleteTransaction(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:SystemUndeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A file identifier.
+    &lt;p&gt;
+    The identified file MUST exist in the HFS.&lt;br/&gt;
+    The identified file MUST be deleted.&lt;br/&gt;
+    The identified file deletion MUST be a result of a
+    `systemDelete` transaction.&lt;br/&gt;
+    The identified file MUST NOT be a "system" file.&lt;br/&gt;
+    This field is REQUIRED.
+    
+    Mutually exclusive with {@link #setContractId(ContractId)}.
+    &lt;/summary&gt;
+    &lt;param name="fileId"&gt;The FileId to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    A contract identifier.
+    &lt;p&gt;
+    The identified contract MUST exist in network state.&lt;br/&gt;
+    The identified contract bytecode MUST be deleted.&lt;br/&gt;
+    The identified contract deletion MUST be a result of a
+    `systemDelete` transaction.
+    &lt;p&gt;
+    &lt;/summary&gt;
+    &lt;param name="contractId"&gt;The ContractId to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link Proto.SystemUndeleteTransactionBody}</returns>
+  </member>
+</docs>

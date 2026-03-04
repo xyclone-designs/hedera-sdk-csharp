@@ -6,10 +6,7 @@ namespace Hedera.Hashgraph.SDK
 {
     abstract partial class BaseNode<N, KeyT> 
     {
-        /// <summary>
-        /// Metadata interceptor for the client.
-        /// This interceptor adds the user agent header to the request.
-        /// </summary>
+		/// <include file="BaseNode.MetadataInterceptor.cs.xml" path='docs/member[@name="T:MetadataInterceptor"]/*' />
 		internal sealed class MetadataInterceptor : Interceptor
 		{
 			private readonly Metadata metadata;

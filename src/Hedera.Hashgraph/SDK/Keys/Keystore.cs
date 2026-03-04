@@ -12,9 +12,7 @@ using System.Text.Json;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-	/// <summary>
-	/// Internal utility class to serialize / deserialize between java object / json representation.
-	/// </summary>
+	/// <include file="Keystore.cs.xml" path='docs/member[@name="T:Keystore"]/*' />
 
 	sealed class Keystore
 	{

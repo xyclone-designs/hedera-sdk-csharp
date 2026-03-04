@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TopicDeleteTransaction">
+    <summary>&lt;summary&gt;
+    Delete a topic.
+    &lt;p&gt;
+    No more transactions or queries on the topic will succeed.
+    &lt;p&gt;
+    If an {@code adminKey} is set, this transaction must be signed by that key.
+    If there is no {@code adminKey}, this transaction will fail with {@link Status#UNAUTHORIZED}.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:TopicDeleteTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TopicDeleteTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TopicDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TopicDeleteTransaction.RequireNotFrozen">
+    <summary>
+    Set the topic ID to delete.
+    </summary>
+    <param name="topicId">The TopicId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:TopicDeleteTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TopicDeleteTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.ConsensusDeleteTopicTransactionBody}</returns>
+  </member>
+</docs>

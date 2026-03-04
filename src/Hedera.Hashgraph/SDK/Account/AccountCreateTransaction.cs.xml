@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:AccountCreateTransaction">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:AccountCreateTransaction(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:AccountCreateTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:SetKeyWithAlias(Key)">
+    <summary>
+    Sets ECDSA private key, derives and sets it's EVM address in the background. Essentially does
+    {@link AccountCreateTransaction#setKey(Key)} +
+    {@link AccountCreateTransaction#setAlias(EvmAddress)}
+    </summary>
+    <param name="key"></param>
+    <returns>this</returns>
+  </member>
+  <member name="M:SetKeyWithoutAlias(Key)">
+    <summary>
+    Sets key where it is explicitly called out that the Alias is not set
+    </summary>
+    <param name="key"></param>
+    <returns>this</returns>
+  </member>
+  <member name="M:SetKeyWithAlias(Key,Key)">
+    <summary>
+    Sets the account key and a separate ECDSA key that the EVM address is derived from.
+    A user must sign the transaction with both keys for this flow to be successful.
+    </summary>
+    <param name="key"></param>
+    <param name="ecdsaKey"></param>
+    <returns>this</returns>
+  </member>
+  <member name="M:RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    An amount, in tinybar, to deposit to the newly created account.
+    &lt;p&gt;
+    The deposited amount SHALL be debited to the "payer" account for this
+    transaction.
+    &lt;/summary&gt;
+    &lt;param name="InitialBalance"&gt;the initial balance.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    A flag indicating the account holder must authorize all incoming
+    token transfers.
+    &lt;p&gt;
+    If this flag is set then any transaction that would result in adding
+    hbar or other tokens to this account balance MUST be signed by the
+    identifying key of this account (that is, the `key` field).&lt;br/&gt;
+    If this flag is set, then the account key (`key` field) MUST sign
+    this create transaction, in addition to the transaction payer.
+    &lt;/summary&gt;
+    &lt;param name="receiveSignatureRequired"&gt;true to require a signature when receiving hbars.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    The identifying key for this account.
+    This key represents the account owner, and is required for most actions
+    involving this account that do not modify the account itself. This key
+    may also identify the account for smart contracts.
+    &lt;p&gt;
+    This field is REQUIRED.
+    This `Key` MUST NOT be an empty `KeyList` and MUST contain at least one
+    "primitive" (i.e. cryptographic) key value.
+    &lt;/summary&gt;
+    &lt;param name="key"&gt;the key for this account.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_4">
+    <summary></summary>
+    <param name="ProxyAccountId">the proxy account ID.</param>
+    <returns>{@code this}</returns>
+    <remarks>
+    @deprecatedwith no replacement
+    
+    Set the ID of the account to which this account is proxy staked.
+    
+    Use `staked_id` instead.<br />
+    An account identifier for a staking proxy.
+    </remarks>
+  </member>
+  <member name="M:RequireNotFrozen_5">
+    <summary>&lt;summary&gt;
+    Set the auto renew period for this account.
+    
+    &lt;p&gt;A Hedera™ account is charged to extend its expiration date every renew period. If it
+    doesn't have enough balance, it extends as long as possible. If the balance is zero when it
+    expires, then the account is deleted.
+    
+    &lt;p&gt;This is defaulted to 3 months by the SDK.
+    &lt;/summary&gt;
+    &lt;param name="AutoRenewPeriod"&gt;the auto renew period for this account.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_6">
+    <summary>&lt;summary&gt;
+    A maximum number of tokens that can be auto-associated
+    with this account.&lt;br/&gt;
+    By default this value is 0 for all accounts except for automatically
+    created accounts (e.g. smart contracts), which default to -1.
+    &lt;p&gt;
+    If this value is `0`, then this account MUST manually associate to
+    a token before holding or transacting in that token.&lt;br/&gt;
+    This value MAY also be `-1` to indicate no limit.&lt;br/&gt;
+    This value MUST NOT be less than `-1`.
+    &lt;/summary&gt;
+    &lt;param name="amount"&gt;the amount of tokens&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_7">
+    <summary>&lt;summary&gt;
+    A short description of this Account.
+    &lt;p&gt;
+    This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
+    (default 100) bytes when encoded as UTF-8.
+    &lt;/summary&gt;
+    &lt;param name="memo"&gt;the memo&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_8">
+    <summary>
+    Set the account to which this account will stake
+    </summary>
+    <param name="StakedAccountId">ID of the account to which this account will stake.</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:RequireNotFrozen_9">
+    <summary>&lt;summary&gt;
+    ID of the node this account is staked to.
+    &lt;p&gt;
+    If this account is not currently staking its balances, then this
+    field, if set, SHALL be the sentinel value of `-1`.&lt;br/&gt;
+    Wallet software SHOULD surface staking issues to users and provide a
+    simple mechanism to update staking to a new node ID in the event the
+    prior staked node ID ceases to be valid.
+    &lt;/summary&gt;
+    &lt;param name="StakedNodeId"&gt;ID of the node this account will be staked to.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:RequireNotFrozen_10">
+    <summary>
+    If true, the account declines receiving a staking reward. The default value is false.
+    </summary>
+    <param name="DeclineStakingReward">- If true, the account declines receiving a staking reward. The default value is false.</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:RequireNotFrozen_11">
+    <summary>&lt;summary&gt;
+    The bytes to be used as the account's Alias.
+    &lt;p&gt;
+    The bytes must be formatted as the calcluated last 20 bytes of the
+    keccak-256 of the ECDSA primitive key.
+    &lt;p&gt;
+    All other types of keys, including but not limited to ED25519, ThresholdKey, KeyList, ContractID, and
+    delegatable_contract_id, are not supported.
+    &lt;p&gt;
+    At most only one account can ever have a given Alias on the network.
+    &lt;/summary&gt;
+    &lt;param name="Alias"&gt;The ethereum account 20-byte EVM address&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="T:Unknown">
+    <summary>&lt;summary&gt;
+    The ethereum account 20-byte EVM address to be used as the account's Alias. This EVM address may be either
+    the encoded form of the shard.realm.num or the keccak-256 hash of a ECDSA_SECP256K1 primitive key.
+    &lt;p&gt;
+    A given Alias can map to at most one account on the network at a time. This uniqueness will be enforced
+    relative to Aliases currently on the network at Alias assignment.
+    &lt;p&gt;
+    If a transaction creates an account using an Alias, any further crypto transfers to that Alias will
+    simply be deposited in that account, without creating anything, and with no creation fee being charged.
+    &lt;/summary&gt;
+    &lt;param name="AliasEvmAddress"&gt;The ethereum account 20-byte EVM address&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;when evmAddress is invalid&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:ToProtobuf">
+    <summary>
+    Get the hook creation details for this account.
+    </summary>
+    <returns>a copy of the hook creation details list</returns>
+  </member>
+  <member name="M:ToProtobuf_2">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link Proto.CryptoCreateTransactionBody}</returns>
+  </member>
+  <member name="M:InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+</docs>

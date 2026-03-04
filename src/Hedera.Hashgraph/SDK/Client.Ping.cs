@@ -10,23 +10,12 @@ namespace Hedera.Hashgraph.SDK
 {
 	public sealed partial class Client
     {
-		/// <summary>
-		/// Send a ping to the given node.
-		/// </summary>
-		/// <param name="nodeAccountId">Account ID of the node to ping</param>
-		/// <exception cref="TimeoutException">when the transaction times out</exception>
-		/// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+		/// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:Ping(AccountId)"]/*' />
 		public void Ping(AccountId nodeAccountId)
         {
             Ping(nodeAccountId, RequestTimeout);
         }
-        /// <summary>
-        /// Send a ping to the given node.
-        /// </summary>
-        /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:Ping(AccountId,System.TimeSpan)"]/*' />
         public void Ping(AccountId nodeAccountId, TimeSpan timeout)
         {
             new AccountBalanceQuery
@@ -36,21 +25,12 @@ namespace Hedera.Hashgraph.SDK
 
 			}.Execute(this, timeout);
         }
-        /// <summary>
-        /// Send a ping to the given node asynchronously.
-        /// </summary>
-        /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <returns>an empty future that throws exception if there was an error</returns>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAsync(AccountId)"]/*' />
         public Task PingAsync(AccountId nodeAccountId)
         {
             return PingAsync(nodeAccountId, RequestTimeout);
         }
-        /// <summary>
-        /// Send a ping to the given node asynchronously.
-        /// </summary>
-        /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>an empty future that throws exception if there was an error</returns>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAsync(AccountId,System.TimeSpan)"]/*' />
         public async Task PingAsync(AccountId nodeAccountId, TimeSpan timeout)
         {
 			await new AccountBalanceQuery()
@@ -59,52 +39,27 @@ namespace Hedera.Hashgraph.SDK
 
 			}.ExecuteAsync(this, timeout);
         }
-        /// <summary>
-        /// Send a ping to the given node asynchronously.
-        /// </summary>
-        /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAsync(AccountId,System.Action{System.Exception})"]/*' />
         public void PingAsync(AccountId nodeAccountId, Action<Exception> callback)
         {
             Utils.ActionHelper.Action(PingAsync(nodeAccountId), callback);
         }
-        /// <summary>
-        /// Send a ping to the given node asynchronously.
-        /// </summary>
-        /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAsync(AccountId,System.TimeSpan,System.Action{System.Exception})"]/*' />
         public void PingAsync(AccountId nodeAccountId, TimeSpan timeout, Action<Exception> callback)
         {
             Utils.ActionHelper.Action(PingAsync(nodeAccountId, timeout), callback);
         }
-        /// <summary>
-        /// Send a ping to the given node asynchronously.
-        /// </summary>
-        /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAsync(AccountId,System.Action,System.Action{System.Exception})"]/*' />
         public void PingAsync(AccountId nodeAccountId, Action onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(PingAsync(nodeAccountId), onSuccess, onFailure);
         }
-        /// <summary>
-        /// Send a ping to the given node asynchronously.
-        /// </summary>
-        /// <param name="nodeAccountId">Account ID of the node to ping</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAsync(AccountId,System.TimeSpan,System.Action,System.Action{System.Exception})"]/*' />
         public void PingAsync(AccountId nodeAccountId, TimeSpan timeout, Action onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(PingAsync(nodeAccountId, timeout), onSuccess, onFailure);
         }
-        /// <summary>
-        /// Sends pings to all nodes in the client's Network. Combines well with setMaxAttempts(1) to remove all dead nodes
-        /// from the Network.
-        /// </summary>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAll"]/*' />
         public void PingAll()
         {
             lock (this)
@@ -112,13 +67,7 @@ namespace Hedera.Hashgraph.SDK
                 PingAll(RequestTimeout);
             }
         }
-        /// <summary>
-        /// Sends pings to all nodes in the client's Network. Combines well with setMaxAttempts(1) to remove all dead nodes
-        /// from the Network.
-        /// </summary>
-        /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAll(System.TimeSpan)"]/*' />
         public void PingAll(TimeSpan timeoutPerPing)
         {
             lock (this)
@@ -129,11 +78,7 @@ namespace Hedera.Hashgraph.SDK
                 }
             }
         }
-        /// <summary>
-        /// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
-        /// all dead nodes from the Network.
-        /// </summary>
-        /// <returns>an empty future that throws exception if there was an error</returns>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAllAsync"]/*' />
         public Task PingAllAsync()
         {
             lock (this)
@@ -141,12 +86,7 @@ namespace Hedera.Hashgraph.SDK
                 return PingAllAsync(RequestTimeout);
             }
         }
-        /// <summary>
-        /// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
-        /// all dead nodes from the Network.
-        /// </summary>
-        /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
-        /// <returns>an empty future that throws exception if there was an error</returns>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAllAsync(System.TimeSpan)"]/*' />
         public Task PingAllAsync(TimeSpan timeoutPerPing)
         {
             lock (this)
@@ -162,42 +102,22 @@ namespace Hedera.Hashgraph.SDK
                 return Task.WhenAll(list);
             }
         }
-        /// <summary>
-        /// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
-        /// all dead nodes from the Network.
-        /// </summary>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAllAsync(System.Action{System.Exception})"]/*' />
         public void PingAllAsync(Action<Exception> callback)
         {
             Utils.ActionHelper.Action(PingAllAsync(), callback);
         }
-		/// <summary>
-		/// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
-		/// all dead nodes from the Network.
-		/// </summary>
-		/// <param name="onSuccess">a Action which consumes the result on success.</param>
-		/// <param name="onFailure">a Action which consumes the error on failure.</param>
+		/// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAllAsync(System.Action,System.Action{System.Exception})"]/*' />
 		public void PingAllAsync(Action onSuccess, Action<Exception> onFailure)
 		{
 			Utils.ActionHelper.TwoActions(PingAllAsync(), onSuccess, onFailure);
 		}
-		/// <summary>
-		/// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
-		/// all dead nodes from the Network.
-		/// </summary>
-		/// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
-		/// <param name="callback">a Action which handles the result or error.</param>
+		/// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAllAsync(System.TimeSpan,System.Action{System.Exception})"]/*' />
 		public void PingAllAsync(TimeSpan timeoutPerPing, Action<Exception> callback)
         {
             Utils.ActionHelper.Action(PingAllAsync(timeoutPerPing), callback);
         }
-        /// <summary>
-        /// Sends pings to all nodes in the client's Network asynchronously. Combines well with setMaxAttempts(1) to remove
-        /// all dead nodes from the Network.
-        /// </summary>
-        /// <param name="timeoutPerPing">The timeout after which each execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="Client.Ping.cs.xml" path='docs/member[@name="M:PingAllAsync(System.TimeSpan,System.Action,System.Action{System.Exception})"]/*' />
         public void PingAllAsync(TimeSpan timeoutPerPing, Action onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(PingAllAsync(timeoutPerPing), onSuccess, onFailure);

@@ -20,40 +20,19 @@ using System.Text.Unicode;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-    /// <summary>
-    /// Encapsulate the ED25519 private key.
-    /// </summary>
+    /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="T:PrivateKeyED25519"]/*' />
     class PrivateKeyED25519 : PrivateKey
     {
         private readonly byte[] KeyData;
         private readonly KeyParameter? ChainCode;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="keyData">the key data</param>
-        /// <param name="chainCode">the chain code</param>
+        /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.#ctor(System.Byte[],KeyParameter)"]/*' />
         internal PrivateKeyED25519(byte[] keyData, KeyParameter? chainCode)
         {
             KeyData = keyData;
             ChainCode = chainCode;
         }
 
-		/// <summary>
-		/// Create an ED25519 key from seed.
-		/// Implement the published algorithm as defined in BIP32 in order to derive the primary account key from the
-		/// original (and never stored) master key.
-		/// The original master key, which is a secure key generated according to the BIP39 specification, is input to this
-		/// operation, and provides the base cryptographic seed material required to ensure the output is sufficiently random
-		/// to maintain strong cryptographic assurances.
-		/// The fromSeed() method must be provided with cryptographically secure material; otherwise, it will produce
-		/// insecure output.
-		/// </summary>
-		/// <param name="seed">the seed bytes</param>
-		/// <returns>                         the new key</returns>
-		/// <remarks>
-		/// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">BIP-32 Definition</a>
-		/// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-39 Definition</a>
-		/// </remarks>
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromSeed(System.Byte[])"]/*' />
 		public static PrivateKey FromSeed(byte[] seed)
 		{
 			var hmacSha512 = new HMac(new Sha512Digest());
@@ -63,11 +42,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 			hmacSha512.DoFinal(derivedState, 0);
 			return PrivateKeyED25519.DerivableKeyED25519(derivedState);
 		}
-		/// <summary>
-		/// Create a private key from a byte array.
-		/// </summary>
-		/// <param name="privateKey">the byte array</param>
-		/// <returns>                         the new key</returns>
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromBytesInternal(System.Byte[])"]/*' />
 		public static PrivateKey FromBytesInternal(byte[] privateKey)
 		{
 			if ((privateKey.Length == Ed25519.SecretKeySize) || (privateKey.Length == Ed25519.SecretKeySize + Ed25519.PublicKeySize))
@@ -79,11 +54,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 			// Assume a DER-encoded private key descriptor
 			return FromPrivateKeyInfoInternal(PrivateKeyInfo.GetInstance(privateKey));
 		}
-		/// <summary>
-		/// Create a new private key from a private key info object.
-		/// </summary>
-		/// <param name="privateKeyInfo">the private key info object</param>
-		/// <returns>                         the new key</returns>
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromPrivateKeyInfoInternal(PrivateKeyInfo)"]/*' />
 		public static PrivateKeyED25519 FromPrivateKeyInfoInternal(PrivateKeyInfo privateKeyInfo)
         {
             try
@@ -97,10 +68,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             }
         }
 
-		/// <summary>
-		/// Create a new private ED25519 key.
-		/// </summary>
-		/// <returns>                         the new key</returns>
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.GenerateInternal"]/*' />
 		public static PrivateKeyED25519 GenerateInternal()
 		{
 
@@ -109,26 +77,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 			ThreadLocalSecureRandom.Current().NextBytes(data);
 			return DerivableKeyED25519(data);
 		}
-		/// <summary>
-		/// Create a derived key.
-		/// The industry standard protocol for deriving an active ed25519 keypair from a BIP39 master key is described in
-		/// BIP32. By using this deterministic mechanism to derive cryptographically secure keypairs from a single original
-		/// secret, the user maintains secure access to their wallet, even if they lose access to a particular system or
-		/// wallet local data store.
-		/// The active keypair can always be re-derived from the original master key.
-		/// The use of the fixed "key" values in this code is defined by this deterministic protocol, and this data is mixed,
-		/// in a deterministic but cryptographically secure manner, with the original master key and/or other derived keys
-		/// "higher" in the tree to produce a cryptographically secure derived key.
-		/// This "Key Derivation Function" makes use of secure hash algorithm and a secure hash
-		/// based message authentication code to produce an initialization vector, and then
-		/// produces the actual key from a portion of that vector.
-		/// </summary>
-		/// <param name="deriveData">data to derive the key</param>
-		/// <returns>                         the new key</returns>
-		/// <remarks>
-		/// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">BIP-32 Definition</a>
-		/// @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-39 Definition</a>
-		/// </remarks>
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.DerivableKeyED25519(System.Byte[])"]/*' />
 		public static PrivateKeyED25519 DerivableKeyED25519(byte[] deriveData)
 		{
 			var keyData = deriveData[0..32];
@@ -136,12 +85,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 			return new PrivateKeyED25519(keyData, chainCode);
 		}
 
-		/// <summary>
-		/// Derive a legacy child key.
-		/// </summary>
-		/// <param name="entropy">entropy byte array</param>
-		/// <param name="index">the child key index</param>
-		/// <returns>                         the new key</returns>
+		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.LegacyDeriveChildKey(System.Byte[],System.Int64)"]/*' />
 		public static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
         {
             byte[] seed = new byte[entropy.Length + 8];

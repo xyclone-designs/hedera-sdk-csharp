@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenNftInfo">
+    <summary>
+    See <a href="https://docs.hedera.com/guides/docs/hedera-api/token-service/tokengetnftinfo#tokennftinfo">Hedera Documentation</a></summary>
+  </member>
+  <member name="F:TokenNftInfo.NftId">
+    <summary>
+    The ID of the NFT
+    </summary>
+  </member>
+  <member name="F:TokenNftInfo.AccountId">
+    <summary>
+    The current owner of the NFT
+    </summary>
+  </member>
+  <member name="F:TokenNftInfo.CreationTime">
+    <summary>
+    The effective consensus timestamp at which the NFT was minted
+    </summary>
+  </member>
+  <member name="F:TokenNftInfo.Metadata">
+    <summary>
+    Represents the unique metadata of the NFT
+    </summary>
+  </member>
+  <member name="F:TokenNftInfo.LedgerId">
+    <summary>
+    The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
+    </summary>
+  </member>
+  <member name="F:TokenNftInfo.SpenderId">
+    <summary>
+    If an allowance is granted for the NFT, its corresponding spender account
+    </summary>
+  </member>
+  <member name="M:TokenNftInfo.#ctor(NftId,AccountId,DateTimeOffset,System.Byte[],LedgerId,AccountId)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="nftId">the id of the nft</param>
+    <param name="accountId">the current owner of the nft</param>
+    <param name="creationTime">the effective consensus time</param>
+    <param name="metadata">the unique metadata</param>
+    <param name="ledgerId">the ledger id of the response</param>
+    <param name="spenderId">the spender of the allowance (null if not an allowance)</param>
+  </member>
+  <member name="M:TokenNftInfo.FromBytes(System.Byte[])">
+    <summary>
+    Create token nft info from byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new token nft info</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenNftInfo.FromProtobuf(Proto.TokenNftInfo)">
+    <summary>
+    Create token nft info from a protobuf.
+    </summary>
+    <param name="info">the protobuf</param>
+    <returns>the new token nft info</returns>
+  </member>
+  <member name="M:TokenNftInfo.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TokenNftInfo.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+</docs>

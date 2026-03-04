@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         private TopicDeleteTransaction SpawnTestTransaction()
         {
-            return new TopicDeleteTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTopicId(TopicId.FromString("0.0.5007")).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
+            return new TopicDeleteTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetTopicId(TopicId.FromString("0.0.5007")).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytesNoSetters()

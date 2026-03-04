@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             return new SystemUndeleteTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				FileId = FileId.FromString("0.0.444"),
 				MaxTransactionFee = new Hbar(1)
 			}
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             return new SystemUndeleteTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.444"),
 				MaxTransactionFee = new Hbar(1),
 			}

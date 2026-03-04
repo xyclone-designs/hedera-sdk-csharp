@@ -12,72 +12,24 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Systems
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// @deprecated
-    /// This transaction is obsolete, not supported, and SHALL fail with a
-    /// pre-check result of `NOT_SUPPORTED`.
-    /// 
-    /// Recover a file or contract bytecode deleted from the Hedera File
-    /// System (HFS) by a `systemDelete` transaction.
-    /// > Note
-    /// >> A system delete/undelete for a `contractID` is not supported and
-    /// >> SHALL return `INVALID_FILE_ID` or `MISSING_ENTITY_ID`.
-    /// 
-    /// This transaction can _only_ recover a file removed with the `systemDelete`
-    /// transaction. A file deleted via `fileDelete` SHALL be irrecoverable.<br/>
-    /// This transaction MUST be signed by an Hedera administrative ("system")
-    /// account.
-    /// 
-    /// ### What is a "system" file
-    /// A "system" file is any file with a file number less than or equal to the
-    /// current configuration value for `ledger.numReservedSystemEntities`,
-    /// typically `750`.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </remarks>
+    /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public sealed class SystemUndeleteTransaction : Transaction<SystemUndeleteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction"]/*' />
         public SystemUndeleteTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(Proto.TransactionBody)"]/*' />
 		internal SystemUndeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal SystemUndeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// A file identifier.
-		/// <p>
-		/// The identified file MUST exist in the HFS.<br/>
-		/// The identified file MUST be deleted.<br/>
-		/// The identified file deletion MUST be a result of a
-		/// `systemDelete` transaction.<br/>
-		/// The identified file MUST NOT be a "system" file.<br/>
-		/// This field is REQUIRED.
-		/// 
-		/// Mutually exclusive with {@link #setContractId(ContractId)}.
-		/// </summary>
-		/// <param name="fileId">The FileId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
 		public FileId? FileId
 		{
 			get;
@@ -87,17 +39,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 				field = value;
 			}
 		}
-        /// <summary>
-        /// A contract identifier.
-        /// <p>
-        /// The identified contract MUST exist in network state.<br/>
-        /// The identified contract bytecode MUST be deleted.<br/>
-        /// The identified contract deletion MUST be a result of a
-        /// `systemDelete` transaction.
-        /// <p>
-        /// </summary>
-        /// <param name="contractId">The ContractId to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
         public ContractId? ContractId 
         {
             get;
@@ -108,9 +50,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 			}
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.SystemUndelete;
@@ -119,10 +59,7 @@ namespace Hedera.Hashgraph.SDK.Systems
             ContractId = ContractId.FromProtobuf(body.ContractID);
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.SystemUndeleteTransactionBody}</returns>
+        /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
         public Proto.SystemUndeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.SystemUndeleteTransactionBody();

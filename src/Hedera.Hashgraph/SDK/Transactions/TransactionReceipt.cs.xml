@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TransactionReceipt">
+    <summary>
+    The consensus result for a transaction, which might not be currently
+    known, or may succeed or fail.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.TransactionId">
+    <summary>
+    The transaction's ID
+    </summary>
+  </member>
+  <member name="P:TransactionReceipt.Status">
+    <summary>
+    Whether the transaction succeeded or failed (or is unknown).
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.ExchangeRate">
+    <summary>
+    The exchange rate of Hbars to cents (USD).
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.NextExchangeRate">
+    <summary>
+    Next exchange rate which will take effect when current rate expires
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.AccountId">
+    <summary>
+    The account ID, if a new account was created.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.FileId">
+    <summary>
+    The file ID, if a new file was created.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.ContractId">
+    <summary>
+    The contract ID, if a new contract was created.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.TopicId">
+    <summary>
+    The topic ID, if a new topic was created.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.TokenId">
+    <summary>
+    The token ID, if a new token was created.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.TopicSequenceNumber">
+    <summary>
+    Updated sequence number for a consensus service topic.
+    Set for {@link TopicMessageSubmitTransaction}.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.TopicRunningHash">
+    <summary>
+    Updated running hash for a consensus service topic.
+    Set for {@link TopicMessageSubmitTransaction}.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.TotalSupply">
+    <summary>
+    In the receipt of TokenMint, TokenWipe, TokenBurn, For fungible tokens - the current total
+    supply of this token. For non fungible tokens - the total number of NFTs issued for a given
+    tokenID
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.ScheduleId">
+    <summary>
+    In the receipt of a ScheduleCreate, the id of the newly created Scheduled Entity
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.ScheduledTransactionId">
+    <summary>
+    In the receipt of a ScheduleCreate or ScheduleSign that resolves to SUCCESS, the
+    TransactionID that should be used to query for the receipt or record of the relevant
+    scheduled transaction
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.Serials">
+    <summary>
+    In the receipt of a TokenMint for tokens of type NonFungibleUnique, the serial numbers of
+    the newly created NFTs
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.NodeId">
+    <summary>
+    In the receipt of a NodeCreate, NodeUpdate, NodeDelete, the id of the newly created node.
+    An affected node identifier.<br />
+    This value SHALL be set following a `createNode` transaction.<br />
+    This value SHALL be set following a `updateNode` transaction.<br />
+    This value SHALL be set following a `deleteNode` transaction.<br />
+    This value SHALL NOT be set following any other transaction.
+    </summary>
+  </member>
+  <member name="F:TransactionReceipt.Duplicates">
+    <summary>
+    The receipts of processing all transactions with the given id, in consensus time order.
+    </summary>
+  </member>
+  <member name="M:TransactionReceipt.#ctor(TransactionId,ResponseStatus,ExchangeRate,ExchangeRate,AccountId,FileId,ContractId,TopicId,TokenId,System.UInt64,ByteString,System.UInt64,ScheduleId,TransactionId,System.Collections.Generic.IEnumerable{System.Int64},System.UInt64,System.Collections.Generic.IEnumerable{TransactionReceipt},System.Collections.Generic.IEnumerable{TransactionReceipt})">
+    <summary>
+    The receipts (if any) of all child transactions spawned by the transaction with the
+    given top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
+    </summary>
+  </member>
+  <member name="M:TransactionReceipt.FromProtobuf(Proto.TransactionReceipt,System.Collections.Generic.IList{TransactionReceipt},System.Collections.Generic.IList{TransactionReceipt},TransactionId)">
+    <summary>
+    Create transaction receipt from protobuf.
+    </summary>
+    <param name="transactionReceipt">the protobuf</param>
+    <param name="duplicates">list of duplicates</param>
+    <param name="children">list of children</param>
+    <returns>the new transaction receipt</returns>
+  </member>
+  <member name="M:TransactionReceipt.FromProtobuf(Proto.TransactionReceipt)">
+    <summary>
+    Create a transaction receipt from a protobuf.
+    </summary>
+    <param name="transactionReceipt">the protobuf</param>
+    <returns>the new transaction receipt</returns>
+  </member>
+  <member name="M:TransactionReceipt.FromBytes(System.Byte[])">
+    <summary>
+    Create a transaction receipt from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new transaction receipt</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TransactionReceipt.ValidateStatus(System.Boolean)">
+    <summary>
+    Validate the transaction status in the receipt.
+    </summary>
+    <param name="shouldValidate">Whether to perform transaction status validation</param>
+    <returns>{@code this}</returns>
+    <exception cref="ReceiptStatusException">when shouldValidate is true and the transaction status is not SUCCESS</exception>
+  </member>
+  <member name="M:TransactionReceipt.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+  <member name="M:TransactionReceipt.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+</docs>

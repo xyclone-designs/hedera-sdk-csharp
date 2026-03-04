@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="P:.Charged">
+    <summary>
+    The charged count of items as calculated by max(0, count - included).
+    </summary>
+  </member>
+  <member name="P:.Count">
+    <summary>
+    The actual count of items received.
+    </summary>
+  </member>
+  <member name="P:.FeePerUnit">
+    <summary>
+    The fee price per unit in tinycents.
+    </summary>
+  </member>
+  <member name="P:.Included">
+    <summary>
+    The count of this "extra" that is included for free.
+    </summary>
+  </member>
+  <member name="P:.Name">
+    <summary>
+    The unique name of this extra fee as defined in the fee schedule.
+    </summary>
+  </member>
+</docs>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TopicMessage">
+    <summary>
+    Topic message records.
+    </summary>
+  </member>
+  <member name="M:TopicMessage.#ctor(DateTimeOffset,System.Byte[],System.Byte[],System.UInt64,TopicMessageChunk[],TransactionId)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="lastConsensusTimestamp">the last consensus time</param>
+    <param name="message">the message</param>
+    <param name="lastRunningHash">the last running hash</param>
+    <param name="lastSequenceNumber">the last sequence number</param>
+    <param name="chunks">the array of chunks</param>
+    <param name="transactionId">the transaction id</param>
+  </member>
+  <member name="M:TopicMessage.OfSingle(Proto.ConsensusTopicResponse)">
+    <summary>
+    Create a new topic message from a response protobuf.
+    </summary>
+    <param name="response">the protobuf response</param>
+    <returns>the new topic message</returns>
+  </member>
+  <member name="M:TopicMessage.OfMany(System.Collections.Generic.IList{Proto.ConsensusTopicResponse})">
+    <summary>
+    Create a new topic message from a list of response's protobuf.
+    </summary>
+    <param name="responses">the protobuf response</param>
+    <returns>the new topic message</returns>
+  </member>
+  <member name="P:TopicMessage.ConsensusTimestamp">
+    <summary>
+    The consensus timestamp of the message in seconds.nanoseconds
+    </summary>
+  </member>
+  <member name="P:TopicMessage.Contents">
+    <summary>
+    The content of the message
+    </summary>
+  </member>
+  <member name="P:TopicMessage.RunningHash">
+    <summary>
+    The new running hash of the topic that received the message
+    </summary>
+  </member>
+  <member name="P:TopicMessage.SequenceNumber">
+    <summary>
+    The sequence number of the message relative to all other messages
+    for the same topic
+    </summary>
+  </member>
+  <member name="P:TopicMessage.Chunks">
+    <summary>
+    Array of topic message chunks.
+    </summary>
+  </member>
+  <member name="P:TopicMessage.TransactionId">
+    <summary>
+    The transaction id
+    </summary>
+  </member>
+</docs>

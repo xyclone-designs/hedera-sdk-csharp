@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] s = new byte[32];
             Array.Copy(signature, 32, s, 0, 32);
             var recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, message);
-            AssertThat(recId).IsBetween(0, 1);
+            Assert.True(recId >= 0 && recId <= 1);
         }
 
         public virtual void FailToCalculateRecoveryIdWithIllegalInputDataECDSA()
@@ -79,37 +79,36 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         public virtual void FromProtoKeyEd25519()
         {
             var keyBytes = Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011");
-            var protoKey = Key.NewBuilder().SetEd25519(ByteString.CopyFrom(keyBytes)).Build();
+            var protoKey = new Proto.Key { Ed25519 = ByteString.CopyFrom(keyBytes) };
             var cut = PublicKey.FromProtobufKey(protoKey);
-            Assert.Equal(cut.GetType(), typeof(PublicKeyED25519));
-            AssertThat(cut.ToBytes()).ContainsExactly(keyBytes);
+            Assert.IsType<PublicKeyED25519>(cut);
+            Assert.Same(cut.ToBytes(), keyBytes);
         }
 
         public virtual void FromProtoKeyECDSA()
         {
             var keyProtobufBytes = Hex.Decode("3a21034e0441201f2bf9c7d9873c2a9dc3fd451f64b7c05e17e4d781d916e3a11dfd99");
-            var protoKey = Key.ParseFrom(keyProtobufBytes);
+            var protoKey = Proto.Key.Parser.ParseFrom(keyProtobufBytes);
             var cut = PublicKey.FromProtobufKey(protoKey);
-            Assert.Equal(cut.GetType(), typeof(PublicKeyECDSA));
-            AssertThat(((PublicKey)cut).ToProtobufKey().ToByteArray()).ContainsExactly(keyProtobufBytes);
+            Assert.IsType<PublicKeyECDSA>(cut);
+            Assert.Same(((PublicKey)cut).ToProtobufKey().ToByteArray(), keyProtobufBytes);
         }
 
         public virtual void FromProtoKeyKeyList()
         {
-
             // given
-            var keyBytes = new byte[]
+            var keyBytes = new byte[][]
             {
                 Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011"),
                 Hex.Decode("aa11223344556677889900112233445566778899001122334455667788990011")
             };
-            var protoKeyList = KeyList.NewBuilder();
+            var protoKeyList = new Proto.KeyList();
             foreach (byte[] kb in keyBytes)
             {
-                protoKeyList.AddKeys(Key.NewBuilder().SetEd25519(ByteString.CopyFrom(kb)));
+                protoKeyList.Keys.Add(new Proto.Key { Ed25519 = ByteString.CopyFrom(kb) });
             }
 
-            var protoKey = Key.NewBuilder().SetKeyList(protoKeyList).Build();
+            var protoKey = new Proto.Key { KeyList = protoKeyList };
 
             // when
             var cut = Key.FromProtobufKey(protoKey);
@@ -117,29 +116,29 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             // then
             Assert.Equal(cut.GetType(), typeof(KeyList));
             var keyList = (KeyList)cut;
-            var actual = keyList.ToProtobufKey().GetKeyList();
-            Assert.Equal(actual.GetKeysCount(), 2);
-            AssertThat(actual.GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
-            AssertThat(actual.GetKeys(1).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[1]);
+            var actual = keyList.ToProtobufKey().KeyList;
+            Assert.Equal(actual.Keys.Count, 2);
+            Assert.Same(actual.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
+            Assert.Same(actual.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
 
         public virtual void FromProtoKeyThresholdKey()
         {
-
             // given
-            var keyBytes = new byte[]
+            var keyBytes = new byte[][]
             {
                 Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011"),
                 Hex.Decode("aa11223344556677889900112233445566778899001122334455667788990011")
             };
-            var protoKeyList = KeyList.NewBuilder();
+            var protoKeyList = new Proto.KeyList();
+
             foreach (byte[] kb in keyBytes)
             {
-                protoKeyList.AddKeys(Key.NewBuilder().SetEd25519(ByteString.CopyFrom(kb)));
+                protoKeyList.Keys.Add(new Proto.Key { Ed25519 = ByteString.CopyFrom(kb) });
             }
 
-            var protoThresholdKey = ThresholdKey.NewBuilder().SetThreshold(1).SetKeys(protoKeyList);
-            var protoKey = Key.NewBuilder().SetThresholdKey(protoThresholdKey).Build();
+            var protoThresholdKey = new Proto.ThresholdKey { Threshold = 1, Keys = protoKeyList };
+            var protoKey = new Proto.Key { ThresholdKey = protoThresholdKey };
 
             // when
             var cut = Key.FromProtobufKey(protoKey);
@@ -147,22 +146,22 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             // then
             Assert.Equal(cut.GetType(), typeof(KeyList));
             var thresholdKey = (KeyList)cut;
-            var actual = thresholdKey.ToProtobufKey().GetThresholdKey();
-            Assert.Equal(actual.Threshold, 1);
-            Assert.Equal(actual.GetKeys().GetKeysCount(), 2);
-            AssertThat(actual.GetKeys().GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
-            AssertThat(actual.GetKeys().GetKeys(1).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[1]);
+            var actual = thresholdKey.ToProtobufKey().ThresholdKey;
+            Assert.Equal(actual.Threshold, (uint)1);
+            Assert.Equal(actual.Keys.Keys.Count, 2);
+            Assert.Same(actual.Keys.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
+            Assert.Same(actual.Keys.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
 
         public virtual void ThrowsUnsupportedKey()
         {
             byte[] keyBytes = new[]
             {
-                0,
-                1,
-                2
+                (byte)0,
+                (byte)1,
+                (byte)2
             };
-            var protoKey = Key.NewBuilder().SetRSA3072(ByteString.CopyFrom(keyBytes)).Build();
+            var protoKey = new Proto.Key { RSA3072 = ByteString.CopyFrom(keyBytes) };
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => Key.FromProtobufKey(protoKey));
         }
 
@@ -172,13 +171,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var key2 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
             Assert.Equal(key2.ToString(), key1.ToString());
             Assert.Equal(key2.GetPublicKey(), key1.GetPublicKey());
-            AssertThat(key1.GetPublicKey()).IsNotEqualTo("random string");
+            Assert.NotEqual(key1.GetPublicKey().ToString(), "random string");
+            Assert.NotEqual(key1.GetPublicKey().ToStringDER(), "random string");
+            Assert.NotEqual(key1.GetPublicKey().ToStringRaw(), "random string");
         }
 
         public virtual void KeyHash()
         {
             var key = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
-            AssertThatNoException(, key.GetHashCode());
+            var _ = key.GetHashCode();
         }
 
         public virtual void KeyListMethods()
@@ -186,14 +187,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var key1 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
             var key2 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e11");
             var key3 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e12");
-            var keyList = KeyList.WithThreshold(1);
+            var keyList = new KeyList { Threshold = 1 };
             keyList.Add(key1);
-            keyList.AddAll(List.Of(key2, key3));
-            Assert.False(keyList.IsEmpty());
+            keyList.Add(key2);
+            keyList.Add(key3);
+            Assert.False(keyList.Count == 0);
             Assert.Equal(keyList.Count, 3);
-            Assert.Contains(keyList, key1);
-            Assert.Contains(keyList, key2);
-            Assert.Contains(keyList, key3);
+            Assert.True(keyList.Contains(key1));
+            Assert.True(keyList.Contains(key2));
+            Assert.True(keyList.Contains(key3));
             var arr = keyList.ToArray();
             Assert.Equal(arr[0], key1);
             Assert.Equal(arr[1], key2);
@@ -204,88 +206,95 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
                 null,
                 null
             };
-            keyList.ToArray(arr);
+            keyList.CopyTo(arr, 0);
             Assert.Equal(arr[0], key1);
             Assert.Equal(arr[1], key2);
             Assert.Equal(arr[2], key3);
             keyList.Remove(key2);
             Assert.Equal(keyList.Count, 2);
             keyList.Clear();
-            keyList.AddAll(List.Of(key1, key2, key3));
+            keyList.Add(key1);
+            keyList.Add(key2);
+            keyList.Add(key3);
             Assert.Equal(keyList.Count, 3);
-            keyList.RetainAll(List.Of(key2, key3));
+            keyList = [key2, key3];
             Assert.Equal(keyList.Count, 2);
-            AssertThat(keyList).ContainsAll(List.Of(key2, key3));
-            keyList.RemoveAll(List.Of(key2, key3));
+            Assert.Equal(keyList.Keys, [key2, key3]);
+            keyList.Remove(key2);
+            keyList.Remove(key3);
             Assert.Empty(keyList);
         }
 
         public virtual void FromBytesEd25519()
         {
             var keyBytes = Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011");
-            var protoKey = Key.NewBuilder().SetEd25519(ByteString.CopyFrom(keyBytes)).Build();
+            var protoKey = new Proto.Key { Ed25519 = ByteString.CopyFrom(keyBytes) };
             var bytes = protoKey.ToByteArray();
-            var cut = FromBytes(bytes);
+            var cut = PublicKey.FromBytes(bytes);
             Assert.Equal(cut.GetType(), typeof(PublicKeyED25519));
-            AssertThat(cut.ToBytes()).ContainsExactly(keyBytes);
+            Assert.Same(cut.ToBytes(), keyBytes);
         }
 
         public virtual void FromBytesECDSA()
         {
             var keyBytes = Hex.Decode("3a21034e0441201f2bf9c7d9873c2a9dc3fd451f64b7c05e17e4d781d916e3a11dfd99");
-            var cut = FromBytes(keyBytes);
+            var cut = PublicKey.FromBytes(keyBytes);
             Assert.Equal(cut.GetType(), typeof(PublicKeyECDSA));
-            AssertThat(cut.ToProtobufKey().ToByteArray()).ContainsExactly(keyBytes);
+            Assert.Same(cut.ToProtobufKey().ToByteArray(), keyBytes);
         }
 
         public virtual void FromBytesKeyList()
         {
-            var keyBytes = new byte[]
+            var keyBytes = new byte[][]
             {
                 Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011"),
                 Hex.Decode("aa11223344556677889900112233445566778899001122334455667788990011")
             };
-            var protoKeyList = KeyList.NewBuilder();
+            var protoKeyList = new Proto.KeyList();
+
             foreach (byte[] kb in keyBytes)
             {
-                protoKeyList.AddKeys(Key.NewBuilder().SetEd25519(ByteString.CopyFrom(kb)));
+                protoKeyList.Keys.Add(new Proto.Key { Ed25519 = ByteString.CopyFrom(kb) });
             }
 
-            var protoKey = Key.NewBuilder().SetKeyList(protoKeyList).Build();
+            var protoKey = new Proto.Key { KeyList = protoKeyList };
             var bytes = protoKey.ToByteArray();
-            var cut = FromBytes(bytes);
+            var cut = KeyList.FromBytes(bytes);
             Assert.Equal(cut.GetType(), typeof(KeyList));
             var keyList = (KeyList)cut;
-            var actual = keyList.ToProtobufKey().GetKeyList();
-            Assert.Equal(actual.GetKeysCount(), 2);
-            AssertThat(actual.GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
-            AssertThat(actual.GetKeys(1).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[1]);
+            var actual = keyList.ToProtobufKey().KeyList;
+            Assert.Equal(actual.Keys.Count, 2);
+            Assert.Same(actual.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
+            Assert.Same(actual.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
 
         public virtual void FromBytesThresholdKey()
         {
-            var keyBytes = new byte[]
+            var keyBytes = new byte[][]
             {
                 Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011"),
                 Hex.Decode("aa11223344556677889900112233445566778899001122334455667788990011")
             };
-            var protoKeyList = KeyList.NewBuilder();
+            var protoKeyList = new Proto.KeyList();
+
             foreach (byte[] kb in keyBytes)
             {
-                protoKeyList.AddKeys(Key.NewBuilder().SetEd25519(ByteString.CopyFrom(kb)));
+                protoKeyList.Keys.Add(new Proto.Key { Ed25519 = ByteString.CopyFrom(kb) });
             }
 
-            var protoThresholdKey = ThresholdKey.NewBuilder().SetThreshold(1).SetKeys(protoKeyList);
-            var protoKey = Key.NewBuilder().SetThresholdKey(protoThresholdKey).Build();
+            var protoThresholdKey =  new Proto.ThresholdKey { Threshold = 1, Keys = new Proto.KeyList { } };
+            protoThresholdKey.Keys.Keys.AddRange(protoKeyList.Keys);
+
+            var protoKey = new Proto.Key { ThresholdKey = protoThresholdKey };
             var bytes = protoKey.ToByteArray();
-            var cut = FromBytes(bytes);
+            var cut = KeyList.FromBytes(bytes);
             Assert.Equal(cut.GetType(), typeof(KeyList));
             var thresholdKey = (KeyList)cut;
-            var actual = thresholdKey.ToProtobufKey().GetThresholdKey();
-            Assert.Equal(actual.Threshold, 1);
-            Assert.Equal(actual.GetKeys().GetKeysCount(), 2);
-            AssertThat(actual.GetKeys().GetKeys(0).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[0]);
-            AssertThat(actual.GetKeys().GetKeys(1).GetEd25519().ToByteArray()).ContainsExactly(keyBytes[1]);
+            var actual = thresholdKey.ToProtobufKey().ThresholdKey;
+            Assert.Equal(actual.Threshold, (uint)1);
+            Assert.Equal(actual.Keys.Keys.Count, 2);
+            Assert.Same(actual.Keys.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
+            Assert.Same(actual.Keys.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
 
         public virtual void ThrowsUnsupportedKeyFromBytes()
@@ -296,7 +305,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 				RSA3072 = ByteString.CopyFrom(keyBytes)
 			};
             var bytes = protoKey.ToByteArray();
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => FromBytes(bytes));
+
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => Key.FromBytes(bytes));
         }
     }
 }

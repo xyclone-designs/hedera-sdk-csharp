@@ -13,96 +13,44 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// The consensus result for a transaction, which might not be currently
-    /// known, or may succeed or fail.
-    /// </summary>
+    /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="T:TransactionReceipt"]/*' />
     public sealed class TransactionReceipt
     {
-        /// <summary>
-        /// The transaction's ID
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TransactionId"]/*' />
         public readonly TransactionId? TransactionId;
-        /// <summary>
-        /// Whether the transaction succeeded or failed (or is unknown).
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="P:TransactionReceipt.Status"]/*' />
         public ResponseStatus Status { get; }
-        /// <summary>
-        /// The exchange rate of Hbars to cents (USD).
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ExchangeRate"]/*' />
         public readonly ExchangeRate ExchangeRate;
-        /// <summary>
-        /// Next exchange rate which will take effect when current rate expires
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.NextExchangeRate"]/*' />
         public readonly ExchangeRate NextExchangeRate;
-        /// <summary>
-        /// The account ID, if a new account was created.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.AccountId"]/*' />
         public readonly AccountId AccountId;
-        /// <summary>
-        /// The file ID, if a new file was created.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.FileId"]/*' />
         public readonly FileId FileId;
-        /// <summary>
-        /// The contract ID, if a new contract was created.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ContractId"]/*' />
         public readonly ContractId ContractId;
-        /// <summary>
-        /// The topic ID, if a new topic was created.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TopicId"]/*' />
         public readonly TopicId TopicId;
-        /// <summary>
-        /// The token ID, if a new token was created.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TokenId"]/*' />
         public readonly TokenId TokenId;
-        /// <summary>
-        /// Updated sequence number for a consensus service topic.
-        /// Set for {@link TopicMessageSubmitTransaction}.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TopicSequenceNumber"]/*' />
         public readonly ulong TopicSequenceNumber;
-        /// <summary>
-        /// Updated running hash for a consensus service topic.
-        /// Set for {@link TopicMessageSubmitTransaction}.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TopicRunningHash"]/*' />
         public readonly ByteString? TopicRunningHash;
-        /// <summary>
-        /// In the receipt of TokenMint, TokenWipe, TokenBurn, For fungible tokens - the current total
-        /// supply of this token. For non fungible tokens - the total number of NFTs issued for a given
-        /// tokenID
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TotalSupply"]/*' />
         public readonly ulong TotalSupply;
-        /// <summary>
-        /// In the receipt of a ScheduleCreate, the id of the newly created Scheduled Entity
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ScheduleId"]/*' />
         public readonly ScheduleId ScheduleId;
-        /// <summary>
-        /// In the receipt of a ScheduleCreate or ScheduleSign that resolves to SUCCESS, the
-        /// TransactionID that should be used to query for the receipt or record of the relevant
-        /// scheduled transaction
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ScheduledTransactionId"]/*' />
         public readonly TransactionId ScheduledTransactionId;
-        /// <summary>
-        /// In the receipt of a TokenMint for tokens of type NonFungibleUnique, the serial numbers of
-        /// the newly created NFTs
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.Serials"]/*' />
         public readonly List<long> Serials;
-        /// <summary>
-        /// In the receipt of a NodeCreate, NodeUpdate, NodeDelete, the id of the newly created node.
-        /// An affected node identifier.<br/>
-        /// This value SHALL be set following a `createNode` transaction.<br/>
-        /// This value SHALL be set following a `updateNode` transaction.<br/>
-        /// This value SHALL be set following a `deleteNode` transaction.<br/>
-        /// This value SHALL NOT be set following any other transaction.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.NodeId"]/*' />
         public readonly ulong NodeId;
-        /// <summary>
-        /// The receipts of processing all transactions with the given id, in consensus time order.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.Duplicates"]/*' />
         public readonly List<TransactionReceipt> Duplicates;
-        /// <summary>
-        /// The receipts (if any) of all child transactions spawned by the transaction with the
-        /// given top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
-        /// </summary>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.#ctor(TransactionId,ResponseStatus,ExchangeRate,ExchangeRate,AccountId,FileId,ContractId,TopicId,TokenId,System.UInt64,ByteString,System.UInt64,ScheduleId,TransactionId,System.Collections.Generic.IEnumerable{System.Int64},System.UInt64,System.Collections.Generic.IEnumerable{TransactionReceipt},System.Collections.Generic.IEnumerable{TransactionReceipt})"]/*' />
         public readonly List<TransactionReceipt> Children;
         public TransactionReceipt(TransactionId? transactionId, ResponseStatus status, ExchangeRate exchangeRate, ExchangeRate nextExchangeRate, AccountId accountId, FileId fileId, ContractId contractId, TopicId topicId, TokenId tokenId, ulong topicSequenceNumber, ByteString? topicRunningHash, ulong totalSupply, ScheduleId scheduleId, TransactionId scheduledTransactionId, IEnumerable<long> serials, ulong nodeId, IEnumerable<TransactionReceipt> duplicates, IEnumerable<TransactionReceipt> children)
         {
@@ -126,13 +74,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Children = [ ..children];
         }
 
-        /// <summary>
-        /// Create transaction receipt from protobuf.
-        /// </summary>
-        /// <param name="transactionReceipt">the protobuf</param>
-        /// <param name="duplicates">list of duplicates</param>
-        /// <param name="children">list of children</param>
-        /// <returns>                         the new transaction receipt</returns>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.TransactionReceipt,System.Collections.Generic.IList{TransactionReceipt},System.Collections.Generic.IList{TransactionReceipt},TransactionId)"]/*' />
         public static TransactionReceipt FromProtobuf(Proto.TransactionReceipt transactionReceipt, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children, TransactionId? transactionId)
         {
             var status = (ResponseStatus)transactionReceipt.Status;
@@ -155,11 +97,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return new TransactionReceipt(transactionId, status, exchangeRate, nextExchangeRate, accountId, fileId, contractId, topicId, tokenId, topicSequenceNumber, topicRunningHash, totalSupply, scheduleId, scheduledTransactionId, serials, nodeId, duplicates, children);
         }
 
-        /// <summary>
-        /// Create a transaction receipt from a protobuf.
-        /// </summary>
-        /// <param name="transactionReceipt">the protobuf</param>
-        /// <returns>                         the new transaction receipt</returns>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.TransactionReceipt)"]/*' />
         public static TransactionReceipt FromProtobuf(Proto.TransactionReceipt transactionReceipt)
         {
             return FromProtobuf(transactionReceipt, [], [], null);
@@ -169,23 +107,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return FromProtobuf(transactionReceipt, [], [], transactionId);
         }
 
-        /// <summary>
-        /// Create a transaction receipt from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new transaction receipt</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromBytes(System.Byte[])"]/*' />
         public static TransactionReceipt FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.TransactionReceipt.Parser.ParseFrom(bytes));
         }
 
-        /// <summary>
-        /// Validate the transaction status in the receipt.
-        /// </summary>
-        /// <param name="shouldValidate">Whether to perform transaction status validation</param>
-        /// <returns>{@code this}</returns>
-        /// <exception cref="ReceiptStatusException">when shouldValidate is true and the transaction status is not SUCCESS</exception>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ValidateStatus(System.Boolean)"]/*' />
         public TransactionReceipt ValidateStatus(bool shouldValidate)
         {
             if (shouldValidate && Status != ResponseStatus.Success && Status != ResponseStatus.FeeScheduleFilePartUploaded)
@@ -196,10 +124,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return this;
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ToProtobuf"]/*' />
         public Proto.TransactionReceipt ToProtobuf()
         {
             Proto.TransactionReceipt proto = new()
@@ -246,10 +171,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return proto;
         }
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ToBytes"]/*' />
         public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

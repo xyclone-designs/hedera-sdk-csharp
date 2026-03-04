@@ -1,6 +1,4 @@
-
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
@@ -31,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = unusedPrivateKey,
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				AccountId = AccountId.FromString("0.0.2002"),
 				ProxyAccountId = AccountId.FromString("0.0.1001"),
 				AutoRenewPeriod = TimeSpan.FromHours(10),
@@ -52,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = unusedPrivateKey,
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				AccountId = AccountId.FromString("0.0.2002"),
 				ProxyAccountId = AccountId.FromString("0.0.1001"),
 				AutoRenewPeriod = TimeSpan.FromHours(10),

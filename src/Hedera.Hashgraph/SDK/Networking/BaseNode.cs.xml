@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:BaseNode">
+    <summary>&lt;summary&gt;
+    Internal utility class.
+    &lt;/summary&gt;
+    &lt;param name="&lt;N&gt;"&gt;the n type&lt;/param&gt;
+    &lt;param name="&lt;KeyT&gt;"&gt;the key t type&lt;/param&gt;</summary>
+  </member>
+  <member name="M:BaseNode.#ctor(N,BaseNodeAddress)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="node">the node object</param>
+    <param name="address">the address to assign</param>
+  </member>
+  <member name="M:BaseNode.#ctor(BaseNodeAddress,ExecutorService)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="address">the node address</param>
+    <param name="executor">the client</param>
+  </member>
+  <member name="P:BaseNode.Key">
+    <summary>
+    Extract the key list
+    </summary>
+    <returns>the key list</returns>
+  </member>
+  <member name="M:BaseNode.lock(this)">
+    <summary>
+    Return the local host ip address
+    </summary>
+    <returns>the authority address</returns>
+  </member>
+  <member name="M:BaseNode.lock(this)_2">
+    <summary>
+    Get the gRPC channel for this node
+    </summary>
+    <returns>the channel</returns>
+  </member>
+  <member name="P:BaseNode.ReadmitTime">
+    <summary>
+    Timestamp of when this node will be considered healthy again
+    </summary>
+  </member>
+  <member name="P:BaseNode.CurrentBackoff">
+    <summary>
+    The current backoff duration. Uses exponential backoff so think 1s, 2s, 4s, 8s, etc until MaxBackoff is hit
+    </summary>
+  </member>
+  <member name="M:BaseNode.lock(this)_3">
+    <summary>
+    Minimum backoff used by node when receiving a bad gRPC status
+    </summary>
+  </member>
+  <member name="P:BaseNode.MaxBackoff">
+    <summary>
+    Get the maximum backoff time
+    </summary>
+    <returns>the maximum backoff time</returns>
+  </member>
+  <member name="P:BaseNode.Address">
+    <summary>
+    Address of this node
+    </summary>
+  </member>
+  <member name="P:BaseNode.BadGrpcStatusCount">
+    <summary>
+    Get the number of times this node has received a bad gRPC status
+    </summary>
+  </member>
+  <member name="M:BaseNode.ChannelFailedToConnect">
+    <summary>
+    Did we fail to connect?
+    </summary>
+    <returns>did we fail to connect</returns>
+  </member>
+  <member name="M:BaseNode.ChannelFailedToConnectAsync">
+    <summary>
+    Asynchronously determine if the channel failed to connect.
+    </summary>
+    <returns>did we fail to connect</returns>
+  </member>
+  <member name="M:BaseNode.IsHealthy">
+    <summary>
+    Determines if this is node is healthy.
+    Healthy means the node has either not received any bad gRPC statuses, or if it has received bad gRPC status then
+    the node backed off for a period of time.
+    </summary>
+    <returns>is the node healthy</returns>
+  </member>
+  <member name="M:BaseNode.IncreaseBackoff">
+    <summary>
+    Used when a node has received a bad gRPC status
+    </summary>
+  </member>
+  <member name="M:BaseNode.DecreaseBackoff">
+    <summary>
+    Used when a node has not received a bad gRPC status.
+    This means on each request that doesn't get a bad gRPC status the current backoff will be lowered. The point of
+    this is to allow a node which has been performing poorly (receiving several bad gRPC status) to become used again
+    once it stops receiving bad gRPC statuses.
+    </summary>
+  </member>
+  <member name="M:BaseNode.GetRemainingTimeForBackoff">
+    <summary>
+    Get the amount of time the node has to wait until it's healthy again
+    </summary>
+    <returns>remaining back off time</returns>
+  </member>
+  <member name="M:BaseNode.GetChannelCredentials">
+    <summary>
+    Create TLS credentials when transport security is enabled
+    </summary>
+    <returns>the channel credentials</returns>
+  </member>
+  <member name="M:BaseNode.UnhealthyBackoffRemaining">
+    <summary>
+    Extract the unhealthy backoff time remaining.
+    </summary>
+    <returns>the unhealthy backoff time remaining</returns>
+  </member>
+  <member name="M:BaseNode.Dispose(System.TimeSpan)">
+    <summary>
+    Close the current nodes channel
+    </summary>
+    <param name="timeout">the timeout value</param>
+  </member>
+</docs>

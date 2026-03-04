@@ -9,21 +9,10 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
-    /// <summary>
-    /// Get the receipt of a transaction, given its transaction ID.
-    /// 
-    /// <p>Once a transaction reaches consensus, then information about whether it succeeded or failed
-    /// will be available until the end of the receipt period.
-    /// 
-    /// <p>This query is free.
-    /// </summary>
+    /// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery"]/*' />
     public sealed class TransactionReceiptQuery : Query<TransactionReceipt, TransactionReceiptQuery>
     {
-		/// <summary>
-		/// Create a list of transaction receipts from a protobuf.
-		/// </summary>
-		/// <param name="protoReceiptList">the protobuf</param>
-		/// <returns>                         the list of transaction receipts</returns>
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="M:TransactionReceiptQuery.MapReceiptList(System.Collections.Generic.IEnumerable{Proto.TransactionReceipt})"]/*' />
 		private static IList<TransactionReceipt> MapReceiptList(IEnumerable<Proto.TransactionReceipt> protoReceiptList)
 		{
 			return [.. protoReceiptList.Select(_ => TransactionReceipt.FromProtobuf(_))];
@@ -33,35 +22,17 @@ namespace Hedera.Hashgraph.SDK.Queries
 		{
 			get => false;
 		}
-		/// <summary>
-		/// Extract the transaction id.
-		/// </summary>
-		/// <returns>                         the transaction id</returns>
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery_2"]/*' />
 		public override TransactionId TransactionIdInternal
         {
             get => TransactionId;
         }
 
-		/// <summary>
-		/// Set the ID of the transaction for which the receipt is being requested.
-		/// </summary>
-		/// <param name="transactionId">The TransactionId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.TransactionId"]/*' />
 		public TransactionId? TransactionId { set; internal get; }
-		/// <summary>
-		/// Whether the response should include the records of any child transactions spawned by the
-		/// top-level transaction with the given transactionID.
-		/// </summary>
-		/// <param name="value">The value that includeChildren should be set to; true to include children, false to exclude</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.IncludeChildren"]/*' />
 		public bool IncludeChildren { get; set; }
-		/// <summary>
-		/// Whether records of processing duplicate transactions should be returned along with the record
-		/// of processing the first consensus transaction with the given id whose status was neither
-		/// INVALID_NODE_ACCOUNT nor INVALID_PAYER_SIGNATURE or, if no such
-		/// record exists, the record of processing the first transaction to reach consensus with the
-		/// given transaction id.
-		/// </summary>
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="P:TransactionReceiptQuery.IncludeDuplicates"]/*' />
 		public bool IncludeDuplicates { get; set; }
 
 		public override void ValidateChecksums(Client client)

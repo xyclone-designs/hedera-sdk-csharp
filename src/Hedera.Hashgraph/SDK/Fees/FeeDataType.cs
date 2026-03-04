@@ -2,49 +2,24 @@
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// Enum for the fee data types.
-    /// </summary>
+    /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType"]/*' />
     public enum FeeDataType
     {
-		/// <summary>
-		/// The resource cost for the transaction type has no additional attributes
-		/// </summary>
+		/// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_2"]/*' />
 		Default = Proto.SubType.Default,
-        /// <summary>
-        /// The resource cost for the transaction type includes an operation on a
-        /// fungible/common token
-        /// </summary>
+        /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_3"]/*' />
         TokenFungibleCommon = Proto.SubType.TokenFungibleCommon,
-        /// <summary>
-        /// The resource cost for the transaction type includes an operation on
-        /// a non-fungible/unique token
-        /// </summary>
+        /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_4"]/*' />
         TokenNonFungibleUnique = Proto.SubType.TokenNonFungibleUnique,
-        /// <summary>
-        /// The resource cost for the transaction type includes an operation on a
-        /// fungible/common token with a custom fee schedule
-        /// </summary>
+        /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_5"]/*' />
         TokenFungibleCommonWithCustomFees = Proto.SubType.TokenFungibleCommonWithCustomFees,
-        /// <summary>
-        /// The resource cost for the transaction type includes an operation on a
-        /// non-fungible/unique token with a custom fee schedule
-        /// </summary>
+        /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_6"]/*' />
         TokenNonFungibleUniqueWithCustomFees = Proto.SubType.TokenNonFungibleUniqueWithCustomFees,
-        /// <summary>
-        /// The resource cost for the transaction type includes a ScheduleCreate
-        /// containing a ContractCall.
-        /// </summary>
+        /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_7"]/*' />
         ScheduleCreateContractCall = Proto.SubType.ScheduleCreateContractCall,
-        /// <summary>
-        /// The resource cost for the transaction type includes a TopicCreate
-        /// with custom fees.
-        /// </summary>
+        /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_8"]/*' />
         TopicCreateWithCustomFees = Proto.SubType.TopicCreateWithCustomFees,
-        /// <summary>
-        /// The resource cost for the transaction type includes a ConsensusSubmitMessage
-        /// for a topic with custom fees.
-        /// </summary>
+        /// <include file="FeeDataType.cs.xml" path='docs/member[@name="T:FeeDataType_9"]/*' />
         SubmitMessageWithCustomFees = Proto.SubType.SubmitMessageWithCustomFees,
     }
 }

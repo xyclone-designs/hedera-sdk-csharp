@@ -10,19 +10,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <summary>
-    /// A query that returns information about the current state of a schedule
-    /// transaction on a Hedera network.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/schedule-transaction/get-schedule-info">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="ScheduleInfoQuery.cs.xml" path='docs/member[@name="T:ScheduleInfoQuery"]/*' />
     public class ScheduleInfoQuery : Query<ScheduleInfo, ScheduleInfoQuery>
     {
-        /// <summary>
-        /// Assign the schedule id.
-        /// </summary>
-        /// <param name="ScheduleId">the schedule id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="ScheduleInfoQuery.cs.xml" path='docs/member[@name="P:ScheduleInfoQuery.ScheduleId"]/*' />
         public virtual ScheduleId? ScheduleId { get; set; }
 
 		public override void ValidateChecksums(Client client)

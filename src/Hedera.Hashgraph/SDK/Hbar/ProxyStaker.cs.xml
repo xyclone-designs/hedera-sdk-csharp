@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ProxyStaker">
+    <summary>
+    Information about a single account that is proxy staking.
+    </summary>
+  </member>
+  <member name="M:ProxyStaker.#ctor(AccountId,System.Int64)">
+    <summary>
+    The Account ID that is proxy staking.
+    </summary>
+  </member>
+  <member name="M:ProxyStaker.#ctor(AccountId,System.Int64)_2">
+    <summary>
+    The number of hbars that are currently proxy staked.
+    </summary>
+  </member>
+  <member name="M:ProxyStaker.#ctor(AccountId,System.Int64)_3">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="accountId">the account id</param>
+    <param name="amount">the amount</param>
+  </member>
+  <member name="M:ProxyStaker.FromProtobuf(Proto.ProxyStaker)">
+    <summary>
+    Create a proxy staker object from a protobuf.
+    </summary>
+    <param name="proxyStaker">the protobuf</param>
+    <returns>the new proxy staker object</returns>
+  </member>
+</docs>

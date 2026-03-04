@@ -5,9 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <summary>
-    /// Internal utility class.
-    /// </summary>
+    /// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="T:BaseNodeAddress"]/*' />
     public class BaseNodeAddress
     {
 		internal static readonly int PORT_MIRROR_TLS = 443;
@@ -18,20 +16,9 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 		// If address is `in-process:.*` this will contain the right side of the `:`
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="name">the name part</param>
-		/// <param name="address">the address part</param>
-		/// <param name="port">the port part</param>
+		/// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="M:BaseNodeAddress.#ctor(System.String,System.String,System.Int32)"]/*' />
 		internal BaseNodeAddress(string? name, string? address, int port) : this(name, address, port, false) { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="name">the name part</param>
-		/// <param name="address">the address part</param>
-		/// <param name="port">the port part</param>
-		/// <param name="secure">secure transport</param>
+		/// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="M:BaseNodeAddress.#ctor(System.String,System.String,System.Int32,System.Boolean)"]/*' />
 		internal BaseNodeAddress(string? name, string? address, int port, bool secure)
         {
             Name = name;
@@ -40,11 +27,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             Secure = secure;
         }
 
-        /// <summary>
-        /// Create a managed node address fom a string.
-        /// </summary>
-        /// <param name="string">the string representation</param>
-        /// <returns>                         the new managed node address</returns>
+        /// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="M:BaseNodeAddress.FromString(string @)"]/*' />
         public static BaseNodeAddress FromString(string @string)
         {
 			MatchCollection hostAndPortMatcher = HOST_AND_PORT.Matches(@string);
@@ -69,47 +52,31 @@ namespace Hedera.Hashgraph.SDK.Networking
             }
         }
 
-		/// <summary>
-		/// Extract the name.
-		/// </summary>
+		/// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="P:BaseNodeAddress.Name"]/*' />
 		public virtual string? Name { protected set; get; }
-		/// <summary>
-		/// Extract the address.
-		/// </summary>
+		/// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="P:BaseNodeAddress.Address"]/*' />
 		public virtual string? Address { protected set; get; }
-		/// <summary>
-		/// Extract the port.
-		/// </summary>
+		/// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="P:BaseNodeAddress.Port"]/*' />
 		public virtual int Port { protected set; get; }
 		
 		public virtual bool Secure { protected set; get; }
-		/// <summary>
-		/// Are we in process?
-		/// </summary>
+		/// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="T:BaseNodeAddress_2"]/*' />
 		public virtual bool IsInProcess 
         {
             get => Name != null;
 		}
-		/// <summary>
-		/// Are we secure?
-		/// </summary>
+		/// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="M:BaseNodeAddress.ToInsecure"]/*' />
 		public virtual bool IsTransportSecurity 
         {
             get => Port == PORT_NODE_TLS || Port == PORT_MIRROR_TLS || Secure;
 		}
 
-        /// <summary>
-        /// Create a new insecure managed node.
-        /// </summary>
-        /// <returns>                         the insecure managed node address</returns>
+        /// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="M:BaseNodeAddress.ToInsecure_2"]/*' />
         public virtual BaseNodeAddress ToInsecure()
         {
             return new BaseNodeAddress(Name, Address, Port == PORT_NODE_TLS ? PORT_NODE_PLAIN : Port, false);
         }
-        /// <summary>
-        /// Create a new managed node.
-        /// </summary>
-        /// <returns>                         the secure managed node address</returns>
+        /// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="M:BaseNodeAddress.ToSecure"]/*' />
         public virtual BaseNodeAddress ToSecure()
         {
             return new BaseNodeAddress(Name, Address, Port == PORT_NODE_PLAIN ? PORT_NODE_TLS : Port, true);

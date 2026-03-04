@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+    <summary>&lt;summary&gt;
+    An Exception thrown on error status by {@link TransactionId#getReceipt(Client)}.
+    &lt;p&gt;
+    The receipt is included, though only the {@link TransactionReceipt#status} field will be
+    initialized; all the getters should throw.
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

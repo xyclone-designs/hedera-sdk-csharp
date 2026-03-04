@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:PrivateKeyED25519">
+    <summary>
+    Encapsulate the ED25519 private key.
+    </summary>
+  </member>
+  <member name="M:PrivateKeyED25519.#ctor(System.Byte[],KeyParameter)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="keyData">the key data</param>
+    <param name="chainCode">the chain code</param>
+  </member>
+  <member name="M:PrivateKeyED25519.FromSeed(System.Byte[])">
+    <summary>
+    Create an ED25519 key from seed.
+    Implement the published algorithm as defined in BIP32 in order to derive the primary account key from the
+    original (and never stored) master key.
+    The original master key, which is a secure key generated according to the BIP39 specification, is input to this
+    operation, and provides the base cryptographic seed material required to ensure the output is sufficiently random
+    to maintain strong cryptographic assurances.
+    The fromSeed() method must be provided with cryptographically secure material; otherwise, it will produce
+    insecure output.
+    </summary>
+    <param name="seed">the seed bytes</param>
+    <returns>the new key</returns>
+    <remarks>
+    @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">BIP-32 Definition</a>
+    @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-39 Definition</a></remarks>
+  </member>
+  <member name="M:PrivateKeyED25519.FromBytesInternal(System.Byte[])">
+    <summary>
+    Create a private key from a byte array.
+    </summary>
+    <param name="privateKey">the byte array</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PrivateKeyED25519.FromPrivateKeyInfoInternal(PrivateKeyInfo)">
+    <summary>
+    Create a new private key from a private key info object.
+    </summary>
+    <param name="privateKeyInfo">the private key info object</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PrivateKeyED25519.GenerateInternal">
+    <summary>
+    Create a new private ED25519 key.
+    </summary>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PrivateKeyED25519.DerivableKeyED25519(System.Byte[])">
+    <summary>
+    Create a derived key.
+    The industry standard protocol for deriving an active ed25519 keypair from a BIP39 master key is described in
+    BIP32. By using this deterministic mechanism to derive cryptographically secure keypairs from a single original
+    secret, the user maintains secure access to their wallet, even if they lose access to a particular system or
+    wallet local data store.
+    The active keypair can always be re-derived from the original master key.
+    The use of the fixed "key" values in this code is defined by this deterministic protocol, and this data is mixed,
+    in a deterministic but cryptographically secure manner, with the original master key and/or other derived keys
+    "higher" in the tree to produce a cryptographically secure derived key.
+    This "Key Derivation Function" makes use of secure hash algorithm and a secure hash
+    based message authentication code to produce an initialization vector, and then
+    produces the actual key from a portion of that vector.
+    </summary>
+    <param name="deriveData">data to derive the key</param>
+    <returns>the new key</returns>
+    <remarks>
+    @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">BIP-32 Definition</a>
+    @see<a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP-39 Definition</a></remarks>
+  </member>
+  <member name="M:PrivateKeyED25519.LegacyDeriveChildKey(System.Byte[],System.Int64)">
+    <summary>
+    Derive a legacy child key.
+    </summary>
+    <param name="entropy">entropy byte array</param>
+    <param name="index">the child key index</param>
+    <returns>the new key</returns>
+  </member>
+</docs>

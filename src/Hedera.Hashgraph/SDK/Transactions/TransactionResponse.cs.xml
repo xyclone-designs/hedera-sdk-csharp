@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TransactionResponse">
+    <summary>&lt;summary&gt;
+    When the client sends the node a transaction of any kind, the node replies with this, which simply says that the
+    transaction passed the pre-check (so the node will submit it to the network) or it failed (so it won't). To learn the
+    consensus result, the client should later obtain a receipt (free), or can buy a more detailed record (not free).
+    &lt;br&gt;
+    See &lt;a href="https://docs.hedera.com/guides/docs/hedera-api/miscellaneous/transactionresponse"&gt;Hedera
+    Documentation&lt;/a&gt;
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="F:TransactionResponse.MAX_RETRY_ATTEMPTS">
+    <summary>
+    The maximum number of retry attempts for throttled transactions
+    </summary>
+  </member>
+  <member name="F:TransactionResponse.INITIAL_BACKOFF_MS">
+    <summary>
+    The initial backoff delay in milliseconds
+    </summary>
+  </member>
+  <member name="F:TransactionResponse.MAX_BACKOFF_MS">
+    <summary>
+    The maximum backoff delay in milliseconds
+    </summary>
+  </member>
+  <member name="F:TransactionResponse.NodeId">
+    <summary>
+    The node ID
+    </summary>
+  </member>
+  <member name="F:TransactionResponse.TransactionHash">
+    <summary>
+    The transaction hash
+    </summary>
+  </member>
+  <member name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})">
+    <summary>
+    The transaction ID
+    </summary>
+  </member>
+  <member name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})_2">
+    <summary>
+    The scheduled transaction ID
+    </summary>
+  </member>
+  <member name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})_3">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="nodeId">the node id</param>
+    <param name="transactionId">the transaction id</param>
+    <param name="transactionHash">the transaction hash</param>
+    <param name="scheduledTransactionId">the scheduled transaction id</param>
+  </member>
+  <member name="P:TransactionResponse.ValidateStatus">
+    <summary></summary>
+    <returns>whether getReceipt() or getRecord() will throw an exception if the receipt status is not SUCCESS</returns>
+  </member>
+  <member name="M:TransactionResponse.GetReceipt(Client)">
+    <summary>
+    Fetch the receipt of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>the transaction receipt</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionResponse.GetReceipt(Client,System.TimeSpan)">
+    <summary>
+    Fetch the receipt of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>the transaction receipt</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionResponse.GetReceiptQuery">
+    <summary>
+    Create receipt query from the {@link #transactionId} and {@link #transactionHash}
+    </summary>
+    <returns>{@link TransactionReceiptQuery}</returns>
+  </member>
+  <member name="M:TransactionResponse.GetReceiptAsync(Client)">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>future result of the transaction receipt</returns>
+  </member>
+  <member name="M:TransactionResponse.GetReceiptAsync(Client,System.TimeSpan)">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>the transaction receipt</returns>
+  </member>
+  <member name="M:TransactionResponse.GetReceiptAsync(Client,System.Action{TransactionReceipt,System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionResponse.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt,System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionResponse.GetReceiptAsync(Client,System.Action{TransactionReceipt},System.Action{System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:TransactionResponse.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt},System.Action{System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:TransactionResponse.GetRecord(Client)">
+    <summary>
+    Fetch the record of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>the transaction record</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionResponse.GetRecord(Client,System.TimeSpan)">
+    <summary>
+    Fetch the record of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>the transaction record</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionResponse.GetRecordQuery">
+    <summary>
+    Create record query from the {@link #transactionId} and {@link #transactionHash}
+    </summary>
+    <returns>{@link TransactionRecordQuery}</returns>
+  </member>
+  <member name="M:TransactionResponse.GetRecordAsync(Client)">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>future result of the transaction record</returns>
+  </member>
+  <member name="M:TransactionResponse.GetRecordAsync(Client,System.TimeSpan)">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>future result of the transaction record</returns>
+  </member>
+  <member name="M:TransactionResponse.GetRecordAsync(Client,System.Action{TransactionRecord,System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionResponse.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord,System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionResponse.GetRecordAsync(Client,System.Action{TransactionRecord},System.Action{System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:TransactionResponse.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord},System.Action{System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+</docs>

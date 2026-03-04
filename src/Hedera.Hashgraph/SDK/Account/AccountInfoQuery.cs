@@ -9,17 +9,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-	/// <summary>
-	/// Get all the information about an account, including the balance.
-	/// This does not get the list of account records.
-	/// </summary>
+	/// <include file="AccountInfoQuery.cs.xml" path='docs/member[@name="T:AccountInfoQuery"]/*' />
 	public sealed class AccountInfoQuery : Query<AccountInfo, AccountInfoQuery>
     {
-        /// <summary>
-        /// Sets the account ID for which information is requested.
-        /// </summary>
-        /// <param name="accountId">The AccountId to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="AccountInfoQuery.cs.xml" path='docs/member[@name="P:AccountInfoQuery.AccountId"]/*' />
         public AccountId? AccountId { get; set; }
 
         public override void ValidateChecksums(Client client)

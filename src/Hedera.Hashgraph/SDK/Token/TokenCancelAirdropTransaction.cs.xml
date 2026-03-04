@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenCancelAirdropTransaction">
+    <summary>
+    Token cancel airdrop<br />
+    Remove one or more pending airdrops from state on behalf of the
+    sender(s) for each airdrop.
+    
+    Each pending airdrop canceled SHALL be removed from state and
+    SHALL NOT be available to claim.<br />
+    Each cancellation SHALL be represented in the transaction body and
+    SHALL NOT be restated in the record file.<br />
+    All cancellations MUST succeed for this transaction to succeed.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:TokenCancelAirdropTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TokenCancelAirdropTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenCancelAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenCancelAirdropTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link Proto.TokenCancelAirdropTransactionBody}</returns>
+  </member>
+  <member name="M:TokenCancelAirdropTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+</docs>

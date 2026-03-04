@@ -15,16 +15,11 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <summary>
-    /// Execute an Ethereum transaction on Hedera
-    /// </summary>
+    /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public class EthereumFlow
     {
-        /// <summary>
-        /// 128,000 bytes - jumbo transaction limit
-        /// Indicates when we should splice out the call data from an ethereum transaction data
-        /// </summary>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="F:.MAX_ETHEREUM_DATA_SIZE"]/*' />
         static int MAX_ETHEREUM_DATA_SIZE = 128000;
 
 		private static FileId CreateFile<T>(byte[] callData, Client client, TimeSpan timeoutPerTransaction, Transaction<T> ethereumTransaction) where T : Transaction<T>
@@ -103,48 +98,19 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 			}
         }
 
-        /// <summary>
-        /// Sets the raw Ethereum transaction (RLP encoded type 0, 1, and 2). Complete
-        /// unless the callDataFileId is set.
-        /// </summary>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="P:.EthereumData"]/*' />
         public virtual EthereumTransactionData? EthereumData { get; set; }
-        /// <summary>
-        /// Sets the maximum amount that the payer of the hedera transaction
-        /// is willing to pay to complete the transaction.
-        /// <br>
-        /// Ordinarily the account with the ECDSA alias corresponding to the public
-        /// key that is extracted from the ethereum_data signature is responsible for
-        /// fees that result from the execution of the transaction. If that amount of
-        /// authorized fees is not sufficient then the payer of the transaction can be
-        /// charged, up to but not exceeding this amount. If the ethereum_data
-        /// transaction authorized an amount that was insufficient then the payer will
-        /// only be charged the amount needed to make up the difference. If the gas
-        /// price in the transaction was set to zero then the payer will be assessed
-        /// the entire fee.
-        /// </summary>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="P:.MaxGasAllowance"]/*' />
         public virtual Hbar? MaxGasAllowance { get; set; }
         public virtual FileId? CallDataFileId { get; set; }
 
 
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client.
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <returns>the response</returns>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Execute(Client)"]/*' />
         public virtual TransactionResponse Execute(Client client)
         {
             return Execute(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client.
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <returns>the response</returns>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Execute(Client,System.TimeSpan)"]/*' />
         public virtual TransactionResponse Execute(Client client, TimeSpan timeoutPerTransaction)
         {
             if (EthereumData == null)
@@ -170,27 +136,12 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             return ethereumTransaction.Execute(client, timeoutPerTransaction);
         }
 
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client asynchronously.
-        /// 
-        /// <p>Note: This method requires API level 33 or higher. It will not work on devices running API versions below 31
-        /// because it uses features introduced in API level 31 (Android 12).</p>*
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <returns>the response</returns>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client)"]/*' />
         public virtual Task<TransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client asynchronously.
-        /// 
-        /// <p>Note: This method requires API level 33 or higher. It will not work on devices running API versions below 31
-        /// because it uses features introduced in API level 31 (Android 12).</p>*
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <returns>the response</returns>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan)"]/*' />
         public virtual async Task<TransactionResponse> ExecuteAsync(Client client, TimeSpan timeoutPerTransaction)
         {
             if (EthereumData == null)
@@ -222,42 +173,22 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             }
         }
 
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client asynchronously.
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.Action{TransactionResponse,System.Exception})"]/*' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client), callback);
         }
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client asynchronously.
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse,System.Exception})"]/*' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse?, Exception?> callback)
         {
             Utils.ActionHelper.Action(ExecuteAsync(client, timeoutPerTransaction), callback);
         }
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client asynchronously.
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
         public virtual void ExecuteAsync(Client client, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
         }
-        /// <summary>
-        /// Execute the transactions in the flow with the passed in client asynchronously.
-        /// </summary>
-        /// <param name="client">the client with the transaction to execute</param>
-        /// <param name="timeoutPerTransaction">The timeout after which each transaction's execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client,System.TimeSpan,System.Action{TransactionResponse},System.Action{System.Exception})"]/*' />
         public virtual void ExecuteAsync(Client client, TimeSpan timeoutPerTransaction, Action<TransactionResponse> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeoutPerTransaction), onSuccess, onFailure);

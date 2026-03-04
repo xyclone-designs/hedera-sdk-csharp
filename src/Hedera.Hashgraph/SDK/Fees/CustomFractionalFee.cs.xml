@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:CustomFractionalFee">
+    <summary>
+    Custom fractional fee utility class.
+    See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#fractional-fee">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:CustomFractionalFee.FromProtobuf(Proto.FractionalFee)">
+    <summary>
+    Create a custom fractional fee from a fee protobuf.
+    </summary>
+    <param name="fractionalFee">the fractional fee protobuf</param>
+    <returns>the new custom fractional fee object</returns>
+  </member>
+  <member name="P:CustomFractionalFee.Numerator">
+    <summary>
+    The numerator.
+    </summary>
+    <returns>the numerator</returns>
+  </member>
+  <member name="P:CustomFractionalFee.Denominator">
+    <summary>
+    Extract the denominator.
+    Assign the denominator can not be zero (0).
+    </summary>
+    <returns>the denominator</returns>
+  </member>
+  <member name="P:CustomFractionalFee.Min">
+    <summary>
+    The minimum fee amount.
+    </summary>
+    <returns>the minimum fee amount</returns>
+  </member>
+  <member name="P:CustomFractionalFee.Max">
+    <summary>
+    The maximumn fee amount.
+    </summary>
+  </member>
+  <member name="P:CustomFractionalFee.AssessmentMethod">
+    <summary>&lt;summary&gt;
+    Assign the assessment method inclusive / exclusive.
+    &lt;p&gt;
+    If the assessment method field is set, the token's custom fee is charged
+    to the sending account and the receiving account receives the full token
+    transfer amount. If this field is set to false, the receiver pays for
+    the token custom fees and gets the remaining token balance.
+    INCLUSIVE(false)
+    EXCLUSIVE(true)
+    See &lt;a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#fractional-fee"&gt;Hedera Documentation&lt;/a&gt;
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:CustomFractionalFee.ToFractionalFeeProtobuf">
+    <summary>
+    Convert the fractional fee object to a protobuf.
+    </summary>
+    <returns>the protobuf object</returns>
+  </member>
+</docs>

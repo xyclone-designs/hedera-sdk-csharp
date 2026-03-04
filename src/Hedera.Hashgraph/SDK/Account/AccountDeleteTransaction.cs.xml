@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:AccountDeleteTransaction">
+    <summary>
+    Delete an account.<br />
+    This will mark an account deleted, and transfer all tokens to a "sweep"
+    account.
+    
+    A deleted account SHALL NOT hold a balance in any token type.<br />
+    A deleted account SHALL remain in state until it expires.<br />
+    Transfers that would increase the balance of a deleted account
+    SHALL fail.<br />
+    A deleted account MAY be subject of a `cryptoUpdate` transaction to extend
+    its expiration.<br />
+    When a deleted account expires it SHALL be removed entirely, and SHALL NOT
+    be archived.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:AccountDeleteTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:AccountDeleteTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:AccountDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:AccountDeleteTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    An account identifier.
+    &lt;p&gt;
+    This account SHALL be deleted if this transaction succeeds.&lt;br/&gt;
+    This account SHOULD NOT hold any balance other than HBAR.&lt;br/&gt;
+    If this account _does_ hold balances, the `transferAccountID` value
+    MUST be set to a valid transfer account.&lt;br/&gt;
+    This account MUST sign this transaction.&lt;br/&gt;
+    This field MUST be set to a valid account identifier.
+    &lt;/summary&gt;
+    &lt;param name="deleteAccountId"&gt;The AccountId to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountDeleteTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    An account identifier.
+    &lt;p&gt;
+    The identified account SHALL receive all tokens, token balances,
+    and non-fungible/unique from the deleted account.&lt;br/&gt;
+    The identified account MUST sign this transaction.&lt;br/&gt;
+    If not set, the account to be deleted MUST NOT have a balance in any
+    token, a balance in HBAR, or hold any NFT.
+    &lt;/summary&gt;
+    &lt;param name="transferAccountId"&gt;The AccountId to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountDeleteTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:AccountDeleteTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link CryptoDeleteTransactionBody}</returns>
+  </member>
+</docs>

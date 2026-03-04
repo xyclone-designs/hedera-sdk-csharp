@@ -3,9 +3,7 @@ using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// A typed hook call for NFT transfers.
-    /// </summary>
+    /// <include file="NftHookCall.cs.xml" path='docs/member[@name="T:NftHookCall"]/*' />
     public class NftHookCall : HookCall
     {
         public NftHookCall(long hookId, EvmHookCall evmHookCall, NftHookType type) : base(hookId, evmHookCall)

@@ -2,7 +2,6 @@
 using Hedera.Hashgraph.SDK.Hook;
 
 using System;
-using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
@@ -80,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
 
         public virtual void FromProtobufWithoutKeyThrows()
         {
-            var emptyProto = Proto.EvmHookMappingEntry.NewBuilder().Build();
+            var emptyProto = new Proto.EvmHookMappingEntry();
 
             Assert.Throws<ArgumentException>(() => EvmHookMappingEntry.FromProtobuf(emptyProto));
         }

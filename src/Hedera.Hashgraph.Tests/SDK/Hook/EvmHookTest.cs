@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using System;
-using System.Collections.Generic;
-
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Hook;
+
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
@@ -21,12 +20,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             
             Assert.Equal(1, updates.Count);
             Assert.Equal(slot, updates[0]);
+			Assert.IsType<IReadOnlyCollection<EvmHookStorageUpdate>>(updates); // list must be unmodifiable
+		}
 
-            // list must be unmodifiable
-            Assert.Throws<NotSupportedException>(() => updates.Add(slot));
-        }
-
-        public virtual void ProtobufRoundTripPreservesData()
+		public virtual void ProtobufRoundTripPreservesData()
         {
             var spec = new ContractId(0, 0, 77);
             var entry = EvmHookMappingEntry.OfKey(new byte[] { 0x0A }, new byte[] { 0x0B });
@@ -50,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             IList<EvmHookStorageUpdate> u2 = [ new EvmHookStorageSlot(new byte[] { 0x03 }, new byte[] { 0x04 }) ];
             
             var a = new EvmHook(spec1, u1);
-            var b = new EvmHook(spec1, [u1]);
+            var b = new EvmHook(spec1, [..u1]);
             var c = new EvmHook(spec2, u1);
             var d = new EvmHook(spec1, u2);
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="P:.Multiplier">
+    <summary>
+    Multiplied by the node fee to determine the total network fee.
+    </summary>
+  </member>
+</docs>

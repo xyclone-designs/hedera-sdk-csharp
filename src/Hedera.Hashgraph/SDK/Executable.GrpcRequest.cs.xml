@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Executable">
+    <summary>&lt;summary&gt;
+    Abstract base utility class.
+    &lt;/summary&gt;
+    &lt;param name="&lt;SdkRequestT&gt;"&gt;the sdk request&lt;/param&gt;
+    &lt;param name="&lt;ProtoRequestT&gt;"&gt;the proto request&lt;/param&gt;
+    &lt;param name="&lt;ResponseT&gt;"&gt;the response&lt;/param&gt;
+    &lt;param name="&lt;O&gt;"&gt;the O type&lt;/param&gt;</summary>
+  </member>
+</docs>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractFunctionSelector">
+    <summary>
+    Builder class for Solidity function selectors.
+    </summary>
+  </member>
+  <member name="M:ContractFunctionSelector.#ctor(System.String)">
+    <summary>
+    Start building a selector for a function with a given name.
+    </summary>
+    <param name="funcName">The name of the function</param>
+  </member>
+  <member name="M:ContractFunctionSelector.AddString">
+    <summary>
+    Add a string parameter.
+    </summary>
+    <returns>string</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddStringArray">
+    <summary>
+    Add a string array parameter.
+    </summary>
+    <returns>array string</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddBytes">
+    <summary>
+    Add a bytes parameter.
+    </summary>
+    <returns>bytes</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddBytesArray">
+    <summary>
+    Add a bytes array parameter.
+    </summary>
+    <returns>bytes array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddBytes32">
+    <summary>
+    Add a bytes 32 parameter.
+    </summary>
+    <returns>bytes 32</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddBytes32Array">
+    <summary>
+    Add a bytes 32 array parameter.
+    </summary>
+    <returns>bytes 32 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddBool">
+    <summary>
+    Add a bool parameter.
+    </summary>
+    <returns>bool</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt8">
+    <summary>
+    Add an int 8 parameter.
+    </summary>
+    <returns>int 8</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt32">
+    <summary>
+    Add an int 32 parameter.
+    </summary>
+    <returns>int 32</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt64">
+    <summary>
+    Add an int 64 parameter.
+    </summary>
+    <returns>int 64</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt256">
+    <summary>
+    Add an int 256 parameter.
+    </summary>
+    <returns>int 256</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt8Array">
+    <summary>
+    Add an int 8 array parameter.
+    </summary>
+    <returns>int 8 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt32Array">
+    <summary>
+    Add an int 32 array parameter.
+    </summary>
+    <returns>int 32 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt64Array">
+    <summary>
+    Add an int 64 array parameter.
+    </summary>
+    <returns>int 64 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddInt256Array">
+    <summary>
+    Add an int 256 array parameter.
+    </summary>
+    <returns>int 256 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint8">
+    <summary>
+    Add an unsigned int 8 parameter.
+    </summary>
+    <returns>unsigned int 8</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint32">
+    <summary>
+    Add an unsigned int 32 parameter.
+    </summary>
+    <returns>unsigned int 32</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint64">
+    <summary>
+    Add an unsigned int 64 parameter.
+    </summary>
+    <returns>unsigned int 64</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint256">
+    <summary>
+    Add an unsigned int 256 parameter.
+    </summary>
+    <returns>unsigned int 256</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint8Array">
+    <summary>
+    Add an unsigned int 8 array parameter.
+    </summary>
+    <returns>unsigned int 8 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint32Array">
+    <summary>
+    Add an unsigned int 32 array parameter.
+    </summary>
+    <returns>unsigned int 32 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint64Array">
+    <summary>
+    Add an unsigned int 64 array parameter.
+    </summary>
+    <returns>unsigned int 64 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddUint256Array">
+    <summary>
+    Add an unsigned int 256 array parameter.
+    </summary>
+    <returns>unsigned int 256 array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddAddress">
+    <summary>
+    Add an address parameter.
+    </summary>
+    <returns>address</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddAddressArray">
+    <summary>
+    Add an address array parameter.
+    </summary>
+    <returns>address array</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddFunction">
+    <summary>
+    Add a function parameter.
+    </summary>
+    <returns>function.</returns>
+  </member>
+  <member name="M:ContractFunctionSelector.AddParamType(System.String)">
+    <summary>
+    Add a Solidity type name to this selector;
+    {@see https://solidity.readthedocs.io/en/v0.5.9/types.html}
+    </summary>
+    <param name="typeName">the name of the Solidity type for a parameter.</param>
+    <returns>{@code this}</returns>
+    <exception cref="IllegalStateException">if {@link #finish()} has already been called.</exception>
+  </member>
+  <member name="M:ContractFunctionSelector.Finish">
+    <summary>&lt;summary&gt;
+    Complete the function selector after all parameters have been added and get the selector
+    bytes.
+    &lt;p&gt;
+    No more parameters may be added after this method call.
+    &lt;p&gt;
+    However, this can be called multiple times; it will always return the same result.
+    &lt;/summary&gt;
+    &lt;returns&gt;the computed selector bytes.&lt;/returns&gt;</summary>
+  </member>
+</docs>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TopicMessageSubmitTransaction">
+    <summary>&lt;summary&gt;
+    Submit a message for consensus.
+    &lt;p&gt;
+    Valid and authorized messages on valid topics will be ordered by the consensus service, gossipped to the
+    mirror net, and published (in order) to all subscribers (from the mirror net) on this topic.
+    &lt;p&gt;
+    The submitKey (if any) must sign this transaction.
+    &lt;p&gt;
+    On success, the resulting TransactionReceipt contains the topic's updated topicSequenceNumber and
+    topicRunningHash.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.RequireNotFrozen">
+    <summary>
+    Assign the topic id.
+    </summary>
+    <param name="topicId">the topic id</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.RequireNotFrozen_2">
+    <summary>
+    Extract the message.
+    </summary>
+    <returns>the message</returns>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.InitFromTransactionBody">
+    <summary>
+    The maximum custom fee that the user is willing to pay for the message. If left empty, the user is willing to pay any custom fee.
+    If used with a transaction type that does not support custom fee limits, the transaction will fail.
+    </summary>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.InitFromTransactionBody_2">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TopicMessageSubmitTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.ConsensusSubmitMessageTransactionBody}</returns>
+  </member>
+</docs>

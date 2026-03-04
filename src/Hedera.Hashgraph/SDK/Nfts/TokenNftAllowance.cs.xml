@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenNftAllowance">
+    <summary>
+    Class to encapsulate the nft methods for token allowance's.
+    </summary>
+  </member>
+  <member name="M:TokenNftAllowance.#ctor(TokenId,AccountId,AccountId,AccountId,System.Collections.Generic.IEnumerable{System.Int64},System.Boolean)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="ownerAccountId">the grantor's account id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <param name="delegatingSpender">the delegating spender's account id</param>
+    <param name="serialNumbers">the list of serial numbers</param>
+    <param name="allSerials">grant for all serial's</param>
+  </member>
+  <member name="F:TokenNftAllowance.TokenId">
+    <summary>
+    The NFT token type that the allowance pertains to
+    </summary>
+  </member>
+  <member name="F:TokenNftAllowance.OwnerAccountId">
+    <summary>
+    The account ID of the token owner (ie. the grantor of the allowance)
+    </summary>
+  </member>
+  <member name="F:TokenNftAllowance.SpenderAccountId">
+    <summary>
+    The account ID of the token allowance spender
+    </summary>
+  </member>
+  <member name="F:TokenNftAllowance.DelegatingSpender">
+    <summary>
+    The account ID of the spender who is granted approvedForAll allowance and granting
+    approval on an NFT serial to another spender.
+    </summary>
+  </member>
+  <member name="F:TokenNftAllowance.SerialNumbers">
+    <summary>
+    The list of serial numbers that the spender is permitted to transfer.
+    </summary>
+  </member>
+  <member name="F:TokenNftAllowance.AllSerials">
+    <summary>
+    If true, the spender has access to all of the owner's NFT units of type tokenId (currently
+    owned and any in the future).
+    </summary>
+  </member>
+  <member name="M:TokenNftAllowance.CopyFrom(TokenNftAllowance)">
+    <summary>
+    Create a copy of a nft token allowance object.
+    </summary>
+    <param name="allowance">the nft token allowance to copj</param>
+    <returns>a new copy</returns>
+  </member>
+  <member name="M:TokenNftAllowance.FromBytes(System.Byte[])">
+    <summary>
+    Create a nft token allowance from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the nft token allowance</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenNftAllowance.FromProtobuf(Proto.NftAllowance)">
+    <summary>
+    Create a nft token allowance from a protobuf.
+    </summary>
+    <param name="allowanceProto">the protobuf</param>
+    <returns>the nft token allowance</returns>
+  </member>
+  <member name="M:TokenNftAllowance.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TokenNftAllowance.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+  <member name="M:TokenNftAllowance.ToRemoveProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the remove protobuf</returns>
+  </member>
+  <member name="M:TokenNftAllowance.ValidateChecksums(Client)">
+    <summary>
+    Validate the configured client.
+    </summary>
+    <param name="client">the configured client</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+  </member>
+</docs>

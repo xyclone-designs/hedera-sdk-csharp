@@ -10,78 +10,28 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Resume transfers of a token type for an account.<br/>
-    /// This releases previously frozen assets of one account with respect to
-    /// one token type. Once unfrozen, that account can once again send or
-    /// receive tokens of the identified type.
-    /// 
-    /// The token MUST have a `freeze_key` set and that key MUST NOT
-    /// be an empty `KeyList`.<br/>
-    /// The token `freeze_key` MUST sign this transaction.<br/>
-    /// The identified token MUST exist, MUST NOT be deleted, MUST NOT be paused,
-    /// and MUST NOT be expired.<br/>
-    /// The identified account MUST exist, MUST NOT be deleted, and
-    /// MUST NOT be expired.<br/>
-    /// If the identified account is not frozen with respect to the identified
-    /// token, the transaction SHALL succeed, but no change SHALL be made.<br/>
-    /// An association between the identified account and the identified
-    /// token MUST exist.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="T:TokenUnfreezeTransaction"]/*' />
     public class TokenUnfreezeTransaction : Transaction<TokenUnfreezeTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor"]/*' />
         public TokenUnfreezeTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenUnfreezeTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenUnfreezeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A token identifier.
-        /// <p>
-        /// This SHALL identify the token type to "unfreeze".<br/>
-        /// The identified token MUST exist, MUST NOT be deleted, and MUST be
-        /// associated to the identified account.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.RequireNotFrozen"]/*' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// An account identifier.
-		/// <p>
-		/// This shall identify the account to "unfreeze".<br/>
-		/// The identified account MUST exist, MUST NOT be deleted, MUST NOT be
-		/// expired, and MUST be associated to the identified token.<br/>
-		/// The identified account SHOULD be "frozen" with respect to the
-		/// identified token.
-		/// </summary>
-		/// <param name="accountId">the account id</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.RequireNotFrozen_2"]/*' />
 		public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUnfreeze;
@@ -93,11 +43,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				AccountId = AccountId.FromProtobuf(body.Account);
 		}
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@code @link
-        ///         Proto.TokenUnfreezeAccountTransactionBody}</returns>
+        /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.ToProtobuf"]/*' />
         public virtual Proto.TokenUnfreezeAccountTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenUnfreezeAccountTransactionBody();

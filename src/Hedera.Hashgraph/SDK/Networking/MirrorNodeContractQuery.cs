@@ -45,21 +45,13 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return jsonObject.ToString();
 		}
 
-		/// <summary>
-		/// Sets the Contract instance to call.
-		/// </summary>
-		/// <param name="ContractId">The ContractId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown"]/*' />
 		public virtual ContractId? ContractId
 		{
 			get;
 			set;
 		}
-		/// <summary>
-		/// Set the 20-byte EVM address of the Contract to call.
-		/// </summary>
-		/// <param name="ContractEvmAddress"></param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_2"]/*' />
 		public virtual string? ContractEvmAddress
 		{
 			get;
@@ -69,21 +61,13 @@ namespace Hedera.Hashgraph.SDK.Networking
 				ContractId = null;
 			}
 		}
-		/// <summary>
-		/// Sets the Sender of the transaction simulation.
-		/// </summary>
-		/// <param name="Sender">The AccountId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_3"]/*' />
 		public virtual AccountId? Sender
 		{
 			get;
 			set;
 		}
-		/// <summary>
-		/// Set the 20-byte EVM address of the Sender.
-		/// </summary>
-		/// <param name="SenderEvmAddress"></param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_4"]/*' />
 		public virtual string? SenderEvmAddress
 		{
 			get;
@@ -98,49 +82,25 @@ namespace Hedera.Hashgraph.SDK.Networking
 			get;
 			set;
 		} = [];
-		/// <summary>
-		/// Sets the amount of Value (in tinybars or wei) to be sent to the Contract in the transaction.
-		/// <p>
-		/// Use this to specify an amount for a payable function call.
-		/// </summary>
-		/// <param name="Value">the amount of Value to send, in tinybars or wei</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_5"]/*' />
 		public virtual long Value
 		{
 			get;
 			set;
 		}
-		/// <summary>
-		/// Sets the Gas limit for the Contract call.
-		/// <p>
-		/// This specifies the maximum amount of Gas that the transaction can consume.
-		/// </summary>
-		/// <param name="GasLimit">the maximum Gas allowed for the transaction</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_6"]/*' />
 		public virtual long GasLimit
 		{
 			get;
 			set;
 		}
-		/// <summary>
-		/// Sets the Gas price to be used for the Contract call.
-		/// <p>
-		/// This specifies the price of each unit of Gas used in the transaction.
-		/// </summary>
-		/// <param name="GasPrice">the Gas price, in tinybars or wei, for each unit of Gas</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:Unknown_7"]/*' />
 		public virtual long GasPrice
 		{
 			get;
 			set;
 		}
-		/// <summary>
-		/// Sets the block number for the simulation of the Contract call.
-		/// <p>
-		/// The block number determines the context of the Contract call simulation within the blockchain.
-		/// </summary>
-		/// <param name="BlockNumber">the block number at which to simulate the Contract call</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:FillEvmAddresses"]/*' />
 		public virtual long BlockNumber
 		{
 			get;
@@ -214,12 +174,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			var blockNum = BlockNumber == 0 ? "latest" : BlockNumber.ToString();
 			return GetContractCallResultFromMirrorNodeAsync(client, blockNum).GetAwaiter().GetResult();
 		}
-		/// <summary>
-		/// Returns Gas estimation for the EVM execution
-		/// </summary>
-		/// <param name="client"></param>
-		/// <exception cref="ExecutionException"></exception>
-		/// <exception cref="InterruptedException"></exception>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:Estimate(Client)"]/*' />
 		internal virtual long Estimate(Client client)
 		{
 			FillEvmAddresses();
@@ -227,43 +182,21 @@ namespace Hedera.Hashgraph.SDK.Networking
 		}
 	}
 
-	/// <summary>
-	/// MirrorNodeContractQuery returns a result from EVM execution such as cost-free execution of read-only smart Contract
-	/// queries, Gas estimation, and transient simulation of read-write operations.
-	/// </summary>
+	/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:MirrorNodeContractQuery"]/*' />
 	public abstract class MirrorNodeContractQuery<T> : MirrorNodeContractQuery where T : MirrorNodeContractQuery<T>
     {
-		/// <summary>
-		/// Sets the function name to call.
-		/// <p>
-		/// The function will be called with no parameters. Use {@link #setFunction(String, ContractFunctionParameters)} to
-		/// call a function with parameters.
-		/// </summary>
-		/// <param name="name">The String to be set as the function name</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunction(System.String)"]/*' />
 		public virtual T SetFunction(string name)
 		{
 			return SetFunction(name, new ContractFunctionParameters());
 		}
-		/// <summary>
-		/// Sets the function to call, and the parameters to pass to the function.
-		/// </summary>
-		/// <param name="name">The String to be set as the function name</param>
-		/// <param name="params">The function parameters to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunction(System.String,ContractFunctionParameters @)"]/*' />
 		public virtual T SetFunction(string name, ContractFunctionParameters @params)
         {
             ArgumentNullException.ThrowIfNull(@params);
             return SetFunctionParameters(@params.ToBytes(name));
         }
-        /// <summary>
-        /// Sets the function parameters as their raw bytes.
-        /// <p>
-        /// Use this instead of {@link #setFunction(String, ContractFunctionParameters)} if you have already pre-encoded a
-        /// solidity function call.
-        /// </summary>
-        /// <param name="functionParameters">The function parameters to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="M:MirrorNodeContractQuery.SetFunctionParameters(ByteString)"]/*' />
         public virtual T SetFunctionParameters(ByteString functionParameters)
         {
             ArgumentNullException.ThrowIfNull(functionParameters);
@@ -275,13 +208,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		{
 			return (T)this;
 		}
-		/// <summary>
-		/// Does transient simulation of read-write operations and returns the result in hexadecimal string format. The
-		/// result can be any solidity type.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <exception cref="ExecutionException"></exception>
-		/// <exception cref="InterruptedException"></exception>
+    /// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:MirrorNodeContractQuery_2"]/*' />
 		
     }
 }

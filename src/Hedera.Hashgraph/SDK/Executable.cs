@@ -20,13 +20,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <summary>
-	/// Abstract base utility class.
-	/// </summary>
-	/// <param name="<SdkRequestT>">the sdk request</param>
-	/// <param name="<ProtoRequestT>">the proto request</param>
-	/// <param name="<ResponseT>">the response</param>
-	/// <param name="<O>">the O type</param>
+	/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable"]/*' />
 	public abstract partial class Executable
 	{
 		internal static readonly Regex RST_STREAM = new(".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -46,9 +40,7 @@ namespace Hedera.Hashgraph.SDK
 			};
 		}
 
-		/// <summary>
-		/// List of healthy and unhealthy nodes with which execution will be attempted.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_2"]/*' />
 		protected ListGuarded<Node> Nodes
 		{
 			get => [.. field ??= []];
@@ -58,19 +50,11 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <summary>
-		/// Indicates if the request has been attempted to be sent to all nodes
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.AttemptedAllNodes"]/*' />
 		public bool AttemptedAllNodes { get; protected set; }
-		/// <summary>
-		/// When execution is attempted, a single attempt will timeout when this deadline is reached. (The SDK may
-		/// subsequently retry the execution.)
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.GrpcDeadline"]/*' />
 		public TimeSpan GrpcDeadline { get; set; }
-		/// <summary>
-		/// The maximum amount of time to wait between retries. Every retry attempt will increase the wait time exponentially
-		/// until it reaches this time.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_3"]/*' />
 		public TimeSpan MaxBackoff
 		{
 			get => field;
@@ -89,10 +73,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 
 		} = Client.DEFAULT_MAX_BACKOFF;
-		/// <summary>
-		/// The minimum amount of time to wait between retries. When retrying, the delay will start at this time and increase
-		/// exponentially until it reaches the maxBackoff.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_4"]/*' />
 		public TimeSpan MinBackoff
 		{
 			get => field;
@@ -111,9 +92,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 
 		} = Client.DEFAULT_MIN_BACKOFF;
-		/// <summary>
-		/// The maximum times execution will be attempted
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_5"]/*' />
 		public int MaxAttempts
         {
             get;
@@ -130,13 +109,7 @@ namespace Hedera.Hashgraph.SDK
             get => MaxAttempts;
             set => MaxAttempts = value;
         }
-		/// <summary>
-		/// Set the account IDs of the nodes that this transaction will be submitted to.
-		/// <p>
-		/// Providing an explicit node account ID interferes with client-side load balancing of the network. By default, the
-		/// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
-		/// reports a fatal error, the SDK will try again with a different node.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_6"]/*' />
 		public ListGuarded<AccountId> NodeAccountIds
         {
             get => field ??= [];
@@ -145,11 +118,7 @@ namespace Hedera.Hashgraph.SDK
                 field = value;
             }
         }
-        /// <summary>
-        /// Set a callback that will be called right before the request is sent. As input, the callback will receive the
-        /// protobuf of the request, and the callback should return the request protobuf.  This means the callback has an
-        /// opportunity to read, copy, or modify the request that will be sent.
-        /// </summary>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_7"]/*' />
         public Func<TProtoRequest, TProtoRequest> RequestListener
 		{
 			set; get => field ??= (request) =>
@@ -159,11 +128,7 @@ namespace Hedera.Hashgraph.SDK
 				return request;
 			};
 		}
-        /// <summary>
-        /// Set a callback that will be called right before the response is returned. As input, the callback will receive the
-        /// protobuf of the response, and the callback should return the response protobuf.  This means the callback has an
-        /// opportunity to read, copy, or modify the response that will be read.
-        /// </summary>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_8"]/*' />
         public Func<TProtoResponse, TProtoResponse> ResponseListener
         {
             set; get => field ??= (response) =>
@@ -174,16 +139,10 @@ namespace Hedera.Hashgraph.SDK
 			};
 		}
 
-        /// <summary>
-        /// Set the Logger
-        /// </summary>
-        /// <param name="Logger">the new Logger</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.Logger"]/*' />
         public virtual Logger? Logger { get; set; }
 		
-		/// <summary>
-		/// Called to direct the invocation of the query to the appropriate gRPC service.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetMethod"]/*' />
 		public abstract Method<TProtoRequest, TProtoResponse> GetMethod();
 		public abstract MethodDescriptor GetMethodDescriptor();
 		public abstract TransactionId TransactionIdInternal { get; }
@@ -191,9 +150,7 @@ namespace Hedera.Hashgraph.SDK
 		public abstract Task OnExecuteAsync(Client client);
 		public abstract TProtoRequest MakeRequest();
 		public abstract ResponseStatus MapResponseStatus(Proto.Response response);
-		/// <summary>
-		/// Called after receiving the query response from Hedera. The derived class should map into its output type.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.MapResponse(TProtoResponse,AccountId,TProtoRequest)"]/*' />
 		public abstract TTransactionResponse MapResponse(TProtoResponse response, AccountId nodeId, TProtoRequest request);
 
 		protected virtual void CheckNodeAccountIds()
@@ -220,12 +177,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			return new GrpcRequest(this, null, attempt, GrpcDeadline);
 		}
-		/// <summary>
-		/// Return the next node for execution. Will select the first node that is deemed healthy. If we cannot find such a
-		/// node and have tried n nodes (n being the size of the node list), we will select the node with the smallest
-		/// remaining delay. All delays MUST be executed in calling layer as this method will be called for sync + async
-		/// scenarios.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetNodeForExecute(System.Int32)"]/*' />
 		public virtual Node GetNodeForExecute(int attempt)
 		{
 			Node? node = null;
@@ -276,10 +228,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return node!;
 		}
-		/// <summary>
-		/// Default implementation, may be overridden in subclasses (especially for query case). Called just after receiving
-		/// the query response from Hedera. By default it triggers a retry when the pre-check status is {@code BUSY}.
-		/// </summary>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.GetExecutionState(ResponseStatus,TProtoResponse)"]/*' />
 		public virtual ExecutionState GetExecutionState(ResponseStatus status, TProtoResponse response)
 		{
 			return status switch
@@ -357,25 +306,12 @@ namespace Hedera.Hashgraph.SDK
 			return false;
 		}
 		
-        /// <summary>
-        /// Execute this transaction or query
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <returns>Result of execution</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client)"]/*' />
         public virtual TTransactionResponse Execute(Client client)
         {
             return Execute(client, client.RequestTimeout);
         }
-		/// <summary>
-		/// Execute this transaction or query with a timeout
-		/// </summary>
-		/// <param name="client">The client with which this will be executed.</param>
-		/// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-		/// <returns>Result of execution</returns>
-		/// <exception cref="TimeoutException">when the transaction times out</exception>
-		/// <exception cref="PrecheckStatusException">when the precheck fails</exception>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client,System.TimeSpan)"]/*' />
 		public virtual TTransactionResponse Execute(Client client, TimeSpan timeout)
 		{
 			Exception? lastException = null;
@@ -495,21 +431,12 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <returns>Future result of execution</returns>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client)"]/*' />
         public virtual Task<TTransactionResponse> ExecuteAsync(Client client)
         {
             return ExecuteAsync(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>Future result of execution</returns>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan)"]/*' />
         public virtual async Task<TTransactionResponse> ExecuteAsync(Client client, TimeSpan timeout)
         {
 			TaskCompletionSource<TTransactionResponse> retval = new ();
@@ -527,57 +454,28 @@ namespace Hedera.Hashgraph.SDK
 
 			return await retval.Task;
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse,System.Exception})"]/*' />
         public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAsync(client), callback);
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse,System.Exception})"]/*' />
         public virtual async void ExecuteAsync(Client client, TimeSpan timeout, Action<TTransactionResponse?, Exception?> callback)
         {
 			Utils.ActionHelper.Action(ExecuteAsync(client, timeout), callback);
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.Action{TTransactionResponse},System.Action{System.Exception})"]/*' />
         public virtual async void ExecuteAsync(Client client, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAsync(client), onSuccess, onFailure);
 		}
-        /// <summary>
-        /// Execute this transaction or query asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.ExecuteAsync(Client,System.TimeSpan,System.Action{TTransactionResponse},System.Action{System.Exception})"]/*' />
         public virtual async void ExecuteAsync(Client client, TimeSpan timeout, Action<TTransactionResponse> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAsync(client, timeout), onSuccess, onFailure);
 		}
 
-        /// <summary>
-        /// Logs the transaction's parameters
-        /// </summary>
-        /// <param name="transactionId">the transaction's id</param>
-        /// <param name="client">the client that executed the transaction</param>
-        /// <param name="node">the node the transaction was sent to</param>
-        /// <param name="isAsync">whether the transaction was executed asynchronously</param>
-        /// <param name="attempt">the attempt number</param>
-        /// <param name="response">the transaction response if the transaction was successful</param>
-        /// <param name="error">the error if the transaction was not successful</param>
+        /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.LogTransaction(TransactionId,Client,Node,System.Boolean,System.Int32,TProtoResponse,System.Exception)"]/*' />
         protected virtual void LogTransaction(TransactionId transactionId, Client client, Node node, bool isAsync, int attempt, TProtoResponse? response, Exception? error)
         {
             Logger?.Trace("Execute{} Transaction ID: {}, submit to {}, node: {}, attempt: {}", isAsync ? "Async" : "", transactionId, client.Network_, node.AccountId, attempt);
@@ -723,11 +621,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <summary>
-		/// Updates the client's network from the address book if a mirror network is configured.
-		/// Logs any errors at TRACE level without throwing exceptions.
-		/// </summary>
-		/// <param name="client">The client whose network should be updated</param>
+		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.UpdateNetworkFromAddressBook(Client)"]/*' />
 		private void UpdateNetworkFromAddressBook(Client client)
 		{
 			try

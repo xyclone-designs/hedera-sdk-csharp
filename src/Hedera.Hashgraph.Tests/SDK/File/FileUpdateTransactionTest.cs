@@ -36,9 +36,9 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             return new FileUpdateTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				FileId = FileId.FromString("0.0.6006"),
-				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728).ToTimestamp(),
+				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728),
 				Contents = ByteString.CopyFrom([1, 2, 3, 4, 5]),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
 				Keys = KeyList.Of(null, unusedPrivateKey),

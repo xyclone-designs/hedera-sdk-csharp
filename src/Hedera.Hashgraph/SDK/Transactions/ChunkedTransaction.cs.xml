@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ChunkedTransaction">
+    <summary>
+    A common base for file and topic message transactions.
+    </summary>
+  </member>
+  <member name="M:ChunkedTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:ChunkedTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:ChunkedTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:ChunkedTransaction.RequireNotFrozen">
+    <summary>
+    Assign the Data via a byte string.
+    </summary>
+    <param name="Data">the byte string</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ChunkedTransaction.RequireNotFrozen_2">
+    <summary>
+    Assign the Data via a byte array.
+    </summary>
+    <param name="Data">the byte array</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ChunkedTransaction.RequireNotFrozen_3">
+    <summary>
+    Assign the Data via a string.
+    </summary>
+    <param name="text">the byte array</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ChunkedTransaction.RequireNotFrozen_4">
+    <summary>
+    Maximum number of chunks this message will get broken up into when
+    it's frozen.
+    </summary>
+  </member>
+  <member name="M:ChunkedTransaction.RequireNotFrozen_5">
+    <summary>
+    Assign the chunk size.
+    </summary>
+    <param name="ChunkSize">the chunk size</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ChunkedTransaction.GetAllTransactionHashesPerNode">
+    <summary>
+    Extract the list of transaction hashes.
+    </summary>
+    <returns>the list of transaction hashes</returns>
+  </member>
+  <member name="M:ChunkedTransaction.BodySizeAllChunks">
+    <summary>
+    Get the body sizes for all chunks in a FileAppendTransaction.
+    For transactions with multiple chunks (like large file appends),
+    this returns an array containing the size of each chunk's transaction body.
+    The size is calculated by encoding the transaction body to protobuf format.
+    </summary>
+    <returns>List of integers that represent the size of each chunk</returns>
+  </member>
+  <member name="M:ChunkedTransaction.GetAllSignatures">
+    <summary>
+    Extract the list of all signers.
+    </summary>
+    <returns>the list of all signatures</returns>
+  </member>
+  <member name="M:ChunkedTransaction.ShouldGetReceipt">
+    <summary>
+    Should the receipt be retrieved?
+    </summary>
+    <returns>by default do not get a receipt</returns>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAll(Client)">
+    <summary>
+    Execute this transaction or query
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>Result of execution for each chunk</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAll(Client,System.TimeSpan)">
+    <summary>
+    Execute this transaction or query
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeoutPerChunk">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>Result of execution for each chunk</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAllAsync(Client)">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>Future result of execution for each chunk</returns>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.TimeSpan)">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeoutPerChunk">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>Future result of execution for each chunk</returns>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.Action{System.Collections.Generic.IList{TransactionResponse},System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.TimeSpan,System.Action{System.Collections.Generic.IList{TransactionResponse},System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.Action{System.Collections.Generic.IList{TransactionResponse}},System.Action{System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:ChunkedTransaction.ExecuteAllAsync(Client,System.TimeSpan,System.Action{System.Collections.Generic.IList{TransactionResponse}},System.Action{System.Exception})">
+    <summary>
+    Execute this transaction or query asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:ChunkedTransaction.OnFreezeChunk(Proto.TransactionBody,Proto.TransactionID,System.Int32,System.Int32,System.Int32,System.Int32)">
+    <summary>
+    A common base for file and topic message transactions.
+    </summary>
+  </member>
+</docs>

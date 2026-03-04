@@ -9,27 +9,18 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <summary>
-    /// The ID for a cryptocurrency account on Hedera.
-    /// </summary>
+    /// <include file="EvmAddress.cs.xml" path='docs/member[@name="T:EvmAddress"]/*' />
     public sealed class EvmAddress : Key
     {
         private readonly byte[] bytes = [];
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="bytes">the byte array representation of the address</param>
+        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.#ctor(System.Byte[])"]/*' />
         public EvmAddress(byte[] bytes)
         {
             Array.Copy(bytes, bytes, bytes.Length);
         }
 
-        /// <summary>
-        /// Convert a string to an ethereum address.
-        /// </summary>
-        /// <param name="evmAddress">the string</param>
-        /// <returns>                         the ethereum address</returns>
+        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.FromString(System.String)"]/*' />
         public static EvmAddress FromString(string evmAddress)
         {
             string address = evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress;
@@ -48,11 +39,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 			return null;
         }
 
-        /// <summary>
-        /// Convert a byte array to an ethereum address.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the ethereum address</returns>
+        /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.FromBytes(System.Byte[])"]/*' />
         public new static EvmAddress FromBytes(byte[] bytes)
         {
             return new EvmAddress(bytes);

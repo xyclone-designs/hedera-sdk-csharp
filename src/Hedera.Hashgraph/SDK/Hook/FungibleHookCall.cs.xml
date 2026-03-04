@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FungibleHookCall">
+    <summary>
+    A typed hook call for fungible (HBAR and FT) transfers.
+    </summary>
+  </member>
+</docs>

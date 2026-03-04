@@ -11,43 +11,21 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <summary>
-    /// A transaction that appends signatures to a schedule transaction.
-    /// You will need to know the schedule ID to reference the schedule
-    /// transaction to submit signatures to. A record will be generated
-    /// for each ScheduleSign transaction that is successful and the schedule
-    /// entity will subsequently update with the public keys that have signed
-    /// the schedule transaction. To view the keys that have signed the
-    /// schedule transaction, you can query the network for the schedule info.
-    /// Once a schedule transaction receives the last required signature, the
-    /// schedule transaction executes.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/schedule-transaction/sign-a-schedule-transaction">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="T:ScheduleSignTransaction"]/*' />
     public sealed class ScheduleSignTransaction : Transaction<ScheduleSignTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor"]/*' />
         public ScheduleSignTransaction()
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
         internal ScheduleSignTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// A schedule identifier.
-		/// <p>
-		/// This MUST identify the schedule which SHALL be deleted.
-		/// </summary>
+		/// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.RequireNotFrozen"]/*' />
 		public ScheduleId? ScheduleId
 		{
 			get;
@@ -58,12 +36,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			}
 		}
 
-        /// <summary>
-        /// Build the correct transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.ScheduleSignTransactionBody
-        ///         builder }</returns>
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.ToProtobuf"]/*' />
         public Proto.ScheduleSignTransactionBody ToProtobuf()
         {
             var builder = new Proto.ScheduleSignTransactionBody();
@@ -76,9 +49,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
             return builder;
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ScheduleSign;

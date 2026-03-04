@@ -10,48 +10,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// @deprecated
-    /// This transaction is obsolete, not supported, and SHALL fail with a
-    /// pre-check result of `NOT_SUPPORTED`.
-    /// 
-    /// Delete a specific live Hash associated to a given account.
-    /// This transaction MUST be signed by either the key of the associated account,
-    /// or at least one of the keys listed in the live Hash.
-    /// ### Block Stream Effects
-    /// None
-    /// </remarks>
+    /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public sealed class LiveHashDeleteTransaction : Transaction<LiveHashDeleteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:LiveHashDeleteTransaction"]/*' />
         public LiveHashDeleteTransaction() { }
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-        ///            records</param>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:LiveHashDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
         internal LiveHashDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// The account owning the liveHash
-        /// </summary>
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
         public AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// The SHA-384 liveHash to delete from the account
-		/// </summary>
+		/// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
 		public byte[] Hash { get; set { RequireNotFrozen(); field = value.CopyArray(); } } = [];
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoDeleteLiveHash;
@@ -63,10 +38,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             Hash = body.LiveHashToDelete.ToByteArray();
         }
 
-		/// <summary>
-		/// Build the correct transaction body.
-		/// </summary>
-		/// <returns>{@link Proto.CryptoAddLiveHashTransactionBody}</returns>
+		/// <include file="LiveHashDeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
 		public Proto.CryptoDeleteLiveHashTransactionBody ToProtobuf()
         {
             var builder = new Proto.CryptoDeleteLiveHashTransactionBody();

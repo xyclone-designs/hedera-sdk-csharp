@@ -6,12 +6,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// A maximum custom fee that the user is willing to pay.
-    /// <p>
-    /// This message is used to specify the maximum custom fee that given user is
-    /// willing to pay.
-    /// </summary>
+    /// <include file="CustomFeeLimit.cs.xml" path='docs/member[@name="T:CustomFeeLimit"]/*' />
     public class CustomFeeLimit
     {
         public virtual AccountId? PayerId { get; set; } 

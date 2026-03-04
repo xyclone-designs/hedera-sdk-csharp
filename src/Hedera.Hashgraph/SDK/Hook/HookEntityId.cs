@@ -6,28 +6,17 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// The ID of an entity using a hook.
-    /// <p>
-    /// This class represents the HookEntityId protobuf message, which can be either
-    /// an account ID or a contract ID.
-    /// </summary>
+    /// <include file="HookEntityId.cs.xml" path='docs/member[@name="T:HookEntityId"]/*' />
     public class HookEntityId
     {
-        /// <summary>
-        /// Create a HookEntityId with an account ID.
-        /// </summary>
-        /// <param name="accountId">the account ID</param>
+        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.#ctor(AccountId)"]/*' />
         public HookEntityId(AccountId accountId)
         {
             AccountId = accountId;
             ContractId = null;
         }
 
-        /// <summary>
-        /// Create a HookEntityId with a contract ID.
-        /// </summary>
-        /// <param name="contractId">the contract ID</param>
+        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.#ctor(ContractId)"]/*' />
         public HookEntityId(ContractId contractId)
         {
             AccountId = null;
@@ -39,10 +28,7 @@ namespace Hedera.Hashgraph.SDK.Hook
         public virtual bool IsAccount { get => AccountId is not null; }
         public virtual bool IsContract { get => ContractId is not null; }
 
-		/// <summary>
-		/// Convert this HookEntityId to a protobuf message.
-		/// </summary>
-		/// <returns>the protobuf HookEntityId</returns>
+		/// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.ToProtobuf"]/*' />
 		public virtual Proto.HookEntityId ToProtobuf()
         {
 			Proto.HookEntityId proto = new ();
@@ -53,11 +39,7 @@ namespace Hedera.Hashgraph.SDK.Hook
             return proto;
         }
 
-        /// <summary>
-        /// Create a HookEntityId from a protobuf message.
-        /// </summary>
-        /// <param name="proto">the protobuf HookEntityId</param>
-        /// <returns>a new HookEntityId instance</returns>
+        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.FromProtobuf(Proto.HookEntityId)"]/*' />
         public static HookEntityId FromProtobuf(Proto.HookEntityId proto)
         {
             if (proto.AccountId is not null)

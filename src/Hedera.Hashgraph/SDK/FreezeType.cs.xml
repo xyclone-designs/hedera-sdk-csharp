@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FreezeType">
+    <summary>
+    Enum for the freeze types.
+    </summary>
+  </member>
+  <member name="T:FreezeType_2">
+    <summary>&lt;summary&gt;
+    An invalid freeze type.
+    &lt;p&gt;
+    The first value in a protobuf enum is a default value. This default
+    is RECOMMENDED to be an invalid value to aid in detecting unset fields.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:FreezeType.completes(dependent on the size /// of the upgrade)">
+    <summary>&lt;summary&gt;
+    Freeze the network, and take no further action.
+    &lt;p&gt;
+    The `starttime` field is REQUIRED, MUST be strictly later than the
+    consensus time when this transaction is handled, and SHOULD be between
+    `300` and `3600` seconds after the transaction identifier
+    `transactionValidStart` field.&lt;br/&gt;
+    The fields `updatefile` and `filehash` SHALL be ignored.&lt;br/&gt;
+    A `FreezeOnly` transaction SHALL NOT perform any network
+    changes or upgrades.&lt;br/&gt;
+    After this freeze is processed manual intervention is REQUIRED
+    to restart the network.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:FreezeType_3">
+    <summary>&lt;summary&gt;
+    This freeze type does not freeze the network, but begins
+    "preparation" to upgrade the network.
+    &lt;p&gt;
+    The fields `updatefile` and `filehash` are REQUIRED
+    and MUST be valid.&lt;br/&gt;
+    The `starttime` field SHALL be ignored.&lt;br/&gt;
+    A `PrepareUpgrade` transaction SHALL NOT freeze the network or
+    interfere with general transaction processing.&lt;br/&gt;
+    If this freeze type is initiated after a `TelemetryUpgrade`, the
+    prepared telemetry upgrade SHALL be reset and all telemetry upgrade
+    artifacts in the filesystem SHALL be deleted.&lt;br/&gt;
+    At some point after this freeze type completes (dependent on the size
+    of the upgrade file), the network SHALL be prepared to complete
+    a software upgrade of all nodes.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:FreezeType.default(empty)">
+    <summary>&lt;summary&gt;
+    Freeze the network to perform a software upgrade.
+    &lt;p&gt;
+    The `starttime` field is REQUIRED, MUST be strictly later than the
+    consensus time when this transaction is handled, and SHOULD be between
+    `300` and `3600` seconds after the transaction identifier
+    `transactionValidStart` field.&lt;br/&gt;
+    A software upgrade file MUST be prepared prior to this transaction.&lt;br/&gt;
+    After this transaction completes, the network SHALL initiate an
+    upgrade and restart of all nodes at the start time specified.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:FreezeType_4">
+    <summary>&lt;summary&gt;
+    Abort a pending network freeze operation.
+    &lt;p&gt;
+    All fields SHALL be ignored for this freeze type.&lt;br/&gt;
+    This freeze type MAY be submitted after a `FreezeOnly`,
+    `FreezeUpgrade`, or `TelemetryUpgrade` is initiated.&lt;br/&gt;
+    This freeze type MUST be submitted and reach consensus
+    before the `starttime` designated for the current pending
+    freeze to be effective.&lt;br/&gt;
+    After this freeze type is processed, the upgrade file hash
+    and pending freeze start time stored in the network SHALL
+    be reset to default (empty) values.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:FreezeType_5">
+    <summary>&lt;summary&gt;
+    Prepare an upgrade of auxiliary services and containers
+    providing telemetry/metrics.
+    &lt;p&gt;
+    The `starttime` field is REQUIRED, MUST be strictly later than the
+    consensus time when this transaction is handled, and SHOULD be between
+    `300` and `3600` seconds after the transaction identifier
+    `transactionValidStart` field.&lt;br/&gt;
+    The `updatefile` field is REQUIRED and MUST be valid.&lt;br/&gt;
+    A `TelemetryUpgrade` transaction SHALL NOT freeze the network or
+    interfere with general transaction processing.&lt;br/&gt;
+    This freeze type MUST NOT be initiated between a `PrepareUpgrade`
+    and `FreezeUpgrade`. If this freeze type is initiated after a
+    `PrepareUpgrade`, the prepared upgrade SHALL be reset and all software
+    upgrade artifacts in the filesystem SHALL be deleted.&lt;br/&gt;
+    At some point after this freeze type completes (dependent on the
+    size of the upgrade file), the network SHALL automatically upgrade
+    the telemetry/metrics services and containers as directed in
+    the specified telemetry upgrade file.
+    &lt;blockquote&gt; The condition that `starttime` is REQUIRED is an
+    historical anomaly and SHOULD change in a future release.&lt;/blockquote&gt;
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

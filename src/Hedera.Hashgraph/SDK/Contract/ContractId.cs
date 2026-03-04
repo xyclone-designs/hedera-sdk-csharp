@@ -12,57 +12,35 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// The ID for a smart contract instance on Hedera.
-    /// </summary>
+    /// <include file="ContractId.cs.xml" path='docs/member[@name="T:ContractId"]/*' />
     public class ContractId : Key, IComparable<ContractId>
     {
         public static readonly Regex EVM_ADDRESS_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.([a-fA-F0-9]{40}$)");
 
-        /// <summary>
-        /// Assign the num part of the contract id.
-        /// </summary>
-        /// <param name="num">the num part of the account id
-        /// 
-        /// Constructor that uses shard, realm and num should be used instead
-        /// as shard and realm should not assume 0 value</param>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64)"]/*' />
         public ContractId(long num) : this(0, 0, num) { }
-        /// <summary>
-        /// Assign all parts of the contract id.
-        /// </summary>
-        /// <param name="shard">the shard part of the contract id</param>
-        /// <param name="realm">the realm part of the contract id</param>
-        /// <param name="num">the num part of the contract id</param>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64)"]/*' />
         public ContractId(long shard, long realm, long num) : this(shard, realm, num, null) { }
 
 		internal ContractId(long shard, long realm, byte[] evmAddress)
 		{
 			Shard = shard;
 			Realm = realm;
-			EVMAddress = evmAddress;
+			EvmAddress = evmAddress;
 			Num = 0;
 			Checksum = null;
 		}
-		/// <summary>
-		/// Assign all parts of the contract id.
-		/// </summary>
-		/// <param name="shard">the shard part of the contract id</param>
-		/// <param name="realm">the realm part of the contract id</param>
-		/// <param name="num">the num part of the contract id</param>
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
 		internal ContractId(long shard, long realm, long num, string? checksum)
         {
             Shard = shard;
             Realm = realm;
             Num = num;
             Checksum = checksum;
-            EVMAddress = null;
+            EvmAddress = null;
         }
 
-        /// <summary>
-        /// Parse contract id from a string.
-        /// </summary>
-        /// <param name="id">the string containing a contract id</param>
-        /// <returns>                         the contract id object</returns>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromString(System.String)"]/*' />
         public static ContractId FromString(string id)
         {
             MatchCollection match = EVM_ADDRESS_REGEX.Matches(id);
@@ -76,12 +54,7 @@ namespace Hedera.Hashgraph.SDK.Contract
                 return Utils.EntityIdHelper.FromString(id, (a, b, c, d) => new ContractId(a, b, c, d));
             }
         }
-        /// <summary>
-        /// Retrieve the contract id from a solidity address.
-        /// </summary>
-        /// <param name="address">a string representing the address</param>
-        /// <returns>                         the contract id object</returns>
-        /// <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(long, long, String)} instead.</remarks>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromSolidityAddress(System.String)"]/*' />
         public static ContractId FromSolidityAddress(string address)
         {
             if (Utils.EntityIdHelper.IsLongZeroAddress(Utils.EntityIdHelper.DecodeEvmAddress(address)))
@@ -93,23 +66,13 @@ namespace Hedera.Hashgraph.SDK.Contract
                 return FromEvmAddress(0, 0, address);
             }
         }
-        /// <summary>
-        /// Parse contract id from an ethereum address.
-        /// </summary>
-        /// <param name="shard">the desired shard</param>
-        /// <param name="realm">the desired realm</param>
-        /// <param name="evmAddress">the evm address</param>
-        /// <returns>                         the contract id object</returns>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromEvmAddress(System.Int64,System.Int64,System.String)"]/*' />
         public static ContractId FromEvmAddress(long shard, long realm, string evmAddress)
         {
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress);
             return new ContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress));
         }
-        /// <summary>
-        /// Extract a contract id from a protobuf.
-        /// </summary>
-        /// <param name="contractId">the protobuf containing a contract id</param>
-        /// <returns>                         the contract id object</returns>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.ContractID)"]/*' />
         public static ContractId FromProtobuf(Proto.ContractID contractId)
         {
             if (contractId.HasEvmAddress)
@@ -121,48 +84,29 @@ namespace Hedera.Hashgraph.SDK.Contract
                 return new ContractId(contractId.ShardNum, contractId.RealmNum, contractId.ContractNum);
             }
         }
-        /// <summary>
-        /// Convert a byte array to an account balance object.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the converted contract id object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromBytes(System.Byte[])"]/*' />
         public new static ContractId FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.ContractID.Parser.ParseFrom(bytes));
         }
 
-		/// <summary>
-		/// The shard number
-		/// </summary>
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Shard"]/*' />
 		public long Shard { get; }
-		/// <summary>
-		/// The realm number
-		/// </summary>
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Realm"]/*' />
 		public long Realm { get; }
-		/// <summary>
-		/// The id number
-		/// </summary>
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Num"]/*' />
 		public long Num { get; }
-		/// <summary>
-		/// The 20-byte EVM address of the contract to call.
-		/// </summary>
-		public byte[]? EVMAddress { get; }
-		/// <summary>
-		/// The checksum.
-		/// </summary>
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.EvmAddress"]/*' />
+		public byte[]? EvmAddress { get; }
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Checksum"]/*' />
 		public string? Checksum { get; }
 
-		/// <summary>
-		/// Extract the solidity address.
-		/// </summary>
-		/// <returns>                         the solidity address as a string</returns>
-		/// <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
+		/// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToSolidityAddress"]/*' />
 		public virtual string ToSolidityAddress()
         {
-            if (EVMAddress != null)
+            if (EvmAddress != null)
             {
-                return Hex.ToHexString(EVMAddress);
+                return Hex.ToHexString(EvmAddress);
             }
             else
             {
@@ -170,15 +114,12 @@ namespace Hedera.Hashgraph.SDK.Contract
             }
         }
 
-        /// <summary>
-        /// toEvmAddress returns EVM-compatible address representation of the entity
-        /// </summary>
-        /// <returns></returns>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToEvmAddress"]/*' />
         public virtual string ToEvmAddress()
         {
-            if (EVMAddress != null)
+            if (EvmAddress != null)
             {
-                return Hex.ToHexString(EVMAddress);
+                return Hex.ToHexString(EvmAddress);
             }
             else
             {
@@ -186,10 +127,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             }
         }
 
-        /// <summary>
-        /// Convert contract id to protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf object</returns>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToProtobuf"]/*' />
         public virtual Proto.ContractID ToProtobuf()
         {
 			Proto.ContractID proto = new ()
@@ -199,55 +137,32 @@ namespace Hedera.Hashgraph.SDK.Contract
                 ContractNum = Num,
 			};
 
-            if (EVMAddress != null) proto.EvmAddress = ByteString.CopyFrom(EVMAddress);
+            if (EvmAddress != null) proto.EvmAddress = ByteString.CopyFrom(EvmAddress);
 
             return proto;
         }
 
-        /// <summary>
-        ///  Gets the actual `num` field of the `ContractId` from the Mirror Node.
-        /// Should be used after generating `ContractId.fromEvmAddress()` because it sets the `num` field to `0`
-        /// automatically since there is no connection between the `num` and the `evmAddress`
-        /// Sync version
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns>populated ContractId instance</returns>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.PopulateContractNum(Client)"]/*' />
         public virtual ContractId PopulateContractNum(Client client)
         {
             return PopulateContractNumAsync(client).GetAwaiter().GetResult();
         }
 
-        /// <summary>
-        /// Gets the actual `num` field of the `ContractId` from the Mirror Node.
-        /// Should be used after generating `ContractId.fromEvmAddress()` because it sets the `num` field to `0`
-        /// automatically since there is no connection between the `num` and the `evmAddress`
-        /// Async version
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns>populated ContractId instance</returns>
-        /// <remarks>@deprecatedUse 'populateContractNum' instead due to its nearly identical operation.</remarks>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.PopulateContractNumAsync(Client)"]/*' />
         public virtual async Task<ContractId> PopulateContractNumAsync(Client client)
         {
-			long contractnum = await Utils.EntityIdHelper.GetContractNumFromMirrorNodeAsync(client, EvmAddress.FromBytes(EVMAddress).ToString());
+			long contractnum = await Utils.EntityIdHelper.GetContractNumFromMirrorNodeAsync(client, Ethereum.EvmAddress.FromBytes(EvmAddress).ToString());
 
 			return new ContractId(Shard, Realm, contractnum, Checksum);
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="client">to validate against</param>
-        /// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
-        /// <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.Validate(Client)"]/*' />
         public virtual void Validate(Client client)
         {
             ValidateChecksum(client);
         }
 
-        /// <summary>
-        /// Verify the checksum.
-        /// </summary>
-        /// <param name="client">to validate against</param>
-        /// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ValidateChecksum(Client)"]/*' />
         public virtual void ValidateChecksum(Client client)
         {
             Utils.EntityIdHelper.Validate(Shard, Realm, Num, client, Checksum);
@@ -268,9 +183,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         public override string ToString()
         {
-            if (EVMAddress != null)
+            if (EvmAddress != null)
             {
-                return "" + Shard + "." + Realm + "." + Hex.ToHexString(EVMAddress);
+                return "" + Shard + "." + Realm + "." + Hex.ToHexString(EvmAddress);
             }
             else
             {
@@ -278,14 +193,10 @@ namespace Hedera.Hashgraph.SDK.Contract
             }
         }
 
-        /// <summary>
-        /// Create a string representation that includes the checksum.
-        /// </summary>
-        /// <param name="client">the client</param>
-        /// <returns>                         the string representation with the checksum</returns>
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToStringWithChecksum(Client)"]/*' />
         public virtual string ToStringWithChecksum(Client client)
         {
-            if (EVMAddress != null)
+            if (EvmAddress != null)
             {
                 throw new InvalidOperationException("toStringWithChecksum cannot be applied to ContractId with evmAddress");
             }
@@ -297,7 +208,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Shard, Realm, Num, HashCode.Combine(EVMAddress));
+            return HashCode.Combine(Shard, Realm, Num, HashCode.Combine(EvmAddress));
         }
 
         public override bool Equals(object? o)
@@ -318,14 +229,14 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         private bool EvmAddressMatches(ContractId otherId)
         {
-            if ((EVMAddress == null) != (otherId.EVMAddress == null))
+            if ((EvmAddress == null) != (otherId.EvmAddress == null))
             {
                 return false;
             }
 
-            if (EVMAddress != null)
+            if (EvmAddress != null)
             {
-                return Equals(EVMAddress, otherId.EVMAddress);
+                return Equals(EvmAddress, otherId.EvmAddress);
             }
 
 
@@ -358,15 +269,15 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         private int EvmAddressCompare(ContractId? o)
         {
-            int nullCompare = (EVMAddress == null ? 0 : 1) - (o?.EVMAddress == null ? 0 : 1);
+            int nullCompare = (EvmAddress == null ? 0 : 1) - (o?.EvmAddress == null ? 0 : 1);
             if (nullCompare != 0)
             {
                 return nullCompare;
             }
 
-            if (EVMAddress != null)
+            if (EvmAddress != null)
             {
-                return Hex.ToHexString(EVMAddress).CompareTo(Hex.ToHexString(o?.EVMAddress));
+                return Hex.ToHexString(EvmAddress).CompareTo(Hex.ToHexString(o?.EvmAddress));
             }
 
 

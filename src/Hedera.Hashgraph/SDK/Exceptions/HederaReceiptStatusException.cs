@@ -5,12 +5,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-    /// <summary>
-    /// An Exception thrown on error status by {@link TransactionId#getReceipt(Client)}.
-    /// <p>
-    /// The receipt is included, though only the {@link TransactionReceipt#status} field will be
-    /// initialized; all the getters should throw.
-    /// </summary>
+    /// <include file="HederaReceiptStatusException.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public class HederaReceiptStatusException : ReceiptStatusException
     {

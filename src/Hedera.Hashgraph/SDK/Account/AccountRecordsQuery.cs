@@ -8,17 +8,10 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-	/// <summary>
-	/// Get all the records for an account for any transfers into it and out of it,
-	/// that were above the threshold, during the last 25 hours.
-	/// </summary>
+	/// <include file="AccountRecordsQuery.cs.xml" path='docs/member[@name="T:AccountRecordsQuery"]/*' />
 	public sealed class AccountRecordsQuery : Query<IList<TransactionRecord>, AccountRecordsQuery>
     {
-        /// <summary>
-        /// Sets the account ID for which the records should be retrieved.
-        /// </summary>
-        /// <param name="accountId">The AccountId to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="AccountRecordsQuery.cs.xml" path='docs/member[@name="P:AccountRecordsQuery.AccountId"]/*' />
         public AccountId? AccountId { get; set; }
 
 		public override void ValidateChecksums(Client client)

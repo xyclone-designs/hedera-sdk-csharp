@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ExchangeRates">
+    <summary>
+    Contains a set of Exchange Rates (current and next).
+    </summary>
+  </member>
+  <member name="P:ExchangeRates.CurrentRate">
+    <summary>
+    Current Exchange Rate
+    </summary>
+  </member>
+  <member name="P:ExchangeRates.NextRate">
+    <summary>
+    Next Exchange Rate
+    </summary>
+  </member>
+  <member name="M:ExchangeRates.FromBytes(System.Byte[])">
+    <summary>
+    Create an Exchange Rates from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new exchange rates</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:ExchangeRates.FromProtobuf(Proto.ExchangeRateSet)">
+    <summary>
+    Create an Exchange Rates from a protobuf.
+    </summary>
+    <param name="pb">the protobuf</param>
+    <returns>the new exchange rates</returns>
+  </member>
+</docs>

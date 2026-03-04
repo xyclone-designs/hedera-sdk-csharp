@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:EvmHookCall">
+    <summary>&lt;summary&gt;
+    Specifies details of a call to an EVM hook.
+    &lt;p&gt;
+    This class represents the evm_hook_call field in the HookCall protobuf message.
+    It contains the call data and gas limit for executing an EVM hook.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:EvmHookCall.#ctor(System.Byte[],System.UInt64)">
+    <summary>
+    Create a new EvmHookCall.
+    </summary>
+    <param name="data">the call data to pass to the hook via the IHieroHook.HookContext#data field</param>
+    <param name="gasLimit">the gas limit to use for the hook execution</param>
+  </member>
+  <member name="M:EvmHookCall.Clone">
+    <summary>
+    Get the call data for this hook call.
+    </summary>
+    <returns>the call data as a byte array</returns>
+  </member>
+  <member name="P:EvmHookCall.GasLimit">
+    <summary>
+    Get the gas limit for this hook call.
+    </summary>
+    <returns>the gas limit</returns>
+  </member>
+  <member name="M:EvmHookCall.ToProtobuf">
+    <summary>
+    Convert this EvmHookCall to a protobuf message.
+    </summary>
+    <returns>the protobuf EvmHookCall</returns>
+  </member>
+  <member name="M:EvmHookCall.FromProtobuf(Proto.EvmHookCall)">
+    <summary>
+    Create an EvmHookCall from a protobuf message.
+    </summary>
+    <param name="proto">the protobuf EvmHookCall</param>
+    <returns>a new EvmHookCall instance</returns>
+  </member>
+</docs>

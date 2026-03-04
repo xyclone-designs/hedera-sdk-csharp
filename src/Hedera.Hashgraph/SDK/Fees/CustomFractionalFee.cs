@@ -2,17 +2,10 @@
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// Custom fractional fee utility class.
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#fractional-fee">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="T:CustomFractionalFee"]/*' />
     public class CustomFractionalFee : CustomFeeBase<CustomFractionalFee>
     {
-        /// <summary>
-        /// Create a custom fractional fee from a fee protobuf.
-        /// </summary>
-        /// <param name="fractionalFee">the fractional fee protobuf</param>
-        /// <returns>the new custom fractional fee object</returns>
+        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.FromProtobuf(Proto.FractionalFee)"]/*' />
         public static CustomFractionalFee FromProtobuf(Proto.FractionalFee fractionalFee)
         {
 			return new CustomFractionalFee
@@ -25,43 +18,18 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
         }        
 
-        /// <summary>
-        /// The numerator.
-        /// </summary>
-        /// <returns>the numerator</returns>
+        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Numerator"]/*' />
         public virtual long Numerator { get; set; } = 0;
-		/// <summary>
-		/// Extract the denominator.
-		/// Assign the denominator can not be zero (0).
-		/// </summary>
-		/// <returns>the denominator</returns>
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Denominator"]/*' />
 		public virtual long Denominator { get; set; } = 1;
-		/// <summary>
-		/// The minimum fee amount.
-		/// </summary>
-		/// <returns>the minimum fee amount</returns>
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Min"]/*' />
 		public virtual long Min { get; set; } = 0;
-		/// <summary>
-		/// The maximumn fee amount.
-		/// </summary>
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.Max"]/*' />
 		public virtual long Max { get; set; } = 0;
-        /// <summary>
-        /// Assign the assessment method inclusive / exclusive.
-        /// <p>
-        /// If the assessment method field is set, the token's custom fee is charged
-        /// to the sending account and the receiving account receives the full token
-        /// transfer amount. If this field is set to false, the receiver pays for
-        /// the token custom fees and gets the remaining token balance.
-        /// INCLUSIVE(false)
-        /// EXCLUSIVE(true)
-        /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#fractional-fee">Hedera Documentation</a>
-        /// </summary>
+        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="P:CustomFractionalFee.AssessmentMethod"]/*' />
         public virtual FeeAssessmentMethod AssessmentMethod { get; set; } = FeeAssessmentMethod.Inclusive;
 
-		/// <summary>
-		/// Convert the fractional fee object to a protobuf.
-		/// </summary>
-		/// <returns>the protobuf object</returns>
+		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.ToFractionalFeeProtobuf"]/*' />
 		public virtual Proto.FractionalFee ToFractionalFeeProtobuf()
         {
             return new Proto.FractionalFee

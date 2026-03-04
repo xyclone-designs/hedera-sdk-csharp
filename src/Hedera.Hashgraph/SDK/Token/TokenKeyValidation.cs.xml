@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenKeyValidation">
+    <summary>
+    Types of validation strategies for token keys.
+    </summary>
+  </member>
+  <member name="T:TokenKeyValidation_2">
+    <summary>
+    Currently the default behaviour. It will perform all token key validations.
+    </summary>
+  </member>
+  <member name="T:TokenKeyValidation_3">
+    <summary>
+    Perform no validations at all for all passed token keys.
+    </summary>
+  </member>
+</docs>

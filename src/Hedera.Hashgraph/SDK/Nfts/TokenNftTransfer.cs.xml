@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenNftTransfer">
+    <summary>
+    Internal utility class.
+    </summary>
+  </member>
+  <member name="F:TokenNftTransfer.TokenId">
+    <summary>
+    The ID of the token
+    </summary>
+  </member>
+  <member name="F:TokenNftTransfer.Sender">
+    <summary>
+    The accountID of the sender
+    </summary>
+  </member>
+  <member name="F:TokenNftTransfer.Receiver">
+    <summary>
+    The accountID of the receiver
+    </summary>
+  </member>
+  <member name="F:TokenNftTransfer.Serial">
+    <summary>
+    The serial number of the NFT
+    </summary>
+  </member>
+  <member name="F:TokenNftTransfer.IsApproved">
+    <summary>
+    If true then the transfer is expected to be an approved allowance and the sender is expected to be the owner. The
+    default is false.
+    </summary>
+  </member>
+  <member name="M:TokenNftTransfer.#ctor(TokenId,AccountId,AccountId,System.Int64,System.Boolean,NftHookCall,NftHookCall)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="sender">the sender account id</param>
+    <param name="receiver">the receiver account id</param>
+    <param name="serial">the serial number</param>
+    <param name="isApproved">is it approved</param>
+    <param name="senderHookCall">NftHookCall for sender</param>
+    <param name="receiverHookCall">NftHookCall for reciever</param>
+  </member>
+  <member name="M:TokenNftTransfer.FromBytes(System.Byte[])">
+    <summary>
+    Convert a byte array to a token NFT transfer object.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the converted token nft transfer object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenNftTransfer.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+  <member name="M:TokenNftTransfer.ToBytes">
+    <summary>
+    Convert the token NFT transfer object to a byte array.
+    </summary>
+    <returns>the converted token NFT transfer object</returns>
+  </member>
+</docs>

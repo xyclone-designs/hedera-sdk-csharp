@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				TokenSymbol = "TNFT",
 				TokenType = TokenType.NonFungibleUnique,
 				TreasuryAccountId = testEnv.OperatorId,
-                TokenTokenSupplyType = TokenSupplyType.Finite,
+                TokenSupplyType = TokenSupplyType.Finite,
 				MaxSupply = 10,
 
 				AdminKey = testEnv.OperatorKey,
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				InitialSupply = (ulong)fungibleInitialBalance,
 				MaxSupply = fungibleInitialBalance,
 				TreasuryAccountId = testEnv.OperatorId,
-				TokenTokenSupplyType = TokenSupplyType.Finite,
+				TokenSupplyType = TokenSupplyType.Finite,
 				AdminKey = testEnv.OperatorKey,
 				FreezeKey = testEnv.OperatorKey,
 				SupplyKey = testEnv.OperatorKey,
@@ -65,8 +65,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
 				InitialBalance = new Hbar(10),
 				MaxAutomaticTokenAssociations = maxAutomaticTokenAssociations,
+
+				Key = accountKey,
 			}
-            Key = accountKey,
 			.Execute(testEnv.Client)
             .GetReceipt(testEnv.Client).AccountId;
         }

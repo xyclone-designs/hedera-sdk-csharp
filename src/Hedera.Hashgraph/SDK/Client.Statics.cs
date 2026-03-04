@@ -34,11 +34,7 @@ namespace Hedera.Hashgraph.SDK
 			DEFAULT_NETWORK_UPDATE_PERIOD = TimeSpan.FromHours(24),
 			NETWORK_UPDATE_INITIAL_DELAY = TimeSpan.FromSeconds(10); // Initial delay of 10 seconds before we update the Network for the first time, so that this doesn't happen in unit tests.
 
-		/// <summary>
-		/// Set up the client for the selected Network.
-		/// </summary>
-		/// <param name="name">the selected Network</param>
-		/// <returns>the configured client</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForName(System.String)"]/*' />
 		public static Client ForName(string name)
 		{
 			return name switch
@@ -50,17 +46,7 @@ namespace Hedera.Hashgraph.SDK
 				_ => throw new ArgumentException("Name must be one-of `mainnet`, `testnet`, or `previewnet`")
 			};
 		}
-		/// <summary>
-		/// 
-		/// Construct a client given a set of nodes.
-		/// It is the responsibility of the caller to ensure that all nodes in the map are part of the
-		/// same Hedera Network. Failure to do so will result in undefined behavior.
-		/// The client will load balance all requests to Hedera using a simple round-robin scheme to
-		/// chose nodes to send transactions to. For one transaction, at most 1/3 of the nodes will be tried.
-		/// </summary>
-		/// <param name="NetworkMap">the map of node IDs to node addresses that make up the Network.</param>
-		/// <param name="executor">runs the grpc requests asynchronously.</param>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},ExecutorService,System.Action{Client})"]/*' />
 		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForNetwork(executor, NetworkMap);
@@ -71,17 +57,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <summary>
-		/// Construct a client given a set of nodes.
-		/// 
-		/// <p>It is the responsibility of the caller to ensure that all nodes in the map are part of the
-		/// same Hedera Network. Failure to do so will result in undefined behavior.
-		/// 
-		/// <p>The client will load balance all requests to Hedera using a simple round-robin scheme to
-		/// chose nodes to send transactions to. For one transaction, at most 1/3 of the nodes will be tried.
-		/// </summary>
-		/// <param name="NetworkMap">the map of node IDs to node addresses that make up the Network.</param>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},System.Action{Client})"]/*' />
 		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, Action<Client>? oncreate = null)
 		{
 			ExecutorService executor = new ();
@@ -121,23 +97,12 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <summary>
-		/// Set up the client from selected mirror Network.
-		/// Using default `0` values for realm and shard for retrieving addressBookFileId
-		/// </summary>
-		/// <param name="mirrorNetworkList"></param>
-		/// <returns></returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMirrorNetwork(System.Collections.Generic.IList{System.String})"]/*' />
 		public static Client ForMirrorNetwork(IList<string> mirrorNetworkList)
 		{
 			return ForMirrorNetwork(mirrorNetworkList, 0, 0);
 		}
-		/// <summary>
-		/// Set up the client from selected mirror Network and given realm and shard
-		/// </summary>
-		/// <param name="mirrorNetworkList"></param>
-		/// <param name="realm"></param>
-		/// <param name="shard"></param>
-		/// <returns></returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMirrorNetwork(System.Collections.Generic.IList{System.String},System.Int64,System.Int64)"]/*' />
 		public static Client ForMirrorNetwork(IList<string> mirrorNetworkList, long shard, long realm)
 		{
 			var executor = new ExecutorService();
@@ -154,11 +119,7 @@ namespace Hedera.Hashgraph.SDK
 			return client;
 		}
 
-		/// <summary>
-		/// Construct a Hedera client pre-configured for <a
-		/// href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
-		/// </summary>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(System.Action{Client})"]/*' />
 		public static Client ForMainnet(Action<Client>? oncreate = null)
 		{
 			var executor = new ExecutorService();
@@ -171,12 +132,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <summary>
-		/// Construct a Hedera client pre-configured for <a
-		/// href="https://docs.hedera.com/guides/mainnet/address-book#mainnet-address-book">Mainnet access</a>.
-		/// </summary>
-		/// <param name="executor">runs the grpc requests asynchronously.</param>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(ExecutorService,System.Action{Client})"]/*' />
 		public static Client ForMainnet(ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForMainnet(executor);
@@ -188,11 +144,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <summary>
-		/// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
-		/// access</a>.
-		/// </summary>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(System.Action{Client})"]/*' />
 		public static Client ForTestnet(Action<Client>? oncreate = null)
 		{
 			var executor = new ExecutorService();
@@ -205,12 +157,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <summary>
-		/// Construct a Hedera client pre-configured for <a href="https://docs.hedera.com/guides/testnet/nodes">Testnet
-		/// access</a>.
-		/// </summary>
-		/// <param name="executor">runs the grpc requests asynchronously.</param>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(ExecutorService,System.Action{Client})"]/*' />
 		public static Client ForTestnet(ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForTestnet(executor);
@@ -222,12 +169,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <summary>
-		/// Construct a Hedera client pre-configured for <a
-		/// href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
-		/// nodes</a>.
-		/// </summary>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(System.Action{Client})"]/*' />
 		public static Client ForPreviewnet(Action<Client>? oncreate = null)
 		{
 			var executor = new ExecutorService();
@@ -240,13 +182,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return client;
 		}
-		/// <summary>
-		/// Construct a Hedera client pre-configured for <a
-		/// href="https://docs.hedera.com/guides/testnet/testnet-nodes#previewnet-node-public-keys">Preview Testnet
-		/// nodes</a>.
-		/// </summary>
-		/// <param name="executor">runs the grpc requests asynchronously.</param>
-		/// <returns>{@link Client}</returns>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(ExecutorService,System.Action{Client})"]/*' />
 		public static Client ForPreviewnet(ExecutorService executor, Action<Client>? oncreate = null)
 		{
 			var network = Network.ForPreviewnet(executor);
@@ -259,32 +195,17 @@ namespace Hedera.Hashgraph.SDK
 			return client;
 		}
 
-		/// <summary>
-		/// Configure a client based off the given JSON string.
-		/// </summary>
-		/// <param name="json">The json string containing the client configuration</param>
-		/// <returns>{@link Client}</returns>
-		/// <exception cref="Exception">if the config is incorrect</exception>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfig(System.String)"]/*' />
 		public static Client FromConfig(string json)
 		{
 			return Config.FromString(json).ToClient();
 		}
-		/// <summary>
-		/// Configure a client based on a JSON file.
-		/// </summary>
-		/// <param name="file">The file containing the client configuration</param>
-		/// <returns>{@link Client}</returns>
-		/// <exception cref="IOException">if IO operations fail</exception>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfigFile(IOFileInfo)"]/*' />
 		public static Client FromConfigFile(IOFileInfo file)
 		{
 			return FromConfig(IOFile.ReadAllText(file.FullName, Encoding.UTF8));
 		}
-		/// <summary>
-		/// Configure a client based on a JSON file at the given path.
-		/// </summary>
-		/// <param name="fileName">The string containing the file path</param>
-		/// <returns>{@link Client}</returns>
-		/// <exception cref="IOException">if IO operations fail</exception>
+		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:FromConfigFile(System.String)"]/*' />
 		public static Client FromConfigFile(string fileName)
 		{
 			return FromConfigFile(new IOFileInfo(fileName));

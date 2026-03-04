@@ -13,34 +13,16 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// The ID for a cryptocurrency account on Hedera.
-    /// </summary>
-    public sealed class AccountId : IComparable<AccountId>, ICloneable
+	/// <include file="AccountId.cs.xml" path='docs/member[@name="T:AccountId"]/*' />
+	public sealed class AccountId : IComparable<AccountId>, ICloneable
     {
         private static readonly Regex ALIAS_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.((?:[0-9a-fA-F][0-9a-fA-F])+)$");
 
-        /// <summary>
-        /// Assign the num part of the account id.
-        /// </summary>
-        /// <param name="num">the num part of the account id
-        /// 
-        /// Constructor that uses shard, realm and num should be used instead
-        /// as shard and realm should not assume 0 value</param>
-        public AccountId(long num) : this(0, 0, num) { }
-        /// <summary>
-        /// Assign all parts of the account id.
-        /// </summary>
-        /// <param name="shard">the shard part of the account id</param>
-        /// <param name="realm">the realm part of the account id</param>
-        /// <param name="num">the num part of the account id</param>
-        public AccountId(long shard, long realm, long num) : this(shard, realm, num, null) { }
-		/// <summary>
-		/// Assign all parts of the account id.
-		/// </summary>
-		/// <param name="shard">the shard part of the account id</param>
-		/// <param name="realm">the realm part of the account id</param>
-		/// <param name="num">the num part of the account id</param>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64)"]/*' />
+		public AccountId(long num) : this(0, 0, num) { }
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64)"]/*' />
+		public AccountId(long shard, long realm, long num) : this(shard, realm, num, null) { }
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
 		public AccountId(long shard, long realm, long num, string? checksum)
         {
             Shard = shard;
@@ -50,13 +32,8 @@ namespace Hedera.Hashgraph.SDK.Account
             AliasKey = null;
             EvmAddress = null;
         }
-        /// <summary>
-        /// Assign all parts of the account id.
-        /// </summary>
-        /// <param name="shard">the shard part of the account id</param>
-        /// <param name="realm">the realm part of the account id</param>
-        /// <param name="num">the num part of the account id</param>
-        public AccountId(long shard, long realm, long num, string? checksum, PublicKey? aliasKey, EvmAddress? evmAddress)
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.#ctor(System.Int64,System.Int64,System.Int64,System.String,PublicKey,EvmAddress)"]/*' />
+		public AccountId(long shard, long realm, long num, string? checksum, PublicKey? aliasKey, EvmAddress? evmAddress)
         {
             Shard = shard;
             Realm = realm;
@@ -66,12 +43,7 @@ namespace Hedera.Hashgraph.SDK.Account
             EvmAddress = evmAddress;
         }
 
-        /// <summary>
-        /// Retrieve the account id from a string.
-        /// </summary>
-        /// <param name="id">a string representing a valid account id</param>
-        /// <returns>                         the account id object</returns>
-        /// <exception cref="IllegalArgumentException">when the account id and checksum are invalid</exception>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromString(System.String)"]/*' />
         public static AccountId FromString(string id)
         {
             if ((id.StartsWith("0x") && id.Length == 42) || id.Length == 40)
@@ -99,64 +71,29 @@ namespace Hedera.Hashgraph.SDK.Account
                     isEvmAddress ? EvmAddress.FromBytes(aliasBytes) : null);
 			}
         }
-        /// <summary>
-        /// Retrieve the account id from an EVM address.
-        /// </summary>
-        /// <param name="evmAddress">a string representing the EVM address</param>
-        /// <returns>                         the account id object
-        /// 
-        /// Constructor that uses shard, realm and num should be used instead
-        /// as shard and realm should not assume 0 value</returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(System.String)"]/*' />
         public static AccountId FromEvmAddress(string evmAddress)
         {
             return FromEvmAddress(evmAddress, 0, 0);
         }
-        /// <summary>
-        /// Retrieve the account id from an EVM address.
-        /// </summary>
-        /// <param name="evmAddress">a string representing the EVM address</param>
-        /// <param name="shard">the shard part of the account id</param>
-        /// <param name="realm">the shard realm of the account id</param>
-        /// <returns>                         the account id object
-        /// 
-        /// In case shard and realm are unknown, they should be set to zero</returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(System.String,System.Int64,System.Int64)"]/*' />
         public static AccountId FromEvmAddress(string evmAddress, long shard, long realm)
         {
             return FromEvmAddress(EvmAddress.FromString(evmAddress), shard, realm);
         }
-        /// <summary>
-        /// Retrieve the account id from an EVM address.
-        /// </summary>
-        /// <param name="evmAddress">an EvmAddress instance</param>
-        /// <returns>                         the account id object
-        /// 
-        /// Constructor that uses shard, realm and num should be used instead
-        /// as shard and realm should not assume 0 value</returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(EvmAddress)"]/*' />
         public static AccountId FromEvmAddress(EvmAddress evmAddress)
         {
             return FromEvmAddress(evmAddress, 0, 0);
         }
-        /// <summary>
-        /// Retrieve the account id from an EVM address.
-        /// </summary>
-        /// <param name="evmAddress">an EvmAddress instance</param>
-        /// <param name="shard">the shard part of the account id</param>
-        /// <param name="realm">the shard realm of the account id</param>
-        /// <returns>                         the account id object
-        /// 
-        /// In case shard and realm are unknown, they should be set to zero</returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromEvmAddress(EvmAddress,System.Int64,System.Int64)"]/*' />
         public static AccountId FromEvmAddress(EvmAddress evmAddress, long shard, long realm)
         {
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress.ToString());
 
             return new AccountId(shard, realm, 0, null, null, evmAddress);
         }
-        /// <summary>
-        /// Retrieve the account id from a solidity address.
-        /// </summary>
-        /// <param name="address">a string representing the address</param>
-        /// <returns>                         the account id object</returns>
-        /// <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(EvmAddress, long, long)} instead.</remarks>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromSolidityAddress(System.String)"]/*' />
         public static AccountId FromSolidityAddress(string address)
         {
             if (Utils.EntityIdHelper.IsLongZeroAddress(Utils.EntityIdHelper.DecodeEvmAddress(address)))
@@ -168,12 +105,8 @@ namespace Hedera.Hashgraph.SDK.Account
                 return FromEvmAddress(address, 0, 0);
             }
         }
-        /// <summary>
-        /// Retrieve the account id from a protobuf.
-        /// </summary>
-        /// <param name="accountId">the protobuf</param>
-        /// <returns>                         the account id object</returns>
-        public static AccountId FromProtobuf(Proto.AccountID accountId)
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromProtobuf(Proto.AccountID)"]/*' />
+		public static AccountId FromProtobuf(Proto.AccountID accountId)
         {
             PublicKey? aliasKey = null;
             EvmAddress? evmAddress = null;
@@ -187,52 +120,30 @@ namespace Hedera.Hashgraph.SDK.Account
 
             return new AccountId(accountId.ShardNum, accountId.RealmNum, accountId.AccountNum, null, aliasKey, evmAddress);
         }
-        /// <summary>
-        /// Retrieve the account id from a protobuf byte array.
-        /// </summary>
-        /// <param name="bytes">a byte array representation of the protobuf</param>
-        /// <returns>                         the account id object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
-        public static AccountId FromBytes(byte[] bytes)
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromBytes(System.Byte[])"]/*' />
+		public static AccountId FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.AccountID.Parser.ParseFrom(bytes));
         }
 
-		/// <summary>
-		/// The shard number
-		/// </summary>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Shard"]/*' />
 		public long Shard { get; }
-		/// <summary>
-		/// The realm number
-		/// </summary>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Realm"]/*' />
 		public long Realm { get; }
-		/// <summary>
-		/// The id number
-		/// </summary>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Num"]/*' />
 		public long Num { get; }
-		/// <summary>
-		/// The public key bytes to be used as the account's alias
-		/// </summary>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.AliasKey"]/*' />
 		public PublicKey? AliasKey { get; }
-		/// <summary>
-		/// The ethereum account 20-byte EVM address to be used initially in place of the public key bytes
-		/// </summary>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.EvmAddress"]/*' />
 		public EvmAddress? EvmAddress { get; }
 		private string? Checksum { get; }
 
-		/// <summary>
-		/// Extract the solidity address.
-		/// </summary>
-		/// <returns>                         the solidity address as a string</returns>
-		/// <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToSolidityAddress"]/*' />
 		public string ToSolidityAddress()
         {
             return Utils.EntityIdHelper.ToSolidityAddress(Shard, Realm, Num);
         }
-        /// <summary>
-        /// toEvmAddress returns EVM-compatible address representation of the entity
-        /// </summary>
-        /// <returns></returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToEvmAddress"]/*' />
         public string ToEvmAddress()
         {
             if (EvmAddress != null)
@@ -245,10 +156,7 @@ namespace Hedera.Hashgraph.SDK.Account
             }
         }
 
-		/// <summary>
-		/// Extract the account id protobuf.
-		/// </summary>
-		/// <returns>                         the account id builder</returns>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToProtobuf"]/*' />
 		public Proto.AccountID ToProtobuf()
         {
             Proto.AccountID proto = new()
@@ -266,48 +174,22 @@ namespace Hedera.Hashgraph.SDK.Account
 			return proto;
         }
 
-        /// <summary>
-        /// Gets the actual `num` field of the `AccountId` from the Mirror Node.
-        /// Should be used after generating `AccountId.fromEvmAddress()` because it sets the `num` field to `0`
-        /// automatically since there is no connection between the `num` and the `evmAddress`
-        /// Sync version
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns>populated AccountId instance</returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountNum(Client)"]/*' />
         public AccountId PopulateAccountNum(Client client)
         {
             return PopulateAccountNumAsync(client).GetAwaiter().GetResult();
         }
-        /// <summary>
-        /// Gets the actual `num` field of the `AccountId` from the Mirror Node.
-        /// Should be used after generating `AccountId.fromEvmAddress()` because it sets the `num` field to `0`
-        /// automatically since there is no connection between the `num` and the `evmAddress`
-        /// Async version
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns>populated AccountId instance</returns>
-        /// <remarks>@deprecatedUse 'populateAccountNum' instead due to its nearly identical operation.</remarks>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountNumAsync(Client)"]/*' />
         public async Task<AccountId> PopulateAccountNumAsync(Client client)
         {
             return new AccountId(Shard, Realm, await Utils.EntityIdHelper.GetAccountNumFromMirrorNodeAsync(client, EvmAddress?.ToString()), Checksum, AliasKey, EvmAddress);
         }
-        /// <summary>
-        /// Populates `evmAddress` field of the `AccountId` extracted from the Mirror Node.
-        /// Sync version
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns>populated AccountId instance</returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountEvmAddress(Client)"]/*' />
         public AccountId PopulateAccountEvmAddress(Client client)
         {
             return PopulateAccountEvmAddressAsync(client).GetAwaiter().GetResult();
         }
-        /// <summary>
-        /// Populates `evmAddress` field of the `AccountId` extracted from the Mirror Node.
-        /// Async version
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns>populated AccountId instance</returns>
-        /// <remarks>@deprecatedUse 'populateAccountEvmAddress' instead due to its nearly identical operation.</remarks>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.PopulateAccountEvmAddressAsync(Client)"]/*' />
         public async Task<AccountId> PopulateAccountEvmAddressAsync(Client client)
         {
             return new AccountId(Shard, Realm, Num, Checksum, AliasKey, await Utils.EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(client, Num));
@@ -360,20 +242,12 @@ namespace Hedera.Hashgraph.SDK.Account
 			return EvmAddress.ToString().CompareTo(o?.EvmAddress?.ToString());
 		}
 
-		/// <summary>
-		/// </summary>
-		/// <param name="client">to validate against</param>
-		/// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
-		/// <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.Validate(Client)"]/*' />
 		public void Validate(Client client)
         {
             ValidateChecksum(client);
         }
-        /// <summary>
-        /// Verify that the client has a valid checksum.
-        /// </summary>
-        /// <param name="client">the client to verify</param>
-        /// <exception cref="BadEntityIdException">when the account id and checksum are invalid</exception>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ValidateChecksum(Client)"]/*' />
         public void ValidateChecksum(Client client)
         {
             if (AliasKey == null && EvmAddress == null)
@@ -382,19 +256,12 @@ namespace Hedera.Hashgraph.SDK.Account
             }
         }
 
-        /// <summary>
-        /// Extract a byte array representation.
-        /// </summary>
-        /// <returns>                         a byte array representation</returns>
+        /// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToBytes"]/*' />
         public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <summary>
-		/// Extract a string representation with the checksum.
-		/// </summary>
-		/// <param name="client">the client</param>
-		/// <returns>                         the account id with checksum</returns>
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToStringWithChecksum(Client)"]/*' />
 		public string ToStringWithChecksum(Client client)
         {
             if (AliasKey != null || EvmAddress != null)

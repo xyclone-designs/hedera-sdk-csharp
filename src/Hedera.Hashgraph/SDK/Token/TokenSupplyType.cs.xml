@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenSupplyType">
+    <summary>&lt;summary&gt;
+    Possible Token Supply Types (IWA Compatibility).
+    &lt;p&gt;
+    Indicates how many tokens can have during its lifetime.
+    &lt;p&gt;
+    See &lt;a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/tokensupplytype"&gt;Hedera Documentation&lt;/a&gt;
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:TokenSupplyType_2">
+    <summary>
+    Indicates that tokens of that type have an upper bound of long.MaxValue.
+    </summary>
+  </member>
+  <member name="T:TokenSupplyType_3">
+    <summary>
+    Indicates that tokens of that type have an upper bound of maxSupply, provided on token creation.
+    </summary>
+  </member>
+</docs>

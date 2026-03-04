@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:PublicKeyECDSA">
+    <summary>
+    Encapsulate the ECDSA public key.
+    </summary>
+  </member>
+  <member name="M:PublicKeyECDSA.#ctor(System.Byte[])">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="KeyData">the byte array representing the key</param>
+  </member>
+  <member name="M:PublicKeyECDSA.FromBytesInternal(System.Byte[])">
+    <summary>
+    Create a key from a byte array representation.
+    </summary>
+    <param name="publicKey">the byte array representing the key</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKeyECDSA.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)">
+    <summary>
+    Create a key from a subject public key info object.
+    </summary>
+    <param name="subjectPublicKeyInfo">the subject public key info object</param>
+    <returns>the new public key</returns>
+  </member>
+</docs>

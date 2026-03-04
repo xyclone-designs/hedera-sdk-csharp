@@ -1,17 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Google.Protobuf;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Google.Protobuf;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
@@ -37,25 +33,41 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ContractExecuteTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ContractExecuteTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private ContractExecuteTransaction SpawnTestTransaction()
         {
-            return new ContractExecuteTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetGas(10).SetPayableAmount(Hbar.FromTinybars(1000)).SetFunctionParameters(ByteString.CopyFrom(new byte[] { 24, 43, 11 })).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
+            return new ContractExecuteTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				ContractId = ContractId.FromString("0.0.5007"),
+				Gas = 10,
+				PayableAmount = Hbar.FromTinybars(1000),
+				FunctionParameters = ByteString.CopyFrom(new byte[] { 24, 43, 11 }),
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = ContractExecuteTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ContractExecuteTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetContractCall(ContractCallTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+                ContractCall = new Proto.ContractCallTransactionBody { }
+            };
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<ContractExecuteTransaction>(tx);
         }
@@ -63,17 +75,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         public virtual void SetGasShouldRejectNegativeValues()
         {
             var tx = new ContractExecuteTransaction();
-            var ex = Assert.Throws<ArgumentException>(() => tx.SetGas(-1));
-            Assert.Equal(ex.GetMessage(), "Gas must be non-negative");
+            var ex = Assert.Throws<ArgumentException>(() => tx.Gas = -1);
+            
+            Assert.Equal(ex.Message, "Gas must be non-negative");
         }
 
         public virtual void SetGasShouldAcceptZeroAndPositiveValues()
         {
             var tx = new ContractExecuteTransaction();
-            tx.SetGas(0);
-            Assert.Equal(tx.GetGas(), 0);
-            tx.SetGas(123456);
-            Assert.Equal(tx.GetGas(), 123456);
+            tx.Gas = 0;
+            Assert.Equal(tx.Gas, 0);
+            tx.Gas = 123456;
+            Assert.Equal(tx.Gas, 123456);
         }
     }
 }

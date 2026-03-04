@@ -8,24 +8,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <summary>
-    /// A hash (presumably of some kind of credential or certificate), along with a
-    /// list of keys (each of which is either a primitive or a threshold key). Each
-    /// of them must reach its threshold when signing the transaction, to attach
-    /// this livehash to this account. At least one of them must reach its
-    /// threshold to delete this livehash from this account.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/core-concepts/accounts#livehash">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="LiveHash.cs.xml" path='docs/member[@name="T:LiveHash"]/*' />
     public class LiveHash
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="accountId">the account id</param>
-        /// <param name="hash">the hash</param>
-        /// <param name="keys">the key list</param>
-        /// <param name="duration">the duration</param>
+        /// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.#ctor(AccountId,ByteString,KeyList,System.TimeSpan)"]/*' />
         internal LiveHash(AccountId accountId, ByteString hash, KeyList keys, TimeSpan duration)
         {
             AccountId = accountId;
@@ -34,21 +20,12 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             Duration = duration;
         }
 
-		/// <summary>
-		/// Create a live hash from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new live hash</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromBytes(System.Byte[])"]/*' />
 		public static LiveHash FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.LiveHash.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a live hash from a protobuf.
-		/// </summary>
-		/// <param name="liveHash">the protobuf</param>
-		/// <returns>                         the new live hash</returns>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromProtobuf(Proto.LiveHash)"]/*' />
 		public static LiveHash FromProtobuf(Proto.LiveHash liveHash)
         {
             return new LiveHash(
@@ -58,35 +35,21 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
                 liveHash.Duration.ToTimeSpan());
         }
 
-		/// <summary>
-		/// The account to which the livehash is attached
-		/// </summary>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.AccountId"]/*' />
 		public readonly AccountId AccountId;
-		/// <summary>
-		/// The SHA-384 hash of a credential or certificate
-		/// </summary>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Hash"]/*' />
 		public readonly ByteString Hash;
-		/// <summary>
-		/// A list of keys (primitive or threshold), all of which must sign to attach the livehash to an account, and any one of which can later delete it.
-		/// </summary>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Keys"]/*' />
 		public readonly KeyList Keys;
-		/// <summary>
-		/// The duration for which the livehash will remain valid
-		/// </summary>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Duration"]/*' />
 		public readonly TimeSpan Duration;
 
-		/// <summary>
-		/// Extract the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToBytes"]/*' />
 		public virtual ByteString ToBytes()
 		{
 			return ToProtobuf().ToByteString();
 		}
-		/// <summary>
-		/// Convert the live hash into a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf</returns>
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToProtobuf"]/*' />
 		public virtual Proto.LiveHash ToProtobuf()
         {
 			return new Proto.LiveHash

@@ -8,9 +8,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// This class represents the account balance object
-    /// </summary>
+    /// <include file="AccountBalance.cs.xml" path='docs/member[@name="T:AccountBalance"]/*' />
     public class AccountBalance
     {
         AccountBalance(Hbar hbars, Dictionary<TokenId, ulong> token, Dictionary<TokenId, uint> @decimal)
@@ -20,21 +18,12 @@ namespace Hedera.Hashgraph.SDK.Account
             TokenDecimals = @decimal;
         }
 
-		/// <summary>
-		/// Convert a byte array to an account balance object.
-		/// </summary>
-		/// <param name="data">the byte array</param>
-		/// <returns>                         the converted account balance object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.FromBytes(System.Byte[])"]/*' />
 		public static AccountBalance FromBytes(byte[] data)
 		{
 			return FromProtobuf(Proto.CryptoGetAccountBalanceResponse.Parser.ParseFrom(data));
 		}
-		/// <summary>
-		/// Convert the protobuf object to an account balance object.
-		/// </summary>
-		/// <param name="protobuf">protobuf response object</param>
-		/// <returns>                         the converted account balance object</returns>
+		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.FromProtobuf(Proto.CryptoGetAccountBalanceResponse)"]/*' />
 		public static AccountBalance FromProtobuf(Proto.CryptoGetAccountBalanceResponse protobuf)
         {
             var balanceList = protobuf.TokenBalances;
@@ -50,29 +39,19 @@ namespace Hedera.Hashgraph.SDK.Account
             return new AccountBalance(Hbar.FromTinybars(protobuf.Balance), map, decimalMap);
         }
 
-		/// <summary>
-		/// The Hbar balance of the account
-		/// </summary>
+		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="P:AccountBalance.Hbars"]/*' />
 		public Hbar Hbars { get; }
-		/// <summary>
-		/// </summary>
-		/// <remarks>@deprecated- Use `tokens` instead</remarks>
+		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.ToBytes"]/*' />
 		public Dictionary<TokenId, ulong> Token { get; } = [];
 		public Dictionary<TokenId, ulong> Tokens { get; }
 		public Dictionary<TokenId, uint> TokenDecimals { get; }
 
-		/// <summary>
-		/// Convert the account balance object to a byte array.
-		/// </summary>
-		/// <returns>                         the converted account balance object</returns>
+		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.ToBytes_2"]/*' />
 		public virtual ByteString ToBytes()
 		{
 			return ToProtobuf().ToByteString();
 		}
-		/// <summary>
-		/// Convert an account balance object into a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf object</returns>
+		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.ToProtobuf"]/*' />
 		public virtual Proto.CryptoGetAccountBalanceResponse ToProtobuf()
         {
             var protobuf = new Proto.CryptoGetAccountBalanceResponse

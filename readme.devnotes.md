@@ -236,5 +236,7 @@ File checklist shows which files have been ported, checked and cleaned, ready fo
 ## Tests
 
 - Many methods which test only field nullability have been removed as nullability is built in code (Java get() & set() methods for fields => c# get; and set;)
+- Problem arising from the fact that 'Byte' in Java is signed vs unsigned in C# (Several instances of negative byte inputs)
+	- ContractFunctionParametersTest excluded
 
 ## Test.Integration

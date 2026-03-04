@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:HandleResponse(HttpResponseMessage,FeeEstimateMode,System.Int32)">
+    <summary>
+    Handle the HTTP response and return the result or null if retry is needed.
+    </summary>
+  </member>
+  <member name="M:HandleError(System.Exception,System.Int32)">
+    <summary>
+    Handle errors during execution.
+    </summary>
+  </member>
+  <member name="M:HandleAsyncError(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,System.Exception)">
+    <summary>
+    Handle async error response.
+    </summary>
+  </member>
+  <member name="M:HandleAsyncResponse(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,HttpResponseMessage)">
+    <summary>
+    Handle async success response.
+    </summary>
+  </member>
+</docs>

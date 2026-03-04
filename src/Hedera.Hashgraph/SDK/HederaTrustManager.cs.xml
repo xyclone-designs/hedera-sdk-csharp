@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:HederaTrustManager">
+    <summary>
+    Internal class used by node.
+    </summary>
+  </member>
+  <member name="M:HederaTrustManager.#ctor(ByteString,System.Boolean)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="certHash">a byte string of the certificate hash</param>
+    <param name="verifyCertificate">should be verified</param>
+  </member>
+</docs>

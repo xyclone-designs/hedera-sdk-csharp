@@ -7,13 +7,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Airdrops
 {
-    /// <summary>
-    /// A unique, composite, identifier for a pending airdrop.
-    /// 
-    /// Each pending airdrop SHALL be uniquely identified by a PendingAirdropId.
-    /// A PendingAirdropId SHALL be recorded when created and MUST be provided in any transaction
-    /// that would modify that pending airdrop (such as a `claimAirdrop` or `cancelAirdrop`).
-    /// </summary>
+    /// <include file="PendingAirdropId.cs.xml" path='docs/member[@name="T:PendingAirdropId"]/*' />
     public class PendingAirdropId
     {
         public PendingAirdropId(AccountId sender, AccountId receiver, TokenId tokenId)

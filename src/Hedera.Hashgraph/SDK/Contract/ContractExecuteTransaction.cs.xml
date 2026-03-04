@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractExecuteTransaction">
+    <summary>&lt;summary&gt;
+    Call a function of the given smart contract instance, giving it parameters as its inputs.
+    &lt;p&gt;
+    It can use the given amount of gas, and any unspent gas will be refunded to the paying account.
+    &lt;p&gt;
+    If this function stores information, it is charged gas to store it.
+    There is a fee in hbars to maintain that storage until the expiration time, and that fee is
+    added as part of the transaction fee.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ContractExecuteTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:ContractExecuteTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:ContractExecuteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:ContractExecuteTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A maximum limit to the amount of gas to use for this call.
+    &lt;p&gt;
+    The network SHALL charge the greater of the following, but
+    SHALL NOT charge more than the value of this field.
+    &lt;ol&gt;
+      &lt;li&gt;The actual gas consumed by the smart contract call.&lt;/li&gt;
+      &lt;li&gt;`80%` of this value.&lt;/li&gt;
+    &lt;/ol&gt;
+    The `80%` factor encourages reasonable estimation, while allowing for
+    some overage to ensure successful execution.
+    &lt;/summary&gt;
+    &lt;param name="gas"&gt;The long to be set as gas&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractExecuteTransaction.RequireNotFrozen_2">
+    <summary>
+    Sets the number of hbars sent with this function call.
+    </summary>
+  </member>
+  <member name="M:ContractExecuteTransaction.RequireNotFrozen_3">
+    <summary>
+    Sets the contract instance to call.
+    </summary>
+    <param name="contractId">The ContractId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ContractExecuteTransaction.RequireNotFrozen_4">
+    <summary>&lt;summary&gt;
+    Sets the function parameters as their raw bytes.
+    &lt;p&gt;
+    Use this instead of {@link #setFunction(String, ContractFunctionParameters)} if you have already
+    pre-encoded a solidity function call.
+    
+    This MUST contain The application binary interface (ABI) encoding of the
+    function call per the Ethereum contract ABI standard, giving the
+    function signature and arguments being passed to the function.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ContractExecuteTransaction.SetFunction(System.String)">
+    <summary>&lt;summary&gt;
+    Sets the function name to call.
+    &lt;p&gt;
+    The function will be called with no parameters. Use {@link #setFunction(String, ContractFunctionParameters)}
+    to call a function with parameters.
+    &lt;/summary&gt;
+    &lt;param name="name"&gt;The String to be set as the function name&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractExecuteTransaction.SetFunction(System.String,ContractFunctionParameters @)">
+    <summary>
+    Sets the function to call, and the parameters to pass to the function.
+    </summary>
+    <param name="name">The String to be set as the function name</param>
+    <param name="params">The function parameters to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ContractExecuteTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:ContractExecuteTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link ContractCallTransactionBody}</returns>
+  </member>
+</docs>

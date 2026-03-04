@@ -5,35 +5,14 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <summary>
-    /// The entity ID of a schedule transaction.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/schedule-transaction/schedule-id">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="ScheduleId.cs.xml" path='docs/member[@name="T:ScheduleId"]/*' />
     public sealed class ScheduleId : IComparable<ScheduleId>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="num">the num part
-        /// 
-        /// Constructor that uses shard, realm and num should be used instead
-        /// as shard and realm should not assume 0 value</param>
+        /// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.#ctor(System.Int64)"]/*' />
         public ScheduleId(long num) : this(0, 0, num) { }
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="shard">the shard part</param>
-        /// <param name="realm">the realm part</param>
-        /// <param name="num">the num part</param>
+        /// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.#ctor(System.Int64,System.Int64,System.Int64)"]/*' />
         public ScheduleId(long shard, long realm, long num) : this(shard, realm, num, null) { }
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="shard">the shard part</param>
-        /// <param name="realm">the realm part</param>
-        /// <param name="num">the num part</param>
-        /// <param name="checksum">the checksum</param>
+        /// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
         private ScheduleId(long shard, long realm, long num, string? checksum)
         {
             Shard = shard;
@@ -42,53 +21,31 @@ namespace Hedera.Hashgraph.SDK.Schedule
             Checksum = checksum;
         }
 
-        /// <summary>
-        /// Create a schedule id from a string.
-        /// </summary>
-        /// <param name="id">the string representing the schedule id</param>
-        /// <returns>                         the new schedule id</returns>
+        /// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromString(System.String)"]/*' />
         public static ScheduleId FromString(string id)
         {
             return Utils.EntityIdHelper.FromString(id, (a, b, c, d) => new ScheduleId(a, b, c, d));
         }
-		/// <summary>
-		/// Create a schedule id from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new schedule id</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromBytes(System.Byte[])"]/*' />
 		public static ScheduleId FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.ScheduleID.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a schedule id from a protobuf.
-		/// </summary>
-		/// <param name="scheduleId">the protobuf</param>
-		/// <returns>                         the new schedule id</returns>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromProtobuf(Proto.ScheduleID)"]/*' />
 		public static ScheduleId FromProtobuf(Proto.ScheduleID scheduleId)
         {
             return new ScheduleId(scheduleId.ShardNum, scheduleId.RealmNum, scheduleId.ScheduleNum);
         }
 
-		/// <summary>
-		/// The shard number
-		/// </summary>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="P:ScheduleId.Shard"]/*' />
 		public long Shard { get; }
-		/// <summary>
-		/// The realm number
-		/// </summary>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="P:ScheduleId.Realm"]/*' />
 		public long Realm { get; }
-		/// <summary>
-		/// The id number
-		/// </summary>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="P:ScheduleId.Num"]/*' />
 		public long Num { get; }
 		public string? Checksum { get; }
 
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representing the schedule id</returns>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.ToProtobuf"]/*' />
 		public Proto.ScheduleID ToProtobuf()
         {
             return new Proto.ScheduleID
@@ -115,38 +72,23 @@ namespace Hedera.Hashgraph.SDK.Schedule
 
 			return Num.CompareTo(o?.Num);
 		}
-		/// <summary>
-		/// </summary>
-		/// <param name="client">to validate against</param>
-		/// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
-		/// <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.Validate(Client)"]/*' />
 		public void Validate(Client client)
         {
             ValidateChecksum(client);
         }
-        /// <summary>
-        /// Validate the configured client.
-        /// </summary>
-        /// <param name="client">the configured client</param>
-        /// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+        /// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.ValidateChecksum(Client)"]/*' />
         public void ValidateChecksum(Client client)
         {
             Utils.EntityIdHelper.Validate(Shard, Realm, Num, client, Checksum);
         }
-		/// <summary>
-		/// Convert the schedule id into a string with checksum.
-		/// </summary>
-		/// <param name="client">the configured client</param>
-		/// <returns>                         the string representation</returns>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.ToStringWithChecksum(Client)"]/*' />
 		public string ToStringWithChecksum(Client client)
 		{
 			return Utils.EntityIdHelper.ToStringWithChecksum(Shard, Realm, Num, client, Checksum);
 		}
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         byte array representation</returns>
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.ToBytes"]/*' />
 		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using System.Linq;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Utils;
 using Org.BouncyCastle.Utilities.Encoders;
+using System;
+using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
@@ -20,7 +21,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         {
             PrivateKey key1 = PrivateKey.GenerateECDSA();
             byte[] key1Bytes = key1.ToBytes();
-            PrivateKey key2 = Transaction.FromBytes<PrivateKey>(key1Bytes);
+            PrivateKey key2 = PrivateKey.FromBytes(key1Bytes);
             byte[] key2Bytes = key2.ToBytes();
             Assert.Equal(key2Bytes, key1Bytes);
         }
@@ -43,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesDER();
             PrivateKey key2 = PrivateKey.FromBytesDER(key1Bytes);
             byte[] key2Bytes = key2.ToBytesDER();
-            PrivateKey key3 = Transaction.FromBytes<PrivateKey>(key1Bytes);
+            PrivateKey key3 = PrivateKey.FromBytes(key1Bytes);
             byte[] key3Bytes = key3.ToBytesDER();
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);
@@ -101,8 +102,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] data = new byte[len / 2];
             for (int i = 0; i < len; i += 2)
             {
-                data[i / 2] = (byte)((Character.Digit(s.ElementAt(i), 16) << 4) + Character.Digit(s.ElementAt(i + 1), 16));
-            }
+				data[i / 2] = (byte)((Convert.ToInt32(s[i].ToString(), 16) << 4) + Convert.ToInt32(s[i + 1].ToString(), 16));
+			}
 
             return data;
         }
@@ -138,7 +139,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Contains(key1.GetPublicKey().ToStringRaw(), PUBLIC_KEY1);
 
             // Chain m/0'
-            PrivateKey key2 = key1.Derive(Bip32Utils.ToHardenedIndex(0));
+            PrivateKey key2 = key1.Derive((int)Bip32Utils.ToHardenedIndex(0));
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY2);
             Assert.Contains(key2.GetPublicKey().ToStringRaw(), PUBLIC_KEY2);
@@ -150,7 +151,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Contains(key3.GetPublicKey().ToStringRaw(), PUBLIC_KEY3);
 
             // Chain m/0'/1/2'
-            PrivateKey key4 = key3.Derive(Bip32Utils.ToHardenedIndex(2));
+            PrivateKey key4 = key3.Derive((int)Bip32Utils.ToHardenedIndex(2));
             Assert.Equal(Hex.ToHexString(key4.GetChainCode().GetKey()), CHAIN_CODE4);
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
             Assert.Contains(key4.GetPublicKey().ToStringRaw(), PUBLIC_KEY4);
@@ -205,7 +206,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Contains(key2.GetPublicKey().ToStringRaw(), PUBLIC_KEY2);
 
             // Chain m/0/2147483647'
-            PrivateKey key3 = key2.Derive(Bip32Utils.ToHardenedIndex(2147483647));
+            PrivateKey key3 = key2.Derive((int)Bip32Utils.ToHardenedIndex(2147483647));
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
             Assert.Contains(key3.GetPublicKey().ToStringRaw(), PUBLIC_KEY3);
@@ -217,7 +218,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Contains(key4.GetPublicKey().ToStringRaw(), PUBLIC_KEY4);
 
             // Chain m/0/2147483647'/1/2147483646'
-            PrivateKey key5 = key4.Derive(Bip32Utils.ToHardenedIndex(2147483646));
+            PrivateKey key5 = key4.Derive((int)Bip32Utils.ToHardenedIndex(2147483646));
             Assert.Equal(Hex.ToHexString(key5.GetChainCode().GetKey()), CHAIN_CODE5);
             Assert.Equal(key5.ToStringRaw(), PRIVATE_KEY5);
             Assert.Contains(key5.GetPublicKey().ToStringRaw(), PUBLIC_KEY5);

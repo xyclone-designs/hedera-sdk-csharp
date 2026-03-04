@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:HookEntityId">
+    <summary>&lt;summary&gt;
+    The ID of an entity using a hook.
+    &lt;p&gt;
+    This class represents the HookEntityId protobuf message, which can be either
+    an account ID or a contract ID.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:HookEntityId.#ctor(AccountId)">
+    <summary>
+    Create a HookEntityId with an account ID.
+    </summary>
+    <param name="accountId">the account ID</param>
+  </member>
+  <member name="M:HookEntityId.#ctor(ContractId)">
+    <summary>
+    Create a HookEntityId with a contract ID.
+    </summary>
+    <param name="contractId">the contract ID</param>
+  </member>
+  <member name="M:HookEntityId.ToProtobuf">
+    <summary>
+    Convert this HookEntityId to a protobuf message.
+    </summary>
+    <returns>the protobuf HookEntityId</returns>
+  </member>
+  <member name="M:HookEntityId.FromProtobuf(Proto.HookEntityId)">
+    <summary>
+    Create a HookEntityId from a protobuf message.
+    </summary>
+    <param name="proto">the protobuf HookEntityId</param>
+    <returns>a new HookEntityId instance</returns>
+  </member>
+</docs>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="P:.Base">
+    <summary>
+    The base fee price, in tinycents.
+    </summary>
+  </member>
+  <member name="P:.Extras">
+    <summary>
+    The extra fees that apply for this fee component.
+    </summary>
+  </member>
+</docs>

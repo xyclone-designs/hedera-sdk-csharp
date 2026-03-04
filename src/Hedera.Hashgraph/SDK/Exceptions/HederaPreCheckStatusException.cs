@@ -5,12 +5,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-    /// <summary>
-    /// Signals that a transaction has failed the pre-check.
-    /// <p>
-    /// Before a node submits a transaction to the rest of the network,
-    /// it attempts some cheap assertions. This process is called the "pre-check".
-    /// </summary>
+    /// <include file="HederaPreCheckStatusException.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public sealed class HederaPreCheckStatusException : PrecheckStatusException
     {

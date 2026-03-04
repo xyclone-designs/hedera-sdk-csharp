@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenId">
+    <summary>
+    Constructs a TokenId.
+    
+    See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/token-id">Hedera Documentation</a></summary>
+  </member>
+  <member name="F:TokenId.Shard">
+    <summary>
+    The Shard Number
+    </summary>
+  </member>
+  <member name="M:TokenId.#ctor(System.Int64)">
+    <summary>
+    The Realm Number
+    </summary>
+  </member>
+  <member name="M:TokenId.#ctor(System.Int64)_2">
+    <summary>
+    The id Number
+    </summary>
+  </member>
+  <member name="M:TokenId.#ctor(System.Int64)_3">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="Num">the Num part
+    
+    Constructor that uses Shard, Realm and Num should be used instead
+    as Shard and Realm should not assume 0 value</param>
+  </member>
+  <member name="M:TokenId.#ctor(System.Int64,System.Int64,System.Int64)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="Shard">the Shard part</param>
+    <param name="Realm">the Realm part</param>
+    <param name="Num">the Num part</param>
+  </member>
+  <member name="M:TokenId.TokenId(System.Int64,System.Int64,System.Int64,System.String)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="Shard">the Shard part</param>
+    <param name="Realm">the Realm part</param>
+    <param name="Num">the Num part</param>
+    <param name="Checksum">the Checksum</param>
+  </member>
+  <member name="M:TokenId.FromString(System.String)">
+    <summary>
+    Create a token id from a string.
+    </summary>
+    <param name="id">the string representation</param>
+    <returns>the new token id</returns>
+  </member>
+  <member name="M:TokenId.FromBytes(System.Byte[])">
+    <summary>
+    Create a token id from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new token id</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenId.FromProtobuf(Proto.TokenID)">
+    <summary>
+    Create a token id from a protobuf.
+    </summary>
+    <param name="tokenId">the protobuf</param>
+    <returns>the new token id</returns>
+  </member>
+  <member name="M:TokenId.FromSolidityAddress(System.String)">
+    <summary>
+    Retrieve the token id from a solidity address.
+    </summary>
+    <param name="address">a string representing the address</param>
+    <returns>the token id object</returns>
+    <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(long, long, String)} instead.</remarks>
+  </member>
+  <member name="M:TokenId.FromEvmAddress(System.Int64,System.Int64,System.String)">
+    <summary>
+    Constructs a TokenID from Shard, Realm, and EVM address.
+    The EVM address must be a "long zero address" (first 12 bytes are zero).
+    </summary>
+    <param name="Shard">the Shard Number</param>
+    <param name="Realm">the Realm Number</param>
+    <param name="evmAddress">the EVM address as a hex string</param>
+    <returns>          the TokenID object</returns>
+    <exception cref="IllegalArgumentException">if the EVM address is not a valid long zero address</exception>
+  </member>
+  <member name="M:TokenId.Nft(System.Int64)">
+    <summary>
+    Create an nft id.
+    </summary>
+    <param name="serial">the serial Number</param>
+    <returns>the new nft id</returns>
+  </member>
+  <member name="M:TokenId.ToEvmAddress">
+    <summary>
+    Converts this TokenId to an EVM address string.
+    Creates a solidity address using Shard=0, Realm=0, and the file Number.
+    </summary>
+    <returns>the EVM address as a hex string</returns>
+  </member>
+  <member name="M:TokenId.ToSolidityAddress">
+    <summary>
+    Extract the solidity address.
+    </summary>
+    <returns>the solidity address as a string</returns>
+    <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
+  </member>
+  <member name="M:TokenId.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>a protobuf representation</returns>
+  </member>
+  <member name="M:TokenId.Validate(Client)">
+    <summary></summary>
+    <param name="client">to validate against</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
+  </member>
+  <member name="M:TokenId.ValidateChecksum(Client)">
+    <summary>
+    Validate the configured client.
+    </summary>
+    <param name="client">the configured client</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+  </member>
+  <member name="M:TokenId.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TokenId.ToStringWithChecksum(Client)">
+    <summary>
+    Create a string representation with Checksum.
+    </summary>
+    <param name="client">the configured client</param>
+    <returns>the string representation with Checksum</returns>
+  </member>
+</docs>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Unknown">
+    <summary>
+    Sets the Contract instance to call.
+    </summary>
+    <param name="ContractId">The ContractId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="T:Unknown_2">
+    <summary>
+    Set the 20-byte EVM address of the Contract to call.
+    </summary>
+    <param name="ContractEvmAddress"></param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="T:Unknown_3">
+    <summary>
+    Sets the Sender of the transaction simulation.
+    </summary>
+    <param name="Sender">The AccountId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="T:Unknown_4">
+    <summary>
+    Set the 20-byte EVM address of the Sender.
+    </summary>
+    <param name="SenderEvmAddress"></param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="T:Unknown_5">
+    <summary>&lt;summary&gt;
+    Sets the amount of Value (in tinybars or wei) to be sent to the Contract in the transaction.
+    &lt;p&gt;
+    Use this to specify an amount for a payable function call.
+    &lt;/summary&gt;
+    &lt;param name="Value"&gt;the amount of Value to send, in tinybars or wei&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="T:Unknown_6">
+    <summary>&lt;summary&gt;
+    Sets the Gas limit for the Contract call.
+    &lt;p&gt;
+    This specifies the maximum amount of Gas that the transaction can consume.
+    &lt;/summary&gt;
+    &lt;param name="GasLimit"&gt;the maximum Gas allowed for the transaction&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="T:Unknown_7">
+    <summary>&lt;summary&gt;
+    Sets the Gas price to be used for the Contract call.
+    &lt;p&gt;
+    This specifies the price of each unit of Gas used in the transaction.
+    &lt;/summary&gt;
+    &lt;param name="GasPrice"&gt;the Gas price, in tinybars or wei, for each unit of Gas&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:FillEvmAddresses">
+    <summary>&lt;summary&gt;
+    Sets the block number for the simulation of the Contract call.
+    &lt;p&gt;
+    The block number determines the context of the Contract call simulation within the blockchain.
+    &lt;/summary&gt;
+    &lt;param name="BlockNumber"&gt;the block number at which to simulate the Contract call&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:Estimate(Client)">
+    <summary>
+    Returns Gas estimation for the EVM execution
+    </summary>
+    <param name="client"></param>
+    <exception cref="ExecutionException"></exception>
+    <exception cref="InterruptedException"></exception>
+  </member>
+  <member name="T:MirrorNodeContractQuery">
+    <summary>
+    MirrorNodeContractQuery returns a result from EVM execution such as cost-free execution of read-only smart Contract
+    queries, Gas estimation, and transient simulation of read-write operations.
+    </summary>
+  </member>
+  <member name="M:MirrorNodeContractQuery.SetFunction(System.String)">
+    <summary>&lt;summary&gt;
+    Sets the function name to call.
+    &lt;p&gt;
+    The function will be called with no parameters. Use {@link #setFunction(String, ContractFunctionParameters)} to
+    call a function with parameters.
+    &lt;/summary&gt;
+    &lt;param name="name"&gt;The String to be set as the function name&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:MirrorNodeContractQuery.SetFunction(System.String,ContractFunctionParameters @)">
+    <summary>
+    Sets the function to call, and the parameters to pass to the function.
+    </summary>
+    <param name="name">The String to be set as the function name</param>
+    <param name="params">The function parameters to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:MirrorNodeContractQuery.SetFunctionParameters(ByteString)">
+    <summary>&lt;summary&gt;
+    Sets the function parameters as their raw bytes.
+    &lt;p&gt;
+    Use this instead of {@link #setFunction(String, ContractFunctionParameters)} if you have already pre-encoded a
+    solidity function call.
+    &lt;/summary&gt;
+    &lt;param name="functionParameters"&gt;The function parameters to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="T:MirrorNodeContractQuery_2">
+    <summary>
+    Does transient simulation of read-write operations and returns the result in hexadecimal string format. The
+    result can be any solidity type.
+    </summary>
+    <param name="client"></param>
+    <exception cref="ExecutionException"></exception>
+    <exception cref="InterruptedException"></exception>
+  </member>
+</docs>

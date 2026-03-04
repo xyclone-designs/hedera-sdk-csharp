@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:NftHookType">
+    <summary>
+    Hook type for NFT transfers, indicating side (sender/receiver) and timing (pre / pre-post).
+    </summary>
+  </member>
+</docs>

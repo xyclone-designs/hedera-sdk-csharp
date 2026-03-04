@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:NodeAddressBook">
+    <summary>
+    A list of nodes and their metadata.
+    
+    See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/nodeaddressbook">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:NodeAddressBook.FromBytes(ByteString)">
+    <summary>
+    Create a node address book from a byte string.
+    </summary>
+    <param name="bytes">the byte string</param>
+    <returns>the new node address book</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:NodeAddressBook.FromProtobuf(Proto.NodeAddressBook)">
+    <summary>
+    Create a node address book from a protobuf.
+    </summary>
+    <param name="book">the protobuf</param>
+    <returns>the new node address book</returns>
+  </member>
+  <member name="M:NodeAddressBook.CloneNodeAddresses(field)">
+    <summary>
+    Extract the of node addresses.
+    </summary>
+    <returns>list of node addresses</returns>
+  </member>
+  <member name="M:NodeAddressBook.ToBytes">
+    <summary>
+    Create the byte string.
+    </summary>
+    <returns>the byte string representation</returns>
+  </member>
+  <member name="M:NodeAddressBook.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+</docs>

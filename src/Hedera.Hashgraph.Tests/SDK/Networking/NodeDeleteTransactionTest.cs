@@ -7,7 +7,6 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK;
-using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
@@ -36,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             return new NodeDeleteTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START.ToTimestamp()),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 				NodeId = TEST_NODE_ID,
 				MaxTransactionFee = new Hbar(1),
 			}
@@ -105,7 +104,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction
             {
                 NodeAccountIds = [AccountId.FromString("0.0.3")],
-                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp()),
+                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START),
                 NodeId = 420,
             };
 
@@ -121,7 +120,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction
             {
                 NodeAccountIds = [ AccountId.FromString("0.0.3")],
-                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp())
+                TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START)
             };
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
             
@@ -135,7 +134,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.3")],
-				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp())
+				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START)
 
 			};
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
@@ -150,7 +149,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeDeleteTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.3")],
-				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START.ToTimestamp()),
+				TransactionId = TransactionId.WithValidStart(ACCOUNT_ID, VALID_START),
 				NodeId = 420
 			};
             var mockClient = Client.ForTestnet();

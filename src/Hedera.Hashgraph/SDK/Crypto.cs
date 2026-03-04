@@ -34,14 +34,7 @@ namespace Hedera.Hashgraph.SDK
 
 		private Crypto() { }
 
-		/// <summary>
-		/// Derive a sha 256 key.
-		/// </summary>
-		/// <param name="passphrase">the password will be converted into bytes</param>
-		/// <param name="salt">the salt to be mixed in</param>
-		/// <param name="iterations">the iterations for mixing</param>
-		/// <param name="dkLenBytes">the key length in bytes</param>
-		/// <returns>                         the key parameter object</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:DeriveKeySha256(System.String,System.Byte[],System.Int32,System.Int32)"]/*' />
 		internal static KeyParameter DeriveKeySha256(string passphrase, byte[] salt, int iterations, int dkLenBytes)
 		{
 			Pkcs5S2ParametersGenerator gen = new (new Sha256Digest());
@@ -49,39 +42,21 @@ namespace Hedera.Hashgraph.SDK
 
 			return (KeyParameter)gen.GenerateDerivedParameters("AES256", dkLenBytes * 8);
 		}
-		/// <summary>
-		/// Initialize an advanced encryption standard counter mode cipher.
-		/// </summary>
-		/// <param name="cipherKey">the cipher key</param>
-		/// <param name="iv">the initialization vector byte array</param>
-		/// <param name="forDecrypt">is this for decryption</param>
-		/// <returns>                         the aes ctr cipher</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCtr128(KeyParameter,System.Byte[])"]/*' />
 		internal static BufferedBlockCipher InitAesCtr128(KeyParameter key, byte[] iv)
 		{
 			BufferedBlockCipher cipher = new (new SicBlockCipher(new AesEngine()));
 			cipher.Init(true, new ParametersWithIV(key, iv));
 			return cipher;
 		}
-		/// <summary>
-		/// Initialize an advanced encryption standard cipher block chaining mode
-		/// cipher for encryption.
-		/// </summary>
-		/// <param name="cipherKey">the cipher key</param>
-		/// <param name="iv">the initialization vector byte array</param>
-		/// <returns>                         the aes cbc cipher</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCbc128Encrypt(KeyParameter,System.Byte[])"]/*' />
 		internal static BufferedBlockCipher InitAesCbc128Encrypt(KeyParameter key, byte[] iv)
 		{
 			BufferedBlockCipher cipher = new (new CbcBlockCipher(new AesEngine()));
 			cipher.Init(true, new ParametersWithIV(key, iv));
 			return cipher;
 		}
-		/// <summary>
-		/// Initialize an advanced encryption standard cipher block chaining mode
-		/// cipher for decryption.
-		/// </summary>
-		/// <param name="cipherKey">the cipher key</param>
-		/// <param name="parameters">the algorithm parameters</param>
-		/// <returns>                         the aes cbc cipher</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:InitAesCbc128Decrypt(KeyParameter,System.Byte[])"]/*' />
 		internal static BufferedBlockCipher InitAesCbc128Decrypt(KeyParameter key, byte[] iv)
 		{
 			BufferedBlockCipher cipher = new (new CbcBlockCipher(new AesEngine()));
@@ -89,34 +64,17 @@ namespace Hedera.Hashgraph.SDK
 			return cipher;
 		}
 
-		/// <summary>
-		/// Encrypt a byte array with the aes ctr cipher.
-		/// </summary>
-		/// <param name="cipherKey">the cipher key</param>
-		/// <param name="iv">the initialization vector</param>
-		/// <param name="input">the byte array to encrypt</param>
-		/// <returns>                         the encrypted byte array</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:EncryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])"]/*' />
 		internal static byte[] EncryptAesCtr128(KeyParameter key, byte[] iv, byte[] input)
 		{
 			return RunCipher(InitAesCtr128(key, iv), input);
 		}
-		/// <summary>
-		/// Decrypt a byte array with the aes ctr cipher.
-		/// </summary>
-		/// <param name="cipherKey">the cipher key</param>
-		/// <param name="iv">the initialization vector</param>
-		/// <param name="input">the byte array to decrypt</param>
-		/// <returns>                         the decrypted byte array</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:DecryptAesCtr128(KeyParameter,System.Byte[],System.Byte[])"]/*' />
 		internal static byte[] DecryptAesCtr128(KeyParameter key, byte[] iv, byte[] input)
 		{
 			return RunCipher(InitAesCtr128(key, iv), input);
 		}
-		/// <summary>
-		/// Run the cipher on the given input.
-		/// </summary>
-		/// <param name="cipher">the cipher</param>
-		/// <param name="input">the byte array</param>
-		/// <returns>                         the output of running the cipher</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RunCipher(BufferedBlockCipher,System.Byte[])"]/*' />
 		internal static byte[] RunCipher(BufferedBlockCipher cipher, byte[] input)
 		{
 			byte[] output = new byte[cipher.GetOutputSize(input.Length)];
@@ -130,14 +88,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return trimmed;
 		}
-		/// <summary>
-		/// Calculate a hash message authentication code using the secure hash
-		/// algorithm variant 384.
-		/// </summary>
-		/// <param name="cipherKey">the cipher key</param>
-		/// <param name="iv">the initialization vector</param>
-		/// <param name="input">the byte array</param>
-		/// <returns>                         the hmac using sha 384</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:CalcHmacSha384(KeyParameter,System.Byte[],System.Byte[])"]/*' />
 		internal static byte[] CalcHmacSha384(KeyParameter cipherKey, byte[]? iv, byte[] input)
 		{
 			HMac hmac = new (new Sha384Digest());
@@ -152,11 +103,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return output;
 		}
-		/// <summary>
-		/// Calculate a keccak 256-bit hash.
-		/// </summary>
-		/// <param name="message">the message to be hashed</param>
-		/// <returns>                         the hash</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:CalcKeccak256(System.Byte[])"]/*' />
 		internal static byte[] CalcKeccak256(byte[] input)
 		{
 			// Note: KeccakDigest(256) is NOT the same as Sha3Digest(256)
@@ -167,11 +114,7 @@ namespace Hedera.Hashgraph.SDK
 			digest.DoFinal(output, 0);
 			return output;
 		}
-		/// <summary>
-		/// Generate some randomness.
-		/// </summary>
-		/// <param name="len">the number of bytes requested</param>
-		/// <returns>                         the byte array of randomness</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RandomBytes(System.Int32)"]/*' />
 		internal static byte[] RandomBytes(int len)
 		{
 			byte[] output = new byte[len];
@@ -179,18 +122,7 @@ namespace Hedera.Hashgraph.SDK
 			random.NextBytes(output);
 			return output;
 		}
-		/// <summary>
-		/// Given the r and s components of a signature and the hash value of the message, recover and return the public key
-		/// according to the algorithm in <a href="https://www.secg.org/sec1-v2.pdf">SEC1v2 section 4.1.6.</a>
-		/// <p>
-		/// Calculations and explanations in this method were taken and adapted from
-		/// <a href="https://github.com/apache/incubator-tuweni/blob/0852e0b01ad126b47edae51b26e808cb73e294b1/crypto/src/main/java/org/apache/tuweni/crypto/SECP256K1.java#L199-L215">incubator-tuweni lib</a>
-		/// </summary>
-		/// <param name="recId">Which possible key to recover.</param>
-		/// <param name="r">The R component of the signature.</param>
-		/// <param name="s">The S component of the signature.</param>
-		/// <param name="messageHash">Hash of the data that was signed.</param>
-		/// <returns>A ECKey containing only the public part, or {@code null} if recovery wasn't possible.</returns>
+		/// <include file="Crypto.cs.xml" path='docs/member[@name="M:RecoverPublicKeyECDSAFromSignature(System.Int32,BigInteger,BigInteger,System.Byte[])"]/*' />
 		internal static byte[]? RecoverPublicKeyECDSAFromSignature(int recId, BigInteger r, BigInteger s, byte[] messageHash)
 		{
 			if (recId != 0 && recId != 1) throw new ArgumentException("Recovery Id must be 0 or 1 for secp256k1.");

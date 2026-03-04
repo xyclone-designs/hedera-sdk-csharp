@@ -10,19 +10,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// Get information about a smart contract instance.
-    /// <p>
-    /// This includes the account that it uses, the file containing its bytecode,
-    /// and the time when it will expire.
-    /// </summary>
+    /// <include file="ContractInfoQuery.cs.xml" path='docs/member[@name="T:ContractInfoQuery"]/*' />
     public sealed class ContractInfoQuery : Query<ContractInfo, ContractInfoQuery>
     {
-		/// <summary>
-		/// Sets the contract ID for which information is requested.
-		/// </summary>
-		/// <param name="contractId">The ContractId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="ContractInfoQuery.cs.xml" path='docs/member[@name="P:ContractInfoQuery.ContractId"]/*' />
 		public ContractId? ContractId { get; set; }
 
 		public override async Task<Hbar> GetCostAsync(Client client)

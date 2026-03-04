@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FileUpdateTransaction">
+    <summary>
+    Update the metadata, and/or replace the content, of a file in the
+    Hedera File Service (HFS).
+    
+    Any field which is not set (i.e. is null) in this message, other than
+    `fileID`, SHALL be ignored.<br />
+    If the `keys` list for the identified file is an empty `KeyList`, then
+    this message MUST NOT set any field except `expirationTime`.
+    
+    #### Signature Requirements
+    Every `Key` in the `keys` list for the identified file MUST sign this
+    transaction, if any field other than `expirationTime` is to be updated.<br />
+    If the `keys` list for the identified file is an empty `KeyList` (because
+    this file was previously created or updated to have an empty `KeyList`),
+    then the file is considered immutable and this message MUST NOT set any
+    field except `expirationTime`.<br />
+    See the [File Service](#FileService) specification for a detailed
+    explanation of the signature requirements for all file transactions.
+    
+    ### Block Stream Effects
+    None
+    
+    See <a href="https://docs.hedera.com/guides/docs/sdks/file-storage/update-a-file">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:FileUpdateTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:FileUpdateTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:FileUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:FileUpdateTransaction.RequireNotFrozen">
+    <summary>
+    Set the ID of the file to update; required.
+    </summary>
+  </member>
+  <member name="M:FileUpdateTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    A short description of this file.
+    &lt;p&gt;
+    This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
+    (default 100) bytes when encoded as UTF-8.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:FileUpdateTransaction.RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    The new list of keys that "own" this file.
+    &lt;p&gt;
+    If set, every key in this `KeyList` MUST sign this transaction.&lt;br/&gt;
+    If set, every key in the _previous_ `KeyList` MUST _also_
+    sign this transaction.&lt;br/&gt;
+    If this value is an empty `KeyList`, then the file SHALL be immutable
+    after completion of this transaction.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:FileUpdateTransaction.RequireNotFrozen_4">
+    <summary>
+    Extract the files contents as a byte string.
+    </summary>
+  </member>
+  <member name="M:FileUpdateTransaction.RequireNotFrozen_5">
+    <summary>&lt;summary&gt;
+    If set, replace contents of the file identified by {@link #setFileId(FileId)}
+    with the given bytes.
+    &lt;p&gt;
+    If the contents of the file are longer than the given byte array, then the file will
+    be truncated.
+    &lt;p&gt;
+    Note that total size for a given transaction is limited to 6KiB (as of March 2020) by the
+    network; if you exceed this you may receive a {@link Status#TRANSACTION_OVERSIZE}.
+    &lt;p&gt;
+    In this case, you will need to keep the initial file contents under ~6KiB and
+    then use {@link FileAppendTransaction}, which automatically breaks the contents
+    into chunks for you, to append contents of arbitrary size.
+    &lt;/summary&gt;
+    &lt;param name="bytes"&gt;the bytes to replace the contents of the file with.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;remarks&gt;
+    @see#setContents(String) for an overload which takes a String.
+    @seeFileAppendTransaction if you merely want to add data to a file's existing contents.
+    &lt;/remarks&gt;</summary>
+  </member>
+  <member name="M:FileUpdateTransaction.RequireNotFrozen_6">
+    <summary>&lt;summary&gt;
+    If set, encode the given {@link String} as UTF-8 and replace the contents of the file
+    identified by {@link #setFileId(FileId)}.
+    &lt;p&gt;
+    If the contents of the file are longer than the UTF-8 encoding of the given string, then the
+    file will be truncated.
+    &lt;p&gt;
+    The string can later be recovered from {@link FileContentsQuery#execute(Client)}
+    via {@link String#String(byte[], java.nio.charset.Charset)} using
+    {@link java.nio.charset.StandardCharsets#UTF_8}.
+    &lt;p&gt;
+    Note that total size for a given transaction is limited to 6KiB (as of March 2020) by the
+    network; if you exceed this you may receive a  {@link Status#TRANSACTION_OVERSIZE}.
+    &lt;p&gt;
+    In this case, you will need to keep the initial file contents under ~6KiB and
+    then use {@link FileAppendTransaction}, which automatically breaks the contents
+    into chunks for you, to append contents of arbitrary size.
+    &lt;/summary&gt;
+    &lt;param name="text"&gt;the string to replace the contents of the file with.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;remarks&gt;
+    @see#setContents(byte[]) for replacing the contents with arbitrary data.
+    @seeFileAppendTransaction if you merely want to add data to a file's existing contents.
+    &lt;/remarks&gt;</summary>
+  </member>
+  <member name="M:FileUpdateTransaction.RequireNotFrozen_7">
+    <summary>&lt;summary&gt;
+    An expiration timestamp.
+    &lt;p&gt;
+    If set, this value MUST be strictly later than the existing
+    `expirationTime` value, or else it will be ignored.&lt;br/&gt;
+    If set, this value SHALL replace the existing `expirationTime`.&lt;br/&gt;
+    If this field is the only field set, then this transaction SHALL NOT
+    require any signature other than the `payer` for the transaction.&lt;br/&gt;
+    When the network consensus time exceeds the then-current
+    `expirationTime`, the network SHALL expire the file.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:FileUpdateTransaction.ToProtobuf">
+    <summary>
+    Build the correct transaction body.
+    </summary>
+    <returns>{@link Proto.FileUpdateTransactionBody builder }</returns>
+  </member>
+  <member name="M:FileUpdateTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+</docs>

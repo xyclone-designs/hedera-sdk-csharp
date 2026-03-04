@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:MaxQueryPaymentExceededException">
+    <summary>
+    Signals that a query will cost more than a pre-configured maximum payment amount.
+    </summary>
+  </member>
+  <member name="F:MaxQueryPaymentExceededException.QueryCost">
+    <summary>
+    The cost of the query that was attempted as returned by {@link Query#getCost(Client)}.
+    </summary>
+  </member>
+  <member name="M:MaxQueryPaymentExceededException.#ctor(System.Type,Hbar,Hbar)">
+    <summary>
+    The limit for a single automatic query payment, set by
+    {@link Client#setDefaultMaxQueryPayment(Hbar)} (Hbar)} or {@link Query#setMaxQueryPayment(Hbar)}.
+    </summary>
+  </member>
+  <member name="M:MaxQueryPaymentExceededException.#ctor(System.Type,Hbar,Hbar)_2">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="builder">the query builder object</param>
+    <param name="cost">the query cost</param>
+    <param name="maxQueryPayment">the maximum query payment</param>
+  </member>
+</docs>

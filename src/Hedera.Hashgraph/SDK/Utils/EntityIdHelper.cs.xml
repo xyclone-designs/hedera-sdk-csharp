@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:EntityIdHelper">
+    <summary>
+    Utility class used internally by the sdk.
+    </summary>
+  </member>
+  <member name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN">
+    <summary>
+    The length of a Solidity address in bytes.
+    </summary>
+  </member>
+  <member name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN_HEX">
+    <summary>
+    The length of a hexadecimal-encoded Solidity address, in ASCII characters (bytes).
+    </summary>
+  </member>
+  <member name="M:EntityIdHelper.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:EntityIdHelper.FromString``1(System.String,WithIdNums{``0})">
+    <summary>&lt;summary&gt;
+    Generate an R object from a string.
+    &lt;/summary&gt;
+    &lt;param name="idString"&gt;the id string&lt;/param&gt;
+    &lt;param name="constructObjectWithIdNums"&gt;the R object generator&lt;/param&gt;
+    &lt;param name="&lt;R&gt;"&gt;&lt;/param&gt;
+    &lt;returns&gt;the R type object&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:EntityIdHelper.FromSolidityAddress``1(System.String,WithIdNums{``0})">
+    <summary>&lt;summary&gt;
+    Generate an R object from a solidity address.
+    &lt;/summary&gt;
+    &lt;param name="address"&gt;the string representation&lt;/param&gt;
+    &lt;param name="withAddress"&gt;the R object generator&lt;/param&gt;
+    &lt;param name="&lt;R&gt;"&gt;&lt;/param&gt;
+    &lt;returns&gt;the R type object&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:EntityIdHelper.Checksum(LedgerId,System.String)">
+    <summary>
+    Generate a checksum.
+    </summary>
+    <param name="ledgerId">the ledger id</param>
+    <param name="addr">the address</param>
+    <returns>the checksum</returns>
+  </member>
+  <member name="M:EntityIdHelper.DecodeEvmAddress(System.String)">
+    <summary>
+    Decode the solidity address from a string.
+    </summary>
+    <param name="address">the string representation</param>
+    <returns>the decoded address</returns>
+  </member>
+  <member name="M:EntityIdHelper.IsLongZeroAddress(System.Byte[])">
+    <summary>
+    Takes an address as `byte[]` and returns whether this is a long-zero address
+    </summary>
+    <param name="address"></param>
+    <returns></returns>
+  </member>
+  <member name="M:EntityIdHelper.ToString(System.Int64,System.Int64,System.Int64)">
+    <summary>
+    Generate a string representation.
+    </summary>
+    <param name="shard">the shard part</param>
+    <param name="realm">the realm part</param>
+    <param name="num">the num part</param>
+    <returns>the string representation</returns>
+  </member>
+  <member name="M:EntityIdHelper.ToSolidityAddress(System.Int64,System.Int64,System.Int64)">
+    <summary>
+    Generate a solidity address.
+    </summary>
+    <param name="shard">the shard part</param>
+    <param name="realm">the realm part</param>
+    <param name="num">the num part</param>
+    <returns>the solidity address</returns>
+  </member>
+  <member name="M:EntityIdHelper.ToStringWithChecksum(System.Int64,System.Int64,System.Int64,Client,System.String)">
+    <summary>
+    Generate a string representation with a checksum.
+    </summary>
+    <param name="shard">the shard part</param>
+    <param name="realm">the realm part</param>
+    <param name="num">the num part</param>
+    <param name="client">the configured client</param>
+    <param name="checksum">the checksum</param>
+    <returns>the string representation with checksum</returns>
+  </member>
+  <member name="M:EntityIdHelper.Validate(System.Int64,System.Int64,System.Int64,Client,System.String)">
+    <summary>
+    Validate the configured client.
+    </summary>
+    <param name="shard">the shard part</param>
+    <param name="realm">the realm part</param>
+    <param name="num">the num part</param>
+    <param name="client">the configured client</param>
+    <param name="checksum">the checksum</param>
+    <exception cref="BadEntityIdException"></exception>
+  </member>
+  <member name="M:EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(Client,System.Int64)">
+    <summary>
+    Get EvmAddress from mirror node using account num.
+    </summary>
+    <param name="client"></param>
+    <param name="num"></param>
+  </member>
+  <member name="M:EntityIdHelper.GetAccountNumFromMirrorNodeAsync(Client,System.String)">
+    <summary>
+    Get AccountId num from mirror node using evm address.
+    </summary>
+    <param name="client"></param>
+    <param name="evmAddress"></param>
+  </member>
+  <member name="M:EntityIdHelper.GetContractNumFromMirrorNodeAsync(Client,System.String)">
+    <summary>
+    Get ContractId num from mirror node using evm address.
+    </summary>
+    <param name="client"></param>
+    <param name="evmAddress"></param>
+  </member>
+</docs>

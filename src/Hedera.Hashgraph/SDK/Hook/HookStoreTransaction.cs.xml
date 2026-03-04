@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:HookStoreTransaction">
+    <summary>
+    Adds or removes key/value pairs in the storage of an EVM hook.
+    </summary>
+  </member>
+  <member name="M:HookStoreTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:HookStoreTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:HookStoreTransaction.ToProtobuf">
+    <summary>
+    Create the builder.
+    </summary>
+    <returns>the transaction builder</returns>
+  </member>
+</docs>

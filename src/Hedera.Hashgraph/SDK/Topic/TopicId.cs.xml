@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TopicId">
+    <summary>
+    Unique identifier for a topic (used by the consensus service).
+    </summary>
+  </member>
+  <member name="F:TopicId.Shard">
+    <summary>
+    The shard number
+    </summary>
+  </member>
+  <member name="M:TopicId.#ctor(System.Int64)">
+    <summary>
+    The realm number
+    </summary>
+  </member>
+  <member name="M:TopicId.#ctor(System.Int64)_2">
+    <summary>
+    The id number
+    </summary>
+  </member>
+  <member name="M:TopicId.#ctor(System.Int64)_3">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="num">the num part
+    
+    Constructor that uses shard, realm and num should be used instead
+    as shard and realm should not assume 0 value</param>
+  </member>
+  <member name="M:TopicId.#ctor(System.Int64,System.Int64,System.Int64)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="shard">the shard part</param>
+    <param name="realm">the realm part</param>
+    <param name="num">the num part</param>
+  </member>
+  <member name="M:TopicId.TopicId(System.Int64,System.Int64,System.Int64,System.String)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="shard">the shard part</param>
+    <param name="realm">the realm part</param>
+    <param name="num">the num part</param>
+    <param name="checksum">the checksum</param>
+  </member>
+  <member name="M:TopicId.FromString(System.String)">
+    <summary>
+    Create a topic id from a string.
+    </summary>
+    <param name="id">the string representation</param>
+    <returns>the new topic id</returns>
+  </member>
+  <member name="M:TopicId.FromSolidityAddress(System.String)">
+    <summary>
+    Retrieve the topic id from a solidity address.
+    </summary>
+    <param name="address">a string representing the address</param>
+    <returns>the topic id object</returns>
+    <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(long, long, String)} instead.</remarks>
+  </member>
+  <member name="M:TopicId.FromProtobuf(Proto.TopicID)">
+    <summary>
+    Create a topic id from a protobuf.
+    </summary>
+    <param name="topicId">the protobuf</param>
+    <returns>the new topic id</returns>
+  </member>
+  <member name="M:TopicId.FromBytes(System.Byte[])">
+    <summary>
+    Create a topic id from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new topic id</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TopicId.ToSolidityAddress">
+    <summary>
+    Extract the solidity address.
+    </summary>
+    <returns>the solidity address as a string</returns>
+    <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
+  </member>
+  <member name="M:TopicId.FromEvmAddress(System.Int64,System.Int64,System.String)">
+    <summary>
+    Constructs a TopicId from shard, realm, and EVM address.
+    The EVM address must be a "long zero address" (first 12 bytes are zero).
+    </summary>
+    <param name="shard">the shard number</param>
+    <param name="realm">the realm number</param>
+    <param name="evmAddress">the EVM address as a hex string</param>
+    <returns>          the TopicId object</returns>
+    <exception cref="IllegalArgumentException">if the EVM address is not a valid long zero address</exception>
+  </member>
+  <member name="M:TopicId.ToEvmAddress">
+    <summary>
+    Converts this TopicId to an EVM address string.
+    Creates a solidity address using shard=0, realm=0, and the file number.
+    </summary>
+    <returns>the EVM address as a hex string</returns>
+  </member>
+  <member name="M:TopicId.ToProtobuf">
+    <summary>
+    Extracts a protobuf representing the token id.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+  <member name="M:TopicId.Validate(Client)">
+    <summary></summary>
+    <param name="client">to validate against</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
+  </member>
+  <member name="M:TopicId.ValidateChecksum(Client)">
+    <summary>
+    Verify that the client has a valid checksum.
+    </summary>
+    <param name="client">the client to verify</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+  </member>
+  <member name="M:TopicId.ToBytes">
+    <summary>
+    Extracts a byte array representation.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TopicId.Tostringwithchecksum(Client)">
+    <summary>
+    Create a string representation that includes the checksum.
+    </summary>
+    <param name="client">the client</param>
+    <returns>the string representation with the checksum</returns>
+  </member>
+</docs>

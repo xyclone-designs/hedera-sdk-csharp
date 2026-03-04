@@ -5,35 +5,18 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// The log information for an event returned by a smart contract function call.
-    /// One function call may return several such events.
-    /// </summary>
+    /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="T:ContractLogInfo"]/*' />
     public sealed class ContractLogInfo
     {
-        /// <summary>
-        /// Address of a contract that emitted the event.
-        /// </summary>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="F:ContractLogInfo.ContractId"]/*' />
         public readonly ContractId ContractId;
-        /// <summary>
-        /// Bloom filter for a particular log.
-        /// </summary>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="F:ContractLogInfo.Bloom"]/*' />
         public readonly ByteString Bloom;
-        /// <summary>
-        /// Topics of a particular event.
-        /// </summary>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)"]/*' />
         public readonly List<ByteString> Topics;
-        /// <summary>
-        /// The event data.
-        /// </summary>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)_2"]/*' />
         public readonly ByteString Data;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="contractId">the contract id</param>
-        /// <param name="bloom">the bloom filter</param>
-        /// <param name="topics">list of topics</param>
-        /// <param name="data">the event data</param>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.#ctor(ContractId,ByteString,System.Collections.Generic.IEnumerable{ByteString},ByteString)_3"]/*' />
         private ContractLogInfo(ContractId contractId, ByteString bloom, IEnumerable<ByteString> topics, ByteString data)
         {
             ContractId = contractId;
@@ -42,31 +25,19 @@ namespace Hedera.Hashgraph.SDK.Contract
             Data = data;
         }
 
-        /// <summary>
-        /// Convert to a protobuf.
-        /// </summary>
-        /// <param name="logInfo">the log info object</param>
-        /// <returns>                         the protobuf</returns>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromProtobuf(Proto.ContractLoginfo)"]/*' />
         public static ContractLogInfo FromProtobuf(Proto.ContractLoginfo logInfo)
         {
             return new ContractLogInfo(ContractId.FromProtobuf(logInfo.ContractID), logInfo.Bloom, logInfo.Topic, logInfo.Data);
         }
 
-        /// <summary>
-        /// Create the contract log info from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the contract log info object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromBytes(System.Byte[])"]/*' />
         public static ContractLogInfo FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.ContractLoginfo.Parser.ParseFrom(bytes));
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToProtobuf"]/*' />
         public Proto.ContractLoginfo ToProtobuf()
         {
             Proto.ContractLoginfo proto = new()
@@ -81,10 +52,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             return proto;
         }
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToBytes"]/*' />
         public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenMintTransaction">
+    <summary>
+    Mint tokens and deliver the new tokens to the token treasury account.
+    
+    The token MUST have a `supply_key` set and that key MUST NOT
+    be an empty `KeyList`.<br />
+    The token `supply_key` MUST sign this transaction.<br />
+    This operation SHALL increase the total supply for the token type by
+    the number of tokens "minted".<br />
+    The total supply for the token type MUST NOT be increased above the
+    maximum supply limit (2^63-1) by this transaction.<br />
+    The tokens minted SHALL be credited to the token treasury account.<br />
+    If the token is a fungible/common type, the amount MUST be specified.<br />
+    If the token is a non-fungible/unique type, the metadata bytes for each
+    unique token MUST be specified in the `metadata` list.<br />
+    Each unique metadata MUST not exceed the global metadata size limit defined
+    by the network configuration value `tokens.maxMetadataBytes`.<br />
+    The global batch size limit (`tokens.nfts.maxBatchSizeMint`) SHALL set
+    the maximum number of individual NFT metadata permitted in a single
+    `tokenMint` transaction.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:TokenMintTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TokenMintTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenMintTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenMintTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A token identifier.
+    &lt;p&gt;
+    This SHALL identify the token type to "mint".&lt;br/&gt;
+    The identified token MUST exist, and MUST NOT be deleted.
+    &lt;/summary&gt;
+    &lt;param name="TokenId"&gt;the token id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenMintTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    An amount to mint to the Treasury Account.
+    &lt;p&gt;
+    This is interpreted as an amount in the smallest possible denomination
+    for the token (10&lt;sup&gt;-decimals&lt;/sup&gt; whole tokens).&lt;br/&gt;
+    The balance for the token treasury account SHALL receive the newly
+    minted tokens.&lt;br/&gt;
+    If this value is equal to zero (`0`), the token SHOULD be a
+    non-fungible/unique type.&lt;br/&gt;
+    If this value is non-zero, the token MUST be a fungible/common type.
+    &lt;/summary&gt;
+    &lt;param name="amount"&gt;the amount to mint&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenMintTransaction.RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    A list of metadata bytes.&lt;br/&gt;
+    &lt;p&gt;
+    One non-fungible/unique token SHALL be minted for each entry
+    in this list.&lt;br/&gt;
+    Each entry in this list MUST NOT be larger than the limit set by the
+    current network configuration value `tokens.maxMetadataBytes`.&lt;br/&gt;
+    This list MUST NOT contain more entries than the current limit set by
+    the network configuration value `tokens.nfts.maxBatchSizeMint`.&lt;br/&gt;
+    If this list is not empty, the token MUST be a
+    non-fungible/unique type.&lt;br/&gt;
+    If this list is empty, the token MUST be a fungible/common type.
+    &lt;/summary&gt;
+    &lt;param name="metadataList"&gt;the metadata list&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenMintTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TokenMintTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.TokenMintTransactionBody}</returns>
+  </member>
+</docs>

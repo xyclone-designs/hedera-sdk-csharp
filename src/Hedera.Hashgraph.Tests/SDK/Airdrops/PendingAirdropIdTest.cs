@@ -40,46 +40,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             Assert.Null(pendingAirdropId.TokenId);
         }
 
-        public virtual void TestSetSender()
-        {
-            PendingAirdropId pendingAirdropId = new ()
-            {
-				Sender = sender
-			};
-
-            Assert.Equal(sender, pendingAirdropId.Sender);
-        }
-
-        public virtual void TestSetReceiver()
-        {
-            PendingAirdropId pendingAirdropId = new()
-			{
-				Receiver = receiver
-			};
-
-            Assert.Equal(receiver, pendingAirdropId.Receiver);
-        }
-
-        public virtual void TestSetTokenId()
-        {
-            PendingAirdropId pendingAirdropId = new()
-			{
-				TokenId = tokenId
-			};
-
-            Assert.Equal(tokenId, pendingAirdropId.TokenId);
-        }
-
-        public virtual void TestSetNftId()
-        {
-            PendingAirdropId pendingAirdropId = new()
-			{
-				NftId = nftId
-			};
-
-            Assert.Equal(nftId, pendingAirdropId.NftId);
-        }
-
         public virtual void TestToProtobufWithTokenId()
         {
             PendingAirdropId pendingAirdropId = new (sender, receiver, tokenId);

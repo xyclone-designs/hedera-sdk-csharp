@@ -3,11 +3,7 @@ using Nethereum.RLP;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <summary>
-    /// This class represents the data of an Ethereum transaction.
-    /// <p>
-    /// It may be of subclass {@link EthereumTransactionDataLegacy} or of subclass {@link EthereumTransactionDataEip1559}
-    /// </summary>
+    /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="T:EthereumTransactionData"]/*' />
     public abstract class EthereumTransactionData
     {
         public EthereumTransactionData(byte[] callData)
@@ -25,20 +21,12 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 				return EthereumTransactionDataEip1559.FromBytes(bytes);
 		}
 
-		/// <summary>
-		/// The raw call data.
-		/// </summary>
+		/// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="P:EthereumTransactionData.CallData"]/*' />
 		public byte[] CallData { get; }
 
-        /// <summary>
-        /// Serialize the ethereum transaction data into bytes using RLP
-        /// </summary>
-        /// <returns>the serialized transaction as a byte array</returns>
+        /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="M:EthereumTransactionData.ToBytes"]/*' />
         public abstract byte[] ToBytes();
-        /// <summary>
-        /// Serialize the ethereum transaction data into a string
-        /// </summary>
-        /// <returns>the serialized transaction as a string</returns>
+        /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="M:EthereumTransactionData.ToString"]/*' />
         public new abstract string ToString();
     }
 }

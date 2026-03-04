@@ -8,33 +8,18 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// Base class for custom fees.
-    /// </summary>
+    /// <include file="CustomFee.cs.xml" path='docs/member[@name="T:CustomFee"]/*' />
     public abstract class CustomFee
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.#ctor"]/*' />
         public CustomFee() { }
 
-		/// <summary>
-		/// The account to receive the custom fee
-		/// </summary>
+		/// <include file="CustomFee.cs.xml" path='docs/member[@name="P:CustomFee.FeeCollectorAccountId"]/*' />
 		public virtual AccountId? FeeCollectorAccountId { get; internal set; }
-		/// <summary>
-		/// If true, exempts all the token's fee collection accounts from this fee.
-		/// (The token's treasury and the above fee_collector_account_id will always
-		/// be exempt. Please see <a href="https://hips.hedera.com/hip/hip-573">HIP-573</a>
-		/// for details.)
-		/// </summary>
+		/// <include file="CustomFee.cs.xml" path='docs/member[@name="P:CustomFee.AllCollectorsAreExempt"]/*' />
 		public virtual bool AllCollectorsAreExempt { get; internal set; }
 
-		/// <summary>
-		/// Convert the protobuf object to a custom fee object.
-		/// </summary>
-		/// <param name="customFee">protobuf response object</param>
-		/// <returns>                         the converted custom fee object</returns>
+		/// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FromProtobufInner(Proto.CustomFee)"]/*' />
 		public static CustomFee FromProtobufInner(Proto.CustomFee customFee)
         {
             return customFee.FeeCase switch
@@ -57,22 +42,13 @@ namespace Hedera.Hashgraph.SDK.Fees
 
             return outFee;
         }
-        /// <summary>
-        /// Convert byte array to a custom fee object.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the converted custom fee object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FromBytes(System.Byte[])"]/*' />
         public static CustomFee FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.CustomFee.Parser.ParseFrom(bytes));
         }
 
-        /// <summary>
-        /// Create a new copy of a custom fee list.
-        /// </summary>
-        /// <param name="customFees">existing custom fee list</param>
-        /// <returns>                         new custom fee list</returns>
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.DeepCloneList(System.Collections.Generic.IList{CustomFee})"]/*' />
         public static IList<CustomFee> DeepCloneList(IList<CustomFee> customFees)
         {
             var returnCustomFees = new List<CustomFee>(customFees.Count);
@@ -84,26 +60,15 @@ namespace Hedera.Hashgraph.SDK.Fees
             return returnCustomFees;
         }
 
-		/// <summary>
-		/// Create a deep clone.
-		/// </summary>
-		/// <returns>                         the correct cloned fee type</returns>
+		/// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.DeepClone"]/*' />
 		public abstract CustomFee DeepClone();
-        /// <summary>
-        /// Verify the validity of the client object.
-        /// </summary>
-        /// <param name="client">the configured client</param>
-        /// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.ValidateChecksums(Client)"]/*' />
         public virtual void ValidateChecksums(Client client)
         {
             FeeCollectorAccountId?.ValidateChecksum(client);
         }
 
-        /// <summary>
-        /// Finalize the builder into the protobuf.
-        /// </summary>
-        /// <param name="customFeeBuilder">the builder object</param>
-        /// <returns>                             the protobuf</returns>
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FinishToProtobuf(Proto.CustomFee)"]/*' />
         protected virtual Proto.CustomFee FinishToProtobuf(Proto.CustomFee customFeeBuilder)
         {
             if (FeeCollectorAccountId != null)
@@ -113,15 +78,9 @@ namespace Hedera.Hashgraph.SDK.Fees
             return customFeeBuilder;
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                             the protobuf for the custom fee object</returns>
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.ToProtobuf"]/*' />
         public abstract Proto.CustomFee ToProtobuf();
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                             the byte array representing the protobuf</returns>
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

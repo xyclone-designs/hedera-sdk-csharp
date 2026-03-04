@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FeeAssessmentMethod">
+    <summary>&lt;summary&gt;
+    Enum for the fee assessment method.
+    &lt;p&gt;
+    The terminology here (exclusive vs inclusive) is borrowed from tax assessment.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:FeeAssessmentMethod.ToBool(FeeAssessmentMethod)">
+    <summary>&lt;summary&gt;
+    If Alice is paying Bob, and an &lt;b&gt;inclusive&lt;/b&gt; fractional fee is collected to be sent to Charlie,
+    the amount Alice declares she will pay in the transfer transaction &lt;b&gt;includes&lt;/b&gt; the fee amount.
+    &lt;p&gt;
+    In other words, Bob receives the amount that Alice intended to send, minus the fee.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:FeeAssessmentMethod.ToBool(FeeAssessmentMethod)_2">
+    <summary>&lt;summary&gt;
+    If Alice is paying Bob, and an &lt;b&gt;exclusive&lt;/b&gt; fractional fee is collected to be sent to Charlie,
+    the amount Alice declares she will pay in the transfer transaction &lt;b&gt;does not&lt;/b&gt; include the fee amount.
+    &lt;p&gt;
+    In other words, Alice is charged the fee &lt;b&gt;in addition to&lt;/b&gt; the amount she intended to send to Bob.
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

@@ -31,17 +31,13 @@ namespace Hedera.Hashgraph.SDK.Fees
                 ParseTotalFromJson(root));
         }
 
-		/// <summary>
-		/// The mode that was used to calculate the fees.
-		/// </summary>
+		/// <include file="FeeEstimateResponse.cs.xml" path='docs/member[@name="P:.Mode"]/*' />
 		public FeeEstimateMode Mode { get; }
 		public NetworkFee? NetworkFee { get; }
 		public FeeEstimate? NodeFee { get; }
 		public FeeEstimate? ServiceFee { get; }
 		public IReadOnlyList<string> Notes { get; }
-		/// <summary>
-		/// The sum of the network, node, and service subtotals in tinycents.
-		/// </summary>
+		/// <include file="FeeEstimateResponse.cs.xml" path='docs/member[@name="P:.Total"]/*' />
 		public long Total { get; }
 
         private static NetworkFee? ParseNetworkFeeFromJson(JsonNode root)

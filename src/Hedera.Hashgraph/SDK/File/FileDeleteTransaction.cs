@@ -10,57 +10,30 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <summary>
-    /// <p>A transaction to delete a file on the Hedera network.
-    /// 
-    /// <p>When deleted, a file's contents are truncated to zero length and it can no longer be updated
-    /// or appended to, or its expiration time extended. {@link FileContentsQuery} and {@link FileInfoQuery}
-    /// will throw {@link PrecheckStatusException} with a status of {@link Status#FILE_DELETED}.
-    /// 
-    /// <p>Only one of the file's keys needs to sign to delete the file, unless the key you have is part
-    /// of a {@link KeyList}.
-    /// </summary>
+    /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="T:FileDeleteTransaction"]/*' />
     public sealed class FileDeleteTransaction : Transaction<FileDeleteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor"]/*' />
         public FileDeleteTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal FileDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal FileDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A file identifier.<br/>
-        /// This identifies the file to delete.
-        /// <p>
-        /// The identified file MUST NOT be a "system" file.<br/>
-        /// This field is REQUIRED.
-        /// </summary>
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.RequireNotFrozen"]/*' />
         public FileId? FileId 
         {
             get;
             set { RequireNotFrozen(); field = value; } 
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.FileDelete;
@@ -71,10 +44,7 @@ namespace Hedera.Hashgraph.SDK.File
             }
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.FileDeleteTransactionBody builder}</returns>
+        /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.ToProtobuf"]/*' />
         public Proto.FileDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.FileDeleteTransactionBody();

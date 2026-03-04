@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:BatchTransaction">
+    <summary>&lt;summary&gt;
+    Execute multiple transactions in a single consensus event. This allows for atomic execution of multiple
+    transactions, where they either all succeed or all fail together.
+    &lt;p&gt;
+    Requirements:
+    &lt;ul&gt;
+        &lt;li&gt;All inner transactions must be frozen before being added to the batch&lt;/li&gt;
+        &lt;li&gt;All inner transactions must have a batch key set&lt;/li&gt;
+        &lt;li&gt;All inner transactions must be signed as required for each individual transaction&lt;/li&gt;
+        &lt;li&gt;The BatchTransaction must be signed by all batch keys of the inner transactions&lt;/li&gt;
+        &lt;li&gt;Certain transaction types (FreezeTransaction, BatchTransaction) are not allowed in a batch&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;
+    Important notes:
+    &lt;ul&gt;
+        &lt;li&gt;Fees are assessed for each inner transaction separately&lt;/li&gt;
+        &lt;li&gt;The maximum number of inner transactions in a batch is limited to 25&lt;/li&gt;
+        &lt;li&gt;Inner transactions cannot be scheduled transactions&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;
+    Example usage:
+    &lt;pre&gt;
+    var batchKey = PrivateKey.generateED25519();
+    
+    // Create and prepare inner transaction
+    var transaction = new TransferTransaction()
+        .addHbarTransfer(sender, amount.negated())
+        .addHbarTransfer(receiver, amount)
+        .batchify(client, batchKey);
+    
+    // Create and execute batch transaction
+    var response = new BatchTransaction()
+        .InnerTransactions.Add(transaction)
+        .freezeWith(client)
+        .sign(batchKey)
+        .execute(client);
+    &lt;/pre&gt;
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:BatchTransaction.typeof(FreezeTransaction)">
+    <summary>
+    List of transaction types that are not allowed in a batch transaction.
+    These transactions are prohibited due to their special nature or network-level implications.
+    </summary>
+  </member>
+  <member name="M:BatchTransaction.#ctor">
+    <summary>
+    Creates a new empty BatchTransaction.
+    </summary>
+  </member>
+  <member name="M:BatchTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor for internal use when recreating a transaction from a TransactionBody.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:BatchTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor for internal use when recreating a transaction from a TransactionBody.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:BatchTransaction.InitFromTransactionBody">
+    <summary>&lt;summary&gt;
+    GET: Get the list of transactions this BatchTransaction is currently configured to execute.
+    &lt;p&gt;
+    Note: This returns the actual list of transactions. Modifications to this list will affect
+    the batch transaction if it is not frozen.
+    &lt;/summary&gt;
+    &lt;returns&gt;The list of inner transactions&lt;/returns&gt;
+    
+    SET: Set the list of transactions to be executed as part of this BatchTransaction.
+    &lt;p&gt;
+    Requirements for each inner transaction:
+    &lt;ul&gt;
+        &lt;li&gt;Must be frozen (use {@link Transaction#freeze()} or {@link Transaction#freezeWith(Client)})&lt;/li&gt;
+        &lt;li&gt;Must have a batch key set (use {@link Transaction#setBatchKey(Key)}} or {@link Transaction#batchify(Client, Key)})&lt;/li&gt;
+        &lt;li&gt;Must not be a blacklisted transaction type&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p&gt;
+    Note: This method creates a defensive copy of the provided list.
+    &lt;/summary&gt;
+    &lt;param name="transactions"&gt;The list of transactions to be executed&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;exception cref="NullPointerException"&gt;if transactions is null&lt;/exception&gt;
+    &lt;exception cref="IllegalStateException"&gt;if this transaction is frozen&lt;/exception&gt;
+    &lt;exception cref="IllegalStateException"&gt;if any inner transaction is not frozen or missing a batch key&lt;/exception&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if any transaction is of a blacklisted type&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:BatchTransaction.InitFromTransactionBody_2">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:BatchTransaction.ValidateInnerTransaction(ITransaction)">
+    <summary>&lt;summary&gt;
+    Validates if a transaction is allowed in a batch transaction.
+    &lt;p&gt;
+    A transaction is valid if:
+    &lt;ul&gt;
+        &lt;li&gt;It is not a blacklisted type (FreezeTransaction or BatchTransaction)&lt;/li&gt;
+        &lt;li&gt;It is frozen&lt;/li&gt;
+        &lt;li&gt;It has a batch key set&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;/summary&gt;
+    &lt;param name="transaction"&gt;The transaction to validate&lt;/param&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if the transaction is blacklisted&lt;/exception&gt;
+    &lt;exception cref="IllegalStateException"&gt;if the transaction is not frozen or missing a batch key&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:BatchTransaction.ToProtobuf">
+    <summary>
+    Create the builder.
+    </summary>
+    <returns>the transaction builder</returns>
+  </member>
+</docs>

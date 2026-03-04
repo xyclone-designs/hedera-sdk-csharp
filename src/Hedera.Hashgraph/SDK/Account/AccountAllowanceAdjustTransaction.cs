@@ -12,9 +12,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>@deprecatedwith no replacement</remarks>
+    /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public class AccountAllowanceAdjustTransaction : Transaction<AccountAllowanceAdjustTransaction>
     {
@@ -24,9 +22,7 @@ namespace Hedera.Hashgraph.SDK.Account
         private readonly List<TokenAllowance> TokenAllowances = [];
         private readonly List<TokenNftAllowance> NftAllowances = [];
         
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceAdjustTransaction"]/*' />
         public AccountAllowanceAdjustTransaction() { }
 		internal AccountAllowanceAdjustTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
@@ -60,26 +56,15 @@ namespace Hedera.Hashgraph.SDK.Account
 			return this;
 		}
 
-		/// <summary>
-		/// </summary>
-		/// <param name="spenderAccountId">the spender account id</param>
-		/// <param name="amount">the amount of hbar</param>
-		/// <returns>                         an account allowance adjust transaction</returns>
-		/// <remarks>
-		/// @deprecated- Use {@link #grantHbarAllowance(AccountId, AccountId, Hbar)} or
-		/// {@link #revokeHbarAllowance(AccountId, AccountId, Hbar)} instead
-		/// </remarks>
+
+
+		/// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:AddHbarAllowance(AccountId,Hbar)"]/*' />
+		[Obsolete]
 		public virtual AccountAllowanceAdjustTransaction AddHbarAllowance(AccountId spenderAccountId, Hbar amount)
         {
             return AdjustHbarAllowance(null, spenderAccountId, amount);
         }
-        /// <summary>
-        ///  Grants Hbar allowance.
-        /// </summary>
-        /// <param name="ownerAccountId">the owner's account id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <param name="amount">the amount of Hbar</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:GrantHbarAllowance(AccountId,AccountId,Hbar)"]/*' />
         public virtual AccountAllowanceAdjustTransaction GrantHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
             if (amount.CompareTo(Hbar.ZERO) < 0)
@@ -89,13 +74,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
             return AdjustHbarAllowance(ownerAccountId, spenderAccountId, amount);
         }
-        /// <summary>
-        /// Revokes Hbar allowance
-        /// </summary>
-        /// <param name="ownerAccountId">the owner's account id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <param name="amount">the amount of Hbar</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:RevokeHbarAllowance(AccountId,AccountId,Hbar)"]/*' />
         public virtual AccountAllowanceAdjustTransaction RevokeHbarAllowance(AccountId ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
             if (amount.CompareTo(Hbar.ZERO) < 0)
@@ -105,65 +84,33 @@ namespace Hedera.Hashgraph.SDK.Account
 
             return AdjustHbarAllowance(ownerAccountId, spenderAccountId, amount.Negated());
         }
-        /// <summary>
-        /// </summary>
-        /// <param name="tokenId">the token's id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <param name="amount">the amount of hbar</param>
-        /// <returns>                         an account allowance adjust transaction</returns>
-        /// <remarks>
-        /// @deprecated- Use {@link #grantTokenAllowance(TokenId, AccountId, AccountId, long)} or
-        /// {@link #revokeTokenAllowance(TokenId, AccountId, AccountId, long)} instead
-        /// </remarks>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:AddTokenAllowance(TokenId,AccountId,System.Int64)"]/*' />
         public virtual AccountAllowanceAdjustTransaction AddTokenAllowance(TokenId tokenId, AccountId spenderAccountId, long amount)
         {
             return AdjustTokenAllowance(tokenId, null, spenderAccountId, amount);
         }
-        /// <summary>
-        /// Grants token allowance.
-        /// </summary>
-        /// <param name="tokenId">the token's id</param>
-        /// <param name="ownerAccountId">the owner's id</param>
-        /// <param name="spenderAccountId">the spender's id</param>
-        /// <param name="amount">the amount of tokens</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:GrantTokenAllowance(TokenId,AccountId,AccountId,System.Int64)"]/*' />
         public virtual AccountAllowanceAdjustTransaction GrantTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
         {
             return AdjustTokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount);
         }
-        /// <summary>
-        /// Revokes token allowance.
-        /// </summary>
-        /// <param name="tokenId">the token's id</param>
-        /// <param name="ownerAccountId">the owner's id</param>
-        /// <param name="spenderAccountId">the spender's id</param>
-        /// <param name="amount">the amount of tokens</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:RevokeTokenAllowance(TokenId,AccountId,AccountId,System.Int64)"]/*' />
         public virtual AccountAllowanceAdjustTransaction RevokeTokenAllowance(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId, long amount)
         {
             return AdjustTokenAllowance(tokenId, ownerAccountId, spenderAccountId, -amount);
         }
 
-		/// <summary>
-		/// Get the Hbar allowances
-		/// </summary>
-		/// <returns>the Hbar allowances</returns>
+		/// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:GetHbarAllowances"]/*' />
 		public virtual List<HbarAllowance> GetHbarAllowances()
 		{
 			return [.. HbarAllowances];
 		}
-		/// <summary>
-		/// Get the token allowances
-		/// </summary>
-		/// <returns>the token allowances</returns>
+		/// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:GetTokenAllowances"]/*' />
 		public virtual List<TokenAllowance> GetTokenAllowances()
         {
             return [.. TokenAllowances];
         }
-		/// <summary>
-		/// Get the NFT allowances
-		/// </summary>
-		/// <returns>a copy of {@link #NftAllowances}</returns>
+		/// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:GetTokenNftAllowances"]/*' />
 		public virtual List<TokenNftAllowance> GetTokenNftAllowances()
 		{
             return [.. NftAllowances.Select(_ => TokenNftAllowance.CopyFrom(_))];
@@ -212,72 +159,32 @@ namespace Hedera.Hashgraph.SDK.Account
             return this;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="nftId">the NFT's id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <returns>                     an account allowance adjust transaction</returns>
-        /// <remarks>
-        /// @deprecated- Use {@link #grantTokenNftAllowance(NftId, AccountId, AccountId)} or
-        /// {@link #revokeTokenNftAllowance(NftId, AccountId, AccountId)} instead
-        /// </remarks>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:AddTokenNftAllowance(NftId,AccountId)"]/*' />
         public virtual AccountAllowanceAdjustTransaction AddTokenNftAllowance(NftId nftId, AccountId spenderAccountId)
         {
             return AdjustNftAllowance(nftId.TokenId, nftId.Serial, null, spenderAccountId);
         }
-        /// <summary>
-        /// </summary>
-        /// <param name="tokenId">the token's id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <returns>                     an account allowance adjust transaction</returns>
-        /// <remarks>
-        /// @deprecated- Use {@link #grantTokenNftAllowanceAllSerials(TokenId, AccountId, AccountId)} or
-        /// {@link #revokeTokenNftAllowanceAllSerials(TokenId, AccountId, AccountId)} instead
-        /// </remarks>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:AddAllTokenNftAllowance(TokenId,AccountId)"]/*' />
         public virtual AccountAllowanceAdjustTransaction AddAllTokenNftAllowance(TokenId tokenId, AccountId spenderAccountId)
         {
             return AdjustNftAllowanceAllSerials(tokenId, true, null, spenderAccountId);
         }
-        /// <summary>
-        /// Grants NFT allowance.
-        /// </summary>
-        /// <param name="nftId">the NFT's id</param>
-        /// <param name="ownerAccountId">the owner's id</param>
-        /// <param name="spenderAccountId">the spender's id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:GrantTokenNftAllowance(NftId,AccountId,AccountId)"]/*' />
         public virtual AccountAllowanceAdjustTransaction GrantTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             return AdjustNftAllowance(nftId.TokenId, nftId.Serial, ownerAccountId, spenderAccountId);
         }
-        /// <summary>
-        /// Grants allowance for all NFT serials of a token
-        /// </summary>
-        /// <param name="tokenId">the token's id</param>
-        /// <param name="ownerAccountId">the owner's account id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <returns>                     an account allowance adjust transaction</returns>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:GrantTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)"]/*' />
         public virtual AccountAllowanceAdjustTransaction GrantTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             return AdjustNftAllowanceAllSerials(tokenId, true, ownerAccountId, spenderAccountId);
         }
-        /// <summary>
-        /// </summary>
-        /// <param name="nftId">the NFT's id</param>
-        /// <param name="ownerAccountId">the owner's account id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <returns>                     an account allowance adjust transaction</returns>
-        /// <remarks>@deprecatedwith no replacement</remarks>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:RevokeTokenNftAllowance(NftId,AccountId,AccountId)"]/*' />
         public virtual AccountAllowanceAdjustTransaction RevokeTokenNftAllowance(NftId nftId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             return AdjustNftAllowance(nftId.TokenId, -nftId.Serial, ownerAccountId, spenderAccountId);
         }
-        /// <summary>
-        /// Revokes allowance for all NFT serials of a token
-        /// </summary>
-        /// <param name="tokenId">the token's id</param>
-        /// <param name="ownerAccountId">the owner's account id</param>
-        /// <param name="spenderAccountId">the spender's account id</param>
-        /// <returns>                     an account allowance adjust transaction</returns>
+        /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:RevokeTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)"]/*' />
         public virtual AccountAllowanceAdjustTransaction RevokeTokenNftAllowanceAllSerials(TokenId tokenId, AccountId ownerAccountId, AccountId spenderAccountId)
         {
             return AdjustNftAllowanceAllSerials(tokenId, false, ownerAccountId, spenderAccountId);

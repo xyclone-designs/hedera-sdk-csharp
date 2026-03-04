@@ -9,26 +9,13 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// @deprecatedThis query is no longer supported.
-    /// Requests a livehash associated to an account.
-    /// </remarks>
+    /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public sealed class LiveHashQuery : Query<LiveHash, LiveHashQuery>
     {
-        /// <summary>
-        /// The account to which the livehash is associated
-        /// </summary>
-        /// <param name="AccountId">The AccountId to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="P:.AccountId"]/*' />
         public AccountId? AccountId { get; set; }
-        /// <summary>
-        /// The SHA-384 data in the livehash
-        /// </summary>
-        /// <param name="hash">The array of bytes to be set as hash</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="LiveHashQuery.cs.xml" path='docs/member[@name="M:CopyArray"]/*' />
         public byte[] Hash 
         { 
             get => field.CopyArray(); 

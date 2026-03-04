@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:AccountBalanceQuery">
+    <summary>&lt;summary&gt;
+    Get the balance of a Hedera™ crypto-currency account. This returns only the balance, so it is a
+    smaller and faster reply than {@link AccountInfoQuery}.
+    
+    &lt;p&gt;This query is free.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="P:AccountBalanceQuery.AccountId">
+    <summary>&lt;summary&gt;
+    The account ID for which the balance is being requested.
+    &lt;p&gt;
+    This is mutually exclusive with {@link #setContractId(ContractId)}.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="P:AccountBalanceQuery.ContractId">
+    <summary>&lt;summary&gt;
+    The contract ID for which the balance is being requested.
+    &lt;p&gt;
+    This is mutually exclusive with {@link #setAccountId(AccountId)}.
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

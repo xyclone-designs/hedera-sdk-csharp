@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client);
 
                 var contractFunctionResult = response.GetRecord(testEnv.Client).ContractFunctionResult;
-                ContractId contractA = contractFunctionResult.contractId;
+                ContractId contractA = contractFunctionResult.ContractId;
                 ContractId contractB = contractFunctionResult.ContractNonces.Where((contractNonce) => !contractNonce.ContractId.Equals(contractA)).First().ContractId;
                 ContractNonceInfo contractANonceInfo = contractFunctionResult.ContractNonces.Where((contractNonce) => contractNonce.ContractId.Equals(contractA)).First();
                 ContractNonceInfo contractBNonceInfo = contractFunctionResult.ContractNonces.Where((contractNonce) => contractNonce.ContractId.Equals(contractB)).First();

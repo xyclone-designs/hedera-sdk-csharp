@@ -12,51 +12,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Token cancel airdrop<br/>
-    /// Remove one or more pending airdrops from state on behalf of the
-    /// sender(s) for each airdrop.
-    /// 
-    /// Each pending airdrop canceled SHALL be removed from state and
-    /// SHALL NOT be available to claim.<br/>
-    /// Each cancellation SHALL be represented in the transaction body and
-    /// SHALL NOT be restated in the record file.<br/>
-    /// All cancellations MUST succeed for this transaction to succeed.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="T:TokenCancelAirdropTransaction"]/*' />
     public class TokenCancelAirdropTransaction : PendingAirdropLogic<TokenCancelAirdropTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.#ctor"]/*' />
         public TokenCancelAirdropTransaction()
         {
             DefaultMaxTransactionFee = Hbar.From(1);
         }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenCancelAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenCancelAirdropTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.TokenCancelAirdropTransactionBody}</returns>
+        /// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.ToProtobuf"]/*' />
         public virtual Proto.TokenCancelAirdropTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenCancelAirdropTransactionBody();
@@ -69,9 +44,7 @@ namespace Hedera.Hashgraph.SDK.Token
             return builder;
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.InitFromTransactionBody"]/*' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenCancelAirdrop;

@@ -4,10 +4,7 @@ using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// Base class for all transactions that may be built and submitted to Hedera.
-    /// </summary>
-    /// <param name="<T>">The type of the transaction. Used to enable chaining.</param>
+    /// <include file="Transaction.SignableNodeTransactionBodyBytes.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
     public abstract partial class Transaction<T>
     {
 		public class SignableNodeTransactionBodyBytes(AccountId nodeID, TransactionId transactionID, byte[] body)

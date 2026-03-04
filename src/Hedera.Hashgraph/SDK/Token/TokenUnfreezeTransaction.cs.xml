@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenUnfreezeTransaction">
+    <summary>
+    Resume transfers of a token type for an account.<br />
+    This releases previously frozen assets of one account with respect to
+    one token type. Once unfrozen, that account can once again send or
+    receive tokens of the identified type.
+    
+    The token MUST have a `freeze_key` set and that key MUST NOT
+    be an empty `KeyList`.<br />
+    The token `freeze_key` MUST sign this transaction.<br />
+    The identified token MUST exist, MUST NOT be deleted, MUST NOT be paused,
+    and MUST NOT be expired.<br />
+    The identified account MUST exist, MUST NOT be deleted, and
+    MUST NOT be expired.<br />
+    If the identified account is not frozen with respect to the identified
+    token, the transaction SHALL succeed, but no change SHALL be made.<br />
+    An association between the identified account and the identified
+    token MUST exist.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:TokenUnfreezeTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TokenUnfreezeTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenUnfreezeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenUnfreezeTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A token identifier.
+    &lt;p&gt;
+    This SHALL identify the token type to "unfreeze".&lt;br/&gt;
+    The identified token MUST exist, MUST NOT be deleted, and MUST be
+    associated to the identified account.
+    &lt;/summary&gt;
+    &lt;param name="tokenId"&gt;the token id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenUnfreezeTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    An account identifier.
+    &lt;p&gt;
+    This shall identify the account to "unfreeze".&lt;br/&gt;
+    The identified account MUST exist, MUST NOT be deleted, MUST NOT be
+    expired, and MUST be associated to the identified token.&lt;br/&gt;
+    The identified account SHOULD be "frozen" with respect to the
+    identified token.
+    &lt;/summary&gt;
+    &lt;param name="accountId"&gt;the account id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenUnfreezeTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TokenUnfreezeTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@code @link
+            Proto.TokenUnfreezeAccountTransactionBody}</returns>
+  </member>
+</docs>

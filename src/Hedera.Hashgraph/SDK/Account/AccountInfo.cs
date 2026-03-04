@@ -14,139 +14,58 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// Current information about an account, including the balance.
-    /// </summary>
+    /// <include file="AccountInfo.cs.xml" path='docs/member[@name="T:AccountInfo"]/*' />
     public sealed class AccountInfo
     {
-        /// <summary>
-        /// The account ID for which this information applies.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AccountId"]/*' />
         public readonly AccountId AccountId;
-        /// <summary>
-        /// The Contract Account ID comprising both the contract instance and the cryptocurrency account owned by the
-        /// contract instance, in the format used by Solidity.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ContractAccountId"]/*' />
         public readonly string ContractAccountId;
-        /// <summary>
-        /// If true, then this account has been deleted, it will disappear when it expires, and all transactions for it will
-        /// fail except the transaction to extend its expiration date.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.IsDeleted"]/*' />
         public readonly bool IsDeleted;
-        /// <summary>
-        /// The Account ID of the account to which this is proxy staked. If proxyAccountID is null, or is an invalid account,
-        /// or is an account that isn't a node, then this account is automatically proxy staked to a node chosen by the
-        /// network, but without earning payments. If the proxyAccountID account refuses to accept proxy staking , or if it
-        /// is not currently running a node, then it will behave as if proxyAccountID was null.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ProxyAccountId"]/*' />
         public readonly AccountId? ProxyAccountId;
-        /// <summary>
-        /// The total proxy staked to this account.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ProxyReceived"]/*' />
         public readonly Hbar ProxyReceived;
-        /// <summary>
-        /// The key for the account, which must sign in order to transfer out, or to modify the account in any way other than
-        /// extending its expiration date.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.Key"]/*' />
         public readonly Key Key;
-        /// <summary>
-        /// The current balance of account.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.Balance"]/*' />
         public readonly Hbar Balance;
-        /// <summary>
-        /// The threshold amount for which an account record is created (and this account charged for them) for any
-        /// send/withdraw transaction.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.SendRecordThreshold"]/*' />
         public readonly Hbar SendRecordThreshold;
-        /// <summary>
-        /// The threshold amount for which an account record is created (and this account charged for them) for any
-        /// transaction above this amount.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ReceiveRecordThreshold"]/*' />
         public readonly Hbar ReceiveRecordThreshold;
-        /// <summary>
-        /// If true, no transaction can transfer to this account unless signed by this account's key.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.IsReceiverSigRequired"]/*' />
         public readonly bool IsReceiverSigRequired;
-        /// <summary>
-        /// The time at which this account is set to expire.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.ExpirationTime"]/*' />
         public readonly DateTimeOffset ExpirationTime;
-        /// <summary>
-        /// The duration for expiration time will extend every this many seconds. If there are insufficient funds, then it
-        /// extends as long as possible. If it is empty when it expires, then it is deleted.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AutoRenewPeriod"]/*' />
         public readonly TimeSpan AutoRenewPeriod;
-        /// <summary>
-        /// All the livehashes attached to the account (each of which is a hash along with the keys that authorized it and
-        /// can delete it)
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.LiveHashes"]/*' />
         public readonly List<LiveHash> LiveHashes;
         public readonly Dictionary<TokenId, TokenRelationship> TokenRelationships;
-        /// <summary>
-        /// The memo associated with the account
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AccountMemo"]/*' />
         public readonly string AccountMemo;
-        /// <summary>
-        /// The number of NFTs owned by this account
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.OwnedNfts"]/*' />
         public readonly long OwnedNfts;
-        /// <summary>
-        /// The maximum number of tokens that an Account can be implicitly associated with.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.MaxAutomaticTokenAssociations"]/*' />
         public readonly int MaxAutomaticTokenAssociations;
-        /// <summary>
-        /// The public key which aliases to this account.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.AliasKey"]/*' />
         public readonly PublicKey? AliasKey;
-        /// <summary>
-        /// The ledger ID the response was returned from; please see <a
-        /// href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the
-        /// network-specific IDs.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.LedgerId"]/*' />
         public readonly LedgerId LedgerId;
-        /// <summary>
-        /// The ethereum transaction nonce associated with this account.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.EthereumNonce"]/*' />
         public readonly long EthereumNonce;
-        /// <summary>
-        /// List of Hbar allowances
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.HbarAllowances"]/*' />
         public readonly List<HbarAllowance> HbarAllowances;
-        /// <summary>
-        /// List of token allowances
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.TokenAllowances"]/*' />
         public readonly List<TokenAllowance> TokenAllowances;
-        /// <summary>
-        /// List of NFT allowances
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.TokenNftAllowances"]/*' />
         public readonly List<TokenNftAllowance> TokenNftAllowances;
-        /// <summary>
-        /// Staking metadata for this account.
-        /// </summary>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="F:AccountInfo.StakingInfo"]/*' />
         public readonly StakingInfo? StakingInfo;
         
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="accountId">the account id</param>
-        /// <param name="contractAccountId">the contracts account id</param>
-        /// <param name="isDeleted">is it deleted</param>
-        /// <param name="proxyAccountId">the proxy account's id</param>
-        /// <param name="proxyReceived">amount of proxy received</param>
-        /// <param name="key">signing key</param>
-        /// <param name="balance">account balance</param>
-        /// <param name="sendRecordThreshold">@depreciated no replacement</param>
-        /// <param name="receiveRecordThreshold">@depreciated no replacement</param>
-        /// <param name="receiverSignatureRequired">is the receiver's signature required</param>
-        /// <param name="expirationTime">the expiration time</param>
-        /// <param name="autoRenewPeriod">the auto renew period</param>
-        /// <param name="liveHashes">the live hashes</param>
-        /// <param name="tokenRelationships">list of token id and token relationship records</param>
-        /// <param name="accountMemo">the account memo</param>
-        /// <param name="ownedNfts">number of nft's</param>
-        /// <param name="maxAutomaticTokenAssociations">max number of token associations</param>
-        /// <param name="aliasKey">public alias key</param>
-        /// <param name="ledgerId">the ledger id</param>
+        /// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.#ctor(AccountId,System.String,System.Boolean,AccountId,System.Int64,Key,System.Int64,System.Int64,System.Int64,System.Boolean,DateTimeOffset,System.TimeSpan,System.Collections.Generic.IEnumerable{LiveHash},System.Collections.Generic.Dictionary{TokenId,TokenRelationship},System.String,System.Int64,System.Int32,PublicKey,LedgerId,System.Int64,StakingInfo)"]/*' />
         private AccountInfo(AccountId accountId, string contractAccountId, bool isDeleted, AccountId? proxyAccountId, long proxyReceived, Key key, long balance, long sendRecordThreshold, long receiveRecordThreshold, bool receiverSignatureRequired, DateTimeOffset expirationTime, TimeSpan autoRenewPeriod, IEnumerable<LiveHash> liveHashes, Dictionary<TokenId, TokenRelationship> tokenRelationships, string accountMemo, long ownedNfts, int maxAutomaticTokenAssociations, PublicKey? aliasKey, LedgerId ledgerId, long ethereumNonce, StakingInfo? stakingInfo)
         {
             AccountId = accountId;
@@ -175,21 +94,12 @@ namespace Hedera.Hashgraph.SDK.Account
             StakingInfo = stakingInfo;
         }
 	
-        /// <summary>
-		/// Retrieve the account info from a protobuf byte array.
-		/// </summary>
-		/// <param name="bytes">a byte array representing the protobuf</param>
-		/// <returns>the account info object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromBytes(System.Byte[])"]/*' />
 		public static AccountInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Retrieve the account info from a protobuf.
-		/// </summary>
-		/// <param name="accountInfo">the account info protobuf</param>
-		/// <returns>the account info object</returns>
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo)"]/*' />
 		public static AccountInfo FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo accountInfo)
         {
             return new AccountInfo(
@@ -216,18 +126,12 @@ namespace Hedera.Hashgraph.SDK.Account
                 StakingInfo.FromProtobuf(accountInfo.StakingInfo));
         }
 
-		/// <summary>
-		/// Extract a byte array representation.
-		/// </summary>
-		/// <returns>a byte array representation</returns>
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.ToBytes"]/*' />
 		public byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Convert an account info object into a protobuf.
-		/// </summary>
-		/// <returns>the protobuf object</returns>
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.ToProtobuf"]/*' />
 		public Proto.CryptoGetInfoResponse.Types.AccountInfo ToProtobuf()
         {
 			Proto.CryptoGetInfoResponse.Types.AccountInfo proto = new ()

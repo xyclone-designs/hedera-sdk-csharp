@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenTransfer">
+    <summary>&lt;summary&gt;
+    A token transfer record.
+    &lt;p&gt;
+    Internal utility class.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.Boolean)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+    <param name="amount">the amount</param>
+    <param name="isApproved">is it approved</param>
+  </member>
+  <member name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.UInt32,System.Boolean)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+    <param name="amount">the amount</param>
+    <param name="expectedDecimals">the expected decimals</param>
+    <param name="isApproved">is it approved</param>
+  </member>
+  <member name="M:TokenTransfer.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>an account amount protobuf</returns>
+  </member>
+</docs>

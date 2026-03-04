@@ -10,54 +10,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Deleting a token marks a token as deleted, though it will remain in the
-    /// ledger. The operation must be signed by the specified Admin Key of the
-    /// Token. If the Admin Key is not set, Transaction will result in
-    /// TOKEN_IS_IMMUTABlE. Once deleted update, mint, burn, wipe, freeze,
-    /// unfreeze, grant kyc, revoke kyc and token transfer transactions will
-    /// resolve to TOKEN_WAS_DELETED.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/delete-a-token">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="T:TokenDeleteTransaction"]/*' />
     public class TokenDeleteTransaction : Transaction<TokenDeleteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor"]/*' />
         public TokenDeleteTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A token identifier.
-        /// <p>
-        /// This SHALL identify the token type to delete.<br/>
-        /// The identified token MUST exist, and MUST NOT be deleted.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.RequireNotFrozen"]/*' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenDeletion;
@@ -66,11 +38,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				TokenId = TokenId.FromProtobuf(body.Token);
 		}
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.TokenDeleteTransactionBody}</returns>
+        /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.ToProtobuf"]/*' />
         public virtual Proto.TokenDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenDeleteTransactionBody();

@@ -24,6 +24,10 @@
     <Protobuf Include="Protos/**/*.proto" ProtoRoot="Protos" GrpcServices="Both" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  
   <ItemGroup>
     <Compile Remove="Protos\mirror\**" />
     <EmbeddedResource Remove="Protos\mirror\**" />

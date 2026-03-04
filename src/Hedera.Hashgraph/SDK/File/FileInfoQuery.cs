@@ -10,23 +10,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <summary>
-    /// Get all of the information about a file, except for its contents.
-    /// <p>
-    /// When a file expires, it no longer exists, and there will be no info about it, and the fileInfo field
-    /// will be blank.
-    /// <p>
-    /// If a transaction or smart contract deletes the file, but it has not yet expired, then the
-    /// fileInfo field will be non-empty, the deleted field will be true, its size will be 0,
-    /// and its contents will be empty. Note that each file has a FileID, but does not have a filename.
-    /// </summary>
+    /// <include file="FileInfoQuery.cs.xml" path='docs/member[@name="T:FileInfoQuery"]/*' />
     public sealed class FileInfoQuery : Query<FileInfo, FileInfoQuery>
     {
-        /// <summary>
-        /// Sets the file ID for which information is requested.
-        /// </summary>
-        /// <param name="FileId">The FileId to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="FileInfoQuery.cs.xml" path='docs/member[@name="P:FileInfoQuery.FileId"]/*' />
         public FileId? FileId { get; set; }
 
 		public override void ValidateChecksums(Client client)

@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             {
                 Payment = new Proto.Transaction
                 {
-                    SignedTransactionBytes = ByteString.FromHex("deadbeef")
+                    SignedTransactionBytes = ByteString.CopyFromUtf8("deadbeef")
                 }
             });
 

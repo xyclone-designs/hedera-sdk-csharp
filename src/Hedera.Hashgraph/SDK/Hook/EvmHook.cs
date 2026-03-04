@@ -7,35 +7,18 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// Definition of a lambda EVM hook.
-    /// <p>
-    /// This class represents a hook implementation that is programmed in EVM bytecode
-    /// and can access state or interact with external contracts. It includes the
-    /// hook specification and any initial storage updates.
-    /// </summary>
+    /// <include file="EvmHook.cs.xml" path='docs/member[@name="T:EvmHook"]/*' />
     public class EvmHook : EvmHookSpec
     {
-        /// <summary>
-        /// Create a new EvmHook with no initial storage updates.
-        /// </summary>
-        /// <param name="contractId">underlying contract of the hook</param>
+        /// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.#ctor(ContractId)"]/*' />
         public EvmHook(ContractId contractId) : this(contractId, []) { }
-        /// <summary>
-        /// Create a new EvmHook with initial storage updates.
-        /// </summary>
-        /// <param name="contractId">underlying contract of the hook</param>
-        /// <param name="storageUpdates">the initial storage updates for the lambda</param>
+        /// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.#ctor(ContractId,System.Collections.Generic.IEnumerable{EvmHookStorageUpdate})"]/*' />
         public EvmHook(ContractId contractId, IEnumerable<EvmHookStorageUpdate> storageUpdates) : base(contractId)
         {
             StorageUpdates = [.. storageUpdates];
         }
 
-		/// <summary>
-		/// Create a EvmHook from a protobuf message.
-		/// </summary>
-		/// <param name="proto">the protobuf EvmHook</param>
-		/// <returns>a new EvmHook instance</returns>
+		/// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.FromProtobuf(Proto.EvmHook)"]/*' />
 		public static EvmHook FromProtobuf(Proto.EvmHook proto)
 		{
 			var storageUpdates = new List<EvmHookStorageUpdate>();
@@ -47,10 +30,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 			return new EvmHook(ContractId.FromProtobuf(proto.Spec.ContractId), storageUpdates);
 		}
 
-		/// <summary>
-		/// Convert this EvmHook to a protobuf message.
-		/// </summary>
-		/// <returns>the protobuf EvmHook</returns>
+		/// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.ToProtobuf"]/*' />
 		public virtual Proto.EvmHook ToProtobuf()
 		{
 			Proto.EvmHook proto = new()
@@ -67,10 +47,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 			return proto;
 		}
 
-		/// <summary>
-		/// Get the initial storage updates for this lambda.
-		/// </summary>
-		/// <returns>an immutable list of storage updates</returns>
+		/// <include file="EvmHook.cs.xml" path='docs/member[@name="P:EvmHook.StorageUpdates"]/*' />
 		public virtual IReadOnlyList<EvmHookStorageUpdate> StorageUpdates { get; }
 
 		public override bool Equals(object? o)

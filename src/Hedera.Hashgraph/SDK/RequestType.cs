@@ -3,439 +3,207 @@ using System;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Enum for the request types.
-    /// </summary>
+    /// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType"]/*' />
     public enum RequestType
     {
-		/// <summary>
-		/// FUTURE - Uncomment when https://github.com/hashgraph/pbj/issues/339 is fixed;
-		/// currently the PBJ-generated unit tests fail when using reserved ordinals
-		/// reserved 96, 97, 98, 99;
-		/// Unused - The first value is unused because this default value is
-		/// ambiguous with an "unset" value and therefore should not be used.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_2"]/*' />
 		None = Proto.HederaFunctionality.None,
-		/// <summary>
-		/// Transfer tokens among accounts.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_3"]/*' />
 		CryptoTransfer = Proto.HederaFunctionality.CryptoTransfer,
-		/// <summary>
-		/// Update an account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_4"]/*' />
 		CryptoUpdate = Proto.HederaFunctionality.CryptoUpdate,
-		/// <summary>
-		/// Delete an account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_5"]/*' />
 		CryptoDelete = Proto.HederaFunctionality.CryptoDelete,
-        /// <summary>
-        /// Add a livehash to an account
-        /// </summary>
+        /// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_6"]/*' />
         [Obsolete]
         CryptoAddLiveHash = Proto.HederaFunctionality.CryptoAddLiveHash,
-		/// <summary>
-		/// Delete a livehash from an account
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_7"]/*' />
 		[Obsolete]
 		CryptoDeleteLiveHash = Proto.HederaFunctionality.CryptoDeleteLiveHash,
-		/// <summary>
-		/// Execute a smart contract call.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_8"]/*' />
 		ContractCall = Proto.HederaFunctionality.ContractCall,
-		/// <summary>
-		/// Create a smart contract.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_9"]/*' />
 		ContractCreate = Proto.HederaFunctionality.ContractCreate,
-		/// <summary>
-		/// Update a smart contract.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_10"]/*' />
 		ContractUpdate = Proto.HederaFunctionality.ContractUpdate,
-		/// <summary>
-		/// Create a "file" stored in the ledger.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_11"]/*' />
 		FileCreate = Proto.HederaFunctionality.FileCreate,
-		/// <summary>
-		/// Append data to a "file" stored in the ledger.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_12"]/*' />
 		FileAppend = Proto.HederaFunctionality.FileAppend,
-		/// <summary>
-		/// Update a "file" stored in the ledger.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_13"]/*' />
 		FileUpdate = Proto.HederaFunctionality.FileUpdate,
-		/// <summary>
-		/// Delete a "file" stored in the ledger.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_14"]/*' />
 		FileDelete = Proto.HederaFunctionality.FileDelete,
-		/// <summary>
-		/// Get the balance for an account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_15"]/*' />
 		CryptoGetAccountBalance = Proto.HederaFunctionality.CryptoGetAccountBalance,
-		/// <summary>
-		/// Get a full account record.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_16"]/*' />
 		CryptoGetAccountRecords = Proto.HederaFunctionality.CryptoGetAccountRecords,
-		/// <summary>
-		/// Get information about a token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_17"]/*' />
 		CryptoGetInfo = Proto.HederaFunctionality.CryptoGetInfo,
-		/// <summary>
-		/// Execute a local smart contract call.<br/>
-		/// Used by contracts to call other contracts.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_18"]/*' />
 		// /**
 		ContractCallLocal = Proto.HederaFunctionality.ContractCallLocal,
-		/// <summary>
-		/// Get information about a smart contract.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_19"]/*' />
 		ContractGetInfo = Proto.HederaFunctionality.ContractGetInfo,
-		/// <summary>
-		/// Get the compiled bytecode that implements a smart contract.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_20"]/*' />
 		ContractGetBytecode = Proto.HederaFunctionality.ContractGetBytecode,
-		/// <summary>
-		/// Get a smart contract record by reference to the solidity ID.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_21"]/*' />
 		GetBySolidityId = Proto.HederaFunctionality.GetBySolidityId,
-		/// <summary>
-		/// Get a smart contract by reference to the contract key.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_22"]/*' />
 		GetByKey = Proto.HederaFunctionality.GetByKey,
-		/// <summary>
-		/// Get the live hash for an account
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_23"]/*' />
 		[Obsolete]
 		CryptoGetLiveHash = Proto.HederaFunctionality.CryptoGetLiveHash,
-		/// <summary>
-		/// Get the accounts proxy staking to a given account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_24"]/*' />
 		[Obsolete]
 		CryptoGetStakers = Proto.HederaFunctionality.CryptoGetStakers,
-		/// <summary>
-		/// Get the contents of a "file" stored in the ledger.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_25"]/*' />
 		FileGetContents = Proto.HederaFunctionality.FileGetContents,
-		/// <summary>
-		/// Get the metadata for a "file" stored in the ledger.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_26"]/*' />
 		FileGetInfo = Proto.HederaFunctionality.FileGetInfo,
-		/// <summary>
-		/// Get transaction record(s) for a specified transaction ID.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_27"]/*' />
 		TransactionGetRecord = Proto.HederaFunctionality.TransactionGetRecord,
-		/// <summary>
-		/// Get all transaction records for a specified contract ID in
-		/// the past 24 hours.<br/>
-		/// deprecated since version 0.9.0
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_28"]/*' />
 		[Obsolete]
 		ContractGetRecords = Proto.HederaFunctionality.ContractGetRecords,
-		/// <summary>
-		/// Create a new account
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_29"]/*' />
 		CryptoCreate = Proto.HederaFunctionality.CryptoCreate,
-		/// <summary>
-		/// Delete a "system" "file" stored in the ledger.<br/>
-		/// "System" files are files with special purpose and ID values within a
-		/// specific range.<br/>
-		/// These files require additional controls and can only be deleted when
-		/// authorized by accounts with elevated privilege.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_30"]/*' />
 		SystemDelete = Proto.HederaFunctionality.SystemDelete,
-		/// <summary>
-		/// Undo the delete of a "system" "file" stored in the ledger.<br/>
-		/// "System" files are files with special purpose and ID values within a
-		/// specific range.<br/>
-		/// These files require additional controls and can only be deleted when
-		/// authorized by accounts with elevated privilege. This operation allows
-		/// such files to be restored, within a reasonable timeframe, if
-		/// deleted improperly.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_31"]/*' />
 		SystemUndelete = Proto.HederaFunctionality.SystemUndelete,
-		/// <summary>
-		/// Delete a smart contract
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_32"]/*' />
 		ContractDelete = Proto.HederaFunctionality.ContractDelete,
-		/// <summary>
-		/// Stop all processing and "freeze" the entire network.<br/>
-		/// This is generally sent immediately prior to upgrading the network.<br/>
-		/// After processing this transactions all nodes enter a quiescent state.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_33"]/*' />
 		Freeze = Proto.HederaFunctionality.Freeze,
-		/// <summary>
-		/// Create a Transaction Record.<br/>
-		/// This appears to be purely internal and unused.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.services(node)"]/*' />
 		CreateTransactionRecord = Proto.HederaFunctionality.CreateTransactionRecord,
-		/// <summary>
-		/// Auto-renew an account.<br/>
-		/// This is used for internal fee calculations.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.services(node)_2"]/*' />
 		CryptoAccountAutoRenew = Proto.HederaFunctionality.CryptoAccountAutoRenew,
-		/// <summary>
-		/// Auto-renew a smart contract.<br/>
-		/// This is used for internal fee calculations.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.services(node)_3"]/*' />
 		ContractAutoRenew = Proto.HederaFunctionality.ContractAutoRenew,
-		/// <summary>
-		/// Get version information for the ledger.<br/>
-		/// This returns a the version of the software currently running the network
-		/// for both the protocol buffers and the network services (node).
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HCS)"]/*' />
 		GetVersionInfo = Proto.HederaFunctionality.GetVersionInfo,
-		/// <summary>
-		/// Get a receipt for a specified transaction ID.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HCS)_2"]/*' />
 		TransactionGetReceipt = Proto.HederaFunctionality.TransactionGetReceipt,
-		/// <summary>
-		/// Create a topic for the Hedera Consensus Service (HCS).
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)"]/*' />
 		ConsensusCreateTopic = Proto.HederaFunctionality.ConsensusCreateTopic,
-		/// <summary>
-		/// Update an HCS topic.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_2"]/*' />
 		ConsensusUpdateTopic = Proto.HederaFunctionality.ConsensusUpdateTopic,
-		/// <summary>
-		/// Delete an HCS topic.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_3"]/*' />
 		ConsensusDeleteTopic = Proto.HederaFunctionality.ConsensusDeleteTopic,
-		/// <summary>
-		/// Get metadata (information) for an HCS topic.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HTS)"]/*' />
 		ConsensusGetTopicInfo = Proto.HederaFunctionality.ConsensusGetTopicInfo,
-		/// <summary>
-		/// Publish a message to an HCS topic.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HTS)_2"]/*' />
 		ConsensusSubmitMessage = Proto.HederaFunctionality.ConsensusSubmitMessage,
-		/// <summary>
-		/// Submit a transaction, bypassing intake checking.
-		/// Only enabled in local-mode.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HTS)_3"]/*' />
 		// /**
 		UncheckedSubmit = Proto.HederaFunctionality.UncheckedSubmit,
-		/// <summary>
-		/// Create a token for the Hedera Token Service (HTS).
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_4"]/*' />
 		TokenCreate = Proto.HederaFunctionality.TokenCreate,
-		/// <summary>
-		/// Get metadata (information) for an HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_34"]/*' />
 		TokenGetInfo = Proto.HederaFunctionality.TokenGetInfo,
-		/// <summary>
-		/// Freeze a specific account with respect to a specific HTS token.
-		/// <p>
-		/// Once this transaction completes that account CANNOT send or receive
-		/// the specified token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_35"]/*' />
 		TokenFreezeAccount = Proto.HederaFunctionality.TokenFreezeAccount,
-		/// <summary>
-		/// Remove a "freeze" from an account with respect to a specific HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_36"]/*' />
 		TokenUnfreezeAccount = Proto.HederaFunctionality.TokenUnfreezeAccount,
-		/// <summary>
-		/// Grant KYC status to an account for a specific HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_37"]/*' />
 		TokenGrantKycToAccount = Proto.HederaFunctionality.TokenGrantKycToAccount,
-		/// <summary>
-		/// Revoke KYC status from an account for a specific HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_38"]/*' />
 		TokenRevokeKycFromAccount = Proto.HederaFunctionality.TokenRevokeKycFromAccount,
-		/// <summary>
-		/// Delete a specific HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_39"]/*' />
 		TokenDelete = Proto.HederaFunctionality.TokenDelete,
-		/// <summary>
-		/// Update a specific HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_40"]/*' />
 		TokenUpdate = Proto.HederaFunctionality.TokenUpdate,
-		/// <summary>
-		/// Mint HTS token amounts to the treasury account for that token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_41"]/*' />
 		TokenMint = Proto.HederaFunctionality.TokenMint,
-		/// <summary>
-		/// Burn HTS token amounts from the treasury account for that token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_42"]/*' />
 		TokenBurn = Proto.HederaFunctionality.TokenBurn,
-		/// <summary>
-		/// Wipe all amounts for a specific HTS token from a specified account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_43"]/*' />
 		TokenAccountWipe = Proto.HederaFunctionality.TokenAccountWipe,
-		/// <summary>
-		/// Associate a specific HTS token to an account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_44"]/*' />
 		TokenAssociateToAccount = Proto.HederaFunctionality.TokenAssociateToAccount,
-		/// <summary>
-		/// Dissociate a specific HTS token from an account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_5"]/*' />
 		TokenDissociateFromAccount = Proto.HederaFunctionality.TokenDissociateFromAccount,
-		/// <summary>
-		/// Create a scheduled transaction
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_6"]/*' />
 		ScheduleCreate = Proto.HederaFunctionality.ScheduleCreate,
-		/// <summary>
-		/// Delete a scheduled transaction
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_7"]/*' />
 		ScheduleDelete = Proto.HederaFunctionality.ScheduleDelete,
-		/// <summary>
-		/// Sign a scheduled transaction
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_8"]/*' />
 		ScheduleSign = Proto.HederaFunctionality.ScheduleSign,
-		/// <summary>
-		/// Get metadata (information) for a scheduled transaction
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_9"]/*' />
 		ScheduleGetInfo = Proto.HederaFunctionality.ScheduleGetInfo,
-		/// <summary>
-		/// Get NFT metadata (information) for a range of NFTs associated to a
-		/// specific non-fungible/unique HTS token and owned by a specific account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_10"]/*' />
 		[Obsolete]
 		TokenGetAccountNftInfos = Proto.HederaFunctionality.TokenGetAccountNftInfos,
-		/// <summary>
-		/// Get metadata (information) for a specific NFT identified by token and
-		/// serial number.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_11"]/*' />
 		[Obsolete]
 		TokenGetNftInfo = Proto.HederaFunctionality.TokenGetNftInfo,
-		/// <summary>
-		/// Get NFT metadata (information) for a range of NFTs associated to a
-		/// specific non-fungible/unique HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.time(s)"]/*' />
 		TokenGetNftInfos = Proto.HederaFunctionality.TokenGetNftInfos,
-		/// <summary>
-		/// Update a token's custom fee schedule.
-		/// <p>
-		/// If a transaction of this type is not signed by the token
-		/// `fee_schedule_key` it SHALL fail with INVALID_SIGNATURE, or
-		/// TOKEN_HAS_NO_FEE_SCHEDULE_KEY if there is no `fee_schedule_key` set.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.time(s)_2"]/*' />
 		TokenFeeScheduleUpdate = Proto.HederaFunctionality.TokenFeeScheduleUpdate,
-		/// <summary>
-		/// Get execution time(s) for one or more "recent" TransactionIDs.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_45"]/*' />
 		[Obsolete]
 		NetworkGetExecutionTime = Proto.HederaFunctionality.NetworkGetExecutionTime,
-		/// <summary>
-		/// Pause a specific HTS token
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Delete(unapprove)"]/*' />
 		TokenPause = Proto.HederaFunctionality.TokenPause,
-		/// <summary>
-		/// Unpause a paused HTS token.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Delete(unapprove)_2"]/*' />
 		TokenUnpause = Proto.HederaFunctionality.TokenUnpause,
-		/// <summary>
-		/// Approve an allowance for a spender relative to the owner account, which
-		/// MUST sign the transaction.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Delete(unapprove)_3"]/*' />
 		CryptoApproveAllowance = Proto.HederaFunctionality.CryptoApproveAllowance,
-		/// <summary>
-		/// Delete (unapprove) an allowance previously approved
-		/// for the owner account.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Ethereum(EVM)"]/*' />
 		CryptoDeleteAllowance = Proto.HederaFunctionality.CryptoDeleteAllowance,
-		/// <summary>
-		/// Get all the information about an account, including balance
-		/// and allowances.<br/>
-		/// This does not get a list of account records.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Ethereum(EVM)_2"]/*' />
 		GetAccountDetails = Proto.HederaFunctionality.GetAccountDetails,
-		/// <summary>
-		/// Perform an Ethereum (EVM) transaction.<br/>
-		/// CallData may be inline if small, or in a "file" if large.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_46"]/*' />
 		EthereumTransaction = Proto.HederaFunctionality.EthereumTransaction,
-		/// <summary>
-		/// Used to indicate when the network has updated the staking information
-		/// at the end of a staking period and to indicate a new staking period
-		/// has started.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_47"]/*' />
 		NodeStakeUpdate = Proto.HederaFunctionality.NodeStakeUpdate,
-		/// <summary>
-		/// Generate and return a pseudorandom number based on network state.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_48"]/*' />
 		UtilPrng = Proto.HederaFunctionality.UtilPrng,
-		/// <summary>
-		/// Get a record for a "recent" transaction.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_49"]/*' />
 		[Obsolete]
 		TransactionGetFastRecord = Proto.HederaFunctionality.TransactionGetFastRecord,
-		/// <summary>
-		/// Update the metadata of one or more NFT's of a specific token type.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_50"]/*' />
 		TokenUpdateNfts = Proto.HederaFunctionality.TokenUpdateNfts,
-		/// <summary>
-		/// Create a node
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_51"]/*' />
 		NodeCreate = Proto.HederaFunctionality.NodeCreate,
-		/// <summary>
-		/// Update a node
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_52"]/*' />
 		NodeUpdate = Proto.HederaFunctionality.NodeUpdate,
-		/// <summary>
-		/// Delete a node
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.sender(s)"]/*' />
 		NodeDelete = Proto.HederaFunctionality.NodeDelete,
-		/// <summary>
-		/// Transfer one or more token balances held by the requesting account
-		/// to the treasury for each token type.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.sender(s)_2"]/*' />
 		// /**
 		TokenReject = Proto.HederaFunctionality.TokenReject,
-		/// <summary>
-		/// Airdrop one or more tokens to one or more accounts.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.sender(s)_3"]/*' />
 		TokenAirdrop = Proto.HederaFunctionality.TokenAirdrop,
-		/// <summary>
-		/// Remove one or more pending airdrops from state on behalf of
-		/// the sender(s) for each airdrop.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_53"]/*' />
 		// /**
 		TokenCancelAirdrop = Proto.HederaFunctionality.TokenCancelAirdrop,
-		/// <summary>
-		/// Claim one or more pending airdrops
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_54"]/*' />
 		TokenClaimAirdrop = Proto.HederaFunctionality.TokenClaimAirdrop,
-		/// <summary>
-		/// Submit a signature of a state root hash gossiped to other nodes
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_55"]/*' />
 		StateSignatureTransaction = Proto.HederaFunctionality.StateSignatureTransaction,
-		/// <summary>
-		/// Publish a hinTS key to the network.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_56"]/*' />
 		HintsKeyPublication = Proto.HederaFunctionality.HintsKeyPublication,
-		/// <summary>
-		/// Vote for a particular preprocessing output of a hinTS construction.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_57"]/*' />
 		HintsPreprocessingVote = Proto.HederaFunctionality.HintsPreprocessingVote,
-		/// <summary>
-		/// Sign a partial signature for the active hinTS construction.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_58"]/*' />
 		HintsPartialSignature = Proto.HederaFunctionality.HintsPartialSignature,
-		/// <summary>
-		/// Sign a particular history assembly.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_59"]/*' />
 		HistoryAssemblySignature = Proto.HederaFunctionality.HistoryAssemblySignature,
-		/// <summary>
-		/// Publish a roster history proof key to the network.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_60"]/*' />
 		HistoryProofKeyPublication = Proto.HederaFunctionality.HistoryProofKeyPublication,
-		/// <summary>
-		/// Vote for a particular history proof.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_61"]/*' />
 		HistoryProofVote = Proto.HederaFunctionality.HistoryProofVote,
-		/// <summary>
-		/// Publish a random CRS to the network.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_62"]/*' />
 		CrsPublication = Proto.HederaFunctionality.CrsPublication,
-		/// <summary>
-		/// Submit a batch of transactions to run atomically
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_63"]/*' />
 		AtomicBatch = Proto.HederaFunctionality.AtomicBatch,
-		/// <summary>
-		/// Update one or more storage slots in an lambda EVM hook.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_64"]/*' />
 		LambdaSstore = Proto.HederaFunctionality.LambdaSstore,
-		/// <summary>
-		/// (Internal-only) Dispatch a hook action.
-		/// </summary>
+		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_65"]/*' />
 		HookDispatch = Proto.HederaFunctionality.HookDispatch,
 	}
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ExchangeRate">
+    <summary>
+    Denotes a conversion between Hbars and cents (USD).
+    </summary>
+  </member>
+  <member name="M:ExchangeRate.FromProtobuf(Proto.ExchangeRate)">
+    <summary>
+    Create an Exchange Rate from a protobuf.
+    </summary>
+    <param name="pb">the protobuf</param>
+    <returns>the new exchange rate</returns>
+  </member>
+  <member name="P:ExchangeRate.Hbars">
+    <summary>
+    Denotes Hbar equivalent to cents (USD)
+    </summary>
+  </member>
+  <member name="P:ExchangeRate.Cents">
+    <summary>
+    Denotes cents (USD) equivalent to Hbar
+    </summary>
+  </member>
+  <member name="P:ExchangeRate.ExpirationTime">
+    <summary>
+    Expiration time of this exchange rate
+    </summary>
+  </member>
+  <member name="P:ExchangeRate.ExchangeRateInCents">
+    <summary>
+    Calculated exchange rate
+    </summary>
+  </member>
+</docs>

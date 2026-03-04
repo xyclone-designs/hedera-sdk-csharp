@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:HookExtensionPoint">
+    <summary>&lt;summary&gt;
+    Enum representing the Hiero extension points that accept a hook.
+    &lt;p&gt;
+    Extension points define where hooks can be attached to customize behavior
+    in the Hiero network.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:HookExtensionPoint_2">
+    <summary>&lt;summary&gt;
+    Used to customize an account's allowances during a CryptoTransfer transaction.
+    &lt;p&gt;
+    This hook allows accounts to define custom logic for approving or rejecting
+    token transfers, providing fine-grained control over allowance behavior.
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

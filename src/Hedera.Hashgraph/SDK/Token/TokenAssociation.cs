@@ -5,53 +5,27 @@ using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Associates the provided Hedera account with the provided Hedera token(s).
-    /// Hedera accounts must be associated with a fungible or non-fungible token
-    /// first before you can transfer tokens to that account. In the case of
-    /// NON_FUNGIBLE Type, once an account is associated, it can hold any number
-    /// of NFTs (serial numbers) of that token type. The Hedera account that is
-    /// being associated with a token is required to sign the transaction.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/associate-tokens-to-an-account">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="T:TokenAssociation"]/*' />
     public class TokenAssociation
     {
-        /// <summary>
-        /// The token involved in the association
-        /// </summary>
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="F:TokenAssociation.TokenId"]/*' />
         public readonly TokenId TokenId;
-        /// <summary>
-        /// The account involved in the association
-        /// </summary>
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="F:TokenAssociation.AccountId"]/*' />
         public readonly AccountId AccountId;
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <param name="accountId">the account id</param>
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.TokenAssociation(TokenId,AccountId)"]/*' />
         TokenAssociation(TokenId tokenId, AccountId accountId)
         {
             this.TokenId = tokenId;
             this.AccountId = accountId;
         }
 
-		/// <summary>
-		/// Create a token association from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new token association</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromBytes(System.Byte[])"]/*' />
 		public static TokenAssociation FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.TokenAssociation.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a token association from a protobuf.
-		/// </summary>
-		/// <param name="tokenAssociation">the protobuf</param>
-		/// <returns>                         the new token association</returns>
+		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromProtobuf(Proto.TokenAssociation)"]/*' />
 		public static TokenAssociation FromProtobuf(Proto.TokenAssociation tokenAssociation)
         {
             return new TokenAssociation(
@@ -63,18 +37,12 @@ namespace Hedera.Hashgraph.SDK.Token
                     : new AccountId(0, 0, 0));
         }
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
+        /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.ToProtobuf"]/*' />
 		public virtual Proto.TokenAssociation ToProtobuf()
 		{
 			return new Proto.TokenAssociation

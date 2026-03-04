@@ -3,36 +3,21 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// This contains two Fee Schedules with expiry timestamp.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/currentandnextfeeschedule">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="FeeSchedules.cs.xml" path='docs/member[@name="T:FeeSchedules"]/*' />
     public class FeeSchedules
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.#ctor"]/*' />
         public FeeSchedules() { }
 
 		private FeeSchedule? _Current;
 		private FeeSchedule? _Next;
 
-		/// <summary>
-		/// Create a fee schedules object from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the fee schedules object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.FromBytes(System.Byte[])"]/*' />
 		public static FeeSchedules FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.CurrentAndNextFeeSchedule.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a fee schedules object from a protobuf.
-		/// </summary>
-		/// <param name="feeSchedules">the protobuf</param>
-		/// <returns>                         the fee schedules object</returns>
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.FromProtobuf(Proto.CurrentAndNextFeeSchedule)"]/*' />
 		public static FeeSchedules FromProtobuf(Proto.CurrentAndNextFeeSchedule feeSchedules)
         {
             return new FeeSchedules
@@ -53,18 +38,12 @@ namespace Hedera.Hashgraph.SDK.Fees
 			set => _Next = value?.Clone() as FeeSchedule;
 		}
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         byte array representation</returns>
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         protobuf representation</returns>
+		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.ToProtobuf"]/*' />
 		public virtual Proto.CurrentAndNextFeeSchedule ToProtobuf()
         {
 			Proto.CurrentAndNextFeeSchedule protobuf = new ();

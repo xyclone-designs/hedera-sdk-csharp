@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:NodeUpdateTransaction">
+    <summary>
+    A transaction to modify address book node attributes.
+    
+    - This transaction SHALL enable the node operator, as identified by the
+      `admin_key`, to modify operational attributes of the node.
+    - This transaction MUST be signed by the active `admin_key` for the node.
+    - If this transaction sets a new value for the `admin_key`, then both the
+      current `admin_key`, and the new `admin_key` MUST sign this transaction.
+    - This transaction SHALL NOT change any field that is not set (is null) in
+      this transaction body.
+    - This SHALL create a pending update to the node, but the change SHALL NOT
+      be immediately applied to the active configuration.
+    - All pending node updates SHALL be applied to the active network
+      configuration during the next `freeze` transaction with the field
+      `freeze_type` set to `PREPARE_UPGRADE`.
+    
+    ### Record Stream Effects
+    Upon completion the `node_id` for the updated entry SHALL be in the
+    transaction receipt.
+    </summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:NodeUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A consensus node identifier in the network state.
+    &lt;p&gt;
+    The node identified MUST exist in the network address book.&lt;br/&gt;
+    The node identified MUST NOT be deleted.&lt;br/&gt;
+    This value is REQUIRED.
+    &lt;/summary&gt;
+    &lt;param name="nodeId"&gt;the consensus node identifier in the network state.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    An account identifier.
+    &lt;p&gt;
+    If set, this SHALL replace the node account identifier.&lt;br/&gt;
+    If set, this transaction MUST be signed by the active `key` for _both_
+    the current node account _and_ the identified new node account.
+    &lt;/summary&gt;
+    &lt;param name="accountId"&gt;the Account ID of the Node.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    A short description of the node.
+    &lt;p&gt;
+    This value, if set, MUST NOT exceed 100 bytes when encoded as UTF-8.&lt;br/&gt;
+    If set, this value SHALL replace the previous value.
+    &lt;/summary&gt;
+    &lt;param name="description"&gt;The String to be set as the description of the node.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if description exceeds 100 bytes when encoded as UTF-8&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_4">
+    <summary>&lt;summary&gt;
+    A list of service endpoints for gossip.
+    &lt;p&gt;
+    If set, this list MUST meet the following requirements.
+    &lt;hr/&gt;
+    These endpoints SHALL represent the published endpoints to which other
+    consensus nodes may _gossip_ transactions.&lt;br/&gt;
+    These endpoints SHOULD NOT specify both address and DNS name.&lt;br/&gt;
+    This list MUST NOT be empty.&lt;br/&gt;
+    This list MUST NOT contain more than `10` entries.&lt;br/&gt;
+    The first two entries in this list SHALL be the endpoints published to
+    all consensus nodes.&lt;br/&gt;
+    All other entries SHALL be reserved for future use.
+    &lt;p&gt;
+    Each network may have additional requirements for these endpoints.
+    A client MUST check network-specific documentation for those
+    details.&lt;br/&gt;
+    &lt;blockquote&gt;Example&lt;blockquote&gt;
+    Hedera Mainnet _requires_ that address be specified, and does not
+    permit DNS name (FQDN) to be specified.&lt;br/&gt;
+    Mainnet also requires that the first entry be an "internal" IP
+    address and the second entry be an "external" IP address.
+    &lt;/blockquote&gt;
+    &lt;blockquote&gt;
+    Solo, however, _requires_ DNS name (FQDN) but also permits
+    address.
+    &lt;/blockquote&gt;&lt;/blockquote&gt;
+    &lt;p&gt;
+    If set, the new list SHALL replace the existing list.
+    &lt;/summary&gt;
+    &lt;param name="gossipEndpoints"&gt;the list of service endpoints for gossip.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if the list is empty or contains more than 10 endpoints&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_5">
+    <summary>&lt;summary&gt;
+    A list of service endpoints for gRPC calls.
+    &lt;p&gt;
+    If set, this list MUST meet the following requirements.
+    &lt;hr/&gt;
+    These endpoints SHALL represent the published endpoints to which clients
+    may submit transactions.&lt;br/&gt;
+    These endpoints SHOULD specify address and port.&lt;br/&gt;
+    These endpoints MAY specify a DNS name.&lt;br/&gt;
+    These endpoints SHOULD NOT specify both address and DNS name.&lt;br/&gt;
+    This list MUST NOT be empty.&lt;br/&gt;
+    This list MUST NOT contain more than `8` entries.
+    &lt;p&gt;
+    Each network may have additional requirements for these endpoints.
+    A client MUST check network-specific documentation for those
+    details.
+    &lt;p&gt;
+    If set, the new list SHALL replace the existing list.
+    &lt;/summary&gt;
+    &lt;param name="serviceEndpoints"&gt;list of service endpoints for gRPC calls.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if the list is empty or contains more than 8 endpoints&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_6">
+    <summary>&lt;summary&gt;
+    A certificate used to sign gossip events.
+    &lt;p&gt;
+    This value MUST be a certificate of a type permitted for gossip
+    signatures.&lt;br/&gt;
+    This value MUST be the DER encoding of the certificate presented.
+    &lt;p&gt;
+    If set, the new value SHALL replace the existing bytes value.
+    &lt;/summary&gt;
+    &lt;param name="gossipCaCertificate"&gt;the DER encoding of the certificate presented.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if gossipCaCertificate is null or empty&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_7">
+    <summary>&lt;summary&gt;
+    A hash of the node gRPC TLS certificate.
+    &lt;p&gt;
+    This value MAY be used to verify the certificate presented by the node
+    during TLS negotiation for gRPC.&lt;br/&gt;
+    This value MUST be a SHA-384 hash.&lt;br/&gt;
+    The TLS certificate to be hashed MUST first be in PEM format and MUST be
+    encoded with UTF-8 NFKD encoding to a stream of bytes provided to
+    the hash algorithm.&lt;br/&gt;
+    &lt;p&gt;
+    If set, the new value SHALL replace the existing hash value.
+    &lt;/summary&gt;
+    &lt;param name="grpcCertificateHash"&gt;SHA-384 hash of the node gRPC TLS certificate.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if grpcCertificateHash is not 48 bytes (SHA-384 size) when non-empty&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_8">
+    <summary>&lt;summary&gt;
+    An administrative key controlled by the node operator.
+    &lt;p&gt;
+    This field is OPTIONAL.&lt;br/&gt;
+    If set, this key MUST sign this transaction.&lt;br/&gt;
+    If set, this key MUST sign each subsequent transaction to
+    update this node.&lt;br/&gt;
+    If set, this field MUST contain a valid `Key` value.&lt;br/&gt;
+    If set, this field MUST NOT be set to an empty `KeyList`.
+    &lt;/summary&gt;
+    &lt;param name="adminKey"&gt;an administrative key to be set.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_9">
+    <summary>
+    Sets whether this node should decline rewards.
+    </summary>
+    <param name="decline">true to decline rewards; false to accept them. If left null no change will be made.</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:NodeUpdateTransaction.RequireNotFrozen_10">
+    <summary>&lt;summary&gt;
+    A web proxy for gRPC from non-gRPC clients.
+    &lt;p&gt;
+    This endpoint SHALL be a Fully Qualified Domain Name (FQDN) using the HTTPS
+    protocol, and SHALL support gRPC-Web for use by browser-based clients.&lt;br/&gt;
+    This endpoint MUST be signed by a trusted certificate authority.&lt;br/&gt;
+    This endpoint MUST use a valid port and SHALL be reachable over TLS.&lt;br/&gt;
+    This field MAY be omitted if the node does not support gRPC-Web access.&lt;br/&gt;
+    This field MUST be updated if the gRPC-Web endpoint changes.&lt;br/&gt;
+    This field SHALL enable frontend clients to avoid hard-coded proxy endpoints.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link Proto.NodeUpdateTransactionBody}</returns>
+  </member>
+  <member name="M:NodeUpdateTransaction.DeleteGrpcWebProxyEndpoint">
+    <summary>&lt;summary&gt;
+    Delete the gRPC web proxy endpoint.
+    &lt;p&gt;
+    This method clears the gRPC web proxy endpoint by setting it to an empty
+    Endpoint, which will effectively delete it in the mirror node.
+    &lt;/summary&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;summary&gt;
+    Validates that an endpoint does not contain both IP address and domain name.
+    &lt;/summary&gt;
+    &lt;param name="endpoint"&gt;the endpoint to validate&lt;/param&gt;
+    &lt;exception cref="IllegalArgumentException"&gt;if endpoint contains both IP address and domain name&lt;/exception&gt;</summary>
+  </member>
+  <member name="M:NodeUpdateTransaction.FreezeWith(Client)">
+    <summary>
+    Freeze this transaction with the given client.
+    </summary>
+    <param name="client">the client to freeze with</param>
+    <returns>this transaction</returns>
+    <exception cref="IllegalStateException">if nodeId is not set</exception>
+  </member>
+</docs>

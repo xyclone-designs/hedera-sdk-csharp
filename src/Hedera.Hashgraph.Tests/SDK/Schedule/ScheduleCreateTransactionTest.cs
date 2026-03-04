@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             var transferTransaction = new TransferTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				AdminKey = unusedPrivateKey,
 				PayerAccountId = AccountId.FromString("0.0.222"),
 				ScheduleMemo = "hi",
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             var transferTransaction = new TransferTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				AdminKey = unusedPrivateKey,
 				PayerAccountId = AccountId.FromString("0.0.222"),
 				ScheduleMemo = "with-duration",

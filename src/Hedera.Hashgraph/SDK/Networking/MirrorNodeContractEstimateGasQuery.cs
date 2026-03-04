@@ -4,13 +4,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 {
     public class MirrorNodeContractEstimateGasQuery : MirrorNodeContractQuery<MirrorNodeContractEstimateGasQuery>
     {
-        /// <summary>
-        /// Returns gas estimation for the EVM execution.
-        /// </summary>
-        /// <param name="client">The Client instance to perform the operation with</param>
-        /// <returns>The estimated gas cost</returns>
-        /// <exception cref="ExecutionException"></exception>
-        /// <exception cref="InterruptedException"></exception>
+        /// <include file="MirrorNodeContractEstimateGasQuery.cs.xml" path='docs/member[@name="M:Execute(Client)"]/*' />
         public virtual long Execute(Client client)
         {
             return Estimate(client);

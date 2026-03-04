@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Network">
+    <summary>
+    Internal utility class.
+    </summary>
+  </member>
+  <member name="M:Network.#ctor(ExecutorService,System.Collections.Generic.Dictionary{System.String,AccountId})">
+    <summary>
+    The protobuf address book converted into a map of node account IDs to NodeAddress
+    
+    This variable is package private so tests can use it
+    </summary>
+  </member>
+  <member name="M:Network.ForMainnet(ExecutorService)">
+    <summary>
+    Create a mainnet network.
+    </summary>
+    <param name="executor">the executor service</param>
+    <returns>the new mainnet network</returns>
+  </member>
+  <member name="M:Network.ForTestnet(ExecutorService)">
+    <summary>
+    Create a testnet network.
+    </summary>
+    <param name="executor">the executor service</param>
+    <returns>the new testnet network</returns>
+  </member>
+  <member name="M:Network.ForPreviewnet(ExecutorService)">
+    <summary>
+    Create a previewnet network.
+    </summary>
+    <param name="executor">the executor service</param>
+    <returns>the new previewnet network</returns>
+  </member>
+  <member name="M:Network.ForNetwork(ExecutorService,System.Collections.Generic.Dictionary{System.String,AccountId})">
+    <summary>
+    Create a network.
+    </summary>
+    <param name="executor">the executor service</param>
+    <param name="network">the network records</param>
+    <returns>the new network</returns>
+  </member>
+  <member name="M:Network.lock(this)">
+    <summary>
+    Enable or disable transport security (TLS).
+    </summary>
+    <param name="transportSecurity">should transport security be enabled</param>
+  </member>
+  <member name="P:Network.MaxNodesPerRequest">
+    <summary>
+    Assign the maximum nodes to be returned for each request.
+    </summary>
+  </member>
+  <member name="M:Network.Min(MaxNodesPerRequest.,Network.)">
+    <summary>
+    Extract the number of nodes for each request.
+    </summary>
+    <returns>the number of nodes for each request</returns>
+  </member>
+  <member name="M:Network.lock(this)_2">
+    <summary>
+    Are certificates being verified?
+    </summary>
+  </member>
+  <member name="M:Network.GetNetwork">
+    <summary>
+    Extract the of network records.
+    </summary>
+    <returns>list of network records</returns>
+  </member>
+  <member name="M:Network.GetNodeAccountIdsForExecute">
+    <summary>&lt;summary&gt;
+    Pick 1/3 of the nodes sorted by health and expected delay from the network.
+    This is used by Query and Transaction for selecting node AccountId's.
+    &lt;/summary&gt;
+    &lt;returns&gt;{@link java.util.List&lt;AccountId&gt;}&lt;/returns&gt;</summary>
+  </member>
+</docs>

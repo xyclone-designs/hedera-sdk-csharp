@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:BaseNodeAddress">
+    <summary>
+    Internal utility class.
+    </summary>
+  </member>
+  <member name="M:BaseNodeAddress.#ctor(System.String,System.String,System.Int32)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="name">the name part</param>
+    <param name="address">the address part</param>
+    <param name="port">the port part</param>
+  </member>
+  <member name="M:BaseNodeAddress.#ctor(System.String,System.String,System.Int32,System.Boolean)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="name">the name part</param>
+    <param name="address">the address part</param>
+    <param name="port">the port part</param>
+    <param name="secure">secure transport</param>
+  </member>
+  <member name="M:BaseNodeAddress.FromString(string @)">
+    <summary>
+    Create a managed node address fom a string.
+    </summary>
+    <param name="string">the string representation</param>
+    <returns>the new managed node address</returns>
+  </member>
+  <member name="P:BaseNodeAddress.Name">
+    <summary>
+    Extract the name.
+    </summary>
+  </member>
+  <member name="P:BaseNodeAddress.Address">
+    <summary>
+    Extract the address.
+    </summary>
+  </member>
+  <member name="P:BaseNodeAddress.Port">
+    <summary>
+    Extract the port.
+    </summary>
+  </member>
+  <member name="T:BaseNodeAddress_2">
+    <summary>
+    Are we in process?
+    </summary>
+  </member>
+  <member name="M:BaseNodeAddress.ToInsecure">
+    <summary>
+    Are we secure?
+    </summary>
+  </member>
+  <member name="M:BaseNodeAddress.ToInsecure_2">
+    <summary>
+    Create a new insecure managed node.
+    </summary>
+    <returns>the insecure managed node address</returns>
+  </member>
+  <member name="M:BaseNodeAddress.ToSecure">
+    <summary>
+    Create a new managed node.
+    </summary>
+    <returns>the secure managed node address</returns>
+  </member>
+</docs>

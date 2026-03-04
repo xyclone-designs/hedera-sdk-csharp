@@ -3,34 +3,16 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Hedera follows semantic versioning () for both the HAPI protobufs and
-    /// the Services software. This type allows the getVersionInfo query in the
-    /// NetworkService to return the deployed versions of both protobufs and
-    /// software on the node answering the query.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/semanticversion">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="T:SemanticVersion"]/*' />
     public class SemanticVersion
     {
-        /// <summary>
-        /// Increases with incompatible API changes
-        /// </summary>
+        /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="F:SemanticVersion.Major"]/*' />
         public int Major;
-        /// <summary>
-        /// Increases with backwards-compatible new functionality
-        /// </summary>
+        /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.#ctor(System.Int32,System.Int32,System.Int32)"]/*' />
         public int Minor;
-        /// <summary>
-        /// Increases with backwards-compatible bug fixes
-        /// </summary>
+        /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.#ctor(System.Int32,System.Int32,System.Int32)_2"]/*' />
         public int Patch;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="major">the major part</param>
-        /// <param name="minor">the minor part</param>
-        /// <param name="patch">the patch part</param>
+        /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.#ctor(System.Int32,System.Int32,System.Int32)_3"]/*' />
         internal SemanticVersion(int major, int minor, int patch)
         {
             Major = major;
@@ -38,30 +20,18 @@ namespace Hedera.Hashgraph.SDK
             Patch = patch;
         }
 
-		/// <summary>
-		/// Create a semantic version from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new semantic version</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.FromBytes(System.Byte[])"]/*' />
 		public static SemanticVersion FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.SemanticVersion.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a semantic version object from a protobuf.
-		/// </summary>
-		/// <param name="version">the protobuf</param>
-		/// <returns>                         the new semantic version</returns>
+		/// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.FromProtobuf(Proto.SemanticVersion)"]/*' />
 		public static SemanticVersion FromProtobuf(Proto.SemanticVersion version)
         {
             return new SemanticVersion(version.Major, version.Minor, version.Patch);
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
+        /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.ToProtobuf"]/*' />
         public virtual Proto.SemanticVersion ToProtobuf()
         {
             return new Proto.SemanticVersion
@@ -72,10 +42,7 @@ namespace Hedera.Hashgraph.SDK
             };
         }
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
+        /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

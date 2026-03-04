@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:HookCreationDetails">
+    <summary>&lt;summary&gt;
+    Specifies the details of a hook's creation.
+    &lt;p&gt;
+    This class contains all the information needed to create a new hook,
+    including the extension point, hook ID, implementation, and optional admin key.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook,Key)">
+    <summary>
+    Create new hook creation details with an admin key.
+    </summary>
+    <param name="extensionPoint">the extension point for the hook</param>
+    <param name="hookId">the ID to create the hook at</param>
+    <param name="hook">the hook implementation</param>
+    <param name="adminKey">the admin key for managing the hook</param>
+  </member>
+  <member name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook)">
+    <summary>
+    Create new hook creation details without an admin key.
+    </summary>
+    <param name="extensionPoint">the extension point for the hook</param>
+    <param name="hookId">the ID to create the hook at</param>
+    <param name="hook">the hook implementation</param>
+  </member>
+  <member name="M:HookCreationDetails.FromProtobuf(Proto.HookCreationDetails)">
+    <summary>
+    Create HookCreationDetails from a protobuf message.
+    </summary>
+    <param name="proto">the protobuf HookCreationDetails</param>
+    <returns>a new HookCreationDetails instance</returns>
+  </member>
+  <member name="M:HookCreationDetails.ToProtobuf">
+    <summary>
+    Convert this HookCreationDetails to a protobuf message.
+    </summary>
+    <returns>the protobuf HookCreationDetails</returns>
+  </member>
+</docs>

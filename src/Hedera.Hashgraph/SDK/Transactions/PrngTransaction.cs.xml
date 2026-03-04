@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:PrngTransaction">
+    <summary>
+    Random Number Generator Transaction.
+    </summary>
+  </member>
+  <member name="P:PrngTransaction.Range">
+    <summary>
+    Assign the range.
+    If provided and is positive, returns a 32-bit pseudorandom number from the given range in the transaction record.
+    If not set or set to zero, will return a 384-bit pseudorandom data in the record.
+    </summary>
+    <param name="range">if &gt; 0 32 bit else 384 bit</param>
+    <returns>{@code this}</returns>
+  </member>
+</docs>

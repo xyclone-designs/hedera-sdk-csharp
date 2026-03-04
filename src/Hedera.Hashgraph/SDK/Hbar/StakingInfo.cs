@@ -7,26 +7,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.HBar
 {
-    /// <summary>
-    /// Staking metadata for an account or a contract returned in CryptoGetInfo or ContractGetInfo queries
-    /// </summary>
-    /// <remarks>
-    /// Constructor
-    /// </remarks>
-    /// <param name="declineStakingReward">the declineStakingReward</param>
-    /// <param name="stakePeriodStart">the stakePeriodStart</param>
-    /// <param name="pendingReward">the amount in Hbar that will be received in the next reward situation</param>
-    /// <param name="stakedToMe">the total of balance of all accounts staked to this account or contract</param>
-    /// <param name="stakedAccountId">the account to which this account or contract is staking</param>
-    /// <param name="stakedNodeId">the ID of the node this account or contract is staked to</param>
+    /// <include file="StakingInfo.cs.xml" path='docs/member[@name="T:StakingInfo"]/*' />
     public class StakingInfo(bool declineStakingReward, DateTimeOffset stakePeriodStart, Hbar pendingReward, Hbar stakedToMe, AccountId? stakedAccountId, long? stakedNodeId)
     {
-        /// <summary>
-        /// Convert a byte array to a staking info object.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the converted staking info object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="M:StakingInfo.FromBytes(System.Byte[])"]/*' />
         public static StakingInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.StakingInfo.Parser.ParseFrom(bytes));
@@ -42,37 +26,20 @@ namespace Hedera.Hashgraph.SDK.HBar
                 info.StakedNodeId);
         }
 
-        /// <summary>
-        /// If true, the contract declines receiving a staking reward. The default value is false.
-        /// </summary>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.DeclineStakingReward"]/*' />
         public bool DeclineStakingReward { get; } = declineStakingReward;
-        /// <summary>
-        /// The staking period during which either the staking settings for this account or contract changed (such as starting
-        /// staking or changing staked_node_id) or the most recent reward was earned, whichever is later. If this account or contract
-        /// is not currently staked to a node, then this field is not set.
-        /// </summary>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakePeriodStart"]/*' />
         public DateTimeOffset StakePeriodStart { get; } = stakePeriodStart;
-        /// <summary>
-        /// The amount in Hbar that will be received in the next reward situation.
-        /// </summary>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.PendingReward"]/*' />
         public Hbar PendingReward { get; } = pendingReward;
-        /// <summary>
-        /// The total of balance of all accounts staked to this account or contract.
-        /// </summary>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedToMe"]/*' />
         public Hbar StakedToMe { get; } = stakedToMe;
-        /// <summary>
-        /// The account to which this account or contract is staking.
-        /// </summary>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedAccountId"]/*' />
         public AccountId? StakedAccountId { get; } = stakedAccountId;
-        /// <summary>
-        /// The ID of the node this account or contract is staked to.
-        /// </summary>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="P:StakingInfo.StakedNodeId"]/*' />
         public long? StakedNodeId { get; } = stakedNodeId;
 
-        /// <summary>
-        /// Convert the staking info object to a byte array.
-        /// </summary>
-        /// <returns>                         the converted staking info object</returns>
+        /// <include file="StakingInfo.cs.xml" path='docs/member[@name="M:StakingInfo.ToBytes"]/*' />
         public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();

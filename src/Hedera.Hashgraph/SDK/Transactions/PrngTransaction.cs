@@ -6,18 +6,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// Random Number Generator Transaction.
-    /// </summary>
+    /// <include file="PrngTransaction.cs.xml" path='docs/member[@name="T:PrngTransaction"]/*' />
     public class PrngTransaction : Transaction<PrngTransaction>
     {
-		/// <summary>
-		/// Assign the range.
-		/// If provided and is positive, returns a 32-bit pseudorandom number from the given range in the transaction record.
-		/// If not set or set to zero, will return a 384-bit pseudorandom data in the record.
-		/// </summary>
-		/// <param name="range">if > 0 32 bit else 384 bit</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="PrngTransaction.cs.xml" path='docs/member[@name="P:PrngTransaction.Range"]/*' />
 		public virtual int? Range { get; set; }
 
         public virtual Proto.UtilPrngTransactionBody ToProtobuf()

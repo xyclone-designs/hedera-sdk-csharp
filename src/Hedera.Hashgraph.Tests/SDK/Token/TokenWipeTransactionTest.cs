@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             return new TokenWipeTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = TokenId.FromString("0.0.111"),
 				AccountId = testAccountId,
 				Amount = (ulong)testAmount,
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             return new TokenWipeTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = TokenId.FromString("0.0.111"),
 				AccountId = testAccountId,
 				Serials = [444],

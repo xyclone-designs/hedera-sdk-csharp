@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TransactionReceiptQuery">
+    <summary>&lt;summary&gt;
+    Get the receipt of a transaction, given its transaction ID.
+    
+    &lt;p&gt;Once a transaction reaches consensus, then information about whether it succeeded or failed
+    will be available until the end of the receipt period.
+    
+    &lt;p&gt;This query is free.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:TransactionReceiptQuery.MapReceiptList(System.Collections.Generic.IEnumerable{Proto.TransactionReceipt})">
+    <summary>
+    Create a list of transaction receipts from a protobuf.
+    </summary>
+    <param name="protoReceiptList">the protobuf</param>
+    <returns>the list of transaction receipts</returns>
+  </member>
+  <member name="T:TransactionReceiptQuery_2">
+    <summary>
+    Extract the transaction id.
+    </summary>
+    <returns>the transaction id</returns>
+  </member>
+  <member name="P:TransactionReceiptQuery.TransactionId">
+    <summary>
+    Set the ID of the transaction for which the receipt is being requested.
+    </summary>
+    <param name="transactionId">The TransactionId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="P:TransactionReceiptQuery.IncludeChildren">
+    <summary>
+    Whether the response should include the records of any child transactions spawned by the
+    top-level transaction with the given transactionID.
+    </summary>
+    <param name="value">The value that includeChildren should be set to; true to include children, false to exclude</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="P:TransactionReceiptQuery.IncludeDuplicates">
+    <summary>
+    Whether records of processing duplicate transactions should be returned along with the record
+    of processing the first consensus transaction with the given id whose status was neither
+    INVALID_NODE_ACCOUNT nor INVALID_PAYER_SIGNATURE or, if no such
+    record exists, the record of processing the first transaction to reach consensus with the
+    given transaction id.
+    </summary>
+  </member>
+</docs>

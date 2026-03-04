@@ -17,37 +17,23 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Utils
 {
-    /// <summary>
-    /// Utility class used internally by the sdk.
-    /// </summary>
+    /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="T:EntityIdHelper"]/*' />
     public class EntityIdHelper
     {
 		public delegate R WithIdNums<out R>(long shard, long realm, long num, string? checksum);
 
-		/// <summary>
-		/// The length of a Solidity address in bytes.
-		/// </summary>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN"]/*' />
 		public static readonly int SOLIDITY_ADDRESS_LEN = 20;
-        /// <summary>
-        /// The length of a hexadecimal-encoded Solidity address, in ASCII characters (bytes).
-        /// </summary>
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="F:EntityIdHelper.SOLIDITY_ADDRESS_LEN_HEX"]/*' />
         public static readonly int SOLIDITY_ADDRESS_LEN_HEX = SOLIDITY_ADDRESS_LEN * 2;
         private static readonly Regex ENTITY_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([a-z]{5}))?$");
         public static readonly TimeSpan MIRROR_NODE_CONNECTION_TIMEOUT = TimeSpan.FromSeconds(30);
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.#ctor"]/*' />
         private EntityIdHelper()
         {
         }
 
-        /// <summary>
-        /// Generate an R object from a string.
-        /// </summary>
-        /// <param name="idString">the id string</param>
-        /// <param name="constructObjectWithIdNums">the R object generator</param>
-        /// <param name="<R>"></param>
-        /// <returns>the R type object</returns>
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromString``1(System.String,WithIdNums{``0})"]/*' />
         public static R FromString<R>(string idString, WithIdNums<R> constructObjectWithIdNums)
         {
             MatchCollection match = ENTITY_ID_REGEX.Matches(idString);
@@ -59,13 +45,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
             return constructObjectWithIdNums.Invoke(long.Parse(match[1].Value), long.Parse(match[2].Value), long.Parse(match[3].Value), match[4]?.Value);
         }
-        /// <summary>
-        /// Generate an R object from a solidity address.
-        /// </summary>
-        /// <param name="address">the string representation</param>
-        /// <param name="withAddress">the R object generator</param>
-        /// <param name="<R>"></param>
-        /// <returns>the R type object</returns>
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromSolidityAddress``1(System.String,WithIdNums{``0})"]/*' />
         public static R FromSolidityAddress<R>(string address, WithIdNums<R> withAddress)
         {
             return FromSolidityAddress(DecodeEvmAddress(address), withAddress);
@@ -84,12 +64,7 @@ namespace Hedera.Hashgraph.SDK.Utils
                 null);
         }
 
-		/// <summary>
-		/// Generate a checksum.
-		/// </summary>
-		/// <param name="ledgerId">the ledger id</param>
-		/// <param name="addr">the address</param>
-		/// <returns>the checksum</returns>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.Checksum(LedgerId,System.String)"]/*' />
 		public static string Checksum(LedgerId ledgerId, string addr)
 		{
 			StringBuilder answer = new();
@@ -150,11 +125,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return string.Join(string.Empty, answer.ToString().Reverse());
 		}
-		/// <summary>
-		/// Decode the solidity address from a string.
-		/// </summary>
-		/// <param name="address">the string representation</param>
-		/// <returns>the decoded address</returns>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.DecodeEvmAddress(System.String)"]/*' />
 		public static byte[] DecodeEvmAddress(string address)
         {
             address = address.StartsWith("0x") ? address.Substring(2) : address;
@@ -171,11 +142,7 @@ namespace Hedera.Hashgraph.SDK.Utils
                 throw new ArgumentException("failed to decode Solidity address as hex", e);
             }
         }
-		/// <summary>
-		/// Takes an address as `byte[]` and returns whether this is a long-zero address
-		/// </summary>
-		/// <param name="address"></param>
-		/// <returns></returns>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.IsLongZeroAddress(System.Byte[])"]/*' />
 		public static bool IsLongZeroAddress(byte[] address)
 		{
 			for (int i = 0; i < 12; i++)
@@ -189,24 +156,12 @@ namespace Hedera.Hashgraph.SDK.Utils
 			return true;
 		}
 
-        /// <summary>
-        /// Generate a string representation.
-        /// </summary>
-        /// <param name="shard">the shard part</param>
-        /// <param name="realm">the realm part</param>
-        /// <param name="num">the num part</param>
-        /// <returns>the string representation</returns>
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToString(System.Int64,System.Int64,System.Int64)"]/*' />
         public static string ToString(long shard, long realm, long num)
         {
             return "" + shard + "." + realm + "." + num;
         }
-		/// <summary>
-		/// Generate a solidity address.
-		/// </summary>
-		/// <param name="shard">the shard part</param>
-		/// <param name="realm">the realm part</param>
-		/// <param name="num">the num part</param>
-		/// <returns>the solidity address</returns>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToSolidityAddress(System.Int64,System.Int64,System.Int64)"]/*' />
 		public static string ToSolidityAddress(long shard, long realm, long num)
 		{
 			if (shard < 0 || shard > 0xFFFFFFFF)
@@ -220,15 +175,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return Convert.ToHexStringLower(bytes);
 		}
-		/// <summary>
-		/// Generate a string representation with a checksum.
-		/// </summary>
-		/// <param name="shard">the shard part</param>
-		/// <param name="realm">the realm part</param>
-		/// <param name="num">the num part</param>
-		/// <param name="client">the configured client</param>
-		/// <param name="checksum">the checksum</param>
-		/// <returns>the string representation with checksum</returns>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.ToStringWithChecksum(System.Int64,System.Int64,System.Int64,Client,System.String)"]/*' />
 		public static string ToStringWithChecksum(long shard, long realm, long num, Client client, string? checksum)
         {
             if (client.Network_.LedgerId != null)
@@ -241,15 +188,7 @@ namespace Hedera.Hashgraph.SDK.Utils
             }
         }
 
-		/// <summary>
-		/// Validate the configured client.
-		/// </summary>
-		/// <param name="shard">the shard part</param>
-		/// <param name="realm">the realm part</param>
-		/// <param name="num">the num part</param>
-		/// <param name="client">the configured client</param>
-		/// <param name="checksum">the checksum</param>
-		/// <exception cref="BadEntityIdException"></exception>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.Validate(System.Int64,System.Int64,System.Int64,Client,System.String)"]/*' />
 		public static void Validate(long shard, long realm, long num, Client client, string? checksum)
 		{
 			if (client.NetworkName == null)
@@ -268,11 +207,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 			}
 		}
 
-		/// <summary>
-		/// Get EvmAddress from mirror node using account num.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="num"></param>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetEvmAddressFromMirrorNodeAsync(Client,System.Int64)"]/*' />
 		public static async Task<EvmAddress> GetEvmAddressFromMirrorNodeAsync(Client client, long num)
 		{
 			string apiEndpoint = "/accounts/" + num;
@@ -280,11 +215,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return EvmAddress.FromString(ParseStringMirrorNodeResponse(_, "evm_address"));
 		}
-		/// <summary>
-		/// Get AccountId num from mirror node using evm address.
-		/// </summary>
-		/// <param name="client"></param>
-		/// <param name="evmAddress"></param>
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetAccountNumFromMirrorNodeAsync(Client,System.String)"]/*' />
 		public static async Task<long> GetAccountNumFromMirrorNodeAsync(Client client, string? evmAddress)
         {
             string apiEndpoint = "/accounts/" + evmAddress;
@@ -292,11 +223,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			return ParseNumFromMirrorNodeResponse(_, "account");
         }
-        /// <summary>
-        /// Get ContractId num from mirror node using evm address.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="evmAddress"></param>
+        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.GetContractNumFromMirrorNodeAsync(Client,System.String)"]/*' />
         public static async Task<long> GetContractNumFromMirrorNodeAsync(Client client, string evmAddress)
         {
             string apiEndpoint = "/contracts/" + evmAddress;

@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             return new TransferTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
 			}
                 .AddHbarTransfer(AccountId.FromString("0.0.5008"), Hbar.FromTinybars(400))
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			return new TransferTransaction
 			{
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
 			}
                 .AddHbarTransfer(AccountId.FromString("0.0.5008"), Hbar.FromTinybars(400))

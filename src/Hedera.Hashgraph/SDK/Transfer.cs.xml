@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Transfer">
+    <summary>&lt;summary&gt;
+    A transfer of Hbar that occurred within a transaction.
+    &lt;p&gt;
+    Returned with a {@link TransactionRecord}.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:Transfer.FromProtobuf(Proto.AccountAmount)">
+    <summary>
+    Create a transfer from a protobuf.
+    </summary>
+    <param name="accountAmount">the protobuf</param>
+    <returns>the new transfer</returns>
+  </member>
+  <member name="P:Transfer.Amount">
+    <summary>
+    The amount that the account sends (negative) or receives (positive).
+    </summary>
+  </member>
+  <member name="P:Transfer.AccountId">
+    <summary>
+    The Account ID that sends or receives crypto-currency.
+    </summary>
+  </member>
+  <member name="M:Transfer.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+</docs>

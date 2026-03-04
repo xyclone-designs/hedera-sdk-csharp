@@ -15,9 +15,7 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Internal class used by node.
-    /// </summary>
+    /// <include file="HederaTrustManager.cs.xml" path='docs/member[@name="T:HederaTrustManager"]/*' />
     internal class HederaTrustManager //: X509TrustManager
     {
         private static readonly string CERTIFICATE = "CERTIFICATE";
@@ -26,11 +24,7 @@ namespace Hedera.Hashgraph.SDK
         protected readonly Logger logger = LoggerFactory.GetLogger(typeof(HederaTrustManager));
         public readonly string? CertHash;
         
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="certHash">a byte string of the certificate hash</param>
-        /// <param name="verifyCertificate">should be verified</param>
+        /// <include file="HederaTrustManager.cs.xml" path='docs/member[@name="M:HederaTrustManager.#ctor(ByteString,System.Boolean)"]/*' />
         public HederaTrustManager(ByteString certHash, bool verifyCertificate)
         {
             if (certHash == null || certHash.Length == 0)

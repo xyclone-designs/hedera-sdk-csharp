@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         public virtual void ClearShouldSerialize()
         {
-            SnapshotMatcher.Expect(new TopicUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTopicId(testTopicId).ClearAdminKey().ClearAutoRenewAccountId().ClearSubmitKey().ClearTopicMemo().Freeze().Sign(unusedPrivateKey).ToString()).ToMatchSnapshot();
+            SnapshotMatcher.Expect(new TopicUpdateTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetTopicId(testTopicId).ClearAdminKey().ClearAutoRenewAccountId().ClearSubmitKey().ClearTopicMemo().Freeze().Sign(unusedPrivateKey).ToString()).ToMatchSnapshot();
         }
 
         public virtual void SetShouldSerialize()
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         private TopicUpdateTransaction SpawnTestTransaction()
         {
-            return new TopicUpdateTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetTopicId(testTopicId).SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetSubmitKey(testSubmitKey).SetTopicMemo(testTopicMemo).SetExpirationTime(validStart).Freeze().Sign(unusedPrivateKey);
+            return new TopicUpdateTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetTopicId(testTopicId).SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetSubmitKey(testSubmitKey).SetTopicMemo(testTopicMemo).SetExpirationTime(validStart).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()

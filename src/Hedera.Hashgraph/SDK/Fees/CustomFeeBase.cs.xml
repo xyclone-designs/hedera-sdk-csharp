@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:FinishDeepClone(CustomFeeBase{F})">
+    <summary>
+    Finishes the deep clone by setting the fields of the {@link CustomFeeBase} class
+    </summary>
+    <param name="source">the source object</param>
+    <returns>the cloned object</returns>
+  </member>
+</docs>

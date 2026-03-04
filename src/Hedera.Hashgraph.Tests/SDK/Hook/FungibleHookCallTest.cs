@@ -32,8 +32,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             var body = tx.ToProtobuf();
             var list = body.Transfers.AccountAmounts;
             
-            Assert.True(list.Any((a) => a.HasPreTxAllowanceHook()));
-            Assert.True(list.Any((a) => a.HasPrePostTxAllowanceHook()));
+            Assert.True(list.Any((a) => a.PreTxAllowanceHook is not null));
+            Assert.True(list.Any((a) => a.PrePostTxAllowanceHook is not null));
 
             // Round-trip
             var rebuilt = new TransferTransaction(new Proto.TransactionBody { CryptoTransfer = body });
@@ -56,8 +56,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             
             var body = tx.ToProtobuf();
 
-            var anyPre = body.TokenTransfers.Select((tl) => tl.Transfers.Any((a) => a.HasPreTxAllowanceHook()));
-            var anyPrePost = body.TokenTransfers.Select((tl) => tl.Transfers.Any((a) => a.HasPrePostTxAllowanceHook()));
+            var anyPre = body.TokenTransfers.Any((tl) => tl.Transfers.Any((a) => a.PreTxAllowanceHook is not null));
+            var anyPrePost = body.TokenTransfers.Any((tl) => tl.Transfers.Any((a) => a.PrePostTxAllowanceHook is not null));
             
             Assert.True(anyPre);
             Assert.True(anyPrePost);

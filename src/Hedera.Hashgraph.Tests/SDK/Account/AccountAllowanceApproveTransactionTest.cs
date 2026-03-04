@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				MaxTransactionFee = Hbar.FromTinybars(100000),
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			}
                 .AddHbarAllowance(AccountId.FromString("1.1.1"), new Hbar(3))
                 .AddTokenAllowance(TokenId.FromString("2.2.2"), AccountId.FromString("3.3.3"), 6)

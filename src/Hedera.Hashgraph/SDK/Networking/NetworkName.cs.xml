@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:NetworkName">
+    <summary>
+    Enum for the network names.
+    </summary>
+  </member>
+  <member name="T:NetworkName_2">
+    <summary>
+    The mainnet network
+    </summary>
+  </member>
+  <member name="T:NetworkName_3">
+    <summary>
+    The testnet network
+    </summary>
+  </member>
+  <member name="T:NetworkName_4">
+    <summary>
+    The previewnet network
+    </summary>
+  </member>
+  <member name="T:NetworkName_5">
+    <summary>
+    Other network
+    </summary>
+  </member>
+</docs>

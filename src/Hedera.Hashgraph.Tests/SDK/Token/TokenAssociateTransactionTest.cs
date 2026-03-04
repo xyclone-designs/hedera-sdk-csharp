@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             return new TokenAssociateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				AccountId = AccountId.FromString("0.0.222"),
 				TokenIds = [TokenId.FromString("0.0.666")],
 				MaxTransactionFee = new Hbar(1),

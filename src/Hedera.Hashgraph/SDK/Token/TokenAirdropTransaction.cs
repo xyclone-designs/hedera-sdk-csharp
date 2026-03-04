@@ -12,45 +12,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Token Airdrop
-    /// An "airdrop" is a distribution of tokens from a funding account
-    /// to one or more recipient accounts, ideally with no action required
-    /// by the recipient account(s).
-    /// </summary>
+    /// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="T:TokenAirdropTransaction"]/*' />
     public class TokenAirdropTransaction : AbstractTokenTransferTransaction<TokenAirdropTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.#ctor"]/*' />
         public TokenAirdropTransaction() : base()
         {
             DefaultMaxTransactionFee = new Hbar(1);
         }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenAirdropTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// Build the transaction body.
-		/// </summary>
-		/// <returns>{@link
-		///         Proto.TokenAirdropTransactionBody}</returns>
+		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.ToProtobuf"]/*' />
 		public Proto.TokenAirdropTransactionBody ToProtobuf()
 		{
 			var transfers = SortTransfersAndBuild();
@@ -63,9 +44,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			return builder;
 		}
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenAirdrop;

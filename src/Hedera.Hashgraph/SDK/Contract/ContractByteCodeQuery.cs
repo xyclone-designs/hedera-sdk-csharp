@@ -7,9 +7,7 @@ using Hedera.Hashgraph.SDK.Contract;
 
 namespace Hedera.Hashgraph.SDK.Queries
 {
-    /// <summary>
-    /// Get the bytecode for a smart contract instance.
-    /// </summary>
+    /// <include file="ContractByteCodeQuery.cs.xml" path='docs/member[@name="T:ContractByteCodeQuery"]/*' />
     public sealed class ContractByteCodeQuery : Query<ByteString, ContractByteCodeQuery>
     {
         public ContractId? ContractId { get; set; }

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractId">
+    <summary>
+    The ID for a smart contract instance on Hedera.
+    </summary>
+  </member>
+  <member name="M:ContractId.#ctor(System.Int64)">
+    <summary>
+    Assign the num part of the contract id.
+    </summary>
+    <param name="num">the num part of the account id
+    
+    Constructor that uses shard, realm and num should be used instead
+    as shard and realm should not assume 0 value</param>
+  </member>
+  <member name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64)">
+    <summary>
+    Assign all parts of the contract id.
+    </summary>
+    <param name="shard">the shard part of the contract id</param>
+    <param name="realm">the realm part of the contract id</param>
+    <param name="num">the num part of the contract id</param>
+  </member>
+  <member name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64,System.String)">
+    <summary>
+    Assign all parts of the contract id.
+    </summary>
+    <param name="shard">the shard part of the contract id</param>
+    <param name="realm">the realm part of the contract id</param>
+    <param name="num">the num part of the contract id</param>
+  </member>
+  <member name="M:ContractId.FromString(System.String)">
+    <summary>
+    Parse contract id from a string.
+    </summary>
+    <param name="id">the string containing a contract id</param>
+    <returns>the contract id object</returns>
+  </member>
+  <member name="M:ContractId.FromSolidityAddress(System.String)">
+    <summary>
+    Retrieve the contract id from a solidity address.
+    </summary>
+    <param name="address">a string representing the address</param>
+    <returns>the contract id object</returns>
+    <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(long, long, String)} instead.</remarks>
+  </member>
+  <member name="M:ContractId.FromEvmAddress(System.Int64,System.Int64,System.String)">
+    <summary>
+    Parse contract id from an ethereum address.
+    </summary>
+    <param name="shard">the desired shard</param>
+    <param name="realm">the desired realm</param>
+    <param name="evmAddress">the evm address</param>
+    <returns>the contract id object</returns>
+  </member>
+  <member name="M:ContractId.FromProtobuf(Proto.ContractID)">
+    <summary>
+    Extract a contract id from a protobuf.
+    </summary>
+    <param name="contractId">the protobuf containing a contract id</param>
+    <returns>the contract id object</returns>
+  </member>
+  <member name="M:ContractId.FromBytes(System.Byte[])">
+    <summary>
+    Convert a byte array to an account balance object.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the converted contract id object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="P:ContractId.Shard">
+    <summary>
+    The shard number
+    </summary>
+  </member>
+  <member name="P:ContractId.Realm">
+    <summary>
+    The realm number
+    </summary>
+  </member>
+  <member name="P:ContractId.Num">
+    <summary>
+    The id number
+    </summary>
+  </member>
+  <member name="P:ContractId.EvmAddress">
+    <summary>
+    The 20-byte EVM address of the contract to call.
+    </summary>
+  </member>
+  <member name="P:ContractId.Checksum">
+    <summary>
+    The checksum.
+    </summary>
+  </member>
+  <member name="M:ContractId.ToSolidityAddress">
+    <summary>
+    Extract the solidity address.
+    </summary>
+    <returns>the solidity address as a string</returns>
+    <remarks>@deprecatedThis method is deprecated. Use {@link #toEvmAddress()} instead.</remarks>
+  </member>
+  <member name="M:ContractId.ToEvmAddress">
+    <summary>
+    toEvmAddress returns EVM-compatible address representation of the entity
+    </summary>
+    <returns></returns>
+  </member>
+  <member name="M:ContractId.ToProtobuf">
+    <summary>
+    Convert contract id to protobuf.
+    </summary>
+    <returns>the protobuf object</returns>
+  </member>
+  <member name="M:ContractId.PopulateContractNum(Client)">
+    <summary>
+     Gets the actual `num` field of the `ContractId` from the Mirror Node.
+    Should be used after generating `ContractId.fromEvmAddress()` because it sets the `num` field to `0`
+    automatically since there is no connection between the `num` and the `evmAddress`
+    Sync version
+    </summary>
+    <param name="client"></param>
+    <returns>populated ContractId instance</returns>
+  </member>
+  <member name="M:ContractId.PopulateContractNumAsync(Client)">
+    <summary>
+    Gets the actual `num` field of the `ContractId` from the Mirror Node.
+    Should be used after generating `ContractId.fromEvmAddress()` because it sets the `num` field to `0`
+    automatically since there is no connection between the `num` and the `evmAddress`
+    Async version
+    </summary>
+    <param name="client"></param>
+    <returns>populated ContractId instance</returns>
+    <remarks>@deprecatedUse 'populateContractNum' instead due to its nearly identical operation.</remarks>
+  </member>
+  <member name="M:ContractId.Validate(Client)">
+    <summary></summary>
+    <param name="client">to validate against</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+    <remarks>@deprecatedUse {@link #validateChecksum(Client)} instead.</remarks>
+  </member>
+  <member name="M:ContractId.ValidateChecksum(Client)">
+    <summary>
+    Verify the checksum.
+    </summary>
+    <param name="client">to validate against</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+  </member>
+  <member name="M:ContractId.ToStringWithChecksum(Client)">
+    <summary>
+    Create a string representation that includes the checksum.
+    </summary>
+    <param name="client">the client</param>
+    <returns>the string representation with the checksum</returns>
+  </member>
+</docs>

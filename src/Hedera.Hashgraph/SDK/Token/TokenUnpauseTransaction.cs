@@ -10,58 +10,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Resume transaction activity for a token.
-    /// 
-    /// This transaction MUST be signed by the Token `pause_key`.<br/>
-    /// The `token` identified MUST exist, and MUST NOT be deleted.<br/>
-    /// The `token` identified MAY not be paused; if the token is not paused,
-    /// this transaction SHALL have no effect.
-    /// The `token` identified MUST have a `pause_key` set, the `pause_key` MUST be
-    /// a valid `Key`, and the `pause_key` MUST NOT be an empty `KeyList`.<br/>
-    /// An `unpaused` token MAY be transferred or otherwise modified.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="T:TokenUnpauseTransaction"]/*' />
     public class TokenUnpauseTransaction : Transaction<TokenUnpauseTransaction>
     {
-        /// <summary>
-		/// Constructor
-		/// </summary>
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor"]/*' />
 		public TokenUnpauseTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenUnpauseTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenUnpauseTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A token identifier.
-        /// <p>
-        /// The identified token SHALL be "unpaused". Subsequent transactions
-        /// involving that token MAY succeed.
-        /// </summary>
-        /// <param name="TokenId">the token id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.RequireNotFrozen"]/*' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUnpause;
@@ -71,11 +39,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 TokenId = TokenId.FromProtobuf(body.Token);
             }
         }
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.TokenUnpauseTransactionBody}</returns>
+        /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.ToProtobuf"]/*' />
         public virtual Proto.TokenUnpauseTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenUnpauseTransactionBody();

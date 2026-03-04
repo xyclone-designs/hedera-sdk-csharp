@@ -4,18 +4,14 @@ using Grpc.Core.Logging;
 
 namespace Hedera.Hashgraph.SDK.Logging
 {
-    /// <summary>
-    /// </summary>
+    /// <include file="Logger.cs.xml" path='docs/member[@name="T:Logger"]/*' />
     public class Logger
     {
         //private org.slf4j.Logger internalLogger;
         private ILogger internalLogger;
         private LogLevel currentLevel;
         private LogLevel previousLevel;
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="level">the current log level</param>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.#ctor(LogLevel)"]/*' />
         public Logger(LogLevel level)
         {
             //internalLogger = LoggerFactory.GetLogger(GetType());
@@ -28,33 +24,20 @@ namespace Hedera.Hashgraph.SDK.Logging
 			get => currentLevel;
 		}
 
-		/// <summary>
-		/// Set logger
-		/// </summary>
-		/// <param name="logger">the new logger</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.SetLogger(ILogger)"]/*' />
 		public virtual Logger SetLogger(ILogger logger)
         {
             internalLogger = logger;
             return this;
         }
-        /// <summary>
-        /// Set log level
-        /// </summary>
-        /// <param name="level">the new level</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.SetLevel(LogLevel)"]/*' />
         public virtual Logger SetLevel(LogLevel level)
         {
             previousLevel = currentLevel;
             currentLevel = level;
             return this;
         }
-        /// <summary>
-        /// Set silent mode on/off. If set to true, the logger will not display any log messages. This can also be achieved
-        /// by calling .setLevel(LogLevel.Silent)`
-        /// </summary>
-        /// <param name="silent">should the logger be silent</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.SetSilent(System.Boolean)"]/*' />
         public virtual Logger SetSilent(bool silent)
         {
             if (silent)
@@ -69,11 +52,7 @@ namespace Hedera.Hashgraph.SDK.Logging
             return this;
         }
 
-        /// <summary>
-        /// Log trace
-        /// </summary>
-        /// <param name="message">the message to be logged</param>
-        /// <param name="arguments">the log arguments</param>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.Trace(System.String,System.Object[])"]/*' />
         public virtual void Trace(string message, params object[] arguments)
         {
             if (IsEnabledForLevel(LogLevel.Trace))
@@ -82,11 +61,7 @@ namespace Hedera.Hashgraph.SDK.Logging
                 internalLogger.Debug(message, arguments);
             }
         }
-        /// <summary>
-        /// Log debug
-        /// </summary>
-        /// <param name="message">the message to be logged</param>
-        /// <param name="arguments">the log arguments</param>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.Debug(System.String,System.Object[])"]/*' />
         public virtual void Debug(string message, params object[] arguments)
         {
             if (IsEnabledForLevel(LogLevel.Debug))
@@ -94,11 +69,7 @@ namespace Hedera.Hashgraph.SDK.Logging
                 internalLogger.Debug(message, arguments);
             }
         }
-        /// <summary>
-        /// Log info
-        /// </summary>
-        /// <param name="message">the message to be logged</param>
-        /// <param name="arguments">the log arguments</param>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.Info(System.String,System.Object[])"]/*' />
         public virtual void Info(string message, params object[] arguments)
         {
             if (IsEnabledForLevel(LogLevel.Info))
@@ -106,11 +77,7 @@ namespace Hedera.Hashgraph.SDK.Logging
                 internalLogger.Info(message, arguments);
             }
         }
-        /// <summary>
-        /// Log warn
-        /// </summary>
-        /// <param name="message">the message to be logged</param>
-        /// <param name="arguments">the log arguments</param>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.Warn(System.String,System.Object[])"]/*' />
         public virtual void Warn(string message, params object[] arguments)
         {
             if (IsEnabledForLevel(LogLevel.Warn))
@@ -118,11 +85,7 @@ namespace Hedera.Hashgraph.SDK.Logging
                 internalLogger.Warning(message, arguments);
             }
         }
-        /// <summary>
-        /// Log error
-        /// </summary>
-        /// <param name="message">the message to be logged</param>
-        /// <param name="arguments">the log arguments</param>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.Error(System.String,System.Object[])"]/*' />
         public virtual void Error(string message, params object[] arguments)
         {
             if (IsEnabledForLevel(LogLevel.Error))
@@ -131,11 +94,7 @@ namespace Hedera.Hashgraph.SDK.Logging
             }
         }
 
-        /// <summary>
-        /// Returns whether this Logger is enabled for a given {@link LogLevel}.
-        /// </summary>
-        /// <param name="level">the log level</param>
-        /// <returns>true if enabled, false otherwise.</returns>
+        /// <include file="Logger.cs.xml" path='docs/member[@name="M:Logger.IsEnabledForLevel(LogLevel)"]/*' />
         public virtual bool IsEnabledForLevel(LogLevel level)
         {
             return (int)level >= (int)currentLevel;

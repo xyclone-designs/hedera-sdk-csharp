@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 				GrpcWebProxyEndpoint = TEST_GRPC_WEB_PROXY_ENDPOINT,
 
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START.ToTimestamp()),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 			}
             .Freeze()
             .Sign(TEST_PRIVATE_KEY);

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Node">
+    <summary>
+    Internal utility class.
+    </summary>
+  </member>
+  <member name="M:Node.#ctor(Node,BaseNodeAddress)">
+    <summary>
+    Constructor for a node that verifies certificates.
+    </summary>
+    <param name="node">the node</param>
+    <param name="address">the address as a managed node address</param>
+  </member>
+  <member name="M:Node.#ctor(AccountId,BaseNodeAddress,ExecutorService)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="accountId">the account id</param>
+    <param name="address">the address as a managed node address</param>
+    <param name="executor">the executor service</param>
+  </member>
+  <member name="M:Node.#ctor(AccountId,System.String,ExecutorService)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="accountId">the account id</param>
+    <param name="address">the address as a string</param>
+    <param name="executor">the executor service</param>
+  </member>
+  <member name="M:Node.ToSecure">
+    <summary>
+    Create a secure version of this node
+    </summary>
+    <returns>the secure version of the node</returns>
+  </member>
+  <member name="M:Node.ToInsecure">
+    <summary>
+    Create an insecure version of this node
+    </summary>
+    <returns>the insecure version of the node</returns>
+  </member>
+  <member name="P:Node.AccountId">
+    <summary>
+    Extract the account id.
+    </summary>
+    <returns>the account id</returns>
+  </member>
+  <member name="P:Node.AddressBookEntry">
+    <summary>
+    Extract the address book.
+    This kind of shadows the address field inherited from BaseNode.
+    This is only needed for the cert hash
+    </summary>
+  </member>
+  <member name="P:Node.VerifyCertificates">
+    <summary>
+    Are the certificates being verified?
+    </summary>
+  </member>
+</docs>

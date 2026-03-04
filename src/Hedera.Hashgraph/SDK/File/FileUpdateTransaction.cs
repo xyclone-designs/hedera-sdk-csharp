@@ -11,58 +11,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <summary>
-    /// Update the metadata, and/or replace the content, of a file in the
-    /// Hedera File Service (HFS).
-    /// 
-    /// Any field which is not set (i.e. is null) in this message, other than
-    /// `fileID`, SHALL be ignored.<br/>
-    /// If the `keys` list for the identified file is an empty `KeyList`, then
-    /// this message MUST NOT set any field except `expirationTime`.
-    /// 
-    /// #### Signature Requirements
-    /// Every `Key` in the `keys` list for the identified file MUST sign this
-    /// transaction, if any field other than `expirationTime` is to be updated.<br/>
-    /// If the `keys` list for the identified file is an empty `KeyList` (because
-    /// this file was previously created or updated to have an empty `KeyList`),
-    /// then the file is considered immutable and this message MUST NOT set any
-    /// field except `expirationTime`.<br/>
-    /// See the [File Service](#FileService) specification for a detailed
-    /// explanation of the signature requirements for all file transactions.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/file-storage/update-a-file">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="T:FileUpdateTransaction"]/*' />
     public sealed class FileUpdateTransaction : Transaction<FileUpdateTransaction>
     {
-		/// <summary>
-		/// Constructor.
-		/// </summary>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor"]/*' />
 		public FileUpdateTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal FileUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal FileUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// Set the ID of the file to update; required.
-		/// </summary>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen"]/*' />
 		public FileId? FileId
 		{
 			get => field;
@@ -72,12 +37,7 @@ namespace Hedera.Hashgraph.SDK.File
 				field = value;
 			}
 		}
-		/// <summary>
-		/// A short description of this file.
-		/// <p>
-		/// This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
-		/// (default 100) bytes when encoded as UTF-8.
-		/// </summary>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_2"]/*' />
 		public string? FileMemo
 		{
 			get => field;
@@ -87,15 +47,7 @@ namespace Hedera.Hashgraph.SDK.File
 				field = value;
 			}
 		}
-		/// <summary>
-		/// The new list of keys that "own" this file.
-		/// <p>
-		/// If set, every key in this `KeyList` MUST sign this transaction.<br/>
-		/// If set, every key in the _previous_ `KeyList` MUST _also_
-		/// sign this transaction.<br/>
-		/// If this value is an empty `KeyList`, then the file SHALL be immutable
-		/// after completion of this transaction.
-		/// </summary>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_3"]/*' />
 		public KeyList? Keys
 		{
 			private get;
@@ -107,9 +59,7 @@ namespace Hedera.Hashgraph.SDK.File
 		}
 		public IReadOnlyList<Key>? Keys_Read { get => Keys?.AsReadOnly(); }
 
-		/// <summary>
-		/// Extract the files contents as a byte string.
-		/// </summary>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_4"]/*' />
 		public ByteString? Contents
 		{
 			get => field;
@@ -119,26 +69,7 @@ namespace Hedera.Hashgraph.SDK.File
 				field = ByteString.CopyFrom(value?.ToByteArray());
 			}
 		}
-		/// <summary>
-		/// If set, replace contents of the file identified by {@link #setFileId(FileId)}
-		/// with the given bytes.
-		/// <p>
-		/// If the contents of the file are longer than the given byte array, then the file will
-		/// be truncated.
-		/// <p>
-		/// Note that total size for a given transaction is limited to 6KiB (as of March 2020) by the
-		/// network; if you exceed this you may receive a {@link Status#TRANSACTION_OVERSIZE}.
-		/// <p>
-		/// In this case, you will need to keep the initial file contents under ~6KiB and
-		/// then use {@link FileAppendTransaction}, which automatically breaks the contents
-		/// into chunks for you, to append contents of arbitrary size.
-		/// </summary>
-		/// <param name="bytes">the bytes to replace the contents of the file with.</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>
-		/// @see#setContents(String) for an overload which takes a String.
-		/// @seeFileAppendTransaction if you merely want to add data to a file's existing contents.
-		/// </remarks>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_5"]/*' />
 		public byte[]? Contents_Bytes
 		{
 			set
@@ -147,30 +78,7 @@ namespace Hedera.Hashgraph.SDK.File
 				Contents = ByteString.CopyFrom(value);
 			}
 		}
-		/// <summary>
-		/// If set, encode the given {@link String} as UTF-8 and replace the contents of the file
-		/// identified by {@link #setFileId(FileId)}.
-		/// <p>
-		/// If the contents of the file are longer than the UTF-8 encoding of the given string, then the
-		/// file will be truncated.
-		/// <p>
-		/// The string can later be recovered from {@link FileContentsQuery#execute(Client)}
-		/// via {@link String#String(byte[], java.nio.charset.Charset)} using
-		/// {@link java.nio.charset.StandardCharsets#UTF_8}.
-		/// <p>
-		/// Note that total size for a given transaction is limited to 6KiB (as of March 2020) by the
-		/// network; if you exceed this you may receive a  {@link Status#TRANSACTION_OVERSIZE}.
-		/// <p>
-		/// In this case, you will need to keep the initial file contents under ~6KiB and
-		/// then use {@link FileAppendTransaction}, which automatically breaks the contents
-		/// into chunks for you, to append contents of arbitrary size.
-		/// </summary>
-		/// <param name="text">the string to replace the contents of the file with.</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>
-		/// @see#setContents(byte[]) for replacing the contents with arbitrary data.
-		/// @seeFileAppendTransaction if you merely want to add data to a file's existing contents.
-		/// </remarks>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_6"]/*' />
 		public string? Contents_String
 		{
 			set
@@ -180,17 +88,7 @@ namespace Hedera.Hashgraph.SDK.File
 			}
 		}
 
-		/// <summary>
-		/// An expiration timestamp.
-		/// <p>
-		/// If set, this value MUST be strictly later than the existing
-		/// `expirationTime` value, or else it will be ignored.<br/>
-		/// If set, this value SHALL replace the existing `expirationTime`.<br/>
-		/// If this field is the only field set, then this transaction SHALL NOT
-		/// require any signature other than the `payer` for the transaction.<br/>
-		/// When the network consensus time exceeds the then-current
-		/// `expirationTime`, the network SHALL expire the file.
-		/// </summary>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.RequireNotFrozen_7"]/*' />
 		public DateTimeOffset? ExpirationTime
 		{
 			get => field;
@@ -212,10 +110,7 @@ namespace Hedera.Hashgraph.SDK.File
 			}
 		}
 
-		/// <summary>
-		/// Build the correct transaction body.
-		/// </summary>
-		/// <returns>{@link Proto.FileUpdateTransactionBody builder }</returns>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.ToProtobuf"]/*' />
 		public Proto.FileUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.FileUpdateTransactionBody
@@ -273,9 +168,7 @@ namespace Hedera.Hashgraph.SDK.File
             throw new NotImplementedException();
         }
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.FileUpdate;

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ScheduleInfoQuery">
+    <summary>
+    A query that returns information about the current state of a schedule
+    transaction on a Hedera network.
+    
+    See <a href="https://docs.hedera.com/guides/docs/sdks/schedule-transaction/get-schedule-info">Hedera Documentation</a></summary>
+  </member>
+  <member name="P:ScheduleInfoQuery.ScheduleId">
+    <summary>
+    Assign the schedule id.
+    </summary>
+    <param name="ScheduleId">the schedule id</param>
+    <returns>{@code this}</returns>
+  </member>
+</docs>

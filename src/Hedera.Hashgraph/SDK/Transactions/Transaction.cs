@@ -34,27 +34,17 @@ using System.Threading.Tasks;
 namespace Hedera.Hashgraph.SDK.Transactions
 {
 
-	/// <summary>
-	/// Base class for all transactions that may be built and submitted to Hedera.
-	/// </summary>
-	/// <param name="<T>">The type of the transaction. Used to enable chaining.</param>
+	/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
 	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>
     {
-		/// <summary>
-		/// The maximum transaction fee the client is willing to pay
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction_2"]/*' />
 		protected Hbar DefaultMaxTransactionFee = new (2);
-        /// <summary>
-        /// Should the transaction id be regenerated
-        /// </summary>
-		/// 
+        /// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor"]/*' />
         protected bool? regenerateTransactionId = null;
         private string Memo = "";
         protected IList<CustomFeeLimit> customFeeLimits = [];
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor_2"]/*' />
 		protected Transaction()
         {
             TransactionValidDuration = Transaction.DEFAULT_TRANSACTION_VALID_DURATION;
@@ -65,10 +55,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 
 		}
-		/// <summary>
-		/// This constructor is used to construct from a scheduled transaction body
-		/// </summary>
-		/// <param name="txBody"></param>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal Transaction(Proto.TransactionBody txBody)
 		{
 			TransactionValidDuration = Transaction.DEFAULT_TRANSACTION_VALID_DURATION;
@@ -80,10 +67,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
-		/// <summary>
-		/// This constructor is used to construct via fromBytes
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs)
         {
 			TransactionIds = new ListGuarded<TransactionId>
@@ -171,9 +155,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		}
 
-        /// <summary>
-        /// The maximum transaction fee the operator (paying account) is willing to pay.
-        /// </summary>
+        /// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen"]/*' />
         public Hbar? MaxTransactionFee
         {
             get;
@@ -183,10 +165,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Extract the memo for the transaction.
-		/// </summary>
-		/// <returns>the memo for the transaction</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_2"]/*' />
 		public string TransactionMemo
 		{
 			get;
@@ -196,11 +175,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Sets the duration that this transaction is valid for.
-		/// <p>
-		/// This is defaulted by the SDK to 120 seconds (or two minutes).
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_3"]/*' />
 		public TimeSpan TransactionValidDuration
 		{
 			get;
@@ -210,20 +185,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Transaction constructors end their work by setting sourceTransactionBody. The expectation is that the Transaction
-		/// subclass constructor will pick up where the Transaction superclass constructor left off, and will unpack the data
-		/// in the transaction body.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.SourceTransactionBody"]/*' />
 		public Proto.TransactionBody SourceTransactionBody { get; internal set; }
-		/// <summary>
-		/// The builder that gets re-used to build each outer transaction. freezeWith() will create the frozenBodyBuilder.
-		/// The presence of frozenBodyBuilder indicates that this transaction is frozen.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.FrozenBodyBuilder"]/*' />
 		public Proto.TransactionBody? FrozenBodyBuilder { get; internal set; }
-		/// <summary>
-		/// The key that will sign the batch of which this Transaction is a part of.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_4"]/*' />
 		public Key? BatchKey 
 		{ 
 			get;
@@ -233,21 +199,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value; 
 			} 
 		}
-		/// <summary>
-		/// Should the transaction id be regenerated.
-		/// </summary>
-		/// <returns>should the transaction id be regenerated</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.ShouldRegenerateTransactionId"]/*' />
 		public bool ShouldRegenerateTransactionId { get; set; }
-		/// <summary>
-		/// Set the ID for this transaction.
-		/// <p>
-		/// The transaction ID includes the operator's account ( the account paying the transaction fee). If two transactions
-		/// have the same transaction ID, they won't both have an effect. One will complete normally and the other will fail
-		/// with a duplicate transaction status.
-		/// <p>
-		/// Normally, you should not use this method. Just before a transaction is executed, a transaction ID will be
-		/// generated from the operator on the client.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction_3"]/*' />
 		public TransactionId TransactionId
 		{
 			get
@@ -266,37 +220,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				TransactionIds.IsLocked = true;
 			}
 		}
-		/// <summary>
-		/// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
-		/// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
-		/// response, we try a different transaction and thus a different node.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.OuterTransactions"]/*' />
 		public List<Proto.Transaction> OuterTransactions { get; internal set; }
-		/// <summary>
-		/// An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
-		/// except pointing to different nodes. When retrying a transaction after a network error or retry-able status
-		/// response, we try a different transaction and thus a different node.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.InnerSignedTransactions"]/*' />
 		public List<Proto.SignedTransaction> InnerSignedTransactions { get; internal set; }
-		/// <summary>
-		/// A set of signatures corresponding to every unique public key used to sign the transaction.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.SigPairLists"]/*' />
 		public List<Proto.SignatureMap> SigPairLists { get; internal set; }
-		/// <summary>
-		/// List of IDs for the transaction based on the operator because the transaction ID includes the operator's account
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.TransactionIds"]/*' />
 		public ListGuarded<TransactionId> TransactionIds { get; internal set; }
-		/// <summary>
-		/// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
-		/// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
-		/// the signer is not available (likely because this came from fromBytes())
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.PublicKeys"]/*' />
 		public IList<PublicKey> PublicKeys { get; internal set; }
-		/// <summary>
-		/// publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
-		/// the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
-		/// the signer is not available (likely because this came from fromBytes())
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.freezeWith(Client)"]/*' />
 		public List<Func<byte[], byte[]>?> Signers { get; internal set; }
 
 		public override TransactionId TransactionIdInternal
@@ -304,14 +238,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			get => TransactionIds.Current;
 		}
 
-		/// <summary>
-		/// Called in {@link #freezeWith(Client)} just before the transaction body is built. The intent is for the derived
-		/// class to assign their data variant to the transaction body.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnFreeze(Proto.TransactionBody)"]/*' />
 		public abstract void OnFreeze(Proto.TransactionBody bodyBuilder);
-		/// <summary>
-		/// Called in {@link #schedule()} when converting transaction into a scheduled version.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnScheduled(Proto.SchedulableTransactionBody)"]/*' />
 		public abstract void OnScheduled(Proto.SchedulableTransactionBody scheduled);
 		public abstract void ValidateChecksums(Client client);
 
@@ -320,11 +249,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return BatchKey != null && this is not BatchTransaction;
 		}
 
-		/// <summary>
-		/// Converts transaction into a scheduled version
-		/// </summary>
-		/// <param name="bodyBuilder">the transaction's body builder</param>
-		/// <returns>the scheduled transaction</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.DoSchedule(Proto.TransactionBody)"]/*' />
 		protected virtual ScheduleCreateTransaction DoSchedule(Proto.TransactionBody bodyBuilder)
 		{
 			Proto.SchedulableTransactionBody proto = new ()
@@ -369,18 +294,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return map;
 		}
-		/// <summary>
-		/// Checks if a public key is already added to the transaction
-		/// </summary>
-		/// <param name="key">the public key</param>
-		/// <returns>if the public key is already added</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.KeyAlreadySigned(PublicKey)"]/*' />
 		protected virtual bool KeyAlreadySigned(PublicKey key)
 		{
 			return PublicKeys.Contains(key);
 		}
-		/// <summary>
-		/// Throw an exception if the transaction is frozen.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_5"]/*' />
 		internal virtual void RequireNotFrozen()
 		{
 			if (IsFrozen())
@@ -388,9 +307,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new InvalidOperationException("transaction is immutable; it has at least one signature or has been explicitly frozen");
 			}
 		}
-		/// <summary>
-		/// Throw an exception if there is not exactly one node id set.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireOneNodeAccountId"]/*' />
 		internal virtual void RequireOneNodeAccountId()
 		{
 			if (NodeAccountIds.Count != 1)
@@ -413,12 +330,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return builder;
 		}
 
-		/// <summary>
-		/// Add a signature to the transaction.
-		/// </summary>
-		/// <param name="publicKey">the public key</param>
-		/// <param name="signature">the signature</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignature(PublicKey,System.Byte[])"]/*' />
 		public virtual T AddSignature(PublicKey publicKey, byte[] signature)
 		{
 			RequireOneNodeAccountId();
@@ -445,17 +357,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
-		/// <summary>
-		/// Adds a signature to the transaction for a specific transaction id and node id.
-		/// This is useful for signing chunked transactions like FileAppendTransaction,
-		/// since they can have multiple transaction ids.
-		/// </summary>
-		/// <param name="publicKey">The public key to add signature for</param>
-		/// <param name="signature">The signature bytes</param>
-		/// <param name="transactionID">The specific transaction ID to match</param>
-		/// <param name="nodeID">The specific node ID to match</param>
-		/// <returns>The child transaction (this)</returns>
-		/// <exception cref="RuntimeException">if unmarshaling fails or invalid signed transaction</exception>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignature(PublicKey,System.Byte[],TransactionId,AccountId)"]/*' />
 		public virtual T AddSignature(PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
 		{
 			if (InnerSignedTransactions.Count == 0)
@@ -474,9 +376,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
-		/// <summary>
-		/// Build all the transactions.
-		/// </summary>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.BuildAllTransactions"]/*' />
 		public virtual void BuildAllTransactions()
         {
             TransactionIds.IsLocked = true;
@@ -485,11 +385,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             for (var i = 0; i < InnerSignedTransactions.Count; ++i)
 				BuildTransaction(i);
 		}
-        /// <summary>
-        /// Will build the specific transaction at {@code index} This function is only ever called after the transaction is
-        /// frozen.
-        /// </summary>
-        /// <param name="index">the index of the transaction to be built</param>
+        /// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.BuildTransaction(System.Int32)"]/*' />
         public virtual void BuildTransaction(int index)
         {
             // Check if transaction is already built.
@@ -505,22 +401,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				SignedTransactionBytes = InnerSignedTransactions[index].ToByteString(),
 			};
         }
-		/// <summary>
-		/// Freeze this transaction from further modification to prepare for signing or serialization.
-		/// </summary>
-		/// <returns>{@code this}</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Freeze"]/*' />
 		public virtual T Freeze()
 		{
 			return FreezeWith(null);
 		}
-		/// <summary>
-		/// Freeze this transaction from further modification to prepare for signing or serialization.
-		/// <p>
-		/// Will use the `Client`, if available, to generate a default Transaction ID and select 1/3 nodes to prepare this
-		/// transaction for.
-		/// </summary>
-		/// <param name="client">the configured client</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.FreezeWith(Client)"]/*' />
 		public virtual T FreezeWith(Client? client)
 		{
 			if (IsFrozen())
@@ -584,18 +470,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
-		/// <summary>
-		/// There must be at least one chunk.
-		/// </summary>
-		/// <returns>there is 1 required chunk</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetRequiredChunks"]/*' />
 		public virtual int GetRequiredChunks()
 		{
 			return 1;
 		}
-		/// <summary>
-		/// Extract list of account id and public keys.
-		/// </summary>
-		/// <returns>the list of account id and public keys</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetSignatures"]/*' />
 		public virtual IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignatures()
 		{
 			if (!IsFrozen())
@@ -608,14 +488,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return GetSignaturesAtOffset(0);
 		}
-		/// <summary>
-		/// Returns a list of SignableNodeTransactionBodyBytes objects for each signed transaction in the transaction list.
-		/// The NodeID represents the node that this transaction is signed for.
-		/// The TransactionID is useful for signing chunked transactions like FileAppendTransaction,
-		/// since they can have multiple transaction ids.
-		/// </summary>
-		/// <returns>List of SignableNodeTransactionBodyBytes</returns>
-		/// <exception cref="RuntimeException">if transaction is not frozen or protobuf parsing fails</exception>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetSignableNodeBodyBytesList"]/*' />
 		public virtual List<SignableNodeTransactionBodyBytes> GetSignableNodeBodyBytesList()
 		{
 			if (!IsFrozen())
@@ -636,10 +509,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return signableNodeTransactionBodyBytesList;
 		}
-		/// <summary>
-		/// This method retrieves the size of the transaction
-		/// </summary>
-		/// <returns></returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionSize"]/*' />
 		public virtual int GetTransactionSize()
 		{
 			if (!IsFrozen())
@@ -649,10 +519,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return MakeRequest().CalculateSize();
 		}
-		/// <summary>
-		/// This method retrieves the transaction body size
-		/// </summary>
-		/// <returns></returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionBodySize"]/*' />
 		public virtual int GetTransactionBodySize()
 		{
 			if (!IsFrozen())
@@ -660,10 +527,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return FrozenBodyBuilder?.CalculateSize() ?? 0;
 		}
-		/// <summary>
-		/// Extract a byte array of the transaction hash.
-		/// </summary>
-		/// <returns>the transaction hash</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionHash"]/*' />
 		public virtual byte[] GetTransactionHash()
 		{
 			if (!IsFrozen())
@@ -680,10 +544,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return Transaction.GenerateHash(OuterTransactions[index].SignedTransactionBytes.ToByteArray());
 		}
-		/// <summary>
-		/// Extract the list of account id and hash records.
-		/// </summary>
-		/// <returns>the list of account id and hash records</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionHashPerNode"]/*' />
 		public virtual IDictionary<AccountId, byte[]> GetTransactionHashPerNode()
 		{
 			if (!IsFrozen())
@@ -700,11 +561,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return hashes;
 		}
-		/// <summary>
-		/// Generate transaction id's.
-		/// </summary>
-		/// <param name="initialTransactionId">the initial transaction id</param>
-		/// <param name="count">the number of id's to generate.</param>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GenerateTransactionIds(TransactionId,System.Int32)"]/*' />
 		public virtual void GenerateTransactionIds(TransactionId initialTransactionId, int count)
 		{
 			var locked = TransactionIds.IsLocked;
@@ -732,10 +589,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			TransactionIds.IsLocked = locked;
 		}
-		/// <summary>
-		/// Check if transaction is frozen.
-		/// </summary>
-		/// <returns>is the transaction frozen</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.IsFrozen"]/*' />
 		public virtual bool IsFrozen()
 		{
 			return FrozenBodyBuilder != null;
@@ -763,10 +617,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			TransactionIds.IsLocked = true;
 			return this;
 		}
-		/// <summary>
-		/// Extract the scheduled transaction.
-		/// </summary>
-		/// <returns>the scheduled transaction</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Schedule"]/*' />
 		public virtual ScheduleCreateTransaction Schedule()
 		{
 			RequireNotFrozen();
@@ -779,11 +630,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			OnFreeze(bodyBuilder);
 			return DoSchedule(bodyBuilder);
 		}
-		/// <summary>
-		/// Will sign the specific transaction at {@code index} This function is only ever called after the transaction is
-		/// frozen.
-		/// </summary>
-		/// <param name="index">the index of the transaction to sign</param>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SignTransaction(System.Int32)"]/*' />
 		public virtual void SignTransaction(int index)
         {
             var bodyBytes = InnerSignedTransactions[index].BodyBytes.ToByteArray();
@@ -804,11 +651,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 SigPairLists[index].SigPair.Add(PublicKeys[i].ToSignaturePairProtobuf(signatureBytes));
             }
         }
-		/// <summary>
-		/// Sign the transaction with the configured client.
-		/// </summary>
-		/// <param name="client">the configured client</param>
-		/// <returns>the signed transaction</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SignWithOperator(Client)"]/*' />
 		public virtual T SignWithOperator(Client client)
 		{
 			if (client.Operator_ == null)
@@ -819,12 +662,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return SignWith(client.Operator_.PublicKey, client.Operator_.TransactionSigner);
 		}
-		/// <summary>
-		/// Sign the transaction.
-		/// </summary>
-		/// <param name="publicKey">the public key</param>
-		/// <param name="transactionSigner">the key list</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})"]/*' />
 		public virtual T SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
 		{
 			if (!IsFrozen())
@@ -850,10 +688,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
-		/// <summary>
-		/// Extract a byte array representation.
-		/// </summary>
-		/// <returns>the byte array representation</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
 			var list = new Proto.TransactionList();
@@ -911,10 +746,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return list.ToByteArray();
 		}
-		/// <summary>
-		/// Wipe / reset the transaction list.
-		/// </summary>
-		/// <param name="requiredChunks">the number of required chunks</param>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.WipeTransactionLists(System.Int32)"]/*' />
 		public virtual void WipeTransactionLists(int requiredChunks)
 		{
 			if (TransactionIds.Count != 0)
@@ -1012,15 +844,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             BuildTransaction(index);
             return OuterTransactions[index];
         }
-		/// <summary>
-		/// Set the account IDs of the nodes that this transaction will be submitted to.
-		/// <p>
-		/// Providing an explicit node account ID interferes with client-side load balancing of the network. By default, the
-		/// SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
-		/// reports a fatal error, the SDK will try again with a different node.
-		/// </summary>
-		/// <param name="NodeAccountIds">The list of node AccountIds to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SetNodeAccountIds(System.Collections.Generic.IEnumerable{AccountId})"]/*' />
 		public virtual T SetNodeAccountIds(IEnumerable<AccountId> nodeaccountids)
 		{
 			RequireNotFrozen();
@@ -1045,13 +869,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return Regex.Replace(body.ToString(), "@[A-Za-z0-9]+", string.Empty);
 		}
 
-		/// <summary>
-		/// batchify method is used to mark a transaction as part of a batch transaction or make it so-called inner transaction.
-		/// The Transaction will be frozen and signed by the operator of the client.
-		/// </summary>
-		/// <param name="client">sdk client</param>
-		/// <param name="batchKey">batch key</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Batchify(Client,Key)"]/*' />
 		public T Batchify(Client client, Key batchKey)
 		{
 			RequireNotFrozen();
@@ -1062,23 +880,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
-		/// <summary>
-		/// Sign the transaction.
-		/// </summary>
-		/// <param name="privateKey">the private key</param>
-		/// <returns>the signed transaction</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Sign(PrivateKey)"]/*' />
 		public T Sign(PrivateKey privateKey)
 		{
 			return SignWith(privateKey.GetPublicKey(), privateKey.Sign);
 		}
 
-		/// <summary>
-		/// Adds signature if it doesn't already exist for the given public key.
-		/// </summary>
-		/// <param name="index">The transaction index</param>
-		/// <param name="publicKey">The public key</param>
-		/// <param name="signature">The signature bytes</param>
-		/// <returns>true if signature was added, false if it already existed</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignatureIfNotExists(System.Int32,PublicKey,System.Byte[])"]/*' />
 		private bool AddSignatureIfNotExists(int index, PublicKey publicKey, byte[] signature)
 		{
 			Proto.SignatureMap sigMapBuilder = SigPairLists[index];
@@ -1093,12 +901,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return true;
 		}
-		/// <summary>
-		/// Checks if a signature for the given public key already exists.
-		/// </summary>
-		/// <param name="sigMapBuilder">The signature map builder</param>
-		/// <param name="publicKey">The public key to check</param>
-		/// <returns>true if signature already exists, false otherwise</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.IsSignatureAlreadyPresent(Proto.SignatureMap,PublicKey)"]/*' />
 		private bool IsSignatureAlreadyPresent(Proto.SignatureMap sigMapBuilder, PublicKey publicKey)
 		{
 			foreach (Proto.SignaturePair sig in sigMapBuilder.SigPair)
@@ -1107,13 +910,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return false;
 		}
-		/// <summary>
-		/// Checks if the transaction body matches the target transaction ID and node ID.
-		/// </summary>
-		/// <param name="body">The transaction body to check</param>
-		/// <param name="targetTransactionID">The target transaction ID to match against</param>
-		/// <param name="targetNodeID">The target node ID to match against</param>
-		/// <returns>true if both the transaction ID and node ID match the targets, false otherwise</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.MatchesTargetTransactionAndNode(Proto.TransactionBody,TransactionId,AccountId)"]/*' />
 		private bool MatchesTargetTransactionAndNode(Proto.TransactionBody body, TransactionId targetTransactionID, AccountId targetNodeID)
         {
             TransactionId bodyTxID = TransactionId.FromProtobuf(body.TransactionID);
@@ -1121,15 +918,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             return bodyTxID.ToString().Equals(targetTransactionID.ToString()) && bodyNodeID.ToString().Equals(targetNodeID.ToString());
         }
-		/// <summary>
-		/// Processes signature addition for a single transaction at the given index.
-		/// </summary>
-		/// <param name="index">The index of the transaction to process</param>
-		/// <param name="publicKey">The public key to add signature for</param>
-		/// <param name="signature">The signature bytes</param>
-		/// <param name="transactionID">The specific transaction ID to match</param>
-		/// <param name="nodeID">The specific node ID to match</param>
-		/// <returns>true if signature was added, false otherwise</returns>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.ProcessedSignatureForTransaction(System.Int32,PublicKey,System.Byte[],TransactionId,AccountId)"]/*' />
 		private bool ProcessedSignatureForTransaction(int index, PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
 		{
 			Proto.SignedTransaction temp = InnerSignedTransactions[index];
@@ -1143,10 +932,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return AddSignatureIfNotExists(index, publicKey, signature);
 		}
-		/// <summary>
-		/// Updates the transaction state after adding a signature.
-		/// </summary>
-		/// <param name="publicKey">The public key that was added</param>
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.UpdateTransactionState(PublicKey)"]/*' />
 		private void UpdateTransactionState(PublicKey publicKey)
         {
             PublicKeys.Add(publicKey);

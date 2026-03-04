@@ -18,16 +18,9 @@ namespace Hedera.Hashgraph.SDK.Token
         protected List<TokenNftTransfer> nftTransfers = [];
 
         protected AbstractTokenTransferTransaction() { }
-		/// <summary>
-		 /// Constructor.
-		 /// </summary>
-		 /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		 /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AbstractTokenTransferTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal AbstractTokenTransferTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs) { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AbstractTokenTransferTransaction(Proto.TransactionBody)"]/*' />
 		internal AbstractTokenTransferTransaction(Proto.TransactionBody txBody) : base(txBody) { }
 
 		protected virtual List<TokenTransferList> SortTransfersAndBuild()
@@ -150,10 +143,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			return (T)this;
 		}
 
-		/// <summary>
-		/// Extract the list of token id decimals.
-		/// </summary>
-		/// <returns>the list of token id decimals</returns>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:GetTokenIdDecimals"]/*' />
 		public virtual Dictionary<TokenId, uint?> GetTokenIdDecimals()
         {
             Dictionary<TokenId, uint?> decimalsMap = [];
@@ -164,10 +154,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             return decimalsMap;
         }
-        /// <summary>
-        /// Extract the list of token transfer records.
-        /// </summary>
-        /// <returns>the list of token transfer records</returns>
+        /// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:GetTokenTransfers"]/*' />
         public virtual Dictionary<TokenId, Dictionary<AccountId, long>> GetTokenTransfers()
         {
             Dictionary<TokenId, Dictionary<AccountId, long>> transfers = [];
@@ -180,10 +167,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
             return transfers;
         }
-		/// <summary>
-		/// Extract the of token nft transfers.
-		/// </summary>
-		/// <returns>list of token nft transfers</returns>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:GetTokenNftTransfers"]/*' />
 		public virtual Dictionary<TokenId, IList<TokenNftTransfer>> GetTokenNftTransfers()
 		{
 			Dictionary<TokenId, IList<TokenNftTransfer>> transfers = [];
@@ -197,80 +181,37 @@ namespace Hedera.Hashgraph.SDK.Token
 			return transfers;
 		}
 
-		/// <summary>
-		/// Add an approved nft transfer.
-		/// </summary>
-		/// <param name="nftId">the nft's id</param>
-		/// <param name="sender">the sender account id</param>
-		/// <param name="receiver">the receiver account id</param>
-		/// <returns>the updated transaction</returns>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AddApprovedNftTransfer(NftId,AccountId,AccountId)"]/*' />
 		public virtual T AddApprovedNftTransfer(NftId nftId, AccountId sender, AccountId receiver)
 		{
 			return DoAddNftTransfer(nftId, sender, receiver, true, null, null);
 		}
-        /// <summary>
-        /// Add an approved token transfer to the transaction.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <param name="accountId">the account id</param>
-        /// <param name="value">the value</param>
-        /// <returns>the updated transaction</returns>
+        /// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AddApprovedTokenTransfer(TokenId,AccountId,System.Int64)"]/*' />
         public virtual T AddApprovedTokenTransfer(TokenId tokenId, AccountId accountId, long value)
         {
             return DoAddTokenTransfer(tokenId, accountId, value, true, null, null);
         }
-        /// <summary>
-        /// Add a non-approved token transfer with decimals.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <param name="accountId">the account id</param>
-        /// <param name="value">the value</param>
-        /// <param name="decimals">the decimals</param>
-        /// <returns>the updated transaction</returns>
+        /// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AddTokenTransferWithDecimals(TokenId,AccountId,System.Int64,System.UInt32)"]/*' />
         public virtual T AddTokenTransferWithDecimals(TokenId tokenId, AccountId accountId, long value, uint decimals)
         {
             return DoAddTokenTransfer(tokenId, accountId, value, false, decimals, null);
         }
-        /// <summary>
-        /// Add an approved token transfer with decimals.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <param name="accountId">the account id</param>
-        /// <param name="value">the value</param>
-        /// <param name="decimals">the decimals</param>
-        /// <returns>the updated transaction</returns>
+        /// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AddApprovedTokenTransferWithDecimals(TokenId,AccountId,System.Int64,System.UInt32)"]/*' />
         public virtual T AddApprovedTokenTransferWithDecimals(TokenId tokenId, AccountId accountId, long value, uint decimals)
         {
             return DoAddTokenTransfer(tokenId, accountId, value, true, decimals, null);
         }
-		/// <summary>
-		/// Add a non-approved nft transfer.
-		/// </summary>
-		/// <param name="nftId">the nft's id</param>
-		/// <param name="sender">the sender account id</param>
-		/// <param name="receiver">the receiver account id</param>
-		/// <returns>the updated transaction</returns>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AddNftTransfer(NftId,AccountId,AccountId)"]/*' />
 		public virtual T AddNftTransfer(NftId nftId, AccountId sender, AccountId receiver)
 		{
 			return DoAddNftTransfer(nftId, sender, receiver, false, null, null);
 		}
-		/// <summary>
-		/// Add a non-approved token transfer to the transaction.
-		/// </summary>
-		/// <param name="tokenId">the token id</param>
-		/// <param name="accountId">the account id</param>
-		/// <param name="value">the value</param>
-		/// <returns>the updated transaction</returns>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AddTokenTransfer(TokenId,AccountId,System.Int64)"]/*' />
 		public virtual T AddTokenTransfer(TokenId tokenId, AccountId accountId, long value)
 		{
 			return DoAddTokenTransfer(tokenId, accountId, value, false, null, null);
 		}
-		/// <summary>
-		/// </summary>
-		/// <param name="nftId">the NFT id</param>
-		/// <param name="isApproved">whether the transfer is approved</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecated- Use {@link #addApprovedNftTransfer(NftId, AccountId, AccountId)} instead</remarks>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:SetNftTransferApproval(NftId,System.Boolean)"]/*' />
 		public virtual T SetNftTransferApproval(NftId nftId, bool isApproved)
 		{
 			RequireNotFrozen();
@@ -289,13 +230,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			// noinspection unchecked
 			return (T)this;
 		}
-		/// <summary>
-		/// </summary>
-		/// <param name="tokenId">the token id</param>
-		/// <param name="accountId">the account id</param>
-		/// <param name="isApproved">whether the transfer is approved</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecated- Use {@link #addApprovedTokenTransfer(TokenId, AccountId, long)} instead</remarks>
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:SetTokenTransferApproval(TokenId,AccountId,System.Boolean)"]/*' />
 		public virtual T SetTokenTransferApproval(TokenId tokenId, AccountId accountId, bool isApproved)
         {
             RequireNotFrozen();

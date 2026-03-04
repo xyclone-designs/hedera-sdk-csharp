@@ -3,11 +3,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.HBar
 {
-	/// <summary>
-	/// Common units of hbar; for the most part they follow SI prefix conventions.
-	/// 
-	/// See <a href="https://docs.hedera.com/guides/docs/sdks/hbars#hbar-units">Hedera Documentation</a>
-	/// </summary>
+	/// <include file="HbarUnit.cs.xml" path='docs/member[@name="T:HbarUnit"]/*' />
 	public readonly struct HbarUnit
 	{
 		// Define the units as static readonly fields to mimic Java Enum constants
@@ -31,19 +27,13 @@ namespace Hedera.Hashgraph.SDK.HBar
 			_tinybar = tinybar;
 		}
 
-		/// <summary>
-		/// Gets the number of tinybar in this unit.
-		/// </summary>
+		/// <include file="HbarUnit.cs.xml" path='docs/member[@name="P:HbarUnit.Tinybar"]/*' />
 		public long Tinybar => _tinybar;
 
-		/// <summary>
-		/// Gets the preferred symbol of the current unit (e.g., "tℏ").
-		/// </summary>
+		/// <include file="HbarUnit.cs.xml" path='docs/member[@name="P:HbarUnit.Symbol"]/*' />
 		public string Symbol => _symbol;
 
-		/// <summary>
-		/// Returns the unit name in lowercase (mimics Java toString() override).
-		/// </summary>
+		/// <include file="HbarUnit.cs.xml" path='docs/member[@name="M:HbarUnit.ToString"]/*' />
 		public override string ToString() => _name.ToLowerInvariant();
 
 		public static IEnumerable<HbarUnit> Values()

@@ -11,22 +11,12 @@ namespace Hedera.Hashgraph.SDK.Airdrops
     public abstract class PendingAirdropLogic<T> : Transaction<T> where T : PendingAirdropLogic<T>
     {
         protected PendingAirdropLogic() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(Proto.TransactionBody)"]/*' />
 		internal PendingAirdropLogic(Proto.TransactionBody txBody) : base(txBody) { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal PendingAirdropLogic(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs) { }
 
-        /// <summary>
-        /// Extract the pending airdrop ids
-        /// </summary>
-        /// <returns>the pending airdrop ids</returns>
+        /// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
         public virtual IList<PendingAirdropId> PendingAirdropIds
         {
             get { RequireNotFrozen(); return field; }

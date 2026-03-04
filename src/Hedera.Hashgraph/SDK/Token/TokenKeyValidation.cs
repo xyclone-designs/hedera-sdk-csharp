@@ -2,18 +2,12 @@
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Types of validation strategies for token keys.
-    /// </summary>
+    /// <include file="TokenKeyValidation.cs.xml" path='docs/member[@name="T:TokenKeyValidation"]/*' />
     public enum TokenKeyValidation
     {
-        /// <summary>
-        /// Currently the default behaviour. It will perform all token key validations.
-        /// </summary>
+        /// <include file="TokenKeyValidation.cs.xml" path='docs/member[@name="T:TokenKeyValidation_2"]/*' />
         FullValidation = Proto.TokenKeyValidation.FullValidation,
-        /// <summary>
-        /// Perform no validations at all for all passed token keys.
-        /// </summary>
+        /// <include file="TokenKeyValidation.cs.xml" path='docs/member[@name="T:TokenKeyValidation_3"]/*' />
         NoValidation = Proto.TokenKeyValidation.NoValidation
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:EvmHook">
+    <summary>&lt;summary&gt;
+    Definition of a lambda EVM hook.
+    &lt;p&gt;
+    This class represents a hook implementation that is programmed in EVM bytecode
+    and can access state or interact with external contracts. It includes the
+    hook specification and any initial storage updates.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:EvmHook.#ctor(ContractId)">
+    <summary>
+    Create a new EvmHook with no initial storage updates.
+    </summary>
+    <param name="contractId">underlying contract of the hook</param>
+  </member>
+  <member name="M:EvmHook.#ctor(ContractId,System.Collections.Generic.IEnumerable{EvmHookStorageUpdate})">
+    <summary>
+    Create a new EvmHook with initial storage updates.
+    </summary>
+    <param name="contractId">underlying contract of the hook</param>
+    <param name="storageUpdates">the initial storage updates for the lambda</param>
+  </member>
+  <member name="M:EvmHook.FromProtobuf(Proto.EvmHook)">
+    <summary>
+    Create a EvmHook from a protobuf message.
+    </summary>
+    <param name="proto">the protobuf EvmHook</param>
+    <returns>a new EvmHook instance</returns>
+  </member>
+  <member name="M:EvmHook.ToProtobuf">
+    <summary>
+    Convert this EvmHook to a protobuf message.
+    </summary>
+    <returns>the protobuf EvmHook</returns>
+  </member>
+  <member name="P:EvmHook.StorageUpdates">
+    <summary>
+    Get the initial storage updates for this lambda.
+    </summary>
+    <returns>an immutable list of storage updates</returns>
+  </member>
+</docs>

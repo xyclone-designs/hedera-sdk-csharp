@@ -12,13 +12,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// The client-generated ID for a transaction.
-    /// 
-    /// <p>This is used for retrieving receipts and records for a transaction, for appending to a file
-    /// right after creating it, for instantiating a smart contract with bytecode in a file just created,
-    /// and internally by the network for detecting when duplicate transactions are submitted.
-    /// </summary>
+    /// <include file="TransactionId.cs.xml" path='docs/member[@name="T:TransactionId"]/*' />
     public sealed class TransactionId : IComparable<TransactionId>
     {
 		private static readonly long NANOSECONDS_PER_MILLISECOND = 1000000;
@@ -27,11 +21,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		private static long monotonicTime = -1;
 
         
-        /// <summary>
-        /// No longer part of the public API. Use `Transaction.withValidStart()` instead.
-        /// </summary>
-        /// <param name="accountId">the account id</param>
-        /// <param name="ValidStart">the valid start time</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]/*' />
         public TransactionId(AccountId accountId, DateTimeOffset validStart)
         {
             AccountId = accountId;
@@ -39,14 +29,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Scheduled = false;
         }
 
-		/// <summary>
-		/// Generates a new transaction ID for the given account ID.
-		/// 
-		/// <p>Note that transaction IDs are made of the valid start of the transaction and the account
-		/// that will be charged the transaction fees for the transaction.
-		/// </summary>
-		/// <param name="accountId">the ID of the Hedera account that will be charge the transaction fees.</param>
-		/// <returns>{@link TransactionId}</returns>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.Generate(AccountId)"]/*' />
 		public static TransactionId Generate(AccountId accountId)
 		{
 			long currentTime;
@@ -76,22 +59,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return new TransactionId(accountId, DateTimeOffset.UtcNow.AddNanoseconds((int)(currentTime + Random.Shared.NextInt64(1000))));
 		}
-		/// <summary>
-		/// Create a transaction id.
-		/// </summary>
-		/// <param name="accountId">the account id</param>
-		/// <param name="ValidStart">the valid start time</param>
-		/// <returns>                         the new transaction id</returns>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.WithValidStart(AccountId,DateTimeOffset)"]/*' />
 		public static TransactionId WithValidStart(AccountId accountId, DateTimeOffset validStart)
         {
             return new TransactionId(accountId, validStart);
         }
 
-        /// <summary>
-        /// Create a new transaction id from a string.
-        /// </summary>
-        /// <param name="s">the string representing the transaction id</param>
-        /// <returns>                         the new transaction id</returns>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromString(System.String)"]/*' />
         public static TransactionId FromString(string s)
         {
             var parts = s.Split("/", 2);
@@ -121,21 +95,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Nonce = nonce
 			};
         }
-        /// <summary>
-        /// Create a new transaction id from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new transaction id</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromBytes(System.Byte[])"]/*' />
         public static TransactionId FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.TransactionID.Parser.ParseFrom(bytes));
         }
-		/// <summary>
-		/// Create a transaction id from a protobuf.
-		/// </summary>
-		/// <param name="transactionID">the protobuf</param>
-		/// <returns>                         the new transaction id</returns>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromProtobuf(Proto.TransactionID)"]/*' />
 		public static TransactionId FromProtobuf(Proto.TransactionID transactionID)
 		{
 			return new TransactionId(AccountId.FromProtobuf(transactionID.AccountID), transactionID.TransactionValidStart.ToDateTimeOffset())
@@ -145,24 +110,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 		}
 
-		/// <summary>
-		/// Extract the nonce.
-		/// </summary>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Nonce"]/*' />
 		public int? Nonce { get; set; }
-		/// <summary>
-		/// Extract the scheduled status.
-		/// </summary>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Scheduled"]/*' />
 		public bool Scheduled { get; set; }
-		/// <summary>
-		/// The Account ID that paid for this transaction.
-		/// </summary>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.AccountId"]/*' />
 		public AccountId AccountId { get; }
-		/// <summary>
-		/// The time from when this transaction is valid.
-		/// 
-		/// <p>When a transaction is submitted there is additionally a validDuration (defaults to 120s)
-		/// and together they define a time window that a transaction may be processed in.
-		/// </summary>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.ValidStart"]/*' />
 		public DateTimeOffset ValidStart { get; }
 
 		private string ToStringPostfix()
@@ -170,27 +124,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return "@" + ValidStart.ToUnixTimeSeconds() + "." + ValidStart.Nanosecond + (Scheduled ? "?scheduled" : "") + (Nonce != null ? "/" + Nonce : "");
 		}
 
-		/// <summary>
-		/// Fetch the receipt of the transaction.
-		/// </summary>
-		/// <param name="client">The client with which this will be executed.</param>
-		/// <returns>                         the transaction receipt</returns>
-		/// <exception cref="TimeoutException">when the transaction times out</exception>
-		/// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-		/// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceipt(Client)"]/*' />
 		public TransactionReceipt GetReceipt(Client client)
         {
             return GetReceipt(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Fetch the receipt of the transaction.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>                         the transaction receipt</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        /// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceipt(Client,System.TimeSpan)"]/*' />
         public TransactionReceipt GetReceipt(Client client, TimeSpan timeout)
         {
             var receipt = new TransactionReceiptQuery
@@ -204,21 +143,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return receipt;
         }
-        /// <summary>
-        /// Fetch the receipt of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <returns>                         future result of the transaction receipt</returns>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client)"]/*' />
         public Task<TransactionReceipt> GetReceiptAsync(Client client)
         {
             return GetReceiptAsync(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Fetch the receipt of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>                         the transaction receipt</returns>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan)"]/*' />
         public async Task<TransactionReceipt> GetReceiptAsync(Client client, TimeSpan timeout)
         {
             TransactionReceipt transactionreceipt = await new TransactionReceiptQuery
@@ -232,68 +162,33 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return transactionreceipt;
 		}
-        /// <summary>
-        /// Fetch the receipt of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt,System.Exception})"]/*' />
         public void GetReceiptAsync(Client client, Action<TransactionReceipt?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetReceiptAsync(client), callback);
         }
-        /// <summary>
-        /// Fetch the receipt of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt,System.Exception})"]/*' />
         public void GetReceiptAsync(Client client, TimeSpan timeout, Action<TransactionReceipt?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetReceiptAsync(client, timeout), callback);
         }
-        /// <summary>
-        /// Fetch the receipt of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt},System.Action{System.Exception})"]/*' />
         public void GetReceiptAsync(Client client, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetReceiptAsync(client), onSuccess, onFailure);
         }
-        /// <summary>
-        /// Fetch the receipt of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt},System.Action{System.Exception})"]/*' />
         public void GetReceiptAsync(Client client, TimeSpan timeout, Action<TransactionReceipt> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetReceiptAsync(client, timeout), onSuccess, onFailure);
         }
 
-        /// <summary>
-        /// Fetch the record of the transaction.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <returns>                         the transaction record</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        /// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecord(Client)"]/*' />
         public TransactionRecord GetRecord(Client client)
         {
             return GetRecord(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Fetch the record of the transaction.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>                         the transaction record</returns>
-        /// <exception cref="TimeoutException">when the transaction times out</exception>
-        /// <exception cref="PrecheckStatusException">when the precheck fails</exception>
-        /// <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecord(Client,System.TimeSpan)"]/*' />
         public TransactionRecord GetRecord(Client client, TimeSpan timeout)
         {
             GetReceipt(client, timeout);
@@ -304,21 +199,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			}.Execute(client, timeout);
         }
-        /// <summary>
-        /// Fetch the record of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <returns>                         future result of the transaction record</returns>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client)"]/*' />
         public Task<TransactionRecord> GetRecordAsync(Client client)
         {
             return GetRecordAsync(client, client.RequestTimeout);
         }
-        /// <summary>
-        /// Fetch the record of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <returns>                         future result of the transaction record</returns>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan)"]/*' />
         public async Task<TransactionRecord> GetRecordAsync(Client client, TimeSpan timeout)
         {
             // note: we get the receipt first to ensure consensus has been reached
@@ -330,42 +216,22 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			}.ExecuteAsync(client, timeout);
 		}
-        /// <summary>
-        /// Fetch the record of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord,System.Exception})"]/*' />
         public void GetRecordAsync(Client client, Action<TransactionRecord?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetRecordAsync(client), callback);
         }
-        /// <summary>
-        /// Fetch the record of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="callback">a Action which handles the result or error.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord,System.Exception})"]/*' />
         public void GetRecordAsync(Client client, TimeSpan timeout, Action<TransactionRecord?, Exception?> callback)
         {
             Utils.ActionHelper.Action(GetRecordAsync(client, timeout), callback);
         }
-        /// <summary>
-        /// Fetch the record of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord},System.Action{System.Exception})"]/*' />
         public void GetRecordAsync(Client client, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetRecordAsync(client), onSuccess, onFailure);
         }
-        /// <summary>
-        /// Fetch the record of the transaction asynchronously.
-        /// </summary>
-        /// <param name="client">The client with which this will be executed.</param>
-        /// <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
-        /// <param name="onSuccess">a Action which consumes the result on success.</param>
-        /// <param name="onFailure">a Action which consumes the error on failure.</param>
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord},System.Action{System.Exception})"]/*' />
         public void GetRecordAsync(Client client, TimeSpan timeout, Action<TransactionRecord> onSuccess, Action<Exception> onFailure)
         {
             Utils.ActionHelper.TwoActions(GetRecordAsync(client, timeout), onSuccess, onFailure);
@@ -409,18 +275,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return 0;
 		}
 
-		/// <summary>
-		/// Extract the byte array representation.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToBytes"]/*' />
 		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <summary>
-		/// Extract the transaction id protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToProtobuf"]/*' />
 		public Proto.TransactionID ToProtobuf()
 		{
 			Proto.TransactionID proto = new()
@@ -437,11 +297,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return proto;
 		}
-		/// <summary>
-		/// Convert to a string representation with checksum.
-		/// </summary>
-		/// <param name="client">the configured client</param>
-		/// <returns>                         the string representation with checksum</returns>
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToStringWithChecksum(Client)"]/*' />
 		public string ToStringWithChecksum(Client client)
 		{
 			if (AccountId != null && ValidStart != null)

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ExecutorService">
+    <summary>
+    ExecutorService replacement for Hedera SDK.
+    Provides a fixed thread pool with unbounded queue and caller-runs policy.
+    </summary>
+  </member>
+  <member name="M:ExecutorService.Execute(System.Action)">
+    <summary>
+    Schedules an action for execution (caller-runs if queue is full).
+    </summary>
+  </member>
+  <member name="M:ExecutorService.ForceShutdown">
+    <summary>
+    Immediately clears remaining queued tasks and signals threads to exit.
+    </summary>
+  </member>
+  <member name="M:ExecutorService.Submit(System.Action)">
+    <summary>
+    Waits for all tasks to complete or timeout to elapse.
+    </summary>
+    <summary>
+    Submits a task and returns a Task for async usage.
+    </summary>
+  </member>
+  <member name="M:ExecutorService.Dispose">
+    <summary>
+    Gracefully shuts down the executor (stops accepting new tasks).
+    </summary>
+  </member>
+</docs>

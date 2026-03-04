@@ -1,15 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
@@ -34,54 +30,85 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
         private ContractDeleteTransaction SpawnTestTransaction()
         {
-            return new ContractDeleteTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetTransferAccountId(new AccountId(0, 0, 9)).SetTransferContractId(ContractId.FromString("0.0.5008")).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze().Sign(unusedPrivateKey);
+            return new ContractDeleteTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				ContractId = ContractId.FromString("0.0.5007"),
+				TransferAccountId = new AccountId(0, 0, 9),
+				TransferContractId = ContractId.FromString("0.0.5008"),
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+			}
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = ContractDeleteTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ContractDeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ContractDeleteTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<ContractDeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetContractDeleteInstance(ContractDeleteTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+                ContractDeleteInstance = new Proto.ContractDeleteTransactionBody { }
+            };
+            
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<ContractDeleteTransaction>(tx);
         }
 
         public virtual void SetsPermanentRemovalInProtobufBody()
         {
-            var tx = new ContractDeleteTransaction().SetContractId(ContractId.FromString("0.0.5007")).SetPermanentRemoval(true);
-            var proto = tx.Build();
-            Assert.True(proto.GetPermanentRemoval());
+            var tx = new ContractDeleteTransaction
+            {
+				ContractId = ContractId.FromString("0.0.5007"),
+				PermanentRemoval = true
+			};
+            var proto = tx.ToProtobuf();
+
+            Assert.True(proto.PermanentRemoval);
         }
 
         public virtual void ShouldSupportPermanentRemovalBytesRoundTrip()
         {
-            var tx = new ContractDeleteTransaction().SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006"))).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart))).SetContractId(ContractId.FromString("0.0.5007")).SetTransferAccountId(new AccountId(0, 0, 9)).SetPermanentRemoval(true).SetMaxTransactionFee(Hbar.FromTinybars(100000)).Freeze();
-            Assert.True(tx.GetPermanentRemoval());
-            Assert.Equal(tx.GetContractId(), ContractId.FromString("0.0.5007"));
-            Assert.Equal(tx.GetTransferAccountId(), new AccountId(0, 0, 9));
-            Assert.Null(tx.GetTransferContractId());
-            Assert.Equal(tx.GetNodeAccountIds(), Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")));
-            Assert.Equal(tx.GetMaxTransactionFee(), Hbar.FromTinybars(100000));
-            var tx2 = (ContractDeleteTransaction)Transaction.FromBytes(tx.ToBytes());
+            var tx = new ContractDeleteTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				ContractId = ContractId.FromString("0.0.5007"),
+				TransferAccountId = new AccountId(0, 0, 9),
+				PermanentRemoval = true,
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+
+			}.Freeze();
+
+            Assert.True(tx.PermanentRemoval);
+            Assert.Equal(tx.ContractId, ContractId.FromString("0.0.5007"));
+            Assert.Equal(tx.TransferAccountId, new AccountId(0, 0, 9));
+            Assert.Null(tx.TransferContractId);
+            Assert.Equal(tx.NodeAccountIds, [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]);
+            Assert.Equal(tx.MaxTransactionFee, Hbar.FromTinybars(100000));
+
+            var tx2 = Transaction.FromBytes<ContractDeleteTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
-            Assert.True(tx2.GetPermanentRemoval());
-            Assert.Equal(tx2.GetContractId(), tx.GetContractId());
-            Assert.Equal(tx2.GetTransferAccountId(), tx.GetTransferAccountId());
-            Assert.Null(tx2.GetTransferContractId());
-            Assert.Equal(tx2.GetNodeAccountIds(), tx.GetNodeAccountIds());
-            Assert.Equal(tx2.GetMaxTransactionFee(), tx.GetMaxTransactionFee());
+            Assert.True(tx2.PermanentRemoval);
+            Assert.Equal(tx2.ContractId, tx.ContractId);
+            Assert.Equal(tx2.TransferAccountId, tx.TransferAccountId);
+            Assert.Null(tx2.TransferContractId);
+            Assert.Equal(tx2.NodeAccountIds, tx.NodeAccountIds);
+            Assert.Equal(tx2.MaxTransactionFee, tx.MaxTransactionFee);
         }
     }
 }

@@ -6,6 +6,7 @@ using Hedera.Hashgraph.SDK.Account;
 
 using System;
 using System.Text.RegularExpressions;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.Tests.SDK.HBar
 {
@@ -24,12 +25,12 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
 
         public virtual StakingInfo SpawnStakingInfoAccountExample()
         {
-            return new StakingInfo(true, Timestamp.FromDateTimeOffset(validStart), Hbar.From(5), Hbar.From(10), AccountId.FromString("1.2.3"), null);
+            return new StakingInfo(true, validStart, Hbar.From(5), Hbar.From(10), AccountId.FromString("1.2.3"), null);
         }
 
         public virtual StakingInfo SpawnStakingInfoNodeExample()
         {
-            return new StakingInfo(true, Timestamp.FromDateTimeOffset(validStart), Hbar.From(5), Hbar.From(10), null, 3);
+            return new StakingInfo(true, validStart, Hbar.From(5), Hbar.From(10), null, 3);
         }
 
         public virtual void ShouldSerializeAccount()

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenWipeTransaction">
+    <summary>
+    Wipe (administratively burn) tokens held by a non-treasury account.<br />
+    On success, the requested tokens will be removed from the identified account
+    and the token supply will be reduced by the amount "wiped".
+    
+    This transaction MUST be signed by the token `wipe_key`.<br />
+    The identified token MUST exist, MUST NOT be deleted,
+    and MUST NOT be paused.<br />
+    The identified token MUST have a valid `Key` set for the `wipe_key` field,
+    and that key MUST NOT be an empty `KeyList`.<br />
+    The identified account MUST exist, MUST NOT be deleted, MUST be
+    associated to the identified token, MUST NOT be frozen for the identified
+    token, MUST NOT be the token `treasury`, and MUST hold a balance for the
+    token or the specific serial numbers provided.<br />
+    This transaction SHOULD provide a value for `amount` or `serialNumbers`,
+    but MUST NOT set both fields.
+    
+    ### Block Stream Effects
+    The new total supply for the wiped token type SHALL be recorded.
+    </summary>
+  </member>
+  <member name="M:TokenWipeTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TokenWipeTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenWipeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenWipeTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A token identifier.
+    &lt;p&gt;
+    This field is REQUIRED.&lt;br/&gt;
+    The identified token MUST exist, MUST NOT be paused, MUST NOT be
+    deleted, and MUST NOT be expired.
+    &lt;/summary&gt;
+    &lt;param name="tokenId"&gt;the token id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenWipeTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    An account identifier.&lt;br/&gt;
+    This identifies the account from which tokens will be wiped.
+    &lt;p&gt;
+    This field is REQUIRED.&lt;br/&gt;
+    The identified account MUST NOT be deleted or expired.&lt;br/&gt;
+    If the identified token `kyc_key` is set to a valid key, the
+    identified account MUST have "KYC" granted.&lt;br/&gt;
+    The identified account MUST NOT be the `treasury` account for the
+    identified token.
+    &lt;/summary&gt;
+    &lt;param name="accountId"&gt;the account id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenWipeTransaction.RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    An amount of fungible/common tokens to wipe.
+    &lt;p&gt;
+    If the identified token is a non-fungible/unique token type,
+    this value MUST be exactly zero(`0`).&lt;br/&gt;
+    If the identified token type is fungible/common:
+    &lt;ul&gt;
+      &lt;li&gt;This value SHALL be specified in units of the smallest
+          denomination possible for the identified token
+          (&lt;tt&gt;10&lt;sup&gt;-decimals&lt;/sup&gt;&lt;/tt&gt; whole tokens).&lt;/li&gt;
+      &lt;li&gt;This value MUST be strictly less than `long.MaxValue`.&lt;/li&gt;
+      &lt;li&gt;This value MUST be less than or equal to the current total
+          supply for the identified token.&lt;/li&gt;
+      &lt;li&gt;This value MUST be less than or equal to the current balance
+          held by the identified account.&lt;/li&gt;
+      &lt;li&gt;This value MAY be zero(`0`).&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;/summary&gt;
+    &lt;param name="amount"&gt;the amount&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenWipeTransaction.InitFromTransactionBody">
+    <summary>&lt;summary&gt;
+    A list of serial numbers to wipe.&lt;br/&gt;
+    The non-fungible/unique tokens with these serial numbers will be
+    destroyed and cannot be recovered or reused.
+    &lt;p&gt;
+    If the identified token type is a fungible/common type, this
+    list MUST be empty.&lt;br/&gt;
+    If the identified token type is non-fungible/unique:
+    &lt;ul&gt;
+      &lt;li&gt;This list MUST contain at least one entry if the identified token
+          type is non-fungible/unique.&gt;/li&gt;
+      &lt;li&gt;This list MUST NOT contain more entries than the current total
+          supply for the identified token.&lt;/li&gt;
+      &lt;li&gt;Every entry in this list MUST be a valid serial number for the
+          identified token (i.e. "collection").&lt;/li&gt;
+      &lt;li&gt;Every entry in this list MUST be owned by the
+          identified account&lt;/li&gt;
+      &lt;li&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    This list MUST NOT contain more entries than the network configuration
+    value for batch size limit, typically ten(`10`).
+    &lt;/summary&gt;
+    &lt;param name="serials"&gt;the list of serial numbers&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenWipeTransaction.InitFromTransactionBody_2">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TokenWipeTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.TokenWipeAccountTransactionBody}</returns>
+  </member>
+</docs>

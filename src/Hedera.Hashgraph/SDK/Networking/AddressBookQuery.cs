@@ -13,9 +13,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <summary>
-	/// Query the mirror node for the address book.
-	/// </summary>
+	/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="T:AddressBookQuery"]/*' />
 	public class AddressBookQuery
 	{
 		private static readonly Logger LOGGER = LoggerFactory.GetLogger(typeof(AddressBookQuery));
@@ -37,13 +35,9 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return false;
 		}
 
-		/// <summary>
-		/// Assign the file id of address book to retrieve.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.FileId"]/*' />
 		public virtual FileId? FileId { get; set; }
-		/// <summary>
-		/// Assign the maximum backoff duration. Must be at least 500 ms.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="T:AddressBookQuery_2"]/*' />
 		public virtual TimeSpan MaxBackoff
 		{
 			get;
@@ -59,25 +53,17 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 		} = TimeSpan.FromSeconds(8);
 
-		/// <summary>
-		/// Assign the number of node addresses to retrieve, or 0 for all nodes.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.Limit"]/*' />
 		public virtual int? Limit { get; set; }
-		/// <summary>
-		/// Assign the maximum number of attempts.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.MaxAttempts"]/*' />
 		public virtual int MaxAttempts { get; set; } = 10;
 
-		/// <summary>
-		/// Execute the query with the client's preset timeout.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client)"]/*' />
 		public virtual NodeAddressBook Execute(Client client)
 		{
 			return Execute(client, client.RequestTimeout);
 		}
-		/// <summary>
-		/// Execute the query with a user-supplied timeout.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client,System.TimeSpan)"]/*' />
 		public virtual NodeAddressBook Execute(Client client, TimeSpan timeout)
 		{
 			var deadline = DateTime.UtcNow.Add(timeout);
@@ -110,16 +96,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <summary>
-		/// Execute the query asynchronously with the client's preset timeout.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.ExecuteAsync(Client)"]/*' />
 		public virtual Task<NodeAddressBook> ExecuteAsync(Client client)
 		{
 			return ExecuteAsync(client, client.RequestTimeout);
 		}
-		/// <summary>
-		/// Execute the query asynchronously with a user-supplied timeout.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.ExecuteAsync(Client,System.TimeSpan)"]/*' />
 		public virtual Task<NodeAddressBook> ExecuteAsync(Client client, TimeSpan timeout)
 		{
 			var deadline = DateTime.UtcNow.Add(timeout);
@@ -163,9 +145,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 
-		/// <summary>
-		/// Build the protobuf address book query message.
-		/// </summary>
+		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.BuildProtoQuery"]/*' />
 		public virtual Proto.AddressBookQuery BuildProtoQuery()
 		{
 			var builder = new Proto.AddressBookQuery();

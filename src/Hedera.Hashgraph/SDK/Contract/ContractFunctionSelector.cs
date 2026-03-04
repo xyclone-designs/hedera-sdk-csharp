@@ -6,19 +6,14 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <summary>
-	/// Builder class for Solidity function selectors.
-	/// </summary>
+	/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="T:ContractFunctionSelector"]/*' />
 	public sealed class ContractFunctionSelector
 	{
 		private KeccakDigest? digest;
 		private bool needsComma = false;
 		private byte[]? finished = null;
 
-		/// <summary>
-		/// Start building a selector for a function with a given name.
-		/// </summary>
-		/// <param name="funcName">The name of the function</param>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.#ctor(System.String)"]/*' />
 		public ContractFunctionSelector(string funcName)
 		{
 			digest = new KeccakDigest(256);
@@ -29,221 +24,137 @@ namespace Hedera.Hashgraph.SDK
 			digest.Update((byte)'(');
 		}
 
-		/// <summary>
-		/// Add a string parameter.
-		/// </summary>
-		/// <returns>                         string</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddString"]/*' />
 		public ContractFunctionSelector AddString()
 		{
 			return AddParamType("string");
 		}
-		/// <summary>
-		/// Add a string array parameter.
-		/// </summary>
-		/// <returns>                         array string</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddStringArray"]/*' />
 		public ContractFunctionSelector AddStringArray()
 		{
 			return AddParamType("string[]");
 		}
-		/// <summary>
-		/// Add a bytes parameter.
-		/// </summary>
-		/// <returns>                         bytes</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddBytes"]/*' />
 		public ContractFunctionSelector AddBytes()
 		{
 			return AddParamType("bytes");
 		}
-		/// <summary>
-		/// Add a bytes array parameter.
-		/// </summary>
-		/// <returns>                         bytes array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddBytesArray"]/*' />
 		public ContractFunctionSelector AddBytesArray()
 		{
 			return AddParamType("bytes[]");
 		}
-		/// <summary>
-		/// Add a bytes 32 parameter.
-		/// </summary>
-		/// <returns>                         bytes 32</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddBytes32"]/*' />
 		public ContractFunctionSelector AddBytes32()
 		{
 			return AddParamType("bytes32");
 		}
-		/// <summary>
-		/// Add a bytes 32 array parameter.
-		/// </summary>
-		/// <returns>                         bytes 32 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddBytes32Array"]/*' />
 		public ContractFunctionSelector AddBytes32Array()
 		{
 			return AddParamType("bytes32[]");
 		}
-		/// <summary>
-		/// Add a bool parameter.
-		/// </summary>
-		/// <returns>                         bool</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddBool"]/*' />
 		public ContractFunctionSelector AddBool()
 		{
 			return AddParamType("bool");
 		}
-		/// <summary>
-		/// Add an int 8 parameter.
-		/// </summary>
-		/// <returns>                         int 8</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt8"]/*' />
 		public ContractFunctionSelector AddInt8()
 		{
 			return AddParamType("int8");
 		}
-		/// <summary>
-		/// Add an int 32 parameter.
-		/// </summary>
-		/// <returns>                         int 32</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt32"]/*' />
 		public ContractFunctionSelector AddInt32()
 		{
 			return AddParamType("int32");
 		}
-		/// <summary>
-		/// Add an int 64 parameter.
-		/// </summary>
-		/// <returns>                         int 64</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt64"]/*' />
 		public ContractFunctionSelector AddInt64()
 		{
 			return AddParamType("int64");
 		}
-		/// <summary>
-		/// Add an int 256 parameter.
-		/// </summary>
-		/// <returns>                         int 256</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt256"]/*' />
 		public ContractFunctionSelector AddInt256()
 		{
 			return AddParamType("int256");
 		}
-		/// <summary>
-		/// Add an int 8 array parameter.
-		/// </summary>
-		/// <returns>                         int 8 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt8Array"]/*' />
 		public ContractFunctionSelector AddInt8Array()
 		{
 			return AddParamType("int8[]");
 		}
-		/// <summary>
-		/// Add an int 32 array parameter.
-		/// </summary>
-		/// <returns>                         int 32 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt32Array"]/*' />
 		public ContractFunctionSelector AddInt32Array()
 		{
 			return AddParamType("int32[]");
 		}
-		/// <summary>
-		/// Add an int 64 array parameter.
-		/// </summary>
-		/// <returns>                         int 64 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt64Array"]/*' />
 		public ContractFunctionSelector AddInt64Array()
 		{
 			return AddParamType("int64[]");
 		}
-		/// <summary>
-		/// Add an int 256 array parameter.
-		/// </summary>
-		/// <returns>                         int 256 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddInt256Array"]/*' />
 		public ContractFunctionSelector AddInt256Array()
 		{
 			return AddParamType("int256[]");
 		}
-		/// <summary>
-		/// Add an unsigned int 8 parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 8</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint8"]/*' />
 		public ContractFunctionSelector AddUint8()
 		{
 			return AddParamType("uint8");
 		}
-		/// <summary>
-		/// Add an unsigned int 32 parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 32</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint32"]/*' />
 		public ContractFunctionSelector AddUint32()
 		{
 			return AddParamType("uint32");
 		}
-		/// <summary>
-		/// Add an unsigned int 64 parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 64</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint64"]/*' />
 		public ContractFunctionSelector AddUint64()
 		{
 			return AddParamType("uint64");
 		}
-		/// <summary>
-		/// Add an unsigned int 256 parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 256</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint256"]/*' />
 		public ContractFunctionSelector AddUint256()
 		{
 			return AddParamType("uint256");
 		}
-		/// <summary>
-		/// Add an unsigned int 8 array parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 8 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint8Array"]/*' />
 		public ContractFunctionSelector AddUint8Array()
 		{
 			return AddParamType("uint8[]");
 		}
-		/// <summary>
-		/// Add an unsigned int 32 array parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 32 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint32Array"]/*' />
 		public ContractFunctionSelector AddUint32Array()
 		{
 			return AddParamType("uint32[]");
 		}
-		/// <summary>
-		/// Add an unsigned int 64 array parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 64 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint64Array"]/*' />
 		public ContractFunctionSelector AddUint64Array()
 		{
 			return AddParamType("uint64[]");
 		}
-		/// <summary>
-		/// Add an unsigned int 256 array parameter.
-		/// </summary>
-		/// <returns>                         unsigned int 256 array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddUint256Array"]/*' />
 		public ContractFunctionSelector AddUint256Array()
 		{
 			return AddParamType("uint256[]");
 		}
-		/// <summary>
-		/// Add an address parameter.
-		/// </summary>
-		/// <returns>                         address</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddAddress"]/*' />
 		public ContractFunctionSelector AddAddress()
 		{
 			return AddParamType("address");
 		}
-		/// <summary>
-		/// Add an address array parameter.
-		/// </summary>
-		/// <returns>                         address array</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddAddressArray"]/*' />
 		public ContractFunctionSelector AddAddressArray()
 		{
 			return AddParamType("address[]");
 		}
-		/// <summary>
-		/// Add a function parameter.
-		/// </summary>
-		/// <returns>                         function.</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddFunction"]/*' />
 		public ContractFunctionSelector AddFunction()
 		{
 			return AddParamType("function");
 		}
-		/// <summary>
-		/// Add a Solidity type name to this selector;
-		/// {@see https://solidity.readthedocs.io/en/v0.5.9/types.html}
-		/// </summary>
-		/// <param name="typeName">the name of the Solidity type for a parameter.</param>
-		/// <returns>{@code this}</returns>
-		/// <exception cref="IllegalStateException">if {@link #finish()} has already been called.</exception>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.AddParamType(System.String)"]/*' />
 		public ContractFunctionSelector AddParamType(string typeName)
 		{
 			if (digest is null) throw new InvalidOperationException("Finish() has been called");
@@ -259,15 +170,7 @@ namespace Hedera.Hashgraph.SDK
 			return this;
 		}
 
-		/// <summary>
-		/// Complete the function selector after all parameters have been added and get the selector
-		/// bytes.
-		/// <p>
-		/// No more parameters may be added after this method call.
-		/// <p>
-		/// However, this can be called multiple times; it will always return the same result.
-		/// </summary>
-		/// <returns>the computed selector bytes.</returns>
+		/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="M:ContractFunctionSelector.Finish"]/*' />
 		public byte[] Finish()
 		{
 			if (digest is null) throw new InvalidOperationException("Finish() has been called");

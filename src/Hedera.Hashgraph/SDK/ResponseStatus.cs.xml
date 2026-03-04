@@ -1,0 +1,2034 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ResponseStatus">
+    <summary>&lt;summary&gt;
+    Returned in {@link TransactionReceipt} = Proto.ResponseCodeEnum.}, {@link PrecheckStatusException}
+    and {@link ReceiptStatusException}.
+    &lt;p&gt;
+    The success variant is {@link #SUCCESS} which is what a {@link TransactionReceipt} will contain for a
+    successful transaction.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:ResponseStatus_2">
+    <summary>
+    The transaction passed the precheck validations.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_3">
+    <summary>
+    For any error not handled by specific error codes listed below.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_4">
+    <summary>
+    Payer account does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_5">
+    <summary>
+    Node Account provided does not match the node account of the node the transaction was submitted
+    to.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_6">
+    <summary>
+    Pre-Check error when TransactionValidStart + transactionValidDuration is less than current
+    consensus time.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_7">
+    <summary>
+    Transaction start time is greater than current consensus time
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_8">
+    <summary>
+    The given transactionValidDuration was either non-Positive = Proto.ResponseCodeEnum.Positive, or greater than the maximum
+    valid TimeSpan.From 180 secs.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_9">
+    <summary>
+    The transaction signature is not valid
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.seconds(receipt)">
+    <summary>
+    Transaction memo size exceeded 100 bytes
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.seconds(receipt)_2">
+    <summary>
+    The fee provided in the transaction is insufficient for this type of transaction
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.seconds(receipt)_3">
+    <summary>
+    The payer account has insufficient cryptocurrency to pay the transaction fee
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_10">
+    <summary>
+    This transaction ID is a duplicate of one that was submitted to this node or reached consensus
+    in the last 180 seconds (receipt period)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_11">
+    <summary>
+    If API is throttled out
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_12">
+    <summary>
+    The API is not currently supported
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_13">
+    <summary>
+    The file id is invalid or does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_14">
+    <summary>
+    The account id is invalid or does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_15">
+    <summary>
+    The contract id is invalid or does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_16">
+    <summary>
+    Transaction id is not valid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_17">
+    <summary>
+    Receipt for given transaction id does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_18">
+    <summary>
+    Record for given transaction id does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_19">
+    <summary>
+    The solidity id is invalid or entity with this solidity id does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_20">
+    <summary>
+    The responding node has submitted the transaction to the network. Its final status is still
+    unknown.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_21">
+    <summary>
+    The transaction succeeded
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_22">
+    <summary>
+    There was a system error and the transaction failed because of invalid request parameters.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_23">
+    <summary>
+    There was a system error while performing fee Calculation = Proto.ResponseCodeEnum.Calculation, reserved for future.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_24">
+    <summary>
+    There was a system error while performing balance Checks = Proto.ResponseCodeEnum.Checks, reserved for future.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_25">
+    <summary>
+    Key not provided in the transaction body
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_26">
+    <summary>
+    Unsupported algorithm/encoding used for keys in the transaction
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.execution(query)">
+    <summary>
+    When the account balance is not sufficient for the transfer
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.execution(query)_2">
+    <summary>
+    During an update transaction when the system is not able to find the Users Solidity address
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.execution(query)_3">
+    <summary>
+    Not enough gas was supplied to execute transaction
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.execution(query)_4">
+    <summary>
+    contract byte code size is over the limit
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ve(amount)">
+    <summary>
+    local execution (query) is requested for a function which changes state
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ve(amount)_2">
+    <summary>
+    Contract REVERT OPCODE executed
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ve(amount)_3">
+    <summary>
+    For any contract execution related error not handled by specific error codes listed above.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_27">
+    <summary>
+    In Query Validation = Proto.ResponseCodeEnum.Validation, account with +ve(amount) value should be Receiving node Account = Proto.ResponseCodeEnum.Account, the
+    receiver account should be only one account in the list
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_28">
+    <summary>
+    Header is missing in Query request
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_29">
+    <summary>
+    The update of the account failed
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_30">
+    <summary>
+    Provided key encoding was not supported by the system
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_31">
+    <summary>
+    null solidity address
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_32">
+    <summary>
+    update of the contract failed
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_33">
+    <summary>
+    the query header is invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_34">
+    <summary>
+    Invalid fee submitted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_35">
+    <summary>
+    Payer signature is invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_36">
+    <summary>
+    The keys were not provided in the request.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_37">
+    <summary>
+    Expiration time provided in the transaction was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_38">
+    <summary>
+    WriteAccess Control Keys are not provided for the file
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.key(base ed25519,Keylist,or)">
+    <summary>
+    The contents of file are provided as empty.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.key(base ed25519,Keylist,or)_2">
+    <summary>
+    The crypto transfer credit and debit do not sum equal to 0
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.key(base ed25519,Keylist,or)_3">
+    <summary>
+    Transaction body provided is empty
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.key(base ed25519,Keylist,or)_4">
+    <summary>
+    Invalid transaction body provided
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.key(Keylist,or)">
+    <summary>
+    the type of key (base ed25519 Key = Proto.ResponseCodeEnum.Key, Keylist = Proto.ResponseCodeEnum.Keylist, or ThresholdKey) does not match the type of
+    signature (base ed25519 Signature = Proto.ResponseCodeEnum.Signature, Signaturelist = Proto.ResponseCodeEnum.Signaturelist, or ThresholdKeySignature)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_39">
+    <summary>
+    the number of key (Keylist = Proto.ResponseCodeEnum.Keylist, or ThresholdKey) does not match that of signature (Signaturelist = Proto.ResponseCodeEnum.Signaturelist,
+    or ThresholdKeySignature). e.g. if a keyList has 3 base Keys = Proto.ResponseCodeEnum.Keys, then the corresponding
+    signatureList should also have 3 base signatures.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_40">
+    <summary>
+    the livehash body is empty
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_41">
+    <summary>
+    the livehash data is missing
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_42">
+    <summary>
+    the keys for a livehash are missing
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_43">
+    <summary>
+    the livehash data is not the output of a SHA-384 digest
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_44">
+    <summary>
+    the query body is empty
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_45">
+    <summary>
+    the crypto livehash query is empty
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_46">
+    <summary>
+    the livehash is not present
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_47">
+    <summary>
+    the account id passed has not yet been created.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_48">
+    <summary>
+    the livehash already exists for a given account
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_49">
+    <summary>
+    File WACL keys are invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_50">
+    <summary>
+    Serialization failure
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_51">
+    <summary>
+    The size of the Transaction is greater than transactionMaxBytes
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_52">
+    <summary>
+    The Transaction has more than 50 levels
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_53">
+    <summary>
+    Contract is marked as deleted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_54">
+    <summary>
+    the platform node is either disconnected or lagging behind.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_55">
+    <summary>
+    one public key matches more than one prefixes on the signature map
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_56">
+    <summary>
+    transaction not created by platform due to large backlog
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_57">
+    <summary>
+    auto renewal period is not a positive number of seconds
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_58">
+    <summary>
+    the response code when a smart contract id is passed for a crypto API request
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_59">
+    <summary>
+    the account has been marked as deleted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_60">
+    <summary>
+    the file has been marked as deleted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_61">
+    <summary>
+    same accounts repeated in the transfer account list
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_62">
+    <summary>
+    attempting to set negative balance value for crypto account
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.modify(update or delete a immutable smart,i.e. one created without a /// admin)">
+    <summary>
+    when deleting smart contract that has crypto balance either transfer account or transfer smart
+    contract is required
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.modify(update or delete a immutable smart,i.e. one created without a /// admin)_2">
+    <summary>
+    when deleting smart contract that has crypto balance you can not use the same contract id as
+    transferContractId as the one being deleted
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.modify(update or delete a immutable smart,i.e. one created without a /// admin)_3">
+    <summary>
+    transferAccountId or transferContractId specified for contract delete does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_63">
+    <summary>
+    attempting to modify (update or delete a immutable smart Contract = Proto.ResponseCodeEnum.Contract, i.e. one created without a
+    admin key)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_64">
+    <summary>
+    Unexpected exception thrown by file system functions
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_65">
+    <summary>
+    the duration is not a subset of [MinimumAutorenewDuration = Proto.ResponseCodeEnum.MinimumAutorenewDuration,MAXIMUMAUTORENEWDURATION]
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_66">
+    <summary>
+    Decoding the smart contract binary to a byte array failed. Check that the input is a valid hex
+    string.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_67">
+    <summary>
+    File to create a smart contract was of length zero
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_68">
+    <summary>
+    Bytecode for smart contract is of length zero
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_69">
+    <summary>
+    Attempt to set negative initial balance
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_70">
+    <summary>
+    Attempt to set negative receive record threshold
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_71">
+    <summary>
+    Attempt to set negative send record threshold
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.accounts(both from and)">
+    <summary>
+    Special Account Operations should be performed by only Genesis Account = Proto.ResponseCodeEnum.Account, return this code if it
+    is not Genesis Account
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.accounts(both from and)_2">
+    <summary>
+    The fee payer account doesn't have permission to submit such Transaction
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.accounts(both from and)_3">
+    <summary>
+    FreezeTransactionBody is invalid
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.accounts(both from and)_4">
+    <summary>
+    FreezeTransactionBody does not exist
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(account 0.0.)">
+    <summary>
+    Exceeded the number of accounts (both from and to) allowed for crypto transfer list
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(account 0.0.)_2">
+    <summary>
+    Smart contract result size greater than specified maxResultSize
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_72">
+    <summary>
+    The payer account is not a special account(account 0.0.55)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_73">
+    <summary>
+    Negative gas was offered in smart contract call
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_74">
+    <summary>
+    Negative value / initial balance was specified in a smart contract call / create
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_75">
+    <summary>
+    Failed to update fee file
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_76">
+    <summary>
+    Failed to update exchange rate file
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_77">
+    <summary>
+    Payment tendered for contract local call cannot cover both the fee and the gas
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_78">
+    <summary>
+    Entities with Entity ID below 1000 are not allowed to be deleted
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.valid(append or update is)">
+    <summary>
+    Violating one of these rules: 1) treasury account can update all entities below 0.0.1000 = Proto.ResponseCodeEnum.1000, 2)
+    account 0.0.50 can update all entities from 0.0.51 - 0.0.80 = Proto.ResponseCodeEnum.80, 3) Network Function Master Account
+    A/c 0.0.50 - Update all Network Function accounts and perform all the Network Functions listed
+    Below = Proto.ResponseCodeEnum.Below, 4) Network Function Accounts: i) A/c 0.0.55 - Update Address Book files (0.0.101/102) = Proto.ResponseCodeEnum.),
+    ii) A/c 0.0.56 - Update Fee schedule (0.0.111) = Proto.ResponseCodeEnum.), iii) A/c 0.0.57 - Update Exchange Rate
+    (0.0.112).
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.valid(append or update is)_2">
+    <summary>
+    Fee Schedule Proto uploaded but not valid (append or update is required)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_79">
+    <summary>
+    Fee Schedule Proto uploaded but not valid (append or update is required)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_80">
+    <summary>
+    Fee Schedule Proto File Part uploaded
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_81">
+    <summary>
+    The change on Exchange Rate exceeds ExchangeRateAllowedPercentage
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_82">
+    <summary>
+    Contract permanent storage exceeded the currently allowable limit
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_83">
+    <summary>
+    Transfer Account should not be same as Account to be deleted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_84">
+    <summary>
+    The expiration date/time on a smart contract may not be reduced
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)">
+    <summary>
+    Gas exceeded currently allowable gas limit per transaction
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_2">
+    <summary>
+    File size exceeded the currently allowable limit
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_3">
+    <summary>
+    When a valid signature is not provided for operations on account with receiverSigRequired=true
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_4">
+    <summary>
+    The Topic ID specified is not in the system.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.authorized(ie - a deleteTopic for a topic with no)">
+    <summary>
+    A provided admin key was invalid. Verify the bytes for an Ed25519 public key are exactly 32 bytes; and the bytes for a compressed ECDSA(secp256k1) key are exactly 33 Bytes = Proto.ResponseCodeEnum.Bytes, with the first byte either 0x02 or 0x03..
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.authorized(ie - a deleteTopic for a topic with no)_2">
+    <summary>
+    A provided submit key was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_85">
+    <summary>
+    An attempted operation was not authorized (ie - a deleteTopic for a topic with no adminKey).
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_86">
+    <summary>
+    A ConsensusService message is empty.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.total(chunks)">
+    <summary>
+    The autoRenewAccount specified is not a Valid = Proto.ResponseCodeEnum.Valid, active account.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.total(chunks)_2">
+    <summary>
+    An adminKey was not specified on the Topic = Proto.ResponseCodeEnum.Topic, so there must not be an autoRenewAccount.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.total(chunks)_3">
+    <summary>
+    The topic has Expired = Proto.ResponseCodeEnum.Expired, was not automatically Renewed = Proto.ResponseCodeEnum.Renewed, and is in a 7 day grace period before the
+    topic will be deleted unrecoverably. This error response code will not be returned until
+    autoRenew functionality is supported by HAPI.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_87">
+    <summary>
+    chunk number must be from 1 to total (chunks) inclusive.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_88">
+    <summary>
+    For every Chunk = Proto.ResponseCodeEnum.Chunk, the payer account that is part of initialTransactionID must match the Payer Account of this transaction. The entire initialTransactionID should match the transactionID of the first Chunk = Proto.ResponseCodeEnum.Chunk, but this is not checked or enforced by Hedera except when the chunk number is 1.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_89">
+    <summary>
+    Account is frozen and cannot transact with the token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_90">
+    <summary>
+    An involved account already has more than tokens.maxPerAccount associations with non-deleted tokens.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_91">
+    <summary>
+    The token is invalid or does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_92">
+    <summary>
+    Invalid token decimals
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_93">
+    <summary>
+    Invalid token initial supply
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_94">
+    <summary>
+    Treasury Account does not exist or is deleted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_95">
+    <summary>
+    Token Symbol is not UTF-8 capitalized alphabetical string
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_96">
+    <summary>
+    Freeze key is not set on token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_97">
+    <summary>
+    Amounts in transfer list are not net zero
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_98">
+    <summary>
+    A token symbol was not provided
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_99">
+    <summary>
+    The provided token symbol was too long
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_100">
+    <summary>
+    KYC must be granted and account does not have KYC granted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_101">
+    <summary>
+    KYC key is not set on token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_102">
+    <summary>
+    Token balance is not sufficient for the transaction
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_103">
+    <summary>
+    Token transactions cannot be executed on deleted token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_104">
+    <summary>
+    Supply key is not set on token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_105">
+    <summary>
+    Wipe key is not set on token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_106">
+    <summary>
+    The requested token mint amount would cause an invalid total supply
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_107">
+    <summary>
+    The requested token burn amount would cause an invalid total supply
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_108">
+    <summary>
+    A required token-account relationship is missing
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_109">
+    <summary>
+    The target of a wipe operation was the token treasury account
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_110">
+    <summary>
+    The provided KYC key was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_111">
+    <summary>
+    The provided wipe key was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_112">
+    <summary>
+    The provided freeze key was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_113">
+    <summary>
+    The provided supply key was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_114">
+    <summary>
+    Token Name is not provided
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_115">
+    <summary>
+    Token Name is too long
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_116">
+    <summary>
+    The provided wipe amount must not be Negative = Proto.ResponseCodeEnum.Negative, zero or bigger than the token holder balance
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_117">
+    <summary>
+    Token does not have Admin key Set = Proto.ResponseCodeEnum.Set, thus update/delete transactions cannot be performed
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.transfers(both from and)">
+    <summary>
+    An associateToken operation specified a token already associated to the account
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.transfers(both from and)_2">
+    <summary>
+    An attempted operation is invalid until all token balances for the target account are zero
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.transfers(both from and)_3">
+    <summary>
+    An attempted operation is invalid because the account is a treasury
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.transfers(both from and)_4">
+    <summary>
+    Same TokenIDs present in the token list
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_118">
+    <summary>
+    Exceeded the number of token transfers (both from and to) allowed for token transfer list
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_119">
+    <summary>
+    TokenTransfersTransactionBody has no TokenTransferList
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_120">
+    <summary>
+    TokenTransfersTransactionBody has a TokenTransferList with no AccountAmounts
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_121">
+    <summary>
+    The Scheduled entity does not exist; or has now Expired = Proto.ResponseCodeEnum.Expired, been Deleted = Proto.ResponseCodeEnum.Deleted, or been executed
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_122">
+    <summary>
+    The Scheduled entity cannot be modified. Admin key not set
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_123">
+    <summary>
+    The provided Scheduled Payer does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_124">
+    <summary>
+    The Schedule Create Transaction TransactionID account does not exist
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_125">
+    <summary>
+    The provided sig map did not contain any new valid signatures from required signers of the scheduled transaction
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ScheduleCreate(that,all fields other than)">
+    <summary>
+    The required signers for a scheduled transaction cannot be Resolved = Proto.ResponseCodeEnum.Resolved, for example because they do not exist or have been deleted
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ScheduleCreate(that,all fields other than)_2">
+    <summary>
+    Only whitelisted transaction types may be scheduled
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ScheduleCreate(that,all fields other than)_3">
+    <summary>
+    At least one of the signatures in the provided sig map did not represent a valid signature for any required signer
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ScheduleCreate(that,all fields other than)_4">
+    <summary>
+    The scheduled field in the TransactionID may not be set to true
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_126">
+    <summary>
+    A schedule already exists with the same identifying fields of an attempted ScheduleCreate (that Is = Proto.ResponseCodeEnum.Is, all fields other than scheduledPayerAccountID)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_127">
+    <summary>
+    A string field in the transaction has a UTF-8 encoding with the prohibited zero byte
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_128">
+    <summary>
+    A schedule being signed or deleted has already been deleted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_129">
+    <summary>
+    A schedule being signed or deleted has already been executed
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_130">
+    <summary>
+    ConsensusSubmitMessage request's message size is larger than allowed.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_131">
+    <summary>
+    An operation was assigned to more than one throttle group in a given bucket
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_132">
+    <summary>
+    The capacity needed to satisfy all opsPerSec groups in a bucket overflowed a signed 8-byte integral type
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_133">
+    <summary>
+    Given the network size in the address Book = Proto.ResponseCodeEnum.Book, the node-level capacity for an operation would never be enough to accept a single request; usually means a bucket burstPeriod should be increased
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_134">
+    <summary>
+    A bucket was defined without any throttle groups
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_135">
+    <summary>
+    A throttle group was granted zero opsPerSec
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_136">
+    <summary>
+    The throttle definitions file was Updated = Proto.ResponseCodeEnum.Updated, but some supported operations were not assigned a bucket
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_137">
+    <summary>
+    The new contents for the throttle definitions system file were not valid protobuf
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_138">
+    <summary>
+    The new throttle definitions system file were Invalid = Proto.ResponseCodeEnum.Invalid, and no more specific error could be divined
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_139">
+    <summary>
+    The transaction references an account which has passed its expiration without renewal funds Available = Proto.ResponseCodeEnum.Available, and currently remains in the ledger only because of the grace period given to expired entities
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_140">
+    <summary>
+    Invalid token max supply
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_141">
+    <summary>
+    Invalid token nft serial number
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_142">
+    <summary>
+    Invalid nft id
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_143">
+    <summary>
+    Nft metadata is too long
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_144">
+    <summary>
+    Repeated operations count exceeds the limit
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_145">
+    <summary>
+    The range of data to be gathered is out of the set boundaries
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_146">
+    <summary>
+    A custom fractional fee set a denominator of zero
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_147">
+    <summary>
+    The transaction payer could not afford a custom fee
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_148">
+    <summary>
+    More than 10 custom fees were specified
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_149">
+    <summary>
+    Any of the feeCollector accounts for customFees is invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_150">
+    <summary>
+    Any of the token Ids in customFees is invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_151">
+    <summary>
+    Any of the token Ids in customFees are not associated to feeCollector
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_152">
+    <summary>
+    A token cannot have more units minted due to its configured supply ceiling
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_153">
+    <summary>
+    The transaction attempted to move an NFT serial number from an account other than its owner
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_154">
+    <summary>
+    A custom fee schedule entry did not specify either a fixed or fractional fee
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_155">
+    <summary>
+    Only positive fees may be assessed at this time
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_156">
+    <summary>
+    Fee schedule key is not set on token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_157">
+    <summary>
+    A fractional custom fee exceeded the range of a 64-bit signed integer
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_158">
+    <summary>
+    A royalty cannot exceed the total fungible value exchanged for an NFT
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_159">
+    <summary>
+    Each fractional custom fee must have its MaximumAmount = Proto.ResponseCodeEnum.MaximumAmount, if Specified = Proto.ResponseCodeEnum.Specified, at least its minimumAmount
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_160">
+    <summary>
+    A fee schedule update tried to clear the custom fees from a token whose fee schedule was already empty
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_161">
+    <summary>
+    Only tokens of type FUNGIBLECOMMON can be used to as fee schedule denominations
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_162">
+    <summary>
+    Only tokens of type FUNGIBLECOMMON can have fractional fees
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_163">
+    <summary>
+    The provided custom fee schedule key was invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_164">
+    <summary>
+    The requested token mint metadata was invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_165">
+    <summary>
+    The requested token burn metadata was invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_166">
+    <summary>
+    The treasury for a unique token cannot be changed until it owns no NFTs
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_167">
+    <summary>
+    An account cannot be dissociated from a unique token if it owns NFTs for the token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_168">
+    <summary>
+    A NFT can only be burned when owned by the unique token's treasury
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_169">
+    <summary>
+    An account did not own the NFT to be wiped
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_170">
+    <summary>
+    An AccountAmount token transfers list referenced a token type other than FUNGIBLECOMMON
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_171">
+    <summary>
+    All the NFTs allowed in the current price regime have already been minted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_172">
+    <summary>
+    The payer account has been marked as deleted
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_173">
+    <summary>
+    The reference chain of custom fees for a transferred token exceeded the maximum length of 2
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_174">
+    <summary>
+    More than 20 balance adjustments were to satisfy a CryptoTransfer and its implied custom fee payments
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_175">
+    <summary>
+    The sender account in the token transfer transaction could not afford a custom fee
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_176">
+    <summary>
+    Currently no more than 4 = Proto.ResponseCodeEnum.4,294 = Proto.ResponseCodeEnum.294,967 = Proto.ResponseCodeEnum.967,295 NFTs may be minted for a given unique token type
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_177">
+    <summary>
+    Only tokens of type NONFUNGIBLEUNIQUE can have royalty fees
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_178">
+    <summary>
+    The account has reached the limit on the automatic associations count.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_179">
+    <summary>
+    Already existing automatic associations are more than the new maximum automatic associations.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_180">
+    <summary>
+    Cannot set the number of automatic associations for an account more than the maximum allowed
+    token associations tokens.maxPerAccount.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_181">
+    <summary>
+    Token is paused. This Token cannot be a part of any kind of Transaction until unpaused.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_182">
+    <summary>
+    Pause key is not set on token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_183">
+    <summary>
+    The provided pause key was invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_184">
+    <summary>
+    The update file in a freeze transaction body must exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_185">
+    <summary>
+    The hash of the update file in a freeze transaction body must match the in-memory hash.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.the(consensus)">
+    <summary>
+    A FREEZEUPGRADE transaction was handled with no previous update prepared.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.the(consensus)_2">
+    <summary>
+    A FREEZEABORT transaction was handled with no scheduled freeze.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.the(consensus)_3">
+    <summary>
+    The update file hash when handling a FREEZEUPGRADE transaction differs from the file
+    hash at the time of handling the PREPAREUPGRADE transaction.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_186">
+    <summary>
+    The given freeze start time was in the (consensus) past.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_187">
+    <summary>
+    The prepared update file cannot be updated or appended until either the upgrade has
+    been Completed = Proto.ResponseCodeEnum.Completed, or a FREEZEABORT has been handled.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_188">
+    <summary>
+    Once a freeze is Scheduled = Proto.ResponseCodeEnum.Scheduled, it must be aborted before any other type of freeze can
+    can be performed.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_189">
+    <summary>
+    If an NMT upgrade has been Prepared = Proto.ResponseCodeEnum.Prepared, the following operation must be a FREEZEUPGRADE.
+    (To issue a FreezeOnly = Proto.ResponseCodeEnum.FreezeOnly, submit a FREEZEABORT first.)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_190">
+    <summary>
+    If an NMT upgrade has been Prepared = Proto.ResponseCodeEnum.Prepared, the subsequent FREEZEUPGRADE transaction must
+    confirm the id of the file to be used in the upgrade.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_191">
+    <summary>
+    If an NMT upgrade has been Prepared = Proto.ResponseCodeEnum.Prepared, the subsequent FREEZEUPGRADE transaction must
+    confirm the hash of the file to be used in the upgrade.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_5">
+    <summary>
+    Consensus throttle did not allow execution of this transaction. System is throttled at
+    consensus level.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_6">
+    <summary>
+    A precompiled contract Succeeded = Proto.ResponseCodeEnum.Succeeded, but was later reverted.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_7">
+    <summary>
+    All contract storage allocated to the current price regime has been consumed.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_192">
+    <summary>
+    An alias used in a CryptoTransfer transaction is not the serialization of a primitive Key
+    message--that Is = Proto.ResponseCodeEnum.Is, a Key with a single Ed25519 or ECDSA(secp256k1) public key and no
+    unknown protobuf fields.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_193">
+    <summary>
+    A fungible token transfer expected a different number of decimals than the involved
+    type actually has.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_194">
+    <summary>
+    The proxy account id is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_195">
+    <summary>
+    The transfer account id in CryptoDelete transaction is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_196">
+    <summary>
+    The fee collector account id in TokenFeeScheduleUpdate is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_197">
+    <summary>
+    The alias already set on an account cannot be updated using CryptoUpdate transaction.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_198">
+    <summary>
+    An approved allowance specifies a spender account that is the same as the hbar/token
+    owner account.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_199">
+    <summary>
+    The establishment or adjustment of an approved allowance cause the token allowance
+    to exceed the token maximum supply.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_200">
+    <summary>
+    The specified amount for an approved allowance cannot be negative.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_201">
+    <summary>
+    The approveForAll flag cannot be set for a fungible token.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_202">
+    <summary>
+    The spender does not have an existing approved allowance with the hbar/token owner.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_203">
+    <summary>
+    The transfer amount exceeds the current approved allowance for the spender account.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_204">
+    <summary>
+    The payer account of an approveAllowances or adjustAllowance transaction is attempting
+    to go beyond the maximum allowed number of allowances.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_205">
+    <summary>
+    No allowances have been specified in the approval transaction.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_206">
+    <summary>
+    Spender is repeated more than once in Crypto or Token or NFT allowance lists in a single
+    CryptoApproveAllowance transaction.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_207">
+    <summary>
+    Serial numbers are repeated in nft allowance for a single spender account
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_208">
+    <summary>
+    Fungible common token used in NFT allowances
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_209">
+    <summary>
+    Non fungible token used in fungible token allowances
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_210">
+    <summary>
+    The account id specified as the owner is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_211">
+    <summary>
+    The account id specified as the spender is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_212">
+    <summary>
+    [Deprecated] If the CryptoDeleteAllowance transaction has repeated crypto or token or Nft allowances to delete.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_213">
+    <summary>
+    If the account Id specified as the delegating spender is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_214">
+    <summary>
+    The delegating Spender cannot grant approveForAll allowance on a NFT token type for another spender.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_215">
+    <summary>
+    The delegating Spender cannot grant allowance on a NFT serial for another spender as it doesnt not have approveForAll
+    granted on token-owner.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_216">
+    <summary>
+    The scheduled transaction could not be created because it's expirationTime was too far in the future.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_217">
+    <summary>
+    The scheduled transaction could not be created because it's expirationTime was less than or equal to the consensus time.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_218">
+    <summary>
+    The scheduled transaction could not be created because it would cause throttles to be violated on the specified expirationTime.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_219">
+    <summary>
+    The scheduled transaction could not be created because it would cause the gas limit to be violated on the specified expirationTime.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_220">
+    <summary>
+    The ethereum transaction either failed parsing or failed signature Validation = Proto.ResponseCodeEnum.Validation, or some other EthereumTransaction error not covered by another response code.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_221">
+    <summary>
+    EthereumTransaction was signed against a chainId that this network does not support.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_222">
+    <summary>
+    This transaction specified an ethereumNonce that is not the current ethereumNonce of the account.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_223">
+    <summary>
+    The ethereum transaction specified an access List = Proto.ResponseCodeEnum.List, which the network does not support.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_224">
+    <summary>
+    A schedule being signed or deleted has passed it's expiration date and is pending execution if needed and then expiration.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_225">
+    <summary>
+    A selfdestruct or ContractDelete targeted a contract that is a token treasury.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_226">
+    <summary>
+    A selfdestruct or ContractDelete targeted a contract with non-zero token balances.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_227">
+    <summary>
+    A contract referenced by a transaction is "detached"; that Is = Proto.ResponseCodeEnum.Is, expired and lacking any
+    hbar funds for auto-renewal payment---but still within its post-expiry grace period.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_228">
+    <summary>
+    A ContractUpdate requested removal of a contract's auto-renew Account = Proto.ResponseCodeEnum.Account, but that contract has
+    no auto-renew account.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_229">
+    <summary>
+    A delete transaction submitted via HAPI set permanentRemoval=true
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_230">
+    <summary>
+    A CryptoCreate or ContractCreate used the deprecated proxyAccountID field.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_231">
+    <summary>
+    An account set the stakedAccountId to itself in CryptoUpdate or ContractUpdate transactions.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_232">
+    <summary>
+    The staking account id or staking node id given is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(if)">
+    <summary>
+    Native Staking = Proto.ResponseCodeEnum.Staking, while Implemented = Proto.ResponseCodeEnum.Implemented, has not yet enabled by the council.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(if)_2">
+    <summary>
+    The range provided in UtilPrng transaction is negative.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(if)_3">
+    <summary>
+    The maximum number of entities allowed in the current price regime have been created.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(if)_4">
+    <summary>
+    The full prefix signature for precompile is not valid
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(if)_5">
+    <summary>
+    The combined balances of a contract and its auto-renew account (if any) did not cover
+    the rent charged for net new storage used in a transaction.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.account(if)_6">
+    <summary>
+    A contract transaction tried to use more than the allowed number of child Records = Proto.ResponseCodeEnum.Records, via
+    either system contract records or internal contract creations.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_233">
+    <summary>
+    The combined balances of a contract and its auto-renew account (if any) or balance of an account did not cover
+    the auto-renewal fees in a transaction.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_8">
+    <summary>
+    A transaction's protobuf message includes unknown fields; could mean that a client
+    expects not-yet-released functionality to be available.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_9">
+    <summary>
+    The account cannot be modified. Account's key is not set
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.ECDSA(secp256k1)_10">
+    <summary>
+    An alias that is assigned to an account or contract cannot be assigned to another account or contract.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_234">
+    <summary>
+    A provided metadata key was invalid. Verification Includes = Proto.ResponseCodeEnum.Includes, for Example = Proto.ResponseCodeEnum.Example, checking the size of Ed25519 and ECDSA(secp256k1) public keys.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_235">
+    <summary>
+    Metadata key is not set on token
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_236">
+    <summary>
+    Token Metadata is not provided
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_237">
+    <summary>
+    NFT serial numbers are missing in the TokenUpdateNftsTransactionBody
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_238">
+    <summary>
+    Admin key is not set on token
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.name(DNS)">
+    <summary>
+    A transaction failed because the consensus node identified is
+    deleted from the address book.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.name(DNS)_2">
+    <summary>
+    A transaction failed because the consensus node identified is not valid or
+    does not exist in state.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_239">
+    <summary>
+    A transaction failed because one or more entries in the list of
+    service endpoints for the `gossipEndpoint` field is invalid.<br />
+    The most common cause for this response is a service endpoint that has
+    the domain name (DNS) set rather than address and port.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.name(DNS)_3">
+    <summary>
+    A transaction failed because the node account identifier provided
+    does not exist or is not valid.<br />
+    One common source of this error is providing a node account identifier
+    using the "alias" form rather than "numeric" form.
+    It is also used for atomic batch transaction for child transaction if the node account id is not 0.0.0.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.name(DNS)_4">
+    <summary>
+    A transaction failed because the description field cannot be encoded
+    as UTF-8 or is more than 100 bytes when encoded.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_240">
+    <summary>
+    A transaction failed because one or more entries in the list of
+    service endpoints for the `serviceEndpoint` field is invalid.<br />
+    The most common cause for this response is a service endpoint that has
+    the domain name (DNS) set rather than address and port.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_241">
+    <summary>&lt;summary&gt;
+    A transaction failed because the TLS certificate provided for the
+    node is missing or invalid.
+    &lt;p&gt;
+    #### Probable Causes
+    The certificate MUST be a TLS certificate of a type permitted for gossip
+    signatures.&lt;br/&gt;
+    The value presented MUST be a UTF-8 NFKD encoding of the TLS
+    certificate.&lt;br/&gt;
+    The certificate encoded MUST be in PEM format.&lt;br/&gt;
+    The `gossipCaCertificate` field is REQUIRED and MUST NOT be empty.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:ResponseStatus_242">
+    <summary>&lt;summary&gt;
+    A transaction failed because the hash provided for the gRPC certificate
+    is present but invalid.
+    &lt;p&gt;
+    #### Probable Causes
+    The `grpcCertificateHash` MUST be a SHA-384 hash.&lt;br/&gt;
+    The input hashed MUST be a UTF-8 NFKD encoding of the actual TLS
+    certificate.&lt;br/&gt;
+    The certificate to be encoded MUST be in PEM format.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:ResponseStatus_243">
+    <summary>
+    The maximum automatic associations value is not valid.<br />
+    The most common cause for this error is a value less than `-1`.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_244">
+    <summary>
+    The maximum number of nodes allowed in the address book have been created.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_245">
+    <summary>
+    In Serviceendpoint = Proto.ResponseCodeEnum.Serviceendpoint, domainName and ipAddressV4 are mutually exclusive
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_246">
+    <summary>
+    Fully qualified domain name is not allowed in gossipEndpoint
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_247">
+    <summary>
+    In Serviceendpoint = Proto.ResponseCodeEnum.Serviceendpoint, domainName size too large
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_248">
+    <summary>
+    ServiceEndpoint is invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_249">
+    <summary>
+    The number of gossip endpoints exceeds the limit
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_250">
+    <summary>
+    The transaction attempted to use duplicate `TokenReference`.<br />
+    This affects `TokenReject` attempting to reject same token reference more than once.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_251">
+    <summary>
+    The account id specified as the owner in `TokenReject` is invalid or does not exist.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_252">
+    <summary>
+    The transaction attempted to use more than the allowed number of `TokenReference`.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_253">
+    <summary>
+    The number of service endpoints exceeds the limit
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_254">
+    <summary>
+    The IPv4 address is invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_255">
+    <summary>
+    The transaction attempted to use empty `TokenReference` list.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_256">
+    <summary>
+    The node account is not allowed to be updated
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_257">
+    <summary>
+    The token has no metadata or supply key
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_258">
+    <summary>
+    The list of `PendingAirdropId`s is empty and MUST NOT be empty.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.airdrop(s)">
+    <summary>
+    A `PendingAirdropId` is repeated in a `claim` or `cancel` transaction.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.airdrop(s)_2">
+    <summary>
+    The number of `PendingAirdropId` values in the list exceeds the maximum
+    allowable number.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.airdrop(s)_3">
+    <summary>
+    A pending airdrop already exists for the specified NFT.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_259">
+    <summary>&lt;summary&gt;
+    The identified account is sender for one or more pending airdrop(s)
+    and cannot be deleted.
+    &lt;p&gt;
+    The requester SHOULD cancel all pending airdrops before resending
+    this transaction.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:ResponseStatus_260">
+    <summary>
+    Consensus throttle did not allow execution of this transaction.<br />
+    The transaction should be retried after a modest delay.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_261">
+    <summary>&lt;summary&gt;
+    The provided pending airdrop id is invalid.&lt;br/&gt;
+    This pending airdrop MAY already be claimed or cancelled.
+    &lt;p&gt;
+    The client SHOULD query a mirror node to determine the current status of
+    the pending airdrop.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:ResponseStatus_262">
+    <summary>
+    The token to be airdropped has a fallback royalty fee and cannot be
+    sent or claimed via an airdrop transaction.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_263">
+    <summary>&lt;summary&gt;
+    This airdrop claim is for a pending airdrop with an invalid token.&lt;br/&gt;
+    The token might be Deleted = Proto.ResponseCodeEnum.Deleted, or the sender may not have enough tokens
+    to fulfill the offer.
+    &lt;p&gt;
+    The client SHOULD query mirror node to determine the status of the
+    pending airdrop and whether the sender can fulfill the offer.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:ResponseStatus_264">
+    <summary>
+    A scheduled transaction configured to wait for expiry to execute was given
+    an expiry time at which there is already too many transactions scheduled to
+    expire; its creation must be retried with a different expiry.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.times(is /// approximately four million times with typical network configuration.)">
+    <summary>
+    The provided gRPC certificate hash is invalid.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.times(is /// approximately four million times with typical network configuration.)_2">
+    <summary>
+    A scheduled transaction configured to wait for expiry to execute was not
+    given an explicit expiration time.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.times(is /// approximately four million times with typical network configuration.)_3">
+    <summary>
+    A contract operation attempted to schedule another transaction after it
+    had already scheduled a recursive contract call.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_265">
+    <summary>
+    A contract can schedule recursive calls a finite number of times (this is
+    approximately four million times with typical network configuration.)
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_266">
+    <summary>
+    The target network is waiting for the ledger ID to be Set = Proto.ResponseCodeEnum.Set, which is a
+    side effect of finishing the network's TSS construction.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_267">
+    <summary>
+    The provided fee exempt key list size exceeded the limit.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_268">
+    <summary>
+    The provided fee exempt key list contains duplicated keys.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_269">
+    <summary>
+    The provided fee exempt key list contains an invalid key.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_270">
+    <summary>
+    The provided fee schedule key contains an invalid key.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_271">
+    <summary>
+    If a fee schedule key is not set when we create a topic
+    we cannot add it on update.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_272">
+    <summary>
+    If the topic's custom fees are updated the topic SHOULD have a
+    fee schedule key
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_273">
+    <summary>
+    The fee amount is exceeding the amount that the payer
+    is willing to pay.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_274">
+    <summary>
+    There are no corresponding custom fees.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_275">
+    <summary>
+    The provided list contains invalid max custom fee.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_276">
+    <summary>
+    The provided max custom fee list contains fees with
+    duplicate denominations.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_277">
+    <summary>
+    The provided max custom fee list contains fees with
+    duplicate account id.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_278">
+    <summary>
+    Max custom fees list is not supported for this operation.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_279">
+    <summary>
+    The list of batch transactions is empty
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_280">
+    <summary>
+    The list of batch transactions contains duplicated transactions
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_281">
+    <summary>
+    The list of batch transactions contains a transaction type that is
+    in the AtomicBatch blacklist as configured in the network.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_282">
+    <summary>
+    The inner transaction of a batch transaction failed
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_283">
+    <summary>
+    The inner transaction of a batch transaction is missing a batch key
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_284">
+    <summary>
+    The batch key is set for a non batch transaction
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_285">
+    <summary>
+    The batch key is not valid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_286">
+    <summary>
+    The provided schedule expiry time is not configurable.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_287">
+    <summary>
+    The network just started at genesis and is creating system entities.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_288">
+    <summary>
+    The least common multiple of the throttle group's milliOpsPerSec is
+    too large and it's overflowing.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_289">
+    <summary>
+    Token airdrop transactions can not contain multiple senders for a single token.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_290">
+    <summary>
+    The GRPC proxy endpoint is set in the NodeCreate or NodeUpdate Transaction = Proto.ResponseCodeEnum.Transaction,
+    which the network does not support.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_291">
+    <summary>
+    An NFT transfers list referenced a token type other than NONFUNGIBLEUNIQUE.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_292">
+    <summary>
+    A HAPI client cannot set the SignedTransaction#useSerializedTxMessageHashAlgorithm field.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_293">
+    <summary>
+    An EVM hook execution was throttled due to high network gas utilization.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_294">
+    <summary>
+    A user tried to create a hook with an id already in use.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_295">
+    <summary>
+    A transaction tried to execute a hook that did not match the specified
+    type or was malformed in some other way.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.representation(i.e.,no leading)">
+    <summary>
+    A CryptoTransfer relying on a ACCOUNTALLOWANCE hook was rejected.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.representation(i.e.,no leading)_2">
+    <summary>
+    A hook id was not found.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.representation(i.e.,no leading)_3">
+    <summary>
+    A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value exceeded 32 bytes.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_296">
+    <summary>
+    A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value failed to use the
+    minimal representation (i.e. = Proto.ResponseCodeEnum.., no leading zeros).
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_297">
+    <summary>
+    A hook id was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_298">
+    <summary>
+    A lambda storage update had no contents.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_299">
+    <summary>
+    A user repeated the same hook id in a creation details list.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_300">
+    <summary>
+    Hooks are not not enabled on the target Hiero network.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.representation(i.e.,no leading)_4">
+    <summary>
+    The target hook is not a lambda.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.representation(i.e.,no leading)_5">
+    <summary>
+    A hook was deleted.
+    </summary>
+  </member>
+  <member name="M:ResponseStatus.representation(i.e.,no leading)_6">
+    <summary>
+    The LambdaSStore tried to update too many storage slots in a single transaction.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_301">
+    <summary>
+    A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value failed to use the
+    minimal representation (i.e. = Proto.ResponseCodeEnum.., no leading zeros).
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_302">
+    <summary>
+    A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value exceeded 32 bytes.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_303">
+    <summary>
+    A hook creation spec was not found.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_304">
+    <summary>
+    A hook extension point was empty.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_305">
+    <summary>
+    A hook admin key was invalid.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_306">
+    <summary>
+    The hook deletion requires the hook to have zero storage slots.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_307">
+    <summary>
+    Cannot set both a hook call and an approval on the same AccountAmount or NftTransfer message.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_308">
+    <summary>
+    The attempted operation is invalid until all the target entity's hooks have been deleted.
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_309">
+    <summary>
+    The HookCall set in the transaction is invalid
+    </summary>
+  </member>
+  <member name="T:ResponseStatus_310">
+    <summary>
+    Hooks are not supported to be used in TokenAirdrop transactions
+    </summary>
+  </member>
+</docs>

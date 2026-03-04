@@ -13,15 +13,14 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         private readonly Hbar fiftyHbar = Hbar.FromTinybars(fiftyGTinybar);
         private readonly Hbar hundredHbar = new Hbar(100);
         private readonly Hbar negativeFiftyHbar = new Hbar(-50);
-        static IEnumerator<Arguments> GetValueConversions()
+        static IEnumerator<object[]> GetValueConversions()
         {
-            return List.Of(
-                Arguments.Arguments(new BigDecimal(50000000), HbarUnit.MICROBAR), 
-                Arguments.Arguments(new BigDecimal(50000), HbarUnit.MILLIBAR), 
-                Arguments.Arguments(new BigDecimal(50), HbarUnit.HBAR), 
-                Arguments.Arguments(new BigDecimal("0.05"), HbarUnit.KILOBAR), 
-                Arguments.Arguments(new BigDecimal("0.00005"), HbarUnit.MEGABAR), 
-                Arguments.Arguments(new BigDecimal("0.00000005"), HbarUnit.GIGABAR)).Iterator();
+            yield return [ new BigDecimal(50000000), HbarUnit.MICROBAR ]; 
+            yield return [ new BigDecimal(50000), HbarUnit.MILLIBAR ]; 
+            yield return [ new BigDecimal(50), HbarUnit.HBAR ]; 
+            yield return [ new BigDecimal("0.05"), HbarUnit.KILOBAR ]; 
+            yield return [ new BigDecimal("0.00005"), HbarUnit.MEGABAR ]; 
+            yield return [ new BigDecimal("0.00000005"), HbarUnit.GIGABAR ];
         }
 
         public virtual void ShouldConstruct()

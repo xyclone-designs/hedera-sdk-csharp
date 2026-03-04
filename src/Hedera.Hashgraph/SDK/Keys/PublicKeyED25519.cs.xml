@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:PublicKeyED25519">
+    <summary>
+    Encapsulate the ED25519 public key.
+    </summary>
+  </member>
+  <member name="M:PublicKeyED25519.#ctor(System.Byte[])">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="keyData">the byte array representing the key</param>
+  </member>
+  <member name="M:PublicKeyED25519.FromBytesInternal(System.Byte[])">
+    <summary>
+    Create a key from a byte array representation.
+    </summary>
+    <param name="publicKey">the byte array representing the key</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKeyED25519.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)">
+    <summary>
+    Create a key from a subject public key info object.
+    </summary>
+    <param name="subjectPublicKeyInfo">the subject public key info object</param>
+    <returns>the new public key</returns>
+  </member>
+</docs>

@@ -17,7 +17,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
 
                 var restored =  (HookExtensionPoint)proto;
 
-                Assert.Equal(value, restored, "Round-trip mismatch for " + value.ToString());
+                Assert.Equal(value, restored);
+                //Assert.Equal(value, restored, "Round-trip mismatch for " + value.ToString());
             }
         }
 

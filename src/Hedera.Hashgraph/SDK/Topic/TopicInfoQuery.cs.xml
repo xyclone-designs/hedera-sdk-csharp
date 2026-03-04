@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TopicInfoQuery">
+    <summary>&lt;summary&gt;
+    Retrieve the latest state of a topic.
+    &lt;p&gt;
+    This method is unrestricted and allowed on any topic by any payer account.
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

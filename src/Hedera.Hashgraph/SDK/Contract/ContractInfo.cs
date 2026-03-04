@@ -13,27 +13,10 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// Current information on the smart contract instance, including its balance.
-    /// </summary>
+    /// <include file="ContractInfo.cs.xml" path='docs/member[@name="T:ContractInfo"]/*' />
     public sealed class ContractInfo
     {
-        /// <summary>
-        ///  Constructor.
-        /// </summary>
-        /// <param name="contractId">the contract id</param>
-        /// <param name="accountId">the account id</param>
-        /// <param name="contractAccountId">the account id of the owner</param>
-        /// <param name="adminKey">the key that can modify the contract</param>
-        /// <param name="expirationTime">the time that contract will expire</param>
-        /// <param name="autoRenewPeriod">seconds before contract is renewed (funds must be available)</param>
-        /// <param name="autoRenewAccountId">account ID which will be charged for renewing this account</param>
-        /// <param name="storage">number of bytes used by this contract</param>
-        /// <param name="contractMemo">the memo field 100 bytes</param>
-        /// <param name="balance">current balance</param>
-        /// <param name="isDeleted">does it still exist</param>
-        /// <param name="tokenRelationships">list of compound token id and relationship records</param>
-        /// <param name="ledgerId">the ledger id</param>
+        /// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.#ctor(ContractId,AccountId,System.String,Key,DateTimeOffset,System.TimeSpan,AccountId,System.Int64,System.String,Hbar,System.Boolean,System.Collections.Generic.Dictionary{TokenId,TokenRelationship},LedgerId,StakingInfo)"]/*' />
         private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, DateTimeOffset expirationTime, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
         {
             this.ContractId = contractId;
@@ -52,21 +35,12 @@ namespace Hedera.Hashgraph.SDK.Contract
             this.StakingInfo = stakingInfo;
         }
 
-		/// <summary>
-		/// Extract the contract from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the extracted contract</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.FromBytes(System.Byte[])"]/*' />
 		public static ContractInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Extract the contract from the protobuf.
-		/// </summary>
-		/// <param name="contractInfo">the protobuf</param>
-		/// <returns>                         the contract object</returns>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo)"]/*' />
 		public static ContractInfo FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo contractInfo)
         {
             return new ContractInfo(
@@ -88,88 +62,42 @@ namespace Hedera.Hashgraph.SDK.Contract
                 StakingInfo.FromProtobuf(contractInfo.StakingInfo));
         }
 
-		/// <summary>
-		/// ID of the contract instance, in the format used in transactions.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ContractId"]/*' />
 		public readonly ContractId ContractId;
-		/// <summary>
-		/// ID of the cryptocurrency account owned by the contract instance,
-		/// in the format used in transactions.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AccountId"]/*' />
 		public readonly AccountId AccountId;
-		/// <summary>
-		/// ID of both the contract instance and the cryptocurrency account owned by the contract
-		/// instance, in the format used by Solidity.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ContractAccountId"]/*' />
 		public readonly string ContractAccountId;
-		/// <summary>
-		/// The state of the instance and its fields can be modified arbitrarily if this key signs a
-		/// transaction to modify it. If this is null, then such modifications are not possible,
-		/// and there is no administrator that can override the normal operation of this smart
-		/// contract instance. Note that if it is created with no admin keys, then there is no
-		/// administrator to authorize changing the admin keys, so there can never be any admin keys
-		/// for that instance.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AdminKey"]/*' />
 		public readonly Key? AdminKey;
-		/// <summary>
-		/// The current time at which this contract instance (and its account) is set to expire.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ExpirationTime"]/*' />
 		public readonly DateTimeOffset ExpirationTime;
-		/// <summary>
-		/// The expiration time will extend every this many seconds. If there are insufficient funds,
-		/// then it extends as long as possible. If the account is empty when it expires,
-		/// then it is deleted.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AutoRenewPeriod"]/*' />
 		public readonly TimeSpan AutoRenewPeriod;
-		/// <summary>
-		/// ID of the an account to charge for auto-renewal of this contract. If not set, or set to
-		/// an account with zero hbar balance, the contract's own hbar balance will be used to cover
-		/// auto-renewal fees.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AutoRenewAccountId"]/*' />
 		public readonly AccountId AutoRenewAccountId;
-		/// <summary>
-		/// Number of bytes of storage being used by this instance (which affects the cost to
-		/// extend the expiration time).
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.Storage"]/*' />
 		public readonly long Storage;
-		/// <summary>
-		/// The memo associated with the contract (max 100 bytes).
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ContractMemo"]/*' />
 		public readonly string ContractMemo;
-		/// <summary>
-		/// The current balance of the contract.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.Balance"]/*' />
 		public readonly Hbar Balance;
-		/// <summary>
-		/// Whether the contract has been deleted
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.IsDeleted"]/*' />
 		public readonly bool IsDeleted;
-		/// <summary>
-		/// The tokens associated to the contract
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="T:ContractInfo_2"]/*' />
 		public readonly Dictionary<TokenId, TokenRelationship> TokenRelationships;
-		/// <summary>
-		/// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.LedgerId"]/*' />
 		public readonly LedgerId LedgerId;
-		/// <summary>
-		/// Staking metadata for this account.
-		/// </summary>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.StakingInfo"]/*' />
 		public readonly StakingInfo StakingInfo;
 
 
-		/// <summary>
-		/// Create a byte array representation.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.ToBytes"]/*' />
 		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
         }
-		/// <summary>
-		/// Build the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.ToProtobuf"]/*' />
 		public Proto.ContractGetInfoResponse.Types.ContractInfo ToProtobuf()
 		{
 			Proto.ContractGetInfoResponse.Types.ContractInfo proto = new()

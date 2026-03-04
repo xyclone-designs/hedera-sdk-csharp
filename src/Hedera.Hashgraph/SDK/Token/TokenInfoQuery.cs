@@ -10,16 +10,10 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Initializes the TokenInfoQuery object.
-    /// </summary>
+    /// <include file="TokenInfoQuery.cs.xml" path='docs/member[@name="T:TokenInfoQuery"]/*' />
     public class TokenInfoQuery : Query<TokenInfo, TokenInfoQuery>
     {
-        /// <summary>
-        /// Sets the Token ID for which information is requested.
-        /// </summary>
-        /// <param name="TokenId">The TokenId to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenInfoQuery.cs.xml" path='docs/member[@name="P:TokenInfoQuery.TokenId"]/*' />
         public virtual TokenId? TokenId { get; set; }
 
 		public override void ValidateChecksums(Client client)

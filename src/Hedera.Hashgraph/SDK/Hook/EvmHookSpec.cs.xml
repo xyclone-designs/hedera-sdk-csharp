@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:EvmHookSpec">
+    <summary>&lt;summary&gt;
+    Shared specifications for an EVM hook.
+    &lt;p&gt;
+    This class defines the source of EVM bytecode for a hook implementation.
+    Currently, hooks can only be implemented by referencing an existing contract
+    that implements the extension point API.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:EvmHookSpec.#ctor(ContractId)">
+    <summary>
+    Create a new EvmHookSpec that references a contract.
+    </summary>
+    <param name="contractId">the ID of the contract that implements the hook</param>
+  </member>
+  <member name="P:EvmHookSpec.ContractId">
+    <summary>
+    Get the contract ID that implements this hook.
+    </summary>
+    <returns>the contract ID</returns>
+  </member>
+</docs>

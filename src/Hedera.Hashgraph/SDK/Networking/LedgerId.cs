@@ -7,34 +7,18 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <summary>
-    /// Internal utility class for ledger id manipulation.
-    /// </summary>
-    /// <remarks>
-    /// Constructor.
-    /// </remarks>
-    /// <param name="idBytes">the id (0=mainnet, 1=testnet, 2=previewnet, ...)</param>
+    /// <include file="LedgerId.cs.xml" path='docs/member[@name="T:LedgerId"]/*' />
     public class LedgerId(byte[] idBytes)
     {
         private readonly byte[] IdBytes = idBytes;
-        /// <summary>
-        /// The mainnet ledger id
-        /// </summary>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="T:LedgerId_2"]/*' />
         public static readonly LedgerId MAINNET = new ([ 0 ]);
-        /// <summary>
-        /// The testnet ledger id
-        /// </summary>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="T:LedgerId_3"]/*' />
         public static readonly LedgerId TESTNET = new ([ 1 ]);
-        /// <summary>
-        /// The previewnet ledger id
-        /// </summary>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="T:LedgerId_4"]/*' />
         public static readonly LedgerId PREVIEWNET = new ([ 2 ]);
 
-        /// <summary>
-        /// Assign the ledger id via a string name or Hex encoded String.
-        /// </summary>
-        /// <param name="string">the string containing the ledger id</param>
-        /// <returns>                         the ledger id</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.FromString(string @)"]/*' />
         public static LedgerId FromString(string @string)
         {
             return @string switch
@@ -46,29 +30,17 @@ namespace Hedera.Hashgraph.SDK.Networking
                 _ => new LedgerId(Hex.Decode(@string)),
             };
         }
-        /// <summary>
-        /// Create a ledger id from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the ledger id</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.FromBytes(System.Byte[])"]/*' />
         public static LedgerId FromBytes(byte[] bytes)
         {
             return new LedgerId(bytes);
         }
-        /// <summary>
-        /// Create a ledger id from a string.
-        /// </summary>
-        /// <param name="byteString">the string</param>
-        /// <returns>                         the ledger id</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.FromByteString(ByteString)"]/*' />
         public static LedgerId FromByteString(ByteString byteString)
         {
             return FromBytes(byteString.ToByteArray());
         }
-        /// <summary>
-        /// Create a ledger id from a network name.
-        /// </summary>
-        /// <param name="networkName">the network name</param>
-        /// <returns>                         the ledger id</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.FromNetworkName(NetworkName)"]/*' />
         public static LedgerId FromNetworkName(NetworkName networkName)
         {
             return networkName switch
@@ -81,47 +53,26 @@ namespace Hedera.Hashgraph.SDK.Networking
             };
         }
 
-        /// <summary>
-        /// Are we on Mionnet?
-        /// </summary>
-        /// <returns>                         is it mainnet</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.Equals(MAINNET)"]/*' />
         public virtual bool IsMainnet { get => Equals(MAINNET); }
-        /// <summary>
-        /// Are we on Testnet?
-        /// </summary>
-        /// <returns>                         is it testnet</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.Equals(TESTNET)"]/*' />
         public virtual bool IsTestnet { get => Equals(TESTNET); }
-        /// <summary>
-        /// Are we on Previewnet?
-        /// </summary>
-        /// <returns>                         is it previewnet</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.Equals(PREVIEWNET)"]/*' />
         public virtual bool IsPreviewnet { get => Equals(PREVIEWNET); }
-        /// <summary>
-        /// Are we one of the three standard networks?
-        /// </summary>
-        /// <returns>                         is it one of the three standard networks</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="P:LedgerId.IsKnownNetwork"]/*' />
         public virtual bool IsKnownNetwork { get => IsMainnet || IsTestnet || IsPreviewnet; }
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         the byte array representation</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return IdBytes.CopyArray(IdBytes.Length);
         }
-        /// <summary>
-        /// Extract the byte string representation.
-        /// </summary>
-        /// <returns>                         the byte string representation</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.ToByteString"]/*' />
         public virtual ByteString ToByteString()
         {
             return ByteString.CopyFrom(IdBytes);
         }
-        /// <summary>
-        /// Extract the network name.
-        /// </summary>
-        /// <returns>                         the network name</returns>
+        /// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.ToNetworkName"]/*' />
         public virtual NetworkName ToNetworkName()
         {
 			return true switch
@@ -138,10 +89,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
             return HashCode.Combine(IdBytes);
         }
-		/// <summary>
-		/// Extract the string representation.
-		/// </summary>
-		/// <returns>                         the string representation</returns>
+		/// <include file="LedgerId.cs.xml" path='docs/member[@name="M:LedgerId.ToString"]/*' />
 		public override string ToString()
 		{
 			return true switch

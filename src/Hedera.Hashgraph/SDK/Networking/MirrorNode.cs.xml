@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:MirrorNode">
+    <summary>
+    An individual mirror node.
+    </summary>
+  </member>
+  <member name="M:MirrorNode.#ctor(BaseNodeAddress,ExecutorService)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="address">the node address as a managed node address</param>
+    <param name="executor">the executor service</param>
+  </member>
+  <member name="M:MirrorNode.#ctor(System.String,ExecutorService)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="address">the node address as a string</param>
+    <param name="executor">the executor service</param>
+  </member>
+  <member name="M:MirrorNode.GetRestBaseUrl">
+    <summary>
+    Build the REST base URL for this mirror node.
+    </summary>
+    <returns>scheme://host[:port]/api/v1</returns>
+  </member>
+</docs>

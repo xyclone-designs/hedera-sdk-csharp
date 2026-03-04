@@ -9,9 +9,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// A custom transfer fee that was assessed during the handling of a CryptoTransfer.
-    /// </summary>
+    /// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="T:AssessedCustomFee"]/*' />
     public class AssessedCustomFee
     {
         public AssessedCustomFee(long amount, TokenId tokenId, AccountId feeCollectorAccountId, IEnumerable<AccountId> payerAccountIdList)
@@ -22,21 +20,12 @@ namespace Hedera.Hashgraph.SDK.Fees
             PayerAccountIdList = [.. payerAccountIdList];
         }
 
-		/// <summary>
-		/// Convert a byte array into an assessed custom fee object.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the converted assessed custom fee object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromBytes(System.Byte[])"]/*' />
 		public static AssessedCustomFee FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.AssessedCustomFee.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Convert the protobuf object to an assessed custom fee object.
-		/// </summary>
-		/// <param name="assessedCustomFee">protobuf response object</param>
-		/// <returns>                         the converted assessed custom fee object</returns>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromProtobuf(Proto.AssessedCustomFee)"]/*' />
 		public static AssessedCustomFee FromProtobuf(Proto.AssessedCustomFee assessedCustomFee)
         {
             return new AssessedCustomFee(
@@ -46,35 +35,21 @@ namespace Hedera.Hashgraph.SDK.Fees
 				[.. assessedCustomFee.EffectivePayerAccountId.Select(_ => AccountId.FromProtobuf(_))]);
         }
 
-		/// <summary>
-		/// The number of units assessed for the fee
-		/// </summary>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.Amount"]/*' />
 		public long Amount { get; }
-		/// <summary>
-		/// The denomination of the fee; taken as hbar if left unset
-		/// </summary>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.TokenId"]/*' />
 		public TokenId TokenId { get; }
-		/// <summary>
-		/// The account to receive the assessed fee
-		/// </summary>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.FeeCollectorAccountId"]/*' />
 		public AccountId FeeCollectorAccountId { get; }
-		/// <summary>
-		/// The account(s) whose final balances would have been higher in the absence of this assessed fee
-		/// </summary>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="P:AssessedCustomFee.PayerAccountIdList"]/*' />
 		public IList<AccountId> PayerAccountIdList { get; }
 
-		/// <summary>
-		/// Create a byte array representation.
-		/// </summary>
-		/// <returns>                         the converted assessed custom fees</returns>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Create the protobuf representation.
-		/// </summary>
-		/// <returns>{@link Proto.AssessedCustomFee}</returns>
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.ToProtobuf"]/*' />
 		public virtual Proto.AssessedCustomFee ToProtobuf()
         {
             Proto.AssessedCustomFee proto = new()

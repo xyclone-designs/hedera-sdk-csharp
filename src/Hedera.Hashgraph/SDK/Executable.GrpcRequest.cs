@@ -9,13 +9,7 @@ using System.Diagnostics;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Abstract base utility class.
-    /// </summary>
-    /// <param name="<SdkRequestT>">the sdk request</param>
-    /// <param name="<ProtoRequestT>">the proto request</param>
-    /// <param name="<ResponseT>">the response</param>
-    /// <param name="<O>">the O type</param>
+    /// <include file="Executable.GrpcRequest.cs.xml" path='docs/member[@name="T:Executable"]/*' />
     public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> 
 	{
 		public class GrpcRequest

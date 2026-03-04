@@ -6,25 +6,12 @@ using Hedera.Hashgraph.SDK.Queries;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-	/// <summary>
-	/// Get the balance of a Hedera™ crypto-currency account. This returns only the balance, so it is a
-	/// smaller and faster reply than {@link AccountInfoQuery}.
-	/// 
-	/// <p>This query is free.
-	/// </summary>
+	/// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="T:AccountBalanceQuery"]/*' />
 	public sealed class AccountBalanceQuery : Query<AccountBalance, AccountBalanceQuery>
     {
-        /// <summary>
-        /// The account ID for which the balance is being requested.
-        /// <p>
-        /// This is mutually exclusive with {@link #setContractId(ContractId)}.
-        /// </summary>
+        /// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="P:AccountBalanceQuery.AccountId"]/*' />
         public AccountId? AccountId { get; set; }
-		/// <summary>
-		/// The contract ID for which the balance is being requested.
-		/// <p>
-		/// This is mutually exclusive with {@link #setAccountId(AccountId)}.
-		/// </summary>
+		/// <include file="AccountBalanceQuery.cs.xml" path='docs/member[@name="P:AccountBalanceQuery.ContractId"]/*' />
 		public ContractId? ContractId { get; set; }
 
 		public override bool IsPaymentRequired

@@ -5,29 +5,17 @@ using System;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Utility class used internally by the sdk.
-    /// </summary>
+    /// <include file="Endpoint.cs.xml" path='docs/member[@name="T:Endpoint"]/*' />
     public class Endpoint : ICloneable
     {
-		/// <summary>
-		/// The desired port.
-		/// </summary>
+		/// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.Port"]/*' />
 		public virtual int Port { get; set; }
-		/// <summary>
-		/// The ipv4 address.
-		/// </summary>
+		/// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.Address"]/*' />
 		public virtual byte[]? Address { get; set; }
-        /// <summary>
-        /// The desired port.
-        /// </summary>
+        /// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.DomainName"]/*' />
         public virtual string DomainName { get; set; } = string.Empty; 
 
-		/// <summary>
-		/// Create an endpoint object from a service endpoint protobuf.
-		/// </summary>
-		/// <param name="serviceEndpoint">the service endpoint protobuf</param>
-		/// <returns>                         the endpoint object</returns>
+		/// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.FromProtobuf(Proto.ServiceEndpoint)"]/*' />
 		public static Endpoint FromProtobuf(Proto.ServiceEndpoint serviceEndpoint)
         {
             return new Endpoint
@@ -38,11 +26,7 @@ namespace Hedera.Hashgraph.SDK
             };
         }
 
-        /// <summary>
-        /// Validate that the endpoint does not contain both an IP address and a domain name.
-        /// </summary>
-        /// <param name="endpoint">the endpoint to validate</param>
-        /// <exception cref="IllegalArgumentException">if both ipAddressV4 and domainName are present</exception>
+        /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ValidateNoIpAndDomain(Endpoint)"]/*' />
         public static void ValidateNoIpAndDomain(Endpoint endpoint)
         {
             if (endpoint == null)
@@ -60,10 +44,7 @@ namespace Hedera.Hashgraph.SDK
             }
         }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
+        /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ToProtobuf"]/*' />
         public virtual Proto.ServiceEndpoint ToProtobuf()
         {
             Proto.ServiceEndpoint proto = new()

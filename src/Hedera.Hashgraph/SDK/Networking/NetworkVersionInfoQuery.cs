@@ -6,9 +6,7 @@ using Hedera.Hashgraph.SDK.Queries;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <summary>
-    /// Information about the versions of protobuf and hedera.
-    /// </summary>
+    /// <include file="NetworkVersionInfoQuery.cs.xml" path='docs/member[@name="T:NetworkVersionInfoQuery"]/*' />
     public class NetworkVersionInfoQuery : Query<NetworkVersionInfo, NetworkVersionInfoQuery>
     {
 		public override void ValidateChecksums(Client client) { }

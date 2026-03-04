@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+    <summary></summary>
+    <remarks>@deprecatedwith no replacement</remarks>
+  </member>
+  <member name="M:AccountAllowanceAdjustTransaction">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:AddHbarAllowance(AccountId,Hbar)">
+    <summary></summary>
+    <param name="spenderAccountId">the spender account id</param>
+    <param name="amount">the amount of hbar</param>
+    <returns>an account allowance adjust transaction</returns>
+    <remarks>
+    @deprecated- Use {@link #grantHbarAllowance(AccountId, AccountId, Hbar)} or
+    {@link #revokeHbarAllowance(AccountId, AccountId, Hbar)} instead
+    </remarks>
+  </member>
+  <member name="M:GrantHbarAllowance(AccountId,AccountId,Hbar)">
+    <summary>
+     Grants Hbar allowance.
+    </summary>
+    <param name="ownerAccountId">the owner's account id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <param name="amount">the amount of Hbar</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:RevokeHbarAllowance(AccountId,AccountId,Hbar)">
+    <summary>
+    Revokes Hbar allowance
+    </summary>
+    <param name="ownerAccountId">the owner's account id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <param name="amount">the amount of Hbar</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AddTokenAllowance(TokenId,AccountId,System.Int64)">
+    <summary></summary>
+    <param name="tokenId">the token's id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <param name="amount">the amount of hbar</param>
+    <returns>an account allowance adjust transaction</returns>
+    <remarks>
+    @deprecated- Use {@link #grantTokenAllowance(TokenId, AccountId, AccountId, long)} or
+    {@link #revokeTokenAllowance(TokenId, AccountId, AccountId, long)} instead
+    </remarks>
+  </member>
+  <member name="M:GrantTokenAllowance(TokenId,AccountId,AccountId,System.Int64)">
+    <summary>
+    Grants token allowance.
+    </summary>
+    <param name="tokenId">the token's id</param>
+    <param name="ownerAccountId">the owner's id</param>
+    <param name="spenderAccountId">the spender's id</param>
+    <param name="amount">the amount of tokens</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:RevokeTokenAllowance(TokenId,AccountId,AccountId,System.Int64)">
+    <summary>
+    Revokes token allowance.
+    </summary>
+    <param name="tokenId">the token's id</param>
+    <param name="ownerAccountId">the owner's id</param>
+    <param name="spenderAccountId">the spender's id</param>
+    <param name="amount">the amount of tokens</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:GetHbarAllowances">
+    <summary>
+    Get the Hbar allowances
+    </summary>
+    <returns>the Hbar allowances</returns>
+  </member>
+  <member name="M:GetTokenAllowances">
+    <summary>
+    Get the token allowances
+    </summary>
+    <returns>the token allowances</returns>
+  </member>
+  <member name="M:GetTokenNftAllowances">
+    <summary>
+    Get the NFT allowances
+    </summary>
+    <returns>a copy of {@link #NftAllowances}</returns>
+  </member>
+  <member name="M:AddTokenNftAllowance(NftId,AccountId)">
+    <summary></summary>
+    <param name="nftId">the NFT's id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <returns>                     an account allowance adjust transaction</returns>
+    <remarks>
+    @deprecated- Use {@link #grantTokenNftAllowance(NftId, AccountId, AccountId)} or
+    {@link #revokeTokenNftAllowance(NftId, AccountId, AccountId)} instead
+    </remarks>
+  </member>
+  <member name="M:AddAllTokenNftAllowance(TokenId,AccountId)">
+    <summary></summary>
+    <param name="tokenId">the token's id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <returns>                     an account allowance adjust transaction</returns>
+    <remarks>
+    @deprecated- Use {@link #grantTokenNftAllowanceAllSerials(TokenId, AccountId, AccountId)} or
+    {@link #revokeTokenNftAllowanceAllSerials(TokenId, AccountId, AccountId)} instead
+    </remarks>
+  </member>
+  <member name="M:GrantTokenNftAllowance(NftId,AccountId,AccountId)">
+    <summary>
+    Grants NFT allowance.
+    </summary>
+    <param name="nftId">the NFT's id</param>
+    <param name="ownerAccountId">the owner's id</param>
+    <param name="spenderAccountId">the spender's id</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:GrantTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)">
+    <summary>
+    Grants allowance for all NFT serials of a token
+    </summary>
+    <param name="tokenId">the token's id</param>
+    <param name="ownerAccountId">the owner's account id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <returns>                     an account allowance adjust transaction</returns>
+  </member>
+  <member name="M:RevokeTokenNftAllowance(NftId,AccountId,AccountId)">
+    <summary></summary>
+    <param name="nftId">the NFT's id</param>
+    <param name="ownerAccountId">the owner's account id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <returns>                     an account allowance adjust transaction</returns>
+    <remarks>@deprecatedwith no replacement</remarks>
+  </member>
+  <member name="M:RevokeTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)">
+    <summary>
+    Revokes allowance for all NFT serials of a token
+    </summary>
+    <param name="tokenId">the token's id</param>
+    <param name="ownerAccountId">the owner's account id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <returns>                     an account allowance adjust transaction</returns>
+  </member>
+</docs>

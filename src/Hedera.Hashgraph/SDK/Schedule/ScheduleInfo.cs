@@ -9,30 +9,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Schedule
 {
-    /// <summary>
-    /// A query that returns information about the current state of a scheduled
-    /// transaction on a Hedera network.
-    /// <p>
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/schedule-transaction/get-schedule-info">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="T:ScheduleInfo"]/*' />
     public sealed class ScheduleInfo
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="scheduleId">the schedule id</param>
-        /// <param name="creatorAccountId">the creator account id</param>
-        /// <param name="payerAccountId">the payer account id</param>
-        /// <param name="transactionBody">the transaction body</param>
-        /// <param name="signers">the signers key list</param>
-        /// <param name="adminKey">the admin key</param>
-        /// <param name="scheduledTransactionId">the transaction id</param>
-        /// <param name="memo">the memo 100 bytes max</param>
-        /// <param name="expirationTime">the expiration time</param>
-        /// <param name="executed">the time transaction was executed</param>
-        /// <param name="deleted">the time it was deleted</param>
-        /// <param name="ledgerId">the ledger id</param>
-        /// <param name="waitForExpiry">the wait for expiry field</param>
+        /// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.#ctor(ScheduleId,AccountId,AccountId,Proto.SchedulableTransactionBody,KeyList,Key,TransactionId,System.String,DateTimeOffset,DateTimeOffset,DateTimeOffset,LedgerId,System.Boolean)"]/*' />
         public ScheduleInfo(ScheduleId scheduleId, AccountId creatorAccountId, AccountId payerAccountId, Proto.SchedulableTransactionBody transactionBody, KeyList signers, Key? adminKey, TransactionId scheduledTransactionId, string memo, DateTimeOffset expirationTime, DateTimeOffset executed, DateTimeOffset deleted, LedgerId ledgerId, bool waitForExpiry)
         {
             ScheduleId = scheduleId;
@@ -50,21 +30,12 @@ namespace Hedera.Hashgraph.SDK.Schedule
             WaitForExpiry = waitForExpiry;
         }
 
-		/// <summary>
-		/// Create a schedule info object from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new schedule info object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.FromBytes(System.Byte[])"]/*' />
 		public static ScheduleInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.ScheduleInfo.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a schedule info object from a protobuf.
-		/// </summary>
-		/// <param name="info">the protobuf</param>
-		/// <returns>                         the new schedule info object</returns>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.FromProtobuf(Proto.ScheduleInfo)"]/*' />
 		public static ScheduleInfo FromProtobuf(Proto.ScheduleInfo info)
         {
             return new ScheduleInfo(
@@ -83,73 +54,34 @@ namespace Hedera.Hashgraph.SDK.Schedule
                 info.WaitForExpiry);
         }
 
-		/// <summary>
-		/// The ID of the schedule transaction
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.ScheduleId"]/*' />
 		public ScheduleId ScheduleId { get; }
-		/// <summary>
-		/// The Hedera account that created the schedule transaction in x.y.z format
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.CreatorAccountId"]/*' />
 		public AccountId CreatorAccountId { get; }
-		/// <summary>
-		/// The Hedera account paying for the execution of the schedule transaction
-		/// in x.y.z format
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.PayerAccountId"]/*' />
 		public AccountId PayerAccountId { get; }
-		/// <summary>
-		/// The signatories that have provided signatures so far for the schedule
-		/// transaction
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.Signatories"]/*' />
 		public KeyList Signatories { get; }
-		/// <summary>
-		/// The Key which is able to delete the schedule transaction if set
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.AdminKey"]/*' />
 		public Key? AdminKey { get; }
-		/// <summary>
-		/// The scheduled transaction
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.ScheduledTransactionId"]/*' />
 		public TransactionId ScheduledTransactionId { get; }
-		/// <summary>
-		/// Publicly visible information about the Schedule entity, up to
-		/// 100 bytes. No guarantee of uniqueness.
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.Memo"]/*' />
 		public string Memo { get; }
-		/// <summary>
-		/// The date and time the schedule transaction will expire
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.ExpirationTime"]/*' />
 		public DateTimeOffset ExpirationTime { get; }
-		/// <summary>
-		/// The time the schedule transaction was executed. If the schedule
-		/// transaction has not executed this field will be left null.
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.ExecutedAt"]/*' />
 		public DateTimeOffset ExecutedAt { get; }
-		/// <summary>
-		/// The consensus time the schedule transaction was deleted. If the
-		/// schedule transaction was not deleted, this field will be left null.
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.DeletedAt"]/*' />
 		public DateTimeOffset DeletedAt { get; }
-		/// <summary>
-		/// The scheduled transaction (inner transaction).
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.TransactionBody"]/*' />
 		public Proto.SchedulableTransactionBody TransactionBody { get; }
-		/// <summary>
-		/// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.LedgerId"]/*' />
 		public LedgerId LedgerId { get; }
-		/// <summary>
-		/// When set to true, the transaction will be evaluated for execution at expiration_time instead
-		/// of when all required signatures are received.
-		/// When set to false, the transaction will execute immediately after sufficient signatures are received
-		/// to sign the contained transaction. During the initial ScheduleCreate transaction or via ScheduleSign transactions.
-		/// 
-		/// Note: this field is unused until Long Term Scheduled Transactions are enabled.
-		/// </summary>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.WaitForExpiry"]/*' />
 		public bool WaitForExpiry { get; }
 
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.ToProtobuf"]/*' />
 		public Proto.ScheduleInfo ToProtobuf()
         {
 			Proto.ScheduleInfo proto = new ()
@@ -182,27 +114,18 @@ namespace Hedera.Hashgraph.SDK.Schedule
             return proto;
 		}
 
-        /// <summary>
-        /// Extract the transaction.
-        /// </summary>
-        /// <returns>                         the transaction</returns>
+        /// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.GetScheduledTransaction"]/*' />
         public object GetScheduledTransaction()
         {
             return Transaction.FromScheduledTransaction(TransactionBody);
         }
-		/// <summary>
-		/// Extract the transaction.
-		/// </summary>
-		/// <returns>                         the transaction</returns>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.GetScheduledTransaction``1"]/*' />
 		public Transaction<T> GetScheduledTransaction<T>() where T : Transaction<T>
 		{
 			return Transaction.FromScheduledTransaction<T>(TransactionBody);
 		}
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.ToBytes"]/*' />
 		public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

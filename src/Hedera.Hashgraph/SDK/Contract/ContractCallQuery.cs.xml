@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractCallQuery">
+    <summary>&lt;summary&gt;
+    Call a function of the given smart contract instance, giving it functionParameters as its inputs.
+    It will consume the entire given amount of gas.
+    &lt;p&gt;
+    This is performed locally on the particular node that the client is communicating with.
+    It cannot change the state of the contract instance (and so, cannot spend
+    anything from the instance's cryptocurrency account).
+    &lt;p&gt;
+    It will not have a consensus timestamp. It cannot generate a record or a receipt.
+    The response will contain the output returned by the function call.
+    This is useful for calling getter functions, which purely read the state and don't change it.
+    It is faster and cheaper than a normal call, because it is purely local to a single  node.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="P:ContractCallQuery.Gas">
+    <summary>&lt;summary&gt;
+    Sets the amount of gas to use for the call.
+    &lt;p&gt;
+    All of the gas offered will be charged for.
+    &lt;/summary&gt;
+    &lt;param name="gas"&gt;The long to be set as gas&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractCallQuery.CopyArray">
+    <summary>&lt;summary&gt;
+    Sets the function parameters as their raw bytes.
+    &lt;p&gt;
+    Use this instead of {@link #setFunction(String, ContractFunctionParameters)} if you have already
+    pre-encoded a solidity function call.
+    &lt;/summary&gt;
+    &lt;param name="functionParameters"&gt;The function parameters to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="P:ContractCallQuery.MaXResultSize">
+    <summary>&lt;summary&gt;
+    &lt;/summary&gt;
+    &lt;param name="size"&gt;The long to be set as size&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;remarks&gt;
+    @deprecatedwith no replacement
+    &lt;br&gt;
+    Sets the max number of bytes that the result might include.
+    The run will fail if it had returned more than this number of bytes.
+    &lt;/remarks&gt;</summary>
+  </member>
+  <member name="P:ContractCallQuery.SenderAccountId">
+    <summary>
+    Sets the account that is the "sender." If not present it is the accountId from the transactionId.
+    Typically a different value than specified in the transactionId requires a valid signature
+    over either the hedera transaction or foreign transaction data.
+    </summary>
+    <param name="senderAccountId">the account that is the "sender"</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ContractCallQuery.SetFunction(System.String)">
+    <summary>&lt;summary&gt;
+    Sets the function name to call.
+    &lt;p&gt;
+    The function will be called with no parameters. Use {@link #setFunction(String, ContractFunctionParameters)}
+    to call a function with parameters.
+    &lt;/summary&gt;
+    &lt;param name="name"&gt;The function name to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractCallQuery.SetFunction(System.String,ContractFunctionParameters @)">
+    <summary>
+    Sets the function to call, and the parameters to pass to the function.
+    </summary>
+    <param name="name">The function name to be set</param>
+    <param name="params">The parameters to pass</param>
+    <returns>{@code this}</returns>
+  </member>
+</docs>

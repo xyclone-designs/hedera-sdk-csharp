@@ -2,17 +2,10 @@
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// Custom royalty fee utility class.
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#royalty-fee">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="T:CustomRoyaltyFee"]/*' />
     public class CustomRoyaltyFee : CustomFeeBase<CustomRoyaltyFee>
     {
-		/// <summary>
-		/// Create a custom royalty fee from a royalty fee protobuf.
-		/// </summary>
-		/// <param name="royaltyFee">the royalty fee protobuf</param>
-		/// <returns>                         the new royalty fee object</returns>
+		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.FromProtobuf(Proto.RoyaltyFee)"]/*' />
 		public static CustomRoyaltyFee FromProtobuf(Proto.RoyaltyFee royaltyFee)
         {
             CustomRoyaltyFee customroyaltyfee = new ()
@@ -39,19 +32,12 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
         }
 
-        /// <summary>
-        /// Extract the numerator.
-        /// </summary>
+        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="P:CustomRoyaltyFee.Numerator"]/*' />
         public virtual long Numerator { get; set; } = 0;
-        /// <summary>
-        /// Extract the denominator.
-        /// </summary>
+        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="P:CustomRoyaltyFee.Denominator"]/*' />
         public virtual long Denominator { get; set; } = 1;
 
-        /// <summary>
-        /// The fallback fee is a fixed fee that is charged to the NFT receiver
-        /// when there is no fungible value exchanged with the sender of the NFT.
-        /// </summary>
+        /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.DeepCloneSubclass"]/*' />
         public virtual CustomFixedFee? FallbackFee
         {
 			get => field?.DeepCloneSubclass();
@@ -65,10 +51,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 				RoyaltyFee = ToRoyaltyFeeProtobuf()
 			});
 		}
-		/// <summary>
-		/// Convert the royalty fee object to a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf object</returns>
+		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.ToRoyaltyFeeProtobuf"]/*' />
 		public virtual Proto.RoyaltyFee ToRoyaltyFeeProtobuf()
         {
             Proto.RoyaltyFee proto = new()

@@ -1,15 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Assertj.Core.Api.AssertionsForClassTypes;
-using Com.Google.Protobuf;
-using Io.Github.JsonSnapshot;
-using Org.Bouncycastle.Util.Encoders;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Contract;
+
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
@@ -85,26 +79,32 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
         public virtual void FromEvmAddressIncorrectSizeTooShort()
         {
-            Assert.Throws<ArgumentException>(() =>
+            ArgumentException exception = Assert.Throws<ArgumentException>(() =>
             {
                 ContractId.FromEvmAddress(0, 0, "abc123");
-            }).WithMessageContaining("Solidity addresses must be 20 bytes or 40 hex chars");
+            });
+            
+            Assert.Contains(exception.Message, "Solidity addresses must be 20 bytes or 40 hex chars");
         }
 
         public virtual void FromEvmAddressIncorrectSizeTooLong()
         {
-            Assert.Throws<ArgumentException>(() =>
+            ArgumentException exception = Assert.Throws<ArgumentException>(() =>
             {
                 ContractId.FromEvmAddress(0, 0, "0123456789abcdef0123456789abcdef0123456789abcdef");
-            }).WithMessageContaining("Solidity addresses must be 20 bytes or 40 hex chars");
+            });
+            
+            Assert.Contains(exception.Message, "Solidity addresses must be 20 bytes or 40 hex chars");
         }
 
         public virtual void FromEvmAddressIncorrectSizeWith0xPrefix()
         {
-            Assert.Throws<ArgumentException>(() =>
+			ArgumentException exception = Assert.Throws<ArgumentException>(() =>
             {
                 ContractId.FromEvmAddress(0, 0, "0xabc123");
-            }).WithMessageContaining("Solidity addresses must be 20 bytes or 40 hex chars");
+            });
+            
+            Assert.Contains(exception.Message, "Solidity addresses must be 20 bytes or 40 hex chars");
         }
 
         public virtual void FromEvmAddressCorrectSize()

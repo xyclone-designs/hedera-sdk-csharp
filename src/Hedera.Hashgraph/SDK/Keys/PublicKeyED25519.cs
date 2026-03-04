@@ -12,27 +12,18 @@ using System.IO;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-    /// <summary>
-    /// Encapsulate the ED25519 public key.
-    /// </summary>
+    /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="T:PublicKeyED25519"]/*' />
     class PublicKeyED25519 : PublicKey
     {
         private readonly byte[] KeyData;
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="keyData">the byte array representing the key</param>
+        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.#ctor(System.Byte[])"]/*' />
         private PublicKeyED25519(byte[] keyData)
         {
             KeyData = keyData;
         }
 
-        /// <summary>
-        /// Create a key from a byte array representation.
-        /// </summary>
-        /// <param name="publicKey">the byte array representing the key</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.FromBytesInternal(System.Byte[])"]/*' />
         public static PublicKeyED25519 FromBytesInternal(byte[] publicKey)
         {
             if (publicKey.Length == Ed25519.PublicKeySize)
@@ -51,11 +42,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             // Assume a DER-encoded public key descriptor
             return FromSubjectKeyInfoInternal(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
-        /// <summary>
-        /// Create a key from a subject public key info object.
-        /// </summary>
-        /// <param name="subjectPublicKeyInfo">the subject public key info object</param>
-        /// <returns>                         the new public key</returns>
+        /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="M:PublicKeyED25519.FromSubjectKeyInfoInternal(SubjectPublicKeyInfo)"]/*' />
         public static PublicKeyED25519 FromSubjectKeyInfoInternal(SubjectPublicKeyInfo subjectPublicKeyInfo)
         {
             return new PublicKeyED25519(subjectPublicKeyInfo.PublicKey.GetBytes());

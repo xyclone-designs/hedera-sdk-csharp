@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TransactionFeeSchedule">
+    <summary>
+    The fees for a specific transaction or query based on the fee data.
+    
+    See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/transactionfeeschedule">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:TransactionFeeSchedule.FromBytes(System.Byte[])">
+    <summary>
+    Create a transaction fee schedule object from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new transaction fee schedule</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TransactionFeeSchedule.FromProtobuf(Proto.TransactionFeeSchedule)">
+    <summary>
+    Create a transaction fee schedule object from a protobuf.
+    </summary>
+    <param name="transactionFeeSchedule">the protobuf</param>
+    <returns>the new transaction fee schedule</returns>
+  </member>
+  <member name="P:TransactionFeeSchedule.RequestType">
+    <summary>
+    Extract the request type.
+    </summary>
+    <returns>the request type</returns>
+  </member>
+  <member name="P:TransactionFeeSchedule.Fees">
+    <summary>
+    Extract the list of fee's.
+    </summary>
+    <returns>the list of fee's</returns>
+  </member>
+  <member name="P:TransactionFeeSchedule.Feedata">
+    <summary>
+    Set the total fee charged for a transaction
+    </summary>
+    <param name="feeData">the feeData to set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:TransactionFeeSchedule.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TransactionFeeSchedule.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.TransactionFeeSchedule}</returns>
+  </member>
+</docs>

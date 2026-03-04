@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:LedgerId">
+    <summary>
+    Internal utility class for ledger id manipulation.
+    </summary>
+    <remarks>
+    Constructor.
+    </remarks>
+    <param name="idBytes">the id (0=mainnet, 1=testnet, 2=previewnet, ...)</param>
+  </member>
+  <member name="T:LedgerId_2">
+    <summary>
+    The mainnet ledger id
+    </summary>
+  </member>
+  <member name="T:LedgerId_3">
+    <summary>
+    The testnet ledger id
+    </summary>
+  </member>
+  <member name="T:LedgerId_4">
+    <summary>
+    The previewnet ledger id
+    </summary>
+  </member>
+  <member name="M:LedgerId.FromString(string @)">
+    <summary>
+    Assign the ledger id via a string name or Hex encoded String.
+    </summary>
+    <param name="string">the string containing the ledger id</param>
+    <returns>the ledger id</returns>
+  </member>
+  <member name="M:LedgerId.FromBytes(System.Byte[])">
+    <summary>
+    Create a ledger id from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the ledger id</returns>
+  </member>
+  <member name="M:LedgerId.FromByteString(ByteString)">
+    <summary>
+    Create a ledger id from a string.
+    </summary>
+    <param name="byteString">the string</param>
+    <returns>the ledger id</returns>
+  </member>
+  <member name="M:LedgerId.FromNetworkName(NetworkName)">
+    <summary>
+    Create a ledger id from a network name.
+    </summary>
+    <param name="networkName">the network name</param>
+    <returns>the ledger id</returns>
+  </member>
+  <member name="M:LedgerId.Equals(MAINNET)">
+    <summary>
+    Are we on Mionnet?
+    </summary>
+    <returns>is it mainnet</returns>
+  </member>
+  <member name="M:LedgerId.Equals(TESTNET)">
+    <summary>
+    Are we on Testnet?
+    </summary>
+    <returns>is it testnet</returns>
+  </member>
+  <member name="M:LedgerId.Equals(PREVIEWNET)">
+    <summary>
+    Are we on Previewnet?
+    </summary>
+    <returns>is it previewnet</returns>
+  </member>
+  <member name="P:LedgerId.IsKnownNetwork">
+    <summary>
+    Are we one of the three standard networks?
+    </summary>
+    <returns>is it one of the three standard networks</returns>
+  </member>
+  <member name="M:LedgerId.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:LedgerId.ToByteString">
+    <summary>
+    Extract the byte string representation.
+    </summary>
+    <returns>the byte string representation</returns>
+  </member>
+  <member name="M:LedgerId.ToNetworkName">
+    <summary>
+    Extract the network name.
+    </summary>
+    <returns>the network name</returns>
+  </member>
+  <member name="M:LedgerId.ToString">
+    <summary>
+    Extract the string representation.
+    </summary>
+    <returns>the string representation</returns>
+  </member>
+</docs>

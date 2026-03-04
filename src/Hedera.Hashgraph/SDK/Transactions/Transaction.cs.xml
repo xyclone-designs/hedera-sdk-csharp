@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Transaction">
+    <summary>&lt;summary&gt;
+    Base class for all transactions that may be built and submitted to Hedera.
+    &lt;/summary&gt;
+    &lt;param name="&lt;T&gt;"&gt;The type of the transaction. Used to enable chaining.&lt;/param&gt;</summary>
+  </member>
+  <member name="T:Transaction_2">
+    <summary>
+    The maximum transaction fee the client is willing to pay
+    </summary>
+  </member>
+  <member name="M:Transaction.#ctor">
+    <summary>
+    Should the transaction id be regenerated
+    </summary>
+  </member>
+  <member name="M:Transaction.#ctor_2">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:Transaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    This constructor is used to construct from a scheduled transaction body
+    </summary>
+    <param name="txBody"></param>
+  </member>
+  <member name="M:Transaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    This constructor is used to construct via fromBytes
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:Transaction.RequireNotFrozen">
+    <summary>
+    The maximum transaction fee the operator (paying account) is willing to pay.
+    </summary>
+  </member>
+  <member name="M:Transaction.RequireNotFrozen_2">
+    <summary>
+    Extract the memo for the transaction.
+    </summary>
+    <returns>the memo for the transaction</returns>
+  </member>
+  <member name="M:Transaction.RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    Sets the duration that this transaction is valid for.
+    &lt;p&gt;
+    This is defaulted by the SDK to 120 seconds (or two minutes).
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="P:Transaction.SourceTransactionBody">
+    <summary>
+    Transaction constructors end their work by setting sourceTransactionBody. The expectation is that the Transaction
+    subclass constructor will pick up where the Transaction superclass constructor left off, and will unpack the data
+    in the transaction body.
+    </summary>
+  </member>
+  <member name="P:Transaction.FrozenBodyBuilder">
+    <summary>
+    The builder that gets re-used to build each outer transaction. freezeWith() will create the frozenBodyBuilder.
+    The presence of frozenBodyBuilder indicates that this transaction is frozen.
+    </summary>
+  </member>
+  <member name="M:Transaction.RequireNotFrozen_4">
+    <summary>
+    The key that will sign the batch of which this Transaction is a part of.
+    </summary>
+  </member>
+  <member name="P:Transaction.ShouldRegenerateTransactionId">
+    <summary>
+    Should the transaction id be regenerated.
+    </summary>
+    <returns>should the transaction id be regenerated</returns>
+  </member>
+  <member name="T:Transaction_3">
+    <summary>&lt;summary&gt;
+    Set the ID for this transaction.
+    &lt;p&gt;
+    The transaction ID includes the operator's account ( the account paying the transaction fee). If two transactions
+    have the same transaction ID, they won't both have an effect. One will complete normally and the other will fail
+    with a duplicate transaction status.
+    &lt;p&gt;
+    Normally, you should not use this method. Just before a transaction is executed, a transaction ID will be
+    generated from the operator on the client.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="P:Transaction.OuterTransactions">
+    <summary>
+    An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
+    except pointing to different nodes. When retrying a transaction after a network error or retry-able status
+    response, we try a different transaction and thus a different node.
+    </summary>
+  </member>
+  <member name="P:Transaction.InnerSignedTransactions">
+    <summary>
+    An SDK [Transaction] is composed of multiple, raw protobuf transactions. These should be functionally identical,
+    except pointing to different nodes. When retrying a transaction after a network error or retry-able status
+    response, we try a different transaction and thus a different node.
+    </summary>
+  </member>
+  <member name="P:Transaction.SigPairLists">
+    <summary>
+    A set of signatures corresponding to every unique public key used to sign the transaction.
+    </summary>
+  </member>
+  <member name="P:Transaction.TransactionIds">
+    <summary>
+    List of IDs for the transaction based on the operator because the transaction ID includes the operator's account
+    </summary>
+  </member>
+  <member name="P:Transaction.PublicKeys">
+    <summary>
+    publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
+    the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
+    the signer is not available (likely because this came from fromBytes())
+    </summary>
+  </member>
+  <member name="M:Transaction.freezeWith(Client)">
+    <summary>
+    publicKeys and signers are parallel Array. If the signer associated with a public key is null, that means that
+    the private key associated with that public key has already contributed a signature to sigPairListBuilders, but
+    the signer is not available (likely because this came from fromBytes())
+    </summary>
+  </member>
+  <member name="M:Transaction.OnFreeze(Proto.TransactionBody)">
+    <summary>
+    Called in {@link #freezeWith(Client)} just before the transaction body is built. The intent is for the derived
+    class to assign their data variant to the transaction body.
+    </summary>
+  </member>
+  <member name="M:Transaction.OnScheduled(Proto.SchedulableTransactionBody)">
+    <summary>
+    Called in {@link #schedule()} when converting transaction into a scheduled version.
+    </summary>
+  </member>
+  <member name="M:Transaction.DoSchedule(Proto.TransactionBody)">
+    <summary>
+    Converts transaction into a scheduled version
+    </summary>
+    <param name="bodyBuilder">the transaction's body builder</param>
+    <returns>the scheduled transaction</returns>
+  </member>
+  <member name="M:Transaction.KeyAlreadySigned(PublicKey)">
+    <summary>
+    Checks if a public key is already added to the transaction
+    </summary>
+    <param name="key">the public key</param>
+    <returns>if the public key is already added</returns>
+  </member>
+  <member name="M:Transaction.RequireNotFrozen_5">
+    <summary>
+    Throw an exception if the transaction is frozen.
+    </summary>
+  </member>
+  <member name="M:Transaction.RequireOneNodeAccountId">
+    <summary>
+    Throw an exception if there is not exactly one node id set.
+    </summary>
+  </member>
+  <member name="M:Transaction.AddSignature(PublicKey,System.Byte[])">
+    <summary>
+    Add a signature to the transaction.
+    </summary>
+    <param name="publicKey">the public key</param>
+    <param name="signature">the signature</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:Transaction.AddSignature(PublicKey,System.Byte[],TransactionId,AccountId)">
+    <summary>
+    Adds a signature to the transaction for a specific transaction id and node id.
+    This is useful for signing chunked transactions like FileAppendTransaction,
+    since they can have multiple transaction ids.
+    </summary>
+    <param name="publicKey">The public key to add signature for</param>
+    <param name="signature">The signature bytes</param>
+    <param name="transactionID">The specific transaction ID to match</param>
+    <param name="nodeID">The specific node ID to match</param>
+    <returns>The child transaction (this)</returns>
+    <exception cref="RuntimeException">if unmarshaling fails or invalid signed transaction</exception>
+  </member>
+  <member name="M:Transaction.BuildAllTransactions">
+    <summary>
+    Build all the transactions.
+    </summary>
+  </member>
+  <member name="M:Transaction.BuildTransaction(System.Int32)">
+    <summary>
+    Will build the specific transaction at {@code index} This function is only ever called after the transaction is
+    frozen.
+    </summary>
+    <param name="index">the index of the transaction to be built</param>
+  </member>
+  <member name="M:Transaction.Freeze">
+    <summary>
+    Freeze this transaction from further modification to prepare for signing or serialization.
+    </summary>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:Transaction.FreezeWith(Client)">
+    <summary>&lt;summary&gt;
+    Freeze this transaction from further modification to prepare for signing or serialization.
+    &lt;p&gt;
+    Will use the `Client`, if available, to generate a default Transaction ID and select 1/3 nodes to prepare this
+    transaction for.
+    &lt;/summary&gt;
+    &lt;param name="client"&gt;the configured client&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:Transaction.GetRequiredChunks">
+    <summary>
+    There must be at least one chunk.
+    </summary>
+    <returns>there is 1 required chunk</returns>
+  </member>
+  <member name="M:Transaction.GetSignatures">
+    <summary>
+    Extract list of account id and public keys.
+    </summary>
+    <returns>the list of account id and public keys</returns>
+  </member>
+  <member name="M:Transaction.GetSignableNodeBodyBytesList">
+    <summary>
+    Returns a list of SignableNodeTransactionBodyBytes objects for each signed transaction in the transaction list.
+    The NodeID represents the node that this transaction is signed for.
+    The TransactionID is useful for signing chunked transactions like FileAppendTransaction,
+    since they can have multiple transaction ids.
+    </summary>
+    <returns>List of SignableNodeTransactionBodyBytes</returns>
+    <exception cref="RuntimeException">if transaction is not frozen or protobuf parsing fails</exception>
+  </member>
+  <member name="M:Transaction.GetTransactionSize">
+    <summary>
+    This method retrieves the size of the transaction
+    </summary>
+    <returns></returns>
+  </member>
+  <member name="M:Transaction.GetTransactionBodySize">
+    <summary>
+    This method retrieves the transaction body size
+    </summary>
+    <returns></returns>
+  </member>
+  <member name="M:Transaction.GetTransactionHash">
+    <summary>
+    Extract a byte array of the transaction hash.
+    </summary>
+    <returns>the transaction hash</returns>
+  </member>
+  <member name="M:Transaction.GetTransactionHashPerNode">
+    <summary>
+    Extract the list of account id and hash records.
+    </summary>
+    <returns>the list of account id and hash records</returns>
+  </member>
+  <member name="M:Transaction.GenerateTransactionIds(TransactionId,System.Int32)">
+    <summary>
+    Generate transaction id's.
+    </summary>
+    <param name="initialTransactionId">the initial transaction id</param>
+    <param name="count">the number of id's to generate.</param>
+  </member>
+  <member name="M:Transaction.IsFrozen">
+    <summary>
+    Check if transaction is frozen.
+    </summary>
+    <returns>is the transaction frozen</returns>
+  </member>
+  <member name="M:Transaction.Schedule">
+    <summary>
+    Extract the scheduled transaction.
+    </summary>
+    <returns>the scheduled transaction</returns>
+  </member>
+  <member name="M:Transaction.SignTransaction(System.Int32)">
+    <summary>
+    Will sign the specific transaction at {@code index} This function is only ever called after the transaction is
+    frozen.
+    </summary>
+    <param name="index">the index of the transaction to sign</param>
+  </member>
+  <member name="M:Transaction.SignWithOperator(Client)">
+    <summary>
+    Sign the transaction with the configured client.
+    </summary>
+    <param name="client">the configured client</param>
+    <returns>the signed transaction</returns>
+  </member>
+  <member name="M:Transaction.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})">
+    <summary>
+    Sign the transaction.
+    </summary>
+    <param name="publicKey">the public key</param>
+    <param name="transactionSigner">the key list</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:Transaction.ToBytes">
+    <summary>
+    Extract a byte array representation.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:Transaction.WipeTransactionLists(System.Int32)">
+    <summary>
+    Wipe / reset the transaction list.
+    </summary>
+    <param name="requiredChunks">the number of required chunks</param>
+  </member>
+  <member name="M:Transaction.SetNodeAccountIds(System.Collections.Generic.IEnumerable{AccountId})">
+    <summary>&lt;summary&gt;
+    Set the account IDs of the nodes that this transaction will be submitted to.
+    &lt;p&gt;
+    Providing an explicit node account ID interferes with client-side load balancing of the network. By default, the
+    SDK will pre-generate a transaction for 1/3 of the nodes on the network. If a node is down, busy, or otherwise
+    reports a fatal error, the SDK will try again with a different node.
+    &lt;/summary&gt;
+    &lt;param name="NodeAccountIds"&gt;The list of node AccountIds to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:Transaction.Batchify(Client,Key)">
+    <summary>
+    batchify method is used to mark a transaction as part of a batch transaction or make it so-called inner transaction.
+    The Transaction will be frozen and signed by the operator of the client.
+    </summary>
+    <param name="client">sdk client</param>
+    <param name="batchKey">batch key</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:Transaction.Sign(PrivateKey)">
+    <summary>
+    Sign the transaction.
+    </summary>
+    <param name="privateKey">the private key</param>
+    <returns>the signed transaction</returns>
+  </member>
+  <member name="M:Transaction.AddSignatureIfNotExists(System.Int32,PublicKey,System.Byte[])">
+    <summary>
+    Adds signature if it doesn't already exist for the given public key.
+    </summary>
+    <param name="index">The transaction index</param>
+    <param name="publicKey">The public key</param>
+    <param name="signature">The signature bytes</param>
+    <returns>true if signature was added, false if it already existed</returns>
+  </member>
+  <member name="M:Transaction.IsSignatureAlreadyPresent(Proto.SignatureMap,PublicKey)">
+    <summary>
+    Checks if a signature for the given public key already exists.
+    </summary>
+    <param name="sigMapBuilder">The signature map builder</param>
+    <param name="publicKey">The public key to check</param>
+    <returns>true if signature already exists, false otherwise</returns>
+  </member>
+  <member name="M:Transaction.MatchesTargetTransactionAndNode(Proto.TransactionBody,TransactionId,AccountId)">
+    <summary>
+    Checks if the transaction body matches the target transaction ID and node ID.
+    </summary>
+    <param name="body">The transaction body to check</param>
+    <param name="targetTransactionID">The target transaction ID to match against</param>
+    <param name="targetNodeID">The target node ID to match against</param>
+    <returns>true if both the transaction ID and node ID match the targets, false otherwise</returns>
+  </member>
+  <member name="M:Transaction.ProcessedSignatureForTransaction(System.Int32,PublicKey,System.Byte[],TransactionId,AccountId)">
+    <summary>
+    Processes signature addition for a single transaction at the given index.
+    </summary>
+    <param name="index">The index of the transaction to process</param>
+    <param name="publicKey">The public key to add signature for</param>
+    <param name="signature">The signature bytes</param>
+    <param name="transactionID">The specific transaction ID to match</param>
+    <param name="nodeID">The specific node ID to match</param>
+    <returns>true if signature was added, false otherwise</returns>
+  </member>
+  <member name="M:Transaction.UpdateTransactionState(PublicKey)">
+    <summary>
+    Updates the transaction state after adding a signature.
+    </summary>
+    <param name="publicKey">The public key that was added</param>
+  </member>
+</docs>

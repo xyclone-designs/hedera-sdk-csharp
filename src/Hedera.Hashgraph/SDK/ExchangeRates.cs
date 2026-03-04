@@ -3,9 +3,7 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Contains a set of Exchange Rates (current and next).
-    /// </summary>
+    /// <include file="ExchangeRates.cs.xml" path='docs/member[@name="T:ExchangeRates"]/*' />
     public sealed class ExchangeRates
     {
         private ExchangeRates(ExchangeRate currentRate, ExchangeRate nextRate)
@@ -14,30 +12,17 @@ namespace Hedera.Hashgraph.SDK
             NextRate = nextRate;
         }
 
-		/// <summary>
-		/// Current Exchange Rate
-		/// </summary>
+		/// <include file="ExchangeRates.cs.xml" path='docs/member[@name="P:ExchangeRates.CurrentRate"]/*' />
 		public ExchangeRate CurrentRate { get; }
-		/// <summary>
-		/// Next Exchange Rate
-		/// </summary>
+		/// <include file="ExchangeRates.cs.xml" path='docs/member[@name="P:ExchangeRates.NextRate"]/*' />
 		public ExchangeRate NextRate { get; }
 
-		/// <summary>
-		/// Create an Exchange Rates from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new exchange rates</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ExchangeRates.cs.xml" path='docs/member[@name="M:ExchangeRates.FromBytes(System.Byte[])"]/*' />
 		public static ExchangeRates FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.ExchangeRateSet.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create an Exchange Rates from a protobuf.
-		/// </summary>
-		/// <param name="pb">the protobuf</param>
-		/// <returns>                         the new exchange rates</returns>
+		/// <include file="ExchangeRates.cs.xml" path='docs/member[@name="M:ExchangeRates.FromProtobuf(Proto.ExchangeRateSet)"]/*' />
 		public static ExchangeRates FromProtobuf(Proto.ExchangeRateSet pb)
         {
             return new ExchangeRates(ExchangeRate.FromProtobuf(pb.CurrentRate), ExchangeRate.FromProtobuf(pb.NextRate));

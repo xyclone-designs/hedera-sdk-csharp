@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:BadEntityIdException">
+    <summary>
+    Custom exception thrown by the entity helper validate method when the account id and checksum are invalid.
+    </summary>
+  </member>
+  <member name="F:BadEntityIdException.Shard">
+    <summary>
+    the shard portion of the account id
+    </summary>
+  </member>
+  <member name="F:BadEntityIdException.Realm">
+    <summary>
+    the realm portion of the account id
+    </summary>
+  </member>
+  <member name="F:BadEntityIdException.Num">
+    <summary>
+    the num portion of the account id
+    </summary>
+  </member>
+  <member name="M:BadEntityIdException.#ctor(System.Int64,System.Int64,System.Int64,System.String,System.String)">
+    <summary>
+    the user supplied checksum
+    </summary>
+  </member>
+  <member name="M:BadEntityIdException.#ctor(System.Int64,System.Int64,System.Int64,System.String,System.String)_2">
+    <summary>
+    the calculated checksum
+    </summary>
+  </member>
+  <member name="M:BadEntityIdException.#ctor(System.Int64,System.Int64,System.Int64,System.String,System.String)_3">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="shard">the shard portion of the account id</param>
+    <param name="realm">the realm portion of the account id</param>
+    <param name="num">the num portion of the account id</param>
+    <param name="presentChecksum">the user supplied checksum</param>
+    <param name="expectedChecksum">the calculated checksum</param>
+  </member>
+</docs>

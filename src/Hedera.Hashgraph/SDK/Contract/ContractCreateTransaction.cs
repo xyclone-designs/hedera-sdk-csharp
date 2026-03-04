@@ -15,82 +15,21 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-	/// 
-    /// Start a new smart contract instance.
-    /// After the instance is created,
-    /// the ContractID for it is in the receipt.
-    /// <p>
-    /// The instance will exist for autoRenewPeriod seconds. When that is reached, it will renew itself for another
-    /// autoRenewPeriod seconds by charging its associated cryptocurrency account (which it creates here).
-    /// If it has insufficient cryptocurrency to extend that long, it will extend as long as it can.
-    /// If its balance is zero, the instance will be deleted.
-    /// <p>
-    /// A smart contract instance normally enforces rules, so "the code is law". For example, an
-    /// ERC-20 contract prevents a transfer from being undone without a signature by the recipient of the transfer.
-    /// This is always enforced if the contract instance was created with the adminKeys being null.
-    /// But for some uses, it might be desirable to create something like an ERC-20 contract that has a
-    /// specific group of trusted individuals who can act as a "supreme court" with the ability to override the normal
-    /// operation, when a sufficient number of them agree to do so. If adminKeys is not null, then they can
-    /// sign a transaction that can change the state of the smart contract in arbitrary ways, such as to reverse
-    /// a transaction that violates some standard of behavior that is not covered by the code itself.
-    /// The admin keys can also be used to change the autoRenewPeriod, and change the adminKeys field itself.
-    /// The API currently does not implement this ability. But it does allow the adminKeys field to be set and
-    /// queried, and will in the future implement such admin abilities for any instance that has a non-null adminKeys.
-    /// <p>
-    /// If this constructor stores information, it is charged gas to store it. There is a fee in hbars to
-    /// maintain that storage until the expiration time, and that fee is added as part of the transaction fee.
-    /// <p>
-    /// An entity (account, file, or smart contract instance) must be created in a particular realm.
-    /// If the realmID is left null, then a new realm will be created with the given admin key. If a new realm has
-    /// a null adminKey, then anyone can create/modify/delete entities in that realm. But if an admin key is given,
-    /// then any transaction to create/modify/delete an entity in that realm must be signed by that key,
-    /// though anyone can still call functions on smart contract instances that exist in that realm.
-    /// A realm ceases to exist when everything within it has expired and no longer exists.
-    /// <p>
-    /// The current API ignores shardID, realmID, and newRealmAdminKey, and creates everything in shard 0 and realm 0,
-    /// with a null key. Future versions of the API will support multiple realms and multiple shards.
-    /// <p>
-    /// The optional memo field can contain a string whose length is up to 100 bytes. That is the size after Unicode
-    /// NFD then UTF-8 conversion. This field can be used to describe the smart contract. It could also be used for
-    /// other purposes. One recommended purpose is to hold a hexadecimal string that is the SHA-384 hash of a
-    /// PDF file containing a human-readable legal contract. Then, if the admin keys are the
-    /// public keys of human arbitrators, they can use that legal document to guide their decisions during a binding
-    /// arbitration tribunal, convened to consider any changes to the smart contract in the future. The memo field can only
-    /// be changed using the admin keys. If there are no admin keys, then it cannot be
-    /// changed after the smart contract is created.
-    /// 
-	/// </summary>
+    /// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="T:ContractCreateTransaction"]/*' />
     public sealed class ContractCreateTransaction : Transaction<ContractCreateTransaction>
     {        
-        /// <summary>
-		/// 
-        /// Constructor.
-        /// 
-		/// </summary>
+        /// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.#ctor"]/*' />
         public ContractCreateTransaction()
         {
             AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
             DefaultMaxTransactionFee = new Hbar(20);
         }
-		/// <summary>
-		/// 
-		/// Constructor.
-		/// 
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal ContractCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// 
-		/// Constructor.
-		/// 
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal ContractCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -98,9 +37,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 		private List<HookCreationDetails> _HookCreationDetails = [];
 
-		/// <summary>
-		/// The file containing the contract bytecode.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen"]/*' />
 		public FileId? BytecodeFileId
 		{
 			get;
@@ -111,9 +48,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// The raw EVM bytecode.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.CopyArray"]/*' />
 		public byte[]? Bytecode
 		{
 			get => field?.CopyArray();
@@ -124,9 +59,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value?.CopyArray();
 			}
 		}
-		/// <summary>
-		/// Admin key controlling contract mutability.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_2"]/*' />
 		public Key? AdminKey
 		{
 			get;
@@ -136,9 +69,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Maximum gas for constructor execution.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_3"]/*' />
 		public long Gas
 		{
 			get;
@@ -152,9 +83,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Initial HBAR balance of the contract.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_4"]/*' />
 		public Hbar InitialBalance
 		{
 			get;
@@ -164,10 +93,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		} = new Hbar(0);
-		/// <summary>
-		/// @deprecated — no replacement.
-		/// Proxy staking account.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_5"]/*' />
 		[Obsolete]
 		public AccountId? ProxyAccountId
 		{
@@ -178,9 +104,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Maximum number of automatic token associations.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_6"]/*' />
 		public int MaxAutomaticTokenAssociations
 		{
 			get;
@@ -190,9 +114,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Auto-renew period for the contract.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_7"]/*' />
 		public TimeSpan? AutoRenewPeriod
 		{
 			get;
@@ -202,9 +124,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Constructor parameters as raw bytes.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.Copy"]/*' />
 		public ByteString ConstructorParameters
 		{
 			set => field = value.Copy();
@@ -222,9 +142,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				ConstructorParameters = ByteString.CopyFrom(value);
 			}
 		}
-		/// <summary>
-		/// Contract memo.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_8"]/*' />
 		public string ContractMemo
 		{
 			get;
@@ -234,9 +152,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		} = string.Empty;
-		/// <summary>
-		/// Account this contract stakes to.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_9"]/*' />
 		public AccountId? StakedAccountId
 		{
 			get;
@@ -247,9 +163,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Node this contract stakes to.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_10"]/*' />
 		public long? StakedNodeId
 		{
 			get;
@@ -260,9 +174,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Declines staking rewards.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.RequireNotFrozen_11"]/*' />
 		public bool DeclineStakingReward
 		{
 			get;
@@ -272,9 +184,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Auto-renew account.
-		/// </summary>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.ThrowIfNull(value)"]/*' />
 		public AccountId? AutoRenewAccountId
 		{
 			get;
@@ -286,10 +196,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			}
 		}
 
-		/// <summary>
-		/// Get the list of hooks to be created.
-		/// </summary>
-		/// <returns>a copy of the hook creation details list</returns>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.ToProtobuf"]/*' />
 		public ListGuarded<HookCreationDetails> HookCreationDetails_
 		{
 			init; get => field ??= new ListGuarded<HookCreationDetails>
@@ -298,12 +205,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 		}
 
-		/// <summary>
-		/// 
-		/// Build the transaction body.
-		/// 
-		/// </summary>
-		/// <returns>{@link ContractCreateTransactionBody}</returns>
+		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.ToProtobuf_2"]/*' />
 		public Proto.ContractCreateTransactionBody ToProtobuf()
         {
             var builder = new Proto.ContractCreateTransactionBody();
@@ -353,11 +255,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             AutoRenewAccountId?.ValidateChecksum(client);
         }
 
-        /// <summary>
-		/// 
-        /// Initialize from the transaction body.
-        /// 
-		/// </summary>
+        /// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ContractCreateInstance;

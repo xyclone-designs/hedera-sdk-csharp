@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TransactionId">
+    <summary>&lt;summary&gt;
+    The client-generated ID for a transaction.
+    
+    &lt;p&gt;This is used for retrieving receipts and records for a transaction, for appending to a file
+    right after creating it, for instantiating a smart contract with bytecode in a file just created,
+    and internally by the network for detecting when duplicate transactions are submitted.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:TransactionId.#ctor(AccountId,DateTimeOffset)">
+    <summary>
+    No longer part of the public API. Use `Transaction.withValidStart()` instead.
+    </summary>
+    <param name="accountId">the account id</param>
+    <param name="ValidStart">the valid start time</param>
+  </member>
+  <member name="M:TransactionId.Generate(AccountId)">
+    <summary>&lt;summary&gt;
+    Generates a new transaction ID for the given account ID.
+    
+    &lt;p&gt;Note that transaction IDs are made of the valid start of the transaction and the account
+    that will be charged the transaction fees for the transaction.
+    &lt;/summary&gt;
+    &lt;param name="accountId"&gt;the ID of the Hedera account that will be charge the transaction fees.&lt;/param&gt;
+    &lt;returns&gt;{@link TransactionId}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TransactionId.WithValidStart(AccountId,DateTimeOffset)">
+    <summary>
+    Create a transaction id.
+    </summary>
+    <param name="accountId">the account id</param>
+    <param name="ValidStart">the valid start time</param>
+    <returns>the new transaction id</returns>
+  </member>
+  <member name="M:TransactionId.FromString(System.String)">
+    <summary>
+    Create a new transaction id from a string.
+    </summary>
+    <param name="s">the string representing the transaction id</param>
+    <returns>the new transaction id</returns>
+  </member>
+  <member name="M:TransactionId.FromBytes(System.Byte[])">
+    <summary>
+    Create a new transaction id from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new transaction id</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TransactionId.FromProtobuf(Proto.TransactionID)">
+    <summary>
+    Create a transaction id from a protobuf.
+    </summary>
+    <param name="transactionID">the protobuf</param>
+    <returns>the new transaction id</returns>
+  </member>
+  <member name="P:TransactionId.Nonce">
+    <summary>
+    Extract the nonce.
+    </summary>
+  </member>
+  <member name="P:TransactionId.Scheduled">
+    <summary>
+    Extract the scheduled status.
+    </summary>
+  </member>
+  <member name="P:TransactionId.AccountId">
+    <summary>
+    The Account ID that paid for this transaction.
+    </summary>
+  </member>
+  <member name="P:TransactionId.ValidStart">
+    <summary>&lt;summary&gt;
+    The time from when this transaction is valid.
+    
+    &lt;p&gt;When a transaction is submitted there is additionally a validDuration (defaults to 120s)
+    and together they define a time window that a transaction may be processed in.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:TransactionId.GetReceipt(Client)">
+    <summary>
+    Fetch the receipt of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>the transaction receipt</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionId.GetReceipt(Client,System.TimeSpan)">
+    <summary>
+    Fetch the receipt of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>the transaction receipt</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionId.GetReceiptAsync(Client)">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>future result of the transaction receipt</returns>
+  </member>
+  <member name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan)">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>the transaction receipt</returns>
+  </member>
+  <member name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt,System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt,System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionId.GetReceiptAsync(Client,System.Action{TransactionReceipt},System.Action{System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:TransactionId.GetReceiptAsync(Client,System.TimeSpan,System.Action{TransactionReceipt},System.Action{System.Exception})">
+    <summary>
+    Fetch the receipt of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:TransactionId.GetRecord(Client)">
+    <summary>
+    Fetch the record of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>the transaction record</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionId.GetRecord(Client,System.TimeSpan)">
+    <summary>
+    Fetch the record of the transaction.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>the transaction record</returns>
+    <exception cref="TimeoutException">when the transaction times out</exception>
+    <exception cref="PrecheckStatusException">when the precheck fails</exception>
+    <exception cref="ReceiptStatusException">when there is an issue with the receipt</exception>
+  </member>
+  <member name="M:TransactionId.GetRecordAsync(Client)">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <returns>future result of the transaction record</returns>
+  </member>
+  <member name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan)">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <returns>future result of the transaction record</returns>
+  </member>
+  <member name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord,System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord,System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="callback">a Action which handles the result or error.</param>
+  </member>
+  <member name="M:TransactionId.GetRecordAsync(Client,System.Action{TransactionRecord},System.Action{System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:TransactionId.GetRecordAsync(Client,System.TimeSpan,System.Action{TransactionRecord},System.Action{System.Exception})">
+    <summary>
+    Fetch the record of the transaction asynchronously.
+    </summary>
+    <param name="client">The client with which this will be executed.</param>
+    <param name="timeout">The timeout after which the execution attempt will be cancelled.</param>
+    <param name="onSuccess">a Action which consumes the result on success.</param>
+    <param name="onFailure">a Action which consumes the error on failure.</param>
+  </member>
+  <member name="M:TransactionId.ToBytes">
+    <summary>
+    Extract the byte array representation.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TransactionId.ToProtobuf">
+    <summary>
+    Extract the transaction id protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+  <member name="M:TransactionId.ToStringWithChecksum(Client)">
+    <summary>
+    Convert to a string representation with checksum.
+    </summary>
+    <param name="client">the configured client</param>
+    <returns>the string representation with checksum</returns>
+  </member>
+</docs>

@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.File;
@@ -43,9 +41,9 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             return new FileCreateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				Contents = new byte[] { 1, 2, 3, 4 },
-				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728).ToTimestamp(),
+				ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1554158728),
 				Keys = KeyList.Of(null, unusedPrivateKey),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
 				FileMemo = "Hello memo",

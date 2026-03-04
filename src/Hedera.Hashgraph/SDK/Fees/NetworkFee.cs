@@ -6,9 +6,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 {
     public sealed class NetworkFee
     {
-        /// <summary>
-        /// Multiplied by the node fee to determine the total network fee.
-        /// </summary>
+        /// <include file="NetworkFee.cs.xml" path='docs/member[@name="P:.Multiplier"]/*' />
         public int Multiplier { get; }
         public long Subtotal { get; }
 

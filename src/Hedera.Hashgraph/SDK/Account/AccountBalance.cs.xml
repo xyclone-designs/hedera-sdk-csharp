@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:AccountBalance">
+    <summary>
+    This class represents the account balance object
+    </summary>
+  </member>
+  <member name="M:AccountBalance.FromBytes(System.Byte[])">
+    <summary>
+    Convert a byte array to an account balance object.
+    </summary>
+    <param name="data">the byte array</param>
+    <returns>the converted account balance object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:AccountBalance.FromProtobuf(Proto.CryptoGetAccountBalanceResponse)">
+    <summary>
+    Convert the protobuf object to an account balance object.
+    </summary>
+    <param name="protobuf">protobuf response object</param>
+    <returns>the converted account balance object</returns>
+  </member>
+  <member name="P:AccountBalance.Hbars">
+    <summary>
+    The Hbar balance of the account
+    </summary>
+  </member>
+  <member name="M:AccountBalance.ToBytes">
+    <summary></summary>
+    <remarks>@deprecated- Use `tokens` instead</remarks>
+  </member>
+  <member name="M:AccountBalance.ToBytes_2">
+    <summary>
+    Convert the account balance object to a byte array.
+    </summary>
+    <returns>the converted account balance object</returns>
+  </member>
+  <member name="M:AccountBalance.ToProtobuf">
+    <summary>
+    Convert an account balance object into a protobuf.
+    </summary>
+    <returns>the protobuf object</returns>
+  </member>
+</docs>

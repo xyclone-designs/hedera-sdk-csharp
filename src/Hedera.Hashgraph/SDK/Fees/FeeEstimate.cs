@@ -28,13 +28,9 @@ namespace Hedera.Hashgraph.SDK.Fees
 				throw new ArgumentException("Missing expected fee estimate field: " + primaryKey);
 		}
 
-		/// <summary>
-		/// The base fee price, in tinycents.
-		/// </summary>
+		/// <include file="FeeEstimate.cs.xml" path='docs/member[@name="P:.Base"]/*' />
 		public long Base { get; }
-		/// <summary>
-		/// The extra fees that apply for this fee component.
-		/// </summary>
+		/// <include file="FeeEstimate.cs.xml" path='docs/member[@name="P:.Extras"]/*' />
 		public IList<FeeExtra> Extras { get; }
 
 		public override bool Equals(object? o)

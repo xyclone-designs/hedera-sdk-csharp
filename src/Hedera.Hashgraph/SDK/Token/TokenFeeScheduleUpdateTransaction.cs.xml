@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenFeeScheduleUpdateTransaction">
+    <summary>
+    Update the custom fees for a given token. If the token does not have a
+    fee schedule, the network response returned will be
+    CUSTOM_SCHEDULE_ALREADY_HAS_NO_FEES. You will need to sign the transaction
+    with the fee schedule key to update the fee schedule for the token. If you
+    do not have a fee schedule key set for the token, you will not be able to
+    update the fee schedule.
+    
+    See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/update-a-fee-schedule">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:TokenFeeScheduleUpdateTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TokenFeeScheduleUpdateTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenFeeScheduleUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenFeeScheduleUpdateTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A token identifier.
+    &lt;p&gt;
+    This SHALL identify the token type to modify with an updated
+    custom fee schedule.&lt;br/&gt;
+    The identified token MUST exist, and MUST NOT be deleted.
+    &lt;/summary&gt;
+    &lt;param name="tokenId"&gt;the token id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenFeeScheduleUpdateTransaction.DeepCloneList(field)">
+    <summary>&lt;summary&gt;
+    A list of custom fees representing a fee schedule.
+    &lt;p&gt;
+    This list MAY be empty to remove custom fees from a token.&lt;br/&gt;
+    If the identified token is a non-fungible/unique type, the entries
+    in this list MUST NOT declare a `fractional_fee`.&lt;br/&gt;
+    If the identified token is a fungible/common type, the entries in this
+    list MUST NOT declare a `royalty_fee`.&lt;br/&gt;
+    Any token type MAY include entries that declare a `fixed_fee`.
+    &lt;/summary&gt;
+    &lt;param name="customFees"&gt;the list of custom fees&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenFeeScheduleUpdateTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TokenFeeScheduleUpdateTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.TokenFeeScheduleUpdateTransactionBody}</returns>
+  </member>
+</docs>

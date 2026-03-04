@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FreezeTransaction">
+    <summary>
+    A transaction body for all five freeze transactions.
+    
+    Combining five different transactions into a single message, this
+    transaction body MUST support options to schedule a freeze, abort a
+    scheduled freeze, prepare a software upgrade, prepare a telemetry
+    upgrade, or initiate a software upgrade.
+    
+    For a scheduled freeze, at the scheduled time, according to
+    network consensus time
+      - A freeze (`FREEZE_ONLY`) causes the network nodes to stop creating
+        events or accepting transactions, and enter a persistent
+        maintenance state.
+      - A freeze upgrade (`FREEZE_UPGRADE`) causes the network nodes to stop
+        creating events or accepting transactions, and upgrade the node software
+        from a previously prepared upgrade package. The network nodes then
+        restart and rejoin the network after upgrading.
+    
+    For other freeze types, immediately upon processing the freeze transaction
+      - A Freeze Abort (`FREEZE_ABORT`) cancels any pending scheduled freeze.
+      - A prepare upgrade (`PREPARE_UPGRADE`) begins to extract the contents of
+        the specified upgrade file to the local filesystem.
+      - A telemetry upgrade (`TELEMETRY_UPGRADE`) causes the network nodes to
+        extract a telemetry upgrade package to the local filesystem and signal
+        other software on the machine to upgrade, without impacting the node or
+        network processing.
+    
+    ### Block Stream Effects
+    Unknown
+    </summary>
+  </member>
+  <member name="M:FreezeTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:FreezeTransaction.CopyArray">
+    <summary>&lt;summary&gt;
+    A SHA384 hash of file content.&lt;br/&gt;
+    This is a hash of the file identified by `update_file`.
+    &lt;p&gt;
+    This MUST be set if `update_file` is set, and MUST match the
+    SHA384 hash of the contents of that file.
+    &lt;/summary&gt;
+    &lt;param name="fileHash"&gt;the fileHash to set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:FreezeTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    The type of freeze.
+    &lt;p&gt;
+    This REQUIRED field effectively selects between five quite different
+    transactions in the same transaction body. Depending on this value
+    the service may schedule a freeze, prepare upgrades, perform upgrades,
+    or even abort a previously scheduled freeze.
+    
+    {@link FreezeTransaction}
+    &lt;/summary&gt;
+    &lt;param name="freezeType"&gt;the freeze type&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+</docs>

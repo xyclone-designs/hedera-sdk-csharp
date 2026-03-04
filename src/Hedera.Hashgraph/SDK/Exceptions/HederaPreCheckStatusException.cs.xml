@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+    <summary>&lt;summary&gt;
+    Signals that a transaction has failed the pre-check.
+    &lt;p&gt;
+    Before a node submits a transaction to the rest of the network,
+    it attempts some cheap assertions. This process is called the "pre-check".
+    &lt;/summary&gt;</summary>
+  </member>
+</docs>

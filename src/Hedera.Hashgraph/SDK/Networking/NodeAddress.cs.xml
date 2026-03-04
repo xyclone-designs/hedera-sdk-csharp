@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:NodeAddress">
+    <summary>
+    The metadata for a Node – including IP Address, and the crypto account associated with the Node.
+    
+    See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/nodeaddress">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:NodeAddress.FromProtobuf(Proto.NodeAddress)">
+    <summary>
+    Create a node from a protobuf.
+    </summary>
+    <param name="nodeAddress">the protobuf</param>
+    <returns>the new node</returns>
+  </member>
+  <member name="P:NodeAddress.PublicKey">
+    <summary>
+    The RSA public key of the node.
+    </summary>
+  </member>
+  <member name="P:NodeAddress.Description">
+    <summary>
+    A description of the node, with UTF-8 encoding up to 100 bytes.
+    </summary>
+  </member>
+  <member name="P:NodeAddress.AccountId">
+    <summary>
+    The account to be paid for queries and transactions sent to this node.
+    </summary>
+  </member>
+  <member name="P:NodeAddress.Stake">
+    <summary>
+    The amount of tinybars staked to the node.
+    </summary>
+  </member>
+  <member name="P:NodeAddress.NodeId">
+    <summary>
+    A non-sequential identifier for the node.
+    </summary>
+  </member>
+  <member name="P:NodeAddress.CertHash">
+    <summary>
+    A hash of the X509 cert used for gRPC traffic to this node.
+    </summary>
+  </member>
+  <member name="P:NodeAddress.Addresses">
+    <summary>
+    A node's service IP addresses and ports.
+    </summary>
+  </member>
+</docs>

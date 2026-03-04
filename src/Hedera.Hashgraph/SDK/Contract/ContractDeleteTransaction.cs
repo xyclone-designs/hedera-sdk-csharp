@@ -10,61 +10,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// Delete a smart contract, and transfer any remaining HBAR balance to a
-    /// designated account.
-    /// 
-    /// If this call succeeds then all subsequent calls to that smart contract
-    /// SHALL execute the `0x0` opcode, as required for EVM equivalence.
-    /// 
-    /// ### Requirements
-    ///  - An account or smart contract MUST be designated to receive all remaining
-    ///    account balances.
-    ///  - The smart contract MUST have an admin key set. If the contract does not
-    ///    have `admin_key` set, then this transaction SHALL fail and response code
-    ///    `MODIFYING_IMMUTABLE_CONTRACT` SHALL be set.
-    ///  - If `admin_key` is, or contains, an empty `KeyList` key, it SHALL be
-    ///    treated the same as an admin key that is not set.
-    ///  - The `Key` set for `admin_key` on the smart contract MUST have a valid
-    ///    signature set on this transaction.
-    ///  - The designated receiving account MAY have `receiver_sig_required` set. If
-    ///    that field is set, the receiver account MUST also sign this transaction.
-    ///  - The field `permanent_removal` MUST NOT be set. That field is reserved for
-    ///    internal system use when purging the smart contract from state. Any user
-    ///    transaction with that field set SHALL be rejected and a response code
-    ///    `PERMANENT_REMOVAL_REQUIRES_SYSTEM_INITIATION` SHALL be set.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="T:ContractDeleteTransaction"]/*' />
     public sealed class ContractDeleteTransaction : Transaction<ContractDeleteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor"]/*' />
         public ContractDeleteTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		public ContractDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txBody">protobuf TransactionBody</param>
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
         internal ContractDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// Sets the contract ID which should be deleted.
-		/// </summary>
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen"]/*' />
 		public ContractId? ContractId
 		{
 			get;
@@ -74,11 +36,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Sets the account ID which will receive all remaining hbars.
-		/// <p>
-		/// This is mutually exclusive with {@link #setTransferContractId(ContractId)}.
-		/// </summary>
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_2"]/*' />
 		public AccountId? TransferAccountId
 		{
 			get;
@@ -88,11 +46,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-		/// <summary>
-		/// Sets the contract ID which will receive all remaining hbars.
-		/// <p>
-		/// This is mutually exclusive with {@link #setTransferAccountId(AccountId)}.
-		/// </summary>
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_3"]/*' />
 		public ContractId? TransferContractId
 		{
 			get;
@@ -102,12 +56,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				field = value;
 			}
 		}
-        /// <summary>
-        /// Sets the permanent removal flag.
-        /// <p>
-        /// This field is reserved for system use. User transactions setting this field
-        /// may be rejected by the network with status {@link Status#PERMANENT_REMOVAL_REQUIRES_SYSTEM_INITIATION}.
-        /// </summary>
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.RequireNotFrozen_4"]/*' />
         public bool? PermanentRemoval
         {
             get;
@@ -118,9 +67,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			}
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ContractDeleteInstance;
@@ -138,10 +85,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				PermanentRemoval = true;
 		}
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link ContractDeleteTransactionBody}</returns>
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.ToProtobuf"]/*' />
         public Proto.ContractDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.ContractDeleteTransactionBody();
@@ -154,11 +98,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             return builder;
         }
 
-		/// <summary>
-		/// Validates tha the contract id, transfer contract id and the transfer account id are valid.
-		/// </summary>
-		/// <param name="client">the configured client</param>
-		/// <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.ValidateChecksums(Client)"]/*' />
 		public override void ValidateChecksums(Client client)
 		{
 			ContractId?.ValidateChecksum(client);

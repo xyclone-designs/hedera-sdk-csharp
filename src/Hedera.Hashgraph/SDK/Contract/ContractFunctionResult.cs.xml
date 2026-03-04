@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractFunctionResult">
+    <summary>&lt;summary&gt;
+    Result of invoking a contract via {@link ContractCallQuery}, or {@link ContractExecuteTransaction}, or the result of
+    a contract constructor being called by {@link ContractCreateTransaction}.
+    &lt;p&gt;
+    If you require a type which is not supported here, please let us know on
+    &lt;a href="https://github.com/hashgraph/hedera-sdk-java/issues/298"&gt;this Github issue&lt;/a&gt;.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.#ctor(Proto.ContractFunctionResult)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="inner">the protobuf</param>
+  </member>
+  <member name="F:ContractFunctionResult.ContractId">
+    <summary>
+    The ID of the contract that was invoked.
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.EvmAddress">
+    <summary>
+    The contract's 20-byte EVM address
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.ErrorMessage">
+    <summary>
+    message in case there was an error during smart contract execution
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.Bloom">
+    <summary>
+    bloom filter for record
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.GasUsed">
+    <summary>
+    units of gas used to execute contract
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.logs">
+    <summary>
+    the log info for events returned by the function
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.CreatedContractIds">
+    <summary>
+    The created ids will now _also_ be externalized through internal transaction records, where each record has its
+    alias field populated with the new contract's EVM address. (This is needed for contracts created with CREATE2,
+    since there is no longer a simple relationship between the new contract's 0.0.X id and its Solidity address.)
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.StateChanges">
+    <summary></summary>
+    <remarks>@deprecated- Use mirror node for contract traceability instead</remarks>
+  </member>
+  <member name="F:ContractFunctionResult.Gas">
+    <summary>
+    The amount of gas available for the call, aka the gasLimit
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.HbarAmount">
+    <summary>
+    Number of tinybars sent (the function must be payable if this is nonzero).
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.ContractFunctionParametersBytes">
+    <summary>&lt;summary&gt;
+    The parameters passed into the contract call.
+    &lt;br&gt;
+    This field should only be populated when the paired TransactionBody in the record stream is not a
+    ContractCreateTransactionBody or a ContractCallTransactionBody.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="F:ContractFunctionResult.SenderAccountId">
+    <summary>
+    The account that is the "sender." If not present it is the accountId from the transactionId.
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.ContractNonces">
+    <summary>
+    A list of updated contract account nonces containing the new nonce value for each contract account. This is
+    always empty in a ContractCallLocalResponse#ContractFunctionResult message, since no internal creations can
+    happen in a static EVM call.
+    </summary>
+  </member>
+  <member name="F:ContractFunctionResult.SignerNonce">
+    <summary>
+    If not null this field specifies what the value of the signer account nonce is post transaction execution.
+    For transactions that don't update the signer nonce (like HAPI ContractCall and ContractCreate transactions) this field should be null.
+    </summary>
+  </member>
+  <member name="M:ContractFunctionResult.AsBytes">
+    <summary>
+    Get the whole raw function result.
+    </summary>
+    <returns>byte[]</returns>
+  </member>
+  <member name="M:ContractFunctionResult.GetBytes(System.Int32)">
+    <summary>
+    Get the nth value in the result as a dynamic byte array.
+    </summary>
+    <param name="valIndex">The index of the array of bytes to be retrieved</param>
+    <returns>byte[]</returns>
+  </member>
+  <member name="M:ContractFunctionResult.GetBytes32(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth fixed-width 32-byte value in the result.
+    &lt;p&gt;
+    This is the native word size for the Solidity ABI.
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the array of bytes to be retrieved&lt;/param&gt;
+    &lt;returns&gt;byte[]&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetBool(System.Int32)">
+    <summary>
+    Get the nth value as a bool.
+    </summary>
+    <param name="valIndex">The index of the bool to be retrieved</param>
+    <returns>bool</returns>
+  </member>
+  <member name="M:ContractFunctionResult.GetInt8(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as an 8-bit integer.
+    &lt;p&gt;
+    If the actual value is wider it will be truncated to the last byte (similar to Java's integer narrowing
+    semantics).
+    &lt;p&gt;
+    If you are developing a contract and intending to return more than one of these values from a Solidity function,
+    consider using the {@code bytes32} Solidity type instead as that will be a more compact representation which will
+    save on gas. (Each individual {@code int8} value is padded to 32 bytes in the ABI.)
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;byte&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetInt32(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as a 32-bit integer.
+    &lt;p&gt;
+    If the actual value is wider it will be truncated to the last 4 bytes (similar to Java's integer narrowing
+    semantics).
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;int&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetInt64(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as a 64-bit integer.
+    &lt;p&gt;
+    If the actual value is wider it will be truncated to the last 8 bytes (similar to Java's integer narrowing
+    semantics).
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;long&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetInt256(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as a 256-bit integer.
+    &lt;p&gt;
+    This type can represent the full width of Solidity integers.
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;BigInteger&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetUint8(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as a 8-bit unsigned integer.
+    &lt;p&gt;
+    If the actual value is wider it will be truncated to the last byte (similar to Java's integer narrowing
+    semantics).
+    &lt;p&gt;
+    Because Java does not have native unsigned integers, this is semantically identical to {@link #getInt8(int)}. To
+    treat the value as unsigned in the range {@code [0, 255]}, use {@link Byte#toUnsignedInt(byte)} to widen to
+    {@code int} without sign-extension.
+    &lt;p&gt;
+    If you are developing a contract and intending to return more than one of these values from a Solidity function,
+    consider using the {@code bytes32} Solidity type instead as that will be a more compact representation which will
+    save on gas. (Each individual {@code uint8} value is padded to 32 bytes in the ABI.)
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;byte&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetUint32(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as a 32-bit unsigned integer.
+    &lt;p&gt;
+    If the actual value is wider it will be truncated to the last 4 bytes (similar to Java's integer narrowing
+    semantics).
+    &lt;p&gt;
+    Because Java does not have native unsigned integers, this is semantically identical to {@link #getInt32(int)}.
+    The {@link Integer} class has static methods for treating an {@code int} as unsigned where the difference between
+    signed and unsigned actually matters (comparison, division, printing and widening to {@code long}).
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;int&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetUint64(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as a 64-bit integer.
+    &lt;p&gt;
+    If the actual value is wider it will be truncated to the last 8 bytes (similar to Java's integer narrowing
+    semantics).
+    &lt;p&gt;
+    Because Java does not have native unsigned integers, this is semantically identical to {@link #getInt64(int)}.
+    The {@link Long} class has static methods for treating a {@code long} as unsigned where the difference between
+    signed and unsigned actually matters (comparison, division and printing).
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;long&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetUint256(System.Int32)">
+    <summary>&lt;summary&gt;
+    Get the nth returned value as a 256-bit unsigned integer.
+    &lt;p&gt;
+    The value will be padded with a leading zero-byte so that {@link BigInteger#BigInteger(byte[])} treats the value
+    as positive regardless of whether the most significant bit is set or not.
+    &lt;p&gt;
+    This type can represent the full width of Solidity integers.
+    &lt;/summary&gt;
+    &lt;param name="valIndex"&gt;The index of the value to be retrieved&lt;/param&gt;
+    &lt;returns&gt;BigInteger&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractFunctionResult.GetAddress(System.Int32)">
+    <summary>
+    Get the nth returned value as a Solidity address.
+    </summary>
+    <param name="valIndex">The index of the value to be retrieved</param>
+    <returns>String</returns>
+  </member>
+  <member name="M:ContractFunctionResult.GetString(System.Int32)">
+    <summary>
+    Get the nth returned value as a string
+    </summary>
+    <param name="valIndex">The index of the string to be retrieved</param>
+    <returns>String</returns>
+  </member>
+  <member name="M:ContractFunctionResult.GetStringArray(System.Int32)">
+    <summary>
+    Get the nth returned value as a list of strings
+    </summary>
+    <param name="index">The index of the list of strings to be retrieved</param>
+    <returns>A List of Strings</returns>
+  </member>
+  <member name="M:ContractFunctionResult.ToProtobuf">
+    <summary>
+    Create the protobuf representation.
+    </summary>
+    <returns>{@link Proto.ContractFunctionResult}</returns>
+  </member>
+</docs>

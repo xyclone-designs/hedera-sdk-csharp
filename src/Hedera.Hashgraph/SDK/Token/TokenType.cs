@@ -2,28 +2,13 @@
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Possible Token Types (IWA Compatibility).
-    /// <p>
-    /// Apart from fungible and non-fungible, Tokens can have either a common or
-    /// unique representation. This distinction might seem subtle, but it is
-    /// important when considering how tokens can be traced and if they can have
-    /// isolated and unique properties.
-    /// <p>
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/tokentype">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="TokenType.cs.xml" path='docs/member[@name="T:TokenType"]/*' />
     public enum TokenType
     {
-        /// <summary>
-        /// Interchangeable value with one another, where any quantity of them has the same value as another equal quantity if they are in the same class.
-        /// Share a single set of properties, not distinct from one another. Simply represented as a balance or quantity to a given Hedera account.
-        /// </summary>
+        /// <include file="TokenType.cs.xml" path='docs/member[@name="M:TokenType.properties(e.g. serial)"]/*' />
         FungibleCommon = Proto.TokenType.FungibleCommon,
 
-		/// <summary>
-		/// Unique, not interchangeable with other tokens of the same type as they typically have different values.
-		/// Individually traced and can carry unique properties (e.g. serial number).
-		/// </summary>
+		/// <include file="TokenType.cs.xml" path='docs/member[@name="T:TokenType_2"]/*' />
 		NonFungibleUnique = Proto.TokenType.NonFungibleUnique,
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenAirdropTransaction">
+    <summary>
+    Token Airdrop
+    An "airdrop" is a distribution of tokens from a funding account
+    to one or more recipient accounts, ideally with no action required
+    by the recipient account(s).
+    </summary>
+  </member>
+  <member name="M:TokenAirdropTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TokenAirdropTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenAirdropTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.TokenAirdropTransactionBody}</returns>
+  </member>
+  <member name="M:TokenAirdropTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+</docs>

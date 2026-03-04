@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Transaction">
+    <summary>&lt;summary&gt;
+    Base class for all transactions that may be built and submitted to Hedera.
+    &lt;/summary&gt;
+    &lt;param name="&lt;T&gt;"&gt;The type of the transaction. Used to enable chaining.&lt;/param&gt;</summary>
+  </member>
+</docs>

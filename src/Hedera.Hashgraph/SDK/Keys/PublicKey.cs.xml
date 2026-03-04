@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:PublicKey">
+    <summary>
+    A public key on the Hedera™ network.
+    </summary>
+  </member>
+  <member name="M:PublicKey.FromBytes(System.Byte[])">
+    <summary>
+    Create a public key from a byte array.
+    </summary>
+    <param name="publicKey">the byte array</param>
+    <returns>the new public key</returns>
+  </member>
+  <member name="M:PublicKey.FromBytesDER(System.Byte[])">
+    <summary>
+    Create a public key from a DER encoded byte array.
+    </summary>
+    <param name="publicKey">the DER encoded byte array</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.FromBytesED25519(System.Byte[])">
+    <summary>
+    Create a public key from a byte array.
+    </summary>
+    <param name="publicKey">the byte array</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.FromBytesECDSA(System.Byte[])">
+    <summary>
+    Create a public key from a byte array.
+    </summary>
+    <param name="publicKey">the byte array</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.FromString(System.String)">
+    <summary>
+    Create a public key from a string.
+    </summary>
+    <param name="publicKey">the string</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.FromStringED25519(System.String)">
+    <summary>
+    Create a public key from a string.
+    </summary>
+    <param name="publicKey">the string</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.FromStringECDSA(System.String)">
+    <summary>
+    Create a public key from a string.
+    </summary>
+    <param name="publicKey">the string</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.FromStringDER(System.String)">
+    <summary>
+    Create a public key from a string.
+    </summary>
+    <param name="publicKey">the string</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.FromAliasBytes(ByteString)">
+    <summary>
+    The public key from an immutable byte string.
+    </summary>
+    <param name="aliasBytes">the immutable byte string</param>
+    <returns>the key</returns>
+  </member>
+  <member name="M:PublicKey.UnusableKey">
+    <summary>
+    Returns an "unusable" public key.
+    “Unusable” refers to a key such as an Ed25519 0x00000... public key,
+    since it is (presumably) impossible to find the 32-byte string whose SHA-512 hash begins with 32 bytes of zeros.
+    </summary>
+    <returns>The "unusable" key</returns>
+  </member>
+  <member name="M:PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo)">
+    <summary>
+    Create a public key from a subject public key info object.
+    </summary>
+    <param name="subjectPublicKeyInfo">the subject public key info object</param>
+    <returns>the new key</returns>
+  </member>
+  <member name="M:PublicKey.IsECDSA">
+    <summary>
+    Is this an ECDSA key?
+    </summary>
+    <returns>is this an ECDSA key</returns>
+  </member>
+  <member name="M:PublicKey.IsED25519">
+    <summary>
+    Is this an ED25519 key?
+    </summary>
+    <returns>is this an ED25519 key</returns>
+  </member>
+  <member name="M:PublicKey.ToBytesDER">
+    <summary>
+    Extract the DER represented as a byte array.
+    </summary>
+    <returns>the DER represented as a byte array</returns>
+  </member>
+  <member name="M:PublicKey.ToBytesRaw">
+    <summary>
+    Extract the raw byte representation.
+    </summary>
+    <returns>the raw byte representation</returns>
+  </member>
+  <member name="M:PublicKey.ToEvmAddress">
+    <summary>
+    Converts the key to EVM address
+    </summary>
+    <returns>the EVM address</returns>
+  </member>
+  <member name="M:PublicKey.Verify(System.Byte[],System.Byte[])">
+    <summary>
+    Verify a signature on a message with this public key.
+    </summary>
+    <param name="message">The array of bytes representing the message</param>
+    <param name="signature">The array of bytes representing the signature</param>
+    <returns>bool</returns>
+  </member>
+  <member name="M:PublicKey.ToSignaturePairProtobuf(System.Byte[])">
+    <summary>
+    Serialize this key as a Proto.SignaturePair protobuf object
+    </summary>
+  </member>
+  <member name="M:PublicKey.ExtractSignatureFromProtobuf(Proto.SignaturePair)">
+    <summary>
+    Get the signature from a signature pair protobuf.
+    </summary>
+    <param name="pair">the protobuf</param>
+    <returns>the signature</returns>
+  </member>
+  <member name="M:PublicKey.ToStringDER">
+    <summary>
+    Extract the DER encoded string.
+    </summary>
+    <returns>the DER encoded string</returns>
+  </member>
+  <member name="M:PublicKey.ToStringRaw">
+    <summary>
+    Extract the raw string.
+    </summary>
+    <returns>the raw string</returns>
+  </member>
+  <member name="M:PublicKey.ToAccountId(System.Int64,System.Int64)">
+    <summary>
+    Create a new account id.
+    </summary>
+    <param name="shard">the shard part</param>
+    <param name="realm">the realm part</param>
+    <returns>the new account id</returns>
+  </member>
+  <member name="M:PublicKey.VerifyTransaction``1(Transaction{``0})">
+    <summary>
+    Is the given transaction valid?
+    </summary>
+    <param name="transaction">the transaction</param>
+    <returns>is it valid</returns>
+  </member>
+</docs>

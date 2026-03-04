@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:FromDays(90)">
+    <summary>
+    Default auto renew duration for accounts, contracts, topics, and files (entities)
+    </summary>
+  </member>
+  <member name="T:Unknown">
+    <summary>
+    Dummy account ID used to assist in deserializing incomplete Transactions.
+    </summary>
+  </member>
+  <member name="M:WithValidStart(DUMMY_ACCOUNT_ID,DateTimeOffset.)">
+    <summary>
+    Dummy transaction ID used to assist in deserializing incomplete Transactions.
+    </summary>
+  </member>
+  <member name="M:FromSeconds(120)">
+    <summary>
+    Default transaction duration
+    </summary>
+  </member>
+  <member name="M:FromBytes``1(System.Byte[])">
+    <summary>
+    Create the correct transaction from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new transaction</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:GenerateHash(System.Byte[])">
+    <summary>
+    Generate a hash from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the hash</returns>
+  </member>
+  <member name="M:AddTransactionToMap(Proto.Transaction,Proto.TransactionBody,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Add a transaction to the transaction map
+    </summary>
+  </member>
+  <member name="M:CreateTransactionFromDataCase``1(Proto.TransactionBody.DataOneofCase,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Creates the appropriate transaction type based on the data case.
+    </summary>
+  </member>
+  <member name="M:ProcessSingleTransaction(System.Byte[],DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Process a single transaction
+    </summary>
+  </member>
+  <member name="M:ProcessTransactionList(System.Collections.Generic.List{Proto.Transaction},DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Process a list of transactions with integrity verification
+    </summary>
+  </member>
+  <member name="M:FromScheduledTransaction``1(Proto.SchedulableTransactionBody)">
+    <summary>
+    Create the correct transaction from a scheduled transaction.
+    </summary>
+    <param name="scheduled">the scheduled transaction</param>
+    <returns>the new transaction</returns>
+  </member>
+  <member name="M:ParseTransactionBody(ByteString)">
+    <summary>
+    Parses the transaction body from a signed transaction bytestring.
+    </summary>
+    <param name="signedTransactionBuilder">The signed transaction builder</param>
+    <returns>The parsed transaction body, or null if parsing fails</returns>
+  </member>
+  <member name="M:ParseTransactionBody(Proto.SignedTransaction)">
+    <summary>
+    Parses the transaction body from a signed transaction builder.
+    </summary>
+    <param name="signedTransactionBuilder">The signed transaction builder</param>
+    <returns>The parsed transaction body, or null if parsing fails</returns>
+  </member>
+  <member name="M:PrepareSingleTransaction(Proto.Transaction)">
+    <summary>
+    Prepare a single transaction by ensuring it has SignedTransactionBytes
+    </summary>
+  </member>
+</docs>

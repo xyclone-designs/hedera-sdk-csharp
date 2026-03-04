@@ -9,11 +9,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// The fees for a specific transaction or query based on the fee data.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/transactionfeeschedule">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="T:TransactionFeeSchedule"]/*' />
     public class TransactionFeeSchedule : ICloneable
     {
         public TransactionFeeSchedule()
@@ -23,21 +19,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Fees = [];
         }
 
-		/// <summary>
-		/// Create a transaction fee schedule object from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new transaction fee schedule</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromBytes(System.Byte[])"]/*' />
 		public static TransactionFeeSchedule FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.TransactionFeeSchedule.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a transaction fee schedule object from a protobuf.
-		/// </summary>
-		/// <param name="transactionFeeSchedule">the protobuf</param>
-		/// <returns>                         the new transaction fee schedule</returns>
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromProtobuf(Proto.TransactionFeeSchedule)"]/*' />
 		public static TransactionFeeSchedule FromProtobuf(Proto.TransactionFeeSchedule transactionFeeSchedule)
         {
             var returnFeeSchedule = new TransactionFeeSchedule
@@ -52,36 +39,19 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return returnFeeSchedule;
         }
 
-        /// <summary>
-        /// Extract the request type.
-        /// </summary>
-        /// <returns>                         the request type</returns>
+        /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.RequestType"]/*' />
         public virtual RequestType RequestType { get; set; }
-		/// <summary>
-		/// Extract the list of fee's.
-		/// </summary>
-		/// <returns>                         the list of fee's</returns>
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Fees"]/*' />
 		public virtual List<FeeData> Fees { get; protected set; }
-		/// <summary>
-		/// Set the total fee charged for a transaction
-		/// </summary>
-		/// <param name="feeData">the feeData to set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Feedata"]/*' />
 		public virtual FeeData? Feedata { get; set; }
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Build the transaction body.
-		/// </summary>
-		/// <returns>{@link
-		///         Proto.TransactionFeeSchedule}</returns>
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.ToProtobuf"]/*' />
 		public virtual Proto.TransactionFeeSchedule ToProtobuf()
         {
 			Proto.TransactionFeeSchedule proto = new ()

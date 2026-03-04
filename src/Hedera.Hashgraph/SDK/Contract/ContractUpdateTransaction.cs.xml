@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractUpdateTransaction">
+    <summary>&lt;summary&gt;
+    Modify a smart contract instance to have the given parameter values.
+    &lt;p&gt;
+    Any null field is ignored (left unchanged).
+    &lt;p&gt;
+    If only the contractInstanceExpirationTime is being modified, then no signature is
+    needed on this transaction other than for the account paying for the transaction itself.
+    &lt;p&gt;
+    But if any of the other fields are being modified, then it must be signed by the adminKey.
+    &lt;p&gt;
+    The use of adminKey is not currently supported in this API, but in the future will
+    be implemented to allow these fields to be modified, and also to make modifications
+    to the state of the instance.
+    &lt;p&gt;
+    If the contract is created with no admin key, then none of the fields can be
+    changed that need an admin signature, and therefore no admin key can ever be added.
+    So if there is no admin key, then things like the bytecode are immutable.
+    But if there is an admin key, then they can be changed. For example, the
+    admin key might be a threshold key, which requires 3 of 5 binding arbitration judges to
+    agree before the bytecode can be changed. This can be used to add flexibility to the management
+    of smart contract behavior. But this is optional. If the smart contract is created
+    without an admin key, then such a key can never be added, and its bytecode will be immutable.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.#ctor">
+    <summary>
+    Contract.
+    </summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:ContractUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Contract.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) record</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen">
+    <summary>
+    Sets the Contract ID instance to update.
+    </summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    If set, modify the time at which this contract will expire.&lt;br/&gt;
+    An expired contract requires a rent payment to "renew" the contract.
+    A transaction to update this field is how that rent payment is made.
+    &lt;p&gt;
+    This value MUST NOT be less than the current `expirationTime`
+    of the contract. If this value is earlier than the current
+    value, the transaction SHALL fail with response
+    code `EXPIRATION_REDUCTION_NOT_ALLOWED`.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="T:ContractUpdateTransaction_2">
+    <summary>&lt;summary&gt;
+    If set, modify the key that authorizes updates to the contract.
+    &lt;p&gt;
+    If this field is set to a valid Key, this key and the previously set key
+    MUST both sign this transaction.&lt;br/&gt;
+    If this value is an empty `KeyList`, the prior key MUST sign this
+    transaction, and the smart contract SHALL be immutable after this
+    transaction completes, except for expiration and renewal.&lt;br/&gt;
+    If this value is not an empty `KeyList`, but does not contain any
+    cryptographic keys, or is otherwise malformed, this transaction SHALL
+    fail with response code `INVALID_ADMIN_KEY`.
+    &lt;/summary&gt;
+    &lt;param name="adminKey"&gt;The Key to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    Sets the ID of the account to which this account is proxy staked.
+    &lt;p&gt;
+    If proxyAccountID is null, or is an invalid account, or is an account
+    that isn't a node, then this account is automatically proxy staked to a
+    node chosen by the network, but without earning payments.
+    &lt;p&gt;
+    If the proxyAccountID account refuses to accept proxy staking, or if it is
+    not currently running a node, then it will behave as if proxyAccountID was null.
+    &lt;/summary&gt;
+    &lt;param name="proxyAccountId"&gt;The AccountId to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_4">
+    <summary>&lt;summary&gt;
+    If set, modify the maximum number of tokens that can be auto-associated with the
+    contract.
+    &lt;p&gt;
+    If this is set and less than or equal to `used_auto_associations`, or 0, then this contract
+    MUST manually associate with a token before transacting in that token.&lt;br/&gt;
+    This value MAY also be `-1` to indicate no limit.&lt;br/&gt;
+    This value MUST NOT be less than `-1`.
+    &lt;/summary&gt;
+    &lt;param name="maxAutomaticTokenAssociations"&gt;The maximum automatic token associations&lt;/param&gt;
+    &lt;returns&gt; {@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_5">
+    <summary>
+    If set, modify the duration added to expiration time by each
+    auto-renewal to this value.
+    </summary>
+    <param name="autoRenewPeriod">The TimeSpan to be set for auto-renewal</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_6">
+    <summary>&lt;summary&gt;
+    &lt;/summary&gt;
+    &lt;param name="bytecodeFileId"&gt;The FileId to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;
+    &lt;remarks&gt;
+    @deprecatedwith no replacement
+    
+    Sets the file ID of file containing the smart contract byte code.
+    &lt;p&gt;
+    A copy will be made and held by the contract instance, and have the same expiration
+    time as the instance.
+    &lt;/remarks&gt;</summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_7">
+    <summary>
+    Sets the memo associated with the contract (max: 100 bytes).
+    </summary>
+    <param name="memo">The memo to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_8">
+    <summary>&lt;summary&gt;
+    An account identifier.&lt;br/&gt;
+    A staked account acts as a proxy, and this contract effectively
+    nominates the same node as the identified account.
+    &lt;p&gt;
+    If set, modify this smart contract such that it SHALL stake its HBAR
+    to the same node as the identified account.&lt;br/&gt;
+    If this field is set to a default AccountID value (`0.0.0`), any
+    pre-existing `staked_account_id` value SHALL be removed on success.
+    &lt;/summary&gt;
+    &lt;param name="stakedAccountId"&gt;ID of the account to which this contract will stake.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_9">
+    <summary>&lt;summary&gt;
+    A flag indicating if staking rewards are declined.&lt;br/&gt;
+    If set, modify the flag indicating if this contract declines to accept
+    rewards for staking its HBAR to secure the network.
+    &lt;p&gt;
+    If set to true, this smart contract SHALL NOT receive any reward for
+    staking its HBAR balance to help secure the network, regardless of
+    staking configuration, but MAY stake HBAR to support the network
+    without reward.
+    &lt;/summary&gt;
+    &lt;param name="declineStakingReward"&gt;- If true, the contract declines receiving a staking reward. The default value is false.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.RequireNotFrozen_10">
+    <summary>&lt;summary&gt;
+    If set, modify the account, in the same shard and realm as this smart
+    contract, that has agreed to allow the network to use its balance, when
+    needed, to automatically extend this contract's expiration time.
+    &lt;p&gt;
+    If this field is set to a non-default value, that Account MUST sign this
+    transaction.&lt;br/&gt;
+    If this field is set to a default AccountID value (`0.0.0`), any
+    pre-existing `auto_renew_account_id` value SHALL be removed on success.
+    &lt;/summary&gt;
+    &lt;param name="autoRenewAccountId"&gt;The AccountId to be set for auto-renewal&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="T:ContractUpdateTransaction_3">
+    <summary>
+    Get the list of hooks to be created.
+    </summary>
+    <returns>a copy of the hook creation details list</returns>
+  </member>
+  <member name="M:ContractUpdateTransaction.InitFromTransactionBody">
+    <summary>
+    Get the list of hook IDs to be deleted.
+    </summary>
+    <returns>a copy of the hook IDs list</returns>
+  </member>
+  <member name="M:ContractUpdateTransaction.InitFromTransactionBody_2">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:ContractUpdateTransaction.ToProtobuf">
+    <summary>
+    Build the correct transaction body.
+    </summary>
+    <returns>{@link Proto.ContractUpdateTransactionBody builder }</returns>
+  </member>
+</docs>

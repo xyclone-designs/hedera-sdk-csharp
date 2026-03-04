@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:MirrorNetwork">
+    <summary>
+    Utility class.
+    </summary>
+  </member>
+  <member name="M:MirrorNetwork.ForMainnet(ExecutorService)">
+    <summary>
+    Create a mirror network for mainnet.
+    </summary>
+    <param name="executor">the executor service</param>
+    <returns>the new mirror network for mainnet</returns>
+  </member>
+  <member name="M:MirrorNetwork.ForTestnet(ExecutorService)">
+    <summary>
+    Create a mirror network for testnet.
+    </summary>
+    <param name="executor">the executor service</param>
+    <returns>the new mirror network for testnet</returns>
+  </member>
+  <member name="M:MirrorNetwork.ForPreviewnet(ExecutorService)">
+    <summary>
+    Create a mirror network for previewnet.
+    </summary>
+    <param name="executor">the executor service</param>
+    <returns>the new mirror network for previewnet</returns>
+  </member>
+  <member name="M:MirrorNetwork.ForNetwork(ExecutorService,System.Collections.Generic.IEnumerable{System.String})">
+    <summary>
+    Create an arbitrary mirror network.
+    </summary>
+    <param name="executor">the executor service</param>
+    <param name="addresses">the arbitrary address for the network</param>
+    <returns>the new mirror network object</returns>
+  </member>
+  <member name="M:MirrorNetwork.lock(this)">
+    <summary>
+    Gets or sets the network names.
+    </summary>
+    <exception cref="TimeoutException">
+    When the transaction times out.
+    </exception>
+    <exception cref="InterruptedException">
+    When a thread is interrupted while it's waiting, sleeping, or otherwise occupied.
+    </exception>
+  </member>
+  <member name="M:MirrorNetwork.GetRestBaseUrl">
+    <summary>
+    Convenience to get the REST base URL from the next healthy mirror node.
+    </summary>
+  </member>
+  <member name="M:MirrorNetwork.GetNextMirrorNode">
+    <summary>
+    Extract the next healthy mirror node on the list.
+    </summary>
+    <returns>the next healthy mirror node on the list</returns>
+    <exception cref="InterruptedException">when a thread is interrupted while it's waiting, sleeping, or otherwise occupied</exception>
+  </member>
+</docs>

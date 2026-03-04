@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] bytes = new AccountCreateTransaction()
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				InitialBalance = Hbar.FromTinybars(450),
 				ProxyAccountId = AccountId.FromString("0.0.1001"),
 				ReceiverSigRequired = true,

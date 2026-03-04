@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using Hedera.Hashgraph.SDK.Keys;
-using System.IO;
-using Org.BouncyCastle.Utilities.Encoders;
 using Hedera.Hashgraph.SDK;
-using Org.BouncyCastle.Math.EC.Rfc8032;
 using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Keys;
+
+using Org.BouncyCastle.Math.EC.Rfc8032;
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Utilities.Encoders;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
@@ -41,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
     */
         private static readonly string ENCRYPTED_PEM = "-----BEGIN ENCRYPTED PRIVATE KEY-----\n" + "MIGbMFcGCSqGSIb3DQEFDTBKMCkGCSqGSIb3DQEFDDAcBAi8WY7Gy2tThQICCAAw\n" + "DAYIKoZIhvcNAgkFADAdBglghkgBZQMEAQIEEOq46NPss58chbjUn20NoK0EQG1x\n" + "R88hIXcWDOECttPTNlMXWJt7Wufm1YwBibrxmCq1QykIyTYhy1TZMyxyPxlYW6aV\n" + "9hlo4YEh3uEaCmfJzWM=\n" + "-----END ENCRYPTED PRIVATE KEY-----\n";
         private static readonly string MESSAGE_STR = "This is a message about the world.";
-        private static readonly byte[] MESSAGE_BYTES = MESSAGE_STR.GetBytes(StandardCharsets.UTF_8);
+        private static readonly byte[] MESSAGE_BYTES = Encoding.UTF8.GetBytes(MESSAGE_STR);
         private static readonly string SIG_STR = "73bea53f31ca9c42a422ecb7516ec08d0bbd1a6bfd630ccf10ec1872454814d29f4a8011129cd007eab544af01a75f508285b591e5bed24b68f927751e49e30e";
         private static IEnumerable<string> PrivKeyStrings()
         {
@@ -64,7 +65,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
             byte[] key1Bytes = key1.ToBytes();
-            PrivateKey key2 = Transaction.FromBytes<PrivateKey>(key1Bytes);
+            PrivateKey key2 = PrivateKey.FromBytes(key1Bytes);
             byte[] key2Bytes = key2.ToBytes();
             Assert.Equal(key2Bytes, key1Bytes);
         }
@@ -75,7 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesRaw();
             PrivateKey key2 = PrivateKey.FromBytesED25519(key1Bytes);
             byte[] key2Bytes = key2.ToBytesRaw();
-            PrivateKey key3 = Transaction.FromBytes<PrivateKey>(key1Bytes);
+            PrivateKey key3 = PrivateKey.FromBytes(key1Bytes);
             byte[] key3Bytes = key3.ToBytesRaw();
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);
@@ -87,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesDER();
             PrivateKey key2 = PrivateKey.FromBytesDER(key1Bytes);
             byte[] key2Bytes = key2.ToBytesDER();
-            PrivateKey key3 = Transaction.FromBytes<PrivateKey>(key1Bytes);
+            PrivateKey key3 = PrivateKey.FromBytes(key1Bytes);
             byte[] key3Bytes = key3.ToBytesDER();
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);
@@ -147,7 +148,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         public virtual void KeyFromPem()
         {
             StringReader stringReader = new StringReader(TEST_KEY_PEM);
-            PrivateKey privateKey = PrivateKey.ReadPem(stringReader);
+            PemReader pemreader = new PemReader(stringReader);
+			PrivateKey privateKey = PrivateKey.ReadPem(pemreader);
             Assert.Equal(privateKey.ToString(), TEST_KEY_STR);
         }
 
@@ -247,17 +249,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         {
             int len = s.Length;
             byte[] data = new byte[len / 2];
-            for (int i = 0; i < len; i += 2)
-            {
-                data[i / 2] = (byte)((Character.Digit(s.ElementAt(i), 16) << 4) + Character.Digit(s.ElementAt(i + 1), 16));
-            }
 
-            return data;
+            for (int i = 0; i < len; i += 2)
+				data[i / 2] = (byte)((Convert.ToInt32(s[i].ToString(), 16) << 4) + Convert.ToInt32(s[i + 1].ToString(), 16));
+
+			return data;
         }
 
         public virtual void Slip10TestVector1()
         {
-
             // https://github.com/satoshilabs/slips/blob/master/slip-0010.md#test-vector-1-for-ed25519
             string CHAIN_CODE1 = "90046a93de5380a72b5e45010748567d5ea02bbf6522f979e05c0d8d8ca9fffb";
             string PRIVATE_KEY1 = "2b4be7f19ee27bbf30c667b642d5f4aa69fd169872f8fc3059c08ebae2eb19e7";

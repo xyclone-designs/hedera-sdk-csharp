@@ -29,8 +29,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
         public virtual void KeyByteValidation()
         {
             byte[] invalidKeyED25519 = new byte[32];
-            Assert.DoesNotThrow(() => PublicKey.FromBytes(invalidKeyED25519));
-            Assert.DoesNotThrow(() => PublicKey.FromBytesED25519(invalidKeyED25519));
+            _ = PublicKey.FromBytes(invalidKeyED25519);
+            _ = PublicKey.FromBytesED25519(invalidKeyED25519);
             byte[] invalidKey = new byte[]
             {
                 0x00,
@@ -76,18 +76,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             };
             Assert.Throws<ArgumentException>(() => PublicKey.FromBytesED25519(malformedKey));
             byte[] validKey = PrivateKey.GenerateED25519().GetPublicKey().ToBytes();
-            Assert.DoesNotThrow(() => PublicKey.FromBytesED25519(validKey));
+            _ = PublicKey.FromBytesED25519(validKey);
             byte[] validDERKey = PrivateKey.GenerateED25519().GetPublicKey().ToBytesDER();
-            Assert.DoesNotThrow(() => PublicKey.FromBytesED25519(validDERKey));
+            _ = PublicKey.FromBytesED25519(validDERKey);
         }
 
         public virtual void KeyByteSerialization()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
             byte[] key1Bytes = key1.ToBytes();
-            PublicKey key2 = Transaction.FromBytes<PublicKey>(key1Bytes);
+            PublicKey key2 = PublicKey.FromBytes(key1Bytes);
             byte[] key2Bytes = key2.ToBytes();
-            AssertThat(key2Bytes).ContainsExactly(key1Bytes);
+            Assert.Same(key2Bytes, key1Bytes);
         }
 
         public virtual void KeyByteSerialization2()
@@ -96,10 +96,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesRaw();
             PublicKey key2 = PublicKey.FromBytesED25519(key1Bytes);
             byte[] key2Bytes = key2.ToBytesRaw();
-            PublicKey key3 = Transaction.FromBytes<PublicKey>(key1Bytes);
+            PublicKey key3 = PublicKey.FromBytes(key1Bytes);
             byte[] key3Bytes = key3.ToBytesRaw();
-            AssertThat(key2Bytes).ContainsExactly(key1Bytes);
-            AssertThat(key3Bytes).ContainsExactly(key1Bytes);
+            Assert.Same(key2Bytes, key1Bytes);
+            Assert.Same(key3Bytes, key1Bytes);
         }
 
         public virtual void KeyByteSerialization3()
@@ -108,17 +108,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytesDER();
             PublicKey key2 = PublicKey.FromBytesDER(key1Bytes);
             byte[] key2Bytes = key2.ToBytesDER();
-            PublicKey key3 = Transaction.FromBytes<PublicKey>(key1Bytes);
+            PublicKey key3 = PublicKey.FromBytes(key1Bytes);
             byte[] key3Bytes = key3.ToBytesDER();
-            AssertThat(key2Bytes).ContainsExactly(key1Bytes);
-            AssertThat(key3Bytes).ContainsExactly(key1Bytes);
+            Assert.Same(key2Bytes, key1Bytes);
+            Assert.Same(key3Bytes, key1Bytes);
         }
 
         public virtual void KeyByteSerializationThroughTransaction()
         {
             var senderAccount = AccountId.FromString("0.0.1337");
             var receiverAccount = AccountId.FromString("0.0.3");
-            var transferAmount = Hbar.From(new BigDecimal("0.0001"), HbarUnit.HBAR);
+            var transferAmount = Hbar.From(BigDecimal.Parse("0.0001"), HbarUnit.HBAR);
             var privateKey = PrivateKey.GenerateED25519();
             var client = Client.ForTestnet();
             client.OperatorSet(senderAccount, privateKey);
@@ -126,7 +126,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             tx.FreezeWith(client);
             tx.SignWithOperator(client);
             var bytes = tx.ToBytes();
-            AssertThatNoException(, () => Transaction.FromBytes(bytes));
+            _ = ITransaction.FromBytes(bytes);
             Assert.NotEmpty(tx.GetSignatures());
         }
 

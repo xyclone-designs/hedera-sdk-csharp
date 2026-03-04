@@ -2,9 +2,7 @@
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// A typed hook call for fungible (HBAR and FT) transfers.
-    /// </summary>
+    /// <include file="FungibleHookCall.cs.xml" path='docs/member[@name="T:FungibleHookCall"]/*' />
     public class FungibleHookCall : HookCall
     {
         public FungibleHookCall(long hookId, EvmHookCall evmHookCall, FungibleHookType type) : base(hookId, evmHookCall)

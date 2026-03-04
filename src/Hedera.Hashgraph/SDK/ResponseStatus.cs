@@ -4,1660 +4,781 @@ using System;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Returned in {@link TransactionReceipt} = Proto.ResponseCodeEnum.}, {@link PrecheckStatusException}
-    /// and {@link ReceiptStatusException}.
-    /// <p>
-    /// The success variant is {@link #SUCCESS} which is what a {@link TransactionReceipt} will contain for a
-    /// successful transaction.
-    /// </summary>
+    /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus"]/*' />
     public enum ResponseStatus
     {
-        /// <summary>
-        /// The transaction passed the precheck validations.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_2"]/*' />
         Ok = Proto.ResponseCodeEnum.Ok,
-        /// <summary>
-        /// For any error not handled by specific error codes listed below.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_3"]/*' />
         InvalidTransaction = Proto.ResponseCodeEnum.InvalidTransaction,
-        /// <summary>
-        /// Payer account does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_4"]/*' />
         PayerAccountNotFound = Proto.ResponseCodeEnum.PayerAccountNotFound,
-        /// <summary>
-        /// Node Account provided does not match the node account of the node the transaction was submitted
-        /// to.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_5"]/*' />
         InvalidNodeAccount = Proto.ResponseCodeEnum.InvalidNodeAccount,
-        /// <summary>
-        /// Pre-Check error when TransactionValidStart + transactionValidDuration is less than current
-        /// consensus time.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_6"]/*' />
         TransactionExpired = Proto.ResponseCodeEnum.TransactionExpired,
-        /// <summary>
-        /// Transaction start time is greater than current consensus time
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_7"]/*' />
         InvalidTransactionStart = Proto.ResponseCodeEnum.InvalidTransactionStart,
-        /// <summary>
-        /// The given transactionValidDuration was either non-Positive = Proto.ResponseCodeEnum.Positive, or greater than the maximum
-        /// valid TimeSpan.From 180 secs.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_8"]/*' />
         InvalidTransactionDuration = Proto.ResponseCodeEnum.InvalidTransactionDuration,
-        /// <summary>
-        /// The transaction signature is not valid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_9"]/*' />
         InvalidSignature = Proto.ResponseCodeEnum.InvalidSignature,
-        /// <summary>
-        /// Transaction memo size exceeded 100 bytes
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.seconds(receipt)"]/*' />
         MemoTooLong = Proto.ResponseCodeEnum.MemoTooLong,
-        /// <summary>
-        /// The fee provided in the transaction is insufficient for this type of transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.seconds(receipt)_2"]/*' />
         InsufficientTxFee = Proto.ResponseCodeEnum.InsufficientTxFee,
-        /// <summary>
-        /// The payer account has insufficient cryptocurrency to pay the transaction fee
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.seconds(receipt)_3"]/*' />
         InsufficientPayerBalance = Proto.ResponseCodeEnum.InsufficientPayerBalance,
-        /// <summary>
-        /// This transaction ID is a duplicate of one that was submitted to this node or reached consensus
-        /// in the last 180 seconds (receipt period)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_10"]/*' />
         DuplicateTransaction = Proto.ResponseCodeEnum.DuplicateTransaction,
-        /// <summary>
-        /// If API is throttled out
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_11"]/*' />
         Busy = Proto.ResponseCodeEnum.Busy,
-        /// <summary>
-        /// The API is not currently supported
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_12"]/*' />
         NotSupported = Proto.ResponseCodeEnum.NotSupported,
-        /// <summary>
-        /// The file id is invalid or does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_13"]/*' />
         InvalidFileId = Proto.ResponseCodeEnum.InvalidFileId,
-        /// <summary>
-        /// The account id is invalid or does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_14"]/*' />
         InvalidAccountId = Proto.ResponseCodeEnum.InvalidAccountId,
-        /// <summary>
-        /// The contract id is invalid or does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_15"]/*' />
         InvalidContractId = Proto.ResponseCodeEnum.InvalidContractId,
-        /// <summary>
-        /// Transaction id is not valid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_16"]/*' />
         InvalidTransactionId = Proto.ResponseCodeEnum.InvalidTransactionId,
-        /// <summary>
-        /// Receipt for given transaction id does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_17"]/*' />
         ReceiptNotFound = Proto.ResponseCodeEnum.ReceiptNotFound,
-        /// <summary>
-        /// Record for given transaction id does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_18"]/*' />
         RecordNotFound = Proto.ResponseCodeEnum.RecordNotFound,
-        /// <summary>
-        /// The solidity id is invalid or entity with this solidity id does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_19"]/*' />
         InvalidSolidityId = Proto.ResponseCodeEnum.InvalidSolidityId,
-        /// <summary>
-        /// The responding node has submitted the transaction to the network. Its final status is still
-        /// unknown.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_20"]/*' />
         Unknown = Proto.ResponseCodeEnum.Unknown,
-        /// <summary>
-        /// The transaction succeeded
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_21"]/*' />
         Success = Proto.ResponseCodeEnum.Success,
-        /// <summary>
-        /// There was a system error and the transaction failed because of invalid request parameters.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_22"]/*' />
         FailInvalid = Proto.ResponseCodeEnum.FailInvalid,
-        /// <summary>
-        /// There was a system error while performing fee Calculation = Proto.ResponseCodeEnum.Calculation, reserved for future.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_23"]/*' />
         FailFee = Proto.ResponseCodeEnum.FailFee,
-        /// <summary>
-        /// There was a system error while performing balance Checks = Proto.ResponseCodeEnum.Checks, reserved for future.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_24"]/*' />
         FailBalance = Proto.ResponseCodeEnum.FailBalance,
-        /// <summary>
-        /// Key not provided in the transaction body
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_25"]/*' />
         KeyRequired = Proto.ResponseCodeEnum.KeyRequired,
-        /// <summary>
-        /// Unsupported algorithm/encoding used for keys in the transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_26"]/*' />
         BadEncoding = Proto.ResponseCodeEnum.BadEncoding,
-        /// <summary>
-        /// When the account balance is not sufficient for the transfer
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.execution(query)"]/*' />
         InsufficientAccountBalance = Proto.ResponseCodeEnum.InsufficientAccountBalance,
-        /// <summary>
-        /// During an update transaction when the system is not able to find the Users Solidity address
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.execution(query)_2"]/*' />
         InvalidSolidityAddress = Proto.ResponseCodeEnum.InvalidSolidityAddress,
-        /// <summary>
-        /// Not enough gas was supplied to execute transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.execution(query)_3"]/*' />
         InsufficientGas = Proto.ResponseCodeEnum.InsufficientGas,
-        /// <summary>
-        /// contract byte code size is over the limit
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.execution(query)_4"]/*' />
         ContractSizeLimitExceeded = Proto.ResponseCodeEnum.ContractSizeLimitExceeded,
-        /// <summary>
-        /// local execution (query) is requested for a function which changes state
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ve(amount)"]/*' />
         LocalCallModificationException = Proto.ResponseCodeEnum.LocalCallModificationException,
-        /// <summary>
-        /// Contract REVERT OPCODE executed
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ve(amount)_2"]/*' />
         ContractRevertExecuted = Proto.ResponseCodeEnum.ContractRevertExecuted,
-        /// <summary>
-        /// For any contract execution related error not handled by specific error codes listed above.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ve(amount)_3"]/*' />
         ContractExecutionException = Proto.ResponseCodeEnum.ContractExecutionException,
-        /// <summary>
-        /// In Query Validation = Proto.ResponseCodeEnum.Validation, account with +ve(amount) value should be Receiving node Account = Proto.ResponseCodeEnum.Account, the
-        /// receiver account should be only one account in the list
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_27"]/*' />
         InvalidReceivingNodeAccount = Proto.ResponseCodeEnum.InvalidReceivingNodeAccount,
-        /// <summary>
-        /// Header is missing in Query request
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_28"]/*' />
         MissingQueryHeader = Proto.ResponseCodeEnum.MissingQueryHeader,
-        /// <summary>
-        /// The update of the account failed
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_29"]/*' />
         AccountUpdateFailed = Proto.ResponseCodeEnum.AccountUpdateFailed,
-        /// <summary>
-        /// Provided key encoding was not supported by the system
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_30"]/*' />
         InvalidKeyEncoding = Proto.ResponseCodeEnum.InvalidKeyEncoding,
-        /// <summary>
-        /// null solidity address
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_31"]/*' />
         NullSolidityAddress = Proto.ResponseCodeEnum.NullSolidityAddress,
-        /// <summary>
-        /// update of the contract failed
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_32"]/*' />
         ContractUpdateFailed = Proto.ResponseCodeEnum.ContractUpdateFailed,
-        /// <summary>
-        /// the query header is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_33"]/*' />
         InvalidQueryHeader = Proto.ResponseCodeEnum.InvalidQueryHeader,
-        /// <summary>
-        /// Invalid fee submitted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_34"]/*' />
         InvalidFeeSubmitted = Proto.ResponseCodeEnum.InvalidFeeSubmitted,
-        /// <summary>
-        /// Payer signature is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_35"]/*' />
         InvalidPayerSignature = Proto.ResponseCodeEnum.InvalidPayerSignature,
-        /// <summary>
-        /// The keys were not provided in the request.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_36"]/*' />
         KeyNotProvided = Proto.ResponseCodeEnum.KeyNotProvided,
-        /// <summary>
-        /// Expiration time provided in the transaction was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_37"]/*' />
         InvalidExpirationTime = Proto.ResponseCodeEnum.InvalidExpirationTime,
-        /// <summary>
-        /// WriteAccess Control Keys are not provided for the file
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_38"]/*' />
         NoWaclKey = Proto.ResponseCodeEnum.NoWaclKey,
-        /// <summary>
-        /// The contents of file are provided as empty.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.key(base ed25519,Keylist,or)"]/*' />
         FileContentEmpty = Proto.ResponseCodeEnum.FileContentEmpty,
-        /// <summary>
-        /// The crypto transfer credit and debit do not sum equal to 0
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.key(base ed25519,Keylist,or)_2"]/*' />
         InvalidAccountAmounts = Proto.ResponseCodeEnum.InvalidAccountAmounts,
-        /// <summary>
-        /// Transaction body provided is empty
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.key(base ed25519,Keylist,or)_3"]/*' />
         EmptyTransactionBody = Proto.ResponseCodeEnum.EmptyTransactionBody,
-        /// <summary>
-        /// Invalid transaction body provided
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.key(base ed25519,Keylist,or)_4"]/*' />
         InvalidTransactionBody = Proto.ResponseCodeEnum.InvalidTransactionBody,
-        /// <summary>
-        /// the type of key (base ed25519 Key = Proto.ResponseCodeEnum.Key, Keylist = Proto.ResponseCodeEnum.Keylist, or ThresholdKey) does not match the type of
-        /// signature (base ed25519 Signature = Proto.ResponseCodeEnum.Signature, Signaturelist = Proto.ResponseCodeEnum.Signaturelist, or ThresholdKeySignature)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.key(Keylist,or)"]/*' />
         InvalidSignatureTypeMismatchingKey = Proto.ResponseCodeEnum.InvalidSignatureTypeMismatchingKey,
-        /// <summary>
-        /// the number of key (Keylist = Proto.ResponseCodeEnum.Keylist, or ThresholdKey) does not match that of signature (Signaturelist = Proto.ResponseCodeEnum.Signaturelist,
-        /// or ThresholdKeySignature). e.g. if a keyList has 3 base Keys = Proto.ResponseCodeEnum.Keys, then the corresponding
-        /// signatureList should also have 3 base signatures.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_39"]/*' />
         InvalidSignatureCountMismatchingKey = Proto.ResponseCodeEnum.InvalidSignatureCountMismatchingKey,
-        /// <summary>
-        /// the livehash body is empty
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_40"]/*' />
         EmptyLiveHashBody = Proto.ResponseCodeEnum.EmptyLiveHashBody,
-        /// <summary>
-        /// the livehash data is missing
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_41"]/*' />
         EmptyLiveHash = Proto.ResponseCodeEnum.EmptyLiveHash,
-        /// <summary>
-        /// the keys for a livehash are missing
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_42"]/*' />
         EmptyLiveHashKeys = Proto.ResponseCodeEnum.EmptyLiveHashKeys,
-        /// <summary>
-        /// the livehash data is not the output of a SHA-384 digest
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_43"]/*' />
         InvalidLiveHashSize = Proto.ResponseCodeEnum.InvalidLiveHashSize,
-        /// <summary>
-        /// the query body is empty
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_44"]/*' />
         EmptyQueryBody = Proto.ResponseCodeEnum.EmptyQueryBody,
-        /// <summary>
-        /// the crypto livehash query is empty
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_45"]/*' />
         EmptyLiveHashQuery = Proto.ResponseCodeEnum.EmptyLiveHashQuery,
-        /// <summary>
-        /// the livehash is not present
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_46"]/*' />
         LiveHashNotFound = Proto.ResponseCodeEnum.LiveHashNotFound,
-        /// <summary>
-        /// the account id passed has not yet been created.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_47"]/*' />
         AccountIdDoesNotExist = Proto.ResponseCodeEnum.AccountIdDoesNotExist,
-        /// <summary>
-        /// the livehash already exists for a given account
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_48"]/*' />
         LiveHashAlreadyExists = Proto.ResponseCodeEnum.LiveHashAlreadyExists,
-        /// <summary>
-        /// File WACL keys are invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_49"]/*' />
         InvalidFileWacl = Proto.ResponseCodeEnum.InvalidFileWacl,
-        /// <summary>
-        /// Serialization failure
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_50"]/*' />
         SerializationFailed = Proto.ResponseCodeEnum.SerializationFailed,
-        /// <summary>
-        /// The size of the Transaction is greater than transactionMaxBytes
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_51"]/*' />
         TransactionOversize = Proto.ResponseCodeEnum.TransactionOversize,
-        /// <summary>
-        /// The Transaction has more than 50 levels
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_52"]/*' />
         TransactionTooManyLayers = Proto.ResponseCodeEnum.TransactionTooManyLayers,
-        /// <summary>
-        /// Contract is marked as deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_53"]/*' />
         ContractDeleted = Proto.ResponseCodeEnum.ContractDeleted,
-        /// <summary>
-        /// the platform node is either disconnected or lagging behind.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_54"]/*' />
         PlatformNotActive = Proto.ResponseCodeEnum.PlatformNotActive,
-        /// <summary>
-        /// one public key matches more than one prefixes on the signature map
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_55"]/*' />
         KeyPrefixMismatch = Proto.ResponseCodeEnum.KeyPrefixMismatch,
-        /// <summary>
-        /// transaction not created by platform due to large backlog
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_56"]/*' />
         PlatformTransactionNotCreated = Proto.ResponseCodeEnum.PlatformTransactionNotCreated,
-        /// <summary>
-        /// auto renewal period is not a positive number of seconds
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_57"]/*' />
         InvalidRenewalPeriod = Proto.ResponseCodeEnum.InvalidRenewalPeriod,
-        /// <summary>
-        /// the response code when a smart contract id is passed for a crypto API request
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_58"]/*' />
         InvalidPayerAccountId = Proto.ResponseCodeEnum.InvalidPayerAccountId,
-        /// <summary>
-        /// the account has been marked as deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_59"]/*' />
         AccountDeleted = Proto.ResponseCodeEnum.AccountDeleted,
-        /// <summary>
-        /// the file has been marked as deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_60"]/*' />
         FileDeleted = Proto.ResponseCodeEnum.FileDeleted,
-        /// <summary>
-        /// same accounts repeated in the transfer account list
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_61"]/*' />
         AccountRepeatedInAccountAmounts = Proto.ResponseCodeEnum.AccountRepeatedInAccountAmounts,
-        /// <summary>
-        /// attempting to set negative balance value for crypto account
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_62"]/*' />
         SettingNegativeAccountBalance = Proto.ResponseCodeEnum.SettingNegativeAccountBalance,
-        /// <summary>
-        /// when deleting smart contract that has crypto balance either transfer account or transfer smart
-        /// contract is required
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.modify(update or delete a immutable smart,i.e. one created without a /// admin)"]/*' />
         ObtainerRequired = Proto.ResponseCodeEnum.ObtainerRequired,
-        /// <summary>
-        /// when deleting smart contract that has crypto balance you can not use the same contract id as
-        /// transferContractId as the one being deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.modify(update or delete a immutable smart,i.e. one created without a /// admin)_2"]/*' />
         ObtainerSameContractId = Proto.ResponseCodeEnum.ObtainerSameContractId,
-        /// <summary>
-        /// transferAccountId or transferContractId specified for contract delete does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.modify(update or delete a immutable smart,i.e. one created without a /// admin)_3"]/*' />
         ObtainerDoesNotExist = Proto.ResponseCodeEnum.ObtainerDoesNotExist,
-        /// <summary>
-        /// attempting to modify (update or delete a immutable smart Contract = Proto.ResponseCodeEnum.Contract, i.e. one created without a
-        /// admin key)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_63"]/*' />
         ModifyingImmutableContract = Proto.ResponseCodeEnum.ModifyingImmutableContract,
-        /// <summary>
-        /// Unexpected exception thrown by file system functions
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_64"]/*' />
         FileSystemException = Proto.ResponseCodeEnum.FileSystemException,
-        /// <summary>
-        /// the duration is not a subset of [MinimumAutorenewDuration = Proto.ResponseCodeEnum.MinimumAutorenewDuration,MAXIMUMAUTORENEWDURATION]
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_65"]/*' />
         AutorenewDurationNotInRange = Proto.ResponseCodeEnum.AutorenewDurationNotInRange,
-        /// <summary>
-        /// Decoding the smart contract binary to a byte array failed. Check that the input is a valid hex
-        /// string.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_66"]/*' />
         ErrorDecodingBytestring = Proto.ResponseCodeEnum.ErrorDecodingBytestring,
-        /// <summary>
-        /// File to create a smart contract was of length zero
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_67"]/*' />
         ContractFileEmpty = Proto.ResponseCodeEnum.ContractFileEmpty,
-        /// <summary>
-        /// Bytecode for smart contract is of length zero
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_68"]/*' />
         ContractBytecodeEmpty = Proto.ResponseCodeEnum.ContractBytecodeEmpty,
-        /// <summary>
-        /// Attempt to set negative initial balance
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_69"]/*' />
         InvalidInitialBalance = Proto.ResponseCodeEnum.InvalidInitialBalance,
-        /// <summary>
-        /// Attempt to set negative receive record threshold
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_70"]/*' />
         [Obsolete]
         InvalidReceiveRecordThreshold = Proto.ResponseCodeEnum.InvalidReceiveRecordThreshold,
-		/// <summary>
-		/// Attempt to set negative send record threshold
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_71"]/*' />
 		[Obsolete]
 		InvalidSendRecordThreshold = Proto.ResponseCodeEnum.InvalidSendRecordThreshold,
-        /// <summary>
-        /// Special Account Operations should be performed by only Genesis Account = Proto.ResponseCodeEnum.Account, return this code if it
-        /// is not Genesis Account
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.accounts(both from and)"]/*' />
         AccountIsNotGenesisAccount = Proto.ResponseCodeEnum.AccountIsNotGenesisAccount,
-        /// <summary>
-        /// The fee payer account doesn't have permission to submit such Transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.accounts(both from and)_2"]/*' />
         PayerAccountUnauthorized = Proto.ResponseCodeEnum.PayerAccountUnauthorized,
-        /// <summary>
-        /// FreezeTransactionBody is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.accounts(both from and)_3"]/*' />
         InvalidFreezeTransactionBody = Proto.ResponseCodeEnum.InvalidFreezeTransactionBody,
-        /// <summary>
-        /// FreezeTransactionBody does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.accounts(both from and)_4"]/*' />
         FreezeTransactionBodyNotFound = Proto.ResponseCodeEnum.FreezeTransactionBodyNotFound,
-        /// <summary>
-        /// Exceeded the number of accounts (both from and to) allowed for crypto transfer list
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(account 0.0.)"]/*' />
         TransferListSizeLimitExceeded = Proto.ResponseCodeEnum.TransferListSizeLimitExceeded,
-        /// <summary>
-        /// Smart contract result size greater than specified maxResultSize
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(account 0.0.)_2"]/*' />
         ResultSizeLimitExceeded = Proto.ResponseCodeEnum.ResultSizeLimitExceeded,
-        /// <summary>
-        /// The payer account is not a special account(account 0.0.55)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_72"]/*' />
         NotSpecialAccount = Proto.ResponseCodeEnum.NotSpecialAccount,
-        /// <summary>
-        /// Negative gas was offered in smart contract call
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_73"]/*' />
         ContractNegativeGas = Proto.ResponseCodeEnum.ContractNegativeGas,
-        /// <summary>
-        /// Negative value / initial balance was specified in a smart contract call / create
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_74"]/*' />
         ContractNegativeValue = Proto.ResponseCodeEnum.ContractNegativeValue,
-        /// <summary>
-        /// Failed to update fee file
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_75"]/*' />
         InvalidFeeFile = Proto.ResponseCodeEnum.InvalidFeeFile,
-        /// <summary>
-        /// Failed to update exchange rate file
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_76"]/*' />
         InvalidExchangeRateFile = Proto.ResponseCodeEnum.InvalidExchangeRateFile,
-        /// <summary>
-        /// Payment tendered for contract local call cannot cover both the fee and the gas
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_77"]/*' />
         InsufficientLocalCallGas = Proto.ResponseCodeEnum.InsufficientLocalCallGas,
-        /// <summary>
-        /// Entities with Entity ID below 1000 are not allowed to be deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_78"]/*' />
         EntityNotAllowedToDelete = Proto.ResponseCodeEnum.EntityNotAllowedToDelete,
-        /// <summary>
-        /// Violating one of these rules: 1) treasury account can update all entities below 0.0.1000 = Proto.ResponseCodeEnum.1000, 2)
-        /// account 0.0.50 can update all entities from 0.0.51 - 0.0.80 = Proto.ResponseCodeEnum.80, 3) Network Function Master Account
-        /// A/c 0.0.50 - Update all Network Function accounts and perform all the Network Functions listed
-        /// Below = Proto.ResponseCodeEnum.Below, 4) Network Function Accounts: i) A/c 0.0.55 - Update Address Book files (0.0.101/102) = Proto.ResponseCodeEnum.),
-        /// ii) A/c 0.0.56 - Update Fee schedule (0.0.111) = Proto.ResponseCodeEnum.), iii) A/c 0.0.57 - Update Exchange Rate
-        /// (0.0.112).
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.valid(append or update is)"]/*' />
         AuthorizationFailed = Proto.ResponseCodeEnum.AuthorizationFailed,
-        /// <summary>
-        /// Fee Schedule Proto uploaded but not valid (append or update is required)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.valid(append or update is)_2"]/*' />
         FileUploadedProtoInvalid = Proto.ResponseCodeEnum.FileUploadedProtoInvalid,
-        /// <summary>
-        /// Fee Schedule Proto uploaded but not valid (append or update is required)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_79"]/*' />
         FileUploadedProtoNotSavedToDisk = Proto.ResponseCodeEnum.FileUploadedProtoNotSavedToDisk,
-        /// <summary>
-        /// Fee Schedule Proto File Part uploaded
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_80"]/*' />
         FeeScheduleFilePartUploaded = Proto.ResponseCodeEnum.FeeScheduleFilePartUploaded,
-        /// <summary>
-        /// The change on Exchange Rate exceeds ExchangeRateAllowedPercentage
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_81"]/*' />
         ExchangeRateChangeLimitExceeded = Proto.ResponseCodeEnum.ExchangeRateChangeLimitExceeded,
-        /// <summary>
-        /// Contract permanent storage exceeded the currently allowable limit
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_82"]/*' />
         MaxContractStorageExceeded = Proto.ResponseCodeEnum.MaxContractStorageExceeded,
-        /// <summary>
-        /// Transfer Account should not be same as Account to be deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_83"]/*' />
         TotalLedgerBalanceInvalid = Proto.ResponseCodeEnum.TotalLedgerBalanceInvalid,
-        /// <summary>
-        /// The expiration date/time on a smart contract may not be reduced
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_84"]/*' />
         ExpirationReductionNotAllowed = Proto.ResponseCodeEnum.ExpirationReductionNotAllowed,
-        /// <summary>
-        /// Gas exceeded currently allowable gas limit per transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)"]/*' />
         MaxGasLimitExceeded = Proto.ResponseCodeEnum.MaxGasLimitExceeded,
-        /// <summary>
-        /// File size exceeded the currently allowable limit
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_2"]/*' />
         MaxFileSizeExceeded = Proto.ResponseCodeEnum.MaxFileSizeExceeded,
-        /// <summary>
-        /// When a valid signature is not provided for operations on account with receiverSigRequired=true
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_3"]/*' />
         ReceiverSigRequired = Proto.ResponseCodeEnum.ReceiverSigRequired,
-        /// <summary>
-        /// The Topic ID specified is not in the system.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_4"]/*' />
         InvalidTopicId = Proto.ResponseCodeEnum.InvalidTopicId,
-        /// <summary>
-        /// A provided admin key was invalid. Verify the bytes for an Ed25519 public key are exactly 32 bytes; and the bytes for a compressed ECDSA(secp256k1) key are exactly 33 Bytes = Proto.ResponseCodeEnum.Bytes, with the first byte either 0x02 or 0x03..
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.authorized(ie - a deleteTopic for a topic with no)"]/*' />
         InvalidAdminKey = Proto.ResponseCodeEnum.InvalidAdminKey,
-        /// <summary>
-        /// A provided submit key was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.authorized(ie - a deleteTopic for a topic with no)_2"]/*' />
         InvalidSubmitKey = Proto.ResponseCodeEnum.InvalidSubmitKey,
-        /// <summary>
-        /// An attempted operation was not authorized (ie - a deleteTopic for a topic with no adminKey).
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_85"]/*' />
         Unauthorized = Proto.ResponseCodeEnum.Unauthorized,
-        /// <summary>
-        /// A ConsensusService message is empty.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_86"]/*' />
         InvalidTopicMessage = Proto.ResponseCodeEnum.InvalidTopicMessage,
-        /// <summary>
-        /// The autoRenewAccount specified is not a Valid = Proto.ResponseCodeEnum.Valid, active account.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.total(chunks)"]/*' />
         InvalidAutorenewAccount = Proto.ResponseCodeEnum.InvalidAutorenewAccount,
-        /// <summary>
-        /// An adminKey was not specified on the Topic = Proto.ResponseCodeEnum.Topic, so there must not be an autoRenewAccount.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.total(chunks)_2"]/*' />
         AutorenewAccountNotAllowed = Proto.ResponseCodeEnum.AutorenewAccountNotAllowed,
-        /// <summary>
-        /// The topic has Expired = Proto.ResponseCodeEnum.Expired, was not automatically Renewed = Proto.ResponseCodeEnum.Renewed, and is in a 7 day grace period before the
-        /// topic will be deleted unrecoverably. This error response code will not be returned until
-        /// autoRenew functionality is supported by HAPI.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.total(chunks)_3"]/*' />
         TopicExpired = Proto.ResponseCodeEnum.TopicExpired,
-        /// <summary>
-        /// chunk number must be from 1 to total (chunks) inclusive.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_87"]/*' />
         InvalidChunkNumber = Proto.ResponseCodeEnum.InvalidChunkNumber,
-        /// <summary>
-        /// For every Chunk = Proto.ResponseCodeEnum.Chunk, the payer account that is part of initialTransactionID must match the Payer Account of this transaction. The entire initialTransactionID should match the transactionID of the first Chunk = Proto.ResponseCodeEnum.Chunk, but this is not checked or enforced by Hedera except when the chunk number is 1.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_88"]/*' />
         InvalidChunkTransactionId = Proto.ResponseCodeEnum.InvalidChunkTransactionId,
-        /// <summary>
-        /// Account is frozen and cannot transact with the token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_89"]/*' />
         AccountFrozenForToken = Proto.ResponseCodeEnum.AccountFrozenForToken,
-        /// <summary>
-        /// An involved account already has more than tokens.maxPerAccount associations with non-deleted tokens.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_90"]/*' />
         TokensPerAccountLimitExceeded = Proto.ResponseCodeEnum.TokensPerAccountLimitExceeded,
-        /// <summary>
-        /// The token is invalid or does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_91"]/*' />
         InvalidTokenId = Proto.ResponseCodeEnum.InvalidTokenId,
-        /// <summary>
-        /// Invalid token decimals
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_92"]/*' />
         InvalidTokenDecimals = Proto.ResponseCodeEnum.InvalidTokenDecimals,
-        /// <summary>
-        /// Invalid token initial supply
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_93"]/*' />
         InvalidTokenInitialSupply = Proto.ResponseCodeEnum.InvalidTokenInitialSupply,
-        /// <summary>
-        /// Treasury Account does not exist or is deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_94"]/*' />
         InvalidTreasuryAccountForToken = Proto.ResponseCodeEnum.InvalidTreasuryAccountForToken,
-        /// <summary>
-        /// Token Symbol is not UTF-8 capitalized alphabetical string
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_95"]/*' />
         InvalidTokenSymbol = Proto.ResponseCodeEnum.InvalidTokenSymbol,
-        /// <summary>
-        /// Freeze key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_96"]/*' />
         TokenHasNoFreezeKey = Proto.ResponseCodeEnum.TokenHasNoFreezeKey,
-        /// <summary>
-        /// Amounts in transfer list are not net zero
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_97"]/*' />
         TransfersNotZeroSumForToken = Proto.ResponseCodeEnum.TransfersNotZeroSumForToken,
-        /// <summary>
-        /// A token symbol was not provided
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_98"]/*' />
         MissingTokenSymbol = Proto.ResponseCodeEnum.MissingTokenSymbol,
-        /// <summary>
-        /// The provided token symbol was too long
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_99"]/*' />
         TokenSymbolTooLong = Proto.ResponseCodeEnum.TokenSymbolTooLong,
-        /// <summary>
-        /// KYC must be granted and account does not have KYC granted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_100"]/*' />
         AccountKycNotGrantedForToken = Proto.ResponseCodeEnum.AccountKycNotGrantedForToken,
-        /// <summary>
-        /// KYC key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_101"]/*' />
         TokenHasNoKycKey = Proto.ResponseCodeEnum.TokenHasNoKycKey,
-        /// <summary>
-        /// Token balance is not sufficient for the transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_102"]/*' />
         InsufficientTokenBalance = Proto.ResponseCodeEnum.InsufficientTokenBalance,
-        /// <summary>
-        /// Token transactions cannot be executed on deleted token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_103"]/*' />
         TokenWasDeleted = Proto.ResponseCodeEnum.TokenWasDeleted,
-        /// <summary>
-        /// Supply key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_104"]/*' />
         TokenHasNoSupplyKey = Proto.ResponseCodeEnum.TokenHasNoSupplyKey,
-        /// <summary>
-        /// Wipe key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_105"]/*' />
         TokenHasNoWipeKey = Proto.ResponseCodeEnum.TokenHasNoWipeKey,
-        /// <summary>
-        /// The requested token mint amount would cause an invalid total supply
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_106"]/*' />
         InvalidTokenMintAmount = Proto.ResponseCodeEnum.InvalidTokenMintAmount,
-        /// <summary>
-        /// The requested token burn amount would cause an invalid total supply
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_107"]/*' />
         InvalidTokenBurnAmount = Proto.ResponseCodeEnum.InvalidTokenBurnAmount,
-        /// <summary>
-        /// A required token-account relationship is missing
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_108"]/*' />
         TokenNotAssociatedToAccount = Proto.ResponseCodeEnum.TokenNotAssociatedToAccount,
-        /// <summary>
-        /// The target of a wipe operation was the token treasury account
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_109"]/*' />
         CannotWipeTokenTreasuryAccount = Proto.ResponseCodeEnum.CannotWipeTokenTreasuryAccount,
-        /// <summary>
-        /// The provided KYC key was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_110"]/*' />
         InvalidKycKey = Proto.ResponseCodeEnum.InvalidKycKey,
-        /// <summary>
-        /// The provided wipe key was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_111"]/*' />
         InvalidWipeKey = Proto.ResponseCodeEnum.InvalidWipeKey,
-        /// <summary>
-        /// The provided freeze key was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_112"]/*' />
         InvalidFreezeKey = Proto.ResponseCodeEnum.InvalidFreezeKey,
-        /// <summary>
-        /// The provided supply key was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_113"]/*' />
         InvalidSupplyKey = Proto.ResponseCodeEnum.InvalidSupplyKey,
-        /// <summary>
-        /// Token Name is not provided
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_114"]/*' />
         MissingTokenName = Proto.ResponseCodeEnum.MissingTokenName,
-        /// <summary>
-        /// Token Name is too long
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_115"]/*' />
         TokenNameTooLong = Proto.ResponseCodeEnum.TokenNameTooLong,
-        /// <summary>
-        /// The provided wipe amount must not be Negative = Proto.ResponseCodeEnum.Negative, zero or bigger than the token holder balance
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_116"]/*' />
         InvalidWipingAmount = Proto.ResponseCodeEnum.InvalidWipingAmount,
-        /// <summary>
-        /// Token does not have Admin key Set = Proto.ResponseCodeEnum.Set, thus update/delete transactions cannot be performed
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_117"]/*' />
         TokenIsImmutable = Proto.ResponseCodeEnum.TokenIsImmutable,
-        /// <summary>
-        /// An associateToken operation specified a token already associated to the account
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.transfers(both from and)"]/*' />
         TokenAlreadyAssociatedToAccount = Proto.ResponseCodeEnum.TokenAlreadyAssociatedToAccount,
-        /// <summary>
-        /// An attempted operation is invalid until all token balances for the target account are zero
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.transfers(both from and)_2"]/*' />
         TransactionRequiresZeroTokenBalances = Proto.ResponseCodeEnum.TransactionRequiresZeroTokenBalances,
-        /// <summary>
-        /// An attempted operation is invalid because the account is a treasury
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.transfers(both from and)_3"]/*' />
         AccountIsTreasury = Proto.ResponseCodeEnum.AccountIsTreasury,
-        /// <summary>
-        /// Same TokenIDs present in the token list
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.transfers(both from and)_4"]/*' />
         TokenIdRepeatedInTokenList = Proto.ResponseCodeEnum.TokenIdRepeatedInTokenList,
-        /// <summary>
-        /// Exceeded the number of token transfers (both from and to) allowed for token transfer list
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_118"]/*' />
         TokenTransferListSizeLimitExceeded = Proto.ResponseCodeEnum.TokenTransferListSizeLimitExceeded,
-        /// <summary>
-        /// TokenTransfersTransactionBody has no TokenTransferList
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_119"]/*' />
         EmptyTokenTransferBody = Proto.ResponseCodeEnum.EmptyTokenTransferBody,
-        /// <summary>
-        /// TokenTransfersTransactionBody has a TokenTransferList with no AccountAmounts
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_120"]/*' />
         EmptyTokenTransferAccountAmounts = Proto.ResponseCodeEnum.EmptyTokenTransferAccountAmounts,
-        /// <summary>
-        /// The Scheduled entity does not exist; or has now Expired = Proto.ResponseCodeEnum.Expired, been Deleted = Proto.ResponseCodeEnum.Deleted, or been executed
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_121"]/*' />
         InvalidScheduleId = Proto.ResponseCodeEnum.InvalidScheduleId,
-        /// <summary>
-        /// The Scheduled entity cannot be modified. Admin key not set
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_122"]/*' />
         ScheduleIsImmutable = Proto.ResponseCodeEnum.ScheduleIsImmutable,
-        /// <summary>
-        /// The provided Scheduled Payer does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_123"]/*' />
         InvalidSchedulePayerId = Proto.ResponseCodeEnum.InvalidSchedulePayerId,
-        /// <summary>
-        /// The Schedule Create Transaction TransactionID account does not exist
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_124"]/*' />
         InvalidScheduleAccountId = Proto.ResponseCodeEnum.InvalidScheduleAccountId,
-        /// <summary>
-        /// The provided sig map did not contain any new valid signatures from required signers of the scheduled transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_125"]/*' />
         NoNewValidSignatures = Proto.ResponseCodeEnum.NoNewValidSignatures,
-        /// <summary>
-        /// The required signers for a scheduled transaction cannot be Resolved = Proto.ResponseCodeEnum.Resolved, for example because they do not exist or have been deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ScheduleCreate(that,all fields other than)"]/*' />
         UnresolvableRequiredSigners = Proto.ResponseCodeEnum.UnresolvableRequiredSigners,
-        /// <summary>
-        /// Only whitelisted transaction types may be scheduled
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ScheduleCreate(that,all fields other than)_2"]/*' />
         ScheduledTransactionNotInWhitelist = Proto.ResponseCodeEnum.ScheduledTransactionNotInWhitelist,
-        /// <summary>
-        /// At least one of the signatures in the provided sig map did not represent a valid signature for any required signer
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ScheduleCreate(that,all fields other than)_3"]/*' />
         SomeSignaturesWereInvalid = Proto.ResponseCodeEnum.SomeSignaturesWereInvalid,
-        /// <summary>
-        /// The scheduled field in the TransactionID may not be set to true
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ScheduleCreate(that,all fields other than)_4"]/*' />
         TransactionIdFieldNotAllowed = Proto.ResponseCodeEnum.TransactionIdFieldNotAllowed,
-        /// <summary>
-        /// A schedule already exists with the same identifying fields of an attempted ScheduleCreate (that Is = Proto.ResponseCodeEnum.Is, all fields other than scheduledPayerAccountID)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_126"]/*' />
         IdenticalScheduleAlreadyCreated = Proto.ResponseCodeEnum.IdenticalScheduleAlreadyCreated,
-        /// <summary>
-        /// A string field in the transaction has a UTF-8 encoding with the prohibited zero byte
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_127"]/*' />
         InvalidZeroByteInString = Proto.ResponseCodeEnum.InvalidZeroByteInString,
-        /// <summary>
-        /// A schedule being signed or deleted has already been deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_128"]/*' />
         ScheduleAlreadyDeleted = Proto.ResponseCodeEnum.ScheduleAlreadyDeleted,
-        /// <summary>
-        /// A schedule being signed or deleted has already been executed
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_129"]/*' />
         ScheduleAlreadyExecuted = Proto.ResponseCodeEnum.ScheduleAlreadyExecuted,
-        /// <summary>
-        /// ConsensusSubmitMessage request's message size is larger than allowed.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_130"]/*' />
         MessageSizeTooLarge = Proto.ResponseCodeEnum.MessageSizeTooLarge,
-        /// <summary>
-        /// An operation was assigned to more than one throttle group in a given bucket
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_131"]/*' />
         OperationRepeatedInBucketGroups = Proto.ResponseCodeEnum.OperationRepeatedInBucketGroups,
-        /// <summary>
-        /// The capacity needed to satisfy all opsPerSec groups in a bucket overflowed a signed 8-byte integral type
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_132"]/*' />
         BucketCapacityOverflow = Proto.ResponseCodeEnum.BucketCapacityOverflow,
-        /// <summary>
-        /// Given the network size in the address Book = Proto.ResponseCodeEnum.Book, the node-level capacity for an operation would never be enough to accept a single request; usually means a bucket burstPeriod should be increased
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_133"]/*' />
         NodeCapacityNotSufficientForOperation = Proto.ResponseCodeEnum.NodeCapacityNotSufficientForOperation,
-        /// <summary>
-        /// A bucket was defined without any throttle groups
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_134"]/*' />
         BucketHasNoThrottleGroups = Proto.ResponseCodeEnum.BucketHasNoThrottleGroups,
-        /// <summary>
-        /// A throttle group was granted zero opsPerSec
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_135"]/*' />
         ThrottleGroupHasZeroOpsPerSec = Proto.ResponseCodeEnum.ThrottleGroupHasZeroOpsPerSec,
-        /// <summary>
-        /// The throttle definitions file was Updated = Proto.ResponseCodeEnum.Updated, but some supported operations were not assigned a bucket
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_136"]/*' />
         SuccessButMissingExpectedOperation = Proto.ResponseCodeEnum.SuccessButMissingExpectedOperation,
-        /// <summary>
-        /// The new contents for the throttle definitions system file were not valid protobuf
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_137"]/*' />
         UnparseableThrottleDefinitions = Proto.ResponseCodeEnum.UnparseableThrottleDefinitions,
-        /// <summary>
-        /// The new throttle definitions system file were Invalid = Proto.ResponseCodeEnum.Invalid, and no more specific error could be divined
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_138"]/*' />
         InvalidThrottleDefinitions = Proto.ResponseCodeEnum.InvalidThrottleDefinitions,
-        /// <summary>
-        /// The transaction references an account which has passed its expiration without renewal funds Available = Proto.ResponseCodeEnum.Available, and currently remains in the ledger only because of the grace period given to expired entities
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_139"]/*' />
         AccountExpiredAndPendingRemoval = Proto.ResponseCodeEnum.AccountExpiredAndPendingRemoval,
-        /// <summary>
-        /// Invalid token max supply
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_140"]/*' />
         InvalidTokenMaxSupply = Proto.ResponseCodeEnum.InvalidTokenMaxSupply,
-        /// <summary>
-        /// Invalid token nft serial number
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_141"]/*' />
         InvalidTokenNftSerialNumber = Proto.ResponseCodeEnum.InvalidTokenNftSerialNumber,
-        /// <summary>
-        /// Invalid nft id
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_142"]/*' />
         InvalidNftId = Proto.ResponseCodeEnum.InvalidNftId,
-        /// <summary>
-        /// Nft metadata is too long
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_143"]/*' />
         MetadataTooLong = Proto.ResponseCodeEnum.MetadataTooLong,
-        /// <summary>
-        /// Repeated operations count exceeds the limit
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_144"]/*' />
         BatchSizeLimitExceeded = Proto.ResponseCodeEnum.BatchSizeLimitExceeded,
-        /// <summary>
-        /// The range of data to be gathered is out of the set boundaries
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_145"]/*' />
         InvalidQueryRange = Proto.ResponseCodeEnum.InvalidQueryRange,
-        /// <summary>
-        /// A custom fractional fee set a denominator of zero
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_146"]/*' />
         FractionDividesByZero = Proto.ResponseCodeEnum.FractionDividesByZero,
-		/// <summary>
-		/// The transaction payer could not afford a custom fee
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_147"]/*' />
 		[Obsolete]
 		InsufficientPayerBalanceForCustomFee = Proto.ResponseCodeEnum.InsufficientPayerBalanceForCustomFee,
-        /// <summary>
-        /// More than 10 custom fees were specified
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_148"]/*' />
         CustomFeesListTooLong = Proto.ResponseCodeEnum.CustomFeesListTooLong,
-        /// <summary>
-        /// Any of the feeCollector accounts for customFees is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_149"]/*' />
         InvalidCustomFeeCollector = Proto.ResponseCodeEnum.InvalidCustomFeeCollector,
-        /// <summary>
-        /// Any of the token Ids in customFees is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_150"]/*' />
         InvalidTokenIdInCustomFees = Proto.ResponseCodeEnum.InvalidTokenIdInCustomFees,
-        /// <summary>
-        /// Any of the token Ids in customFees are not associated to feeCollector
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_151"]/*' />
         TokenNotAssociatedToFeeCollector = Proto.ResponseCodeEnum.TokenNotAssociatedToFeeCollector,
-        /// <summary>
-        /// A token cannot have more units minted due to its configured supply ceiling
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_152"]/*' />
         TokenMaxSupplyReached = Proto.ResponseCodeEnum.TokenMaxSupplyReached,
-        /// <summary>
-        /// The transaction attempted to move an NFT serial number from an account other than its owner
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_153"]/*' />
         SenderDoesNotOwnNftSerialNo = Proto.ResponseCodeEnum.SenderDoesNotOwnNftSerialNo,
-        /// <summary>
-        /// A custom fee schedule entry did not specify either a fixed or fractional fee
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_154"]/*' />
         CustomFeeNotFullySpecified = Proto.ResponseCodeEnum.CustomFeeNotFullySpecified,
-        /// <summary>
-        /// Only positive fees may be assessed at this time
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_155"]/*' />
         CustomFeeMustBePositive = Proto.ResponseCodeEnum.CustomFeeMustBePositive,
-        /// <summary>
-        /// Fee schedule key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_156"]/*' />
         TokenHasNoFeeScheduleKey = Proto.ResponseCodeEnum.TokenHasNoFeeScheduleKey,
-        /// <summary>
-        /// A fractional custom fee exceeded the range of a 64-bit signed integer
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_157"]/*' />
         CustomFeeOutsideNumericRange = Proto.ResponseCodeEnum.CustomFeeOutsideNumericRange,
-        /// <summary>
-        /// A royalty cannot exceed the total fungible value exchanged for an NFT
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_158"]/*' />
         RoyaltyFractionCannotExceedOne = Proto.ResponseCodeEnum.RoyaltyFractionCannotExceedOne,
-        /// <summary>
-        /// Each fractional custom fee must have its MaximumAmount = Proto.ResponseCodeEnum.MaximumAmount, if Specified = Proto.ResponseCodeEnum.Specified, at least its minimumAmount
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_159"]/*' />
         FractionalFeeMaxAmountLessThanMinAmount = Proto.ResponseCodeEnum.FractionalFeeMaxAmountLessThanMinAmount,
-        /// <summary>
-        /// A fee schedule update tried to clear the custom fees from a token whose fee schedule was already empty
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_160"]/*' />
         CustomScheduleAlreadyHasNoFees = Proto.ResponseCodeEnum.CustomScheduleAlreadyHasNoFees,
-        /// <summary>
-        /// Only tokens of type FUNGIBLECOMMON can be used to as fee schedule denominations
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_161"]/*' />
         CustomFeeDenominationMustBeFungibleCommon = Proto.ResponseCodeEnum.CustomFeeDenominationMustBeFungibleCommon,
-        /// <summary>
-        /// Only tokens of type FUNGIBLECOMMON can have fractional fees
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_162"]/*' />
         CustomFractionalFeeOnlyAllowedForFungibleCommon = Proto.ResponseCodeEnum.CustomFractionalFeeOnlyAllowedForFungibleCommon,
-        /// <summary>
-        /// The provided custom fee schedule key was invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_163"]/*' />
         InvalidCustomFeeScheduleKey = Proto.ResponseCodeEnum.InvalidCustomFeeScheduleKey,
-        /// <summary>
-        /// The requested token mint metadata was invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_164"]/*' />
         InvalidTokenMintMetadata = Proto.ResponseCodeEnum.InvalidTokenMintMetadata,
-        /// <summary>
-        /// The requested token burn metadata was invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_165"]/*' />
         InvalidTokenBurnMetadata = Proto.ResponseCodeEnum.InvalidTokenBurnMetadata,
-        /// <summary>
-        /// The treasury for a unique token cannot be changed until it owns no NFTs
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_166"]/*' />
         CurrentTreasuryStillOwnsNfts = Proto.ResponseCodeEnum.CurrentTreasuryStillOwnsNfts,
-        /// <summary>
-        /// An account cannot be dissociated from a unique token if it owns NFTs for the token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_167"]/*' />
         AccountStillOwnsNfts = Proto.ResponseCodeEnum.AccountStillOwnsNfts,
-        /// <summary>
-        /// A NFT can only be burned when owned by the unique token's treasury
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_168"]/*' />
         TreasuryMustOwnBurnedNft = Proto.ResponseCodeEnum.TreasuryMustOwnBurnedNft,
-        /// <summary>
-        /// An account did not own the NFT to be wiped
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_169"]/*' />
         AccountDoesNotOwnWipedNft = Proto.ResponseCodeEnum.AccountDoesNotOwnWipedNft,
-        /// <summary>
-        /// An AccountAmount token transfers list referenced a token type other than FUNGIBLECOMMON
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_170"]/*' />
         AccountAmountTransfersOnlyAllowedForFungibleCommon = Proto.ResponseCodeEnum.AccountAmountTransfersOnlyAllowedForFungibleCommon,
-        /// <summary>
-        /// All the NFTs allowed in the current price regime have already been minted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_171"]/*' />
         MaxNftsInPriceRegimeHaveBeenMinted = Proto.ResponseCodeEnum.MaxNftsInPriceRegimeHaveBeenMinted,
-        /// <summary>
-        /// The payer account has been marked as deleted
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_172"]/*' />
         PayerAccountDeleted = Proto.ResponseCodeEnum.PayerAccountDeleted,
-        /// <summary>
-        /// The reference chain of custom fees for a transferred token exceeded the maximum length of 2
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_173"]/*' />
         CustomFeeChargingExceededMaxRecursionDepth = Proto.ResponseCodeEnum.CustomFeeChargingExceededMaxRecursionDepth,
-        /// <summary>
-        /// More than 20 balance adjustments were to satisfy a CryptoTransfer and its implied custom fee payments
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_174"]/*' />
         CustomFeeChargingExceededMaxAccountAmounts = Proto.ResponseCodeEnum.CustomFeeChargingExceededMaxAccountAmounts,
-        /// <summary>
-        /// The sender account in the token transfer transaction could not afford a custom fee
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_175"]/*' />
         InsufficientSenderAccountBalanceForCustomFee = Proto.ResponseCodeEnum.InsufficientSenderAccountBalanceForCustomFee,
-        /// <summary>
-        /// Currently no more than 4 = Proto.ResponseCodeEnum.4,294 = Proto.ResponseCodeEnum.294,967 = Proto.ResponseCodeEnum.967,295 NFTs may be minted for a given unique token type
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_176"]/*' />
         SerialNumberLimitReached = Proto.ResponseCodeEnum.SerialNumberLimitReached,
-        /// <summary>
-        /// Only tokens of type NONFUNGIBLEUNIQUE can have royalty fees
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_177"]/*' />
         CustomRoyaltyFeeOnlyAllowedForNonFungibleUnique = Proto.ResponseCodeEnum.CustomRoyaltyFeeOnlyAllowedForNonFungibleUnique,
-        /// <summary>
-        /// The account has reached the limit on the automatic associations count.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_178"]/*' />
         NoRemainingAutomaticAssociations = Proto.ResponseCodeEnum.NoRemainingAutomaticAssociations,
-        /// <summary>
-        /// Already existing automatic associations are more than the new maximum automatic associations.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_179"]/*' />
         ExistingAutomaticAssociationsExceedGivenLimit = Proto.ResponseCodeEnum.ExistingAutomaticAssociationsExceedGivenLimit,
-        /// <summary>
-        /// Cannot set the number of automatic associations for an account more than the maximum allowed
-        /// token associations tokens.maxPerAccount.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_180"]/*' />
         RequestedNumAutomaticAssociationsExceedsAssociationLimit = Proto.ResponseCodeEnum.RequestedNumAutomaticAssociationsExceedsAssociationLimit,
-        /// <summary>
-        /// Token is paused. This Token cannot be a part of any kind of Transaction until unpaused.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_181"]/*' />
         TokenIsPaused = Proto.ResponseCodeEnum.TokenIsPaused,
-        /// <summary>
-        /// Pause key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_182"]/*' />
         TokenHasNoPauseKey = Proto.ResponseCodeEnum.TokenHasNoPauseKey,
-        /// <summary>
-        /// The provided pause key was invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_183"]/*' />
         InvalidPauseKey = Proto.ResponseCodeEnum.InvalidPauseKey,
-        /// <summary>
-        /// The update file in a freeze transaction body must exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_184"]/*' />
         FreezeUpdateFileDoesNotExist = Proto.ResponseCodeEnum.FreezeUpdateFileDoesNotExist,
-        /// <summary>
-        /// The hash of the update file in a freeze transaction body must match the in-memory hash.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_185"]/*' />
         FreezeUpdateFileHashDoesNotMatch = Proto.ResponseCodeEnum.FreezeUpdateFileHashDoesNotMatch,
-        /// <summary>
-        /// A FREEZEUPGRADE transaction was handled with no previous update prepared.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.the(consensus)"]/*' />
         NoUpgradeHasBeenPrepared = Proto.ResponseCodeEnum.NoUpgradeHasBeenPrepared,
-        /// <summary>
-        /// A FREEZEABORT transaction was handled with no scheduled freeze.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.the(consensus)_2"]/*' />
         NoFreezeIsScheduled = Proto.ResponseCodeEnum.NoFreezeIsScheduled,
-        /// <summary>
-        /// The update file hash when handling a FREEZEUPGRADE transaction differs from the file
-        /// hash at the time of handling the PREPAREUPGRADE transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.the(consensus)_3"]/*' />
         UpdateFileHashChangedSincePrepareUpgrade = Proto.ResponseCodeEnum.UpdateFileHashChangedSincePrepareUpgrade,
-        /// <summary>
-        /// The given freeze start time was in the (consensus) past.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_186"]/*' />
         FreezeStartTimeMustBeFuture = Proto.ResponseCodeEnum.FreezeStartTimeMustBeFuture,
-        /// <summary>
-        /// The prepared update file cannot be updated or appended until either the upgrade has
-        /// been Completed = Proto.ResponseCodeEnum.Completed, or a FREEZEABORT has been handled.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_187"]/*' />
         PreparedUpdateFileIsImmutable = Proto.ResponseCodeEnum.PreparedUpdateFileIsImmutable,
-        /// <summary>
-        /// Once a freeze is Scheduled = Proto.ResponseCodeEnum.Scheduled, it must be aborted before any other type of freeze can
-        /// can be performed.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_188"]/*' />
         FreezeAlreadyScheduled = Proto.ResponseCodeEnum.FreezeAlreadyScheduled,
-        /// <summary>
-        /// If an NMT upgrade has been Prepared = Proto.ResponseCodeEnum.Prepared, the following operation must be a FREEZEUPGRADE.
-        /// (To issue a FreezeOnly = Proto.ResponseCodeEnum.FreezeOnly, submit a FREEZEABORT first.)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_189"]/*' />
         FreezeUpgradeInProgress = Proto.ResponseCodeEnum.FreezeUpgradeInProgress,
-        /// <summary>
-        /// If an NMT upgrade has been Prepared = Proto.ResponseCodeEnum.Prepared, the subsequent FREEZEUPGRADE transaction must
-        /// confirm the id of the file to be used in the upgrade.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_190"]/*' />
         UpdateFileIdDoesNotMatchPrepared = Proto.ResponseCodeEnum.UpdateFileIdDoesNotMatchPrepared,
-        /// <summary>
-        /// If an NMT upgrade has been Prepared = Proto.ResponseCodeEnum.Prepared, the subsequent FREEZEUPGRADE transaction must
-        /// confirm the hash of the file to be used in the upgrade.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_191"]/*' />
         UpdateFileHashDoesNotMatchPrepared = Proto.ResponseCodeEnum.UpdateFileHashDoesNotMatchPrepared,
-        /// <summary>
-        /// Consensus throttle did not allow execution of this transaction. System is throttled at
-        /// consensus level.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_5"]/*' />
         ConsensusGasExhausted = Proto.ResponseCodeEnum.ConsensusGasExhausted,
-        /// <summary>
-        /// A precompiled contract Succeeded = Proto.ResponseCodeEnum.Succeeded, but was later reverted.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_6"]/*' />
         RevertedSuccess = Proto.ResponseCodeEnum.RevertedSuccess,
-        /// <summary>
-        /// All contract storage allocated to the current price regime has been consumed.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_7"]/*' />
         MaxStorageInPriceRegimeHasBeenUsed = Proto.ResponseCodeEnum.MaxStorageInPriceRegimeHasBeenUsed,
-        /// <summary>
-        /// An alias used in a CryptoTransfer transaction is not the serialization of a primitive Key
-        /// message--that Is = Proto.ResponseCodeEnum.Is, a Key with a single Ed25519 or ECDSA(secp256k1) public key and no
-        /// unknown protobuf fields.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_192"]/*' />
         InvalidAliasKey = Proto.ResponseCodeEnum.InvalidAliasKey,
-        /// <summary>
-        /// A fungible token transfer expected a different number of decimals than the involved
-        /// type actually has.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_193"]/*' />
         UnexpectedTokenDecimals = Proto.ResponseCodeEnum.UnexpectedTokenDecimals,
-		/// <summary>
-		/// The proxy account id is invalid or does not exist.
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_194"]/*' />
 		[Obsolete]
 		InvalidProxyAccountId = Proto.ResponseCodeEnum.InvalidProxyAccountId,
-        /// <summary>
-        /// The transfer account id in CryptoDelete transaction is invalid or does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_195"]/*' />
         InvalidTransferAccountId = Proto.ResponseCodeEnum.InvalidTransferAccountId,
-        /// <summary>
-        /// The fee collector account id in TokenFeeScheduleUpdate is invalid or does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_196"]/*' />
         InvalidFeeCollectorAccountId = Proto.ResponseCodeEnum.InvalidFeeCollectorAccountId,
-        /// <summary>
-        /// The alias already set on an account cannot be updated using CryptoUpdate transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_197"]/*' />
         AliasIsImmutable = Proto.ResponseCodeEnum.AliasIsImmutable,
-        /// <summary>
-        /// An approved allowance specifies a spender account that is the same as the hbar/token
-        /// owner account.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_198"]/*' />
         SpenderAccountSameAsOwner = Proto.ResponseCodeEnum.SpenderAccountSameAsOwner,
-        /// <summary>
-        /// The establishment or adjustment of an approved allowance cause the token allowance
-        /// to exceed the token maximum supply.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_199"]/*' />
         AmountExceedsTokenMaxSupply = Proto.ResponseCodeEnum.AmountExceedsTokenMaxSupply,
-        /// <summary>
-        /// The specified amount for an approved allowance cannot be negative.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_200"]/*' />
         NegativeAllowanceAmount = Proto.ResponseCodeEnum.NegativeAllowanceAmount,
-		/// <summary>
-		/// The approveForAll flag cannot be set for a fungible token.
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_201"]/*' />
 		[Obsolete]
 		CannotApproveForAllFungibleCommon = Proto.ResponseCodeEnum.CannotApproveForAllFungibleCommon,
-        /// <summary>
-        /// The spender does not have an existing approved allowance with the hbar/token owner.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_202"]/*' />
         SpenderDoesNotHaveAllowance = Proto.ResponseCodeEnum.SpenderDoesNotHaveAllowance,
-        /// <summary>
-        /// The transfer amount exceeds the current approved allowance for the spender account.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_203"]/*' />
         AmountExceedsAllowance = Proto.ResponseCodeEnum.AmountExceedsAllowance,
-        /// <summary>
-        /// The payer account of an approveAllowances or adjustAllowance transaction is attempting
-        /// to go beyond the maximum allowed number of allowances.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_204"]/*' />
         MaxAllowancesExceeded = Proto.ResponseCodeEnum.MaxAllowancesExceeded,
-        /// <summary>
-        /// No allowances have been specified in the approval transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_205"]/*' />
         EmptyAllowances = Proto.ResponseCodeEnum.EmptyAllowances,
-		/// <summary>
-		/// Spender is repeated more than once in Crypto or Token or NFT allowance lists in a single
-		/// CryptoApproveAllowance transaction.
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_206"]/*' />
 		[Obsolete]
 		SpenderAccountRepeatedInAllowances = Proto.ResponseCodeEnum.SpenderAccountRepeatedInAllowances,
-		/// <summary>
-		/// Serial numbers are repeated in nft allowance for a single spender account
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_207"]/*' />
 		[Obsolete]
 		RepeatedSerialNumsInNftAllowances = Proto.ResponseCodeEnum.RepeatedSerialNumsInNftAllowances,
-        /// <summary>
-        /// Fungible common token used in NFT allowances
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_208"]/*' />
         FungibleTokenInNftAllowances = Proto.ResponseCodeEnum.FungibleTokenInNftAllowances,
-        /// <summary>
-        /// Non fungible token used in fungible token allowances
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_209"]/*' />
         NftInFungibleTokenAllowances = Proto.ResponseCodeEnum.NftInFungibleTokenAllowances,
-        /// <summary>
-        /// The account id specified as the owner is invalid or does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_210"]/*' />
         InvalidAllowanceOwnerId = Proto.ResponseCodeEnum.InvalidAllowanceOwnerId,
-        /// <summary>
-        /// The account id specified as the spender is invalid or does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_211"]/*' />
         InvalidAllowanceSpenderId = Proto.ResponseCodeEnum.InvalidAllowanceSpenderId,
-		/// <summary>
-		/// [Deprecated] If the CryptoDeleteAllowance transaction has repeated crypto or token or Nft allowances to delete.
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_212"]/*' />
 		[Obsolete]
 		RepeatedAllowancesToDelete = Proto.ResponseCodeEnum.RepeatedAllowancesToDelete,
-        /// <summary>
-        /// If the account Id specified as the delegating spender is invalid or does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_213"]/*' />
         InvalidDelegatingSpender = Proto.ResponseCodeEnum.InvalidDelegatingSpender,
-        /// <summary>
-        /// The delegating Spender cannot grant approveForAll allowance on a NFT token type for another spender.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_214"]/*' />
         DelegatingSpenderCannotGrantApproveForAll = Proto.ResponseCodeEnum.DelegatingSpenderCannotGrantApproveForAll,
-        /// <summary>
-        /// The delegating Spender cannot grant allowance on a NFT serial for another spender as it doesnt not have approveForAll
-        /// granted on token-owner.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_215"]/*' />
         DelegatingSpenderDoesNotHaveApproveForAll = Proto.ResponseCodeEnum.DelegatingSpenderDoesNotHaveApproveForAll,
-        /// <summary>
-        /// The scheduled transaction could not be created because it's expirationTime was too far in the future.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_216"]/*' />
         ScheduleExpirationTimeTooFarInFuture = Proto.ResponseCodeEnum.ScheduleExpirationTimeTooFarInFuture,
-        /// <summary>
-        /// The scheduled transaction could not be created because it's expirationTime was less than or equal to the consensus time.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_217"]/*' />
         ScheduleExpirationTimeMustBeHigherThanConsensusTime = Proto.ResponseCodeEnum.ScheduleExpirationTimeMustBeHigherThanConsensusTime,
-        /// <summary>
-        /// The scheduled transaction could not be created because it would cause throttles to be violated on the specified expirationTime.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_218"]/*' />
         ScheduleFutureThrottleExceeded = Proto.ResponseCodeEnum.ScheduleFutureThrottleExceeded,
-        /// <summary>
-        /// The scheduled transaction could not be created because it would cause the gas limit to be violated on the specified expirationTime.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_219"]/*' />
         ScheduleFutureGasLimitExceeded = Proto.ResponseCodeEnum.ScheduleFutureGasLimitExceeded,
-        /// <summary>
-        /// The ethereum transaction either failed parsing or failed signature Validation = Proto.ResponseCodeEnum.Validation, or some other EthereumTransaction error not covered by another response code.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_220"]/*' />
         InvalidEthereumTransaction = Proto.ResponseCodeEnum.InvalidEthereumTransaction,
-        /// <summary>
-        /// EthereumTransaction was signed against a chainId that this network does not support.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_221"]/*' />
         WrongChainId = Proto.ResponseCodeEnum.WrongChainId,
-        /// <summary>
-        /// This transaction specified an ethereumNonce that is not the current ethereumNonce of the account.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_222"]/*' />
         WrongNonce = Proto.ResponseCodeEnum.WrongNonce,
-        /// <summary>
-        /// The ethereum transaction specified an access List = Proto.ResponseCodeEnum.List, which the network does not support.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_223"]/*' />
         AccessListUnsupported = Proto.ResponseCodeEnum.AccessListUnsupported,
-        /// <summary>
-        /// A schedule being signed or deleted has passed it's expiration date and is pending execution if needed and then expiration.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_224"]/*' />
         SchedulePendingExpiration = Proto.ResponseCodeEnum.SchedulePendingExpiration,
-        /// <summary>
-        /// A selfdestruct or ContractDelete targeted a contract that is a token treasury.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_225"]/*' />
         ContractIsTokenTreasury = Proto.ResponseCodeEnum.ContractIsTokenTreasury,
-        /// <summary>
-        /// A selfdestruct or ContractDelete targeted a contract with non-zero token balances.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_226"]/*' />
         ContractHasNonZeroTokenBalances = Proto.ResponseCodeEnum.ContractHasNonZeroTokenBalances,
-        /// <summary>
-        /// A contract referenced by a transaction is "detached"; that Is = Proto.ResponseCodeEnum.Is, expired and lacking any
-        /// hbar funds for auto-renewal payment---but still within its post-expiry grace period.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_227"]/*' />
         ContractExpiredAndPendingRemoval = Proto.ResponseCodeEnum.ContractExpiredAndPendingRemoval,
-        /// <summary>
-        /// A ContractUpdate requested removal of a contract's auto-renew Account = Proto.ResponseCodeEnum.Account, but that contract has
-        /// no auto-renew account.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_228"]/*' />
         ContractHasNoAutoRenewAccount = Proto.ResponseCodeEnum.ContractHasNoAutoRenewAccount,
-        /// <summary>
-        /// A delete transaction submitted via HAPI set permanentRemoval=true
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_229"]/*' />
         PermanentRemovalRequiresSystemInitiation = Proto.ResponseCodeEnum.PermanentRemovalRequiresSystemInitiation,
-        /// <summary>
-        /// A CryptoCreate or ContractCreate used the deprecated proxyAccountID field.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_230"]/*' />
         ProxyAccountIdFieldIsDeprecated = Proto.ResponseCodeEnum.ProxyAccountIdFieldIsDeprecated,
-        /// <summary>
-        /// An account set the stakedAccountId to itself in CryptoUpdate or ContractUpdate transactions.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_231"]/*' />
         SelfStakingIsNotAllowed = Proto.ResponseCodeEnum.SelfStakingIsNotAllowed,
-        /// <summary>
-        /// The staking account id or staking node id given is invalid or does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_232"]/*' />
         InvalidStakingId = Proto.ResponseCodeEnum.InvalidStakingId,
-        /// <summary>
-        /// Native Staking = Proto.ResponseCodeEnum.Staking, while Implemented = Proto.ResponseCodeEnum.Implemented, has not yet enabled by the council.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(if)"]/*' />
         StakingNotEnabled = Proto.ResponseCodeEnum.StakingNotEnabled,
-        /// <summary>
-        /// The range provided in UtilPrng transaction is negative.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(if)_2"]/*' />
         InvalidPrngRange = Proto.ResponseCodeEnum.InvalidPrngRange,
-        /// <summary>
-        /// The maximum number of entities allowed in the current price regime have been created.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(if)_3"]/*' />
         MaxEntitiesInPriceRegimeHaveBeenCreated = Proto.ResponseCodeEnum.MaxEntitiesInPriceRegimeHaveBeenCreated,
-        /// <summary>
-        /// The full prefix signature for precompile is not valid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(if)_4"]/*' />
         InvalidFullPrefixSignatureForPrecompile = Proto.ResponseCodeEnum.InvalidFullPrefixSignatureForPrecompile,
-        /// <summary>
-        /// The combined balances of a contract and its auto-renew account (if any) did not cover
-        /// the rent charged for net new storage used in a transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(if)_5"]/*' />
         InsufficientBalancesForStorageRent = Proto.ResponseCodeEnum.InsufficientBalancesForStorageRent,
-        /// <summary>
-        /// A contract transaction tried to use more than the allowed number of child Records = Proto.ResponseCodeEnum.Records, via
-        /// either system contract records or internal contract creations.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.account(if)_6"]/*' />
         MaxChildRecordsExceeded = Proto.ResponseCodeEnum.MaxChildRecordsExceeded,
-        /// <summary>
-        /// The combined balances of a contract and its auto-renew account (if any) or balance of an account did not cover
-        /// the auto-renewal fees in a transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_233"]/*' />
         InsufficientBalancesForRenewalFees = Proto.ResponseCodeEnum.InsufficientBalancesForRenewalFees,
-        /// <summary>
-        /// A transaction's protobuf message includes unknown fields; could mean that a client
-        /// expects not-yet-released functionality to be available.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_8"]/*' />
         TransactionHasUnknownFields = Proto.ResponseCodeEnum.TransactionHasUnknownFields,
-        /// <summary>
-        /// The account cannot be modified. Account's key is not set
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_9"]/*' />
         AccountIsImmutable = Proto.ResponseCodeEnum.AccountIsImmutable,
-        /// <summary>
-        /// An alias that is assigned to an account or contract cannot be assigned to another account or contract.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.ECDSA(secp256k1)_10"]/*' />
         AliasAlreadyAssigned = Proto.ResponseCodeEnum.AliasAlreadyAssigned,
-        /// <summary>
-        /// A provided metadata key was invalid. Verification Includes = Proto.ResponseCodeEnum.Includes, for Example = Proto.ResponseCodeEnum.Example, checking the size of Ed25519 and ECDSA(secp256k1) public keys.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_234"]/*' />
         InvalidMetadataKey = Proto.ResponseCodeEnum.InvalidMetadataKey,
-        /// <summary>
-        /// Metadata key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_235"]/*' />
         TokenHasNoMetadataKey = Proto.ResponseCodeEnum.TokenHasNoMetadataKey,
-        /// <summary>
-        /// Token Metadata is not provided
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_236"]/*' />
         MissingTokenMetadata = Proto.ResponseCodeEnum.MissingTokenMetadata,
-        /// <summary>
-        /// NFT serial numbers are missing in the TokenUpdateNftsTransactionBody
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_237"]/*' />
         MissingSerialNumbers = Proto.ResponseCodeEnum.MissingSerialNumbers,
-        /// <summary>
-        /// Admin key is not set on token
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_238"]/*' />
         TokenHasNoAdminKey = Proto.ResponseCodeEnum.TokenHasNoAdminKey,
-        /// <summary>
-        /// A transaction failed because the consensus node identified is
-        /// deleted from the address book.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.name(DNS)"]/*' />
         NodeDeleted = Proto.ResponseCodeEnum.NodeDeleted,
-        /// <summary>
-        /// A transaction failed because the consensus node identified is not valid or
-        /// does not exist in state.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.name(DNS)_2"]/*' />
         InvalidNodeId = Proto.ResponseCodeEnum.InvalidNodeId,
-        /// <summary>
-        /// A transaction failed because one or more entries in the list of
-        /// service endpoints for the `gossipEndpoint` field is invalid.<br/>
-        /// The most common cause for this response is a service endpoint that has
-        /// the domain name (DNS) set rather than address and port.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_239"]/*' />
         InvalidGossipEndpoint = Proto.ResponseCodeEnum.InvalidGossipEndpoint,
-        /// <summary>
-        /// A transaction failed because the node account identifier provided
-        /// does not exist or is not valid.<br/>
-        /// One common source of this error is providing a node account identifier
-        /// using the "alias" form rather than "numeric" form.
-        /// It is also used for atomic batch transaction for child transaction if the node account id is not 0.0.0.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.name(DNS)_3"]/*' />
         InvalidNodeAccountId = Proto.ResponseCodeEnum.InvalidNodeAccountId,
-        /// <summary>
-        /// A transaction failed because the description field cannot be encoded
-        /// as UTF-8 or is more than 100 bytes when encoded.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.name(DNS)_4"]/*' />
         InvalidNodeDescription = Proto.ResponseCodeEnum.InvalidNodeDescription,
-        /// <summary>
-        /// A transaction failed because one or more entries in the list of
-        /// service endpoints for the `serviceEndpoint` field is invalid.<br/>
-        /// The most common cause for this response is a service endpoint that has
-        /// the domain name (DNS) set rather than address and port.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_240"]/*' />
         InvalidServiceEndpoint = Proto.ResponseCodeEnum.InvalidServiceEndpoint,
-        /// <summary>
-        /// A transaction failed because the TLS certificate provided for the
-        /// node is missing or invalid.
-        /// <p>
-        /// #### Probable Causes
-        /// The certificate MUST be a TLS certificate of a type permitted for gossip
-        /// signatures.<br/>
-        /// The value presented MUST be a UTF-8 NFKD encoding of the TLS
-        /// certificate.<br/>
-        /// The certificate encoded MUST be in PEM format.<br/>
-        /// The `gossipCaCertificate` field is REQUIRED and MUST NOT be empty.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_241"]/*' />
         InvalidGossipCaCertificate = Proto.ResponseCodeEnum.InvalidGossipCaCertificate,
-        /// <summary>
-        /// A transaction failed because the hash provided for the gRPC certificate
-        /// is present but invalid.
-        /// <p>
-        /// #### Probable Causes
-        /// The `grpcCertificateHash` MUST be a SHA-384 hash.<br/>
-        /// The input hashed MUST be a UTF-8 NFKD encoding of the actual TLS
-        /// certificate.<br/>
-        /// The certificate to be encoded MUST be in PEM format.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_242"]/*' />
         InvalidGrpcCertificate = Proto.ResponseCodeEnum.InvalidGrpcCertificate,
-        /// <summary>
-        /// The maximum automatic associations value is not valid.<br/>
-        /// The most common cause for this error is a value less than `-1`.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_243"]/*' />
         InvalidMaxAutoAssociations = Proto.ResponseCodeEnum.InvalidMaxAutoAssociations,
-        /// <summary>
-        /// The maximum number of nodes allowed in the address book have been created.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_244"]/*' />
         MaxNodesCreated = Proto.ResponseCodeEnum.MaxNodesCreated,
-        /// <summary>
-        /// In Serviceendpoint = Proto.ResponseCodeEnum.Serviceendpoint, domainName and ipAddressV4 are mutually exclusive
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_245"]/*' />
         IpFqdnCannotBeSetForSameEndpoint = Proto.ResponseCodeEnum.IpFqdnCannotBeSetForSameEndpoint,
-        /// <summary>
-        /// Fully qualified domain name is not allowed in gossipEndpoint
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_246"]/*' />
         GossipEndpointCannotHaveFqdn = Proto.ResponseCodeEnum.GossipEndpointCannotHaveFqdn,
-        /// <summary>
-        /// In Serviceendpoint = Proto.ResponseCodeEnum.Serviceendpoint, domainName size too large
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_247"]/*' />
         FqdnSizeTooLarge = Proto.ResponseCodeEnum.FqdnSizeTooLarge,
-        /// <summary>
-        /// ServiceEndpoint is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_248"]/*' />
         InvalidEndpoint = Proto.ResponseCodeEnum.InvalidEndpoint,
-        /// <summary>
-        /// The number of gossip endpoints exceeds the limit
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_249"]/*' />
         GossipEndpointsExceededLimit = Proto.ResponseCodeEnum.GossipEndpointsExceededLimit,
-        /// <summary>
-        /// The transaction attempted to use duplicate `TokenReference`.<br/>
-        /// This affects `TokenReject` attempting to reject same token reference more than once.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_250"]/*' />
         TokenReferenceRepeated = Proto.ResponseCodeEnum.TokenReferenceRepeated,
-        /// <summary>
-        /// The account id specified as the owner in `TokenReject` is invalid or does not exist.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_251"]/*' />
         InvalidOwnerId = Proto.ResponseCodeEnum.InvalidOwnerId,
-        /// <summary>
-        /// The transaction attempted to use more than the allowed number of `TokenReference`.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_252"]/*' />
         TokenReferenceListSizeLimitExceeded = Proto.ResponseCodeEnum.TokenReferenceListSizeLimitExceeded,
-        /// <summary>
-        /// The number of service endpoints exceeds the limit
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_253"]/*' />
         ServiceEndpointsExceededLimit = Proto.ResponseCodeEnum.ServiceEndpointsExceededLimit,
-        /// <summary>
-        /// The IPv4 address is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_254"]/*' />
         InvalidIpv4Address = Proto.ResponseCodeEnum.InvalidIpv4Address,
-        /// <summary>
-        /// The transaction attempted to use empty `TokenReference` list.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_255"]/*' />
         EmptyTokenReferenceList = Proto.ResponseCodeEnum.EmptyTokenReferenceList,
-        /// <summary>
-        /// The node account is not allowed to be updated
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_256"]/*' />
         UpdateNodeAccountNotAllowed = Proto.ResponseCodeEnum.UpdateNodeAccountNotAllowed,
-        /// <summary>
-        /// The token has no metadata or supply key
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_257"]/*' />
         TokenHasNoMetadataOrSupplyKey = Proto.ResponseCodeEnum.TokenHasNoMetadataOrSupplyKey,
-        /// <summary>
-        /// The list of `PendingAirdropId`s is empty and MUST NOT be empty.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_258"]/*' />
         EmptyPendingAirdropIdList = Proto.ResponseCodeEnum.EmptyPendingAirdropIdList,
-        /// <summary>
-        /// A `PendingAirdropId` is repeated in a `claim` or `cancel` transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.airdrop(s)"]/*' />
         PendingAirdropIdRepeated = Proto.ResponseCodeEnum.PendingAirdropIdRepeated,
-        /// <summary>
-        /// The number of `PendingAirdropId` values in the list exceeds the maximum
-        /// allowable number.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.airdrop(s)_2"]/*' />
         PendingAirdropIdListTooLong = Proto.ResponseCodeEnum.PendingAirdropIdListTooLong,
-        /// <summary>
-        /// A pending airdrop already exists for the specified NFT.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.airdrop(s)_3"]/*' />
         PendingNftAirdropAlreadyExists = Proto.ResponseCodeEnum.PendingNftAirdropAlreadyExists,
-        /// <summary>
-        /// The identified account is sender for one or more pending airdrop(s)
-        /// and cannot be deleted.
-        /// <p>
-        /// The requester SHOULD cancel all pending airdrops before resending
-        /// this transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_259"]/*' />
         AccountHasPendingAirdrops = Proto.ResponseCodeEnum.AccountHasPendingAirdrops,
-        /// <summary>
-        /// Consensus throttle did not allow execution of this transaction.<br/>
-        /// The transaction should be retried after a modest delay.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_260"]/*' />
         ThrottledAtConsensus = Proto.ResponseCodeEnum.ThrottledAtConsensus,
-        /// <summary>
-        /// The provided pending airdrop id is invalid.<br/>
-        /// This pending airdrop MAY already be claimed or cancelled.
-        /// <p>
-        /// The client SHOULD query a mirror node to determine the current status of
-        /// the pending airdrop.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_261"]/*' />
         InvalidPendingAirdropId = Proto.ResponseCodeEnum.InvalidPendingAirdropId,
-        /// <summary>
-        /// The token to be airdropped has a fallback royalty fee and cannot be
-        /// sent or claimed via an airdrop transaction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_262"]/*' />
         TokenAirdropWithFallbackRoyalty = Proto.ResponseCodeEnum.TokenAirdropWithFallbackRoyalty,
-        /// <summary>
-        /// This airdrop claim is for a pending airdrop with an invalid token.<br/>
-        /// The token might be Deleted = Proto.ResponseCodeEnum.Deleted, or the sender may not have enough tokens
-        /// to fulfill the offer.
-        /// <p>
-        /// The client SHOULD query mirror node to determine the status of the
-        /// pending airdrop and whether the sender can fulfill the offer.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_263"]/*' />
         InvalidTokenInPendingAirdrop = Proto.ResponseCodeEnum.InvalidTokenInPendingAirdrop,
-        /// <summary>
-        /// A scheduled transaction configured to wait for expiry to execute was given
-        /// an expiry time at which there is already too many transactions scheduled to
-        /// expire; its creation must be retried with a different expiry.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_264"]/*' />
         ScheduleExpiryIsBusy = Proto.ResponseCodeEnum.ScheduleExpiryIsBusy,
-        /// <summary>
-        /// The provided gRPC certificate hash is invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.times(is /// approximately four million times with typical network configuration.)"]/*' />
         InvalidGrpcCertificateHash = Proto.ResponseCodeEnum.InvalidGrpcCertificateHash,
-        /// <summary>
-        /// A scheduled transaction configured to wait for expiry to execute was not
-        /// given an explicit expiration time.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.times(is /// approximately four million times with typical network configuration.)_2"]/*' />
         MissingExpiryTime = Proto.ResponseCodeEnum.MissingExpiryTime,
-        /// <summary>
-        /// A contract operation attempted to schedule another transaction after it
-        /// had already scheduled a recursive contract call.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.times(is /// approximately four million times with typical network configuration.)_3"]/*' />
         NoSchedulingAllowedAfterScheduledRecursion = Proto.ResponseCodeEnum.NoSchedulingAllowedAfterScheduledRecursion,
-        /// <summary>
-        /// A contract can schedule recursive calls a finite number of times (this is
-        /// approximately four million times with typical network configuration.)
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_265"]/*' />
         RecursiveSchedulingLimitReached = Proto.ResponseCodeEnum.RecursiveSchedulingLimitReached,
-        /// <summary>
-        /// The target network is waiting for the ledger ID to be Set = Proto.ResponseCodeEnum.Set, which is a
-        /// side effect of finishing the network's TSS construction.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_266"]/*' />
         WaitingForLedgerId = Proto.ResponseCodeEnum.WaitingForLedgerId,
-        /// <summary>
-        /// The provided fee exempt key list size exceeded the limit.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_267"]/*' />
         MaxEntriesForFeeExemptKeyListExceeded = Proto.ResponseCodeEnum.MaxEntriesForFeeExemptKeyListExceeded,
-        /// <summary>
-        /// The provided fee exempt key list contains duplicated keys.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_268"]/*' />
         FeeExemptKeyListContainsDuplicatedKeys = Proto.ResponseCodeEnum.FeeExemptKeyListContainsDuplicatedKeys,
-        /// <summary>
-        /// The provided fee exempt key list contains an invalid key.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_269"]/*' />
         InvalidKeyInFeeExemptKeyList = Proto.ResponseCodeEnum.InvalidKeyInFeeExemptKeyList,
-        /// <summary>
-        /// The provided fee schedule key contains an invalid key.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_270"]/*' />
         InvalidFeeScheduleKey = Proto.ResponseCodeEnum.InvalidFeeScheduleKey,
-        /// <summary>
-        /// If a fee schedule key is not set when we create a topic
-        /// we cannot add it on update.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_271"]/*' />
         FeeScheduleKeyCannotBeUpdated = Proto.ResponseCodeEnum.FeeScheduleKeyCannotBeUpdated,
-        /// <summary>
-        /// If the topic's custom fees are updated the topic SHOULD have a
-        /// fee schedule key
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_272"]/*' />
         FeeScheduleKeyNotSet = Proto.ResponseCodeEnum.FeeScheduleKeyNotSet,
-        /// <summary>
-        /// The fee amount is exceeding the amount that the payer
-        /// is willing to pay.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_273"]/*' />
         MaxCustomFeeLimitExceeded = Proto.ResponseCodeEnum.MaxCustomFeeLimitExceeded,
-        /// <summary>
-        /// There are no corresponding custom fees.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_274"]/*' />
         NoValidMaxCustomFee = Proto.ResponseCodeEnum.NoValidMaxCustomFee,
-        /// <summary>
-        /// The provided list contains invalid max custom fee.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_275"]/*' />
         InvalidMaxCustomFees = Proto.ResponseCodeEnum.InvalidMaxCustomFees,
-        /// <summary>
-        /// The provided max custom fee list contains fees with
-        /// duplicate denominations.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_276"]/*' />
         DuplicateDenominationInMaxCustomFeeList = Proto.ResponseCodeEnum.DuplicateDenominationInMaxCustomFeeList,
-        /// <summary>
-        /// The provided max custom fee list contains fees with
-        /// duplicate account id.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_277"]/*' />
         DuplicateAccountIdInMaxCustomFeeList = Proto.ResponseCodeEnum.DuplicateAccountIdInMaxCustomFeeList,
-        /// <summary>
-        /// Max custom fees list is not supported for this operation.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_278"]/*' />
         MaxCustomFeesIsNotSupported = Proto.ResponseCodeEnum.MaxCustomFeesIsNotSupported,
-        /// <summary>
-        /// The list of batch transactions is empty
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_279"]/*' />
         BatchListEmpty = Proto.ResponseCodeEnum.BatchListEmpty,
-        /// <summary>
-        /// The list of batch transactions contains duplicated transactions
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_280"]/*' />
         BatchListContainsDuplicates = Proto.ResponseCodeEnum.BatchListContainsDuplicates,
-        /// <summary>
-        /// The list of batch transactions contains a transaction type that is
-        /// in the AtomicBatch blacklist as configured in the network.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_281"]/*' />
         BatchTransactionInBlacklist = Proto.ResponseCodeEnum.BatchTransactionInBlacklist,
-        /// <summary>
-        /// The inner transaction of a batch transaction failed
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_282"]/*' />
         InnerTransactionFailed = Proto.ResponseCodeEnum.InnerTransactionFailed,
-        /// <summary>
-        /// The inner transaction of a batch transaction is missing a batch key
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_283"]/*' />
         MissingBatchKey = Proto.ResponseCodeEnum.MissingBatchKey,
-        /// <summary>
-        /// The batch key is set for a non batch transaction
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_284"]/*' />
         BatchKeySetOnNonInnerTransaction = Proto.ResponseCodeEnum.BatchKeySetOnNonInnerTransaction,
-        /// <summary>
-        /// The batch key is not valid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_285"]/*' />
         InvalidBatchKey = Proto.ResponseCodeEnum.InvalidBatchKey,
-        /// <summary>
-        /// The provided schedule expiry time is not configurable.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_286"]/*' />
         ScheduleExpiryNotConfigurable = Proto.ResponseCodeEnum.ScheduleExpiryNotConfigurable,
-        /// <summary>
-        /// The network just started at genesis and is creating system entities.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_287"]/*' />
         CreatingSystemEntities = Proto.ResponseCodeEnum.CreatingSystemEntities,
-        /// <summary>
-        /// The least common multiple of the throttle group's milliOpsPerSec is
-        /// too large and it's overflowing.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_288"]/*' />
         ThrottleGroupLcmOverflow = Proto.ResponseCodeEnum.ThrottleGroupLcmOverflow,
-        /// <summary>
-        /// Token airdrop transactions can not contain multiple senders for a single token.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_289"]/*' />
         AirdropContainsMultipleSendersForAToken = Proto.ResponseCodeEnum.AirdropContainsMultipleSendersForAToken,
-        /// <summary>
-        /// The GRPC proxy endpoint is set in the NodeCreate or NodeUpdate Transaction = Proto.ResponseCodeEnum.Transaction,
-        /// which the network does not support.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_290"]/*' />
         GrpcWebProxyNotSupported = Proto.ResponseCodeEnum.GrpcWebProxyNotSupported,
-        /// <summary>
-        /// An NFT transfers list referenced a token type other than NONFUNGIBLEUNIQUE.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_291"]/*' />
         NftTransfersOnlyAllowedForNonFungibleUnique = Proto.ResponseCodeEnum.NftTransfersOnlyAllowedForNonFungibleUnique,
-        /// <summary>
-        /// A HAPI client cannot set the SignedTransaction#useSerializedTxMessageHashAlgorithm field.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_292"]/*' />
         InvalidSerializedTxMessageHashAlgorithm = Proto.ResponseCodeEnum.InvalidSerializedTxMessageHashAlgorithm,
-        /// <summary>
-        /// An EVM hook execution was throttled due to high network gas utilization.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_293"]/*' />
         EvmHookGasThrottled = Proto.ResponseCodeEnum.EvmHookGasThrottled,
-        /// <summary>
-        /// A user tried to create a hook with an id already in use.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_294"]/*' />
         HookIdInUse = Proto.ResponseCodeEnum.HookIdInUse,
-        /// <summary>
-        /// A transaction tried to execute a hook that did not match the specified
-        /// type or was malformed in some other way.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_295"]/*' />
         BadHookRequest = Proto.ResponseCodeEnum.BadHookRequest,
-        /// <summary>
-        /// A CryptoTransfer relying on a ACCOUNTALLOWANCE hook was rejected.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)"]/*' />
         RejectedByAccountAllowanceHook = Proto.ResponseCodeEnum.RejectedByAccountAllowanceHook,
-        /// <summary>
-        /// A hook id was not found.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_2"]/*' />
         HookNotFound = Proto.ResponseCodeEnum.HookNotFound,
-		/// <summary>
-		/// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value exceeded 32 bytes.
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_3"]/*' />
 		LambdaStorageUpdateBytesTooLong = Proto.ResponseCodeEnum.LambdaStorageUpdateBytesTooLong,
-        /// <summary>
-        /// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value failed to use the
-        /// minimal representation (i.e. = Proto.ResponseCodeEnum.., no leading zeros).
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_296"]/*' />
         LambdaStorageUpdateBytesMustUseMinimalRepresentation = Proto.ResponseCodeEnum.LambdaStorageUpdateBytesMustUseMinimalRepresentation,
-        /// <summary>
-        /// A hook id was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_297"]/*' />
         InvalidHookId = Proto.ResponseCodeEnum.InvalidHookId,
-		/// <summary>
-		/// A lambda storage update had no contents.
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_298"]/*' />
 		EmptyLambdaStorageUpdate = Proto.ResponseCodeEnum.EmptyLambdaStorageUpdate,
-        /// <summary>
-        /// A user repeated the same hook id in a creation details list.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_299"]/*' />
         HookIdRepeatedInCreationDetails = Proto.ResponseCodeEnum.HookIdRepeatedInCreationDetails,
-        /// <summary>
-        /// Hooks are not not enabled on the target Hiero network.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_300"]/*' />
         HooksNotEnabled = Proto.ResponseCodeEnum.HooksNotEnabled,
-        /// <summary>
-        /// The target hook is not a lambda.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_4"]/*' />
         HookIsNotALambda = Proto.ResponseCodeEnum.HookIsNotALambda,
-        /// <summary>
-        /// A hook was deleted.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_5"]/*' />
         HookDeleted = Proto.ResponseCodeEnum.HookDeleted,
-		/// <summary>
-		/// The LambdaSStore tried to update too many storage slots in a single transaction.
-		/// </summary>
+		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_6"]/*' />
 		TooManyLambdaStorageUpdates = Proto.ResponseCodeEnum.TooManyLambdaStorageUpdates,
-        /// <summary>
-        /// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value failed to use the
-        /// minimal representation (i.e. = Proto.ResponseCodeEnum.., no leading zeros).
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_301"]/*' />
         HookCreationBytesMustUseMinimalRepresentation = Proto.ResponseCodeEnum.HookCreationBytesMustUseMinimalRepresentation,
-        /// <summary>
-        /// A lambda mapping Slot = Proto.ResponseCodeEnum.Slot, storage Key = Proto.ResponseCodeEnum.Key, or storage value exceeded 32 bytes.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_302"]/*' />
         HookCreationBytesTooLong = Proto.ResponseCodeEnum.HookCreationBytesTooLong,
-        /// <summary>
-        /// A hook creation spec was not found.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_303"]/*' />
         InvalidHookCreationSpec = Proto.ResponseCodeEnum.InvalidHookCreationSpec,
-        /// <summary>
-        /// A hook extension point was empty.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_304"]/*' />
         HookExtensionEmpty = Proto.ResponseCodeEnum.HookExtensionEmpty,
-        /// <summary>
-        /// A hook admin key was invalid.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_305"]/*' />
         InvalidHookAdminKey = Proto.ResponseCodeEnum.InvalidHookAdminKey,
-        /// <summary>
-        /// The hook deletion requires the hook to have zero storage slots.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_306"]/*' />
         HookDeletionRequiresZeroStorageSlots = Proto.ResponseCodeEnum.HookDeletionRequiresZeroStorageSlots,
-        /// <summary>
-        /// Cannot set both a hook call and an approval on the same AccountAmount or NftTransfer message.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_307"]/*' />
         CannotSetHooksAndApproval = Proto.ResponseCodeEnum.CannotSetHooksAndApproval,
-        /// <summary>
-        /// The attempted operation is invalid until all the target entity's hooks have been deleted.
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_308"]/*' />
         TransactionRequiresZeroHooks = Proto.ResponseCodeEnum.TransactionRequiresZeroHooks,
-        /// <summary>
-        /// The HookCall set in the transaction is invalid
-        /// </summary>
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_309"]/*' />
         InvalidHookCall = Proto.ResponseCodeEnum.InvalidHookCall,
-        /// <summary>
-        /// Hooks are not supported to be used in TokenAirdrop transactions
-        /// </summary>
+    /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_310"]/*' />
     }
 }

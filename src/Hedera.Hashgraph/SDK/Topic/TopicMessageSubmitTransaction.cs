@@ -12,66 +12,36 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
-    /// <summary>
-    /// Submit a message for consensus.
-    /// <p>
-    /// Valid and authorized messages on valid topics will be ordered by the consensus service, gossipped to the
-    /// mirror net, and published (in order) to all subscribers (from the mirror net) on this topic.
-    /// <p>
-    /// The submitKey (if any) must sign this transaction.
-    /// <p>
-    /// On success, the resulting TransactionReceipt contains the topic's updated topicSequenceNumber and
-    /// topicRunningHash.
-    /// </summary>
+    /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="T:TopicMessageSubmitTransaction"]/*' />
     public sealed class TopicMessageSubmitTransaction : ChunkedTransaction<TopicMessageSubmitTransaction>
     {
 		private List<CustomFixedFee> _CustomFees = [];
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor"]/*' />
 		public TopicMessageSubmitTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TopicMessageSubmitTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TopicMessageSubmitTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// Assign the topic id.
-        /// </summary>
-        /// <param name="topicId">the topic id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.RequireNotFrozen"]/*' />
         public TopicId? TopicId
         {
             get; set { RequireNotFrozen(); field = value; }
         }
-        /// <summary>
-        /// Extract the message.
-        /// </summary>
-        /// <returns>                         the message</returns>
+        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.RequireNotFrozen_2"]/*' />
         public ByteString Message
         {
             get; set { RequireNotFrozen(); field = value; }
 
         } = ByteString.Empty;
-		/// <summary>
-		/// The maximum custom fee that the user is willing to pay for the message. If left empty, the user is willing to pay any custom fee.
-		/// If used with a transaction type that does not support custom fee limits, the transaction will fail.
-		/// </summary>
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody"]/*' />
 		public IList<CustomFixedFee> CustomFees
 		{
 			init; get => field ??= new ListGuarded<CustomFixedFee>
@@ -80,9 +50,7 @@ namespace Hedera.Hashgraph.SDK.Topic
 			};
 		}
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody_2"]/*' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ConsensusSubmitMessage;
@@ -110,11 +78,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             }
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.ConsensusSubmitMessageTransactionBody}</returns>
+        /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.ToProtobuf"]/*' />
         public Proto.ConsensusSubmitMessageTransactionBody ToProtobuf()
         {
             var builder = new Proto.ConsensusSubmitMessageTransactionBody();

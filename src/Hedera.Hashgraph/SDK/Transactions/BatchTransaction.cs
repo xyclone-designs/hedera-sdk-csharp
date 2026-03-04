@@ -9,100 +9,26 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// Execute multiple transactions in a single consensus event. This allows for atomic execution of multiple
-    /// transactions, where they either all succeed or all fail together.
-    /// <p>
-    /// Requirements:
-    /// <ul>
-    ///     <li>All inner transactions must be frozen before being added to the batch</li>
-    ///     <li>All inner transactions must have a batch key set</li>
-    ///     <li>All inner transactions must be signed as required for each individual transaction</li>
-    ///     <li>The BatchTransaction must be signed by all batch keys of the inner transactions</li>
-    ///     <li>Certain transaction types (FreezeTransaction, BatchTransaction) are not allowed in a batch</li>
-    /// </ul>
-    /// <p>
-    /// Important notes:
-    /// <ul>
-    ///     <li>Fees are assessed for each inner transaction separately</li>
-    ///     <li>The maximum number of inner transactions in a batch is limited to 25</li>
-    ///     <li>Inner transactions cannot be scheduled transactions</li>
-    /// </ul>
-    /// <p>
-    /// Example usage:
-    /// <pre>
-    /// var batchKey = PrivateKey.generateED25519();
-    /// 
-    /// // Create and prepare inner transaction
-    /// var transaction = new TransferTransaction()
-    ///     .addHbarTransfer(sender, amount.negated())
-    ///     .addHbarTransfer(receiver, amount)
-    ///     .batchify(client, batchKey);
-    /// 
-    /// // Create and execute batch transaction
-    /// var response = new BatchTransaction()
-    ///     .InnerTransactions.Add(transaction)
-    ///     .freezeWith(client)
-    ///     .sign(batchKey)
-    ///     .execute(client);
-    /// </pre>
-    /// </summary>
+    /// <include file="BatchTransaction.cs.xml" path='docs/member[@name="T:BatchTransaction"]/*' />
     public sealed class BatchTransaction : Transaction<BatchTransaction>
     {
-		/// <summary>
-        /// List of transaction types that are not allowed in a batch transaction.
-        /// These transactions are prohibited due to their special nature or network-level implications.
-        /// </summary>
+        /// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.typeof(FreezeTransaction)"]/*' />
         private static readonly HashSet<Type> BLACKLISTED_TRANSACTIONS = [typeof(FreezeTransaction), typeof(BatchTransaction)];
 
-		/// <summary>
-		/// Creates a new empty BatchTransaction.
-		/// </summary>
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor"]/*' />
 		public BatchTransaction() { }
-		/// <summary>
-		/// Constructor for internal use when recreating a transaction from a TransactionBody.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal BatchTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor for internal use when recreating a transaction from a TransactionBody.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal BatchTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// GET: Get the list of transactions this BatchTransaction is currently configured to execute.
-		/// <p>
-		/// Note: This returns the actual list of transactions. Modifications to this list will affect
-		/// the batch transaction if it is not frozen.
-		/// </summary>
-		/// <returns>The list of inner transactions</returns>
-		/// 
-		/// SET: Set the list of transactions to be executed as part of this BatchTransaction.
-		/// <p>
-		/// Requirements for each inner transaction:
-		/// <ul>
-		///     <li>Must be frozen (use {@link Transaction#freeze()} or {@link Transaction#freezeWith(Client)})</li>
-		///     <li>Must have a batch key set (use {@link Transaction#setBatchKey(Key)}} or {@link Transaction#batchify(Client, Key)})</li>
-		///     <li>Must not be a blacklisted transaction type</li>
-		/// </ul>
-		/// <p>
-		/// Note: This method creates a defensive copy of the provided list.
-		/// </summary>
-		/// <param name="transactions">The list of transactions to be executed</param>
-		/// <returns>{@code this}</returns>
-		/// <exception cref="NullPointerException">if transactions is null</exception>
-		/// <exception cref="IllegalStateException">if this transaction is frozen</exception>
-		/// <exception cref="IllegalStateException">if any inner transaction is not frozen or missing a batch key</exception>
-		/// <exception cref="IllegalArgumentException">if any transaction is of a blacklisted type</exception>
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody"]/*' />
 		public ListGuarded<ITransaction> InnerTransactions 
 		{
 			init; get => field ??= new ListGuarded<ITransaction>
@@ -112,9 +38,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 		} 
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody_2"]/*' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.AtomicBatch;
@@ -129,19 +53,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				InnerTransactions.Add(ITransaction.FromBytes(transaction.ToByteArray()));
 			}
 		}
-		/// <summary>
-		/// Validates if a transaction is allowed in a batch transaction.
-		/// <p>
-		/// A transaction is valid if:
-		/// <ul>
-		///     <li>It is not a blacklisted type (FreezeTransaction or BatchTransaction)</li>
-		///     <li>It is frozen</li>
-		///     <li>It has a batch key set</li>
-		/// </ul>
-		/// </summary>
-		/// <param name="transaction">The transaction to validate</param>
-		/// <exception cref="IllegalArgumentException">if the transaction is blacklisted</exception>
-		/// <exception cref="IllegalStateException">if the transaction is not frozen or missing a batch key</exception>
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ValidateInnerTransaction(ITransaction)"]/*' />
 		private void ValidateInnerTransaction(ITransaction transaction) 
 		{
 			if (BLACKLISTED_TRANSACTIONS.Contains(transaction.GetType()))
@@ -154,10 +66,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new InvalidOperationException("Batch key needs to be set");
 		}
 
-		/// <summary>
-		/// Create the builder.
-		/// </summary>
-		/// <returns>the transaction builder</returns>
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ToProtobuf"]/*' />
 		public Proto.AtomicBatchTransactionBody ToProtobuf()
         {
             var builder = new Proto.AtomicBatchTransactionBody();

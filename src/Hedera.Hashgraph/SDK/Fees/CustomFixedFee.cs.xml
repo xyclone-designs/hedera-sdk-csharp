@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:CustomFixedFee">
+    <summary>
+    Custom fixed fee utility class.
+    See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#fixed-fee">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:CustomFixedFee.#ctor">
+    <summary>
+    The shard, realm, number of the tokens.
+    </summary>
+  </member>
+  <member name="M:CustomFixedFee.#ctor_2">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:CustomFixedFee.FromProtobuf(Proto.FixedFee)">
+    <summary>
+    Create a custom fixed fee from a fixed fee protobuf.
+    </summary>
+    <param name="fixedFee">the fixed fee protobuf</param>
+    <returns>the new custom fixed fee object</returns>
+  </member>
+  <member name="M:CustomFixedFee.SetDenominatingTokenToSameToken">
+    <summary>
+    Assign the default token 0.0.0.
+    </summary>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:CustomFixedFee.ToFixedFeeProtobuf">
+    <summary>
+    Convert to a protobuf.
+    </summary>
+    <returns>the protobuf converted object</returns>
+  </member>
+  <member name="M:CustomFixedFee.ToFixedCustomFeeProtobuf">
+    <summary>
+    Convert to a protobuf.
+    </summary>
+    <returns>the protobuf converted object</returns>
+  </member>
+</docs>

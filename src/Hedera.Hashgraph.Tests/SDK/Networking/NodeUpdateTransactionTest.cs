@@ -3,15 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
@@ -21,13 +20,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         private static readonly ulong TEST_NODE_ID = 420;
         private static readonly AccountId TEST_ACCOUNT_ID = AccountId.FromString("0.6.9");
         private static readonly string TEST_DESCRIPTION = "Test description";
-        private static readonly List<Endpoint> TEST_GOSSIP_ENDPOINTS = [ SpawnTestEndpointIpOnly((byte)0), 
+        private static readonly List<Endpoint> TEST_GOSSIP_ENDPOINTS = 
+        [
+            SpawnTestEndpointIpOnly((byte)0), 
             SpawnTestEndpointIpOnly((byte)1), 
-            SpawnTestEndpointIpOnly((byte)2) ];
-        private static readonly List<Endpoint> TEST_SERVICE_ENDPOINTS = [ SpawnTestEndpointIpOnly((byte)3), 
+            SpawnTestEndpointIpOnly((byte)2) 
+        ];
+        private static readonly List<Endpoint> TEST_SERVICE_ENDPOINTS = 
+        [ 
+            SpawnTestEndpointIpOnly((byte)3), 
             SpawnTestEndpointIpOnly((byte)4), 
             SpawnTestEndpointIpOnly((byte)5), 
-            SpawnTestEndpointIpOnly((byte)6) ];
+            SpawnTestEndpointIpOnly((byte)6) 
+        ];
         private static readonly Endpoint TEST_GRPC_WEB_PROXY_ENDPOINT = SpawnTestEndpointDomainOnly((byte)3);
         private static readonly byte[] TEST_GOSSIP_CA_CERTIFICATE = [0, 1, 2, 3, 4];
         private static readonly byte[] TEST_GRPC_CERTIFICATE_HASH = new byte[48]; // SHA-384 hash (48 bytes)
@@ -71,7 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             return new NodeUpdateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START.ToTimestamp()),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 				NodeId = TEST_NODE_ID,
 				AccountId = TEST_ACCOUNT_ID,
 				Description = TEST_DESCRIPTION,
@@ -348,7 +353,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeUpdateTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.3")],
-				TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START.ToTimestamp()),
+				TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
 				NodeId = TEST_NODE_ID
 			};
 
@@ -362,7 +367,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeUpdateTransaction
             {
                 NodeAccountIds = [AccountId.FromString("0.0.3")],
-                TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START.ToTimestamp()),
+                TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
             };
 
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
@@ -375,7 +380,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeUpdateTransaction
             {
                 NodeAccountIds = [AccountId.FromString("0.0.3")],
-                TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START.ToTimestamp()),
+                TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
             };
             var exception = Assert.Throws<InvalidOperationException>(() => transaction.FreezeWith(null));
             
@@ -388,7 +393,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 			{
 				NodeId = TEST_NODE_ID,
 				NodeAccountIds = [AccountId.FromString("0.0.3")],
-				TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START.ToTimestamp()),
+				TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
 			};
             var mockClient = Client.ForTestnet();
 
@@ -402,7 +407,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var transaction = new NodeUpdateTransaction
             {
                 NodeAccountIds = [AccountId.FromString("0.0.3")],
-                TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START.ToTimestamp()),
+                TransactionId = TransactionId.WithValidStart(TEST_ACCOUNT_ID, TEST_VALID_START),
                 NodeId = TEST_NODE_ID,
                 Description = TEST_DESCRIPTION,
                 AccountId = TEST_ACCOUNT_ID,

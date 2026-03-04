@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ExecutionState">
+    <summary>
+    Enum for the execution states.
+    </summary>
+  </member>
+  <member name="T:ExecutionState_2">
+    <summary>
+    Indicates that the execution was successful
+    </summary>
+  </member>
+  <member name="T:ExecutionState_3">
+    <summary>
+    Indicates that the call was successful but the operation did not complete. Retry with same/new node
+    </summary>
+  </member>
+  <member name="T:ExecutionState_4">
+    <summary>
+    Indicates that the receiver was bad node. Retry with new node
+    </summary>
+  </member>
+  <member name="T:ExecutionState_5">
+    <summary>
+    Indicates that the request was incorrect
+    </summary>
+  </member>
+</docs>

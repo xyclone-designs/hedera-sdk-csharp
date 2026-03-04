@@ -11,36 +11,16 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <summary>
-	/// Modify the metadata field for an individual non-fungible/unique token (NFT).
-	/// 
-	/// Updating the metadata of an NFT SHALL NOT affect ownership or
-	/// the ability to transfer that NFT.<br/>
-	/// This transaction SHALL affect only the specific serial numbered tokens
-	/// identified.
-	/// This transaction SHALL modify individual token metadata.<br/>
-	/// This transaction MUST be signed by the token `metadata_key`.<br/>
-	/// The token `metadata_key` MUST be a valid `Key`.<br/>
-	/// The token `metadata_key` MUST NOT be an empty `KeyList`.
-	/// 
-	/// ### Block Stream Effects
-	/// None
-	/// </summary>
+	/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateNftsTransaction"]/*' />
 	public class TokenUpdateNftsTransaction : Transaction<TokenUpdateNftsTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor"]/*' />
         public TokenUpdateNftsTransaction() { }
 		internal TokenUpdateNftsTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenUpdateNftsTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -48,26 +28,9 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
 		private List<long> _Serials = [];
 
-		/// <summary>
-		/// A token identifier.<br/>
-		/// This is the token type (i.e. collection) for which to update NFTs.
-		/// <p>
-		/// This field is REQUIRED.<br/>
-		/// The identified token MUST exist, MUST NOT be paused, MUST have the type
-		/// non-fungible/unique, and MUST have a valid `metadata_key`.
-		/// </summary>
-		/// <param name="tokenId">the token id</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.RequireNotFrozen"]/*' />
 		public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// A list of serial numbers to be updated.
-		/// <p>
-		/// This field is REQUIRED.<br/>
-		/// This list MUST have at least one(1) entry.<br/>
-		/// This list MUST NOT have more than ten(10) entries.
-		/// </summary>
-		/// <param name="serials">the list of serial numbers</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateNftsTransaction_2"]/*' />
 		public virtual ListGuarded<long> Serials
 		{
 			init; get => field ??= new ListGuarded<long>
@@ -75,19 +38,10 @@ namespace Hedera.Hashgraph.SDK.Nfts
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
-		/// <summary>
-		/// A new value for the metadata.
-		/// <p>
-		/// If this field is not set, the metadata SHALL NOT change.<br/>
-		/// This value, if set, MUST NOT exceed 100 bytes.
-		/// </summary>
-		/// <param name="metadata">the metadata</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.RequireNotFrozen_2"]/*' />
 		public virtual byte[]? Metadata { get; set { RequireNotFrozen(); field = value; } } = [];
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenUpdateNfts;
@@ -101,10 +55,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 Metadata = body.Metadata.ToByteArray();
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.TokenUpdateNftsTransactionBody}</returns>
+        /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.ToProtobuf"]/*' />
         public virtual Proto.TokenUpdateNftsTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenUpdateNftsTransactionBody();

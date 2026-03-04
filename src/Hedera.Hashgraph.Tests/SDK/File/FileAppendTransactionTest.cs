@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using Org.BouncyCastle.Utilities.Encoders;
@@ -12,7 +11,6 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
 
-using Google.Protobuf.WellKnownTypes;
 using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
@@ -43,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             return new FileAppendTransaction()
             {
 				NodeAccountIds = [.. accountIds],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				FileId = FileId.FromString("0.0.6006"),
 				Contents =  ByteString.CopyFrom(new byte[] { 1, 2, 3, 4 }),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
@@ -73,8 +71,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
             return new FileAppendTransaction()
             {
-				NodeAccountIds = nodeAccountIds,
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)),
+				NodeAccountIds = [.. nodeAccountIds],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				FileId = FileId.FromString("0.0.6006"),
 				Contents = ByteString.CopyFromUtf8(BIG_CONTENTS),
 				MaxTransactionFee = Hbar.FromTinybars(100000)
@@ -83,19 +81,21 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             .Sign(unusedPrivateKey);
         }
 
-        public virtual string HashesToString(List<Dictionary<AccountId, byte[]>> hashes)
+        public virtual string HashesToString(List<IDictionary<AccountId, byte[]>> hashes)
         {
             var outString = new StringBuilder();
             outString.Append("[");
             foreach (var tx in hashes)
             {
                 outString.Append("{");
-                foreach (var entry in tx.)
-                {
-                    outString.Append(entry.Key.ToString()).Append('=').Append(Hex.ToHexString(entry.Value)).Append(", ");
-                }
+                foreach (var entry in tx)
+					outString
+                        .Append(entry.Key.ToString())
+                        .Append('=')
+                        .Append(Hex.ToHexString(entry.Value))
+                        .Append(", ");
 
-                outString.Append("}, ");
+				outString.Append("}, ");
             }
 
             return outString + "]";
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             SnapshotMatcher.Expect(HashesToString(SpawnTestTransactionBigContents(nodeAccountIds).GetAllTransactionHashesPerNode())).ToMatchSnapshot();
         }
 
-        public virtual string SignaturesToString(Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures)
+        public virtual string SignaturesToString(IDictionary<AccountId, IDictionary<PublicKey, byte[]>> signatures)
         {
             var outString = new StringBuilder();
             outString.Append('{');
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             return outString + "}";
         }
 
-        public virtual string AllSignaturesToString(List<Dictionary<AccountId, Dictionary<PublicKey, byte[]>>> allSignatures)
+        public virtual string AllSignaturesToString(List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>> allSignatures)
         {
             var outString = new StringBuilder();
             outString.Append('[');
@@ -167,7 +167,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             SnapshotMatcher.Expect(AllSignaturesToString(signatures)).ToMatchSnapshot();
         }
 
-        public virtual async void ShouldBytes()
+        public virtual void ShouldBytes()
         {
             var nodeAccountIds = new List<AccountId>
 			{
@@ -180,8 +180,8 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             
             Assert.Equal(tx2.ToString(), tx.ToString());
             
-            await Assert.ThrowsAsync<InvalidOperationException>(() => tx2.GetTransactionHash());
-            await Assert.ThrowsAsync<InvalidOperationException>(() => tx2.GetTransactionHashPerNode());
+            Assert.Throws<InvalidOperationException>(() => tx2.GetTransactionHash());
+            Assert.Throws<InvalidOperationException>(() => tx2.GetTransactionHashPerNode());
         }
 
         public virtual void FromScheduledTransaction()

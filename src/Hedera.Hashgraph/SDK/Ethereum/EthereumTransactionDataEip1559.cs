@@ -5,57 +5,30 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <summary>
-    /// The ethereum transaction data, in the format defined in <a
-    /// href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1559.md">EIP-1559</a>
-    /// </summary>
+    /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="T:EthereumTransactionDataEip1559"]/*' />
     public class EthereumTransactionDataEip1559 : EthereumTransactionData
     {
-        /// <summary>
-        /// ID of the chain
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.ChainId"]/*' />
         public byte[] ChainId;
-        /// <summary>
-        /// Transaction's nonce
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.Nonce"]/*' />
         public byte[] Nonce;
-        /// <summary>
-        /// An 'optional' additional fee in Ethereum that is paid directly to miners in order to incentivize them to include
-        /// your transaction in a block. Not used in Hedera
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.MaxPriorityGas"]/*' />
         public byte[] MaxPriorityGas;
-        /// <summary>
-        /// The maximum amount, in tinybars, that the payer of the hedera transaction is willing to pay to complete the
-        /// transaction
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.MaxGas"]/*' />
         public byte[] MaxGas;
-        /// <summary>
-        /// The amount of gas available for the transaction
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.GasLimit"]/*' />
         public byte[] GasLimit;
-        /// <summary>
-        /// The receiver of the transaction
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.To"]/*' />
         public byte[] To;
-        /// <summary>
-        /// The transaction value
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.Value"]/*' />
         public byte[] Value;
-        /// <summary>
-        /// specifies an array of addresses and storage keys that the transaction plans to access
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.AccessList"]/*' />
         public byte[] AccessList;
-        /// <summary>
-        /// recovery parameter used to ease the signature verification
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.RecoveryId"]/*' />
         public byte[] RecoveryId;
-        /// <summary>
-        /// The R value of the signature
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.R"]/*' />
         public byte[] R;
-        /// <summary>
-        /// The S value of the signature
-        /// </summary>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="F:EthereumTransactionDataEip1559.S"]/*' />
         public byte[] S;
         EthereumTransactionDataEip1559(byte[] chainId, byte[] nonce, byte[] maxPriorityGas, byte[] maxGas, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] accessList, byte[] recoveryId, byte[] r, byte[] s) : base(callData)
         {
@@ -72,11 +45,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             S = s;
         }
 
-        /// <summary>
-        /// Convert a byte array to an ethereum transaction data.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>the ethereum transaction data</returns>
+        /// <include file="EthereumTransactionDataEip1559.cs.xml" path='docs/member[@name="M:EthereumTransactionDataEip1559.FromBytes(System.Byte[])"]/*' />
         public new static EthereumTransactionDataEip1559 FromBytes(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)

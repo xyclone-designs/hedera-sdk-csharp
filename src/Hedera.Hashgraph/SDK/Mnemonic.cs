@@ -17,9 +17,7 @@ using System.Text.RegularExpressions;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// BIP-39 24-word mnemonic phrases compatible with the Android and iOS mobile wallets.
-    /// </summary>
+    /// <include file="Mnemonic.cs.xml" path='docs/member[@name="T:Mnemonic"]/*' />
     public sealed class Mnemonic
     {
         // by storing our word list in a WeakReference, the GC is free to evict it at its discretion
@@ -29,9 +27,7 @@ namespace Hedera.Hashgraph.SDK
         
         private string? AsString = null;
 
-		/// <summary>
-		/// The list of words in this mnemonic.
-		/// </summary>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.#ctor(System.String[])"]/*' />
 		public readonly IReadOnlyList<string> Words;
 
         private Mnemonic(string[] words)  
@@ -44,48 +40,27 @@ namespace Hedera.Hashgraph.SDK
         }
 		private Mnemonic(IEnumerable<string> words) : this(words.ToList()) { }
 
-		/// <summary>
-		/// Returns a new random 12-word mnemonic from the BIP-39 standard English word list.
-		/// </summary>
-		/// <returns>{@code this}</returns>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.Generate12"]/*' />
 		public static Mnemonic Generate12()
 		{
 			var entropy = new byte[16];
 			ThreadLocalSecureRandom.Current().NextBytes(entropy);
 			return new Mnemonic(EntropyToWords(entropy));
 		}
-		/// <summary>
-		/// Returns a new random 24-word mnemonic from the BIP-39 standard English word list.
-		/// </summary>
-		/// <returns>{@code this}</returns>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.Generate24"]/*' />
 		public static Mnemonic Generate24()
         {
             var entropy = new byte[32];
             ThreadLocalSecureRandom.Current().NextBytes(entropy);
             return new Mnemonic(EntropyToWords(entropy));
         }
-		/// <summary>
-		/// Recover a mnemonic from a string, splitting on spaces.
-		/// </summary>
-		/// <param name="mnemonicString">The string to recover the mnemonic from</param>
-		/// <returns>{@code this}</returns>
-		/// <exception cref="BadMnemonicException">if the mnemonic does not pass validation.</exception>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.FromString(System.String)"]/*' />
 		public static Mnemonic FromString(string mnemonicString)
 		{
 			string toLowerCase = mnemonicString.ToLower();
 			return Mnemonic.FromWords(toLowerCase.Split(" "));
 		}
-		/// <summary>
-		/// Construct a mnemonic from a 24-word list. {@link Mnemonic#validate()}
-		/// is called before returning, and it will throw an exception if it
-		/// does not pass validation. An invalid mnemonic can still create valid
-		/// Ed25519 private keys, so the exception will contain the mnemonic in case
-		/// the user wants to ignore the outcome of the validation.
-		/// </summary>
-		/// <param name="words">the 24-word list that constitutes a mnemonic phrase.</param>
-		/// <returns>{@code this}</returns>
-		/// <exception cref="BadMnemonicException">if the mnemonic does not pass validation.</exception>
-		/// <remarks>@see#validate() the function that validates the mnemonic.</remarks>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.FromWords(System.Collections.Generic.IList{System.String})"]/*' />
 		public static Mnemonic FromWords(IList<string> words)
 		{
 			Mnemonic mnemonic = new(words);
@@ -294,15 +269,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}        
 
-		/// <summary>
-		/// Common implementation for both `toStandardECDSAsecp256k1PrivateKey`
-		/// functions.
-		/// </summary>
-		/// <param name="passphrase">the passphrase used to protect the
-		///                              mnemonic, use "" for none</param>
-		/// <param name="derivationPathValues">derivation path as an integer array,
-		///                              see: `calculateDerivationPathValues`</param>
-		/// <returns>a private key</returns>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKeyImpl(System.String,System.Int32[])"]/*' />
 		private PrivateKey ToStandardECDSAsecp256k1PrivateKeyImpl(string passphrase, int[] derivationPathValues)
 		{
 			var seed = ToSeed(passphrase);
@@ -315,45 +282,17 @@ namespace Hedera.Hashgraph.SDK
 			return derivedKey;
 		}
 
-		/// <summary>
-		/// </summary>
-		/// <returns>the recovered key; use
-		/// {@link PrivateKey#derive(int)} to get
-		/// a key for an account index (0 for
-		/// default account)</returns>
-		/// <remarks>
-		/// @deprecateduse {@link #toStandardEd25519PrivateKey(String, int)} ()} or {@link #toStandardECDSAsecp256k1PrivateKey(String, int)} (String, int)} instead
-		/// Recover a private key from this mnemonic phrase.
-		/// 
-		/// @seePrivateKey#fromMnemonic(Mnemonic)
-		/// </remarks>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToPrivateKey"]/*' />
 		public PrivateKey ToPrivateKey()
 		{
 			return ToPrivateKey("");
 		}
-		/// <summary>
-		/// </summary>
-		/// <param name="passphrase">the passphrase used to protect the mnemonic</param>
-		/// <returns>the recovered key; use {@link PrivateKey#derive(int)} to get a
-		/// key for an account index (0 for default account)</returns>
-		/// <remarks>
-		/// @deprecateduse {@link #toStandardEd25519PrivateKey(String, int)} ()} or {@link #toStandardECDSAsecp256k1PrivateKey(String, int)} (String, int)} instead
-		/// Recover a private key from this mnemonic phrase.
-		/// <p>
-		/// This is not compatible with the phrases generated by the Android and iOS wallets;
-		/// use the no-passphrase version instead.
-		/// 
-		/// @seePrivateKey#fromMnemonic(Mnemonic, String)
-		/// </remarks>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToPrivateKey(System.String)"]/*' />
 		public PrivateKey ToPrivateKey(string passphrase)
         {
             return PrivateKey.FromMnemonic(this, passphrase);
         }
-		/// <summary>
-		/// Extract the private key.
-		/// </summary>
-		/// <returns>the private key</returns>
-		/// <exception cref="BadMnemonicException">when there are issues with the mnemonic</exception>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToLegacyPrivateKey"]/*' />
 		public PrivateKey ToLegacyPrivateKey()
 		{
 			if (Words.Count == 22)
@@ -416,11 +355,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 			}
 		}
-		/// <summary>
-		/// Convert passphrase to a byte array.
-		/// </summary>
-		/// <param name="passphrase">the passphrase</param>
-		/// <returns>the byte array</returns>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToSeed(System.String)"]/*' />
 		internal byte[] ToSeed(string passphrase)
         {
             string salt = ("mnemonic" + passphrase).Normalize(NormalizationForm.FormKD);
@@ -562,17 +497,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return buffer.ToArray();
 		}
-		/// <summary>
-		/// Converts a derivation path from string to an array of integers.
-		/// Note that this expects precisely 5 components in the derivation path,
-		/// as per BIP-44:
-		/// `m / purpose' / coin_type' / account' / change / address_index`
-		/// Takes into account `'` for hardening as per BIP-32,
-		/// and does not prescribe which components should be hardened.
-		/// </summary>
-		/// <param name="derivationPath">the derivation path in BIP-44 format,
-		///                        e.g. "m/44'/60'/0'/0/0"</param>
-		/// <returns>an array of integers designed to be used with PrivateKey#derive</returns>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.CalculateDerivationPathValues(System.String)"]/*' />
 		internal int[] CalculateDerivationPathValues(string derivationPath)
 		{
 			if (string.IsNullOrWhiteSpace(derivationPath))
@@ -625,13 +550,7 @@ namespace Hedera.Hashgraph.SDK
 			return values;
 		}
 
-		/// <summary>
-		/// Recover an Ed25519 private key from this mnemonic phrase, with an
-		/// optional passphrase.
-		/// </summary>
-		/// <param name="passphrase">the passphrase used to protect the mnemonic</param>
-		/// <param name="index">the derivation index</param>
-		/// <returns>the private key</returns>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardEd25519PrivateKey(System.String,System.Int32)"]/*' />
 		public PrivateKey ToStandardEd25519PrivateKey(string passphrase, int index)
         {
             var seed = ToSeed(passphrase);
@@ -652,15 +571,7 @@ namespace Hedera.Hashgraph.SDK
 
             return derivedKey;
         }
-		/// <summary>
-		/// Recover an ECDSAsecp256k1 private key from this mnemonic phrase, with an
-		/// optional passphrase.
-		/// Uses the default derivation path of `m/44'/3030'/0'/0/${index}`.
-		/// </summary>
-		/// <param name="passphrase">the passphrase used to protect the mnemonic,
-		///                      use "" for none</param>
-		/// <param name="index">the derivation index</param>
-		/// <returns>the private key</returns>
+		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKey(System.String,System.Int32)"]/*' />
 		public PrivateKey ToStandardECDSAsecp256k1PrivateKey(string passphrase, int index)
 		{
 			// Harden the first 3 indexes
@@ -675,15 +586,7 @@ namespace Hedera.Hashgraph.SDK
 
 			return ToStandardECDSAsecp256k1PrivateKeyImpl(passphrase, derivationPathValues);
 		}
-        /// <summary>
-        /// Recover an ECDSAsecp256k1 private key from this mnemonic phrase and
-        /// derivation path, with an optional passphrase.
-        /// </summary>
-        /// <param name="passphrase">the passphrase used to protect the mnemonic,
-        ///                        use "" for none</param>
-        /// <param name="derivationPath">the derivation path in BIP-44 format,
-        ///                        e.g. "m/44'/60'/0'/0/0"</param>
-        /// <returns>the private key</returns>
+        /// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(System.String,System.String)"]/*' />
         public PrivateKey ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(string passphrase, string derivationPath)
         {
             int[] derivationPathValues = CalculateDerivationPathValues(derivationPath);

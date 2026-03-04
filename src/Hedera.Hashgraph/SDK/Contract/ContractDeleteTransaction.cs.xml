@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractDeleteTransaction">
+    <summary>
+    Delete a smart contract, and transfer any remaining HBAR balance to a
+    designated account.
+    
+    If this call succeeds then all subsequent calls to that smart contract
+    SHALL execute the `0x0` opcode, as required for EVM equivalence.
+    
+    ### Requirements
+     - An account or smart contract MUST be designated to receive all remaining
+       account balances.
+     - The smart contract MUST have an admin key set. If the contract does not
+       have `admin_key` set, then this transaction SHALL fail and response code
+       `MODIFYING_IMMUTABLE_CONTRACT` SHALL be set.
+     - If `admin_key` is, or contains, an empty `KeyList` key, it SHALL be
+       treated the same as an admin key that is not set.
+     - The `Key` set for `admin_key` on the smart contract MUST have a valid
+       signature set on this transaction.
+     - The designated receiving account MAY have `receiver_sig_required` set. If
+       that field is set, the receiver account MUST also sign this transaction.
+     - The field `permanent_removal` MUST NOT be set. That field is reserved for
+       internal system use when purging the smart contract from state. Any user
+       transaction with that field set SHALL be rejected and a response code
+       `PERMANENT_REMOVAL_REQUIRES_SYSTEM_INITIATION` SHALL be set.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:ContractDeleteTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:ContractDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:ContractDeleteTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:ContractDeleteTransaction.RequireNotFrozen">
+    <summary>
+    Sets the contract ID which should be deleted.
+    </summary>
+  </member>
+  <member name="M:ContractDeleteTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    Sets the account ID which will receive all remaining hbars.
+    &lt;p&gt;
+    This is mutually exclusive with {@link #setTransferContractId(ContractId)}.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ContractDeleteTransaction.RequireNotFrozen_3">
+    <summary>&lt;summary&gt;
+    Sets the contract ID which will receive all remaining hbars.
+    &lt;p&gt;
+    This is mutually exclusive with {@link #setTransferAccountId(AccountId)}.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ContractDeleteTransaction.RequireNotFrozen_4">
+    <summary>&lt;summary&gt;
+    Sets the permanent removal flag.
+    &lt;p&gt;
+    This field is reserved for system use. User transactions setting this field
+    may be rejected by the network with status {@link Status#PERMANENT_REMOVAL_REQUIRES_SYSTEM_INITIATION}.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:ContractDeleteTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:ContractDeleteTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link ContractDeleteTransactionBody}</returns>
+  </member>
+  <member name="M:ContractDeleteTransaction.ValidateChecksums(Client)">
+    <summary>
+    Validates tha the contract id, transfer contract id and the transfer account id are valid.
+    </summary>
+    <param name="client">the configured client</param>
+    <exception cref="BadEntityIdException">if entity ID is formatted poorly</exception>
+  </member>
+</docs>

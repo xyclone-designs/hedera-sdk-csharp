@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:HookId">
+    <summary>&lt;summary&gt;
+    The ID of a hook.
+    &lt;p&gt;
+    This class represents the HookId protobuf message, which contains the hook's creating entity ID
+    and an arbitrary 64-bit identifier.
+    &lt;/summary&gt;
+    &lt;remarks&gt;
+    Create a new HookId.
+    &lt;/remarks&gt;
+    &lt;param name="entityId"&gt;the hook's creating entity ID&lt;/param&gt;
+    &lt;param name="hookId"&gt;the arbitrary 64-bit identifier&lt;/param&gt;</summary>
+  </member>
+  <member name="M:HookId.ToProtobuf">
+    <summary>
+    Convert this HookId to a protobuf message.
+    </summary>
+    <returns>the protobuf HookId</returns>
+  </member>
+  <member name="M:HookId.FromProtobuf(Proto.HookId)">
+    <summary>
+    Create a HookId from a protobuf message.
+    </summary>
+    <param name="proto">the protobuf HookId</param>
+    <returns>a new HookId instance</returns>
+  </member>
+</docs>

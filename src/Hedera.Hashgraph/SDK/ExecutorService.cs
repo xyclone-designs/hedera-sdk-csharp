@@ -1,14 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <summary>
-	/// ExecutorService replacement for Hedera SDK.
-	/// Provides a fixed thread pool with unbounded queue and caller-runs policy.
-	/// </summary>
+	/// <include file="ExecutorService.cs.xml" path='docs/member[@name="T:ExecutorService"]/*' />
 	public sealed class ExecutorService : IDisposable
 	{
 		private readonly BlockingCollection<Action> _queue;
@@ -41,9 +38,7 @@ namespace Hedera.Hashgraph.SDK
 			}
 		}
 
-		/// <summary>
-		/// Schedules an action for execution (caller-runs if queue is full).
-		/// </summary>
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Execute(System.Action)"]/*' />
 		public void Execute(Action action)
 		{
 			if (!_queue.TryAdd(action))
@@ -51,20 +46,13 @@ namespace Hedera.Hashgraph.SDK
 				action(); // caller runs policy
 			}
 		}
-		/// <summary>
-		/// Immediately clears remaining queued tasks and signals threads to exit.
-		/// </summary>
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.ForceShutdown"]/*' />
 		public void ForceShutdown()
 		{
 			while (_queue.TryTake(out _)) { }
 			_queue.CompleteAdding();
 		}
-		/// <summary>
-		/// Waits for all tasks to complete or timeout to elapse.
-		/// </summary>
-		/// <summary>
-		/// Submits a task and returns a Task for async usage.
-		/// </summary>
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Submit(System.Action)"]/*' />
 		public Task Submit(Action action)
 		{
 			var tcs = new TaskCompletionSource<bool>();
@@ -87,9 +75,7 @@ namespace Hedera.Hashgraph.SDK
 			return true;
 		}
 
-		/// <summary>
-		/// Gracefully shuts down the executor (stops accepting new tasks).
-		/// </summary>
+		/// <include file="ExecutorService.cs.xml" path='docs/member[@name="M:ExecutorService.Dispose"]/*' />
 		public void Dispose()
 		{
 			_queue.CompleteAdding();

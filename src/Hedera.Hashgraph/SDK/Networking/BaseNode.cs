@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <summary>
-	/// Internal utility class.
-	/// </summary>
-	/// <param name="<N>">the n type</param>
-	/// <param name="<KeyT>">the key t type</param>
+	/// <include file="BaseNode.cs.xml" path='docs/member[@name="T:BaseNode"]/*' />
 	public abstract partial class BaseNode<N, KeyT>: IDisposable where N : BaseNode<N, KeyT>
     {
         private static readonly int GET_STATE_INTERVAL_MILLIS = 50;
@@ -23,11 +19,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         
 		protected ExecutorService Executor;
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="node">the node object</param>
-		/// <param name="address">the address to assign</param>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.#ctor(N,BaseNodeAddress)"]/*' />
 		internal BaseNode(N node, BaseNodeAddress address)
 		{
 			Address = address;
@@ -38,11 +30,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			CurrentBackoff = node.CurrentBackoff;
 			BadGrpcStatusCount = node.BadGrpcStatusCount;
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="address">the node address</param>
-		/// <param name="executor">the client</param>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.#ctor(BaseNodeAddress,ExecutorService)"]/*' />
 		internal BaseNode(BaseNodeAddress address, ExecutorService executor)
         {
             Executor = executor;
@@ -54,24 +42,15 @@ namespace Hedera.Hashgraph.SDK.Networking
         }
 
 
-        /// <summary>
-        /// Extract the key list
-        /// </summary>
-        /// <returns>                         the key list</returns>
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.Key"]/*' />
         public abstract KeyT Key { get; }
 
-		/// <summary>
-		/// Return the local host ip address
-		/// </summary>
-		/// <returns>                         the authority address</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)"]/*' />
 		public virtual string? Authority
 		{
 			get => "127.0.0.1";
 		}
-		/// <summary>
-		/// Get the gRPC channel for this node
-		/// </summary>
-		/// <returns>                         the channel</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)_2"]/*' />
 		public virtual Channel Channel
 		{
 			get
@@ -96,18 +75,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <summary>
-		/// Timestamp of when this node will be considered healthy again
-		/// </summary>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.ReadmitTime"]/*' />
 		public DateTimeOffset ReadmitTime { get; set; }
 
-		/// <summary>
-		/// The current backoff duration. Uses exponential backoff so think 1s, 2s, 4s, 8s, etc until MaxBackoff is hit
-		/// </summary>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.CurrentBackoff"]/*' />
 		public TimeSpan CurrentBackoff { get; set; }
-		/// <summary>
-		/// Minimum backoff used by node when receiving a bad gRPC status
-		/// </summary>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.lock(this)_3"]/*' />
 		public virtual TimeSpan MinBackoff 
         {
             get
@@ -128,18 +101,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
         }
-		/// <summary>
-		/// Get the maximum backoff time
-		/// </summary>
-		/// <returns>                         the maximum backoff time</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.MaxBackoff"]/*' />
 		public virtual TimeSpan MaxBackoff { get; set; }
-		/// <summary>
-		/// Address of this node
-		/// </summary>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.Address"]/*' />
 		public virtual BaseNodeAddress Address { get; protected set; }
-		/// <summary>
-		/// Get the number of times this node has received a bad gRPC status
-		/// </summary>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="P:BaseNode.BadGrpcStatusCount"]/*' />
 		public virtual long BadGrpcStatusCount { get; protected set; }
 		
 		private async Task<bool> ChannelFailedToConnectAsync(int i, ChannelState state)
@@ -155,10 +121,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				.DelayAsync(TimeSpan.FromMilliseconds(GET_STATE_INTERVAL_MILLIS), () => ChannelFailedToConnectAsync(i + 1, Channel.State));
 		}
 
-		/// <summary>
-		/// Did we fail to connect?
-		/// </summary>
-		/// <returns>                         did we fail to connect</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.ChannelFailedToConnect"]/*' />
 		public virtual bool ChannelFailedToConnect()
 		{
 			return ChannelFailedToConnect(DateTime.MaxValue);
@@ -192,10 +155,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return !hasConnected;
 		}
-		/// <summary>
-		/// Asynchronously determine if the channel failed to connect.
-		/// </summary>
-		/// <returns>                         did we fail to connect</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.ChannelFailedToConnectAsync"]/*' />
 		public virtual Task<bool> ChannelFailedToConnectAsync()
 		{
 			if (hasConnected)
@@ -205,19 +165,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return ChannelFailedToConnectAsync(0, Channel.State);
 		}
-		/// <summary>
-		/// Determines if this is node is healthy.
-		/// Healthy means the node has either not received any bad gRPC statuses, or if it has received bad gRPC status then
-		/// the node backed off for a period of time.
-		/// </summary>
-		/// <returns>                         is the node healthy</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.IsHealthy"]/*' />
 		public virtual bool IsHealthy()
         {
             return ReadmitTime.ToUnixTimeMilliseconds() < DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
-        /// <summary>
-        /// Used when a node has received a bad gRPC status
-        /// </summary>
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.IncreaseBackoff"]/*' />
         public virtual void IncreaseBackoff()
         {
             lock (this)
@@ -231,12 +184,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 					CurrentBackoff = MaxBackoff;
 			}
         }
-        /// <summary>
-        /// Used when a node has not received a bad gRPC status.
-        /// This means on each request that doesn't get a bad gRPC status the current backoff will be lowered. The point of
-        /// this is to allow a node which has been performing poorly (receiving several bad gRPC status) to become used again
-        /// once it stops receiving bad gRPC statuses.
-        /// </summary>
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.DecreaseBackoff"]/*' />
         public virtual void DecreaseBackoff()
         {
             lock (this)
@@ -247,34 +195,22 @@ namespace Hedera.Hashgraph.SDK.Networking
 					CurrentBackoff = MinBackoff;
             }
         }
-		/// <summary>
-		/// Get the amount of time the node has to wait until it's healthy again
-		/// </summary>
-		/// <returns>                         remaining back off time</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.GetRemainingTimeForBackoff"]/*' />
 		public virtual long GetRemainingTimeForBackoff()
         {
             return ReadmitTime.ToUnixTimeMilliseconds() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         }
-        /// <summary>
-        /// Create TLS credentials when transport security is enabled
-        /// </summary>
-        /// <returns>                         the channel credentials</returns>
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.GetChannelCredentials"]/*' />
         public virtual ChannelCredentials GetChannelCredentials()
         {
             return new SslCredentials();
         }
-		/// <summary>
-		/// Extract the unhealthy backoff time remaining.
-		/// </summary>
-		/// <returns>                         the unhealthy backoff time remaining</returns>
+		/// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.UnhealthyBackoffRemaining"]/*' />
 		public virtual long UnhealthyBackoffRemaining()
 		{
 			return Math.Max(0, ReadmitTime.ToUnixTimeMilliseconds() - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds());
 		}
-        /// <summary>
-        /// Close the current nodes channel
-        /// </summary>
-        /// <param name="timeout">the timeout value</param>
+        /// <include file="BaseNode.cs.xml" path='docs/member[@name="M:BaseNode.Dispose(System.TimeSpan)"]/*' />
         public virtual void Dispose(TimeSpan timeout)
         {
             lock (this)

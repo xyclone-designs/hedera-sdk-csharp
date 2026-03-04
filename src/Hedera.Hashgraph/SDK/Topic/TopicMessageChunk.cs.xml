@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TopicMessageChunk">
+    <summary>
+    A chunk of the topic message.
+    </summary>
+  </member>
+  <member name="M:TopicMessageChunk.#ctor(Proto.ConsensusTopicResponse)">
+    <summary>
+    Create a topic message chunk from a protobuf.
+    </summary>
+    <param name="response">the protobuf</param>
+  </member>
+</docs>

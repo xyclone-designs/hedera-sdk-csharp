@@ -12,16 +12,10 @@ using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <summary>
-	/// Internal utility class.
-	/// </summary>
+	/// <include file="Network.cs.xml" path='docs/member[@name="T:Network"]/*' />
 	public class Network : BaseNetwork<Network, AccountId, Node>
     {
-		/// <summary>
-		/// The protobuf address book converted into a map of node account IDs to NodeAddress
-		/// 
-		/// This variable is package private so tests can use it
-		/// </summary>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.#ctor(ExecutorService,System.Collections.Generic.Dictionary{System.String,AccountId})"]/*' />
 		private Dictionary<AccountId, NodeAddress>? AddressBook;
 
 		public Network(ExecutorService executor, Dictionary<string, AccountId> network) : base(executor)
@@ -80,45 +74,28 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return network;
 		}
 
-		/// <summary>
-		/// Create a mainnet network.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <returns>                         the new mainnet network</returns>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.ForMainnet(ExecutorService)"]/*' />
 		internal static Network ForMainnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.MAINNET) ?? throw new Exception("AddressBookForLedger 'LedgerId.MAINNET' could not be found"); ;
             Dictionary<string, AccountId> network = AddressBookToNetwork(addressBook.Values);
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.MAINNET, addressBook);
         }
-		/// <summary>
-		/// Create a testnet network.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <returns>                         the new testnet network</returns>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.ForTestnet(ExecutorService)"]/*' />
 		internal static Network ForTestnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.TESTNET) ?? throw new Exception("AddressBookForLedger 'LedgerId.TESTNET' could not be found"); ;
             Dictionary<string, AccountId> network = AddressBookToNetwork(addressBook.Values);
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.TESTNET, addressBook);
         }
-		/// <summary>
-		/// Create a previewnet network.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <returns>                         the new previewnet network</returns>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.ForPreviewnet(ExecutorService)"]/*' />
 		internal static Network ForPreviewnet(ExecutorService executor)
         {
             var addressBook = GetAddressBookForLedger(LedgerId.PREVIEWNET) ?? throw new Exception("AddressBookForLedger 'LedgerId.PREVIEWNET' could not be found");
             Dictionary<string, AccountId> network = AddressBookToNetwork(addressBook.Values);
             return new Network(executor, network).SetLedgerIdInternal(LedgerId.PREVIEWNET, addressBook);
         }
-		/// <summary>
-		/// Create a network.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <param name="network">the network records</param>
-		/// <returns>                         the new network</returns>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.ForNetwork(ExecutorService,System.Collections.Generic.Dictionary{System.String,AccountId})"]/*' />
 		internal static Network ForNetwork(ExecutorService executor, Dictionary<string, AccountId> network)
 		{
 			return new Network(executor, network);
@@ -129,10 +106,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			get => base.LedgerId;
 			set { lock (this) SetLedgerIdInternal(value, GetAddressBookForLedger(value)); }
 		}
-		/// <summary>
-		/// Enable or disable transport security (TLS).
-		/// </summary>
-		/// <param name="transportSecurity">should transport security be enabled</param>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.lock(this)"]/*' />
 		public override bool TransportSecurity 
 		{
             get => base.TransportSecurity;
@@ -158,21 +132,14 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <summary>
-		/// Assign the maximum nodes to be returned for each request.
-		/// </summary>
+		/// <include file="Network.cs.xml" path='docs/member[@name="P:Network.MaxNodesPerRequest"]/*' />
 		public virtual int? MaxNodesPerRequest { get; set; }
-		/// <summary>
-		/// Extract the number of nodes for each request.
-		/// </summary>
-		/// <returns>                         the number of nodes for each request</returns>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.Min(MaxNodesPerRequest.,Network.)"]/*' />
 		public virtual int NumberOfNodesForRequest
 		{
 			get => MaxNodesPerRequest is not null ? Math.Min(MaxNodesPerRequest.Value, Network.Count) : (Network.Count + 3 - 1) / 3;
 		}
-		/// <summary>
-		/// Are certificates being verified?
-		/// </summary>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.lock(this)_2"]/*' />
 		public virtual bool VerifyCertificates 
         {
             get;
@@ -223,10 +190,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			};
         }
         
-		/// <summary>
-		/// Extract the of network records.
-		/// </summary>
-		/// <returns>                         list of network records</returns>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.GetNetwork"]/*' />
 		public virtual Dictionary<string, AccountId> GetNetwork()
 		{
 			lock (this)
@@ -240,11 +204,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				return returnMap;
 			}
 		}
-		/// <summary>
-		/// Pick 1/3 of the nodes sorted by health and expected delay from the network.
-		/// This is used by Query and Transaction for selecting node AccountId's.
-		/// </summary>
-		/// <returns>{@link java.util.List<AccountId>}</returns>
+		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.GetNodeAccountIdsForExecute"]/*' />
 		public virtual List<AccountId> GetNodeAccountIdsForExecute()
 		{
 			lock (this)

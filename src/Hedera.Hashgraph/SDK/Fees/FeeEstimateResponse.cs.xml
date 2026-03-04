@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="P:.Mode">
+    <summary>
+    The mode that was used to calculate the fees.
+    </summary>
+  </member>
+  <member name="P:.Total">
+    <summary>
+    The sum of the network, node, and service subtotals in tinycents.
+    </summary>
+  </member>
+</docs>

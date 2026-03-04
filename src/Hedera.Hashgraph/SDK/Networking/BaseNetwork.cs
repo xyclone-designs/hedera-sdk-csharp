@@ -9,12 +9,7 @@ using System.Net;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <summary>
-	/// Abstracts away most of the similar functionality between {@link Network} and {@link MirrorNetwork}
-	/// </summary>
-	/// <param name="<BaseNetworkT>">- The network that is extending this class. This is used for builder pattern setter methods.</param>
-	/// <param name="<KeyT>">- The identifying type for the network.</param>
-	/// <param name="<BaseNodeT>">- The specific node type for this network.</param>
+	/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="T:BaseNetwork"]/*' />
 	public abstract class BaseNetwork<BaseNetworkT, KeyT, BaseNodeT>
         where BaseNetworkT : BaseNetwork<BaseNetworkT, KeyT, BaseNodeT> 
         where BaseNodeT : BaseNode<BaseNodeT, KeyT>
@@ -64,10 +59,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         protected readonly ExecutorService Executor;
 		protected abstract BaseNodeT CreateNodeFromNetworkEntry(KeyValuePair<string, KeyT> entry);
 
-		/// <summary>
-		/// Remove any nodes from the network when they've exceeded the {@link BaseNetwork#maxNodeAttempts} limit
-		/// </summary>
-		/// <exception cref="InterruptedException">- when shutting down nodes</exception>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.RemoveDeadNodes"]/*' />
 		protected virtual void RemoveDeadNodes()
 		{
 			if (MaxNodeAttempts > 0)
@@ -85,13 +77,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <summary>
-		/// Returns a list of index in descending order to remove from the current node list.
-		/// 
-		/// Descending order is important here because {@link BaseNetwork#setNetwork(IDictionary<String, KeyT>)} uses a for-each loop.
-		/// </summary>
-		/// <param name="network">- the new network</param>
-		/// <returns>- list of indexes in descending order</returns>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNodesToRemove(System.Collections.Generic.Dictionary{System.String,KeyT})"]/*' />
 		protected virtual IList<int> GetNodesToRemove(Dictionary<string, KeyT> network)
 		{
 			var _nodes = new List<int>(Nodes.Count);
@@ -107,15 +93,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return _nodes;
 		}
-		/// <summary>
-		/// Returns `count` number of the most healthy nodes. Healthy-ness is determined by sort order; leftmost being most
-		/// healthy. This will also remove any nodes which have hit or exceeded {@link BaseNetwork#maxNodeAttempts}.
-		/// 
-		/// Returns a list of nodes where each node has a unique key.
-		/// </summary>
-		/// <param name="count">number of nodes to return</param>
-		/// <returns>                         List of nodes to use</returns>
-		/// <exception cref="InterruptedException">when a thread is interrupted while it's waiting, sleeping, or otherwise occupied</exception>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNumberOfMostHealthyNodes(System.Int32)"]/*' />
 		protected virtual IList<BaseNodeT> GetNumberOfMostHealthyNodes(int count)
 		{
 			lock (this)
@@ -138,41 +116,27 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 
-		/// <summary>
-		/// The list of all nodes.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.Nodes"]/*' />
 		public IList<BaseNodeT> Nodes { get; protected set; } = [];
-		/// <summary>
-		/// The list of currently healthy nodes.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.HealthyNodes"]/*' />
 		public IList<BaseNodeT> HealthyNodes { get; protected set; } = [];        
-        /// <summary>
-        /// The instant that readmission will happen after.
-        /// </summary>
+        /// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.AddSeconds(Client.DEFAULT_MIN_NODE_BACKOFF.)"]/*' />
         public DateTimeOffset EarliestReadmitTime { get; protected set; } = DateTimeOffset.UtcNow.AddSeconds(Client.DEFAULT_MIN_NODE_BACKOFF.TotalSeconds);
 
-		/// <summary>
-		/// Set the new LedgerId for this network. LedgerIds are used for TLS certificate checking and entity ID
-		/// checksum validation.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)"]/*' />
 		public virtual LedgerId? LedgerId
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 		}
-		/// <summary>
-		/// Limit for how many times we retry a node which has returned a bad gRPC status
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_2"]/*' />
 		public virtual int MaxNodeAttempts
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 
 		} = DEFAULT_MAX_NODE_ATTEMPTS;
-		/// <summary>
-		/// The current minimum backoff for the nodes in the network. This backoff is used when nodes return a bad
-		/// gRPC status.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_3"]/*' />
 		public virtual TimeSpan MinNodeBackoff
 		{
 			get { lock (this) return field; }
@@ -188,10 +152,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             }
 
 		} = Client.DEFAULT_MIN_NODE_BACKOFF;
-		/// <summary>
-		/// The current maximum backoff for the nodes in the network. This backoff is used when nodes return a bad
-		/// gRPC status.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_4"]/*' />
 		public virtual TimeSpan MaxNodeBackoff
 		{
 			get { lock (this) return field; }
@@ -207,9 +168,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 
 		} = Client.DEFAULT_MAX_NODE_BACKOFF;
-		/// <summary>
-		/// The min time to wait before attempting to readmit nodes.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_5"]/*' />
 		public virtual TimeSpan MinNodeReadmitTime
 		{
 			get { lock (this) return field; }
@@ -225,32 +184,23 @@ namespace Hedera.Hashgraph.SDK.Networking
             }
 
 		} = Client.DEFAULT_MIN_NODE_BACKOFF;
-		/// <summary>
-		/// The max time to wait for readmitting nodes.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_6"]/*' />
 		public virtual TimeSpan MaxNodeReadmitTime
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 
 		} = Client.DEFAULT_MAX_NODE_BACKOFF;
-		/// <summary>
-		/// Timeout for closing either a single node when setting a new network, or closing the entire network.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_7"]/*' />
 		public virtual TimeSpan CloseTimeout
 		{
 			get { lock (this) return field; }
 			set { lock (this) field = value; }
 
 		} = Client.DEFAULT_CLOSE_TIMEOUT;
-		/// <summary>
-		/// Is the network using transport security
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="P:BaseNetwork.TransportSecurity"]/*' />
 		public virtual bool TransportSecurity { get; set; }
-		/// <summary>
-		/// Get a random healthy node.
-		/// </summary>
-		/// <returns>                         the node</returns>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.lock(this)_8"]/*' />
 		public virtual BaseNodeT RandomNode
 		{
 			get
@@ -272,18 +222,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				}
 			}
 		}
-		/// <summary>
-		/// Intelligently overwrites the current network.
-		/// 
-		/// Shutdown and remove any node from the current network if the new network doesn't contain it. This includes
-		/// checking both the URL and {@link AccountId} when the network is a {@link Network}.
-		/// 
-		/// Add any nodes from the new network that don't already exist in the network.
-		/// </summary>
-		/// <param name="network">- The new network</param>
-		/// <returns>- {@code this}</returns>
-		/// <exception cref="TimeoutException">- when shutting down nodes</exception>
-		/// <exception cref="InterruptedException">- when acquiring the lock</exception>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="F:BaseNetwork.set"]/*' />
 		public virtual Dictionary<KeyT, IList<BaseNodeT>> Network { protected get; set; } = [];
 		public virtual ReadOnlyDictionary<KeyT, IList<BaseNodeT>> Network_Read
 		{
@@ -298,12 +237,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 					node.Channel?.ShutdownAsync().GetAwaiter().GetResult();
 			}
 		}
-		/// <summary>
-		/// Readmits nodes from the `nodes` list into the `healthyNodes` list when the time is passed the
-		/// {@code EarliestReadmitTime}. While readmitting nodes the `EarliestReadmitTime` will be updated to
-		/// a new value. This value is either the value of the node with the smallest readmission time from now,
-		/// or `minNodeReadmitTime` or `maxNodeReadmitTime`.
-		/// </summary>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.ReadmitNodes"]/*' />
 		public virtual void ReadmitNodes()
 		{
 			lock (this)
@@ -463,11 +397,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				return (BaseNetworkT)this;
 			}
 		}
-		/// <summary>
-		/// Get all node proxies by key
-		/// </summary>
-		/// <param name="key">the desired key</param>
-		/// <returns>                         the list of node proxies</returns>
+		/// <include file="BaseNetwork.cs.xml" path='docs/member[@name="M:BaseNetwork.GetNodeProxies(KeyT)"]/*' />
 		public virtual IList<BaseNodeT> GetNodeProxies(KeyT key)
 		{
 			lock (this)

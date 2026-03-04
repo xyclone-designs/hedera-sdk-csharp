@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FeeSchedules">
+    <summary>
+    This contains two Fee Schedules with expiry timestamp.
+    
+    See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/currentandnextfeeschedule">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:FeeSchedules.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:FeeSchedules.FromBytes(System.Byte[])">
+    <summary>
+    Create a fee schedules object from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the fee schedules object</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:FeeSchedules.FromProtobuf(Proto.CurrentAndNextFeeSchedule)">
+    <summary>
+    Create a fee schedules object from a protobuf.
+    </summary>
+    <param name="feeSchedules">the protobuf</param>
+    <returns>the fee schedules object</returns>
+  </member>
+  <member name="M:FeeSchedules.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>byte array representation</returns>
+  </member>
+  <member name="M:FeeSchedules.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>protobuf representation</returns>
+  </member>
+</docs>

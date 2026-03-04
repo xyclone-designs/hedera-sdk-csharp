@@ -12,50 +12,20 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-	/// <summary>
-	/// A query that returns information about a non-fungible token (NFT).
-	/// 
-	/// You request the info for an NFT by specifying the NFT ID.
-	/// 
-	/// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/get-nft-token-info#methods">Hedera Documentation</a>
-	/// </summary>
+	/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="T:TokenNftInfoQuery"]/*' />
 	public class TokenNftInfoQuery : Query<IList<TokenNftInfo>, TokenNftInfoQuery>
     {
-        /// <summary>
-        /// Sets the NFT ID for which information is requested.
-        /// </summary>
-        /// <param name="NftId">The NftId to be set</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.NftId"]/*' />
         public virtual NftId? NftId { get; set; }
-		/// <summary>
-		/// Sets the Token ID and the index range for which information is requested.
-		/// </summary>
-		/// <param name="TokenId">The ID of the token for which information is requested</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecatedwith no replacement</remarks>
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.TokenId"]/*' />
 		public virtual TokenId? TokenId { get; set; }
-		/// <summary>
-		/// Sets the Account ID for which information is requested.
-		/// </summary>
-		/// <param name="AccountId">The Account ID for which information is requested</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecatedwith no replacement</remarks>
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.AccountId"]/*' />
 		public virtual AccountId? AccountId { get; set; }
 
-		/// <summary>
-		/// Sets the start of the index range for which information is requested.
-		/// </summary>
-		/// <param name="start">The start index (inclusive) of the range of NFTs to query for. Value must be in the range [0; ownedNFTs-1]</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecatedwith no replacement</remarks>
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.Start"]/*' />
 		public virtual long Start { get; set; }
 
-		/// <summary>
-		/// Sets the end of the index range for which information is requested.
-		/// </summary>
-		/// <param name="end">The end index (exclusive) of the range of NFTs to query for. Value must be in the range (start; ownedNFTs]</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecatedwith no replacement</remarks>
+		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.End"]/*' />
 		public virtual long End { get; set; }
 
 		public override async Task<Hbar> GetCostAsync(Client client)

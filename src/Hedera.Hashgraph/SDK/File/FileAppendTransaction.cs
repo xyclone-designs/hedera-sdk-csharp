@@ -12,71 +12,29 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <summary>
-    /// A transaction body for an `appendContent` transaction.<br/>
-    /// This transaction body provides a mechanism to append content to a "file" in
-    /// network state. Hedera transactions are limited in size, but there are many
-    /// uses for in-state byte arrays (e.g. smart contract bytecode) which require
-    /// more than may fit within a single transaction. The `appendFile` transaction
-    /// exists to support these requirements. The typical pattern is to create a
-    /// file, append more data until the full content is stored, verify the file is
-    /// correct, then update the file entry with any final metadata changes (e.g.
-    /// adding threshold keys and removing the initial upload key).
-    /// 
-    /// Each append transaction MUST remain within the total transaction size limit
-    /// for the network (typically 6144 bytes).<br/>
-    /// The total size of a file MUST remain within the maximum file size limit for
-    /// the network (typically 1048576 bytes).
-    /// 
-    /// #### Signature Requirements
-    /// Append transactions MUST have signatures from _all_ keys in the `KeyList`
-    /// assigned to the `keys` field of the file.<br/>
-    /// See the [File Service](#FileService) specification for a detailed
-    /// explanation of the signature requirements for all file transactions.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="T:FileAppendTransaction"]/*' />
     public sealed class FileAppendTransaction : ChunkedTransaction<FileAppendTransaction>
     {
         public static readonly int DEFAULT_CHUNK_SIZE = 4096;
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor"]/*' />
         public FileAppendTransaction() : base()
         {
             DefaultMaxTransactionFee = new Hbar(5);
             ChunkSize = 2048;
         }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal FileAppendTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal FileAppendTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A file identifier.<br/>
-        /// This identifies the file to which the `contents` will be appended.
-        /// <p>
-        /// This field is REQUIRED.<br/>
-        /// The identified file MUST exist.<br/>
-        /// The identified file MUST NOT be larger than the current maximum file
-        /// size limit.<br/>
-        /// The identified file MUST NOT be deleted.<br/>
-        /// The identified file MUST NOT be immutable.
-        /// </summary>
+        /// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.RequireNotFrozen"]/*' />
         public FileId? FileId
         {
             get;
@@ -86,46 +44,24 @@ namespace Hedera.Hashgraph.SDK.File
 				field = value;
 			}
         }
-		/// <summary>
-		/// <p>Set the contents to append to the file as identified by {@link #setFileId(FileId)}.
-		/// </summary>
-		/// <param name="contents">the contents to append to the file.</param>
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="T:FileAppendTransaction_2"]/*' />
 		public ByteString Contents
         {
             get => Data;
             set => Data = value;
 		}
-		/// <summary>
-		/// An array of bytes to append.<br/>
-		/// <p>
-		/// This content SHALL be appended to the identified file if this
-		/// transaction succeeds.<br/>
-		/// This field is REQUIRED.<br/>
-		/// This field MUST NOT be empty.
-		/// </summary>
-		/// <param name="contents">the contents to append to the file.</param>
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.CopyFrom(value)"]/*' />
 		public byte[] Contents_Bytes
 		{
 			set => Data = ByteString.CopyFrom(value);
 		}
-		/// <summary>
-		/// <p>Encode the given {@link String} as UTF-8 and append it to file as identified by
-		/// {@link #setFileId(FileId)}.
-		/// 
-		/// <p>If the whole file is UTF-8 encoded, the string can later be recovered from
-		/// {@link FileContentsQuery#execute(Client)} via
-		/// {@link String#String(byte[], java.nio.charset.Charset)} using
-		/// {@link java.nio.charset.StandardCharsets#UTF_8}.
-		/// </summary>
-		/// <param name="text">The String to be set as the contents of the file</param>
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.CopyFromUtf8(value)"]/*' />
 		public string Contents_String
 		{
 			set => Data = ByteString.CopyFromUtf8(value);
 		}
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.FileAppend;
@@ -154,10 +90,7 @@ namespace Hedera.Hashgraph.SDK.File
 			}
 		}
 
-		/// <summary>
-		/// Build the transaction body.
-		/// </summary>
-		/// <returns>{@link Proto.FileAppendTransactionBody builder}</returns>
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.ToProtobuf"]/*' />
 		public Proto.FileAppendTransactionBody ToProtobuf()
 		{
 			var builder = new Proto.FileAppendTransactionBody

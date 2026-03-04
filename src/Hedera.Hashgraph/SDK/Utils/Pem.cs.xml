@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Pem">
+    <summary>
+    Internal utility class for handling PEM objects.
+    <br />
+    Privacy-Enhanced Mail (PEM) is a de facto file format for storing and
+    sending cryptographic keys, certificates, and other data.
+    </summary>
+  </member>
+  <member name="M:Pem.ReadPrivateKey(TextReader,System.String)">
+    <summary>
+    Reads a private key from a PEM source.
+    Supports:
+    <list type="bullet"><item>Unencrypted PKCS#8 private keys</item><item>Encrypted PKCS#8 private keys</item><item>Traditional OpenSSL key pairs</item></list></summary>
+    <param name="input">PEM text reader</param>
+    <param name="passphrase">Optional passphrase</param>
+    <returns>PrivateKeyInfo</returns>
+    <exception cref="BadKeyException">If the key is invalid or unsupported</exception>
+  </member>
+  <member name="T:Pem.PasswordFinder">
+    <summary>
+    Password finder used by PemReader for encrypted PEMs.
+    </summary>
+  </member>
+</docs>

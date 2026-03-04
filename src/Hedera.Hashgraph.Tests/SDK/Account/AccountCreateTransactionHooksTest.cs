@@ -36,29 +36,29 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(100),
-			}
-            .AddHook(hookWithAdmin)
-            .AddHook(simpleHook); // Simple hook without admin key or storage
+                HookCreationDetails = [hookWithAdmin, simpleHook]
+                
+			}; // Simple hook without admin key or storage
 
             // Verify hooks were added
-            IList<HookCreationDetails> hookDetails = transaction.GetHooks();
+            IList<HookCreationDetails> hookDetails = transaction.HookCreationDetails;
             Assert.Equal(2, hookDetails.Count);
 
             // Verify first hook
             HookCreationDetails firstHook = hookDetails[0];
-            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, firstHook.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, firstHook.ExtensionPoint);
             Assert.Equal(1, firstHook.HookId);
             Assert.Equal(adminKey.GetPublicKey(), firstHook.AdminKey);
             Assert.NotNull(firstHook.HookId);
-            Assert.Equal(1, firstHook.HookId.GetStorageUpdates().Count);
+            Assert.Equal(1, firstHook.Hook.StorageUpdates.Count);
 
             // Verify second hook
             HookCreationDetails secondHook = hookDetails[1];
-            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, secondHook.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, secondHook.ExtensionPoint);
             Assert.Equal(2, secondHook.HookId);
             Assert.Null(secondHook.AdminKey);
             Assert.NotNull(secondHook.HookId);
-            Assert.True(secondHook.HookId.GetStorageUpdates().Count == 0);
+            Assert.True(secondHook.Hook.StorageUpdates.Count == 0);
         }
 
         public virtual void TestAccountCreateTransactionSetHooks()
@@ -74,11 +74,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(50),
-			
-            }.SetHooks([hookDetails]);
+			    HookCreationDetails = [hookDetails],
+			};
 
             // Verify hooks were set
-            IList<HookCreationDetails> retrievedHooks = transaction.GetHooks();
+            IList<HookCreationDetails> retrievedHooks = transaction.HookCreationDetails;
             Assert.Equal(1, retrievedHooks.Count);
             Assert.Equal(hookDetails, retrievedHooks[0]);
         }
@@ -95,16 +95,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(25),
-			}
-            .AddHook(hook1)
-            .AddHook(hook2); // Duplicate hook ID
+                HookCreationDetails = [hook1, hook2]
+
+			}; // Duplicate hook ID
 
             // Client-side duplicate ID validation was removed; ensure build includes both entries
             var proto = transaction.ToProtobuf();
 
-            Assert.Equal(2, proto.GetHookCreationDetailsCount());
-            Assert.Equal(1, proto.GetHookCreationDetails(0).HookId);
-            Assert.Equal(1, proto.GetHookCreationDetails(1).HookId);
+            Assert.Equal(2, proto.HookCreationDetails.Count);
+            Assert.Equal(1, proto.HookCreationDetails[0].HookId);
+            Assert.Equal(1, proto.HookCreationDetails[1].HookId);
         }
 
         public virtual void TestAccountCreateTransactionProtobufSerialization()
@@ -118,18 +118,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(75),
-			}
-            .AddHook(hook);
+                HookCreationDetails = [hook]
+			};
 
             // Build the protobuf
             var protoBody = transaction.ToProtobuf();
 
             // Verify hook creation details are included
-            Assert.Equal(1, protoBody.GetHookCreationDetailsCount());
-            var protoHookDetails = protoBody.GetHookCreationDetails(0);
-            Assert.Equal(Proto.HookExtensionPoint.AccountAllowanceHook, protoHookDetails.GetExtensionPoint());
+            Assert.Equal(1, protoBody.HookCreationDetails.Count);
+            var protoHookDetails = protoBody.HookCreationDetails[0];
+            Assert.Equal(Proto.HookExtensionPoint.AccountAllowanceHook, protoHookDetails.ExtensionPoint);
             Assert.Equal(1, protoHookDetails.HookId);
-            Assert.True(protoHookDetails.HasEvmHook());
+            Assert.True(protoHookDetails.EvmHook is not null);
         }
 
         public virtual void TestAccountCreateTransactionEmptyHooks()
@@ -142,13 +142,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 			};
 
             // Verify no hooks
-            IList<HookCreationDetails> hookDetails = transaction.GetHooks();
+            IList<HookCreationDetails> hookDetails = transaction.HookCreationDetails;
             Assert.True(hookDetails.Count == 0);
 
             // Should build successfully
             var protoBody = transaction.ToProtobuf();
 
-            Assert.Equal(0, protoBody.GetHookCreationDetailsCount());
+            Assert.Equal(0, protoBody.HookCreationDetails.Count);
         }
 
         public virtual void TestAccountCreateTransactionHooksPersistThroughBytesRoundTrip()
@@ -163,24 +163,24 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             {
 				Key = PrivateKey.GenerateED25519().GetPublicKey(),
 				InitialBalance = Hbar.From(123),
-				Hooks = [hookDetails]
+				HookCreationDetails = [hookDetails]
 			};
 
             // Serialize to bytes then deserialize back
             byte[] bytes = originalTx.ToBytes();
-            Transaction<T> parsed = Transaction.FromBytes<T>(bytes);
+            ITransaction parsed = ITransaction.FromBytes(bytes);
             Assert.True(parsed is AccountCreateTransaction);
             AccountCreateTransaction parsedTx = (AccountCreateTransaction)parsed;
 
             // Verify hook information persisted
-            IList<HookCreationDetails> parsedHooks = parsedTx.GetHooks();
+            IList<HookCreationDetails> parsedHooks = parsedTx.HookCreationDetails;
 
             Assert.Equal(1, parsedHooks.Count);
             HookCreationDetails parsedHook = parsedHooks[0];
-            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, parsedHook.GetExtensionPoint());
+            Assert.Equal(HookExtensionPoint.AccountAllowanceHook, parsedHook.ExtensionPoint);
             Assert.Equal(3, parsedHook.HookId);
             Assert.NotNull(parsedHook.HookId);
-            Assert.True(parsedHook.HookId.GetStorageUpdates().Count == 0);
+            Assert.True(parsedHook.Hook.StorageUpdates.Count == 0);
         }
     }
 }

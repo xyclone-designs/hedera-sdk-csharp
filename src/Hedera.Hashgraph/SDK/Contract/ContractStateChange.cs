@@ -4,30 +4,15 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// @deprecated- User mirror nodes for contract traceability instead
-    /// 
-    /// The storage changes to a smart contract's storage as a side effect of the function call.
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/smart-contracts/contractcalllocal#contractstatechange">Hedera Documentation</a>
-    /// </remarks>
+    /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public class ContractStateChange
     {
-        /// <summary>
-        /// The contract to which the storage changes apply to
-        /// </summary>
+        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="F:.ContractId"]/*' />
         public readonly ContractId ContractId;
-        /// <summary>
-        /// The list of storage changes
-        /// </summary>
+        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="F:.StorageChanges"]/*' />
         public readonly List<StorageChange> StorageChanges;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="contractId">the contract id</param>
-        /// <param name="storageChanges">the list of storage change objects</param>
+        /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="M:ContractStateChange(ContractId,System.Collections.Generic.IEnumerable{StorageChange})"]/*' />
         ContractStateChange(ContractId contractId, IEnumerable<StorageChange> storageChanges)
         {
             ContractId = contractId;

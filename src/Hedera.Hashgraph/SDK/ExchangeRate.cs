@@ -3,9 +3,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// Denotes a conversion between Hbars and cents (USD).
-    /// </summary>
+    /// <include file="ExchangeRate.cs.xml" path='docs/member[@name="T:ExchangeRate"]/*' />
     public sealed class ExchangeRate
     {
         public ExchangeRate(int hbars, int cents, DateTimeOffset expirationTime)
@@ -16,31 +14,19 @@ namespace Hedera.Hashgraph.SDK
             ExchangeRateInCents = (double)cents / (double)hbars;
         }
 
-        /// <summary>
-        /// Create an Exchange Rate from a protobuf.
-        /// </summary>
-        /// <param name="pb">the protobuf</param>
-        /// <returns>                         the new exchange rate</returns>
+        /// <include file="ExchangeRate.cs.xml" path='docs/member[@name="M:ExchangeRate.FromProtobuf(Proto.ExchangeRate)"]/*' />
         public static ExchangeRate FromProtobuf(Proto.ExchangeRate pb)
         {
             return new ExchangeRate(pb.HbarEquiv, pb.CentEquiv, DateTimeOffset.FromUnixTimeSeconds(pb.ExpirationTime.Seconds));
         }
 
-		/// <summary>
-		/// Denotes Hbar equivalent to cents (USD)
-		/// </summary>
+		/// <include file="ExchangeRate.cs.xml" path='docs/member[@name="P:ExchangeRate.Hbars"]/*' />
 		public int Hbars { get; }
-		/// <summary>
-		/// Denotes cents (USD) equivalent to Hbar
-		/// </summary>
+		/// <include file="ExchangeRate.cs.xml" path='docs/member[@name="P:ExchangeRate.Cents"]/*' />
 		public int Cents { get; }
-		/// <summary>
-		/// Expiration time of this exchange rate
-		/// </summary>
+		/// <include file="ExchangeRate.cs.xml" path='docs/member[@name="P:ExchangeRate.ExpirationTime"]/*' />
 		public DateTimeOffset ExpirationTime { get; }
-		/// <summary>
-		/// Calculated exchange rate
-		/// </summary>
+		/// <include file="ExchangeRate.cs.xml" path='docs/member[@name="P:ExchangeRate.ExchangeRateInCents"]/*' />
 		public double ExchangeRateInCents { get; }
 	}
 }

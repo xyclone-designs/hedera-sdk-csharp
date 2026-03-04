@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ContractByteCodeQuery">
+    <summary>
+    Get the bytecode for a smart contract instance.
+    </summary>
+  </member>
+</docs>

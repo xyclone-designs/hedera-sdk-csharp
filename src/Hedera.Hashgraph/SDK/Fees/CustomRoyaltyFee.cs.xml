@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:CustomRoyaltyFee">
+    <summary>
+    Custom royalty fee utility class.
+    See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#royalty-fee">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:CustomRoyaltyFee.FromProtobuf(Proto.RoyaltyFee)">
+    <summary>
+    Create a custom royalty fee from a royalty fee protobuf.
+    </summary>
+    <param name="royaltyFee">the royalty fee protobuf</param>
+    <returns>the new royalty fee object</returns>
+  </member>
+  <member name="P:CustomRoyaltyFee.Numerator">
+    <summary>
+    Extract the numerator.
+    </summary>
+  </member>
+  <member name="P:CustomRoyaltyFee.Denominator">
+    <summary>
+    Extract the denominator.
+    </summary>
+  </member>
+  <member name="M:CustomRoyaltyFee.DeepCloneSubclass">
+    <summary>
+    The fallback fee is a fixed fee that is charged to the NFT receiver
+    when there is no fungible value exchanged with the sender of the NFT.
+    </summary>
+  </member>
+  <member name="M:CustomRoyaltyFee.ToRoyaltyFeeProtobuf">
+    <summary>
+    Convert the royalty fee object to a protobuf.
+    </summary>
+    <returns>the protobuf object</returns>
+  </member>
+</docs>

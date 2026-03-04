@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TransactionRecordQuery">
+    <summary>&lt;summary&gt;
+    Get the record for a transaction.
+    &lt;p&gt;
+    If the transaction requested a record, then the record lasts for one hour, and a state proof is available for it.
+    If the transaction created an account, file, or smart contract instance, then the record will contain the ID for
+    what it created. If the transaction called a smart contract function, then the record contains the result of
+    that call. If the transaction was a cryptocurrency transfer, then the record includes the TransferList
+    which gives the details of that transfer. If the transaction didn't return anything that should be
+    in the record, then the results field will be set to nothing.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:TransactionRecordQuery.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="P:TransactionRecordQuery.IncludeChildren">
+    <summary>
+    Whether the response should include the records of any child transactions spawned by the
+    top-level transaction with the given transactionID.
+    </summary>
+    <param name="value">The value that includeChildren should be set to; true to include children, false to exclude</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="P:TransactionRecordQuery.IncludeDuplicates">
+    <summary>
+    Whether records of processing duplicate transactions should be returned along with the record
+    of processing the first consensus transaction with the given id whose status was neither
+    INVALID_NODE_ACCOUNT nor INVALID_PAYER_SIGNATURE or, if no such
+    record exists, the record of processing the first transaction to reach consensus with the
+    given transaction id.
+    </summary>
+  </member>
+  <member name="P:TransactionRecordQuery.TransactionId">
+    <summary>
+    Set the ID of the transaction for which the record is requested.
+    </summary>
+  </member>
+  <member name="M:TransactionRecordQuery.ValidateChecksums(Client)">
+    <summary>
+    Extract the transaction id.
+    </summary>
+    <returns>the transaction id</returns>
+  </member>
+</docs>

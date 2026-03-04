@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:AddressBookQuery">
+    <summary>
+    Query the mirror node for the address book.
+    </summary>
+  </member>
+  <member name="P:AddressBookQuery.FileId">
+    <summary>
+    Assign the file id of address book to retrieve.
+    </summary>
+  </member>
+  <member name="T:AddressBookQuery_2">
+    <summary>
+    Assign the maximum backoff duration. Must be at least 500 ms.
+    </summary>
+  </member>
+  <member name="P:AddressBookQuery.Limit">
+    <summary>
+    Assign the number of node addresses to retrieve, or 0 for all nodes.
+    </summary>
+  </member>
+  <member name="P:AddressBookQuery.MaxAttempts">
+    <summary>
+    Assign the maximum number of attempts.
+    </summary>
+  </member>
+  <member name="M:AddressBookQuery.Execute(Client)">
+    <summary>
+    Execute the query with the client's preset timeout.
+    </summary>
+  </member>
+  <member name="M:AddressBookQuery.Execute(Client,System.TimeSpan)">
+    <summary>
+    Execute the query with a user-supplied timeout.
+    </summary>
+  </member>
+  <member name="M:AddressBookQuery.ExecuteAsync(Client)">
+    <summary>
+    Execute the query asynchronously with the client's preset timeout.
+    </summary>
+  </member>
+  <member name="M:AddressBookQuery.ExecuteAsync(Client,System.TimeSpan)">
+    <summary>
+    Execute the query asynchronously with a user-supplied timeout.
+    </summary>
+  </member>
+  <member name="M:AddressBookQuery.BuildProtoQuery">
+    <summary>
+    Build the protobuf address book query message.
+    </summary>
+  </member>
+</docs>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:MetadataInterceptor">
+    <summary>
+    Metadata interceptor for the client.
+    This interceptor adds the user agent header to the request.
+    </summary>
+  </member>
+</docs>

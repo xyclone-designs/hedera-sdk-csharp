@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+    <summary></summary>
+    <remarks>
+    @deprecated
+    This transaction is obsolete, not supported, and SHALL fail with a
+    pre-check result of `NOT_SUPPORTED`.
+    
+    A Live Hash value associating some item of content to an account.
+    This message represents a desired entry in the ledger for a SHA-384
+    hash of some content, an associated specific account, a list of authorized
+    keys, and a duration the live hash is "valid".
+    </remarks>
+  </member>
+  <member name="M:LiveHashAddTransaction">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:LiveHashAddTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:RequireNotFrozen">
+    <summary>
+    The account to which the livehash is attached
+    </summary>
+    <param name="accountId">The AccountId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:RequireNotFrozen_2">
+    <summary>
+    The SHA-384 hash of a credential or certificate.
+    </summary>
+  </member>
+  <member name="M:RequireNotFrozen_3">
+    <summary>
+    A list of keys (primitive or threshold), all of which must sign to attach the livehash to an
+    account, and any one of which can later delete it.
+    </summary>
+    <param name="keys">The Key or Keys to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:RequireNotFrozen_4">
+    <summary>
+    The duration for which the livehash will remain valid
+    </summary>
+    <param name="duration">The TimeSpan to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:ToProtobuf">
+    <summary>
+    Build the correct transaction body.
+    </summary>
+    <returns>{@link Proto.CryptoAddLiveHashTransactionBody}</returns>
+  </member>
+</docs>

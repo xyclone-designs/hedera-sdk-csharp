@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenGrantKycTransaction">
+    <summary>
+    Grant "Know Your Customer"(KYC) for one account for a single token.
+    
+    This transaction MUST be signed by the `kyc_key` for the token.<br />
+    The identified token MUST have a `kyc_key` set to a valid `Key` value.<br />
+    The token `kyc_key` MUST NOT be an empty `KeyList`.<br />
+    The identified token MUST exist and MUST NOT be deleted.<br />
+    The identified account MUST exist and MUST NOT be deleted.<br />
+    The identified account MUST have an association to the identified token.<br />
+    On success the association between the identified account and the identified
+    token SHALL be marked as "KYC granted".
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:TokenGrantKycTransaction.#ctor">
+    <summary>
+    Configure.
+    </summary>
+  </member>
+  <member name="M:TokenGrantKycTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:TokenGrantKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenGrantKycTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A token identifier.
+    &lt;p&gt;
+    The identified token SHALL grant "KYC" for the account
+    identified by the `account` field.&lt;br/&gt;
+    The identified token MUST be associated to the account identified
+    by the `account` field.
+    &lt;/summary&gt;
+    &lt;param name="tokenId"&gt;the token id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenGrantKycTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    An account identifier.
+    &lt;p&gt;
+    The token identified by the `token` field SHALL grant "KYC" for the
+    identified account.&lt;br/&gt;
+    This account MUST be associated to the token identified
+    by the `token` field.
+    &lt;/summary&gt;
+    &lt;param name="accountId"&gt;the account id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenGrantKycTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TokenGrantKycTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link
+            Proto.TokenGrantKycTransactionBody}</returns>
+  </member>
+</docs>

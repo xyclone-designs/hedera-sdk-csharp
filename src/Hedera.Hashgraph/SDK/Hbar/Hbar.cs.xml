@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Hbar">
+    <summary>&lt;summary&gt;
+    Represents a quantity of hbar.
+    &lt;p&gt;
+    Implemented as a wrapper class to force handling of units. Direct interfacing with Hedera accepts amounts
+    in Tinybars however the nominal unit is hbar.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="M:Hbar.FromTinybars(0)">
+    <summary>
+    A constant value of zero hbars.
+    </summary>
+  </member>
+  <member name="M:Hbar.From(50000000000)">
+    <summary>
+    A constant value of the maximum number of hbars.
+    </summary>
+  </member>
+  <member name="M:Hbar.From(-)">
+    <summary>
+    A constant value of the minimum number of hbars.
+    </summary>
+  </member>
+  <member name="M:Hbar.#ctor(System.Int64)">
+    <summary>
+    Constructs a new Hbar of the specified value.
+    </summary>
+    <param name="amount">The amount of Hbar</param>
+  </member>
+  <member name="M:Hbar.#ctor(BigDecimal)">
+    <summary>&lt;summary&gt;
+    Constructs a new Hbar of the specified, possibly fractional value.
+    &lt;p&gt;
+    The equivalent amount in Tinybar must be an integer and fit in a {@code long} (64-bit signed integer).
+    &lt;p&gt;
+    E.g., {@code 1.23456789} is a valid amount of hbar but {@code 0.123456789} is not.
+    &lt;/summary&gt;
+    &lt;param name="amount"&gt;The amount of Hbar&lt;/param&gt;</summary>
+  </member>
+  <member name="M:Hbar.#ctor(System.Int64,HbarUnit)">
+    <summary>
+    Constructs a new hbar of the specified value in the specified unit.
+    {@link HbarUnit}
+    </summary>
+    <param name="amount">the amount</param>
+    <param name="unit">the unit for amount</param>
+  </member>
+  <member name="M:Hbar.#ctor(BigDecimal,HbarUnit)">
+    <summary>
+    Constructs a new hbar of the specified value in the specified unit.
+    {@link HbarUnit}
+    </summary>
+    <param name="amount">the amount</param>
+    <param name="unit">the unit for amount</param>
+  </member>
+  <member name="M:Hbar.FromString(System.String)">
+    <summary>
+    Converts the provided string into an amount of hbars.
+    </summary>
+    <param name="text">The string representing the amount of Hbar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.FromString(System.String,HbarUnit)">
+    <summary>
+    Converts the provided string into an amount of hbars.
+    </summary>
+    <param name="text">The string representing the amount of set units</param>
+    <param name="unit">The unit to convert from to Hbar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.From(System.Int64)">
+    <summary>
+    Returns an Hbar whose value is equal to the specified long.
+    </summary>
+    <param name="hbars">The value of Hbar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.From(System.Int64,HbarUnit)">
+    <summary>
+    Returns an Hbar representing the value in the given units.
+    </summary>
+    <param name="amount">The long representing the amount of set units</param>
+    <param name="unit">The unit to convert from to Hbar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.From(BigDecimal)">
+    <summary>
+    Returns an Hbar whose value is equal to the specified long.
+    </summary>
+    <param name="hbars">The BigDecimal representing the amount of Hbar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.From(BigDecimal,HbarUnit)">
+    <summary>
+    Returns an Hbar representing the value in the given units.
+    </summary>
+    <param name="amount">The BigDecimal representing the amount of set units</param>
+    <param name="unit">The unit to convert from to Hbar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.FromTinybars(System.Int64)">
+    <summary>
+    Returns an Hbar converted from the specified number of Tinybars.
+    </summary>
+    <param name="Tinybars">The long representing the amount of Tinybar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.FromTinybars(System.UInt64)">
+    <summary>
+    Returns an Hbar converted from the specified number of Tinybars.
+    </summary>
+    <param name="Tinybars">The long representing the amount of Tinybar</param>
+    <returns>{@link Hbar}</returns>
+  </member>
+  <member name="M:Hbar.To(HbarUnit)">
+    <summary>
+    Convert this hbar value to a different unit.
+    </summary>
+    <param name="unit">The unit to convert to from Hbar</param>
+    <returns>BigDecimal</returns>
+  </member>
+  <member name="M:Hbar.ToTinybars">
+    <summary>
+    Convert this hbar value to Tinybars.
+    </summary>
+    <returns>long</returns>
+  </member>
+  <member name="M:Hbar.GetValue">
+    <summary>
+    Returns the number of Hbars.
+    </summary>
+    <returns>BigDecimal</returns>
+  </member>
+  <member name="M:Hbar.Negated">
+    <summary>
+    Returns a Hbar whose value is {@code -this}.
+    </summary>
+    <returns>Hbar</returns>
+  </member>
+  <member name="M:Hbar.ToString(HbarUnit)">
+    <summary>
+    Convert hbar to string representation in specified units.
+    </summary>
+    <param name="unit">the desired unit</param>
+    <returns>the string representation</returns>
+  </member>
+</docs>

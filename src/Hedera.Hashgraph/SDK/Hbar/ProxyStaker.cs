@@ -3,35 +3,21 @@ using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.HBar
 {
-    /// <summary>
-    /// Information about a single account that is proxy staking.
-    /// </summary>
+    /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="T:ProxyStaker"]/*' />
     public sealed class ProxyStaker
     {
-        /// <summary>
-        /// The Account ID that is proxy staking.
-        /// </summary>
+        /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="M:ProxyStaker.#ctor(AccountId,System.Int64)"]/*' />
         public readonly AccountId AccountId;
-        /// <summary>
-        /// The number of hbars that are currently proxy staked.
-        /// </summary>
+        /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="M:ProxyStaker.#ctor(AccountId,System.Int64)_2"]/*' />
         public readonly Hbar Amount;
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="accountId">the account id</param>
-        /// <param name="amount">the amount</param>
+        /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="M:ProxyStaker.#ctor(AccountId,System.Int64)_3"]/*' />
         private ProxyStaker(AccountId accountId, long amount)
         {
             AccountId = accountId;
             Amount = Hbar.FromTinybars(amount);
         }
 
-        /// <summary>
-        /// Create a proxy staker object from a protobuf.
-        /// </summary>
-        /// <param name="proxyStaker">the protobuf</param>
-        /// <returns>                         the new proxy staker object</returns>
+        /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="M:ProxyStaker.FromProtobuf(Proto.ProxyStaker)"]/*' />
         public static ProxyStaker FromProtobuf(Proto.ProxyStaker proxyStaker)
         {
             return new ProxyStaker(AccountId.FromProtobuf(proxyStaker.AccountID), proxyStaker.Amount);

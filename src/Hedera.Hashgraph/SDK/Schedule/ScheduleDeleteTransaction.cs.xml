@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:ScheduleDeleteTransaction">
+    <summary>
+    Mark a schedule in the network state as deleted.
+    
+    This transaction MUST be signed by the `adminKey` for the
+    identified schedule.<br />
+    If a schedule does not have `adminKey` set or if `adminKey` is an empty
+    `KeyList`, that schedule SHALL be immutable and MUST NOT be deleted.<br />
+    A deleted schedule SHALL not be executed.<br />
+    A deleted schedule MUST NOT be the subject of a subsequent
+    `scheduleSign` transaction.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:ScheduleDeleteTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:ScheduleDeleteTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:ScheduleDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
+               records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:ScheduleDeleteTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A schedule identifier.
+    &lt;p&gt;
+    This MUST identify the schedule which SHALL be deleted.
+    &lt;/summary&gt;
+    &lt;param name="scheduleId"&gt;the schedule id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:ScheduleDeleteTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:ScheduleDeleteTransaction.ToProtobuf">
+    <summary>
+    Build the correct transaction body.
+    </summary>
+    <returns>{@link Proto.ScheduleDeleteTransactionBody builder }</returns>
+  </member>
+</docs>

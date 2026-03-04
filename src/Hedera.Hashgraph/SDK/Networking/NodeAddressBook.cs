@@ -5,28 +5,15 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <summary>
-	/// A list of nodes and their metadata.
-	/// 
-	/// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/nodeaddressbook">Hedera Documentation</a>
-	/// </summary>
+	/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="T:NodeAddressBook"]/*' />
 	public class NodeAddressBook
     {
-		/// <summary>
-		 /// Create a node address book from a byte string.
-		 /// </summary>
-		 /// <param name="bytes">the byte string</param>
-		 /// <returns>                         the new node address book</returns>
-		 /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromBytes(ByteString)"]/*' />
 		public static NodeAddressBook FromBytes(ByteString bytes)
 		{
 			return FromProtobuf(Proto.NodeAddressBook.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a node address book from a protobuf.
-		/// </summary>
-		/// <param name="book">the protobuf</param>
-		/// <returns>                         the new node address book</returns>
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromProtobuf(Proto.NodeAddressBook)"]/*' />
 		public static NodeAddressBook FromProtobuf(Proto.NodeAddressBook book)
 		{
 			var addresses = new List<NodeAddress>(book.NodeAddress.Count);
@@ -50,10 +37,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return cloneAddresses;
 		}
 
-		/// <summary>
-		/// Extract the of node addresses.
-		/// </summary>
-		/// <returns>                         list of node addresses</returns>
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.CloneNodeAddresses(field)"]/*' />
 		public virtual List<NodeAddress> NodeAddresses
         {
             get => CloneNodeAddresses(field);
@@ -61,18 +45,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 
         } = [];
 
-		/// <summary>
-		/// Create the byte string.
-		/// </summary>
-		/// <returns>                         the byte string representation</returns>
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.ToBytes"]/*' />
 		public virtual ByteString ToBytes()
 		{
 			return ToProtobuf().ToByteString();
 		}
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.ToProtobuf"]/*' />
 		public virtual Proto.NodeAddressBook ToProtobuf()
         {
 			Proto.NodeAddressBook proto = new ();

@@ -11,23 +11,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <summary>
-    /// Delete one or more allowances.
-    /// Given one or more, previously approved, allowances for non-fungible/unique
-    /// tokens to be transferred by a spending account from an owning account;
-    /// this transaction removes a specified set of those allowances.
-    /// 
-    /// The owner account for each listed allowance MUST sign this transaction.
-    /// Allowances for HBAR cannot be removed with this transaction. The owner
-    /// account MUST submit a new `cryptoApproveAllowance` transaction with the
-    /// amount set to `0` to "remove" that allowance.
-    /// Allowances for fungible/common tokens cannot be removed with this
-    /// transaction. The owner account MUST submit a new `cryptoApproveAllowance`
-    /// transaction with the amount set to `0` to "remove" that allowance.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="T:AccountAllowanceDeleteTransaction"]/*' />
     public class AccountAllowanceDeleteTransaction : Transaction<AccountAllowanceDeleteTransaction>
     {
 		// <ownerId, <tokenId, index>>
@@ -36,23 +20,14 @@ namespace Hedera.Hashgraph.SDK.Account
         private readonly List<TokenAllowance> TokenAllowances = [];
         private readonly List<TokenNftAllowance> NftAllowances = [];
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor"]/*' />
         public AccountAllowanceDeleteTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal AccountAllowanceDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal AccountAllowanceDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
@@ -67,26 +42,17 @@ namespace Hedera.Hashgraph.SDK.Account
 						nftserials.Add(serialnumber);
 		}
 
-        /// <summary>
-        /// </summary>
-        /// <returns>                         a list of hbar allowance records</returns>
-        /// <remarks>@deprecatedwith no replacement</remarks>
+        /// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.GetHbarAllowanceDeletions"]/*' />
         public virtual List<HbarAllowance> GetHbarAllowanceDeletions()
         {
             return [.. HbarAllowances];
         }
-		/// <summary>
-		/// </summary>
-		/// <returns>                         a list of token allowance records</returns>
-		/// <remarks>@deprecatedwith no replacement</remarks>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.GetTokenAllowanceDeletions"]/*' />
 		public virtual List<TokenAllowance> GetTokenAllowanceDeletions()
 		{
 			return [.. TokenAllowances];
 		}
-		/// <summary>
-		/// Return list of nft tokens to be deleted.
-		/// </summary>
-		/// <returns>                         list of token nft allowances</returns>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.GetTokenNftAllowanceDeletions"]/*' />
 		public virtual List<TokenNftAllowance> GetTokenNftAllowanceDeletions()
 		{
 			List<TokenNftAllowance> retval = new(NftAllowances.Count);
@@ -99,12 +65,7 @@ namespace Hedera.Hashgraph.SDK.Account
 			return retval;
 		}
 
-		/// <summary>
-		/// Return list of nft serial numbers.
-		/// </summary>
-		/// <param name="ownerAccountId">owner's account id</param>
-		/// <param name="tokenId">the token's id</param>
-		/// <returns>                         list of nft serial numbers</returns>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.GetNftSerials(AccountId,TokenId)"]/*' />
 		private List<long> GetNftSerials(AccountId ownerAccountId, TokenId tokenId)
 		{
 			var key = ownerAccountId;
@@ -127,13 +88,7 @@ namespace Hedera.Hashgraph.SDK.Account
 				return NewNftSerials(ownerAccountId, tokenId, innerMap);
 			}
 		}
-		/// <summary>
-		/// Return serial numbers of new nft's.
-		/// </summary>
-		/// <param name="ownerAccountId">owner's account id</param>
-		/// <param name="tokenId">the token's id</param>
-		/// <param name="innerMap">list of token id's and serial number records</param>
-		/// <returns>                         list of nft serial numbers</returns>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.NewNftSerials(AccountId,TokenId,System.Collections.Generic.Dictionary{TokenId,System.Int32})"]/*' />
 		private List<long> NewNftSerials(AccountId ownerAccountId, TokenId tokenId, Dictionary<TokenId, int> innerMap)
 		{
 			innerMap.Add(tokenId, NftAllowances.Count);
@@ -142,35 +97,21 @@ namespace Hedera.Hashgraph.SDK.Account
 			return newAllowance.SerialNumbers;
 		}
 
-		/// <summary>
-		/// </summary>
-		/// <param name="ownerAccountId">the owner's account id</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecatedwith no replacement</remarks>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.DeleteAllHbarAllowances(AccountId)"]/*' />
 		public virtual AccountAllowanceDeleteTransaction DeleteAllHbarAllowances(AccountId ownerAccountId)
 		{
 			RequireNotFrozen();
 			HbarAllowances.Add(new HbarAllowance(ownerAccountId, null, null));
 			return this;
 		}
-		/// <summary>
-		/// </summary>
-		/// <param name="tokenId">the token id</param>
-		/// <param name="ownerAccountId">the owner's account id</param>
-		/// <returns>{@code this}</returns>
-		/// <remarks>@deprecatedwith no replacement</remarks>
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.DeleteAllTokenAllowances(TokenId,AccountId)"]/*' />
 		public virtual AccountAllowanceDeleteTransaction DeleteAllTokenAllowances(TokenId tokenId, AccountId ownerAccountId)
         {
             RequireNotFrozen();
             TokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, null, 0));
             return this;
         }
-        /// <summary>
-        /// Remove all nft token allowances.
-        /// </summary>
-        /// <param name="nftId">nft's id</param>
-        /// <param name="ownerAccountId">owner's account id</param>
-        /// <returns>                         {@code this}</returns>
+        /// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.DeleteAllTokenNftAllowances(NftId,AccountId)"]/*' />
         public virtual AccountAllowanceDeleteTransaction DeleteAllTokenNftAllowances(NftId nftId, AccountId ownerAccountId)
         {
             RequireNotFrozen();
@@ -179,10 +120,7 @@ namespace Hedera.Hashgraph.SDK.Account
             return this;
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link CryptoDeleteAllowanceTransactionBody}</returns>
+        /// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.ToProtobuf"]/*' />
         public virtual Proto.CryptoDeleteAllowanceTransactionBody ToProtobuf()
         {
             var builder = new Proto.CryptoDeleteAllowanceTransactionBody();

@@ -3,15 +3,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
-    /// <summary>
-    /// A chunk of the topic message.
-    /// </summary>
+    /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="T:TopicMessageChunk"]/*' />
     public sealed class TopicMessageChunk
     {
-        /// <summary>
-        /// Create a topic message chunk from a protobuf.
-        /// </summary>
-        /// <param name="response">the protobuf</param>
+        /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="M:TopicMessageChunk.#ctor(Proto.ConsensusTopicResponse)"]/*' />
         public TopicMessageChunk(Proto.ConsensusTopicResponse response)
         {
             ConsensusTimestamp = response.ConsensusTimestamp.ToDateTimeOffset();

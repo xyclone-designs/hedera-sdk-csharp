@@ -44,8 +44,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private TokenBurnTransaction SpawnTestTransaction()
         {
             return new TokenBurnTransaction()
-                .SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")))
-                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)))
+                .SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")])
+                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart))
                 .SetTokenId(testTokenId)
                 .SetAmount(testAmount)
                 .SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);
@@ -66,8 +66,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private TokenBurnTransaction SpawnTestTransactionNft()
         {
             return new TokenBurnTransaction()
-                .SetNodeAccountIds(Arrays.AsList(AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")))
-                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(validStart)))
+                .SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")])
+                .SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart))
                 .SetTokenId(testTokenId)
                 .SetSerials(testSerials)
                 .SetMaxTransactionFee(new Hbar(1)).Freeze().Sign(unusedPrivateKey);

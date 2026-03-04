@@ -7,30 +7,14 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-    /// <summary>
-    /// Signals that a transaction has failed the pre-check.
-    /// <p>
-    /// Before a node submits a transaction to the rest of the network,
-    /// it attempts some cheap assertions. This process is called the "pre-check".
-    /// </summary>
+    /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="T:PrecheckStatusException"]/*' />
     public class PrecheckStatusException : Exception
     {
-        /// <summary>
-        /// The status of the failing transaction
-        /// </summary>
+        /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)"]/*' />
         public readonly ResponseStatus Status;
-        /// <summary>
-        /// The ID of the transaction that failed.
-        /// <p>
-        /// This can be `null` if a query fails pre-check without an
-        /// associated payment transaction.
-        /// </summary>
+        /// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)_2"]/*' />
         public readonly TransactionId TransactionId;
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="status">the status</param>
-		/// <param name="transactionId">the transaction id</param>
+		/// <include file="PrecheckStatusException.cs.xml" path='docs/member[@name="M:PrecheckStatusException.#ctor(ResponseStatus,TransactionId)_3"]/*' />
 		internal PrecheckStatusException(ResponseStatus status, TransactionId transactionId)
         {
             Status = status;

@@ -12,19 +12,7 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <summary>
-    /// A transaction in Ethereum format.<br/>
-    /// Make an Ethereum transaction "call" with all data in Ethereum formats,
-    /// including the contract alias. Call data may be in the transaction, or
-    /// stored within an Hedera File.
-    /// 
-    /// The caller MAY offer additional gas above what is offered in the call data,
-    /// but MAY be charged up to 80% of that value if the amount required is less
-    /// than this "floor" amount.
-    /// 
-    /// ### Block Stream Effects
-    /// An `EthereumOutput` message SHALL be emitted for each transaction.
-    /// </summary>
+    /// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="T:EthereumTransaction"]/*' />
     public class EthereumTransaction : Transaction<EthereumTransaction>
     {
         public EthereumTransaction() { }
@@ -37,42 +25,19 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// Sets the raw Ethereum transaction (RLP encoded type 0, 1, and 2). Complete
-		/// unless the callDataFileId is set.
-		/// </summary>
+		/// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen"]/*' />
 		public virtual byte[] EthereumData
         {
             get;
             set { RequireNotFrozen(); field = value.CopyArray(); }
         } = [];
-		/// <summary>
-		/// For large transactions (for example contract create) this should be used to
-		/// set the FileId of an HFS file containing the callData
-		/// of the ethereumData. The data in the ethereumData will be re-written with
-		/// the callData element as a zero length string with the original contents in
-		/// the referenced file at time of execution. The ethereumData will need to be
-		/// "rehydrated" with the callData for signature validation to pass.
-		/// </summary>
+		/// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen_2"]/*' />
 		public virtual FileId? CallDataFileId
 		{
 			get;
 			set { RequireNotFrozen(); field = value; }
 		}
-        /// <summary>
-        /// Sets the maximum amount that the payer of the hedera transaction
-        /// is willing to pay to complete the transaction.
-        /// <br>
-        /// Ordinarily the account with the ECDSA alias corresponding to the public
-        /// key that is extracted from the ethereum_data signature is responsible for
-        /// fees that result from the execution of the transaction. If that amount of
-        /// authorized fees is not sufficient then the payer of the transaction can be
-        /// charged, up to but not exceeding this amount. If the ethereum_data
-        /// transaction authorized an amount that was insufficient then the payer will
-        /// only be charged the amount needed to make up the difference. If the gas
-        /// price in the transaction was set to zero then the payer will be assessed
-        /// the entire fee.
-        /// </summary>
+        /// <include file="EthereumTransaction.cs.xml" path='docs/member[@name="M:EthereumTransaction.RequireNotFrozen_3"]/*' />
         public virtual Hbar MaxGasAllowanceHbar
         {
             get;

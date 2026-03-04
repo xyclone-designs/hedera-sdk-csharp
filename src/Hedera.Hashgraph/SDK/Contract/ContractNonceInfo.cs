@@ -5,19 +5,12 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <summary>
-    /// Info about a contract account's nonce value.
-    /// A nonce of a contract is only incremented when that contract creates another contract.
-    /// </summary>
+    /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="T:ContractNonceInfo"]/*' />
     public sealed class ContractNonceInfo
     {
-        /// <summary>
-        /// Id of the contract
-        /// </summary>
+        /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.#ctor(ContractId,System.Int64)"]/*' />
         public readonly ContractId ContractId;
-        /// <summary>
-        /// The current value of the contract account's nonce property
-        /// </summary>
+        /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.#ctor(ContractId,System.Int64)_2"]/*' />
         public readonly long Nonce;
         public ContractNonceInfo(ContractId contractId, long nonce)
         {
@@ -25,30 +18,18 @@ namespace Hedera.Hashgraph.SDK.Contract
             Nonce = nonce;
         }
 
-		/// <summary>
-		/// Extract the contractNonce from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>the extracted contract</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.FromBytes(System.Byte[])"]/*' />
 		public static ContractNonceInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.ContractNonceInfo.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Extract the contractNonce from the protobuf.
-		/// </summary>
-		/// <param name="contractNonceInfo">the protobuf</param>
-		/// <returns>the contract object</returns>
+		/// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.FromProtobuf(Proto.ContractNonceInfo)"]/*' />
 		public static ContractNonceInfo FromProtobuf(Proto.ContractNonceInfo contractNonceInfo)
         {
             return new ContractNonceInfo(ContractId.FromProtobuf(contractNonceInfo.ContractId), contractNonceInfo.Nonce);
         }
 
-        /// <summary>
-        /// Build the protobuf.
-        /// </summary>
-        /// <returns>the protobuf representation</returns>
+        /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.ToProtobuf"]/*' />
         public Proto.ContractNonceInfo ToProtobuf()
         {
             return new Proto.ContractNonceInfo
@@ -77,10 +58,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             return ContractId.Equals(otherInfo.ContractId) && Nonce.Equals(otherInfo.Nonce);
         }
 
-        /// <summary>
-        /// Create a byte array representation.
-        /// </summary>
-        /// <returns>the byte array representation</returns>
+        /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.ToBytes"]/*' />
         public byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

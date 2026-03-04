@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:SubscriptionHandle">
+    <summary>
+    Subscribe to a topic ID's messages from a mirror node. You will receive
+    all messages for the specified topic or within the defined start and end
+    time.
+    
+    See <a href="https://docs.hedera.com/guides/docs/sdks/consensus/get-topic-message">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:SubscriptionHandle.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:SubscriptionHandle.SetOnUnsubscribe(System.Action)">
+    <summary>
+    Assign the callback method.
+    </summary>
+    <param name="onUnsubscribe">the callback method</param>
+  </member>
+  <member name="M:SubscriptionHandle.Unsubscribe">
+    <summary>
+    Call the callback.
+    </summary>
+  </member>
+</docs>

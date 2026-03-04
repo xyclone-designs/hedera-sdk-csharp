@@ -4,32 +4,16 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Exceptions
 {
-    /// <summary>
-    /// Custom exception for when there are issues with the mnemonic.
-    /// </summary>
+    /// <include file="BadMnemonicException.cs.xml" path='docs/member[@name="T:BadMnemonicException"]/*' />
     public class BadMnemonicException : Exception
     {
-        /// <summary>
-        /// The mnemonic that failed validation.
-        /// </summary>
+        /// <include file="BadMnemonicException.cs.xml" path='docs/member[@name="F:BadMnemonicException.Mnemonic"]/*' />
         public readonly Mnemonic Mnemonic;
-        /// <summary>
-        /// The reason for which the mnemonic failed validation.
-        /// </summary>
+        /// <include file="BadMnemonicException.cs.xml" path='docs/member[@name="M:BadMnemonicException.#ctor(Mnemonic,BadMnemonicReason,System.Collections.Generic.IEnumerable{System.Int32})"]/*' />
         public readonly BadMnemonicReason Reason;
-        /// <summary>
-        /// If not null, these are the indices in the mnemonic that were not found in the
-        /// BIP-39 standard English word list.
-        /// <p>
-        /// If {@code reason == BadMnemonicReason.UnknownWords} then this will be not null.
-        /// </summary>
+        /// <include file="BadMnemonicException.cs.xml" path='docs/member[@name="M:BadMnemonicException.#ctor(Mnemonic,BadMnemonicReason,System.Collections.Generic.IEnumerable{System.Int32})_2"]/*' />
         public readonly List<int>? UnknownWordIndices;
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="mnemonic">the mnemonic</param>
-		/// <param name="reason">the reason</param>
-		/// <param name="unknownWordIndices">the indices</param>
+		/// <include file="BadMnemonicException.cs.xml" path='docs/member[@name="M:BadMnemonicException.#ctor(Mnemonic,BadMnemonicReason,System.Collections.Generic.IEnumerable{System.Int32})_3"]/*' />
 		internal BadMnemonicException(Mnemonic mnemonic, BadMnemonicReason reason, IEnumerable<int> unknownWordIndices)
         {
             Mnemonic = mnemonic;
@@ -37,11 +21,7 @@ namespace Hedera.Hashgraph.SDK.Exceptions
             UnknownWordIndices = [.. unknownWordIndices];
         }
 
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="mnemonic">the mnemonic</param>
-		/// <param name="reason">the reason</param>
+		/// <include file="BadMnemonicException.cs.xml" path='docs/member[@name="M:BadMnemonicException.#ctor(Mnemonic,BadMnemonicReason)"]/*' />
 		internal BadMnemonicException(Mnemonic mnemonic, BadMnemonicReason reason)
         {
             Mnemonic = mnemonic;

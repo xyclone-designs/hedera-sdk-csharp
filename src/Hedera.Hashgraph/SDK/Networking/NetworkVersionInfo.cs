@@ -3,46 +3,27 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <summary>
-    /// Internal utility class.
-    /// </summary>
+    /// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="T:NetworkVersionInfo"]/*' />
     public class NetworkVersionInfo
     {
-        /// <summary>
-        /// Version of the protobuf schema in use by the network
-        /// </summary>
+        /// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.#ctor(SemanticVersion,SemanticVersion)"]/*' />
         public readonly SemanticVersion ProtobufVersion;
-        /// <summary>
-        /// Version of the Hedera services in use by the network
-        /// </summary>
+        /// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.#ctor(SemanticVersion,SemanticVersion)_2"]/*' />
         public readonly SemanticVersion ServicesVersion;
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="hapi">the protobuf version</param>
-        /// <param name="hedera">the hedera version</param>
+        /// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.#ctor(SemanticVersion,SemanticVersion)_3"]/*' />
         internal NetworkVersionInfo(SemanticVersion hapi, SemanticVersion hedera)
         {
             ProtobufVersion = hapi;
             ServicesVersion = hedera;
         }
 
-		/// <summary>
-		/// Create a network version info object from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>                         the new network version object</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.FromBytes(System.Byte[])"]/*' />
 		public static NetworkVersionInfo FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.NetworkGetVersionInfoResponse.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a network version info object from a protobuf.
-		/// </summary>
-		/// <param name="proto">the protobuf</param>
-		/// <returns>                         the new network version object</returns>
+		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.FromProtobuf(Proto.NetworkGetVersionInfoResponse)"]/*' />
 		public static NetworkVersionInfo FromProtobuf(Proto.NetworkGetVersionInfoResponse proto)
         {
             return new NetworkVersionInfo(
@@ -50,18 +31,12 @@ namespace Hedera.Hashgraph.SDK.Networking
                 SemanticVersion.FromProtobuf(proto.HederaServicesVersion));
         }
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>                         the byte array representation</returns>
+		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.ToProtobuf"]/*' />
 		public virtual Proto.NetworkGetVersionInfoResponse ToProtobuf()
         {
             return new Proto.NetworkGetVersionInfoResponse

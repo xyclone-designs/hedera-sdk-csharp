@@ -6,9 +6,7 @@ using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-    /// <summary>
-    /// Utility class.
-    /// </summary>
+    /// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="T:MirrorNetwork"]/*' />
     public class MirrorNetwork : BaseNetwork<MirrorNetwork, BaseNodeAddress, MirrorNode>
     {
 		internal MirrorNetwork(ExecutorService executor, IEnumerable<string> addresses) : base(executor)
@@ -23,53 +21,28 @@ namespace Hedera.Hashgraph.SDK.Networking
             catch (TimeoutException) { }
         }
 
-		/// <summary>
-		/// Create a mirror network for mainnet.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <returns>the new mirror network for mainnet</returns>
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForMainnet(ExecutorService)"]/*' />
 		internal static MirrorNetwork ForMainnet(ExecutorService executor)
         {
             return new MirrorNetwork(executor, [ "mainnet-public.mirrornode.hedera.com:443" ]);
         }
-		/// <summary>
-		/// Create a mirror network for testnet.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <returns>the new mirror network for testnet</returns>
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForTestnet(ExecutorService)"]/*' />
 		internal static MirrorNetwork ForTestnet(ExecutorService executor)
         {
             return new MirrorNetwork(executor, [ "testnet.mirrornode.hedera.com:443" ]);
         }
-		/// <summary>
-		/// Create a mirror network for previewnet.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <returns>the new mirror network for previewnet</returns>
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForPreviewnet(ExecutorService)"]/*' />
 		internal static MirrorNetwork ForPreviewnet(ExecutorService executor)
         {
             return new MirrorNetwork(executor, [ "previewnet.mirrornode.hedera.com:443" ]);
         }
-		/// <summary>
-		/// Create an arbitrary mirror network.
-		/// </summary>
-		/// <param name="executor">the executor service</param>
-		/// <param name="addresses">the arbitrary address for the network</param>
-		/// <returns>the new mirror network object</returns>
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.ForNetwork(ExecutorService,System.Collections.Generic.IEnumerable{System.String})"]/*' />
 		internal static MirrorNetwork ForNetwork(ExecutorService executor, IEnumerable<string> addresses)
 		{
 			return new MirrorNetwork(executor, addresses);
 		}
 
-		/// <summary>
-		/// Gets or sets the network names.
-		/// </summary>
-		/// <exception cref="TimeoutException">
-		/// When the transaction times out.
-		/// </exception>
-		/// <exception cref="InterruptedException">
-		/// When a thread is interrupted while it's waiting, sleeping, or otherwise occupied.
-		/// </exception>
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.lock(this)"]/*' />
 		public new virtual IList<string> Network
 		{
 			get
@@ -97,18 +70,12 @@ namespace Hedera.Hashgraph.SDK.Networking
             return new MirrorNode(entry.Value, Executor);
         }
 
-		/// <summary>
-		/// Convenience to get the REST base URL from the next healthy mirror node.
-		/// </summary>
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.GetRestBaseUrl"]/*' />
 		public virtual string GetRestBaseUrl()
 		{
 			return GetNextMirrorNode().GetRestBaseUrl();
 		}
-		/// <summary>
-		/// Extract the next healthy mirror node on the list.
-		/// </summary>
-		/// <returns>the next healthy mirror node on the list</returns>
-		/// <exception cref="InterruptedException">when a thread is interrupted while it's waiting, sleeping, or otherwise occupied</exception>
+		/// <include file="MirrorNetwork.cs.xml" path='docs/member[@name="M:MirrorNetwork.GetNextMirrorNode"]/*' />
 		public virtual MirrorNode GetNextMirrorNode()
         {
             lock (this)

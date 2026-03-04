@@ -17,144 +17,62 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-    /// <summary>
-    /// The complete record for a transaction on Hedera that has reached consensus.
-    /// <p>
-    /// This is not-free to request and is available for 1 hour after a transaction reaches consensus.
-    /// <p>
-    /// A {@link TransactionReceipt} can be thought of as a light-weight record which is free to ask for if you just
-    /// need what it contains. A receipt however lasts for only 180 seconds.
-    /// </summary>
+    /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord"]/*' />
     public sealed class TransactionRecord
     {
-        /// <summary>
-        /// The status (reach consensus, or failed, or is unknown) and the ID of
-        /// any new account/file/instance created.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Receipt"]/*' />
         public readonly TransactionReceipt Receipt;
-        /// <summary>
-        /// The hash of the Transaction that executed (not the hash of any Transaction that failed for
-        /// having a duplicate TransactionID).
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionHash"]/*' />
         public readonly ByteString TransactionHash;
-        /// <summary>
-        /// The consensus timestamp (or null if didn't reach consensus yet).
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ConsensusTimestamp"]/*' />
         public readonly DateTimeOffset ConsensusTimestamp;
-        /// <summary>
-        /// The ID of the transaction this record represents.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionId"]/*' />
         public readonly TransactionId TransactionId;
-        /// <summary>
-        /// The memo that was submitted as part of the transaction (max 100 bytes).
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionMemo"]/*' />
         public readonly string TransactionMemo;
-        /// <summary>
-        /// The actual transaction fee charged, not the original
-        /// transactionFee value from TransactionBody.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionFee"]/*' />
         public readonly Hbar TransactionFee;
-        /// <summary>
-        /// Record of the value returned by the smart contract
-        /// function or constructor.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ContractFunctionResult"]/*' />
         public readonly ContractFunctionResult? ContractFunctionResult;
-        /// <summary>
-        /// All hbar transfers as a result of this transaction, such as fees, or
-        /// transfers performed by the transaction, or by a smart contract it calls,
-        /// or by the creation of threshold records that it triggers.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Transfers"]/*' />
         public readonly List<Transfer> Transfers;
-        /// <summary>
-        /// All fungible token transfers as a result of this transaction as a map
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_2"]/*' />
         public readonly Dictionary<TokenId, Dictionary<AccountId, long>> TokenTransfers;
-        /// <summary>
-        /// All fungible token transfers as a result of this transaction as a list
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenTransferList"]/*' />
         public readonly List<TokenTransfer> TokenTransferList;
-        /// <summary>
-        /// All NFT Token transfers as a result of this transaction
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_3"]/*' />
         public readonly Dictionary<TokenId, List<TokenNftTransfer>> TokenNftTransfers;
-        /// <summary>
-        /// Reference to the scheduled transaction ID that this transaction record represents
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ScheduleRef"]/*' />
         public readonly ScheduleId ScheduleRef;
-        /// <summary>
-        /// All custom fees that were assessed during a CryptoTransfer, and must be paid if the
-        /// transaction status resolved to SUCCESS
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AssessedCustomFees"]/*' />
         public readonly List<AssessedCustomFee> AssessedCustomFees;
-        /// <summary>
-        /// All token associations implicitly created while handling this transaction
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AutomaticTokenAssociations"]/*' />
         public readonly List<TokenAssociation> AutomaticTokenAssociations;
-        /// <summary>
-        /// In the record of an internal CryptoCreate transaction triggered by a user
-        /// transaction with a (previously unused) alias, the new account's alias.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AliasKey"]/*' />
         public readonly PublicKey? AliasKey;
-        /// <summary>
-        /// The records of processing all child transaction spawned by the transaction with the given
-        /// top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Children"]/*' />
         public readonly List<TransactionRecord> Children;
-        /// <summary>
-        /// The records of processing all consensus transaction with the same id as the distinguished
-        /// record above, in chronological order.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Duplicates"]/*' />
         public readonly List<TransactionRecord> Duplicates;
-        /// <summary>
-        /// In the record of an internal transaction, the consensus timestamp of the user
-        /// transaction that spawned it.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ParentConsensusTimestamp"]/*' />
         public readonly DateTimeOffset ParentConsensusTimestamp;
-        /// <summary>
-        /// The keccak256 hash of the ethereumData. This field will only be populated for
-        /// EthereumTransaction.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EthereumHash"]/*' />
         public readonly ByteString EthereumHash;
-        /// <summary>
-        /// An approved allowance of hbar transfers for a spender
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.HbarAllowanceAdjustments"]/*' />
         public readonly List<HbarAllowance> HbarAllowanceAdjustments;
-        /// <summary>
-        /// An approved allowance of token transfers for a spender
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenAllowanceAdjustments"]/*' />
         public readonly List<TokenAllowance> TokenAllowanceAdjustments;
-        /// <summary>
-        /// An approved allowance of NFT transfers for a spender
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenNftAllowanceAdjustments"]/*' />
         public readonly List<TokenNftAllowance> TokenNftAllowanceAdjustments;
-        /// <summary>
-        /// List of accounts with the corresponding staking rewards paid as a result of a transaction.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PaidStakingRewards"]/*' />
         public readonly List<Transfer> PaidStakingRewards;
-        /// <summary>
-        /// In the record of a UtilPrng transaction with no output range, a pseudorandom 384-bit string.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngBytes"]/*' />
         public readonly ByteString PrngBytes;
-        /// <summary>
-        /// In the record of a PRNG transaction with an output range, the output of a PRNG whose input was a 384-bit string.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngNumber"]/*' />
         public readonly int PrngNumber;
-        /// <summary>
-        /// The new default EVM address of the account created by this transaction.
-        /// This field is populated only when the EVM address is not specified in the related transaction body.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EvmAddress"]/*' />
         public readonly ByteString EvmAddress;
-        /// <summary>
-        /// A list of pending token airdrops.
-        /// Each pending airdrop represents a single requested transfer from a
-        /// sending account to a recipient account. These pending transfers are
-        /// issued unilaterally by the sending account, and MUST be claimed by the
-        /// recipient account before the transfer MAY complete.
-        /// A sender MAY cancel a pending airdrop before it is claimed.
-        /// An airdrop transaction SHALL emit a pending airdrop when the recipient has no
-        /// available automatic association slots available or when the recipient
-        /// has set `receiver_sig_required`.
-        /// </summary>
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PendingAirdropRecords"]/*' />
         public readonly List<PendingAirdropRecord> PendingAirdropRecords;
 
         TransactionRecord(
@@ -212,32 +130,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
             EvmAddress = evmAddress;
         }
 
-		/// <summary>
-		/// Create a transaction record from a byte array.
-		/// </summary>
-		/// <param name="bytes">the byte array</param>
-		/// <returns>the new transaction record</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromBytes(System.Byte[])"]/*' />
 		public static TransactionRecord FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.TransactionRecord.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a transaction record from a protobuf.
-		/// </summary>
-		/// <param name="transactionRecord">the protobuf</param>
-		/// <returns>the new transaction record</returns>
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.TransactionRecord)"]/*' />
 		public static TransactionRecord FromProtobuf(Proto.TransactionRecord transactionRecord)
 		{
 			return FromProtobuf(transactionRecord, [], [], null);
 		}
-		/// <summary>
-		/// Create a transaction record from a protobuf.
-		/// </summary>
-		/// <param name="transactionRecord">the protobuf</param>
-		/// <param name="children">the list of children</param>
-		/// <param name="duplicates">the list of duplicates</param>
-		/// <returns>the new transaction record</returns>
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.TransactionRecord,System.Collections.Generic.IEnumerable{TransactionRecord},System.Collections.Generic.IEnumerable{TransactionRecord},TransactionId)"]/*' />
 		public static TransactionRecord FromProtobuf(Proto.TransactionRecord transactionRecord, IEnumerable<TransactionRecord> children, IEnumerable<TransactionRecord> duplicates, TransactionId? transactionId)
         {
             var transfers = new List<Transfer>(transactionRecord.TransferList.AccountAmounts.Count);
@@ -328,18 +231,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 [.. transactionRecord.NewPendingAirdrops.Select(_ => PendingAirdropRecord.FromProtobuf(_))]);
         }
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
-		/// <returns>the byte array representation</returns>
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToBytes"]/*' />
 		public byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
-		/// <returns>the protobuf representation</returns>
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToProtobuf"]/*' />
 		public Proto.TransactionRecord ToProtobuf()
         {
 			Proto.TransactionRecord proto = new()
@@ -426,12 +323,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return proto;
         }
-		/// <summary>
-		/// Validate the transaction status in the receipt.
-		/// </summary>
-		/// <param name="shouldValidate">Whether to perform transaction status validation</param>
-		/// <returns>{@code this}</returns>
-		/// <exception cref="ReceiptStatusException">when shouldValidate is true and the transaction status is not SUCCESS</exception>
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ValidateReceiptStatus(System.Boolean)"]/*' />
 		public TransactionRecord ValidateReceiptStatus(bool shouldValidate)
 		{
 			Receipt.ValidateStatus(shouldValidate);

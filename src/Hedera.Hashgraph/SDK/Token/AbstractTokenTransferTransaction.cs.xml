@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="M:AbstractTokenTransferTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:AbstractTokenTransferTransaction(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:GetTokenIdDecimals">
+    <summary>
+    Extract the list of token id decimals.
+    </summary>
+    <returns>the list of token id decimals</returns>
+  </member>
+  <member name="M:GetTokenTransfers">
+    <summary>
+    Extract the list of token transfer records.
+    </summary>
+    <returns>the list of token transfer records</returns>
+  </member>
+  <member name="M:GetTokenNftTransfers">
+    <summary>
+    Extract the of token nft transfers.
+    </summary>
+    <returns>list of token nft transfers</returns>
+  </member>
+  <member name="M:AddApprovedNftTransfer(NftId,AccountId,AccountId)">
+    <summary>
+    Add an approved nft transfer.
+    </summary>
+    <param name="nftId">the nft's id</param>
+    <param name="sender">the sender account id</param>
+    <param name="receiver">the receiver account id</param>
+    <returns>the updated transaction</returns>
+  </member>
+  <member name="M:AddApprovedTokenTransfer(TokenId,AccountId,System.Int64)">
+    <summary>
+    Add an approved token transfer to the transaction.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+    <param name="value">the value</param>
+    <returns>the updated transaction</returns>
+  </member>
+  <member name="M:AddTokenTransferWithDecimals(TokenId,AccountId,System.Int64,System.UInt32)">
+    <summary>
+    Add a non-approved token transfer with decimals.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+    <param name="value">the value</param>
+    <param name="decimals">the decimals</param>
+    <returns>the updated transaction</returns>
+  </member>
+  <member name="M:AddApprovedTokenTransferWithDecimals(TokenId,AccountId,System.Int64,System.UInt32)">
+    <summary>
+    Add an approved token transfer with decimals.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+    <param name="value">the value</param>
+    <param name="decimals">the decimals</param>
+    <returns>the updated transaction</returns>
+  </member>
+  <member name="M:AddNftTransfer(NftId,AccountId,AccountId)">
+    <summary>
+    Add a non-approved nft transfer.
+    </summary>
+    <param name="nftId">the nft's id</param>
+    <param name="sender">the sender account id</param>
+    <param name="receiver">the receiver account id</param>
+    <returns>the updated transaction</returns>
+  </member>
+  <member name="M:AddTokenTransfer(TokenId,AccountId,System.Int64)">
+    <summary>
+    Add a non-approved token transfer to the transaction.
+    </summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+    <param name="value">the value</param>
+    <returns>the updated transaction</returns>
+  </member>
+  <member name="M:SetNftTransferApproval(NftId,System.Boolean)">
+    <summary></summary>
+    <param name="nftId">the NFT id</param>
+    <param name="isApproved">whether the transfer is approved</param>
+    <returns>{@code this}</returns>
+    <remarks>@deprecated- Use {@link #addApprovedNftTransfer(NftId, AccountId, AccountId)} instead</remarks>
+  </member>
+  <member name="M:SetTokenTransferApproval(TokenId,AccountId,System.Boolean)">
+    <summary></summary>
+    <param name="tokenId">the token id</param>
+    <param name="accountId">the account id</param>
+    <param name="isApproved">whether the transfer is approved</param>
+    <returns>{@code this}</returns>
+    <remarks>@deprecated- Use {@link #addApprovedTokenTransfer(TokenId, AccountId, long)} instead</remarks>
+  </member>
+</docs>

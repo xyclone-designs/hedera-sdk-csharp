@@ -4,22 +4,12 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <summary>
-	/// An individual mirror node.
-	/// </summary>
+	/// <include file="MirrorNode.cs.xml" path='docs/member[@name="T:MirrorNode"]/*' />
 	public class MirrorNode : BaseNode<MirrorNode, BaseNodeAddress>
     {
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="address">the node address as a managed node address</param>
-		/// <param name="executor">the executor service</param>
+		/// <include file="MirrorNode.cs.xml" path='docs/member[@name="M:MirrorNode.#ctor(BaseNodeAddress,ExecutorService)"]/*' />
 		internal MirrorNode(BaseNodeAddress address, ExecutorService executor) : base(address, executor) { }
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="address">the node address as a string</param>
-        /// <param name="executor">the executor service</param>
+        /// <include file="MirrorNode.cs.xml" path='docs/member[@name="M:MirrorNode.#ctor(System.String,ExecutorService)"]/*' />
         internal MirrorNode(string address, ExecutorService executor) : this(BaseNodeAddress.FromString(address), executor) { }
 
         public override string? Authority
@@ -31,10 +21,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             get => Address;
 		}
 
-        /// <summary>
-        /// Build the REST base URL for this mirror node.
-        /// </summary>
-        /// <returns>scheme://host[:port]/api/v1</returns>
+        /// <include file="MirrorNode.cs.xml" path='docs/member[@name="M:MirrorNode.GetRestBaseUrl"]/*' />
         public virtual string GetRestBaseUrl()
         {
             if (Address.Address == null)

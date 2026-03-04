@@ -8,11 +8,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.File
 {
-    /// <summary>
-    /// Current information for a file, including its size.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/file-storage/get-file-info">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="FileInfo.cs.xml" path='docs/member[@name="T:FileInfo"]/*' />
     public sealed class FileInfo
     {
         private FileInfo(FileId fileId, long size, DateTimeOffset expirationTime, bool isDeleted, KeyList keys, string fileMemo, LedgerId ledgerId)
@@ -26,11 +22,7 @@ namespace Hedera.Hashgraph.SDK.File
             LedgerId = ledgerId;
         }
 
-        /// <summary>
-        /// Create a file info object from a ptotobuf.
-        /// </summary>
-        /// <param name="fileInfo">the protobuf</param>
-        /// <returns>                         the new file info object</returns>
+        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromProtobuf(Proto.FileGetInfoResponse.Types.FileInfo)"]/*' />
         public static FileInfo FromProtobuf(Proto.FileGetInfoResponse.Types.FileInfo fileInfo)
         {
             return new FileInfo(
@@ -42,57 +34,33 @@ namespace Hedera.Hashgraph.SDK.File
 				fileInfo.Memo, 
 				LedgerId.FromByteString(fileInfo.LedgerId));
         }
-        /// <summary>
-        /// Create a file info object from a byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the new file info object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromBytes(System.Byte[])"]/*' />
         public static FileInfo FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.FileGetInfoResponse.Types.FileInfo.Parser.ParseFrom(bytes));
         }
 
-		/// <summary>
-		/// The ID of the file for which information is requested.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.FileId"]/*' />
 		public FileId FileId { get; }
-		/// <summary>
-		/// Number of bytes in contents.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.Size"]/*' />
 		public long Size { get; }
-		/// <summary>
-		/// The current time at which this account is set to expire.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.ExpirationTime"]/*' />
 		public DateTimeOffset ExpirationTime { get; }
-		/// <summary>
-		/// True if deleted but not yet expired.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.IsDeleted"]/*' />
 		public bool IsDeleted { get; }
-		/// <summary>
-		/// One of these keys must sign in order to delete the file.
-		/// All of these keys must sign in order to update the file.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.Keys"]/*' />
 		public KeyList Keys { get; }
-		/// <summary>
-		/// The memo associated with the file
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.FileMemo"]/*' />
 		public string FileMemo { get; }
-		/// <summary>
-		/// The ledger ID the response was returned from; please see <a href="https://github.com/hashgraph/hedera-improvement-proposal/blob/master/HIP/hip-198.md">HIP-198</a> for the network-specific IDs.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.LedgerId"]/*' />
 		public LedgerId LedgerId { get; }
 
-		/// <summary>
-		/// Create the byte array.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.ToBytes"]/*' />
 		public byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		/// <summary>
-		/// Create the protobuf.
-		/// </summary>
+		/// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.ToProtobuf"]/*' />
 		public Proto.FileGetInfoResponse.Types.FileInfo ToProtobuf()
         {
             return new Proto.FileGetInfoResponse.Types.FileInfo

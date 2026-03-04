@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenInfoQuery">
+    <summary>
+    Initializes the TokenInfoQuery object.
+    </summary>
+  </member>
+  <member name="P:TokenInfoQuery.TokenId">
+    <summary>
+    Sets the Token ID for which information is requested.
+    </summary>
+    <param name="TokenId">The TokenId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+</docs>

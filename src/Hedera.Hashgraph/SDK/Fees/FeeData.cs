@@ -5,17 +5,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// The total fees charged for a transaction. It contains three parts namely
-    /// node data, network data and service data.
-    /// </summary>
+    /// <include file="FeeData.cs.xml" path='docs/member[@name="T:FeeData"]/*' />
     public class FeeData : ICloneable
     {
-        /// <summary>
-		/// Initialize fee data object from a protobuf.
-		/// </summary>
-		/// <param name="feeData">the protobuf</param>
-		/// <returns>                         the fee data object</returns>
+		/// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.FromProtobuf(Proto.FeeData)"]/*' />
 		public static FeeData FromProtobuf(Proto.FeeData feeData)
         {
             return new FeeData
@@ -27,12 +20,7 @@ namespace Hedera.Hashgraph.SDK.Fees
             };
         }
 
-        /// <summary>
-        /// Initialize fee data object from byte array.
-        /// </summary>
-        /// <param name="bytes">the byte array</param>
-        /// <returns>                         the fee data object</returns>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.FromBytes(System.Byte[])"]/*' />
         public static FeeData FromBytes(byte[] bytes)
         {
             return FromProtobuf(Proto.FeeData.Parser.ParseFrom(bytes));
@@ -44,10 +32,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 		public virtual FeeDataType Type { get; set; } = FeeDataType.Default;
 
 
-		/// <summary>
-		/// Convert the fee data type into a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf</returns>
+		/// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.ToProtobuf"]/*' />
 		public virtual Proto.FeeData ToProtobuf()
         {
             Proto.FeeData protobuf = new()
@@ -67,10 +52,7 @@ namespace Hedera.Hashgraph.SDK.Fees
             return protobuf;
         }
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         a byte array representation</returns>
+        /// <include file="FeeData.cs.xml" path='docs/member[@name="M:FeeData.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();

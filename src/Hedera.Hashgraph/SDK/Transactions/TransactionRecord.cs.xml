@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TransactionRecord">
+    <summary>&lt;summary&gt;
+    The complete record for a transaction on Hedera that has reached consensus.
+    &lt;p&gt;
+    This is not-free to request and is available for 1 hour after a transaction reaches consensus.
+    &lt;p&gt;
+    A {@link TransactionReceipt} can be thought of as a light-weight record which is free to ask for if you just
+    need what it contains. A receipt however lasts for only 180 seconds.
+    &lt;/summary&gt;</summary>
+  </member>
+  <member name="F:TransactionRecord.Receipt">
+    <summary>
+    The status (reach consensus, or failed, or is unknown) and the ID of
+    any new account/file/instance created.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.TransactionHash">
+    <summary>
+    The hash of the Transaction that executed (not the hash of any Transaction that failed for
+    having a duplicate TransactionID).
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.ConsensusTimestamp">
+    <summary>
+    The consensus timestamp (or null if didn't reach consensus yet).
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.TransactionId">
+    <summary>
+    The ID of the transaction this record represents.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.TransactionMemo">
+    <summary>
+    The memo that was submitted as part of the transaction (max 100 bytes).
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.TransactionFee">
+    <summary>
+    The actual transaction fee charged, not the original
+    transactionFee value from TransactionBody.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.ContractFunctionResult">
+    <summary>
+    Record of the value returned by the smart contract
+    function or constructor.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.Transfers">
+    <summary>
+    All hbar transfers as a result of this transaction, such as fees, or
+    transfers performed by the transaction, or by a smart contract it calls,
+    or by the creation of threshold records that it triggers.
+    </summary>
+  </member>
+  <member name="T:TransactionRecord_2">
+    <summary>
+    All fungible token transfers as a result of this transaction as a map
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.TokenTransferList">
+    <summary>
+    All fungible token transfers as a result of this transaction as a list
+    </summary>
+  </member>
+  <member name="T:TransactionRecord_3">
+    <summary>
+    All NFT Token transfers as a result of this transaction
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.ScheduleRef">
+    <summary>
+    Reference to the scheduled transaction ID that this transaction record represents
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.AssessedCustomFees">
+    <summary>
+    All custom fees that were assessed during a CryptoTransfer, and must be paid if the
+    transaction status resolved to SUCCESS
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.AutomaticTokenAssociations">
+    <summary>
+    All token associations implicitly created while handling this transaction
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.AliasKey">
+    <summary>
+    In the record of an internal CryptoCreate transaction triggered by a user
+    transaction with a (previously unused) alias, the new account's alias.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.Children">
+    <summary>
+    The records of processing all child transaction spawned by the transaction with the given
+    top-level id, in consensus order. Always empty if the top-level status is UNKNOWN.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.Duplicates">
+    <summary>
+    The records of processing all consensus transaction with the same id as the distinguished
+    record above, in chronological order.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.ParentConsensusTimestamp">
+    <summary>
+    In the record of an internal transaction, the consensus timestamp of the user
+    transaction that spawned it.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.EthereumHash">
+    <summary>
+    The keccak256 hash of the ethereumData. This field will only be populated for
+    EthereumTransaction.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.HbarAllowanceAdjustments">
+    <summary>
+    An approved allowance of hbar transfers for a spender
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.TokenAllowanceAdjustments">
+    <summary>
+    An approved allowance of token transfers for a spender
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.TokenNftAllowanceAdjustments">
+    <summary>
+    An approved allowance of NFT transfers for a spender
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.PaidStakingRewards">
+    <summary>
+    List of accounts with the corresponding staking rewards paid as a result of a transaction.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.PrngBytes">
+    <summary>
+    In the record of a UtilPrng transaction with no output range, a pseudorandom 384-bit string.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.PrngNumber">
+    <summary>
+    In the record of a PRNG transaction with an output range, the output of a PRNG whose input was a 384-bit string.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.EvmAddress">
+    <summary>
+    The new default EVM address of the account created by this transaction.
+    This field is populated only when the EVM address is not specified in the related transaction body.
+    </summary>
+  </member>
+  <member name="F:TransactionRecord.PendingAirdropRecords">
+    <summary>
+    A list of pending token airdrops.
+    Each pending airdrop represents a single requested transfer from a
+    sending account to a recipient account. These pending transfers are
+    issued unilaterally by the sending account, and MUST be claimed by the
+    recipient account before the transfer MAY complete.
+    A sender MAY cancel a pending airdrop before it is claimed.
+    An airdrop transaction SHALL emit a pending airdrop when the recipient has no
+    available automatic association slots available or when the recipient
+    has set `receiver_sig_required`.
+    </summary>
+  </member>
+  <member name="M:TransactionRecord.FromBytes(System.Byte[])">
+    <summary>
+    Create a transaction record from a byte array.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the new transaction record</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TransactionRecord.FromProtobuf(Proto.TransactionRecord)">
+    <summary>
+    Create a transaction record from a protobuf.
+    </summary>
+    <param name="transactionRecord">the protobuf</param>
+    <returns>the new transaction record</returns>
+  </member>
+  <member name="M:TransactionRecord.FromProtobuf(Proto.TransactionRecord,System.Collections.Generic.IEnumerable{TransactionRecord},System.Collections.Generic.IEnumerable{TransactionRecord},TransactionId)">
+    <summary>
+    Create a transaction record from a protobuf.
+    </summary>
+    <param name="transactionRecord">the protobuf</param>
+    <param name="children">the list of children</param>
+    <param name="duplicates">the list of duplicates</param>
+    <returns>the new transaction record</returns>
+  </member>
+  <member name="M:TransactionRecord.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+  <member name="M:TransactionRecord.ToProtobuf">
+    <summary>
+    Create the protobuf.
+    </summary>
+    <returns>the protobuf representation</returns>
+  </member>
+  <member name="M:TransactionRecord.ValidateReceiptStatus(System.Boolean)">
+    <summary>
+    Validate the transaction status in the receipt.
+    </summary>
+    <param name="shouldValidate">Whether to perform transaction status validation</param>
+    <returns>{@code this}</returns>
+    <exception cref="ReceiptStatusException">when shouldValidate is true and the transaction status is not SUCCESS</exception>
+  </member>
+</docs>

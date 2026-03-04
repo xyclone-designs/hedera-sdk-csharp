@@ -5,6 +5,8 @@ using System.Linq;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
+using System.Text.RegularExpressions;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
@@ -19,8 +21,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 			Amount = amount,
 			TokenId = tokenId.ToProtobuf(),
 			FeeCollectorAccountId = feeCollector.ToProtobuf(),
-		
-        }.AddAllEffectivePayerAccountId(payerAccountIds.Select(_ => _.ToProtobuf()).ToList()).Build();
+            // EffectivePayerAccountId = [payerAccountIds.Select(_ => _.ToProtobuf())]
+        };
         public static void BeforeAll()
         {
             SnapshotMatcher.Start(Snapshot.AsJsonString());
@@ -40,11 +42,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             var originalAssessedCustomFee = SpawnAssessedCustomFeeExample();
             byte[] assessedCustomFeeBytes = originalAssessedCustomFee.ToBytes();
-            var copyAssessedCustomFee = Transaction.FromBytes<AssessedCustomFee>(assessedCustomFeeBytes);
+            var copyAssessedCustomFee = AssessedCustomFee.FromBytes(assessedCustomFeeBytes);
             
-            Assert.Equal(originalAssessedCustomFee.ToString().ReplaceAll("@[A-Za-z0-9]+", ""), copyAssessedCustomFee.ToString().ReplaceAll("@[A-Za-z0-9]+", ""));
+            Assert.Equal(Regex.Replace(originalAssessedCustomFee.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(copyAssessedCustomFee.ToString(), "@[A-Za-z0-9]+", ""));
             
-            SnapshotMatcher.Expect(originalAssessedCustomFee.ToString().ReplaceAll("@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            SnapshotMatcher.Expect(Regex.Replace(originalAssessedCustomFee.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
         }
 
         public virtual void FromProtobuf()

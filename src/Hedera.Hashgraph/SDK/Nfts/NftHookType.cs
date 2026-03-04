@@ -2,9 +2,7 @@
 
 namespace Hedera.Hashgraph.SDK.Nfts
 {
-    /// <summary>
-    /// Hook type for NFT transfers, indicating side (sender/receiver) and timing (pre / pre-post).
-    /// </summary>
+    /// <include file="NftHookType.cs.xml" path='docs/member[@name="T:NftHookType"]/*' />
     public enum NftHookType
     {
         PreHookSender,

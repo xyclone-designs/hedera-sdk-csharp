@@ -2,23 +2,13 @@
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Possible Token Supply Types (IWA Compatibility).
-    /// <p>
-    /// Indicates how many tokens can have during its lifetime.
-    /// <p>
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/tokensupplytype">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="TokenSupplyType.cs.xml" path='docs/member[@name="T:TokenSupplyType"]/*' />
     public enum TokenSupplyType
     {
-		/// <summary>
-		/// Indicates that tokens of that type have an upper bound of long.MaxValue.
-		/// </summary>
+		/// <include file="TokenSupplyType.cs.xml" path='docs/member[@name="T:TokenSupplyType_2"]/*' />
 		Infinite = Proto.TokenSupplyType.Infinite,
 
-        /// <summary>
-        /// Indicates that tokens of that type have an upper bound of maxSupply, provided on token creation.
-        /// </summary>
+        /// <include file="TokenSupplyType.cs.xml" path='docs/member[@name="T:TokenSupplyType_3"]/*' />
         Finite = Proto.TokenSupplyType.Finite, 
     }
 }

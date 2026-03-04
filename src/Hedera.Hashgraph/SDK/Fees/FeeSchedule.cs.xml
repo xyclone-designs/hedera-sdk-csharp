@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:FeeSchedule">
+    <summary>
+    The fee schedule for a specific hedera functionality and the time period this fee schedule will expire.
+    
+    See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/feeschedule">Hedera Documentation</a></summary>
+  </member>
+  <member name="M:FeeSchedule.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:FeeSchedule.FromBytes(System.Byte[])">
+    <summary>
+    Create a fee schedule from byte array.
+    </summary>
+    <param name="bytes">the bye array</param>
+    <returns>the fee schedule</returns>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:FeeSchedule.FromProtobuf(Proto.FeeSchedule)">
+    <summary>
+    Create a fee schedule from a protobuf.
+    </summary>
+    <param name="feeSchedule">the protobuf</param>
+    <returns>the fee schedule</returns>
+  </member>
+  <member name="M:FeeSchedule.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>a byte array representation</returns>
+  </member>
+  <member name="M:FeeSchedule.ToProtobuf">
+    <summary>
+    Convert to a protobuf.
+    </summary>
+    <returns>the protobuf</returns>
+  </member>
+</docs>

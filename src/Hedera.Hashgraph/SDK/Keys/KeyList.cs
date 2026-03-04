@@ -6,21 +6,12 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-    /// <summary>
-    /// A list of Keys that are required to sign in unison, with an optional threshold controlling how many Keys of
-    /// the list are required.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/key">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="KeyList.cs.xml" path='docs/member[@name="T:KeyList"]/*' />
     public sealed class KeyList : Key, IList<Key>
     {
         public List<Key> Keys { get; init; } = [];
 
-        /// <summary>
-        /// List of Keys in the key.
-        /// </summary>
-        /// <param name="Keys">the key / key list</param>
-        /// <returns>                         a list of the Keys</returns>
+        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.Of(System.UInt32,Key[])"]/*' />
         public static KeyList Of(uint? threshold = null, params Key[] Keys)
         {
 			return new KeyList
@@ -29,12 +20,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 				Keys = [.. Keys]
 			};
 		}
-        /// <summary>
-        /// Create key list from protobuf.
-        /// </summary>
-        /// <param name="keyList">the key list</param>
-        /// <param name="threshold">the minimum number of Keys that must sign</param>
-        /// <returns>                         the key list</returns>
+        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.FromProtobuf(Proto.KeyList,System.UInt32)"]/*' />
         public static KeyList FromProtobuf(Proto.KeyList keyList, uint? threshold)
         {
             return new KeyList
@@ -50,18 +36,12 @@ namespace Hedera.Hashgraph.SDK.Keys
 			set => Keys[index] = value;
 		}
 
-		/// <summary>
-		/// Get the threshold for the KeyList.
-		/// The minimum number of Keys that must sign.
-		/// </summary>
+		/// <include file="KeyList.cs.xml" path='docs/member[@name="P:KeyList.Threshold"]/*' />
 		public uint? Threshold { get; set; }
         public int Count { get => Keys.Count; }
         public bool IsReadOnly { get => false; }
 
-		/// <summary>
-		/// Convert into protobuf representation.
-		/// </summary>
-		/// <returns>                         the protobuf representation</returns>
+		/// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.ToProtobuf"]/*' />
 		public Proto.KeyList ToProtobuf()
         {
 			Proto.KeyList proto = new ();

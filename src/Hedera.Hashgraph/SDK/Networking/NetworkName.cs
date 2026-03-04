@@ -3,29 +3,19 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {
-	/// <summary>
-	/// Enum for the network names.
-	/// </summary>
+	/// <include file="NetworkName.cs.xml" path='docs/member[@name="T:NetworkName"]/*' />
 	public enum NetworkName
     {
-        /// <summary>
-        /// The mainnet network
-        /// </summary>
+        /// <include file="NetworkName.cs.xml" path='docs/member[@name="T:NetworkName_2"]/*' />
         [Obsolete]
         MainNet = 0,
-        /// <summary>
-        /// The testnet network
-        /// </summary>
+        /// <include file="NetworkName.cs.xml" path='docs/member[@name="T:NetworkName_3"]/*' />
         [Obsolete]
         TestNet = 1,
-        /// <summary>
-        /// The previewnet network
-        /// </summary>
+        /// <include file="NetworkName.cs.xml" path='docs/member[@name="T:NetworkName_4"]/*' />
         [Obsolete]
         PreviewNet = 2,
-        /// <summary>
-        /// Other network
-        /// </summary>
+        /// <include file="NetworkName.cs.xml" path='docs/member[@name="T:NetworkName_5"]/*' />
         [Obsolete]
         Other = int.MaxValue
     }

@@ -11,59 +11,23 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Reject undesired token(s).<br/>
-    /// Transfer one or more token balances held by the requesting account to the
-    /// treasury for each token type.
-    /// 
-    /// Each transfer SHALL be one of the following
-    /// - A single non-fungible/unique token.
-    /// - The full balance held for a fungible/common token.
-    /// A single `tokenReject` transaction SHALL support a maximum
-    /// of 10 transfers.<br/>
-    /// A token that is `pause`d MUST NOT be rejected.<br/>
-    /// If the `owner` account is `frozen` with respect to the identified token(s)
-    /// the token(s) MUST NOT be rejected.<br/>
-    /// The `payer` for this transaction, and `owner` if set, SHALL NOT be charged
-    /// any custom fees or other fees beyond the `tokenReject` transaction fee.
-    /// 
-    /// ### Block Stream Effects
-    /// - Each successful transfer from `payer` to `treasury` SHALL be recorded in
-    ///   the `token_transfer_list` for the transaction record.
-    /// </summary>
+    /// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="T:TokenRejectTransaction"]/*' />
     public class TokenRejectTransaction : Transaction<TokenRejectTransaction>
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
+        /// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor"]/*' />
         public TokenRejectTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenRejectTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		public TokenRejectTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// An account identifier.<br/>
-		/// This OPTIONAL field identifies the account holding the
-		/// tokens to be rejected.
-		/// <p>
-		/// If set, this account MUST sign this transaction.
-		/// If not set, the `payer` for this transaction SHALL be the effective
-		/// `owner` for this transaction.
-		/// </summary>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.RequireNotFrozen"]/*' />
 		public virtual AccountId? OwnerId
         {
             get;
@@ -77,22 +41,14 @@ namespace Hedera.Hashgraph.SDK.Token
         public IList<TokenId> TokenIds { protected get; init; } = [];
 		public IReadOnlyList<TokenId> TokenIds_Read { get => TokenIds.AsReadOnly(); }
 
-		/// <summary>
-		/// Add a token to the list of tokens.
-		/// </summary>
-		/// <param name="tokenId">token to add.</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.AddTokenId(TokenId)"]/*' />
 		public virtual TokenRejectTransaction AddTokenId(TokenId tokenId)
 		{
 			RequireNotFrozen();
 			TokenIds.Add(tokenId);
 			return this;
 		}
-		/// <summary>
-		/// A list of one or more token rejections (a fungible/common token type).
-		/// </summary>
-		/// <param name="TokenIds">the list of TokenIds.</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.SetTokenIds(System.Collections.Generic.IList{TokenId})"]/*' />
 		public virtual TokenRejectTransaction SetTokenIds(IList<TokenId> tokenIds)
         {
             RequireNotFrozen();
@@ -105,22 +61,14 @@ namespace Hedera.Hashgraph.SDK.Token
 		public IList<NftId> NftIds { protected get; init; } = [];
 		public IReadOnlyList<NftId> NftIds_Read { get => NftIds.AsReadOnly(); }
 
-		/// <summary>
-		/// Add a nft to the list of nfts.
-		/// </summary>
-		/// <param name="nftId">nft to add.</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.AddNftId(NftId)"]/*' />
 		public virtual TokenRejectTransaction AddNftId(NftId nftId)
 		{
 			RequireNotFrozen();
 			NftIds.Add(nftId);
 			return this;
 		}
-		/// <summary>
-		/// A list of one or more token rejections (a single specific serialized non-fungible/unique token).
-		/// </summary>
-		/// <param name="NftIds">the list of NftIds.</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.SetNftIds(System.Collections.Generic.IList{NftId})"]/*' />
 		public virtual TokenRejectTransaction SetNftIds(IList<NftId> nftIds)
         {
             RequireNotFrozen();
@@ -130,9 +78,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			return this;
         }
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.TokenReject;
@@ -154,10 +100,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				}
 			}
 		}
-		/// <summary>
-		/// Build the transaction body.
-		/// </summary>
-		/// <returns>{@link Proto.TokenRejectTransactionBody}</returns>
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.ToProtobuf"]/*' />
 		public virtual Proto.TokenRejectTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenRejectTransactionBody();

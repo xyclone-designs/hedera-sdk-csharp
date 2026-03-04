@@ -11,63 +11,25 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Update the custom fees for a given token. If the token does not have a
-    /// fee schedule, the network response returned will be
-    /// CUSTOM_SCHEDULE_ALREADY_HAS_NO_FEES. You will need to sign the transaction
-    /// with the fee schedule key to update the fee schedule for the token. If you
-    /// do not have a fee schedule key set for the token, you will not be able to
-    /// update the fee schedule.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/sdks/tokens/update-a-fee-schedule">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="T:TokenFeeScheduleUpdateTransaction"]/*' />
     public class TokenFeeScheduleUpdateTransaction : Transaction<TokenFeeScheduleUpdateTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor"]/*' />
         public TokenFeeScheduleUpdateTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenFeeScheduleUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenFeeScheduleUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A token identifier.
-        /// <p>
-        /// This SHALL identify the token type to modify with an updated
-        /// custom fee schedule.<br/>
-        /// The identified token MUST exist, and MUST NOT be deleted.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.RequireNotFrozen"]/*' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// A list of custom fees representing a fee schedule.
-		/// <p>
-		/// This list MAY be empty to remove custom fees from a token.<br/>
-		/// If the identified token is a non-fungible/unique type, the entries
-		/// in this list MUST NOT declare a `fractional_fee`.<br/>
-		/// If the identified token is a fungible/common type, the entries in this
-		/// list MUST NOT declare a `royalty_fee`.<br/>
-		/// Any token type MAY include entries that declare a `fixed_fee`.
-		/// </summary>
-		/// <param name="customFees">the list of custom fees</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.DeepCloneList(field)"]/*' />
 		public virtual IList<CustomFee> CustomFees 
         { 
             get => CustomFee.DeepCloneList(field);
@@ -78,9 +40,7 @@ namespace Hedera.Hashgraph.SDK.Token
             } 
         } = [];
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.InitFromTransactionBody"]/*' />
         private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenFeeScheduleUpdate;
@@ -93,11 +53,7 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.TokenFeeScheduleUpdateTransactionBody}</returns>
+        /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.ToProtobuf"]/*' />
         public virtual Proto.TokenFeeScheduleUpdateTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenFeeScheduleUpdateTransactionBody();

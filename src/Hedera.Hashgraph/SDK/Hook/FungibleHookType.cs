@@ -2,9 +2,7 @@
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    /// <summary>
-    /// Hook type for fungible (HBAR and FT) transfers.
-    /// </summary>
+    /// <include file="FungibleHookType.cs.xml" path='docs/member[@name="T:FungibleHookType"]/*' />
     public enum FungibleHookType
     {
         PreTxAllowanceHook,

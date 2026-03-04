@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:AccountUpdateTransaction">
+    <summary>
+    Modify the current state of an account.
+    
+    ### Requirements
+    - The `key` for this account MUST sign all account update transactions.
+    - If the `key` field is set for this transaction, then _both_ the current
+      `key` and the new `key` MUST sign this transaction, for security and to
+      prevent setting the `key` field to an invalid value.
+    - If the `auto_renew_account` field is set for this transaction, the account
+      identified in that field MUST sign this transaction.
+    - Fields set to non-default values in this transaction SHALL be updated on
+      success. Fields not set to non-default values SHALL NOT be
+      updated on success.
+    - All fields that may be modified in this transaction SHALL have a
+      default value of unset (a.k.a. `null`).
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:AccountUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen">
+    <summary>
+    Sets the account ID which is being updated in this transaction.
+    </summary>
+    <param name="accountId">The AccountId to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    An account key.&lt;br/&gt;
+    This may be a "primitive" key (a singly cryptographic key), or a
+    composite key.
+    &lt;p&gt;
+    If set, this key MUST be a valid key.&lt;br/&gt;
+    If set, the previous key and new key MUST both sign this transaction.
+    &lt;/summary&gt;
+    &lt;param name="key"&gt;The Key to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_3">
+    <summary></summary>
+    <param name="aliasKey">The Key to be set</param>
+    <returns>{@code this}</returns>
+    <remarks>
+    @deprecatedwith no replacement
+    
+    Sets the new key.
+    </remarks>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_4">
+    <summary>&lt;summary&gt;
+    Sets the ID of the account to which this account is proxy staked.
+    &lt;p&gt;
+    If proxyAccountID is null, or is an invalid account, or is an account
+    that isn't a node, then this account is automatically proxy staked to
+    a node chosen by the network, but without earning payments.
+    &lt;p&gt;
+    If the proxyAccountID account refuses to accept proxy staking, or
+    if it is not currently running a node, then it
+    will behave as if proxyAccountID was null.
+    &lt;/summary&gt;
+    &lt;param name="proxyAccountId"&gt;The AccountId to be set&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_5">
+    <summary>&lt;summary&gt;
+    A new account expiration time, in seconds since the epoch.
+    &lt;p&gt;
+    For this purpose, `epoch` SHALL be the UNIX epoch with 0
+    at `1970-01-01T00:00:00.000Z`.&lt;br/&gt;
+    If set, this value MUST be later than the current consensus time.&lt;br/&gt;
+    If set, this value MUST be earlier than the current consensus time
+    extended by the current maximum expiration time configured for the
+    network.
+    &lt;/summary&gt;
+    &lt;param name="expirationTime"&gt;The Timestamp to be set as the expiration time&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_6">
+    <summary>&lt;summary&gt;
+    A duration to extend account expiration.&lt;br/&gt;
+    An amount of time, in seconds, to extend the expiration date for this
+    account when _automatically_ renewed.
+    &lt;p&gt;
+    This duration MUST be between the current configured minimum and maximum
+    values defined for the network.&lt;br/&gt;
+    This duration SHALL be applied only when _automatically_ extending the
+    account expiration.
+    &lt;/summary&gt;
+    &lt;param name="autoRenewPeriod"&gt;The TimeSpan to be set for auto renewal&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_7">
+    <summary>
+    Removed to distinguish between unset and a default value.<br />
+    Do NOT use this field to set a false value because the server cannot
+    distinguish from the default value. Use receiverSigRequiredWrapper
+    field for this purpose.
+    </summary>
+    <param name="receiverSignatureRequired">The bool to be set</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_8">
+    <summary>&lt;summary&gt;
+    A maximum number of tokens that can be auto-associated
+    with this account.&lt;br/&gt;
+    By default this value is 0 for all accounts except for automatically
+    created accounts (i.e smart contracts) which default to -1.
+    &lt;p&gt;
+    If this value is `0`, then this account MUST manually associate to
+    a token before holding or transacting in that token.&lt;br/&gt;
+    This value MAY also be `-1` to indicate no limit.&lt;br/&gt;
+    If set, this value MUST NOT be less than `-1`.&lt;br/&gt;
+    &lt;/summary&gt;
+    &lt;param name="amount"&gt;the amount of tokens&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_9">
+    <summary>&lt;summary&gt;
+    A short description of this Account.
+    &lt;p&gt;
+    This value, if set, MUST NOT exceed `transaction.maxMemoUtf8Bytes`
+    (default 100) bytes when encoded as UTF-8.
+    &lt;/summary&gt;
+    &lt;param name="memo"&gt;the memo&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_10">
+    <summary>&lt;summary&gt;
+    ID of the account to which this account is staking its balances.
+    &lt;p&gt;
+    If this account is not currently staking its balances, then this
+    field, if set, MUST be the sentinel value of `0.0.0`.
+    &lt;/summary&gt;
+    &lt;param name="stakedAccountId"&gt;ID of the account to which this account will stake.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_11">
+    <summary>&lt;summary&gt;
+    ID of the node this account is staked to.
+    &lt;p&gt;
+    If this account is not currently staking its balances, then this
+    field, if set, SHALL be the sentinel value of `-1`.&lt;br/&gt;
+    Wallet software SHOULD surface staking issues to users and provide a
+    simple mechanism to update staking to a new node ID in the event the
+    prior staked node ID ceases to be valid.
+    &lt;/summary&gt;
+    &lt;param name="stakedNodeId"&gt;ID of the node this account will be staked to.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.RequireNotFrozen_12">
+    <summary>&lt;summary&gt;
+    A bool indicating that this account has chosen to decline rewards for
+    staking its balances.
+    &lt;p&gt;
+    This account MAY still stake its balances, but SHALL NOT receive reward
+    payments for doing so, if this value is set, and `true`.
+    &lt;/summary&gt;
+    &lt;param name="declineStakingReward"&gt;- If true, the account declines receiving a staking reward. The default value is false.&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="T:AccountUpdateTransaction_2">
+    <summary>
+    Set hooks to be created with the account.
+    </summary>
+    <param name="hookDetails">list of hook creation details</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountUpdateTransaction.InitFromTransactionBody">
+    <summary>
+    Mark hooks for deletion from the account.
+    </summary>
+    <param name="hookIds">list of hook ids to delete</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountUpdateTransaction.InitFromTransactionBody_2">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:AccountUpdateTransaction.ToProtobuf">
+    <summary>
+    Create the builder.
+    </summary>
+    <returns>the transaction builder</returns>
+  </member>
+</docs>

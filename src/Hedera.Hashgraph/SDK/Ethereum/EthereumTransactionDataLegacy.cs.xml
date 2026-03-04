@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:EthereumTransactionDataLegacy">
+    <summary>
+    The ethereum transaction data, in the legacy format
+    </summary>
+  </member>
+  <member name="F:EthereumTransactionDataLegacy.ChainId">
+    <summary>
+    ID of the chain
+    </summary>
+  </member>
+  <member name="F:EthereumTransactionDataLegacy.Nonce">
+    <summary>
+    Transaction's nonce
+    </summary>
+  </member>
+  <member name="F:EthereumTransactionDataLegacy.GasPrice">
+    <summary>
+    The price for 1 gas
+    </summary>
+  </member>
+  <member name="F:EthereumTransactionDataLegacy.GasLimit">
+    <summary>
+    The amount of gas available for the transaction
+    </summary>
+  </member>
+  <member name="F:EthereumTransactionDataLegacy.To">
+    <summary>
+    The receiver of the transaction
+    </summary>
+  </member>
+  <member name="F:EthereumTransactionDataLegacy.Value">
+    <summary>
+    The transaction value
+    </summary>
+  </member>
+  <member name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])">
+    <summary>
+    The V value of the signature
+    </summary>
+  </member>
+  <member name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_2">
+    <summary>
+    recovery parameter used to ease the signature verification
+    </summary>
+  </member>
+  <member name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_3">
+    <summary>
+    The R value of the signature
+    </summary>
+  </member>
+  <member name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_4">
+    <summary>
+    The S value of the signature
+    </summary>
+  </member>
+  <member name="M:EthereumTransactionDataLegacy.FromBytes(System.Byte[])">
+    <summary>
+    Convert a byte array to an ethereum transaction data.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the ethereum transaction data</returns>
+  </member>
+</docs>

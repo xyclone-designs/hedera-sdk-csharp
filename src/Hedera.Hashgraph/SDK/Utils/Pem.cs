@@ -15,12 +15,7 @@ using System.IO;
 
 namespace Hedera.Hashgraph.SDK
 {
-	/// <summary>
-	/// Internal utility class for handling PEM objects.
-	/// <br/>
-	/// Privacy-Enhanced Mail (PEM) is a de facto file format for storing and
-	/// sending cryptographic keys, certificates, and other data.
-	/// </summary>
+	/// <include file="Pem.cs.xml" path='docs/member[@name="T:Pem"]/*' />
 	internal sealed class Pem
 	{
 		private static readonly string TYPE_PRIVATE_KEY = "PRIVATE KEY";
@@ -28,19 +23,7 @@ namespace Hedera.Hashgraph.SDK
 
 		private Pem() { }
 
-		/// <summary>
-		/// Reads a private key from a PEM source.
-		/// Supports:
-		/// <list type="bullet">
-		///   <item>Unencrypted PKCS#8 private keys</item>
-		///   <item>Encrypted PKCS#8 private keys</item>
-		///   <item>Traditional OpenSSL key pairs</item>
-		/// </list>
-		/// </summary>
-		/// <param name="input">PEM text reader</param>
-		/// <param name="passphrase">Optional passphrase</param>
-		/// <returns>PrivateKeyInfo</returns>
-		/// <exception cref="BadKeyException">If the key is invalid or unsupported</exception>
+		/// <include file="Pem.cs.xml" path='docs/member[@name="M:Pem.ReadPrivateKey(TextReader,System.String)"]/*' />
 		public static PrivateKeyInfo ReadPrivateKey(TextReader input, string? passphrase)
 		{
 			try
@@ -105,9 +88,7 @@ namespace Hedera.Hashgraph.SDK
 			@out.WriteObject(new Org.BouncyCastle.Utilities.IO.Pem.PemObject(TYPE_ENCRYPTED_PRIVATE_KEY, encryptedPrivateKeyInfo.GetEncoded()));
 		}
 
-		/// <summary>
-		/// Password finder used by PemReader for encrypted PEMs.
-		/// </summary>
+		/// <include file="Pem.cs.xml" path='docs/member[@name="T:Pem.PasswordFinder"]/*' />
 		private sealed class PasswordFinder : IPasswordFinder
 		{
 			private readonly char[] _password;

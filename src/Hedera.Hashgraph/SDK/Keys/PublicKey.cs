@@ -12,16 +12,10 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Keys
 {
-    /// <summary>
-    /// A public key on the Hedera™ network.
-    /// </summary>
+    /// <include file="PublicKey.cs.xml" path='docs/member[@name="T:PublicKey"]/*' />
     public abstract class PublicKey : Key
     {
-        /// <summary>
-        /// Create a public key from a byte array.
-        /// </summary>
-        /// <param name="publicKey">the byte array</param>
-        /// <returns>                         the new public key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytes(System.Byte[])"]/*' />
         public new static PublicKey FromBytes(byte[] publicKey)
         {
             if (publicKey.Length == Ed25519.PublicKeySize)
@@ -45,74 +39,42 @@ namespace Hedera.Hashgraph.SDK.Keys
             return FromBytesDER(publicKey);
         }
 
-        /// <summary>
-        /// Create a public key from a DER encoded byte array.
-        /// </summary>
-        /// <param name="publicKey">the DER encoded byte array</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesDER(System.Byte[])"]/*' />
         public static PublicKey FromBytesDER(byte[] publicKey)
         {
             return PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
-        /// <summary>
-        /// Create a public key from a byte array.
-        /// </summary>
-        /// <param name="publicKey">the byte array</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesED25519(System.Byte[])"]/*' />
         public static PublicKey FromBytesED25519(byte[] publicKey)
         {
             return PublicKeyED25519.FromBytesInternal(publicKey);
         }
-        /// <summary>
-        /// Create a public key from a byte array.
-        /// </summary>
-        /// <param name="publicKey">the byte array</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesECDSA(System.Byte[])"]/*' />
         public static PublicKey FromBytesECDSA(byte[] publicKey)
         {
             return PublicKeyECDSA.FromBytesInternal(publicKey);
         }
-        /// <summary>
-        /// Create a public key from a string.
-        /// </summary>
-        /// <param name="publicKey">the string</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromString(System.String)"]/*' />
         public static PublicKey FromString(string publicKey)
         {
             return PublicKey.FromBytes(Hex.Decode(publicKey));
         }
-        /// <summary>
-        /// Create a public key from a string.
-        /// </summary>
-        /// <param name="publicKey">the string</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringED25519(System.String)"]/*' />
         public static PublicKey FromStringED25519(string publicKey)
         {
             return FromBytesED25519(Hex.Decode(publicKey));
         }
-        /// <summary>
-        /// Create a public key from a string.
-        /// </summary>
-        /// <param name="publicKey">the string</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringECDSA(System.String)"]/*' />
         public static PublicKey FromStringECDSA(string publicKey)
         {
             return FromBytesECDSA(Hex.Decode(publicKey));
         }
-        /// <summary>
-        /// Create a public key from a string.
-        /// </summary>
-        /// <param name="publicKey">the string</param>
-        /// <returns>                         the new key</returns>
+        /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromStringDER(System.String)"]/*' />
         public static PublicKey FromStringDER(string publicKey)
         {
             return FromBytesDER(Hex.Decode(publicKey));
         }
-		/// <summary>
-		/// The public key from an immutable byte string.
-		/// </summary>
-		/// <param name="aliasBytes">the immutable byte string</param>
-		/// <returns>                         the key</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromAliasBytes(ByteString)"]/*' />
 		public static PublicKey? FromAliasBytes(ByteString aliasBytes)
 		{
 			if (aliasBytes.Length != 0)
@@ -126,22 +88,13 @@ namespace Hedera.Hashgraph.SDK.Keys
 
 			return null;
 		}
-		/// <summary>
-		/// Returns an "unusable" public key.
-		/// “Unusable” refers to a key such as an Ed25519 0x00000... public key,
-		/// since it is (presumably) impossible to find the 32-byte string whose SHA-512 hash begins with 32 bytes of zeros.
-		/// </summary>
-		/// <returns>The "unusable" key</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.UnusableKey"]/*' />
 		public static PublicKey UnusableKey()
 		{
 			return PublicKey.FromStringED25519("0000000000000000000000000000000000000000000000000000000000000000");
 		}
 
-		/// <summary>
-		/// Create a public key from a subject public key info object.
-		/// </summary>
-		/// <param name="subjectPublicKeyInfo">the subject public key info object</param>
-		/// <returns>                         the new key</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo)"]/*' />
 		private static PublicKey FromSubjectKeyInfo(SubjectPublicKeyInfo subjectPublicKeyInfo)
         {
             if (subjectPublicKeyInfo.Algorithm.Equals(new AlgorithmIdentifier(ID_ED25519)))
@@ -156,80 +109,39 @@ namespace Hedera.Hashgraph.SDK.Keys
             }
         }
 
-		/// <summary>
-		/// Is this an ECDSA key?
-		/// </summary>
-		/// <returns>                         is this an ECDSA key</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.IsECDSA"]/*' />
 		public abstract bool IsECDSA();
-		/// <summary>
-		/// Is this an ED25519 key?
-		/// </summary>
-		/// <returns>                         is this an ED25519 key</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.IsED25519"]/*' />
 		public abstract bool IsED25519();
-		/// <summary>
-		/// Extract the DER represented as a byte array.
-		/// </summary>
-		/// <returns>                         the DER represented as a byte array</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToBytesDER"]/*' />
 		public abstract byte[] ToBytesDER();
-		/// <summary>
-		/// Extract the raw byte representation.
-		/// </summary>
-		/// <returns>                         the raw byte representation</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToBytesRaw"]/*' />
 		public abstract byte[] ToBytesRaw();
-		/// <summary>
-		/// Converts the key to EVM address
-		/// </summary>
-		/// <returns>                         the EVM address</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToEvmAddress"]/*' />
 		public abstract EvmAddress ToEvmAddress();
-		/// <summary>
-		/// Verify a signature on a message with this public key.
-		/// </summary>
-		/// <param name="message">The array of bytes representing the message</param>
-		/// <param name="signature">The array of bytes representing the signature</param>
-		/// <returns>bool</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.Verify(System.Byte[],System.Byte[])"]/*' />
 		public abstract bool Verify(byte[] message, byte[] signature);
-		/// <summary>
-		/// Serialize this key as a Proto.SignaturePair protobuf object
-		/// </summary>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToSignaturePairProtobuf(System.Byte[])"]/*' />
 		public abstract Proto.SignaturePair ToSignaturePairProtobuf(byte[] signature);
-		/// <summary>
-		/// Get the signature from a signature pair protobuf.
-		/// </summary>
-		/// <param name="pair">the protobuf</param>
-		/// <returns>                         the signature</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ExtractSignatureFromProtobuf(Proto.SignaturePair)"]/*' />
 		public abstract ByteString ExtractSignatureFromProtobuf(Proto.SignaturePair pair);
 
-		/// <summary>
-		/// Extract the DER encoded string.
-		/// </summary>
-		/// <returns>                         the DER encoded string</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToStringDER"]/*' />
 		public virtual string ToStringDER()
 		{
 			return Hex.ToHexString(ToBytesDER());
 		}
-		/// <summary>
-		/// Extract the raw string.
-		/// </summary>
-		/// <returns>                         the raw string</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToStringRaw"]/*' />
 		public virtual string ToStringRaw()
 		{
 			return Hex.ToHexString(ToBytesRaw());
 		}
-		/// <summary>
-		/// Create a new account id.
-		/// </summary>
-		/// <param name="shard">the shard part</param>
-		/// <param name="realm">the realm part</param>
-		/// <returns>                         the new account id</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToAccountId(System.Int64,System.Int64)"]/*' />
 		public virtual AccountId ToAccountId(long shard, long realm)
 		{
 			return new AccountId(shard, realm, 0, null, this, null);
 		}
-		/// <summary>
-		/// Is the given transaction valid?
-		/// </summary>
-		/// <param name="transaction">the transaction</param>
-		/// <returns>                         is it valid</returns>
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.VerifyTransaction``1(Transaction{``0})"]/*' />
 		public virtual bool VerifyTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
 		{
             if (!transaction.IsFrozen())

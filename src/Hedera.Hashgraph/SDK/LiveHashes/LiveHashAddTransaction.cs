@@ -12,63 +12,28 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// @deprecated
-    /// This transaction is obsolete, not supported, and SHALL fail with a
-    /// pre-check result of `NOT_SUPPORTED`.
-    /// 
-    /// A Live Hash value associating some item of content to an account.
-    /// This message represents a desired entry in the ledger for a SHA-384
-    /// hash of some content, an associated specific account, a list of authorized
-    /// keys, and a duration the live hash is "valid".
-    /// </remarks>
+    /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public sealed class LiveHashAddTransaction : Transaction<LiveHashAddTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction"]/*' />
         public LiveHashAddTransaction() { }
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-        ///            records</param>
-        /// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
         internal LiveHashAddTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// The account to which the livehash is attached
-		/// </summary>
-		/// <param name="accountId">The AccountId to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
 		public AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// The SHA-384 hash of a credential or certificate.
-		/// </summary>
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
 		public byte[] Hash { get; set { RequireNotFrozen(); field = value; } } = [];
-		/// <summary>
-		/// A list of keys (primitive or threshold), all of which must sign to attach the livehash to an
-		/// account, and any one of which can later delete it.
-		/// </summary>
-		/// <param name="keys">The Key or Keys to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]/*' />
 		public KeyList? Keys { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// The duration for which the livehash will remain valid
-		/// </summary>
-		/// <param name="duration">The TimeSpan to be set</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_4"]/*' />
 		public TimeSpan? Timespan { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.CryptoAddLiveHash;
@@ -92,10 +57,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             }
         }
 
-		/// <summary>
-		/// Build the correct transaction body.
-		/// </summary>
-		/// <returns>{@link Proto.CryptoAddLiveHashTransactionBody}</returns>
+		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
 		public Proto.CryptoAddLiveHashTransactionBody ToProtobuf()
         {
             var builder = new Proto.CryptoAddLiveHashTransactionBody();

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TokenUpdateNftsTransaction">
+    <summary>
+    Modify the metadata field for an individual non-fungible/unique token (NFT).
+    
+    Updating the metadata of an NFT SHALL NOT affect ownership or
+    the ability to transfer that NFT.<br />
+    This transaction SHALL affect only the specific serial numbered tokens
+    identified.
+    This transaction SHALL modify individual token metadata.<br />
+    This transaction MUST be signed by the token `metadata_key`.<br />
+    The token `metadata_key` MUST be a valid `Key`.<br />
+    The token `metadata_key` MUST NOT be an empty `KeyList`.
+    
+    ### Block Stream Effects
+    None
+    </summary>
+  </member>
+  <member name="M:TokenUpdateNftsTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:TokenUpdateNftsTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+    <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+  </member>
+  <member name="M:TokenUpdateNftsTransaction.RequireNotFrozen">
+    <summary>&lt;summary&gt;
+    A token identifier.&lt;br/&gt;
+    This is the token type (i.e. collection) for which to update NFTs.
+    &lt;p&gt;
+    This field is REQUIRED.&lt;br/&gt;
+    The identified token MUST exist, MUST NOT be paused, MUST have the type
+    non-fungible/unique, and MUST have a valid `metadata_key`.
+    &lt;/summary&gt;
+    &lt;param name="tokenId"&gt;the token id&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="T:TokenUpdateNftsTransaction_2">
+    <summary>&lt;summary&gt;
+    A list of serial numbers to be updated.
+    &lt;p&gt;
+    This field is REQUIRED.&lt;br/&gt;
+    This list MUST have at least one(1) entry.&lt;br/&gt;
+    This list MUST NOT have more than ten(10) entries.
+    &lt;/summary&gt;
+    &lt;param name="serials"&gt;the list of serial numbers&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenUpdateNftsTransaction.RequireNotFrozen_2">
+    <summary>&lt;summary&gt;
+    A new value for the metadata.
+    &lt;p&gt;
+    If this field is not set, the metadata SHALL NOT change.&lt;br/&gt;
+    This value, if set, MUST NOT exceed 100 bytes.
+    &lt;/summary&gt;
+    &lt;param name="metadata"&gt;the metadata&lt;/param&gt;
+    &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
+  </member>
+  <member name="M:TokenUpdateNftsTransaction.InitFromTransactionBody">
+    <summary>
+    Initialize from the transaction body.
+    </summary>
+  </member>
+  <member name="M:TokenUpdateNftsTransaction.ToProtobuf">
+    <summary>
+    Build the transaction body.
+    </summary>
+    <returns>{@link Proto.TokenUpdateNftsTransactionBody}</returns>
+  </member>
+</docs>

@@ -10,72 +10,28 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
 {
-    /// <summary>
-    /// Grant "Know Your Customer"(KYC) for one account for a single token.
-    /// 
-    /// This transaction MUST be signed by the `kyc_key` for the token.<br/>
-    /// The identified token MUST have a `kyc_key` set to a valid `Key` value.<br/>
-    /// The token `kyc_key` MUST NOT be an empty `KeyList`.<br/>
-    /// The identified token MUST exist and MUST NOT be deleted.<br/>
-    /// The identified account MUST exist and MUST NOT be deleted.<br/>
-    /// The identified account MUST have an association to the identified token.<br/>
-    /// On success the association between the identified account and the identified
-    /// token SHALL be marked as "KYC granted".
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </summary>
+    /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="T:TokenGrantKycTransaction"]/*' />
     public class TokenGrantKycTransaction : Transaction<TokenGrantKycTransaction>
     {
-        /// <summary>
-        /// Configure.
-        /// </summary>
+        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor"]/*' />
         public TokenGrantKycTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal TokenGrantKycTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal TokenGrantKycTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-        /// <summary>
-        /// A token identifier.
-        /// <p>
-        /// The identified token SHALL grant "KYC" for the account
-        /// identified by the `account` field.<br/>
-        /// The identified token MUST be associated to the account identified
-        /// by the `account` field.
-        /// </summary>
-        /// <param name="tokenId">the token id</param>
-        /// <returns>{@code this}</returns>
+        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.RequireNotFrozen"]/*' />
         public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
-		/// <summary>
-		/// An account identifier.
-		/// <p>
-		/// The token identified by the `token` field SHALL grant "KYC" for the
-		/// identified account.<br/>
-		/// This account MUST be associated to the token identified
-		/// by the `token` field.
-		/// </summary>
-		/// <param name="accountId">the account id</param>
-		/// <returns>{@code this}</returns>
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.RequireNotFrozen_2"]/*' />
 		public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
 
-		/// <summary>
-		/// Initialize from the transaction body.
-		/// </summary>
+		/// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.TokenGrantKyc;
@@ -87,11 +43,7 @@ namespace Hedera.Hashgraph.SDK.Token
                 AccountId = AccountId.FromProtobuf(body.Account);
         }
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link
-        ///         Proto.TokenGrantKycTransactionBody}</returns>
+        /// <include file="TokenGrantKycTransaction.cs.xml" path='docs/member[@name="M:TokenGrantKycTransaction.ToProtobuf"]/*' />
         public virtual Proto.TokenGrantKycTransactionBody ToProtobuf()
         {
             var builder = new Proto.TokenGrantKycTransactionBody();

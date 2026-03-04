@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:AccountAllowanceApproveTransaction">
+    <summary>
+    # Approve Allowance
+    This transaction body provides a mechanism to add "allowance" entries
+    for an account. These allowances enable one account to spend or transfer
+    token balances (for fungible/common tokens), individual tokens (for
+    non-fungible/unique tokens), or all non-fungible tokens owned by the
+    account, now or in the future (if `approved_for_all` is set).
+    </summary>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.#ctor">
+    <summary>
+    Constructor.
+    </summary>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.#ctor(Proto.TransactionBody)">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txBody">protobuf TransactionBody</param>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})">
+    <summary>
+    Constructor.
+    </summary>
+    <param name="txs">Compound list of transaction id's list of (AccountId, Transaction) records</param>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.OwnerToString(AccountId)">
+    <summary>
+    Extract the owner as a string.
+    </summary>
+    <param name="ownerAccountId">owner's account id</param>
+    <returns>a string representation of the account id
+                                     or FEE_PAYER</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.GetNftSerials(AccountId,AccountId,AccountId,TokenId)">
+    <summary>
+    Return a list of NFT serial numbers.
+    </summary>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <param name="delegatingSpender">delegating spender's account id</param>
+    <param name="tokenId">the token's id</param>
+    <returns>list of NFT serial numbers</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.NewNftSerials(AccountId,AccountId,AccountId,TokenId,System.Collections.Generic.Dictionary{TokenId,System.Int32})">
+    <summary>
+    Add NFT serials.
+    </summary>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <param name="delegatingSpender">delegating spender's account id</param>
+    <param name="tokenId">the token's id</param>
+    <param name="innerMap">list of token id's and serial number records</param>
+    <returns>list of NFT serial numbers</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.GetHbarAllowances">
+    <summary></summary>
+    <returns>list of hbar allowance records</returns>
+    <remarks>@deprecated- Use {@link #getHbarApprovals()} instead</remarks>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.GetHbarApprovals">
+    <summary>
+    Extract the list of hbar allowances.
+    </summary>
+    <returns>array list of hbar allowances</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.GetTokenApprovals">
+    <summary>
+    Extract a list of token allowance approvals.
+    </summary>
+    <returns>array list of token approvals.</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.GetTokenAllowances">
+    <summary></summary>
+    <returns> a list of token allowances</returns>
+    <remarks>@deprecated- Use {@link #getTokenApprovals()} instead</remarks>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.GetTokenNftApprovals">
+    <summary>
+    Returns the list of token nft allowances.
+    </summary>
+    <returns> list of token nft allowances.</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.GetTokenNftAllowances">
+    <summary></summary>
+    <returns>{@code this}</returns>
+    <remarks>@deprecated- Use {@link #getTokenNftApprovals()} instead</remarks>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.AddTokenAllowance(TokenId,AccountId,System.Int64)">
+    <summary></summary>
+    <param name="tokenId">the token id</param>
+    <param name="spenderAccountId">the spenders account id</param>
+    <param name="amount">the hbar amount</param>
+    <returns>an account allowance approve transaction</returns>
+    <remarks>@deprecated- Use {@link #approveTokenAllowance(TokenId, AccountId, AccountId, long)} instead</remarks>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.AddTokenNftAllowance(NftId,AccountId)">
+    <summary></summary>
+    <param name="nftId">the nft id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <returns>{@code this}</returns>
+    <remarks>@deprecated- Use {@link #approveTokenNftAllowance(NftId, AccountId, AccountId, AccountId)} instead</remarks>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.AddHbarAllowance(AccountId,Hbar)">
+    <summary></summary>
+    <param name="spenderAccountId">the spender account id</param>
+    <param name="amount">the amount of hbar</param>
+    <returns>an account allowance approve transaction</returns>
+    <remarks>@deprecated- Use {@link #approveHbarAllowance(AccountId, AccountId, Hbar)} instead</remarks>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.AddAllTokenNftAllowance(TokenId,AccountId)">
+    <summary></summary>
+    <param name="tokenId">the token id</param>
+    <param name="spenderAccountId">the spender's account id</param>
+    <returns>{@code this}</returns>
+    <remarks>@deprecated- Use {@link #approveTokenNftAllowanceAllSerials(TokenId, AccountId, AccountId)} instead</remarks>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.ApproveHbarAllowance(AccountId,AccountId,Hbar)">
+    <summary>
+    Approves the Hbar allowance.
+    </summary>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <param name="amount">amount of hbar add</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.ApproveTokenAllowance(TokenId,AccountId,AccountId,System.Int64)">
+    <summary>
+    Approves the Token allowance.
+    </summary>
+    <param name="tokenId">the token's id</param>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <param name="amount">amount of tokens</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowance(NftId,AccountId,AccountId)">
+    <summary>
+    Approve the NFT allowance.
+    </summary>
+    <param name="nftId">nft's id</param>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowance(NftId,AccountId,AccountId,AccountId)">
+    <summary>
+    Approve the NFT allowance.
+    </summary>
+    <param name="nftId">nft's id</param>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <param name="delegatingSpender">delegating spender's account id</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.ApproveTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)">
+    <summary>
+    Approve the token nft allowance on all serials.
+    </summary>
+    <param name="tokenId">the token's id</param>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.DeleteTokenNftAllowanceAllSerials(TokenId,AccountId,AccountId)">
+    <summary>
+    Delete the token nft allowance on all serials.
+    </summary>
+    <param name="tokenId">the token's id</param>
+    <param name="ownerAccountId">owner's account id</param>
+    <param name="spenderAccountId">spender's account id</param>
+    <returns>{@code this}</returns>
+  </member>
+  <member name="M:AccountAllowanceApproveTransaction.ToProtobuf">
+    <summary>
+    Build the correct transaction body.
+    </summary>
+    <returns>{@link Proto.CryptoApproveAllowanceTransactionBody builder }</returns>
+  </member>
+</docs>

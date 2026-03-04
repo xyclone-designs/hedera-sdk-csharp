@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:TopicMessageQuery">
+    <summary>
+    Subscribe to a topic ID's messages from a mirror node. You will receive all messages for the specified topic or
+    within the defined start and end time.
+    </summary>
+  </member>
+  <member name="T:TopicMessageQuery.when">
+    <summary>
+    Subscribe to the topic.
+    </summary>
+    <param name="client">the configured client</param>
+    <param name="onNext">the Action</param>
+    <returns>the subscription handle</returns>
+  </member>
+</docs>

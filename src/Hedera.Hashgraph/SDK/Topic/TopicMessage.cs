@@ -9,20 +9,10 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
-    /// <summary>
-    /// Topic message records.
-    /// </summary>
+    /// <include file="TopicMessage.cs.xml" path='docs/member[@name="T:TopicMessage"]/*' />
     public sealed class TopicMessage
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="lastConsensusTimestamp">the last consensus time</param>
-        /// <param name="message">the message</param>
-        /// <param name="lastRunningHash">the last running hash</param>
-        /// <param name="lastSequenceNumber">the last sequence number</param>
-        /// <param name="chunks">the array of chunks</param>
-        /// <param name="transactionId">the transaction id</param>
+        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.#ctor(DateTimeOffset,System.Byte[],System.Byte[],System.UInt64,TopicMessageChunk[],TransactionId)"]/*' />
         public TopicMessage(DateTimeOffset lastConsensusTimestamp, byte[] message, byte[] lastRunningHash, ulong lastSequenceNumber, TopicMessageChunk[] chunks, TransactionId? transactionId)
         {
             ConsensusTimestamp = lastConsensusTimestamp;
@@ -33,11 +23,7 @@ namespace Hedera.Hashgraph.SDK.Topic
             TransactionId = transactionId;
         }
 
-        /// <summary>
-        /// Create a new topic message from a response protobuf.
-        /// </summary>
-        /// <param name="response">the protobuf response</param>
-        /// <returns>                         the new topic message</returns>
+        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfSingle(Proto.ConsensusTopicResponse)"]/*' />
         public static TopicMessage OfSingle(Proto.ConsensusTopicResponse response)
         {
             return new TopicMessage(
@@ -48,11 +34,7 @@ namespace Hedera.Hashgraph.SDK.Topic
                 [new(response)], 
                 TransactionId.FromProtobuf(response.ChunkInfo.InitialTransactionID));
         }
-        /// <summary>
-        /// Create a new topic message from a list of response's protobuf.
-        /// </summary>
-        /// <param name="responses">the protobuf response</param>
-        /// <returns>                         the new topic message</returns>
+        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfMany(System.Collections.Generic.IList{Proto.ConsensusTopicResponse})"]/*' />
         public static TopicMessage OfMany(IList<Proto.ConsensusTopicResponse> responses)
         {
             // response should be in the order of oldest to newest (not chunk order)
@@ -83,30 +65,17 @@ namespace Hedera.Hashgraph.SDK.Topic
                 transactionId);
         }
 
-		/// <summary>
-		/// The consensus timestamp of the message in seconds.nanoseconds
-		/// </summary>
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.ConsensusTimestamp"]/*' />
 		public DateTimeOffset ConsensusTimestamp { get; }
-		/// <summary>
-		/// The content of the message
-		/// </summary>
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Contents"]/*' />
 		public byte[] Contents { get; }
-		/// <summary>
-		/// The new running hash of the topic that received the message
-		/// </summary>
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.RunningHash"]/*' />
 		public byte[] RunningHash { get; }
-		/// <summary>
-		/// The sequence number of the message relative to all other messages
-		/// for the same topic
-		/// </summary>
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.SequenceNumber"]/*' />
 		public ulong SequenceNumber { get; }
-		/// <summary>
-		/// Array of topic message chunks.
-		/// </summary>
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Chunks"]/*' />
 		public TopicMessageChunk[] Chunks { get; }
-		/// <summary>
-		/// The transaction id
-		/// </summary>
+		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.TransactionId"]/*' />
 		public TransactionId? TransactionId { get; }
 	}
 }

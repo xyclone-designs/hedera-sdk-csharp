@@ -14,70 +14,24 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Systems
 {
-    /// <summary>
-    /// </summary>
-    /// <remarks>
-    /// @deprecated
-    /// This transaction is obsolete, not supported, and SHALL fail with a
-    /// pre-check result of `NOT_SUPPORTED`.
-    /// 
-    /// Delete a file or contract bytecode as an administrative transaction.
-    /// > Note
-    /// >> A system delete/undelete for a `contractID` is not supported and
-    /// >> SHALL return `INVALID_FILE_ID` or `MISSING_ENTITY_ID`.
-    /// 
-    /// This transaction MAY be reversed by the `systemUndelete` transaction.
-    /// A file deleted via `fileDelete`, however SHALL be irrecoverable.<br/>
-    /// This transaction MUST specify an expiration timestamp (with seconds
-    /// precision). The file SHALL be permanently removed from state when
-    /// network consensus time exceeds the specified expiration time.<br/>
-    /// This transaction MUST be signed by an Hedera administrative ("system")
-    /// account.
-    /// 
-    /// ### What is a "system" file
-    /// A "system" file is any file with a file number less than or equal to the
-    /// current configuration value for `ledger.numReservedSystemEntities`,
-    /// typically `750`.
-    /// 
-    /// ### Block Stream Effects
-    /// None
-    /// </remarks>
+    /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
     [Obsolete("Obsolete")]
     public sealed class SystemDeleteTransaction : Transaction<SystemDeleteTransaction>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction"]/*' />
         public SystemDeleteTransaction() { }
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txBody">protobuf TransactionBody</param>
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(Proto.TransactionBody)"]/*' />
 		internal SystemDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="txs">Compound list of transaction id's list of (AccountId, Transaction)
-		///            records</param>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal SystemDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		/// <summary>
-		/// A file identifier.
-		/// <p>
-		/// The identified file MUST exist in the HFS.<br/>
-		/// The identified file MUST NOT be deleted.<br/>
-		/// The identified file MUST NOT be a "system" file.<br/>
-		/// This field is REQUIRED.
-		/// 
-		/// Mutually exclusive with {@link #setContractId(ContractId)}.
-		/// </summary>
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
 		public FileId? FileId
 		{
 			get;
@@ -88,14 +42,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 				ContractId = null; // Reset ContractId
 			}
 		}
-        /// <summary>
-        /// A contract identifier.
-        /// <p>
-        /// The identified contract MUST exist in network state.<br/>
-        /// The identified contract bytecode MUST NOT be deleted.<br/>
-        /// <p>
-        /// Mutually exclusive with {@link #setFileId(FileId)}.
-        /// </summary>
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
         public ContractId? ContractId
         {
             get;
@@ -106,13 +53,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 				FileId = null; // Reset FileIds
 			}
         }
-		/// <summary>
-		/// A timestamp indicating when the file will be removed from state.
-		/// <p>
-		/// This value SHALL be expressed in seconds since the `epoch`. The `epoch`
-		/// SHALL be the UNIX epoch with 0 at `1970-01-01T00:00:00.000Z`.<br/>
-		/// This field is REQUIRED.
-		/// </summary>
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]/*' />
 		public DateTimeOffset? ExpirationTime
 		{
 			get;
@@ -123,10 +64,7 @@ namespace Hedera.Hashgraph.SDK.Systems
 			}
 		}
 
-        /// <summary>
-        /// Build the transaction body.
-        /// </summary>
-        /// <returns>{@link Proto.SystemDeleteTransactionBody}</returns>
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
         public Proto.SystemDeleteTransactionBody ToProtobuf()
         {
             var builder = new Proto.SystemDeleteTransactionBody();
@@ -149,9 +87,7 @@ namespace Hedera.Hashgraph.SDK.Systems
             return builder;
         }
 
-        /// <summary>
-        /// Initialize from the transaction body.
-        /// </summary>
+        /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:InitFromTransactionBody"]/*' />
         void InitFromTransactionBody()
         {
 			var body = SourceTransactionBody.SystemDelete;

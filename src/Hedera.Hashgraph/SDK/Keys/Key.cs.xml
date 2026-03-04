@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:Key">
+    <summary>
+    A common base for the signing authority or key that entities in Hedera may have.
+    
+    See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/key">Hedera Documentation</a></summary>
+    <remarks>
+    @seeKeyList
+    @seePublicKey
+    </remarks>
+  </member>
+  <member name="M:Key.FromBytes(System.Byte[])">
+    <summary>
+    Create Key from proto.Key byte array
+    </summary>
+    <param name="bytes"></param>
+    <returns>Key representation</returns>
+    <exception cref="InvalidProtocolBufferException"></exception>
+  </member>
+  <member name="M:Key.FromProtobufKey(Proto.Key)">
+    <summary>
+    Create a specific key type from the protobuf.
+    </summary>
+    <param name="key">the protobuf key of unknown type</param>
+    <returns>the differentiated key</returns>
+  </member>
+  <member name="M:Key.ToProtobufKey">
+    <summary>
+    Serialize this key as a protobuf object
+    </summary>
+  </member>
+  <member name="M:Key.ToBytes">
+    <summary>
+    Create the byte array.
+    </summary>
+    <returns>the byte array representation</returns>
+  </member>
+</docs>

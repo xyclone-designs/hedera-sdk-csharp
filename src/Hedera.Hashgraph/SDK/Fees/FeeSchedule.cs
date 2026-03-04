@@ -11,34 +11,19 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Fees
 {
-    /// <summary>
-    /// The fee schedule for a specific hedera functionality and the time period this fee schedule will expire.
-    /// 
-    /// See <a href="https://docs.hedera.com/guides/docs/hedera-api/basic-types/feeschedule">Hedera Documentation</a>
-    /// </summary>
+    /// <include file="FeeSchedule.cs.xml" path='docs/member[@name="T:FeeSchedule"]/*' />
     public class FeeSchedule : ICloneable
     {
         private DateTimeOffset ExpirationTime = new ();
-        /// <summary>
-        /// Constructor.
-        /// </summary>
+        /// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.#ctor"]/*' />
         public FeeSchedule() { }
 
-		/// <summary>
-		/// Create a fee schedule from byte array.
-		/// </summary>
-		/// <param name="bytes">the bye array</param>
-		/// <returns>                         the fee schedule</returns>
-		/// <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
+		/// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.FromBytes(System.Byte[])"]/*' />
 		public static FeeSchedule FromBytes(byte[] bytes)
 		{
 			return FromProtobuf(Proto.FeeSchedule.Parser.ParseFrom(bytes));
 		}
-		/// <summary>
-		/// Create a fee schedule from a protobuf.
-		/// </summary>
-		/// <param name="feeSchedule">the protobuf</param>
-		/// <returns>                         the fee schedule</returns>
+		/// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.FromProtobuf(Proto.FeeSchedule)"]/*' />
 		public static FeeSchedule FromProtobuf(Proto.FeeSchedule feeSchedule)
         {
             return new FeeSchedule
@@ -60,10 +45,7 @@ namespace Hedera.Hashgraph.SDK.Fees
             TransactionFeeSchedules = [.. TransactionFeeSchedules, .. transactionFeeSchedules];
         }
 
-        /// <summary>
-        /// Create the byte array.
-        /// </summary>
-        /// <returns>                         a byte array representation</returns>
+        /// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {
             return ToProtobuf().ToByteArray();
@@ -75,10 +57,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 				TransactionFeeSchedules = TransactionFeeSchedules.CloneToList()
 			};
         }
-		/// <summary>
-		/// Convert to a protobuf.
-		/// </summary>
-		/// <returns>                         the protobuf</returns>
+		/// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.ToProtobuf"]/*' />
 		public virtual Proto.FeeSchedule ToProtobuf()
 		{
 			Proto.FeeSchedule proto = new()

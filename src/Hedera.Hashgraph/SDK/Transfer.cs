@@ -4,11 +4,7 @@ using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <summary>
-    /// A transfer of Hbar that occurred within a transaction.
-    /// <p>
-    /// Returned with a {@link TransactionRecord}.
-    /// </summary>
+    /// <include file="Transfer.cs.xml" path='docs/member[@name="T:Transfer"]/*' />
     public sealed class Transfer
     {
         public Transfer(AccountId accountId, Hbar amount)
@@ -17,29 +13,18 @@ namespace Hedera.Hashgraph.SDK
             Amount = amount;
         }
 
-		/// <summary>
-		/// Create a transfer from a protobuf.
-		/// </summary>
-		/// <param name="accountAmount">the protobuf</param>
-		/// <returns>                         the new transfer</returns>
+		/// <include file="Transfer.cs.xml" path='docs/member[@name="M:Transfer.FromProtobuf(Proto.AccountAmount)"]/*' />
 		public static Transfer FromProtobuf(Proto.AccountAmount accountAmount)
 		{
 			return new Transfer(AccountId.FromProtobuf(accountAmount.AccountID), Hbar.FromTinybars(accountAmount.Amount));
 		}
 
-		/// <summary>
-		/// The amount that the account sends (negative) or receives (positive).
-		/// </summary>
+		/// <include file="Transfer.cs.xml" path='docs/member[@name="P:Transfer.Amount"]/*' />
 		public Hbar Amount { get; }
-		/// <summary>
-		/// The Account ID that sends or receives crypto-currency.
-		/// </summary>
+		/// <include file="Transfer.cs.xml" path='docs/member[@name="P:Transfer.AccountId"]/*' />
 		public AccountId AccountId { get; }
 
-        /// <summary>
-        /// Create the protobuf.
-        /// </summary>
-        /// <returns>                         the protobuf representation</returns>
+        /// <include file="Transfer.cs.xml" path='docs/member[@name="M:Transfer.ToProtobuf"]/*' />
         public Proto.AccountAmount ToProtobuf()
         {
             return new Proto.AccountAmount

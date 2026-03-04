@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<docs>
+  <member name="T:EvmAddress">
+    <summary>
+    The ID for a cryptocurrency account on Hedera.
+    </summary>
+  </member>
+  <member name="M:EvmAddress.#ctor(System.Byte[])">
+    <summary>
+    Constructor
+    </summary>
+    <param name="bytes">the byte array representation of the address</param>
+  </member>
+  <member name="M:EvmAddress.FromString(System.String)">
+    <summary>
+    Convert a string to an ethereum address.
+    </summary>
+    <param name="evmAddress">the string</param>
+    <returns>the ethereum address</returns>
+  </member>
+  <member name="M:EvmAddress.FromBytes(System.Byte[])">
+    <summary>
+    Convert a byte array to an ethereum address.
+    </summary>
+    <param name="bytes">the byte array</param>
+    <returns>the ethereum address</returns>
+  </member>
+</docs>

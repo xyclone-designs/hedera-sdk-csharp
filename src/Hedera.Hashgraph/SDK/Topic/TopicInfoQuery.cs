@@ -9,11 +9,7 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Topic
 {
-    /// <summary>
-    /// Retrieve the latest state of a topic.
-    /// <p>
-    /// This method is unrestricted and allowed on any topic by any payer account.
-    /// </summary>
+    /// <include file="TopicInfoQuery.cs.xml" path='docs/member[@name="T:TopicInfoQuery"]/*' />
     public sealed class TopicInfoQuery : Query<TopicInfo, TopicInfoQuery>
     {
         public TopicId? TopicId { get; set; }
