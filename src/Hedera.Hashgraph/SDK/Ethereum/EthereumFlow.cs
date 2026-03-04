@@ -15,8 +15,8 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
-    /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
-    [Obsolete("Obsolete")]
+	/// <include file="EthereumFlow.cs.xml" path='docs/member[@name="T:EthereumFlow"]/*' />
+	[Obsolete("Obsolete")]
     public class EthereumFlow
     {
         /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="F:.MAX_ETHEREUM_DATA_SIZE"]/*' />

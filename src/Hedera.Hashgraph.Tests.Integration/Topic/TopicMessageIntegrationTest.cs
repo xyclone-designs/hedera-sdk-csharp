@@ -54,17 +54,16 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
                 while (!receivedMessage[0])
                 {
-                    if (Duration.Between(start, DateTimeOffset.UtcNow).CompareTo(TimeSpan.FromSeconds(60)) > 0)
-                    {
-                        throw new Exception("TopicMessage was not received in 60 seconds or less");
-                    }
+					if (DateTimeOffset.UtcNow - start > TimeSpan.FromSeconds(60))
+						throw new Exception("TopicMessage was not received in 60 seconds or less");
 
-                    Thread.Sleep(5000);
+					Thread.Sleep(5000);
                 }
 
                 new TopicDeleteTransaction
                 {
 					TopicId = topicId
+
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
@@ -117,7 +116,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 while (!receivedMessage[0])
                 {
-                    if (Duration.Between(start, DateTimeOffset.UtcNow).CompareTo(TimeSpan.FromSeconds(60)) > 0)
+                    if ((start - DateTimeOffset.UtcNow).CompareTo(TimeSpan.FromSeconds(60)) > 0)
                     {
                         throw new Exception("TopicMessage was not received in 60 seconds or less");
                     }
@@ -144,51 +143,35 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
                 }.Execute(testEnv.Client);
                 var topicId = response.GetReceipt(testEnv.Client).TopicId;
-                var receivedMessage = new AtomicBoolean(false);
-                var retryWarningLogged = new AtomicBoolean(false);
-                var errorHandlerInvoked = new AtomicBoolean(false);
-                var retryHandler = new AnonymousPredicate(this);
+                var receivedMessage = false;
+                var retryWarningLogged = false;
+                var errorHandlerInvoked = false;
                 var handle = new TopicMessageQuery
                 {
-					TopicId = topicId,
-					StartTime = DateTime.EPOCH,
-					RetryHandler = retryHandler,
-				}
-                    ErrorHandler = (throwable, topicMessage) => errorHandlerInvoked
-                    ( = rue)).Subscribe(testEnv.Client, (message) =>
-                {
-                    receivedMessage
-                    ( = rue);
-                });
+                    TopicId = topicId,
+                    StartTime = DateTime.UnixEpoch,
+					ErrorHandler = (exception, topicMessage) => Volatile.Write(ref errorHandlerInvoked, true),
+					RetryHandler = (exception) =>
+                    {
+                        Volatile.Write(ref retryWarningLogged, true);
+                        return false;
+					},
+
+                }.Subscribe(testEnv.Client, message => Volatile.Write(ref receivedMessage, true));
+
                 handle.Unsubscribe();
                 
                 Thread.Sleep(3000);
                 
-                Assert.False(retryWarningLogged.Get());
-                Assert.False(receivedMessage.Get());
-                Assert.False(errorHandlerInvoked.Get());
+                Assert.False(Volatile.Read(ref retryWarningLogged));
+                Assert.False(Volatile.Read(ref receivedMessage));
+                Assert.False(Volatile.Read(ref errorHandlerInvoked));
                 
                 new TopicDeleteTransaction
                 {
 					TopicId = topicId
 				
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-            }
-        }
-
-        private sealed class AnonymousPredicate : Predicate
-        {
-            public AnonymousPredicate(TopicMessageIntegrationTest parent)
-            {
-                this.parent = parent;
-            }
-
-            private readonly TopicMessageIntegrationTest parent;
-            public bool Test(Exception throwable)
-            {
-                retryWarningLogged
-                    ( = rue);
-                return false; // Don't actually retry
             }
         }
     }

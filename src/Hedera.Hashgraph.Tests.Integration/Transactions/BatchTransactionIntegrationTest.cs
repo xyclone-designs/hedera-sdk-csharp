@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var batchTransactionBytes = batchTransaction.ToBytes();
                 var batchTransactionFromBytes = Transaction.FromBytes<BatchTransaction>(batchTransactionBytes);
                 batchTransactionFromBytes.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var accountIdInnerTransaction = batchTransaction.InnerTransactions.ElementAt(0).AccountId;
+                var accountIdInnerTransaction = batchTransaction.InnerTransactions.ElementAt(0).TransactionId.AccountId;
                 var execute = new AccountInfoQuery
                 {
 					AccountId = accountIdInnerTransaction

@@ -12,8 +12,8 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.LiveHashes
 {
-    /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
-    [Obsolete("Obsolete")]
+	/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="T:LiveHashAddTransaction"]/*' />
+	[Obsolete("Obsolete")]
     public sealed class LiveHashAddTransaction : Transaction<LiveHashAddTransaction>
     {
         /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction"]/*' />

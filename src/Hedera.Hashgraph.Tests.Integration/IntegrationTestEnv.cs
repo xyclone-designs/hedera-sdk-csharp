@@ -1,17 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Hedera.Hashgraph.Sdk;
-using Java.Util;
-using Java.Util.Concurrent;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -26,25 +22,23 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public PublicKey OperatorKey;
         public AccountId OperatorId;
         public bool IsLocalNode = false;
-        private static ExecutorService ClientExecutor = Executors.NewFixedThreadPool(Runtime.GetRuntime().AvailableProcessors());
-        public IntegrationTestEnv() : this(0)
-        {
-        }
+        private static ExecutorService ClientExecutor = new ();
+        public IntegrationTestEnv() : this(0) { }
 
         public IntegrationTestEnv(int maxNodesPerTransaction)
         {
             Client = CreateTestEnvClient();
             if (maxNodesPerTransaction == 0)
             {
-                maxNodesPerTransaction = Client.Network.Count;
+                maxNodesPerTransaction = Client.Network_.GetNetwork().Count;
             }
 
-            Client.SetMaxNodesPerTransaction(maxNodesPerTransaction);
+            Client.Network_.MaxNodesPerRequest = maxNodesPerTransaction;
             originalClient = Client;
             try
             {
-                var operatorPrivateKey = PrivateKey.FromString(System.GetProperty("OPERATOR_KEY"));
-                OperatorId = AccountId.FromString(System.GetProperty("OPERATOR_ID"));
+                var operatorPrivateKey = PrivateKey.FromString(Environment.GetEnvironmentVariable("OPERATOR_KEY"));
+                OperatorId = AccountId.FromString(Environment.GetEnvironmentVariable("OPERATOR_ID"));
                 OperatorKey = operatorPrivateKey.GetPublicKey();
                 Client.OperatorSet(OperatorId, operatorPrivateKey);
             }
@@ -56,51 +50,41 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             OperatorId = Client.OperatorAccountId;
             Assert.NotNull(Client.OperatorAccountId);
             Assert.NotNull(Client.OperatorPublicKey);
-            if (Client.Network.Count > 0 && (Client.Network.ContainsKey(LOCAL_CONSENSUS_NODE_ENDPOINT)))
+            if (Client.Network_.GetNetwork().Count > 0 && (Client.Network_.GetNetwork().ContainsKey(LOCAL_CONSENSUS_NODE_ENDPOINT)))
             {
                 IsLocalNode = true;
             }
 
             var nodeGetter = new TestEnvNodeGetter(Client);
             var network = new Dictionary<string, AccountId>();
-            var nodeCount = Math.Min(Client.Network.Count, maxNodesPerTransaction);
+            var nodeCount = Math.Min(Client.Network_.GetNetwork().Count, maxNodesPerTransaction);
             for (int i = 0; i < nodeCount; i++)
             {
                 nodeGetter.NextNode(network);
             }
 
-            Client.SetNetwork(network);
+            Client.Network_.SetNetwork(network);
         }
 
         private static Client CreateTestEnvClient()
         {
-            if (System.GetProperty("HEDERA_NETWORK").Equals("previewnet"))
-            {
-                return Client.ForPreviewnet();
-            }
-            else if (System.GetProperty("HEDERA_NETWORK").Equals("testnet"))
-            {
-                return Client.ForTestnet();
-            }
-            else if (System.GetProperty("HEDERA_NETWORK").Equals("localhost"))
-            {
-                var network = new Dictionary<string, AccountId>();
-                network.Put(LOCAL_CONSENSUS_NODE_ENDPOINT, LOCAL_CONSENSUS_NODE_ACCOUNT_ID);
-                return SDK.Client.ForNetwork(network, ClientExecutor).SetMirrorNetwork(List.Of(LOCAL_MIRROR_NODE_GRPC_ENDPOINT));
-            }
-            else if (!System.GetProperty("CONFIG_FILE").Equals(""))
-            {
+            if (Environment.GetEnvironmentVariable("HEDERA_NETWORK") is not string env) { }
+            else if (env.Equals("previewnet")) return Client.ForPreviewnet();
+            else if (env.Equals("testnet")) return Client.ForTestnet();
+            else if (env.Equals("localhost")) return Client.ForNetwork(
+                executor: ClientExecutor,
+                onCreate: client => client.MirrorNetwork_ = MirrorNetwork.ForNetwork(ClientExecutor, [LOCAL_MIRROR_NODE_GRPC_ENDPOINT]),
+                networkMap: new Dictionary<string, AccountId>
+                {
+                    { LOCAL_CONSENSUS_NODE_ENDPOINT, LOCAL_CONSENSUS_NODE_ACCOUNT_ID }
+                });
+            else if (!env.Equals(""))
                 try
                 {
-                    return SDK.Client.FromConfigFile(System.GetProperty("CONFIG_FILE"));
+                    return SDK.Client.FromConfigFile(Environment.GetEnvironmentVariable("CONFIG_FILE"));
                 }
-                catch (Exception configFileException)
-                {
-                    configFileException.PrintStackTrace();
-                }
-            }
-
-            throw new InvalidOperationException("Failed to construct client for IntegrationTestEnv");
+                catch (Exception exception) { Console.WriteLine(exception.StackTrace); }
+			throw new InvalidOperationException("Failed to construct client for IntegrationTestEnv");
         }
 
         public virtual IntegrationTestEnv UseThrowawayAccount(Hbar initialBalance)
@@ -114,11 +98,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			}
             .Execute(Client)
             .GetReceipt(Client).AccountId;
-            Client = SDK.Client.ForNetwork(originalClient.Network);
-            Client.MirrorNetwork = originalClient.MirrorNetwork;
-            Client.LedgerId = originalClient.LedgerId;
-            Client.MaxAttempts = 15;
-            Client.OperatorSet(OperatorId, key);
+
+            Client = Client.ForNetwork(originalClient.Network_.GetNetwork(), client =>
+            {
+				Client.MirrorNetwork_ = originalClient.MirrorNetwork_;
+				Client.Network_.LedgerId = originalClient.Network_.LedgerId;
+				Client.MaxAttempts = 15;
+				Client.OperatorSet(OperatorId, key);
+			});
+            
 			return this;
         }
 
@@ -131,28 +119,37 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         // The assumption should be removed once the local node is supporting multiple nodes.
         public virtual void AssumeNotLocalNode()
         {
-
             // first clean up the current IntegrationTestEnv...
             if (IsLocalNode)
             {
                 Dispose();
             }
 
-
             // then skip the current test
-            Assumptions.AssumeFalse(IsLocalNode);
+            //Assumptions.AssumeFalse(IsLocalNode);
         }
 
         public virtual void Dispose()
         {
-            if (!OperatorId.Equals(originalClient.GetOperatorAccountId()))
+            if (!OperatorId.Equals(originalClient.OperatorAccountId))
             {
                 try
                 {
-                    var hbarsBalance = new AccountBalanceQuery().SetAccountId(OperatorId).Execute(originalClient).hbars;
-                    new TransferTransaction().AddHbarTransfer(OperatorId, hbarsBalance.Negated()).AddHbarTransfer(originalClient.GetOperatorAccountId()), hbarsBalance).FreezeWith(originalClient).SignWithOperator(Client).Execute(originalClient).GetReceipt(originalClient);
+                    var hbarsBalance = new AccountBalanceQuery
+                    {
+						AccountId = OperatorId
+
+					}.Execute(originalClient).Hbars;
+
+                    new TransferTransaction()
+                        .AddHbarTransfer(OperatorId, hbarsBalance.Negated())
+                        .AddHbarTransfer(originalClient.OperatorAccountId, hbarsBalance)
+                        .FreezeWith(originalClient)
+                        .SignWithOperator(Client)
+                        .Execute(originalClient)
+                        .GetReceipt(originalClient);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Client.Dispose();
                 }
@@ -164,37 +161,46 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         private class TestEnvNodeGetter
         {
             private readonly Client client;
-            private readonly List<Map.Entry<String, AccountId>> nodes;
+            private readonly Dictionary<string, AccountId> nodes;
             private int index = 0;
             public TestEnvNodeGetter(Client client)
             {
                 this.client = client;
-                nodes = new List(client.Network_.Network_Read);
-                Collections.Shuffle(nodes);
+                nodes = new Dictionary<string, AccountId>(client.Network_.GetNetwork().Shuffle());
             }
 
             public virtual void NextNode(Dictionary<string, AccountId> outMap)
             {
-                if (nodes.IsEmpty())
-                {
-                    throw new InvalidOperationException("IntegrationTestEnv needs another node, but there aren't enough nodes in client network");
-                }
+                if (nodes.Count == 0)
+					throw new InvalidOperationException("IntegrationTestEnv needs another node, but there aren't enough nodes in client network");
 
-                for (; index < nodes.Count; index++)
+                var enumerator = nodes.GetEnumerator();
+
+				while (enumerator.MoveNext())
                 {
-                    var node = nodes[index];
-                    try
-                    {
-                        new TransferTransaction().SetNodeAccountIds([node.GetValue(])).SetMaxAttempts(1).AddHbarTransfer(client.GetOperatorAccountId(), Hbar.FromTinybars(1).Negated()).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1)).Execute(client).GetReceipt(client);
-                        nodes.Remove(index);
-                        outMap.Put(node.GetKey(), node.GetValue());
-                        return;
-                    }
-                    catch (Exception err)
-                    {
-                        System.err.Println(err);
-                    }
-                }
+					try
+					{
+						new TransferTransaction
+						{
+							MaxAttempts = 1,
+						}
+						.SetNodeAccountIds([enumerator.Current.Value])
+						.AddHbarTransfer(client.OperatorAccountId, Hbar.FromTinybars(1).Negated())
+						.AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.FromTinybars(1))
+						.Execute(client)
+						.GetReceipt(client);
+
+						//nodes.Remove(index);
+
+						outMap.Add(enumerator.Current.Key, enumerator.Current.Value);
+
+						return;
+					}
+					catch (Exception err)
+					{
+						Console.Error.WriteLine(err);
+					}
+				}
 
                 throw new Exception("Failed to find working node in " + nodes + " for IntegrationTestEnv");
             }

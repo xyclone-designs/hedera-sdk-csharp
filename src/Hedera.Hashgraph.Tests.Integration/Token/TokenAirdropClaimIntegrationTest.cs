@@ -83,8 +83,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(mitedNfts - 2, operatorBalance.Tokens[nftID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance - (ulong)amount, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -129,7 +129,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(6, record.PendingAirdropRecords.Count);
 
                 // claim the tokens signing with receiver1 and receiver2
-                var pendingAirdropIDs = [.. record.PendingAirdropRecords.Select(_ => _.PendingAirdropId)];
+                var pendingAirdropIDs = new List<PendingAirdropId>(record.PendingAirdropRecords.Select(_ => _.PendingAirdropId));
 
                 record = new TokenClaimAirdropTransaction
                 {
@@ -167,8 +167,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(fungibleInitialBalance - amount * 2, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(mitedNfts - 4, operatorBalance.Tokens[nftID]);
+                Assert.Equal((EntityHelper.fungibleInitialBalance - (ulong)amount) * 2, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts - 4, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -235,8 +235,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // verify the operator does not hold the tokens
                 var operatorBalance = new AccountBalanceQuery { AccountId = testEnv.OperatorId, }.Execute(testEnv.Client);
 
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(mitedNfts - 2, operatorBalance.Tokens[nftID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance - (ulong)amount, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
 

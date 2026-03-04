@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Submit a message to the revenue generating topic with custom fee limit using scheduled transaction
                 // Create a new client with the payer account as operator
-                var payerClient = Client.ForNetwork(testEnv.Client.Network_.Network_Read);
+                var payerClient = Client.ForNetwork(testEnv.Client.Network_.GetNetwork());
                 payerClient.MirrorNetwork_ = testEnv.Client.MirrorNetwork_;
                 payerClient.OperatorSet(payerAccountId, payerKey);
                 var submitMessageTransaction = new TopicMessageSubmitTransaction
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					CustomFees = [customFixedFee],
 				}
                 .Execute(testEnv.Client);
-                var topicId = topicResponse.GetReceipt(testEnv.Client).TopicId);
+                var topicId = topicResponse.GetReceipt(testEnv.Client).TopicId;
 
                 // Create payer account
                 var payerKey = PrivateKey.GenerateED25519();
@@ -127,8 +127,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // Submit a message to the revenue generating topic with custom fee limit using scheduled transaction
                 // Create a new client with the payer account as operator
-                var payerClient = Client.ForNetwork(testEnv.Client.Network);
-                payerClient.MirrorNetwork = testEnv.Client.MirrorNetwork;
+                var payerClient = Client.ForNetwork(testEnv.Client.Network_.GetNetwork());
+                payerClient.MirrorNetwork_ = testEnv.Client.MirrorNetwork_;
                 payerClient.OperatorSet(payerAccountId, payerKey);
                 new TopicMessageSubmitTransaction()
                 {
@@ -224,7 +224,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					{
 						Amount = 1,
 						DenominatingTokenId = tokenId
-					}])
+					}]
 			    };
 
                 // Submit a message to the revenue generating topic with custom fee limit using scheduled transaction

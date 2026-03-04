@@ -70,8 +70,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = testEnv.OperatorId,
 				
                 }.Execute(testEnv.Client);
-                Assert.Equal(FungibleInitialBalance, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(MitedNfts, operatorBalance.Tokens[nftID]);
+
+                Assert.Equal(EntityHelper.fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -247,8 +248,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
                 }.Execute(testEnv.Client);
 
-                Assert.Equal(fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(MitedNfts, operatorBalance.Tokens[nftID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -316,8 +317,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 				}.Execute(testEnv.Client);
 
-                Assert.Equal(FungibleInitialBalance, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(MitedNfts, operatorBalance.Tokens[nftID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 

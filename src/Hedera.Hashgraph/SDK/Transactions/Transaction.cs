@@ -34,16 +34,20 @@ using System.Threading.Tasks;
 namespace Hedera.Hashgraph.SDK.Transactions
 {
 
+	
 	/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
 	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>
     {
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction_2"]/*' />
 		protected Hbar DefaultMaxTransactionFee = new (2);
-        /// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor"]/*' />
+        
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor"]/*' />
         protected bool? regenerateTransactionId = null;
         private string Memo = "";
         protected IList<CustomFeeLimit> customFeeLimits = [];
 
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor_2"]/*' />
 		protected Transaction()
         {
@@ -55,6 +59,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(Proto.TransactionBody)"]/*' />
 		internal Transaction(Proto.TransactionBody txBody)
 		{
@@ -67,6 +72,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
 		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs)
         {
@@ -155,7 +161,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		}
 
-        /// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen"]/*' />
+        
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen"]/*' />
         public Hbar? MaxTransactionFee
         {
             get;
@@ -165,6 +172,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value;
 			}
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_2"]/*' />
 		public string TransactionMemo
 		{
@@ -175,6 +183,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value;
 			}
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_3"]/*' />
 		public TimeSpan TransactionValidDuration
 		{
@@ -185,10 +194,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value;
 			}
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.SourceTransactionBody"]/*' />
 		public Proto.TransactionBody SourceTransactionBody { get; internal set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.FrozenBodyBuilder"]/*' />
 		public Proto.TransactionBody? FrozenBodyBuilder { get; internal set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_4"]/*' />
 		public Key? BatchKey 
 		{ 
@@ -199,8 +211,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				field = value; 
 			} 
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.ShouldRegenerateTransactionId"]/*' />
 		public bool ShouldRegenerateTransactionId { get; set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction_3"]/*' />
 		public TransactionId TransactionId
 		{
@@ -220,16 +234,22 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				TransactionIds.IsLocked = true;
 			}
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.OuterTransactions"]/*' />
 		public List<Proto.Transaction> OuterTransactions { get; internal set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.InnerSignedTransactions"]/*' />
 		public List<Proto.SignedTransaction> InnerSignedTransactions { get; internal set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.SigPairLists"]/*' />
 		public List<Proto.SignatureMap> SigPairLists { get; internal set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.TransactionIds"]/*' />
 		public ListGuarded<TransactionId> TransactionIds { get; internal set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.PublicKeys"]/*' />
 		public IList<PublicKey> PublicKeys { get; internal set; }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.freezeWith(Client)"]/*' />
 		public List<Func<byte[], byte[]>?> Signers { get; internal set; }
 
@@ -238,8 +258,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			get => TransactionIds.Current;
 		}
 
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnFreeze(Proto.TransactionBody)"]/*' />
 		public abstract void OnFreeze(Proto.TransactionBody bodyBuilder);
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnScheduled(Proto.SchedulableTransactionBody)"]/*' />
 		public abstract void OnScheduled(Proto.SchedulableTransactionBody scheduled);
 		public abstract void ValidateChecksums(Client client);
@@ -249,6 +271,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return BatchKey != null && this is not BatchTransaction;
 		}
 
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.DoSchedule(Proto.TransactionBody)"]/*' />
 		protected virtual ScheduleCreateTransaction DoSchedule(Proto.TransactionBody bodyBuilder)
 		{
@@ -294,11 +317,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return map;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.KeyAlreadySigned(PublicKey)"]/*' />
 		protected virtual bool KeyAlreadySigned(PublicKey key)
 		{
 			return PublicKeys.Contains(key);
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_5"]/*' />
 		internal virtual void RequireNotFrozen()
 		{
@@ -307,6 +332,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new InvalidOperationException("transaction is immutable; it has at least one signature or has been explicitly frozen");
 			}
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireOneNodeAccountId"]/*' />
 		internal virtual void RequireOneNodeAccountId()
 		{
@@ -330,6 +356,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return builder;
 		}
 
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignature(PublicKey,System.Byte[])"]/*' />
 		public virtual T AddSignature(PublicKey publicKey, byte[] signature)
 		{
@@ -357,6 +384,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignature(PublicKey,System.Byte[],TransactionId,AccountId)"]/*' />
 		public virtual T AddSignature(PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
 		{
@@ -376,6 +404,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.BuildAllTransactions"]/*' />
 		public virtual void BuildAllTransactions()
         {
@@ -385,7 +414,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
             for (var i = 0; i < InnerSignedTransactions.Count; ++i)
 				BuildTransaction(i);
 		}
-        /// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.BuildTransaction(System.Int32)"]/*' />
+        
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.BuildTransaction(System.Int32)"]/*' />
         public virtual void BuildTransaction(int index)
         {
             // Check if transaction is already built.
@@ -401,11 +431,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				SignedTransactionBytes = InnerSignedTransactions[index].ToByteString(),
 			};
         }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Freeze"]/*' />
 		public virtual T Freeze()
 		{
 			return FreezeWith(null);
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.FreezeWith(Client)"]/*' />
 		public virtual T FreezeWith(Client? client)
 		{
@@ -470,11 +502,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetRequiredChunks"]/*' />
 		public virtual int GetRequiredChunks()
 		{
 			return 1;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetSignatures"]/*' />
 		public virtual IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignatures()
 		{
@@ -488,6 +522,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return GetSignaturesAtOffset(0);
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetSignableNodeBodyBytesList"]/*' />
 		public virtual List<SignableNodeTransactionBodyBytes> GetSignableNodeBodyBytesList()
 		{
@@ -509,6 +544,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return signableNodeTransactionBodyBytesList;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionSize"]/*' />
 		public virtual int GetTransactionSize()
 		{
@@ -519,6 +555,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return MakeRequest().CalculateSize();
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionBodySize"]/*' />
 		public virtual int GetTransactionBodySize()
 		{
@@ -527,6 +564,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return FrozenBodyBuilder?.CalculateSize() ?? 0;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionHash"]/*' />
 		public virtual byte[] GetTransactionHash()
 		{
@@ -544,6 +582,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return Transaction.GenerateHash(OuterTransactions[index].SignedTransactionBytes.ToByteArray());
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionHashPerNode"]/*' />
 		public virtual IDictionary<AccountId, byte[]> GetTransactionHashPerNode()
 		{
@@ -561,6 +600,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return hashes;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GenerateTransactionIds(TransactionId,System.Int32)"]/*' />
 		public virtual void GenerateTransactionIds(TransactionId initialTransactionId, int count)
 		{
@@ -589,6 +629,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			TransactionIds.IsLocked = locked;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.IsFrozen"]/*' />
 		public virtual bool IsFrozen()
 		{
@@ -617,8 +658,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			TransactionIds.IsLocked = true;
 			return this;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Schedule"]/*' />
-		public virtual ScheduleCreateTransaction Schedule()
+		public virtual ScheduleCreateTransaction Schedule(Action<ScheduleCreateTransaction>? onCreate = null)
 		{
 			RequireNotFrozen();
 			if (NodeAccountIds.Count != 0)
@@ -628,8 +670,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			var bodyBuilder = SpawnBodyBuilder(null);
 			OnFreeze(bodyBuilder);
-			return DoSchedule(bodyBuilder);
+
+			ScheduleCreateTransaction scheduleCreateTransaction = DoSchedule(bodyBuilder);
+			onCreate?.Invoke(scheduleCreateTransaction);
+			return scheduleCreateTransaction;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SignTransaction(System.Int32)"]/*' />
 		public virtual void SignTransaction(int index)
         {
@@ -651,6 +697,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 SigPairLists[index].SigPair.Add(PublicKeys[i].ToSignaturePairProtobuf(signatureBytes));
             }
         }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SignWithOperator(Client)"]/*' />
 		public virtual T SignWithOperator(Client client)
 		{
@@ -662,6 +709,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return SignWith(client.Operator_.PublicKey, client.Operator_.TransactionSigner);
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})"]/*' />
 		public virtual T SignWith(PublicKey publicKey, Func<byte[], byte[]> transactionSigner)
 		{
@@ -688,6 +736,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
@@ -746,6 +795,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return list.ToByteArray();
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.WipeTransactionLists(System.Int32)"]/*' />
 		public virtual void WipeTransactionLists(int requiredChunks)
 		{
@@ -844,6 +894,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             BuildTransaction(index);
             return OuterTransactions[index];
         }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.SetNodeAccountIds(System.Collections.Generic.IEnumerable{AccountId})"]/*' />
 		public virtual T SetNodeAccountIds(IEnumerable<AccountId> nodeaccountids)
 		{
@@ -869,6 +920,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return Regex.Replace(body.ToString(), "@[A-Za-z0-9]+", string.Empty);
 		}
 
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Batchify(Client,Key)"]/*' />
 		public T Batchify(Client client, Key batchKey)
 		{
@@ -880,12 +932,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// noinspection unchecked
 			return (T)this;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.Sign(PrivateKey)"]/*' />
 		public T Sign(PrivateKey privateKey)
 		{
 			return SignWith(privateKey.GetPublicKey(), privateKey.Sign);
 		}
 
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignatureIfNotExists(System.Int32,PublicKey,System.Byte[])"]/*' />
 		private bool AddSignatureIfNotExists(int index, PublicKey publicKey, byte[] signature)
 		{
@@ -901,6 +955,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return true;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.IsSignatureAlreadyPresent(Proto.SignatureMap,PublicKey)"]/*' />
 		private bool IsSignatureAlreadyPresent(Proto.SignatureMap sigMapBuilder, PublicKey publicKey)
 		{
@@ -910,6 +965,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return false;
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.MatchesTargetTransactionAndNode(Proto.TransactionBody,TransactionId,AccountId)"]/*' />
 		private bool MatchesTargetTransactionAndNode(Proto.TransactionBody body, TransactionId targetTransactionID, AccountId targetNodeID)
         {
@@ -918,6 +974,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             return bodyTxID.ToString().Equals(targetTransactionID.ToString()) && bodyNodeID.ToString().Equals(targetNodeID.ToString());
         }
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.ProcessedSignatureForTransaction(System.Int32,PublicKey,System.Byte[],TransactionId,AccountId)"]/*' />
 		private bool ProcessedSignatureForTransaction(int index, PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
 		{
@@ -932,6 +989,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return AddSignatureIfNotExists(index, publicKey, signature);
 		}
+		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.UpdateTransactionState(PublicKey)"]/*' />
 		private void UpdateTransactionState(PublicKey publicKey)
         {

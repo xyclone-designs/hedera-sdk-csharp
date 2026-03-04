@@ -14,8 +14,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
     {
         private EntityHelper() { }
 
-        public static int fungibleInitialBalance = 1000000;
-        public static int mitedNfts = 10;
+        public static ulong fungibleInitialBalance = 1000000;
+        public static ulong mitedNfts = 10;
 
         public static TokenId CreateNft(IntegrationTestEnv testEnv)
         {
@@ -46,8 +46,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				TokenSymbol = "TFT",
 				TokenMemo = "I was created for integration tests",
 				Decimals = decimals,
-				InitialSupply = (ulong)fungibleInitialBalance,
-				MaxSupply = fungibleInitialBalance,
+				InitialSupply = fungibleInitialBalance,
+				MaxSupply = (int)fungibleInitialBalance,
 				TreasuryAccountId = testEnv.OperatorId,
 				TokenSupplyType = TokenSupplyType.Finite,
 				AdminKey = testEnv.OperatorKey,

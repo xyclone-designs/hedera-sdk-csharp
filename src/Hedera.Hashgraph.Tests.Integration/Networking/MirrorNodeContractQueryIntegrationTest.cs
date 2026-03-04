@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanSimulateTransaction()
         {
             // Clear any system properties to ensure clean state
-            System.ClearProperty("hedera.mirror.contract.port");
+            Environment.SetEnvironmentVariable("hedera.mirror.contract.port", null);
 
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -148,9 +148,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Wait for mirror node to import data
                 Thread.Sleep(5000);
 
-                ExecutionException exception = Assert.Throws<ExecutionException>(() =>
-                {
-                    new MirrorNodeContractEstimateGasQuery
+				Exception exception = Assert.Throws<Exception>(() =>
+				{
+					new MirrorNodeContractEstimateGasQuery
                     {
 						ContractId = contractId,
 						GasLimit = 100,
@@ -160,9 +160,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 }); Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
 
-                ExecutionException exception = Assert.Throws<ExecutionException>(() =>
-                {
-                    new MirrorNodeContractCallQuery
+				Exception exception1 = Assert.Throws<Exception>(() =>
+				{
+					new MirrorNodeContractCallQuery
                     {
 						ContractId = contractId,
 						GasLimit = 100,
@@ -170,14 +170,14 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .SetFunction("addOwnerAndTransfer", new ContractFunctionParameters().AddAddress(ADDRESS))
                     .Execute(testEnv.Client);
 
-                }); Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
+                }); Assert.Contains("Received non-200 response from Mirror Node", exception1.Message);
             }
         }
 
         public virtual void FailsWhenSenderIsNotSet()
         {
             // Set system property to use port 5551 for contract calls in this test
-            System.SetProperty("hedera.mirror.contract.port", "5551");
+            Environment.SetEnvironmentVariable("hedera.mirror.contract.port", "5551");
 
             try
             {
@@ -202,7 +202,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     // Wait for mirror node to import data
                     Thread.Sleep(5000);
 
-                    ExecutionException exception = Assert.Throws<ExecutionException>(() =>
+					Exception exception = Assert.Throws<Exception>(() =>
                     {
                         new MirrorNodeContractEstimateGasQuery
                         {
@@ -214,9 +214,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     
                     Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
 
-                    ExecutionException exception = Assert.Throws<ExecutionException>(() =>
-                    {
-                        new MirrorNodeContractCallQuery
+					Exception exception1 = Assert.Throws<Exception>(() =>
+					{
+						new MirrorNodeContractCallQuery
 						{
 							ContractId = contractId
 						}
@@ -224,13 +224,13 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                         .Execute(testEnv.Client);
                     }); 
                     
-                    Assert.Contains("Received non-200 response from Mirror Node", exception.Message);
+                    Assert.Contains("Received non-200 response from Mirror Node", exception1.Message);
                 }
             }
             finally
             {
                 // Clear the system property after the test
-                System.ClearProperty("hedera.mirror.contract.port");
+                Environment.SetEnvironmentVariable("hedera.mirror.contract.port", null);
             }
         }
 

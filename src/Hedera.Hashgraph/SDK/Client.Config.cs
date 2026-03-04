@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK
                     .OfType<KeyValuePair<string, JsonNode>>()
                     .ToDictionary(_ => _.Value.ToString().Replace("\"", ""), _ => AccountId.FromString(_.Key.Replace("\"", ""))) ?? [];
 				
-				ExecutorService executor = new ExecutorService();
+				ExecutorService executor = new ();
 				
                 Network _network = Network.ForNetwork(executor, nodes);
                 MirrorNetwork _mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.SDK
 				{
 					try
 					{
-						client.NetworkName = Enum.Parse<NetworkName>(networkNameString);
+						client.Network_.LedgerId = LedgerId.FromString(networkNameString);
 					}
 					catch (Exception)
 					{

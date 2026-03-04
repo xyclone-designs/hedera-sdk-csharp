@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             // Set the network
             var network = new Dictionary<string, AccountId>
             {
-                { "localhost:50211", LOCAL_CONSENSUS_NODE_ACCOUNT_ID }
+                { "localhost:50211", new AccountId(0, 0, 3) }
             };
             using (var client = Client.ForNetwork(network, client => client.MirrorNetwork_.Network = ["localhost:5600"]))
             {

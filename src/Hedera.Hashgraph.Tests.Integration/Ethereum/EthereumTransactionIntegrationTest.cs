@@ -60,7 +60,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .SetFunction("setMessage", new ContractFunctionParameters().AddString("new message"))
                     .FunctionParameters
                     .ToByteArray();
-                var sequence = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, new object[0] });
+                var sequence = RLPEncoder.Sequence(
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(2)),
+                    new object[] { chainId, BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(nonce)),
+                        maxPriorityGas, 
+                        maxGas, 
+                        BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(150000)), 
+                        to, 
+                        BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(0)),
+                        callData, 
+                        new object[0] });
+
                 byte[] signedBytes = privateKey.Sign(sequence);
 
                 // wrap in signature object
@@ -69,7 +79,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 byte[] s = new byte[32];
                 Array.Copy(signedBytes, 32, s, 0, 32);
                 int recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, sequence);
-                byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, Integers.ToBytes(150000), to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, List.Of(), Integers.ToBytes(recId), r, s));
+                byte[] ethereumData = RLPEncoder.Sequence(
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(0x02)), 
+                    [ chainId, BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(nonce)) ], 
+                    maxPriorityGas, 
+                    maxGas, 
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(150000)), 
+                    to, 
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(0)),
+                    callData, 
+                    [], 
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(recId)), r, s);
+                
                 EthereumTransaction ethereumTransaction = new ()
                 {
                     EthereumData = ethereumData 
@@ -135,7 +156,17 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 byte[] gasLimitBytes = Hex.Decode("3567E0");
                 byte[] to = Hex.Decode(contractId.ToEvmAddress());
                 byte[] value = Hex.Decode("00");
-                var sequence = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, gasLimitBytes, to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, new object[0] });
+                var sequence = RLPEncoder.Sequence(
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(2)),
+                    new object[] { chainId, BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(nonce)), 
+                        maxPriorityGas, 
+                        maxGas, 
+                        gasLimitBytes, 
+                        to, 
+                        BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(0)),
+                        callData, 
+                        new object[0] });
+
                 byte[] signedBytes = privateKey.Sign(sequence);
 
                 // wrap in signature object
@@ -144,7 +175,18 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 byte[] s = new byte[32];
                 Array.Copy(signedBytes, 32, s, 0, 32);
                 int recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, sequence);
-                byte[] ethereumData = RLPEncoder.Sequence(Integers.ToBytes(0x02), List.Of(chainId, Integers.ToBytes(nonce), maxPriorityGas, maxGas, gasLimitBytes, to, Integers.ToBytesUnsigned(BigInteger.Zero), callData, List.Of(), Integers.ToBytes(recId), r, s));
+                byte[] ethereumData = RLPEncoder.Sequence(
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(0x02)), 
+                    [ chainId, BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(nonce)) ],
+                    maxPriorityGas, 
+                    maxGas, 
+                    gasLimitBytes, 
+                    to,
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(0)),
+                    callData, 
+                    [],
+                    BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(recId)), r, s);
+
                 EthereumTransaction ethereumTransaction = new ()
                 {
                     EthereumData = ethereumData 

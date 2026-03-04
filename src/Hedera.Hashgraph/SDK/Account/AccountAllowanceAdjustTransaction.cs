@@ -12,8 +12,8 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Account
 {
-    /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
-    [Obsolete("Obsolete")]
+	/// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="T:AccountAllowanceAdjustTransaction"]/*' />
+	[Obsolete("Obsolete")]
     public class AccountAllowanceAdjustTransaction : Transaction<AccountAllowanceAdjustTransaction>
     {
 		// key is "{ownerId}:{spenderId}".  OwnerId may be "FEE_PAYER"

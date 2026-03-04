@@ -47,25 +47,25 @@ namespace Hedera.Hashgraph.SDK
 			};
 		}
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},ExecutorService,System.Action{Client})"]/*' />
-		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, ExecutorService executor, Action<Client>? oncreate = null)
+		public static Client ForNetwork(Dictionary<string, AccountId> networkMap, ExecutorService executor, Action<Client>? onCreate = null)
 		{
-			var network = Network.ForNetwork(executor, NetworkMap);
+			var network = Network.ForNetwork(executor, networkMap);
 			var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
 			Client client = new (executor, network, mirrorNetwork, null, false, null, 0, 0);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForNetwork(System.Collections.Generic.Dictionary{System.String,AccountId},System.Action{Client})"]/*' />
-		public static Client ForNetwork(Dictionary<string, AccountId> NetworkMap, Action<Client>? oncreate = null)
+		public static Client ForNetwork(Dictionary<string, AccountId> networkMap, Action<Client>? onCreate = null)
 		{
 			ExecutorService executor = new ();
 
 			var isValidNetwork = true;
 			long shard = 0;
 			long realm = 0;
-			foreach (AccountId accountId in NetworkMap.Values)
+			foreach (AccountId accountId in networkMap.Values)
 			{
 				if (shard == 0)
 				{
@@ -89,11 +89,11 @@ namespace Hedera.Hashgraph.SDK
 				throw new ArgumentException("Network is not valid, all nodes must be in the same shard and realm");
 			}
 
-			var network = Network.ForNetwork(executor, NetworkMap);
+			var network = Network.ForNetwork(executor, networkMap);
 			var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
 			Client client = new (executor, network, mirrorNetwork, null, true, null, shard, realm);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}
@@ -120,7 +120,7 @@ namespace Hedera.Hashgraph.SDK
 		}
 
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(System.Action{Client})"]/*' />
-		public static Client ForMainnet(Action<Client>? oncreate = null)
+		public static Client ForMainnet(Action<Client>? onCreate = null)
 		{
 			var executor = new ExecutorService();
 			var network = Network.ForMainnet(executor);
@@ -128,24 +128,24 @@ namespace Hedera.Hashgraph.SDK
 			
 			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForMainnet(ExecutorService,System.Action{Client})"]/*' />
-		public static Client ForMainnet(ExecutorService executor, Action<Client>? oncreate = null)
+		public static Client ForMainnet(ExecutorService executor, Action<Client>? onCreate = null)
 		{
 			var network = Network.ForMainnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForMainnet(executor);
 
 			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(System.Action{Client})"]/*' />
-		public static Client ForTestnet(Action<Client>? oncreate = null)
+		public static Client ForTestnet(Action<Client>? onCreate = null)
 		{
 			var executor = new ExecutorService();
 			var network = Network.ForTestnet(executor);
@@ -153,24 +153,24 @@ namespace Hedera.Hashgraph.SDK
 
 			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForTestnet(ExecutorService,System.Action{Client})"]/*' />
-		public static Client ForTestnet(ExecutorService executor, Action<Client>? oncreate = null)
+		public static Client ForTestnet(ExecutorService executor, Action<Client>? onCreate = null)
 		{
 			var network = Network.ForTestnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForTestnet(executor);
 
 			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(System.Action{Client})"]/*' />
-		public static Client ForPreviewnet(Action<Client>? oncreate = null)
+		public static Client ForPreviewnet(Action<Client>? onCreate = null)
 		{
 			var executor = new ExecutorService();
 			var network = Network.ForPreviewnet(executor);
@@ -178,19 +178,19 @@ namespace Hedera.Hashgraph.SDK
 
 			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, true, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}
 		/// <include file="Client.Statics.cs.xml" path='docs/member[@name="M:ForPreviewnet(ExecutorService,System.Action{Client})"]/*' />
-		public static Client ForPreviewnet(ExecutorService executor, Action<Client>? oncreate = null)
+		public static Client ForPreviewnet(ExecutorService executor, Action<Client>? onCreate = null)
 		{
 			var network = Network.ForPreviewnet(executor);
 			var mirrorNetwork = MirrorNetwork.ForPreviewnet(executor);
 
 			Client client = new (executor, network, mirrorNetwork, NETWORK_UPDATE_INITIAL_DELAY, false, DEFAULT_NETWORK_UPDATE_PERIOD, 0, 0);
 
-			oncreate?.Invoke(client);
+			onCreate?.Invoke(client);
 
 			return client;
 		}

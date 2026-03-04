@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Contract
 {
-    /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
-    [Obsolete("Obsolete")]
+	/// <include file="ContractStateChange.cs.xml" path='docs/member[@name="T:ContractStateChange"]/*' />
+	[Obsolete("Obsolete")]
     public class ContractStateChange
     {
         /// <include file="ContractStateChange.cs.xml" path='docs/member[@name="F:.ContractId"]/*' />

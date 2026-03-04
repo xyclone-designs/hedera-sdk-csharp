@@ -1,15 +1,18 @@
 // SPDX-License-Identifier: Apache-2.0
-using System.Text;
-
-using Hedera.Hashgraph.SDK.Keys;
-using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Transactions;
-using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Ethereum;
+using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Transactions;
 
-using Org.BouncyCastle.Utilities.Encoders;
+using Nethereum.RLP;
+using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Utilities;
+using Org.BouncyCastle.Utilities.Encoders;
+using System;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -134,37 +137,42 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var ethereumData = GetCallData((PrivateKeyECDSA)privateKey, 0, Hex.Decode(contractId.ToEvmAddress()), Hex.ToHexString(callDataBytes.ToByteArray()), 3500000, 0);
 
                 // This should fail with TRANSACTION_OVERSIZE when the entire ethereum data exceeds limits
-                AssertThatThrownBy(() =>
+                Exception exception = Assert.Throws<Exception>(() =>
                 {
                     new EthereumFlow()
                     {
-						EthereumData = ethereumData,
-						MaxGasAllowance = Hbar.From(10),
-					}
+                        EthereumData = EthereumTransactionData.FromBytes(ethereumData),
+                        MaxGasAllowance = Hbar.From(10),
+                    }
                     .Execute(testEnv.Client)
                     .GetReceipt(testEnv.Client);
 
-                }).HasMessageContaining("TRANSACTION_OVERSIZE");
+                });
+                
+                Assert.Contains(exception.Message, "TRANSACTION_OVERSIZE");
             }
         }
 
-        private static byte[] GetCallData(PrivateKeyECDSA privateKey, long nonce, byte[] contract, string callData, long gasLimit, long value)
+		private static byte[] GetCallData(PrivateKeyECDSA privateKey, long nonce, byte[] contract, string callData, long gasLimit, long value)
         {
             byte[] chainId = Hex.Decode("012a");
-            byte[] nonceBytes = Integers.ToBytes(nonce);
-            byte[] maxPriorityGas = Integers.ToBytes(10);
-            byte[] maxGas = Integers.ToBytes(10);
-            byte[] gasLimitBytes = Integers.ToBytes(gasLimit);
-            byte[] valueBytes = Integers.ToBytes(value * 8000000);
+            byte[] nonceBytes = BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(nonce));
+            byte[] maxPriorityGas = BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(10));
+            byte[] maxGas = BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(10));
+            byte[] gasLimitBytes = BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(gasLimit));
+            byte[] valueBytes = BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(value * 8000000));
             byte[] callDataBytes = Hex.Decode(callData);
-            object[] accessList = new object[0];
+            object[] accessList = [];
             byte[] message = RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, nonceBytes, maxPriorityGas, maxGas, gasLimitBytes, contract, valueBytes, callDataBytes, accessList });
             byte[] sig = privateKey.Sign(message);
             byte[] r = Arrays.CopyOf(sig, 32);
             byte[] s = Arrays.CopyOfRange(sig, 32, sig.Length);
             int recId = privateKey.GetRecoveryId(r, s, message);
 
-            return RLPEncoder.Sequence(Integers.ToBytes(2), new object[] { chainId, nonceBytes, maxPriorityGas, maxGas, gasLimitBytes, contract, valueBytes, callDataBytes, accessList, Integers.ToBytes(recId), r, s });
-        }
+            return RLP.EncodeList(
+				BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(2)),
+                RLP.EncodeList
+                new object[] { chainId, nonceBytes, maxPriorityGas, maxGas, gasLimitBytes, contract, valueBytes, callDataBytes, accessList, BigIntegers.AsUnsignedByteArray(BigInteger.ValueOf(recId)), r, s });
+		}
     }
 }

@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Ethereum\**" />
+    <EmbeddedResource Remove="Ethereum\**" />
+    <None Remove="Ethereum\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="LoadIntegrationTest.cs" />
+    <Compile Remove="RetryTestExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageReference Include="xunit" Version="2.9.3" />

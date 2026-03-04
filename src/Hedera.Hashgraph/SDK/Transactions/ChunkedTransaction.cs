@@ -213,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return base.AddSignature(publicKey, signature);
 		}
 
-		public override ScheduleCreateTransaction Schedule()
+		public override ScheduleCreateTransaction Schedule(Action<ScheduleCreateTransaction>? oncreate = null)
 		{
 			RequireNotFrozen();
 

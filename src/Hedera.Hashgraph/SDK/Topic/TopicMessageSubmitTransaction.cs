@@ -15,8 +15,6 @@ namespace Hedera.Hashgraph.SDK.Topic
     /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="T:TopicMessageSubmitTransaction"]/*' />
     public sealed class TopicMessageSubmitTransaction : ChunkedTransaction<TopicMessageSubmitTransaction>
     {
-		private List<CustomFixedFee> _CustomFees = [];
-
 		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor"]/*' />
 		public TopicMessageSubmitTransaction() { }
 		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(Proto.TransactionBody)"]/*' />
@@ -42,9 +40,9 @@ namespace Hedera.Hashgraph.SDK.Topic
 
         } = ByteString.Empty;
 		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.InitFromTransactionBody"]/*' />
-		public IList<CustomFixedFee> CustomFees
+		public IList<CustomFeeLimit> CustomFeeLimits
 		{
-			init; get => field ??= new ListGuarded<CustomFixedFee>
+			init; get => field ??= new ListGuarded<CustomFeeLimit>
 			{
 				OnRequireNotFrozen = RequireNotFrozen
 			};

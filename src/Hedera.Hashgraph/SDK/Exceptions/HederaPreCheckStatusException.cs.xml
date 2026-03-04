@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <docs>
-  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+  <member name="T:HederaPreCheckStatusException">
     <summary>&lt;summary&gt;
     Signals that a transaction has failed the pre-check.
     &lt;p&gt;

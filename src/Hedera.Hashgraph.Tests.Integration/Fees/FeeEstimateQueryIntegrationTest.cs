@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         private IntegrationTestEnv CreateFeeEstimateTestEnv()
         {
             var testEnv = new IntegrationTestEnv(1);
-            if ("localhost".Equals(System.Property.Get("HEDERA_NETWORK")))
+            if ("localhost".Equals(Environment.GetEnvironmentVariable("HEDERA_NETWORK")))
             {
                 testEnv.Client.MirrorNetwork_.Network = ["127.0.0.1:8084"];
             }

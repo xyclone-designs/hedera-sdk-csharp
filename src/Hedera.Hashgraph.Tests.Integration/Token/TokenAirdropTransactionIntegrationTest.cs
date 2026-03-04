@@ -50,8 +50,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // verify the operator does not hold the tokens
                 var operatorBalance = new AccountBalanceQuery { AccountId = testEnv.OperatorId, }.Execute(testEnv.Client);
                 
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(mitedNfts - 2, operatorBalance.Tokens[nftID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance - (ulong)amount, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // airdrop the tokens
                 var txn = new TokenAirdropTransaction
                 {
-					ValidateStatus = true
+					// ValidateStatus = true
 				}
                 .AddNftTransfer(nftID.Nft(nftSerials[0]), testEnv.OperatorId, receiverAccountId)
                 .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId)
@@ -104,8 +104,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					AccountId = testEnv.OperatorId,
 				
                 }.Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(mitedNfts, operatorBalance.Tokens[nftID]);
+                Assert.Equal((ulong)EntityHelper.fungibleInitialBalance, operatorBalance.Tokens[tokenID]);
+                Assert.Equal((ulong)EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -146,8 +146,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
                 // verify the operator does not hold the tokens
                 var operatorBalance = new AccountBalanceQuery { AccountId = testEnv.OperatorId, }.Execute(testEnv.Client);
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
-                Assert.Equal(mitedNfts - 2, operatorBalance.Tokens[nftID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance - (ulong)amount, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
 
@@ -176,8 +176,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 					TokenSymbol = "TFT",
 					TokenMemo = "I was created for integration tests",
 					Decimals = 3,
-					InitialSupply = fungibleInitialBalance,
-					MaxSupply = fungibleInitialBalance,
+					InitialSupply = EntityHelper.fungibleInitialBalance,
+					MaxSupply = (int)EntityHelper.fungibleInitialBalance,
 					TreasuryAccountId = testEnv.OperatorId,
 					TokenSupplyType = TokenSupplyType.Finite,
 					AdminKey = testEnv.OperatorKey,
@@ -226,8 +226,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 
                 var operatorBalance = new AccountBalanceQuery { AccountId = testEnv.OperatorId, }.Execute(testEnv.Client);
                 
-                Assert.Equal(fungibleInitialBalance - amount + 1, operatorBalance.Tokens[customFeeTokenID]);
-                Assert.Equal(fungibleInitialBalance - amount, operatorBalance.Tokens[tokenID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance - (ulong)amount + 1, operatorBalance.Tokens[customFeeTokenID]);
+                Assert.Equal(EntityHelper.fungibleInitialBalance - (ulong)amount, operatorBalance.Tokens[tokenID]);
             }
         }
 

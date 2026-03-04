@@ -242,7 +242,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = CreateSystemAccountTestEnv())
             {
                 // This test specifically validates 0.0.2 if that's the operator
-                Assumptions.AssumeTrue(testEnv.OperatorId.Num == 2, "Test requires treasury account 0.0.2");
+                Assert.True(testEnv.OperatorId.Num == 2, "Test requires treasury account 0.0.2");
                 var largeContents = new byte[LARGE_CONTENT_SIZE_BYTES];
                 
                 Array.Fill(largeContents, (byte)1);
@@ -304,7 +304,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(serialized.Length > SIZE_THRESHOLD_BYTES);
                 Assert.True(serialized.Length < EXTENDED_SIZE_LIMIT_BYTES);
                 var receipt = transaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                var accountId = receipt.accountId);
+                var accountId = receipt.AccountId;
                 Assert.NotNull(accountId);
             }
         }
@@ -314,19 +314,21 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             var testEnv = new IntegrationTestEnv(1);
             if (!IsPrivilegedSystemAccount(testEnv.OperatorId))
             {
-                var systemAccountId = System.GetProperty("SYSTEM_ACCOUNT_ID");
-                var systemAccountKey = System.GetProperty("SYSTEM_ACCOUNT_KEY");
-                if (systemAccountId != null && !systemAccountId.IsBlank() && systemAccountKey != null && !systemAccountKey.IsBlank())
+                var systemAccountId = Environment.GetEnvironmentVariable("SYSTEM_ACCOUNT_ID");
+                var systemAccountKey = Environment.GetEnvironmentVariable("SYSTEM_ACCOUNT_KEY");
+
+                if (string.IsNullOrWhiteSpace(systemAccountId) is not false && string.IsNullOrWhiteSpace(systemAccountKey) is not false)
                 {
                     var accountId = AccountId.FromString(systemAccountId);
                     var privateKey = PrivateKey.FromString(systemAccountKey);
+
                     testEnv.Client.OperatorSet(accountId, privateKey);
                     testEnv.OperatorId = accountId;
                     testEnv.OperatorKey = privateKey.GetPublicKey();
                 }
             }
 
-            Assumptions.AssumeTrue(IsPrivilegedSystemAccount(testEnv.OperatorId), "System account credentials (0.0.2 or 0.0.50) are required for large transaction tests");
+            Assert.True(IsPrivilegedSystemAccount(testEnv.OperatorId), "System account credentials (0.0.2 or 0.0.50) are required for large transaction tests");
             return testEnv;
         }
 

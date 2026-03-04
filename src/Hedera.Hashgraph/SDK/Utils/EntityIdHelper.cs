@@ -191,9 +191,9 @@ namespace Hedera.Hashgraph.SDK.Utils
 		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.Validate(System.Int64,System.Int64,System.Int64,Client,System.String)"]/*' />
 		public static void Validate(long shard, long realm, long num, Client client, string? checksum)
 		{
-			if (client.NetworkName == null)
+			if (client.Network_.LedgerId == null)
 			{
-				throw new InvalidOperationException("Can't validate checksum without knowing which network the ID is for.  Ensure client's network name is set.");
+				throw new InvalidOperationException("Can't validate checksum without knowing which network the ID is for.  Ensure client's ledgerId is set.");
 			}
 
 			if (checksum != null)

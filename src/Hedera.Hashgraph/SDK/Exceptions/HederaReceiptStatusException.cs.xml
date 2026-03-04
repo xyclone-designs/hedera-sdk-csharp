@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <docs>
-  <member name="M:Obsolete(&quot;Obsolete&quot;)">
+  <member name="T:HederaReceiptStatusException">
     <summary>&lt;summary&gt;
     An Exception thrown on error status by {@link TransactionId#getReceipt(Client)}.
     &lt;p&gt;

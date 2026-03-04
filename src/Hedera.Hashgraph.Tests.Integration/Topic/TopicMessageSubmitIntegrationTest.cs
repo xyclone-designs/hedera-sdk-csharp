@@ -1,10 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
-using System;
 using Google.Protobuf;
+
+using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Topic;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using Org.BouncyCastle.Utilities.Encoders;
+
+using System;
+using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -54,95 +58,96 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         }
 
         public virtual void CanSubmitALargeTopicMessage()
-        {
+		{
+			// Skip if using PreviewNet
+			if (!Environment.GetEnvironmentVariable("HEDERA_NETWORK").Equals("previewnet"))
+				return;
 
-            // Skip if using PreviewNet
-            Assumptions.AssumeTrue(!System.GetProperty("HEDERA_NETWORK").Equals("previewnet"));
-            AssertThatNoException(, () =>
-            {
-                using (var testEnv = new IntegrationTestEnv(1))
-                {
-                    var response = new TopicCreateTransaction
-                    {
-						AdminKey = testEnv.OperatorKey,
-						TopicMemo = "[e2e::TopicCreateTransaction]",
-					
-                    }.Execute(testEnv.Client);
-                    var topicId = response.GetReceipt(testEnv.Client).TopicId;
-                    Thread.Sleep(5000);
-                    var info = new TopicInfoQuery
-                    { 
-                            TopicId = topicId
-                    
-                    }.Execute(testEnv.Client);
-           
-                    Assert.Equal(info.TopicId, topicId);
-                    Assert.Equal(info.TopicMemo, "[e2e::TopicCreateTransaction]");
-                    Assert.Equal(info.SequenceNumber, 0);
-                    Assert.Equal(info.AdminKey, testEnv.OperatorKey);
-                    var responses = new TopicMessageSubmitTransaction
-                    { 
-                        TopicId = topicId,
-						MaxChunks = 15,
-						Message = Contents.BIG_CONTENTS,
+			using (var testEnv = new IntegrationTestEnv(1))
+			{
+				var response = new TopicCreateTransaction
+				{
+					AdminKey = testEnv.OperatorKey,
+					TopicMemo = "[e2e::TopicCreateTransaction]",
 
-					}.ExecuteAll(testEnv.Client);
-                    foreach (var resp in responses)
-                    {
-                        resp.GetReceipt(testEnv.Client);
-                    }
+				}.Execute(testEnv.Client);
+				var topicId = response.GetReceipt(testEnv.Client).TopicId;
+				Thread.Sleep(5000);
+				var info = new TopicInfoQuery
+				{
+					TopicId = topicId
 
-                    info = new TopicInfoQuery
-                    { 
-                        TopicId = topicId
-                    
-                    }.Execute(testEnv.Client);
-                    Assert.Equal(info.TopicId, topicId);
-                    Assert.Equal(info.TopicMemo, "[e2e::TopicCreateTransaction]");
-                    Assert.Equal(info.SequenceNumber, 14);
-                    Assert.Equal(info.AdminKey, testEnv.OperatorKey);
-                    new TopicDeleteTransaction
-                    { 
-                        TopicId = topicId
-                    
-                    }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }
-            });
-        }
+				}.Execute(testEnv.Client);
+
+				Assert.Equal(info.TopicId, topicId);
+				Assert.Equal(info.TopicMemo, "[e2e::TopicCreateTransaction]");
+				Assert.Equal(info.SequenceNumber, (ulong)0);
+				Assert.Equal(info.AdminKey, testEnv.OperatorKey);
+				var responses = new TopicMessageSubmitTransaction
+				{
+					TopicId = topicId,
+					MaxChunks = 15,
+					Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS),
+
+				}.ExecuteAll(testEnv.Client);
+				foreach (var resp in responses)
+				{
+					resp.GetReceipt(testEnv.Client);
+				}
+
+				info = new TopicInfoQuery
+				{
+					TopicId = topicId
+
+				}.Execute(testEnv.Client);
+				Assert.Equal(info.TopicId, topicId);
+				Assert.Equal(info.TopicMemo, "[e2e::TopicCreateTransaction]");
+				Assert.Equal(info.SequenceNumber, (ulong)14);
+				Assert.Equal(info.AdminKey, testEnv.OperatorKey);
+				new TopicDeleteTransaction
+				{
+					TopicId = topicId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+			}
+		}
 
         public virtual void CannotSubmitMessageWhenTopicIDIsNotSet()
         {
             // Skip if using PreviewNet
-            Assumptions.AssumeTrue(!System.GetProperty("HEDERA_NETWORK").Equals("previewnet"));
-            AssertThatNoException(, () =>
-            {
-                using (var testEnv = new IntegrationTestEnv(1))
-                {
-                    var response = new TopicCreateTransaction
-                    {
-						AdminKey = testEnv.OperatorKey,
-						TopicMemo = "[e2e::TopicCreateTransaction]",
-					
-                    }.Execute(testEnv.Client);
-                    var topicId = response.GetReceipt(testEnv.Client).TopicId;
-                    PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
-                    {
-                        new TopicMessageSubmitTransaction
-                        {
-							Message = Contents.BIG_CONTENTS,
-							MaxChunks = 15,
+            if (!Environment.GetEnvironmentVariable("HEDERA_NETWORK").Equals("previewnet")) 
+                return;
 
-						}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+			using (var testEnv = new IntegrationTestEnv(1))
+			{
+				var response = new TopicCreateTransaction
+				{
+					AdminKey = testEnv.OperatorKey,
+					TopicMemo = "[e2e::TopicCreateTransaction]",
 
-                    }); Assert.Contains(ResponseStatus.INVALID_TOPIC_ID.ToString(), exception.Message);
-                    new TopicDeleteTransaction
-                    { 
-                            TopicId = topicId
-                    
-                    }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
-                }
-            });
-        }
+				}.Execute(testEnv.Client);
+				var topicId = response.GetReceipt(testEnv.Client).TopicId;
+
+				PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() =>
+				{
+					new TopicMessageSubmitTransaction
+					{
+						Message = ByteString.CopyFromUtf8(Contents.BIG_CONTENTS),
+						MaxChunks = 15,
+
+					}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+
+				});
+                
+                Assert.Contains(ResponseStatus.InvalidTopicId.ToString(), exception.Message);
+
+				new TopicDeleteTransaction
+				{
+					TopicId = topicId
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
+			}
+		}
 
         public virtual void DecodeHexRegressionTest()
         {

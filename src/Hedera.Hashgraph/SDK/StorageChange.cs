@@ -4,8 +4,8 @@ using System.Numerics;
 
 namespace Hedera.Hashgraph.SDK
 {
-    /// <include file="StorageChange.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
-    [Obsolete("Obsolete")]
+	/// <include file="StorageChange.cs.xml" path='docs/member[@name="T:StorageChange"]/*' />
+	[Obsolete("Obsolete")]
     public class StorageChange
     {
         /// <include file="StorageChange.cs.xml" path='docs/member[@name="F:.Slot"]/*' />

@@ -35,11 +35,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         public virtual void CanSkipNodes()
         {
             var client = Client.ForTestnet(client => client.TransportSecurity = true);
-            var nodes = new List(client.Network_.Values().Stream().ToList());
+            var nodes = new List<AccountId>(client.Network_.GetNetwork().Values);
             nodes.Add(new AccountId(0, 0, 1000));
             new AccountBalanceQuery
             {
-				NodeAccountIds = nodes,
+				NodeAccountIds = [.. nodes],
 				AccountId = new AccountId(0, 0, 7),
 
 			}.Execute(client);
@@ -103,7 +103,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
-                testEnv.Client.MaxNodesPerTransaction = 1;
+                testEnv.Client.MaxNodeAttempts = 1;
                 var transaction = new AccountDeleteTransaction { AccountId = testEnv.OperatorId, }.FreezeWith(testEnv.Client);
                 Assert.NotNull(transaction.NodeAccountIds);
                 Assert.Equal(transaction.NodeAccountIds.Count, 1);
@@ -115,8 +115,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var network = testEnv.Client.Network_;
-                var nodes = new (network.Network_Read.Values);
-                Assert.False(nodes.IsEmpty());
+                var nodes = new List<AccountId>(network.GetNetwork().Values);
+                Assert.NotEmpty(nodes);
                 var node = nodes[0];
                 testEnv.Client.MaxNodeAttempts = 1;
                 testEnv.Client.Ping(node);
@@ -129,9 +129,9 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             {
                 testEnv.Client.MaxNodeAttempts = 1;
                 testEnv.Client.PingAll();
-                var network = testEnv.Client.Network_;
-                var nodes = new (network.Values);
-                Assert.False(nodes.IsEmpty());
+                var network = testEnv.Client.Network_.GetNetwork();
+				var nodes = new List<AccountId>(network.Values);
+				Assert.NotEmpty(nodes);
                 var node = nodes[0];
                 new AccountBalanceQuery { AccountId = node }.Execute(testEnv.Client);
             }
@@ -144,30 +144,29 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 // Skip if using local node.
                 // Note: this check should be removed once the local node is supporting multiple nodes.
                 testEnv.AssumeNotLocalNode();
-                testEnv.Client.MaxNodeAttempts = 1;
                 testEnv.Client.MaxAttempts = 1;
-                testEnv.Client.MaxNodesPerTransaction = 2;
-                var network = testEnv.Client.Network_;
-                var entries = new (network.Network_Read);
+                testEnv.Client.MaxNodeAttempts = 2;
+                var network = testEnv.Client.Network_.GetNetwork();
+                var entries = new Dictionary<string, AccountId>(network);
                 Assert.True(entries.Count > 1);
                 network.Clear();
-                network.Put("in-process:name", entries[0].GetValue());
-                network.Put(entries[1].GetKey(), entries[1].GetValue());
-                testEnv.Client.Network_ = network;
+                network.Add("in-process:name", entries.ElementAt(0).Value);
+                network.Add(entries.ElementAt(2).Key, entries.ElementAt(2).Value);
+                testEnv.Client.Network_.SetNetwork(network);
                 MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() =>
                 {
                     testEnv.Client.PingAll();
 
                 }); Assert.Contains("exceeded maximum attempts", exception.Message);
-                var nodes = new (testEnv.Client.Network.Values());
-                Assert.False(nodes.IsEmpty());
+                var nodes = new List<AccountId>(testEnv.Client.Network_.GetNetwork().Values);
+                Assert.NotEmpty(nodes);
                 var node = nodes[0];
                 new AccountBalanceQuery
                 {
                     AccountId = node
                 }
                 .Execute(testEnv.Client);
-                Assert.Equal(testEnv.Client.Network.Values().Count, 1);
+                Assert.Equal(testEnv.Client.Network_.GetNetwork().Values.Count, 1);
             }
         }
 
@@ -176,11 +175,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv(1))
             {
                 var network = testEnv.Client.Network_;
-                var nodes = new List(network.Values());
-                Assert.False(nodes.IsEmpty());
+                var nodes = new List<AccountId>(network.GetNetwork().Values);
+                Assert.False(nodes.Count == 0);
                 var node = nodes[0];
                 testEnv.Client.MaxNodeAttempts = 1;
-                testEnv.Client.PingAsync(node).Get();
+                testEnv.Client.PingAsync(node).GetAwaiter().GetResult();
             }
         }
 
@@ -189,10 +188,10 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             using (var testEnv = new IntegrationTestEnv())
             {
                 testEnv.Client.MaxNodeAttempts = 1;
-                testEnv.Client.PingAllAsync().Get();
-                var network = testEnv.Client.Network_;
-                var nodes = new List(network.Values());
-                Assert.False(nodes.IsEmpty());
+                testEnv.Client.PingAllAsync().GetAwaiter().GetResult();
+                var network = testEnv.Client.Network_.GetNetwork();
+                var nodes = new List<AccountId>(network.Values);
+                Assert.False(nodes.Count == 0);
                 var node = nodes[0];
                 new AccountBalanceQuery
                 {
@@ -207,8 +206,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             var mirrorNetworkString = "testnet.mirrornode.hedera.com:443";
             var client = Client.ForMirrorNetwork([mirrorNetworkString]);
             var mirrorNetwork = client.MirrorNetwork_;
-            Assert.Single(mirrorNetwork);
-            Assert.Equal(mirrorNetwork[0], mirrorNetworkString);
+            Assert.Single(mirrorNetwork.Network_Read);
+            Assert.Equal(mirrorNetwork.Network[0], mirrorNetworkString);
             Assert.NotNull(client.Network_);
             Assert.NotEmpty(client.Network_.Network_Read);
             client.Dispose();
@@ -219,8 +218,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             var mirrorNetworkString = "testnet.mirrornode.hedera.com:443";
             var client = Client.ForMirrorNetwork([mirrorNetworkString], 0, 0);
             var mirrorNetwork = client.MirrorNetwork_;
-            Assert.Single(mirrorNetwork);
-            Assert.Equal(mirrorNetwork[0], mirrorNetworkString);
+            Assert.Single(mirrorNetwork.Network_Read);
+            Assert.Equal(mirrorNetwork.Network[0], mirrorNetworkString);
             Assert.NotNull(client.Network_);
             Assert.NotEmpty(client.Network_.Network_Read);
         }

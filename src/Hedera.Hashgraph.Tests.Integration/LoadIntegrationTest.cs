@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var operatorPrivateKey = PrivateKey.FromString(System.GetProperty("OPERATOR_KEY"));
                 var operatorId = AccountId.FromString(System.GetProperty("OPERATOR_ID"));
                 int nThreads = 10;
-                var clientExecutor = Executors.NewFixedThreadPool(16);
+                var clientExecutor = new ExecutorService;
                 var threadPoolExecutor = (ThreadPoolExecutor)Executors.NewFixedThreadPool(nThreads);
                 long startTime = System.CurrentTimeMillis();
                 Console.WriteLine("Finished executing tasks:");
@@ -33,11 +33,15 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     {
                         try
                         {
-                            using (var client = Client.ForNetwork(testEnv.Client.Network, clientExecutor))
+                            using (var client = Client.ForNetwork(testEnv.Client.Network_, clientExecutor))
                             {
                                 client.OperatorSet(operatorId, operatorPrivateKey);
                                 client.SetMaxAttempts(10);
-                                new AccountCreateTransaction()Key = PrivateKey.GenerateED25519(,).Execute(client).GetReceipt(client);
+                                new AccountCreateTransaction
+                                {
+									Key = PrivateKey.GenerateED25519()
+
+								}.Execute(client).GetReceipt(client);
                                 Console.WriteLine(finalI);
                             }
                         }

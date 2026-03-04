@@ -10,6 +10,7 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Nfts;
+using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
@@ -319,7 +320,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var firstMint = new TokenMintTransaction
                 {
 					TokenId = tokenId,
-					Metadata = new byte[] { 1 }
+                    Metadata = new List<byte[]> { new byte[] { 1 } },
 				}
                 .FreezeWith(testEnv.Client)
                 .Sign(senderKey)

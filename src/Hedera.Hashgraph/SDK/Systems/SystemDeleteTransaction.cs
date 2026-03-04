@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Systems
 {
-    /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:Obsolete(&quot;Obsolete&quot;)"]/*' />
-    [Obsolete("Obsolete")]
+	/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="T:SystemDeleteTransaction"]/*' />
+	[Obsolete("Obsolete")]
     public sealed class SystemDeleteTransaction : Transaction<SystemDeleteTransaction>
     {
         /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction"]/*' />

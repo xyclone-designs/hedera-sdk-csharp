@@ -46,25 +46,6 @@ namespace Hedera.Hashgraph.SDK
 		public Network Network_ { get; internal set; }
 		public MirrorNetwork MirrorNetwork_ { get; internal set; }
 
-		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)"]/*' />
-		[Obsolete]
-		public NetworkName NetworkName
-		{
-			get
-			{
-				lock (this)
-				{
-					return Network_.LedgerId?.ToNetworkName() ?? NetworkName.TestNet;
-				}
-			}
-			set
-			{
-				lock (this)
-				{
-					Network_.LedgerId = LedgerId.FromNetworkName(value);
-				}
-			}
-		}
 		/// <include file="Client.cs.xml" path='docs/member[@name="M:Client.lock(this)_2"]/*' />
 		public NodeAddressBook NetworkFromAddressBook
 		{
