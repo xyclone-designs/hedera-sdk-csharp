@@ -5,7 +5,7 @@ using Hedera.Hashgraph.SDK.Account;
 namespace Hedera.Hashgraph.SDK.Transactions
 {
     /// <include file="Transaction.SignableNodeTransactionBodyBytes.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
-    public abstract partial class Transaction<T>
+    public static partial class Transaction
     {
 		public class SignableNodeTransactionBodyBytes(AccountId nodeID, TransactionId transactionID, byte[] body)
         {

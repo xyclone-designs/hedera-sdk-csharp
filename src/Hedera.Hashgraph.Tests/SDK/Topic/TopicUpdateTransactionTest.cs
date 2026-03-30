@@ -1,20 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Junit.Jupiter.Api.Assertions;
-using Com.Google.Protobuf;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Topic;
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Fees;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
@@ -41,7 +34,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         public virtual void ClearShouldSerialize()
         {
-            SnapshotMatcher.Expect(new TopicUpdateTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetTopicId(testTopicId).ClearAdminKey().ClearAutoRenewAccountId().ClearSubmitKey().ClearTopicMemo().Freeze().Sign(unusedPrivateKey).ToString()).ToMatchSnapshot();
+            SnapshotMatcher.Expect(new TopicUpdateTransaction
+            {
+                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+                TopicId = testTopicId,
+                AdminKey = null,
+                AutoRenewAccountId = null,
+                SubmitKey = null,
+                TopicMemo = null,
+            
+            }.Freeze().Sign(unusedPrivateKey).ToString()).ToMatchSnapshot();
         }
 
         public virtual void SetShouldSerialize()
@@ -52,265 +55,358 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TopicUpdateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = ITransaction.FromBytes(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private TopicUpdateTransaction SpawnTestTransaction()
         {
-            return new TopicUpdateTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetTopicId(testTopicId).SetAdminKey(testAdminKey).SetAutoRenewAccountId(testAutoRenewAccountId).SetAutoRenewPeriod(testAutoRenewPeriod).SetSubmitKey(testSubmitKey).SetTopicMemo(testTopicMemo).SetExpirationTime(validStart).Freeze().Sign(unusedPrivateKey);
+            return new TopicUpdateTransaction
+            {
+                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+                TopicId = testTopicId,
+                AdminKey = testAdminKey,
+                AutoRenewAccountId = testAutoRenewAccountId,
+                AutoRenewPeriod = testAutoRenewPeriod,
+                SubmitKey = testSubmitKey,
+                TopicMemo = testTopicMemo,
+                ExpirationTime = validStart
+
+            }.Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TopicUpdateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TopicUpdateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetConsensusUpdateTopic(ConsensusUpdateTopicTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+                ConsensusUpdateTopic = new Proto.ConsensusUpdateTopicTransactionBody()
+            };
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TopicUpdateTransaction>(tx);
         }
 
         public virtual void ConstructTopicUpdateTransactionFromTransactionBodyProtobuf()
         {
-            var transactionBody = ConsensusUpdateTopicTransactionBody.NewBuilder().SetTopicID(testTopicId.ToProtobuf()).SetMemo(StringValue.NewBuilder().SetValue(testTopicMemo).Build()).SetExpirationTime(Timestamp.NewBuilder().SetSeconds(testExpirationTime.GetEpochSecond()).Build()).SetAdminKey(testAdminKey.ToProtobufKey()).SetSubmitKey(testSubmitKey.ToProtobufKey()).SetAutoRenewPeriod(Proto.Duration.NewBuilder().SetSeconds(testAutoRenewPeriod.ToSeconds()).Build()).SetAutoRenewAccount(testAutoRenewAccountId.ToProtobuf()).Build();
-            var tx = TransactionBody.NewBuilder().SetConsensusUpdateTopic(transactionBody).Build();
+            var transactionBody = new Proto.ConsensusUpdateTopicTransactionBody
+            {
+                TopicID = testTopicId.ToProtobuf(),
+                Memo = testTopicMemo,
+                ExpirationTime = new Proto.Timestamp { Seconds = testExpirationTime.ToUnixTimeSeconds() },
+                AdminKey = testAdminKey.ToProtobufKey(),
+                SubmitKey = testSubmitKey.ToProtobufKey(),
+                AutoRenewPeriod = new Proto.Duration { Seconds = (long)testAutoRenewPeriod.TotalSeconds },
+                AutoRenewAccount = testAutoRenewAccountId.ToProtobuf()
+            };
+            var tx = new Proto.TransactionBody { ConsensusUpdateTopic = transactionBody };
             var topicUpdateTransaction = new TopicUpdateTransaction(tx);
-            Assert.Equal(topicUpdateTransaction.GetTopicId(), testTopicId);
-            Assert.Equal(topicUpdateTransaction.GetTopicMemo(), testTopicMemo);
-            Assert.Equal(topicUpdateTransaction.GetExpirationTime().GetEpochSecond(), testExpirationTime.GetEpochSecond());
-            Assert.Equal(topicUpdateTransaction.GetAdminKey(), testAdminKey);
-            Assert.Equal(topicUpdateTransaction.GetSubmitKey(), testSubmitKey);
-            Assert.Equal(topicUpdateTransaction.GetAutoRenewPeriod().ToSeconds(), testAutoRenewPeriod.ToSeconds());
-            Assert.Equal(topicUpdateTransaction.GetAutoRenewAccountId(), testAutoRenewAccountId);
+
+            Assert.Equal(topicUpdateTransaction.TopicId, testTopicId);
+            Assert.Equal(topicUpdateTransaction.TopicMemo, testTopicMemo);
+            Assert.Equal(topicUpdateTransaction.ExpirationTime?.ToUnixTimeSeconds(), testExpirationTime.ToUnixTimeSeconds());
+            Assert.Equal(topicUpdateTransaction.AdminKey, testAdminKey);
+            Assert.Equal(topicUpdateTransaction.SubmitKey, testSubmitKey);
+            Assert.Equal(topicUpdateTransaction.AutoRenewPeriod?.TotalSeconds, testAutoRenewPeriod.TotalSeconds);
+            Assert.Equal(topicUpdateTransaction.AutoRenewAccountId, testAutoRenewAccountId);
         }
 
         // doesn't throw an exception as opposed to C++ sdk
         public virtual void ConstructTopicUpdateTransactionFromWrongTransactionBodyProtobuf()
         {
-            var transactionBody = CryptoDeleteTransactionBody.NewBuilder().Build();
-            var tx = TransactionBody.NewBuilder().SetCryptoDelete(transactionBody).Build();
+            var transactionBody = new Proto.CryptoDeleteTransactionBody { };
+            var tx = new Proto.TransactionBody { CryptoDelete = transactionBody };
             new TopicUpdateTransaction(tx);
         }
 
         public virtual void GetSetTopicId()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetTopicId(testTopicId);
-            Assert.Equal(topicUpdateTransaction.GetTopicId(), testTopicId);
+            var topicUpdateTransaction = new TopicUpdateTransaction { TopicId = testTopicId };
+            Assert.Equal(topicUpdateTransaction.TopicId, testTopicId);
         }
 
         public virtual void GetSetTopicIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTopicId(testTopicId));
+            Assert.Throws<InvalidOperationException>(() => tx.TopicId = testTopicId);
         }
 
         public virtual void GetSetTopicMemo()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetTopicMemo(testTopicMemo);
-            Assert.Equal(topicUpdateTransaction.GetTopicMemo(), testTopicMemo);
+            var topicUpdateTransaction = new TopicUpdateTransaction { TopicMemo = testTopicMemo };
+            Assert.Equal(topicUpdateTransaction.TopicMemo, testTopicMemo);
         }
 
         public virtual void GetSetTopicMemoFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetTopicMemo(testTopicMemo));
+            Assert.Throws<InvalidOperationException>(() => tx.TopicMemo = testTopicMemo);
         }
 
         public virtual void ClearTopicMemo()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetTopicMemo(testTopicMemo);
-            topicUpdateTransaction.ClearTopicMemo();
-            Assert.Empty(topicUpdateTransaction.GetTopicMemo());
+            var topicUpdateTransaction = new TopicUpdateTransaction { TopicMemo = testTopicMemo };
+            topicUpdateTransaction.TopicMemo = null;
+            Assert.Empty(topicUpdateTransaction.TopicMemo);
         }
 
         public virtual void ClearTopicMemoFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.ClearTopicMemo());
+            Assert.Throws<InvalidOperationException>(() => tx.TopicMemo = null);
         }
 
         public virtual void GetSetExpirationTime()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetExpirationTime(testExpirationTime);
-            Assert.Equal(topicUpdateTransaction.GetExpirationTime(), testExpirationTime);
+            var topicUpdateTransaction = new TopicUpdateTransaction { ExpirationTime = testExpirationTime };
+            Assert.Equal(topicUpdateTransaction.ExpirationTime, testExpirationTime);
         }
 
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetExpirationTime(testExpirationTime));
+            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = testExpirationTime);
         }
 
         public virtual void GetSetAdminKey()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetAdminKey(testAdminKey);
-            Assert.Equal(topicUpdateTransaction.GetAdminKey(), testAdminKey);
+            var topicUpdateTransaction = new TopicUpdateTransaction { AdminKey = testAdminKey };
+            Assert.Equal(topicUpdateTransaction.AdminKey, testAdminKey);
         }
 
         public virtual void GetSetAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAdminKey(testAdminKey));
+            Assert.Throws<InvalidOperationException>(() => tx.AdminKey = testAdminKey);
         }
 
         public virtual void ClearAdminKey()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetAdminKey(testAdminKey);
-            topicUpdateTransaction.ClearAdminKey();
-            Assert.Equal(topicUpdateTransaction.GetAdminKey(), new KeyList());
+            var topicUpdateTransaction = new TopicUpdateTransaction { AdminKey = testAdminKey };
+            topicUpdateTransaction.AdminKey = null;
+            Assert.Equal(topicUpdateTransaction.AdminKey, new KeyList());
         }
 
         public virtual void ClearAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.ClearAdminKey());
+            Assert.Throws<InvalidOperationException>(() => tx.AdminKey = null);
         }
 
         public virtual void GetSetSubmitKey()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetSubmitKey(testSubmitKey);
-            Assert.Equal(topicUpdateTransaction.GetSubmitKey(), testSubmitKey);
+            var topicUpdateTransaction = new TopicUpdateTransaction { SubmitKey = testSubmitKey };
+            Assert.Equal(topicUpdateTransaction.SubmitKey, testSubmitKey);
         }
 
         public virtual void GetSetSubmitKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetSubmitKey(testSubmitKey));
+            Assert.Throws<InvalidOperationException>(() => tx.SubmitKey = testSubmitKey);
         }
 
         public virtual void ClearSubmitKey()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetSubmitKey(testSubmitKey);
-            topicUpdateTransaction.ClearSubmitKey();
-            Assert.Equal(topicUpdateTransaction.GetSubmitKey(), new KeyList());
+            var topicUpdateTransaction = new TopicUpdateTransaction { SubmitKey = testSubmitKey };
+            topicUpdateTransaction.SubmitKey = null;
+            Assert.Equal(topicUpdateTransaction.SubmitKey, new KeyList());
         }
 
         public virtual void ClearSubmitKeyFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.ClearSubmitKey());
+            Assert.Throws<InvalidOperationException>(() => tx.SubmitKey = null);
         }
 
         public virtual void GetSetAutoRenewPeriod()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetAutoRenewPeriod(testAutoRenewPeriod);
-            Assert.Equal(topicUpdateTransaction.GetAutoRenewPeriod(), testAutoRenewPeriod);
+            var topicUpdateTransaction = new TopicUpdateTransaction { AutoRenewPeriod = testAutoRenewPeriod };
+            Assert.Equal(topicUpdateTransaction.AutoRenewPeriod, testAutoRenewPeriod);
         }
 
         public virtual void GetSetAutoRenewPeriodFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAutoRenewPeriod(testAutoRenewPeriod));
+            Assert.Throws<InvalidOperationException>(() => tx.AutoRenewPeriod = testAutoRenewPeriod);
         }
 
         public virtual void GetSetAutoRenewAccountId()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetAutoRenewAccountId(testAutoRenewAccountId);
-            Assert.Equal(topicUpdateTransaction.GetAutoRenewAccountId(), testAutoRenewAccountId);
+            var topicUpdateTransaction = new TopicUpdateTransaction { AutoRenewAccountId = testAutoRenewAccountId };
+            Assert.Equal(topicUpdateTransaction.AutoRenewAccountId, testAutoRenewAccountId);
         }
 
         public virtual void GetSetAutoRenewAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.SetAutoRenewAccountId(testAutoRenewAccountId));
+            Assert.Throws<InvalidOperationException>(() => tx.AutoRenewAccountId = testAutoRenewAccountId);
         }
 
         public virtual void ClearAutoRenewAccountId()
         {
-            var topicUpdateTransaction = new TopicUpdateTransaction().SetAutoRenewAccountId(testAutoRenewAccountId);
-            topicUpdateTransaction.ClearAutoRenewAccountId();
-            Assert.Equal(topicUpdateTransaction.GetAutoRenewAccountId(), new AccountId(0, 0, 0));
+            var topicUpdateTransaction = new TopicUpdateTransaction { AutoRenewAccountId = testAutoRenewAccountId };
+            topicUpdateTransaction.AutoRenewAccountId = null;
+            Assert.Equal(topicUpdateTransaction.AutoRenewAccountId, new AccountId(0, 0, 0));
         }
 
         public virtual void ClearAutoRenewAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.ClearAutoRenewAccountId());
+            Assert.Throws<InvalidOperationException>(() => tx.AutoRenewAccountId = null);
         }
 
         public virtual void ShouldSetFeeScheduleKey()
         {
             PrivateKey feeScheduleKey = PrivateKey.GenerateECDSA();
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransactionFeeScheduleKey = feeScheduleKey,;
-            Assert.Equal(topicUpdateTransaction.GetFeeScheduleKey().ToString(), feeScheduleKey.ToString());
+            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction
+            {
+                FeeScheduleKey = feeScheduleKey
+            };
+            Assert.Equal(topicUpdateTransaction.FeeScheduleKey.ToString(), feeScheduleKey.ToString());
         }
 
         public virtual void ShouldSetFeeExemptKeys()
         {
-            IList<PrivateKey> feeExemptKeys = List.Of(PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA());
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.SetFeeExemptKeys(new List(feeExemptKeys));
-            AssertThat(topicUpdateTransaction.GetFeeExemptKeys()).ContainsExactlyElementsOf(feeExemptKeys);
+            IList<PrivateKey> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
+            TopicUpdateTransaction topicUpdateTransaction = new()
+            {
+                FeeExemptKeys = [.. feeExemptKeys] 
+            };
+            Assert.Equal(topicUpdateTransaction.FeeExemptKeys, feeExemptKeys);
         }
 
         public virtual void ShouldAddFeeExemptKeyToEmptyList()
         {
             TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
             PrivateKey feeExemptKeyToBeAdded = PrivateKey.GenerateECDSA();
-            topicUpdateTransaction.AddFeeExemptKey(feeExemptKeyToBeAdded);
-            AssertThat(topicUpdateTransaction.GetFeeExemptKeys()).HasSize(1).ContainsExactly(feeExemptKeyToBeAdded);
+            topicUpdateTransaction.FeeExemptKeys.Add(feeExemptKeyToBeAdded);
+            Assert.Equal(topicUpdateTransaction.FeeExemptKeys.Count, 1);
+            Assert.Equal(topicUpdateTransaction.FeeExemptKeys, [feeExemptKeyToBeAdded]);
         }
 
         public virtual void ShouldAddFeeExemptKeyToList()
         {
             PrivateKey feeExemptKey = PrivateKey.GenerateECDSA();
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.SetFeeExemptKeys(new List(List.Of(feeExemptKey)));
-            PrivateKey feeExemptKeyToBeAdded = PrivateKey.GenerateECDSA();
-            topicUpdateTransaction.AddFeeExemptKey(feeExemptKeyToBeAdded);
-            AssertThat(topicUpdateTransaction.GetFeeExemptKeys()).HasSize(2).ContainsExactly(feeExemptKey, feeExemptKeyToBeAdded);
-        }
+            TopicUpdateTransaction topicUpdateTransaction = new()
+            {
+                FeeExemptKeys = [feeExemptKey]
+            };
 
-        public virtual void ShouldClearFeeExemptKeys()
-        {
-            PrivateKey feeExemptKey = PrivateKey.GenerateECDSA();
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.SetFeeExemptKeys(new List(List.Of(feeExemptKey)));
-            topicUpdateTransaction.ClearFeeExemptKeys();
-            Assert.Empty(topicUpdateTransaction.GetFeeExemptKeys());
+            PrivateKey feeExemptKeyToBeAdded = PrivateKey.GenerateECDSA();
+            topicUpdateTransaction.FeeExemptKeys.Add(feeExemptKeyToBeAdded);
+            Assert.Equal(topicUpdateTransaction.FeeExemptKeys.Count, 2);
+            Assert.Equal(topicUpdateTransaction.FeeExemptKeys, [feeExemptKey, feeExemptKeyToBeAdded]);
         }
 
         public virtual void ShouldSetCustomFees()
         {
-            IList<CustomFixedFee> customFixedFees = List.Of(new CustomFixedFee().SetAmount(1).SetDenominatingTokenId(new TokenId(0, 0, 0)), new CustomFixedFee().SetAmount(2).SetDenominatingTokenId(new TokenId(0, 0, 1)), new CustomFixedFee().SetAmount(3).SetDenominatingTokenId(new TokenId(0, 0, 2)));
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.SetCustomFees(new List(customFixedFees));
-            AssertThat(topicUpdateTransaction.GetCustomFees()).HasSize(3).ContainsExactlyElementsOf(customFixedFees);
+            IList<CustomFixedFee> customFixedFees =
+            [
+                new CustomFixedFee
+                {
+                    Amount = 1,
+                    DenominatingTokenId = new TokenId(0, 0, 0)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 2,
+                    DenominatingTokenId = new TokenId(0, 0, 1)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 3,
+                    DenominatingTokenId = new TokenId(0, 0, 2)
+                }
+            ];
+            TopicUpdateTransaction topicUpdateTransaction = new()
+            {
+                CustomFees = [.. customFixedFees]
+            };
+            Assert.Equal(topicUpdateTransaction.CustomFees.Count, 3);
+            Assert.Equal(topicUpdateTransaction.CustomFees, customFixedFees);
         }
 
         public virtual void ShouldAddCustomFeeToList()
         {
-            IList<CustomFixedFee> customFixedFees = List.Of(new CustomFixedFee().SetAmount(1).SetDenominatingTokenId(new TokenId(0, 0, 0)), new CustomFixedFee().SetAmount(2).SetDenominatingTokenId(new TokenId(0, 0, 1)), new CustomFixedFee().SetAmount(3).SetDenominatingTokenId(new TokenId(0, 0, 2)));
-            CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee().SetAmount(4).SetDenominatingTokenId(new TokenId(0, 0, 3));
-            IList<CustomFixedFee> expectedCustomFees = new List(customFixedFees);
+            IList<CustomFixedFee> customFixedFees =
+            [
+                new CustomFixedFee
+                {
+                    Amount = 1,
+                    DenominatingTokenId = new TokenId(0, 0, 0)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 2,
+                    DenominatingTokenId = new TokenId(0, 0, 1)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 3,
+                    DenominatingTokenId = new TokenId(0, 0, 2)
+                }
+            ];
+            CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee
+            {
+                Amount = 4,
+                DenominatingTokenId = new TokenId(0, 0, 3)
+            };
+            IList<CustomFixedFee> expectedCustomFees = [];
             expectedCustomFees.Add(customFixedFeeToBeAdded);
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.SetCustomFees(new List(customFixedFees));
-            topicUpdateTransaction.AddCustomFee(customFixedFeeToBeAdded);
-            AssertThat(topicUpdateTransaction.GetCustomFees()).HasSize(4).ContainsExactlyElementsOf(expectedCustomFees);
+            TopicUpdateTransaction topicUpdateTransaction = new()
+            {
+                CustomFees = [.. customFixedFees] 
+            };
+            topicUpdateTransaction.CustomFees.Add(customFixedFeeToBeAdded);
+            Assert.Equal(topicUpdateTransaction.CustomFees.Count, 4);
+            Assert.Equal(topicUpdateTransaction.CustomFees, expectedCustomFees);
         }
 
         public virtual void ShouldAddCustomFeeToEmptyList()
         {
-            CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee().SetAmount(4).SetDenominatingTokenId(new TokenId(0, 0, 3));
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.AddCustomFee(customFixedFeeToBeAdded);
-            AssertThat(topicUpdateTransaction.GetCustomFees()).HasSize(1).ContainsExactly(customFixedFeeToBeAdded);
+            CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee
+            {
+                Amount = 4,
+                DenominatingTokenId = new TokenId(0, 0, 3)
+            };
+            TopicUpdateTransaction topicUpdateTransaction = new ();
+            topicUpdateTransaction.CustomFees.Add(customFixedFeeToBeAdded);
+            Assert.Equal(topicUpdateTransaction.CustomFees.Count, 1);
+            Assert.Equal(topicUpdateTransaction.CustomFees, [customFixedFeeToBeAdded]);
         }
 
         public virtual void ShouldClearCustomFees()
         {
-            IList<CustomFixedFee> customFixedFees = List.Of(new CustomFixedFee().SetAmount(1).SetDenominatingTokenId(new TokenId(0, 0, 0)), new CustomFixedFee().SetAmount(2).SetDenominatingTokenId(new TokenId(0, 0, 1)), new CustomFixedFee().SetAmount(3).SetDenominatingTokenId(new TokenId(0, 0, 2)));
-            TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
-            topicUpdateTransaction.SetCustomFees(new List(customFixedFees));
-            topicUpdateTransaction.ClearCustomFees();
-            Assert.Empty(topicUpdateTransaction.GetCustomFees());
+            IList<CustomFixedFee> customFixedFees = 
+            [
+                new CustomFixedFee
+                {
+                    Amount = 1,
+                    DenominatingTokenId = new TokenId(0, 0, 0)
+                }, 
+                new CustomFixedFee
+                {
+                    Amount = 2,
+                    DenominatingTokenId = new TokenId(0, 0, 1)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 3,
+                    DenominatingTokenId = new TokenId(0, 0, 2)
+                }
+            ];
+            TopicUpdateTransaction topicUpdateTransaction = new()
+            {
+                CustomFees = [.. customFixedFees]
+            };
+            topicUpdateTransaction.CustomFees.Clear();
+            Assert.Empty(topicUpdateTransaction.CustomFees);
         }
     }
 }

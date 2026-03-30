@@ -36,8 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenGrantKycTransaction
             {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]
-
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				AccountId = testAccountId,
 				TokenId = testTokenId,

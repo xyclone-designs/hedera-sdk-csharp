@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.File;
@@ -8,9 +10,12 @@ using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
+
 using Org.BouncyCastle.Utilities.Encoders;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
@@ -22,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         private static readonly List<AccountId> testNodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")];
         private static readonly AccountId testAccountId = AccountId.FromString("0.0.5006");
         private static readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        private static readonly TransactionId testTransactionID = TransactionId.WithValidStart(testAccountId, Timestamp.FromDateTimeOffset(validStart));
+        private static readonly TransactionId testTransactionID = TransactionId.WithValidStart(testAccountId, validStart);
         private Client client;
         // Additional test setup for new V2 methods
         private FileId fileID;
@@ -56,55 +61,62 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void TransactionFromBytesWorksWithProtobufTransactionBytes()
         {
             var bytes = Hex.Decode("1acc010a640a2046fe5013b6f6fc796c3e65ec10d2a10d03c07188fc3de13d46caad6b8ec4dfb81a4045f1186be5746c9783f68cb71d6a71becd3ffb024906b855ac1fa3a2601273d41b58446e5d6a0aaf421c229885f9e70417353fab2ce6e9d8e7b162e9944e19020a640a20f102e75ff7dc3d72c9b7075bb246fcc54e714c59714814011e8f4b922d2a6f0a1a40f2e5f061349ab03fa21075020c75cf876d80498ae4bac767f35941b8e3c393b0e0a886ede328e44c1df7028ea1474722f2dcd493812d04db339480909076a10122500a180a0c08a1cc98830610c092d09e0312080800100018e4881d120608001000180418b293072202087872240a220a0f0a080800100018e4881d10ff83af5f0a0f0a080800100018eb881d108084af5f");
-            var transaction = (TransferTransaction)FromBytes(bytes);
-            AssertThat(transaction.GetHbarTransfers()).ContainsEntry(new AccountId(0, 0, 476260), new Hbar(1).Negated());
-            AssertThat(transaction.GetHbarTransfers()).ContainsEntry(new AccountId(0, 0, 476267), new Hbar(1));
+            var transaction = Transaction.FromBytes<TransferTransaction>(bytes);
+            Assert.True(transaction.GetHbarTransfers().Contains(KeyValuePair.Create(new AccountId(0, 0, 476260), new Hbar(1).Negated())));
+            Assert.True(transaction.GetHbarTransfers().Contains(KeyValuePair.Create(new AccountId(0, 0, 476267), new Hbar(1))));
         }
 
         public virtual void TokenAssociateTransactionFromTransactionBodyBytes()
         {
-            var tokenAssociateTransactionBodyProto = TokenAssociateTransactionBody.NewBuilder().Build();
-            var transactionBodyProto = TransactionBody.NewBuilder()
-                .SetTokenAssociate(tokenAssociateTransactionBodyProto).Build();
+            var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody { };
+            var transactionBodyProto = new Proto.TransactionBody { TokenAssociate = tokenAssociateTransactionBodyProto };
             TokenAssociateTransaction tokenAssociateTransaction = SpawnTestTransaction(transactionBodyProto);
-            var tokenAssociateTransactionFromBytes = Transaction.FromBytes(tokenAssociateTransaction.ToBytes());
+            var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
 
         public virtual void TokenAssociateTransactionFromSignedTransactionBytes()
         {
-            var tokenAssociateTransactionBodyProto = TokenAssociateTransactionBody.NewBuilder().Build();
-            var transactionBodyProto = TransactionBody.NewBuilder()
-                .SetTokenAssociate(tokenAssociateTransactionBodyProto).Build();
-            var signedTransactionProto = SignedTransaction.NewBuilder()
-                .SetBodyBytes(transactionBodyProto.ToByteString()).Build();
-            var signedTransactionBodyProto = TransactionBody.ParseFrom(signedTransactionProto.GetBodyBytes());
+            var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody { };
+            var transactionBodyProto = new Proto.TransactionBody { TokenAssociate = tokenAssociateTransactionBodyProto };
+            var signedTransactionProto = new Proto.SignedTransaction { BodyBytes = transactionBodyProto.ToByteString() };
+            var signedTransactionBodyProto = Proto.TransactionBody.Parser.ParseFrom(signedTransactionProto.BodyBytes);
             TokenAssociateTransaction tokenAssociateTransaction = SpawnTestTransaction(signedTransactionBodyProto);
-            var tokenAssociateTransactionFromBytes = Transaction.FromBytes(tokenAssociateTransaction.ToBytes());
+            var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
 
         public virtual void TokenAssociateTransactionFromTransactionBytes()
         {
-            var tokenAssociateTransactionBodyProto = TokenAssociateTransactionBody.NewBuilder().Build();
-            var transactionBodyProto = TransactionBody.NewBuilder()
-                .SetTokenAssociate(tokenAssociateTransactionBodyProto).Build();
-            var signedTransactionProto = SignedTransaction.NewBuilder()
-                .SetBodyBytes(transactionBodyProto.ToByteString()).Build();
-            var signedTransactionBodyProto = TransactionBody.ParseFrom(signedTransactionProto.GetBodyBytes());
-            var transactionSignedProto = Proto.Transaction.NewBuilder()
-                .SetSignedTransactionBytes(signedTransactionBodyProto.ToByteString()).Build();
-            var transactionSignedBodyProto = TransactionBody.ParseFrom(transactionSignedProto.GetSignedTransactionBytes());
+            var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody
+            { };
+            var transactionBodyProto = new Proto.TransactionBody
+            {
+                TokenAssociate = tokenAssociateTransactionBodyProto
+            };
+            var signedTransactionProto = new Proto.SignedTransaction
+            {
+                BodyBytes = transactionBodyProto.ToByteString()
+            };
+            var signedTransactionBodyProto = Proto.TransactionBody.Parser.ParseFrom(signedTransactionProto.BodyBytes);
+            var transactionSignedProto = new Proto.Transaction
+            {
+                SignedTransactionBytes = signedTransactionBodyProto.ToByteString()
+            };
+            var transactionSignedBodyProto = Proto.TransactionBody.Parser.ParseFrom(transactionSignedProto.SignedTransactionBytes);
             TokenAssociateTransaction tokenAssociateTransaction = SpawnTestTransaction(transactionSignedBodyProto);
-            var tokenAssociateTransactionFromBytes = Transaction.FromBytes(tokenAssociateTransaction.ToBytes());
+            var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
 
-        private TokenAssociateTransaction SpawnTestTransaction(TransactionBody txBody)
+        private TokenAssociateTransaction SpawnTestTransaction(Proto.TransactionBody txBody)
         {
             return new TokenAssociateTransaction(txBody)
-                NodeAccountIds = testNodeAccountIds,
-                .SetTransactionId(TransactionId.WithValidStart(testAccountId, Timestamp.FromDateTimeOffset(validStart))).Freeze().Sign(unusedPrivateKey);
+            {
+                NodeAccountIds = [..testNodeAccountIds],
+                TransactionId = TransactionId.WithValidStart(testAccountId, validStart)
+
+            }.Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void SameSizeForIdenticalTransactions()
@@ -112,15 +124,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var accountCreateTransaction = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             var accountCreateTransaction2 = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             Assert.Equal(accountCreateTransaction.GetTransactionSize(), accountCreateTransaction2.GetTransactionSize());
@@ -131,15 +143,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var accountCreateTransaction = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze().Sign(PrivateKey.GenerateECDSA());
             var accountCreateTransaction2 = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             Assert.True(accountCreateTransaction.GetTransactionSize() > accountCreateTransaction2.GetTransactionSize());
@@ -149,16 +161,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var fileCreateTransactionSmallContent = new FileCreateTransaction
             {
-				Contents = "smallBody",
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				Contents_String = "smallBody",
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             var fileCreateTransactionLargeContent = new FileCreateTransaction
             {
-				Contents = "largeLargeBody",
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				Contents_String = "largeLargeBody",
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             Assert.True(fileCreateTransactionSmallContent.GetTransactionBodySize() < fileCreateTransactionLargeContent.GetTransactionBodySize());
@@ -168,14 +180,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var noOptionalFieldsTransaction = new AccountCreateTransaction
             {
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			}.Freeze();
             var fullOptionalFieldsTransaction = new AccountCreateTransaction
             {
 				InitialBalance = new Hbar(2),
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 				MaxTransactionFee = new Hbar(1),
 				TransactionValidDuration = TimeSpan.FromHours(1),
 			
@@ -192,14 +204,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
 				FileId = new FileId(1),
 				ChunkSize = chunkSize,
-				Contents = content,
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				Contents = ByteString.CopyFrom(content),
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             var objects = fileAppentTx.BodySizeAllChunks();
             Assert.NotNull(objects);
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
+            Assert.Equal(2, fileAppentTx.GetHbarTransfers().Count);
         }
 
         public virtual void SingleChunkTransactionShouldReturnArrayOfOneSize()
@@ -211,9 +223,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var fileAppendTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),
-				Contents = smallContent,
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				Contents = ByteString.CopyFrom(smallContent),
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             var bodySizes = fileAppendTx.BodySizeAllChunks();
@@ -226,9 +238,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var fileAppendTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				Contents = " ",
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				Contents_String = " ",
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             var bodySizes = fileAppendTx.BodySizeAllChunks();
@@ -243,10 +255,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var largeFileAppendTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),
-				Contents = largeContent,
+				Contents = ByteString.CopyFrom(largeContent),
 				ChunkSize = 1024,
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             long largeSize = largeFileAppendTx.GetTransactionSize();
@@ -255,9 +267,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var smallFileAppendTx = new FileAppendTransaction
             {
 				FileId = new FileId(1),
-				Contents = smallContent,
-				TransactionId = new TransactionId(testAccountId, Timestamp.FromDateTimeOffset(validStart)),
-				NodeAccountIds = testNodeAccountIds,
+				Contents = ByteString.CopyFrom(smallContent),
+				TransactionId = new TransactionId(testAccountId, validStart),
+				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
             long smallSize = smallFileAppendTx.GetTransactionSize();
@@ -272,19 +284,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2SingleNodeSingleChunk()
         {
-            var transaction = new FileAppendTransaction()
-                .SetFileId(fileID)
-                .SetContents(Encoding.UTF8.GetBytes("test content"))
-                .SetNodeAccountIds([nodeAccountID1])
-                .SetTransactionId(testTransactionID)
-                .SetChunkSize(2048)
-            .FreezeWith(client);
+            var transaction = new FileAppendTransaction
+            {
+                FileId = fileID,
+                Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
+                NodeAccountIds = [nodeAccountID1],
+                TransactionId = testTransactionID,
+                ChunkSize = 2048,
+
+            }.FreezeWith(client);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
-            Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
+            Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
             Assert.Single(signatures);
-            AssertThat(signatures).ContainsKey(nodeAccountID1);
-            Map<PublicKey, byte[]> nodeSignatures = signatures[nodeAccountID1];
-            foreach (Map.Entry<PublicKey, byte[]> entry in nodeSignatures.EntrySet())
+            Assert.True(signatures.ContainsKey(nodeAccountID1));
+            Dictionary<PublicKey, byte[]> nodeSignatures = signatures[nodeAccountID1];
+            foreach (KeyValuePair<PublicKey, byte[]> entry in nodeSignatures)
             {
                 Assert.Equal(entry.Value, mockSignature);
             }
@@ -292,23 +306,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2MultipleNodesSingleChunk()
         {
-            var transaction = new FileAppendTransaction()
-                .SetFileId(fileID)
-                .SetContents(Encoding.UTF8.GetBytes("test content"))
-                .SetNodeAccountIds(nodeAccountIDs)
-                .SetTransactionId(testTransactionID)
-                .SetChunkSize(2048)
-            .FreezeWith(client);
+            var transaction = new FileAppendTransaction
+            {
+                FileId = fileID,
+                Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
+                NodeAccountIds = [..nodeAccountIDs],
+                TransactionId = testTransactionID,
+                ChunkSize = 2048,
+
+            }.FreezeWith(client);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID2);
-            Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
-            AssertThat(signatures).ContainsKey(nodeAccountID1);
-            AssertThat(signatures).ContainsKey(nodeAccountID2);
+            Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
+            Assert.Equal(2, transaction.GetHbarTransfers().Count);
+            Assert.True(signatures.ContainsKey(nodeAccountID1));
+            Assert.True(signatures.ContainsKey(nodeAccountID2));
             foreach (AccountId nodeID in nodeAccountIDs)
             {
-                Map<PublicKey, byte[]> nodeSignatures = signatures[nodeID];
-                foreach (Map.Entry<PublicKey, byte[]> entry in nodeSignatures.EntrySet())
+                Dictionary<PublicKey, byte[]> nodeSignatures = signatures[nodeID];
+                foreach (KeyValuePair<PublicKey, byte[]> entry in nodeSignatures)
                 {
                     Assert.Equal(entry.Value, mockSignature);
                 }
@@ -323,24 +339,26 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 content[i] = (byte)(i % 256);
             }
 
-            var transaction = new FileAppendTransaction()
-                .SetFileId(fileID)
-                .SetContents(content)
-                .SetNodeAccountIds(nodeAccountIDs)
-                .SetTransactionId(testTransactionID)
-                .SetChunkSize(2048)
-            .FreezeWith(client);
+            var transaction = new FileAppendTransaction
+            {
+                FileId = fileID,
+                Contents_Bytes = content,
+                NodeAccountIds = [..nodeAccountIDs],
+                TransactionId = testTransactionID,
+                ChunkSize = 2048,
+
+            }.FreezeWith(client);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID2);
-            Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
-            AssertThat(signatures).ContainsKey(nodeAccountID1);
-            AssertThat(signatures).ContainsKey(nodeAccountID2);
+            Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
+            Assert.Equal(2, transaction.GetHbarTransfers().Count);
+            Assert.True(signatures.ContainsKey(nodeAccountID1));
+            Assert.True(signatures.ContainsKey(nodeAccountID2));
             foreach (AccountId nodeID in nodeAccountIDs)
             {
-                Map<PublicKey, byte[]> nodeSigs = signatures[nodeID];
+                Dictionary<PublicKey, byte[]> nodeSigs = signatures[nodeID];
                 Assert.Single(nodeSigs);
-                foreach (Map.Entry<PublicKey, byte[]> entry in nodeSigs.EntrySet())
+                foreach (KeyValuePair<PublicKey, byte[]> entry in nodeSigs)
                 {
                     Assert.NotNull(entry.Key);
                     Assert.Equal(entry.Key.ToString(), mockPrivateKey.GetPublicKey().ToString());
@@ -351,54 +369,60 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestAddSignatureV2WrongNodeID()
         {
-            var transaction = new FileAppendTransaction()
-                .SetFileId(fileID)
-                .SetContents(Encoding.UTF8.GetBytes("test content"))
-                .SetNodeAccountIds(nodeAccountIDs)
-                .SetTransactionId(testTransactionID)
-                .SetChunkSize(2048)
-            .FreezeWith(client);
+            var transaction = new FileAppendTransaction
+            {
+                FileId = fileID,
+                Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
+                NodeAccountIds = [..nodeAccountIDs],
+                TransactionId = testTransactionID,
+                ChunkSize = 2048,
+
+            }.FreezeWith(client);
             AccountId invalidNodeID = AccountId.FromString("0.0.999");
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, invalidNodeID);
-            Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
-            AssertThat(signatures).DoesNotContainKey(invalidNodeID);
+            Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
+            Assert.False(signatures.ContainsKey(invalidNodeID));
         }
 
         public virtual void TestAddSignatureV2WrongTransactionID()
         {
-            var transaction = new FileAppendTransaction()
-                .SetFileId(fileID)
-                .SetContents(Encoding.UTF8.GetBytes("test content"))
-                .SetNodeAccountIds(nodeAccountIDs)
-                .SetTransactionId(testTransactionID)
-                .SetChunkSize(2048)
-            .FreezeWith(client);
+            var transaction = new FileAppendTransaction
+            {
+                FileId = fileID,
+                Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
+                NodeAccountIds = [..nodeAccountIDs],
+                TransactionId = testTransactionID,
+                ChunkSize = 2048,
+            
+            }.FreezeWith(client);
             TransactionId invalidTxID = TransactionId.WithValidStart(AccountId.FromString("0.0.999"), DateTimeOffset.UtcNow);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, invalidTxID, nodeAccountID1);
-            Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
+            Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
             if (signatures.ContainsKey(nodeAccountID1))
             {
-                AssertThat(signatures[nodeAccountID1]).DoesNotContainKey(mockPrivateKey.GetPublicKey());
+                Assert.False(signatures[nodeAccountID1].ContainsKey(mockPrivateKey.GetPublicKey()));
             }
         }
 
         public virtual void TestAddSignatureV2SameSignatureTwice()
         {
-            var transaction = new FileAppendTransaction()
-                .SetFileId(fileID)
-                .SetContents(Encoding.UTF8.GetBytes("test content"))
-                .SetNodeAccountIds(Arrays.AsList(nodeAccountID1))
-                .SetTransactionId(testTransactionID)
-                .SetChunkSize(2048)
-            .FreezeWith(client);
+            var transaction = new FileAppendTransaction
+            {
+                FileId = fileID,
+                Contents_Bytes = Encoding.UTF8.GetBytes("test content"),
+                NodeAccountIds = [nodeAccountID1],
+                TransactionId = testTransactionID,
+                ChunkSize = 2048,
+
+            }.FreezeWith(client);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
-            Map<AccountId, Map<PublicKey, byte[]>> signatures = transaction.GetSignatures();
+            Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
             Assert.Single(signatures);
-            AssertThat(signatures).ContainsKey(nodeAccountID1);
-            Map<PublicKey, byte[]> nodeSigs = signatures[nodeAccountID1];
+            Assert.True(signatures.ContainsKey(nodeAccountID1));
+            Dictionary<PublicKey, byte[]> nodeSigs = signatures[nodeAccountID1];
             Assert.Single(nodeSigs);
-            foreach (Map.Entry<PublicKey, byte[]> entry in nodeSigs.EntrySet())
+            foreach (KeyValuePair<PublicKey, byte[]> entry in nodeSigs)
             {
                 Assert.Equal(entry.Value, mockSignature);
             }
@@ -408,7 +432,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var tx = new FileAppendTransaction();
             PrivateKey key = PrivateKey.GenerateED25519();
-            byte[] mockSig = new[]
+            byte[] mockSig = new byte[]
             {
                 0,
                 1,
@@ -433,50 +457,62 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void TestGetSignableNodeBodyBytesListBasic()
         {
-            var tx = new TransferTransaction()
-                .SetNodeAccountIds(Arrays.AsList(nodeAccountID1))
-                .SetTransactionId(testTransactionID).AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1))
+            var tx = new TransferTransaction
+            {
+                NodeAccountIds = [nodeAccountID1],
+                TransactionId = testTransactionID,
+            }
+            .AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1))
+            .AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1))
             .FreezeWith(client);
             List<Transaction.SignableNodeTransactionBodyBytes> list = tx.GetSignableNodeBodyBytesList();
             Assert.NotEmpty(list);
             Assert.Single(list); // Should have one entry for our single node
-            Assert.Equal(list[0].GetNodeID(), nodeAccountID1);
-            Assert.Equal(list[0].GetTransactionID(), testTransactionID);
-            Assert.NotEmpty(list[0].GetBody());
+            Assert.Equal(list[0].NodeID, nodeAccountID1);
+            Assert.Equal(list[0].TransactionID, testTransactionID);
+            Assert.NotEmpty(list[0].Body);
         }
 
         public virtual void TestGetSignableNodeBodyBytesListContents()
         {
-            var tx = new TransferTransaction()
-                .SetNodeAccountIds(Arrays.AsList(nodeAccountID1))
-                .SetTransactionId(testTransactionID).AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1))
+            var tx = new TransferTransaction
+            {
+                NodeAccountIds = [nodeAccountID1],
+                TransactionId = testTransactionID,
+            }
+            .AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1))
+            .AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1))
             .FreezeWith(client);
             List<Transaction.SignableNodeTransactionBodyBytes> list = tx.GetSignableNodeBodyBytesList();
-            TransactionBody body = TransactionBody.ParseFrom(list[0].GetBody());
-            Assert.NotNull(body.GetCryptoTransfer());
-            Assert.Equal(AccountId.FromProtobuf(body.GetNodeAccountID()).ToString(), nodeAccountID1.ToString());
-            Assert.Equal(TransactionId.FromProtobuf(body.GetTransactionID()).ToString(), testTransactionID.ToString());
+            Proto.TransactionBody body = Proto.TransactionBody.Parser.ParseFrom(list[0].Body);
+            Assert.NotNull(body.CryptoTransfer);
+            Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), nodeAccountID1.ToString());
+            Assert.Equal(TransactionId.FromProtobuf(body.TransactionID).ToString(), testTransactionID.ToString());
         }
 
         public virtual void TestGetSignableNodeBodyBytesListMultipleNodeIDs()
         {
-            var tx = new TransferTransaction()
-                .SetNodeAccountIds(nodeAccountIDs)
-                .SetTransactionId(testTransactionID).AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1)).AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1))
+            var tx = new TransferTransaction
+            {
+                NodeAccountIds = [.. nodeAccountIDs],
+                TransactionId = testTransactionID,
+            }
+            .AddHbarTransfer(AccountId.FromString("0.0.2"), Hbar.From(-1))
+            .AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1))
             .FreezeWith(client);
             List<Transaction.SignableNodeTransactionBodyBytes> list = tx.GetSignableNodeBodyBytesList();
             Assert.Equal(2, tx.GetHbarTransfers().Count); // Should have two entries, one per node
             for (int i = 0; i < nodeAccountIDs.Count; i++)
             {
                 AccountId nodeID = nodeAccountIDs[i];
-                Assert.Equal(list[i].GetNodeID(), nodeID);
-                Assert.Equal(list[i].GetTransactionID(), testTransactionID);
-                Assert.NotEmpty(list[i].GetBody());
+                Assert.Equal(list[i].NodeID, nodeID);
+                Assert.Equal(list[i].TransactionID, testTransactionID);
+                Assert.NotEmpty(list[i].Body);
 
                 // Verify body contents
-                TransactionBody body = TransactionBody.ParseFrom(list[i].GetBody());
-                Assert.NotNull(body.GetCryptoTransfer());
-                Assert.Equal(AccountId.FromProtobuf(body.GetNodeAccountID()).ToString(), nodeID.ToString());
+                Proto.TransactionBody body = Proto.TransactionBody.Parser.ParseFrom(list[i].Body);
+                Assert.NotNull(body.CryptoTransfer);
+                Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), nodeID.ToString());
             }
         }
 
@@ -488,37 +524,39 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 content[i] = (byte)(i % 256);
             }
 
-            var tx = new FileAppendTransaction()
-                .SetNodeAccountIds(nodeAccountIDs)
-                .SetTransactionId(testTransactionID)
-                .SetFileId(new FileId(5))
-                .SetContents(content)
-                .SetChunkSize(2048)
-            .FreezeWith(client);
+            var tx = new FileAppendTransaction
+            {
+                NodeAccountIds = [..nodeAccountIDs],
+                TransactionId = testTransactionID,
+                FileId = new FileId(5),
+                Contents_Bytes = content,
+                ChunkSize = 2048,
+
+            }.FreezeWith(client);
             List<Transaction.SignableNodeTransactionBodyBytes> list = tx.GetSignableNodeBodyBytesList();
             Assert.Equal(2, tx.GetHbarTransfers().Count); // Should have 4 entries: 2 nodes * 2 chunks
 
             // Map to track transaction IDs per node
-            Dictionary<string, Dictionary<string, bool>> txIDsByNode = new HashMap();
+            Dictionary<string, Dictionary<string, bool>> txIDsByNode = [];
             foreach (AccountId nodeID in nodeAccountIDs)
             {
-                txIDsByNode.Put(nodeID.ToString(), new HashMap());
+                txIDsByNode.Add(nodeID.ToString(), []);
             }
 
             for (int i = 0; i < list.Count; i++)
             {
-                Assert.Contains(nodeAccountIDs, list[i].GetNodeID());
-                Assert.NotNull(list[i].GetTransactionID());
-                Assert.NotEmpty(list[i].GetBody());
-                string nodeIDStr = list[i].GetNodeID().ToString();
-                string txIDStr = list[i].GetTransactionID().ToString();
+                Assert.True(nodeAccountIDs.Contains(list[i].NodeID));
+                Assert.NotNull(list[i].TransactionID);
+                Assert.NotEmpty(list[i].Body);
+                string nodeIDStr = list[i].NodeID.ToString();
+                string txIDStr = list[i].TransactionID.ToString();
 
                 // Each transaction ID should appear exactly once per node
-                Assert.False(txIDsByNode[nodeIDStr].ContainsKey(txIDStr)).As("Duplicate transaction ID found for the same node");
-                txIDsByNode[nodeIDStr].Put(txIDStr, true);
-                TransactionBody body = TransactionBody.ParseFrom(list[i].GetBody());
-                Assert.NotNull(body.GetFileAppend());
-                Assert.Equal(AccountId.FromProtobuf(body.GetNodeAccountID()).ToString(), list[i].GetNodeID().ToString());
+                Assert.False(txIDsByNode[nodeIDStr].ContainsKey(txIDStr), "Duplicate transaction ID found for the same node");
+                txIDsByNode[nodeIDStr].Add(txIDStr, true);
+                Proto.TransactionBody body = Proto.TransactionBody.Parser.ParseFrom(list[i].Body);
+                Assert.NotNull(body.FileAppend);
+                Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), list[i].NodeID.ToString());
             }
 
 
@@ -534,9 +572,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             for (int i = 1; i < nodeAccountIDs.Count; i++)
             {
                 Dictionary<string, bool> nodeTxIDs = txIDsByNode[nodeAccountIDs[i].ToString()];
-                foreach (string txID in firstNodeTxIDs.KeySet())
+                foreach (string txID in firstNodeTxIDs.Keys)
                 {
-                    Assert.True(nodeTxIDs.ContainsKey(txID)).As("All nodes should have the same set of transaction IDs");
+                    Assert.True(nodeTxIDs.ContainsKey(txID), "All nodes should have the same set of transaction IDs");
                 }
             }
         }

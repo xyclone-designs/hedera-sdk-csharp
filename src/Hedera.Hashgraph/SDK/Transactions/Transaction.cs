@@ -32,15 +32,13 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
-{
-
-	
+{	
 	/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
 	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>
     {
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction_2"]/*' />
-		protected Hbar DefaultMaxTransactionFee = new (2);
+		internal Hbar DefaultMaxTransactionFee = new (2);
         
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor"]/*' />
         protected bool? regenerateTransactionId = null;
@@ -295,15 +293,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return scheduled;
 		}
-		protected virtual IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignaturesAtOffset(int offset)
+		protected virtual Dictionary<AccountId, Dictionary<PublicKey, byte[]>> GetSignaturesAtOffset(int offset)
 		{
-			var map = new Dictionary<AccountId, IDictionary<PublicKey, byte[]>>(NodeAccountIds.Count);
+			var map = new Dictionary<AccountId, Dictionary<PublicKey, byte[]>>(NodeAccountIds.Count);
 
 			for (int i = 0; i < NodeAccountIds.Count; i++)
 			{
 				var sigMap = SigPairLists[i + offset];
 				var nodeAccountId = NodeAccountIds[i];
-				var keyMap = map.TryGetValue(nodeAccountId, out IDictionary<PublicKey, byte[]>? value) 
+				var keyMap = map.TryGetValue(nodeAccountId, out Dictionary<PublicKey, byte[]>? value) 
 					? value 
 					: new Dictionary<PublicKey, byte[]>();
 				
@@ -510,13 +508,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetSignatures"]/*' />
-		public virtual IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignatures()
+		public virtual Dictionary<AccountId, Dictionary<PublicKey, byte[]>> GetSignatures()
 		{
 			if (!IsFrozen())
 				throw new InvalidOperationException("Transaction must be frozen in order to have signatures.");
 
 			if (PublicKeys.Count == 0)
-				return new Dictionary<AccountId, IDictionary<PublicKey, byte[]>>();
+				return new Dictionary<AccountId, Dictionary<PublicKey, byte[]>>();
 
 			BuildAllTransactions();
 
@@ -524,12 +522,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetSignableNodeBodyBytesList"]/*' />
-		public virtual List<SignableNodeTransactionBodyBytes> GetSignableNodeBodyBytesList()
+		public virtual List<Transaction.SignableNodeTransactionBodyBytes> GetSignableNodeBodyBytesList()
 		{
 			if (!IsFrozen())
 				throw new Exception("Transaction is not frozen");
 
-			List<SignableNodeTransactionBodyBytes> signableNodeTransactionBodyBytesList = new();
+			List<Transaction.SignableNodeTransactionBodyBytes> signableNodeTransactionBodyBytesList = new();
 
 			for (int i = 0; i < InnerSignedTransactions.Count; i++)
 			{
@@ -539,7 +537,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				AccountId nodeID = AccountId.FromProtobuf(body.NodeAccountID);
 				TransactionId transactionID = TransactionId.FromProtobuf(body.TransactionID);
 
-				signableNodeTransactionBodyBytesList.Add(new SignableNodeTransactionBodyBytes(nodeID, transactionID, signableNodeTransactionBodyBytes.BodyBytes.ToByteArray()));
+				signableNodeTransactionBodyBytesList.Add(new Transaction.SignableNodeTransactionBodyBytes(nodeID, transactionID, signableNodeTransactionBodyBytes.BodyBytes.ToByteArray()));
 			}
 
 			return signableNodeTransactionBodyBytesList;
@@ -584,7 +582,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.GetTransactionHashPerNode"]/*' />
-		public virtual IDictionary<AccountId, byte[]> GetTransactionHashPerNode()
+		public virtual Dictionary<AccountId, byte[]> GetTransactionHashPerNode()
 		{
 			if (!IsFrozen())
 			{

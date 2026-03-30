@@ -1,14 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Java.Util;
-using Java.Util.Stream;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK
@@ -17,15 +11,17 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         public virtual void ValueOf()
         {
-            var codeValues = Proto.HederaFunctionality.Values();
-            var requestTypeValues = RequestType.Values();
-            var pair = IntStream.Range(0, codeValues.Length - 1).MapToObj((i) => Map.Entry(codeValues[i], requestTypeValues[i])).Collect(Collectors.ToList());
-            pair.ForEach((a) =>
+            var codeValues = Enum.GetValues<Proto.HederaFunctionality>();
+            var requestTypeValues = Enum.GetValues<RequestType>();
+
+            foreach (var pair in Enumerable
+                .Range(0, codeValues.Length - 1)
+                .Select(i => KeyValuePair.Create(codeValues[i], requestTypeValues[i])))
             {
-                var code = a.GetKey();
-                var requestType = a.GetValue();
-                Assert.Equal(RequestType.ValueOf(code).ToString(), requestType.ToString());
-            });
+                var code = pair.Key;
+                var requestType = pair.Value;
+                Assert.Equal(((RequestType)code).ToString(), requestType.ToString());
+            }
         }
 
         public virtual void ValueOfMapsNewFunctions()
@@ -44,23 +40,20 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void RoundTripNewEntries()
         {
-            var pairs = new object[]
+            var pairs = new object[][]
             {
-                new[]
-                {
+                [
                     Proto.HederaFunctionality.AtomicBatch,
                     RequestType.AtomicBatch
-                },
-                new[]
-                {
+                ],
+                [
                     Proto.HederaFunctionality.LambdaSstore,
                     RequestType.LambdaSstore
-                },
-                new[]
-                {
+                ],
+                [
                     Proto.HederaFunctionality.HookDispatch,
                     RequestType.HookDispatch
-				}
+				]
             };
 
             foreach (var pair in pairs)
@@ -69,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 var req = (RequestType)pair[1];
 
                 Assert.Equal((RequestType)code, req);
-                Assert.Equal((Proto.Hede)req, code);
+                Assert.Equal((Proto.HederaFunctionality)req, code);
             }
         }
     }

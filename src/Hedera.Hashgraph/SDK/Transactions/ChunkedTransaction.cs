@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return transactionHashes;
 		}
 		
-		public override IDictionary<AccountId, byte[]> GetTransactionHashPerNode()
+		public override Dictionary<AccountId, byte[]> GetTransactionHashPerNode()
         {
             if (OuterTransactions.Count > NodeAccountIds.Count)
             {
@@ -128,7 +128,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
             return base.GetTransactionHashPerNode();
         }
-        public override IDictionary<AccountId, IDictionary<PublicKey, byte[]>> GetSignatures()
+        public override Dictionary<AccountId, Dictionary<PublicKey, byte[]>> GetSignatures()
         {
             if (Data.Length > ChunkSize)
             {
@@ -265,7 +265,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return list;
 		}
 		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.GetAllSignatures"]/*' />
-		public virtual List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>> GetAllSignatures()
+		public virtual List<Dictionary<AccountId, Dictionary<PublicKey, byte[]>>> GetAllSignatures()
 		{
 			if (PublicKeys.Any() is false)
 			{
@@ -275,7 +275,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			BuildAllTransactions();
 			var txCount = TransactionIds.Count;
 			var nodeCount = NodeAccountIds.Count;
-			var retval = new List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>>(txCount);
+			var retval = new List<Dictionary<AccountId, Dictionary<PublicKey, byte[]>>>(txCount);
 			for (int i = 0; i < txCount; i++)
 			{
 				retval.Add(GetSignaturesAtOffset(i * nodeCount));

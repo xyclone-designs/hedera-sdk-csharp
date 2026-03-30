@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Time;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Topic;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Fees;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
@@ -35,25 +34,40 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TopicCreateTransaction();
-            var tx2 = Transaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TopicCreateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         private TopicCreateTransaction SpawnTestTransaction()
         {
-            return new TopicCreateTransaction().SetNodeAccountIds([AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]).SetTransactionId(TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)).SetSubmitKey(unusedPrivateKey).SetAdminKey(unusedPrivateKey).SetAutoRenewAccountId(AccountId.FromString("0.0.5007")).SetAutoRenewPeriod(TimeSpan.FromHours(24)).SetMaxTransactionFee(Hbar.FromTinybars(100000)).SetTopicMemo("hello memo").Freeze().Sign(unusedPrivateKey);
+            return new TopicCreateTransaction
+            {
+                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+                SubmitKey = unusedPrivateKey,
+                AdminKey = unusedPrivateKey,
+                AutoRenewAccountId = AccountId.FromString("0.0.5007"),
+                AutoRenewPeriod = TimeSpan.FromHours(24),
+                MaxTransactionFee = Hbar.FromTinybars(100000),
+                TopicMemo = "hello memo",
+            }
+            .Freeze()
+            .Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
-            var tx2 = TopicCreateTransaction.FromBytes(tx.ToBytes());
+            var tx2 = Transaction.FromBytes<TopicCreateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
         public virtual void FromScheduledTransaction()
         {
-            var transactionBody = SchedulableTransactionBody.NewBuilder().SetConsensusCreateTopic(ConsensusCreateTopicTransactionBody.NewBuilder().Build()).Build();
+            var transactionBody = new Proto.SchedulableTransactionBody
+            {
+                ConsensusCreateTopic = new Proto.ConsensusCreateTopicTransactionBody()
+            };
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TopicCreateTransaction>(tx);
         }
@@ -61,19 +75,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         public virtual void ShouldSetFeeScheduleKey()
         {
             PrivateKey feeScheduleKey = PrivateKey.GenerateECDSA();
-            TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransactionFeeScheduleKey = feeScheduleKey,;
-            Assert.Equal(topicCreateTransaction.GetFeeScheduleKey().ToString(), feeScheduleKey.ToString());
+            TopicCreateTransaction topicCreateTransaction = new () { FeeScheduleKey = feeScheduleKey };
+            Assert.Equal(topicCreateTransaction.FeeScheduleKey.ToString(), feeScheduleKey.ToString());
         }
 
         public virtual void ShouldSetFeeExemptKeys()
         {
             Key feeExemptKey1 = PrivateKey.GenerateECDSA();
             Key feeExemptKey2 = PrivateKey.GenerateECDSA();
-            IList<Key> feeExemptKeys = Arrays.AsList(feeExemptKey1, feeExemptKey2);
-            TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransactionFeeExemptKeys = feeExemptKeys,;
-            IList<Key> retrievedKeys = topicCreateTransaction.GetFeeExemptKeys();
+            IList<Key> feeExemptKeys = [feeExemptKey1, feeExemptKey2];
+            TopicCreateTransaction topicCreateTransaction = new () { FeeExemptKeys = [.. feeExemptKeys] };
+            IList<Key> retrievedKeys = topicCreateTransaction.FeeExemptKeys;
             for (int i = 0; i < feeExemptKeys.Count; i++)
             {
                 Assert.Equal(retrievedKeys[i].ToString(), feeExemptKeys[i].ToString());
@@ -82,48 +94,90 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         public virtual void ShouldAddFeeExemptKeyToEmptyList()
         {
-            TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
+            TopicCreateTransaction topicCreateTransaction = new ();
             PrivateKey feeExemptKeyToBeAdded = PrivateKey.GenerateECDSA();
-            topicCreateTransaction.AddFeeExemptKey(feeExemptKeyToBeAdded);
-            AssertThat(topicCreateTransaction.GetFeeExemptKeys()).HasSize(1).ContainsExactly(feeExemptKeyToBeAdded);
+            topicCreateTransaction.FeeExemptKeys.Add(feeExemptKeyToBeAdded);
+
+            Assert.Equal(topicCreateTransaction.FeeExemptKeys, [feeExemptKeyToBeAdded]);
         }
 
         public virtual void ShouldAddFeeExemptKeyToList()
         {
             PrivateKey feeExemptKey = PrivateKey.GenerateECDSA();
-            TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransaction.SetFeeExemptKeys(new List(List.Of(feeExemptKey)));
+            TopicCreateTransaction topicCreateTransaction = new () { FeeExemptKeys = [feeExemptKey] };
             Key feeExemptKeyToBeAdded = PrivateKey.GenerateECDSA();
-            topicCreateTransaction.AddFeeExemptKey(feeExemptKeyToBeAdded);
-            AssertThat(topicCreateTransaction.GetFeeExemptKeys()).HasSize(2).ContainsExactly(feeExemptKey, feeExemptKeyToBeAdded);
+            topicCreateTransaction.FeeExemptKeys.Add(feeExemptKeyToBeAdded);
+
+            Assert.Equal(topicCreateTransaction.FeeExemptKeys, [feeExemptKey, feeExemptKeyToBeAdded]);
         }
 
         public virtual void ShouldSetTopicCustomFees()
         {
-            IList<CustomFixedFee> customFixedFees = new List(List.Of(new CustomFixedFee().SetAmount(1).SetDenominatingTokenId(new TokenId(0, 0, 0)), new CustomFixedFee().SetAmount(2).SetDenominatingTokenId(new TokenId(0, 0, 1)), new CustomFixedFee().SetAmount(3).SetDenominatingTokenId(new TokenId(0, 0, 2))));
-            TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransaction.SetCustomFees(customFixedFees);
-            AssertThat(topicCreateTransaction.GetCustomFees()).HasSize(customFixedFees.Count).ContainsExactlyElementsOf(customFixedFees);
+            IList<CustomFixedFee> customFixedFees =
+            [
+                new CustomFixedFee
+                {
+                    Amount = 1,
+                    DenominatingTokenId = new TokenId(0, 0, 0)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 2,
+                    DenominatingTokenId = new TokenId(0, 0, 1)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 3,
+                    DenominatingTokenId = new TokenId(0, 0, 2)
+                },
+            ];
+            TopicCreateTransaction topicCreateTransaction = new () { CustomFees = [..customFixedFees] };
+            Assert.Equal(topicCreateTransaction.CustomFees, customFixedFees);
         }
 
         public virtual void ShouldAddTopicCustomFeeToList()
         {
-            IList<CustomFixedFee> customFixedFees = new List(List.Of(new CustomFixedFee().SetAmount(1).SetDenominatingTokenId(new TokenId(0, 0, 0)), new CustomFixedFee().SetAmount(2).SetDenominatingTokenId(new TokenId(0, 0, 1)), new CustomFixedFee().SetAmount(3).SetDenominatingTokenId(new TokenId(0, 0, 2))));
-            CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee().SetAmount(4).SetDenominatingTokenId(new TokenId(0, 0, 3));
-            IList<CustomFixedFee> expectedCustomFees = new List(customFixedFees);
-            expectedCustomFees.Add(customFixedFeeToBeAdded);
-            TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransaction.SetCustomFees(customFixedFees);
-            topicCreateTransaction.AddCustomFee(customFixedFeeToBeAdded);
-            AssertThat(topicCreateTransaction.GetCustomFees()).HasSize(expectedCustomFees.Count).ContainsExactlyElementsOf(expectedCustomFees);
+            IList<CustomFixedFee> customFixedFees =
+            [
+                new CustomFixedFee
+                {
+                    Amount = 1,
+                    DenominatingTokenId = new TokenId(0, 0, 0)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 2,
+                    DenominatingTokenId = new TokenId(0, 0, 1)
+                },
+                new CustomFixedFee
+                {
+                    Amount = 3,
+                    DenominatingTokenId = new TokenId(0, 0, 2)
+                },
+            ];
+
+            CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee
+            {
+                Amount = 4,
+                DenominatingTokenId = new TokenId(0, 0, 3)
+            };
+            IList<CustomFixedFee> expectedCustomFees = [ .. customFixedFees, customFixedFeeToBeAdded];
+            TopicCreateTransaction topicCreateTransaction = new () { CustomFees = [.. customFixedFees] };
+            topicCreateTransaction.CustomFees.Add(customFixedFeeToBeAdded);
+            Assert.Equal(topicCreateTransaction.CustomFees, expectedCustomFees);
         }
 
         public virtual void ShouldAddTopicCustomFeeToEmptyList()
         {
-            CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee().SetAmount(4).SetDenominatingTokenId(new TokenId(0, 0, 3));
-            TopicCreateTransaction topicCreateTransaction = new TopicCreateTransaction();
-            topicCreateTransaction.AddCustomFee(customFixedFeeToBeAdded);
-            AssertThat(topicCreateTransaction.GetCustomFees()).HasSize(1).ContainsExactly(customFixedFeeToBeAdded);
+            CustomFixedFee customFixedFeeToBeAdded = new()
+            {
+                Amount = 4,
+                DenominatingTokenId = new TokenId(0, 0, 3)
+            };
+            TopicCreateTransaction topicCreateTransaction = new();
+            topicCreateTransaction.CustomFees.Add(customFixedFeeToBeAdded);
+
+            Assert.Equal(topicCreateTransaction.CustomFees, [customFixedFeeToBeAdded]);
         }
     }
 }

@@ -15,13 +15,13 @@
           }
         }
       },
-      "coverlet.collector/6.0.4": {
+      "coverlet.collector/8.0.1": {
         "type": "package",
         "build": {
-          "build/netstandard2.0/coverlet.collector.targets": {}
+          "build/net8.0/coverlet.collector.targets": {}
         }
       },
-      "Google.Protobuf/3.33.5": {
+      "Google.Protobuf/3.34.1": {
         "type": "package",
         "compile": {
           "lib/net5.0/Google.Protobuf.dll": {
@@ -91,7 +91,7 @@
           }
         }
       },
-      "Microsoft.CodeCoverage/18.0.1": {
+      "Microsoft.CodeCoverage/18.3.0": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll": {}
@@ -104,11 +104,11 @@
           "build/netstandard2.0/Microsoft.CodeCoverage.targets": {}
         }
       },
-      "Microsoft.NET.Test.Sdk/18.0.1": {
+      "Microsoft.NET.Test.Sdk/18.3.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.0.1",
-          "Microsoft.TestPlatform.TestHost": "18.0.1"
+          "Microsoft.CodeCoverage": "18.3.0",
+          "Microsoft.TestPlatform.TestHost": "18.3.0"
         },
         "compile": {
           "lib/net8.0/_._": {}
@@ -121,7 +121,7 @@
           "build/net8.0/Microsoft.NET.Test.Sdk.targets": {}
         }
       },
-      "Microsoft.TestPlatform.ObjectModel/18.0.1": {
+      "Microsoft.TestPlatform.ObjectModel/18.3.0": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.TestPlatform.CoreUtilities.dll": {},
@@ -214,10 +214,10 @@
           }
         }
       },
-      "Microsoft.TestPlatform.TestHost/18.0.1": {
+      "Microsoft.TestPlatform.TestHost/18.3.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.0.1",
+          "Microsoft.TestPlatform.ObjectModel": "18.3.0",
           "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
@@ -368,57 +368,57 @@
           "build/net8.0/Microsoft.TestPlatform.TestHost.targets": {}
         }
       },
-      "Nethereum.ABI/5.8.0": {
+      "Nethereum.ABI/6.1.0": {
         "type": "package",
         "dependencies": {
-          "Nethereum.Hex": "5.8.0",
-          "Nethereum.Util": "5.8.0",
+          "Nethereum.Hex": "6.1.0",
+          "Nethereum.Util": "6.1.0",
           "Newtonsoft.Json": "[11.0.2, 14.0.0)"
         },
         "compile": {
-          "lib/net9.0/Nethereum.ABI.dll": {}
+          "lib/net10.0/Nethereum.ABI.dll": {}
         },
         "runtime": {
-          "lib/net9.0/Nethereum.ABI.dll": {}
+          "lib/net10.0/Nethereum.ABI.dll": {}
         }
       },
-      "Nethereum.Hex/5.8.0": {
+      "Nethereum.Hex/6.1.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "[11.0.2, 14.0.0)"
         },
         "compile": {
-          "lib/net9.0/Nethereum.Hex.dll": {}
+          "lib/net10.0/Nethereum.Hex.dll": {}
         },
         "runtime": {
-          "lib/net9.0/Nethereum.Hex.dll": {}
+          "lib/net10.0/Nethereum.Hex.dll": {}
         }
       },
-      "Nethereum.RLP/5.8.0": {
+      "Nethereum.RLP/6.1.0": {
         "type": "package",
         "dependencies": {
-          "Nethereum.Hex": "5.8.0",
+          "Nethereum.Hex": "6.1.0",
           "Newtonsoft.Json": "[11.0.2, 14.0.0)"
         },
         "compile": {
-          "lib/net9.0/Nethereum.RLP.dll": {}
+          "lib/net10.0/Nethereum.RLP.dll": {}
         },
         "runtime": {
-          "lib/net9.0/Nethereum.RLP.dll": {}
+          "lib/net10.0/Nethereum.RLP.dll": {}
         }
       },
-      "Nethereum.Util/5.8.0": {
+      "Nethereum.Util/6.1.0": {
         "type": "package",
         "dependencies": {
-          "Nethereum.Hex": "5.8.0",
-          "Nethereum.RLP": "5.8.0",
+          "Nethereum.Hex": "6.1.0",
+          "Nethereum.RLP": "6.1.0",
           "Newtonsoft.Json": "[11.0.2, 14.0.0)"
         },
         "compile": {
-          "lib/net9.0/Nethereum.Util.dll": {}
+          "lib/net10.0/Nethereum.Util.dll": {}
         },
         "runtime": {
-          "lib/net9.0/Nethereum.Util.dll": {}
+          "lib/net10.0/Nethereum.Util.dll": {}
         }
       },
       "Newtonsoft.Json/13.0.4": {
@@ -535,10 +535,10 @@
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
           "BouncyCastle.Cryptography": "2.6.2",
-          "Google.Protobuf": "3.33.5",
+          "Google.Protobuf": "3.34.1",
           "Grpc": "2.46.6",
-          "Nethereum.ABI": "5.8.0",
-          "Nethereum.RLP": "5.8.0",
+          "Nethereum.ABI": "6.1.0",
+          "Nethereum.RLP": "6.1.0",
           "Newtonsoft.Json": "13.0.4"
         },
         "compile": {
@@ -571,84 +571,80 @@
         "packageIcon.png"
       ]
     },
-    "coverlet.collector/6.0.4": {
-      "sha512": "lkhqpF8Pu2Y7IiN7OntbsTtdbpR1syMsm2F3IgX6ootA4ffRqWL5jF7XipHuZQTdVuWG/gVAAcf8mjk8Tz0xPg==",
+    "coverlet.collector/8.0.1": {
+      "sha512": "heVQl5tKYnnIDYlR1QMVGueYH6iriZTcZB6AjDczQNwZzxkjDIt9C84Pt4cCiZYrbo7jkZOYGWbs6Lo9wAtVLg==",
       "type": "package",
-      "path": "coverlet.collector/6.0.4",
+      "path": "coverlet.collector/8.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "VSTestIntegration.md",
-        "build/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll",
-        "build/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
-        "build/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll",
-        "build/netstandard2.0/Microsoft.Extensions.DependencyModel.dll",
-        "build/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll",
-        "build/netstandard2.0/Microsoft.TestPlatform.CoreUtilities.dll",
-        "build/netstandard2.0/Microsoft.TestPlatform.PlatformAbstractions.dll",
-        "build/netstandard2.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll",
-        "build/netstandard2.0/Mono.Cecil.Mdb.dll",
-        "build/netstandard2.0/Mono.Cecil.Pdb.dll",
-        "build/netstandard2.0/Mono.Cecil.Rocks.dll",
-        "build/netstandard2.0/Mono.Cecil.dll",
-        "build/netstandard2.0/Newtonsoft.Json.dll",
-        "build/netstandard2.0/NuGet.Frameworks.dll",
-        "build/netstandard2.0/NuGet.Versioning.dll",
-        "build/netstandard2.0/System.Buffers.dll",
-        "build/netstandard2.0/System.Collections.Immutable.dll",
-        "build/netstandard2.0/System.Memory.dll",
-        "build/netstandard2.0/System.Numerics.Vectors.dll",
-        "build/netstandard2.0/System.Reflection.Metadata.dll",
-        "build/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
-        "build/netstandard2.0/System.Text.Encodings.Web.dll",
-        "build/netstandard2.0/System.Text.Json.dll",
-        "build/netstandard2.0/System.Threading.Tasks.Extensions.dll",
-        "build/netstandard2.0/coverlet.collector.deps.json",
-        "build/netstandard2.0/coverlet.collector.dll",
-        "build/netstandard2.0/coverlet.collector.pdb",
-        "build/netstandard2.0/coverlet.collector.targets",
-        "build/netstandard2.0/coverlet.core.dll",
-        "build/netstandard2.0/coverlet.core.pdb",
-        "build/netstandard2.0/coverlet.core.xml",
-        "build/netstandard2.0/cs/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/cs/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/de/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/de/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/es/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/es/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/fr/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/fr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/it/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/it/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/ja/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/ja/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/ko/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/ko/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/pl/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/pl/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/pt-BR/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/pt-BR/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/ru/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/ru/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/tr/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/tr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/zh-Hans/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "build/netstandard2.0/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll",
-        "build/netstandard2.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "_manifest/spdx_2.2/manifest.spdx.json",
+        "_manifest/spdx_2.2/manifest.spdx.json.sha256",
+        "build/net8.0/Microsoft.Bcl.AsyncInterfaces.dll",
+        "build/net8.0/Microsoft.Bcl.Cryptography.dll",
+        "build/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "build/net8.0/Microsoft.Extensions.DependencyInjection.dll",
+        "build/net8.0/Microsoft.Extensions.DependencyModel.dll",
+        "build/net8.0/Microsoft.Extensions.FileSystemGlobbing.dll",
+        "build/net8.0/Microsoft.TestPlatform.CoreUtilities.dll",
+        "build/net8.0/Microsoft.TestPlatform.PlatformAbstractions.dll",
+        "build/net8.0/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll",
+        "build/net8.0/Mono.Cecil.Mdb.dll",
+        "build/net8.0/Mono.Cecil.Pdb.dll",
+        "build/net8.0/Mono.Cecil.Rocks.dll",
+        "build/net8.0/Mono.Cecil.dll",
+        "build/net8.0/NuGet.Frameworks.dll",
+        "build/net8.0/NuGet.Versioning.dll",
+        "build/net8.0/System.Formats.Asn1.dll",
+        "build/net8.0/System.Security.Cryptography.Pkcs.dll",
+        "build/net8.0/coverlet.collector.deps.json",
+        "build/net8.0/coverlet.collector.dll",
+        "build/net8.0/coverlet.collector.pdb",
+        "build/net8.0/coverlet.collector.targets",
+        "build/net8.0/coverlet.core.dll",
+        "build/net8.0/coverlet.core.pdb",
+        "build/net8.0/coverlet.core.xml",
+        "build/net8.0/cs/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/cs/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/de/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/de/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/es/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/es/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/fr/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/fr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/it/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/it/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/ja/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/ja/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/ko/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/ko/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/pl/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/pl/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/pt-BR/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/pt-BR/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/ru/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/ru/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/runtimes/win/lib/net8.0/System.Security.Cryptography.Pkcs.dll",
+        "build/net8.0/tr/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/tr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/zh-Hans/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+        "build/net8.0/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+        "build/net8.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
         "coverlet-icon.png",
-        "coverlet.collector.6.0.4.nupkg.sha512",
+        "coverlet.collector.8.0.1.nupkg.sha512",
         "coverlet.collector.nuspec"
       ]
     },
-    "Google.Protobuf/3.33.5": {
-      "sha512": "XEzLpCTosZb5I6eGSPn7rAES0VfkJkn3Cqydh0W39POdZwkdhPhOmAROTFJF9g0ardst4ulNXRm/q/iXwNu+Qw==",
+    "Google.Protobuf/3.34.1": {
+      "sha512": "212vdYxRuVopGE5bess6Jg5oXWyizA6hcLPTI7G+qA4PthQEvfeof3njT+7VSY5v/+O0P22xTydiP5fSJJpGEA==",
       "type": "package",
-      "path": "google.protobuf/3.33.5",
+      "path": "google.protobuf/3.34.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "google.protobuf.3.33.5.nupkg.sha512",
+        "google.protobuf.3.34.1.nupkg.sha512",
         "google.protobuf.nuspec",
         "lib/net45/Google.Protobuf.dll",
         "lib/net45/Google.Protobuf.pdb",
@@ -728,10 +724,10 @@
         "packageIcon.png"
       ]
     },
-    "Microsoft.CodeCoverage/18.0.1": {
-      "sha512": "O+utSr97NAJowIQT/OVp3Lh9QgW/wALVTP4RG1m2AfFP4IyJmJz0ZBmFJUsRQiAPgq6IRC0t8AAzsiPIsaUDEA==",
+    "Microsoft.CodeCoverage/18.3.0": {
+      "sha512": "23BNy/vziREC20Wwhb50K7+kZe0m07KlLWDQv4qjJ9tt3QjpDpDIqJFrhYHmMEo9xDkuSp55U/8h4bMF7MiB+g==",
       "type": "package",
-      "path": "microsoft.codecoverage/18.0.1",
+      "path": "microsoft.codecoverage/18.3.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -806,14 +802,14 @@
         "build/netstandard2.0/zh-Hant/Microsoft.VisualStudio.TraceDataCollector.resources.dll",
         "lib/net462/Microsoft.VisualStudio.CodeCoverage.Shim.dll",
         "lib/net8.0/Microsoft.VisualStudio.CodeCoverage.Shim.dll",
-        "microsoft.codecoverage.18.0.1.nupkg.sha512",
+        "microsoft.codecoverage.18.3.0.nupkg.sha512",
         "microsoft.codecoverage.nuspec"
       ]
     },
-    "Microsoft.NET.Test.Sdk/18.0.1": {
-      "sha512": "WNpu6vI2rA0pXY4r7NKxCN16XRWl5uHu6qjuyVLoDo6oYEggIQefrMjkRuibQHm/NslIUNCcKftvoWAN80MSAg==",
+    "Microsoft.NET.Test.Sdk/18.3.0": {
+      "sha512": "xW3kXuWRQtgoxJp4J+gdhHSQyK+6Wb/AZDSd7lMvuMRYlZ1tnpkojyfZlWilB5G4dmZ0Y0ZxU/M23TlubndNkw==",
       "type": "package",
-      "path": "microsoft.net.test.sdk/18.0.1",
+      "path": "microsoft.net.test.sdk/18.3.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -838,14 +834,14 @@
         "lib/native/_._",
         "lib/net462/_._",
         "lib/net8.0/_._",
-        "microsoft.net.test.sdk.18.0.1.nupkg.sha512",
+        "microsoft.net.test.sdk.18.3.0.nupkg.sha512",
         "microsoft.net.test.sdk.nuspec"
       ]
     },
-    "Microsoft.TestPlatform.ObjectModel/18.0.1": {
-      "sha512": "qT/mwMcLF9BieRkzOBPL2qCopl8hQu6A1P7JWAoj/FMu5i9vds/7cjbJ/LLtaiwWevWLAeD5v5wjQJ/l6jvhWQ==",
+    "Microsoft.TestPlatform.ObjectModel/18.3.0": {
+      "sha512": "AEIEX2aWdPO9XbtR96eBaJxmXRD9vaI9uQ1T/JbPEKlTAZwYx0ZrMzKyULMdh/HH9Sg03kXCoN7LszQ90o6nPQ==",
       "type": "package",
-      "path": "microsoft.testplatform.objectmodel/18.0.1",
+      "path": "microsoft.testplatform.objectmodel/18.3.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -937,14 +933,14 @@
         "lib/netstandard2.0/zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
         "lib/netstandard2.0/zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll",
         "lib/netstandard2.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
-        "microsoft.testplatform.objectmodel.18.0.1.nupkg.sha512",
+        "microsoft.testplatform.objectmodel.18.3.0.nupkg.sha512",
         "microsoft.testplatform.objectmodel.nuspec"
       ]
     },
-    "Microsoft.TestPlatform.TestHost/18.0.1": {
-      "sha512": "uDJKAEjFTaa2wHdWlfo6ektyoh+WD4/Eesrwb4FpBFKsLGehhACVnwwTI4qD3FrIlIEPlxdXg3SyrYRIcO+RRQ==",
+    "Microsoft.TestPlatform.TestHost/18.3.0": {
+      "sha512": "twmsoelXnp1uWMU3VGip9f0Jr1mZ0PZqgJdF35CIrdYgYrkHIJMV1m8uKyhcdjLdsQDESHAgkR7KhS9i1qpJag==",
       "type": "package",
-      "path": "microsoft.testplatform.testhost/18.0.1",
+      "path": "microsoft.testplatform.testhost/18.3.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1007,87 +1003,91 @@
         "lib/net8.0/zh-Hant/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
         "lib/net8.0/zh-Hant/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
         "lib/net8.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
-        "microsoft.testplatform.testhost.18.0.1.nupkg.sha512",
+        "microsoft.testplatform.testhost.18.3.0.nupkg.sha512",
         "microsoft.testplatform.testhost.nuspec"
       ]
     },
-    "Nethereum.ABI/5.8.0": {
-      "sha512": "KS4pmdyXhnF0MHIz6UmHxa2uBzq6fIvoaeB2mBHCxLnIJwwMIhSE1kM/ajApTQ/5uNp9nzh3/2UCYJdXRTY0sw==",
+    "Nethereum.ABI/6.1.0": {
+      "sha512": "+mTy/L7v+opVJVbj2iCsAFrphOjHgXrmD6cLuB4Dhw8VcJZq9BVfqtk/o4f35goKXFvxlUD+4WPRkQ9gQZUtlw==",
       "type": "package",
-      "path": "nethereum.abi/5.8.0",
+      "path": "nethereum.abi/6.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
         "README.md",
         "images/logo64x64.png",
+        "lib/net10.0/Nethereum.ABI.dll",
         "lib/net451/Nethereum.ABI.dll",
         "lib/net461/Nethereum.ABI.dll",
         "lib/net6.0/Nethereum.ABI.dll",
         "lib/net8.0/Nethereum.ABI.dll",
         "lib/net9.0/Nethereum.ABI.dll",
         "lib/netstandard2.0/Nethereum.ABI.dll",
-        "nethereum.abi.5.8.0.nupkg.sha512",
+        "nethereum.abi.6.1.0.nupkg.sha512",
         "nethereum.abi.nuspec"
       ]
     },
-    "Nethereum.Hex/5.8.0": {
-      "sha512": "J0PnMx2/Ck1rw13xSJ7L8v7vEBNLcMKA8AjqA4y8Nqkqp/Przkvi0Um8DHViwqj+TI/gZV8L35kb6nFi/VjdgQ==",
+    "Nethereum.Hex/6.1.0": {
+      "sha512": "GdXoJK9rzlCbpuurwcXiA8zHpH4aUR0tEhxuz1+5ZjbJNgUTFvDyAo0RdymeKXnIpxF5Y6rV7Cj+FjCISPNdbQ==",
       "type": "package",
-      "path": "nethereum.hex/5.8.0",
+      "path": "nethereum.hex/6.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
         "README.md",
         "images/logo64x64.png",
+        "lib/net10.0/Nethereum.Hex.dll",
         "lib/net451/Nethereum.Hex.dll",
         "lib/net461/Nethereum.Hex.dll",
         "lib/net6.0/Nethereum.Hex.dll",
         "lib/net8.0/Nethereum.Hex.dll",
         "lib/net9.0/Nethereum.Hex.dll",
         "lib/netstandard2.0/Nethereum.Hex.dll",
-        "nethereum.hex.5.8.0.nupkg.sha512",
+        "nethereum.hex.6.1.0.nupkg.sha512",
         "nethereum.hex.nuspec"
       ]
     },
-    "Nethereum.RLP/5.8.0": {
-      "sha512": "1VTyApun2jyQQ44XMEtjMJRPv9gtppDq5iz4iP5ZvwMdcZgYkI9DWhEMveh5Rl8RMSXLJ4SzioNUc3gO0mRwTg==",
+    "Nethereum.RLP/6.1.0": {
+      "sha512": "YqruGIsCHitMFh0OmvoRpPQOUlku81GpE5eI4fP7H4kSg+ty3+K/TXh8fXzmyljs75qQbv/Ss0bHxFDiopV51w==",
       "type": "package",
-      "path": "nethereum.rlp/5.8.0",
+      "path": "nethereum.rlp/6.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
         "README.md",
         "images/logo64x64.png",
+        "lib/net10.0/Nethereum.RLP.dll",
         "lib/net451/Nethereum.RLP.dll",
         "lib/net461/Nethereum.RLP.dll",
         "lib/net6.0/Nethereum.RLP.dll",
         "lib/net8.0/Nethereum.RLP.dll",
         "lib/net9.0/Nethereum.RLP.dll",
         "lib/netstandard2.0/Nethereum.RLP.dll",
-        "nethereum.rlp.5.8.0.nupkg.sha512",
+        "nethereum.rlp.6.1.0.nupkg.sha512",
         "nethereum.rlp.nuspec"
       ]
     },
-    "Nethereum.Util/5.8.0": {
-      "sha512": "U1BZxkgh4Gs1UARst6QcL5aloN/SjxbuFdRSsEe+tBSXMVnf60rxr82yNKbHenPqP1p2DhVXcSDov/sKfdoY2Q==",
+    "Nethereum.Util/6.1.0": {
+      "sha512": "v1CLFG/p/pSyaZeYLO7x+bToBkfVRWnxmmyX3FRgATStxtbMGjV71RSuDIVmdeIEYKgxlGuPBZkjswUUynNtIg==",
       "type": "package",
-      "path": "nethereum.util/5.8.0",
+      "path": "nethereum.util/6.1.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.md",
         "README.md",
         "images/logo64x64.png",
+        "lib/net10.0/Nethereum.Util.dll",
         "lib/net451/Nethereum.Util.dll",
         "lib/net461/Nethereum.Util.dll",
         "lib/net6.0/Nethereum.Util.dll",
         "lib/net8.0/Nethereum.Util.dll",
         "lib/net9.0/Nethereum.Util.dll",
         "lib/netstandard2.0/Nethereum.Util.dll",
-        "nethereum.util.5.8.0.nupkg.sha512",
+        "nethereum.util.6.1.0.nupkg.sha512",
         "nethereum.util.nuspec"
       ]
     },
@@ -1270,29 +1270,27 @@
   "projectFileDependencyGroups": {
     "net10.0": [
       "Hedera.Hashgraph >= 1.0.0",
-      "Microsoft.NET.Test.Sdk >= 18.0.1",
-      "coverlet.collector >= 6.0.4",
+      "Microsoft.NET.Test.Sdk >= 18.3.0",
+      "coverlet.collector >= 8.0.1",
       "xunit >= 2.9.3",
       "xunit.runner.visualstudio >= 3.1.5"
     ]
   },
   "packageFolders": {
     "C:\\Users\\Thando Ndlovu\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
+      "projectUniqueName": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
       "projectName": "Hedera.Hashgraph.Tests.Integration",
-      "projectPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
+      "projectPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
       "packagesPath": "C:\\Users\\Thando Ndlovu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\obj\\",
+      "outputPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\Thando Ndlovu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1304,18 +1302,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {},
-        "C:\\Users\\Thando Ndlovu\\.nuget\\packages": {},
-        "C:\\Users\\Thando Ndlovu\\Programming\\Packages\\Nuget": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj": {
-              "projectPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj"
+            "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj": {
+              "projectPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj"
             }
           }
         }
@@ -1330,7 +1324,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net10.0": {
@@ -1338,11 +1332,13 @@
         "dependencies": {
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
-            "version": "[18.0.1, )"
+            "version": "[18.3.0, )"
           },
           "coverlet.collector": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
             "target": "Package",
-            "version": "[6.0.4, )"
+            "version": "[8.0.1, )"
           },
           "xunit": {
             "target": "Package",
@@ -1371,7 +1367,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

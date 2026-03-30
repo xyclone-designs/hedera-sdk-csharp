@@ -79,9 +79,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var transactionBody = new Proto.TokenDissociateTransactionBody
             {
-				Account = testAccountId.ToProtobuf()
-			
-            }.AddAllTokens(testTokenIds.Select(_ => _.ToProtobuf());
+                Account = testAccountId.ToProtobuf(),
+
+            };
+            transactionBody.Tokens.AddRange(testTokenIds.Select(_ => _.ToProtobuf()));
 
             var tx = new Proto.TransactionBody
             {

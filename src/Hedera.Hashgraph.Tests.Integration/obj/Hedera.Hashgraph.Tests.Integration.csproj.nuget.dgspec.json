@@ -1,21 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj": {}
+    "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj": {
+    "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
+        "projectUniqueName": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
         "projectName": "Hedera.Hashgraph.Tests.Integration",
-        "projectPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
+        "projectPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\Hedera.Hashgraph.Tests.Integration.csproj",
         "packagesPath": "C:\\Users\\Thando Ndlovu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\obj\\",
+        "outputPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph.Tests.Integration\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\Thando Ndlovu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -27,18 +26,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {},
-          "C:\\Users\\Thando Ndlovu\\.nuget\\packages": {},
-          "C:\\Users\\Thando Ndlovu\\Programming\\Packages\\Nuget": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj": {
-                "projectPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj"
+              "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj": {
+                "projectPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj"
               }
             }
           }
@@ -53,7 +48,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -61,11 +56,13 @@
           "dependencies": {
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[18.0.1, )"
+              "version": "[18.3.0, )"
             },
             "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.4, )"
+              "version": "[8.0.1, )"
             },
             "xunit": {
               "target": "Package",
@@ -94,7 +91,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -372,18 +369,17 @@
         }
       }
     },
-    "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj": {
+    "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj",
+        "projectUniqueName": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj",
         "projectName": "Hedera.Hashgraph",
-        "projectPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj",
+        "projectPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\Hedera.Hashgraph.csproj",
         "packagesPath": "C:\\Users\\Thando Ndlovu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Thando Ndlovu\\Desktop\\github\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\obj\\",
+        "outputPath": "C:\\Users\\Thando Ndlovu\\Documents\\GitHub\\xyclone-designs\\hedera-sdk-csharp\\src\\Hedera.Hashgraph\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\Thando Ndlovu\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -395,10 +391,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {},
-          "C:\\Users\\Thando Ndlovu\\.nuget\\packages": {},
-          "C:\\Users\\Thando Ndlovu\\Programming\\Packages\\Nuget": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -417,7 +409,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -429,7 +421,7 @@
             },
             "Google.Protobuf": {
               "target": "Package",
-              "version": "[3.33.5, )"
+              "version": "[3.34.1, )"
             },
             "Grpc": {
               "target": "Package",
@@ -443,11 +435,11 @@
             },
             "Nethereum.ABI": {
               "target": "Package",
-              "version": "[5.8.0, )"
+              "version": "[6.1.0, )"
             },
             "Nethereum.RLP": {
               "target": "Package",
-              "version": "[5.8.0, )"
+              "version": "[6.1.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -470,7 +462,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

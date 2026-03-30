@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Airdrops;
@@ -67,7 +65,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void TestConstructorSetsDefaultMaxTransactionFee()
         {
-            Assert.Equal(Hbar.From(1), transaction.GetDefaultMaxTransactionFee());
+            Assert.Equal(Hbar.From(1), transaction.DefaultMaxTransactionFee);
         }
 
         public virtual void TestGetAndSetPendingAirdropIds()
@@ -83,16 +81,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void TestSetPendingAirdropIdsNullThrowsException()
         {
-            Assert.Throws<NullReferenceException>(() => transaction.PendingAirdropIds = null));
+            Assert.Throws<NullReferenceException>(() => transaction.PendingAirdropIds = null);
         }
 
         public virtual void TestClearPendingAirdropIds()
         {
-            IList<PendingAirdropId> pendingAirdropIds = new List();
-            PendingAirdropId pendingAirdropId = new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
+            IList<PendingAirdropId> pendingAirdropIds = [];
+            PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
             pendingAirdropIds.Add(pendingAirdropId);
-            transaction.PendingAirdropIds = pendingAirdropIds);
-            transaction.ClearPendingAirdropIds();
+            transaction.PendingAirdropIds = pendingAirdropIds;
+            transaction.PendingAirdropIds.Clear();
             Assert.True(transaction.PendingAirdropIds.Count == 0);
         }
 
@@ -130,7 +128,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var bodyBuilder = new Proto.TransactionBody();
             transaction.OnFreeze(bodyBuilder);
 
-            Assert.True(bodyBuilder.HasTokenClaimAirdrop());
+            Assert.True(bodyBuilder.TokenClaimAirdrop is not null);
         }
 
         public virtual void TestOnScheduled()
@@ -138,7 +136,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Proto.SchedulableTransactionBody scheduled = new ();
             transaction.OnScheduled(scheduled);
             
-            Assert.True(scheduled.HasTokenClaimAirdrop());
+            Assert.True(scheduled.TokenClaimAirdrop is not null);
         }
     }
 }

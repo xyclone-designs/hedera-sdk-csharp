@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-	public static class Transaction
+	public static partial class Transaction
 	{
 		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromDays(90)"]/*' />
 		internal static readonly TimeSpan DEFAULT_AUTO_RENEW_PERIOD = TimeSpan.FromDays(90);
