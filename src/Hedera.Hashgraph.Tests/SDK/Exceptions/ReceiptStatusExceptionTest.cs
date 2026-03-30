@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Exceptions
         public virtual void ShouldHaveMessage()
         {
             var validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-            var txId = new TransactionId(new AccountId(0, 0, 100), Timestamp.FromDateTimeOffset(validStart));
+            var txId = new TransactionId(new AccountId(0, 0, 100), validStart);
             var txReceipt = TransactionReceipt.FromProtobuf(new Proto.TransactionReceipt { Status = Proto.ResponseCodeEnum.InsufficientTxFee });
             var e = new ReceiptStatusException(txId, txReceipt);
 

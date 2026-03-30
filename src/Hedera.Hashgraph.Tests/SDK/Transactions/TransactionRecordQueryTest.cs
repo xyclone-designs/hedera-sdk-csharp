@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             return new TransactionRecordQuery
             {
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5005"), Timestamp.FromDateTimeOffset(validStart)),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5005"), validStart),
 				IncludeChildren = true,
 				IncludeDuplicates = true,
 			};

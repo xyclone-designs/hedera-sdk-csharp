@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {

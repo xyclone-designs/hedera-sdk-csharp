@@ -1,19 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Hedera.Hashgraph.Sdk.Logger;
-using Proto;
-using Io.Grpc;
-using Io.Grpc.Inprocess;
-using Io.Grpc.Stub;
-using Java.Io;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Concurrent.Atomic;
+using Google.Protobuf.Reflection;
+
+using Grpc.Core;
+
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Keys;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Threading;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -21,30 +18,37 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         private static readonly PrivateKey PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420d45e1557156908c967804615af59a000be88c7aa7058bfcbe0f46b16c28f887d");
         public readonly Client client;
-        private readonly List<ServiceDescriptor> services = List.Of(CryptoServiceGrpc.GetServiceDescriptor(), FileServiceGrpc.GetServiceDescriptor(), SmartContractServiceGrpc.GetServiceDescriptor(), ConsensusServiceGrpc.GetServiceDescriptor(), TokenServiceGrpc.GetServiceDescriptor());
+        private readonly List<ServiceDescriptor> services = 
+        [
+            Proto.CryptoService.Descriptor, 
+            Proto.FileService.Descriptor, 
+            Proto.SmartContractService.Descriptor, 
+            Proto.ConsensusService.Descriptor, 
+            Proto.TokenService.Descriptor 
+        ];
         private readonly List<IList<object>> responses;
-        private readonly List<Server> servers = new List();
+        private readonly List<Server> servers = [];
+        
         Mocker(IList<IList<object>> responses)
         {
-            this.responses = responses;
+            this.responses = [.. responses];
             var network = new Dictionary<string, AccountId>(responses.Count);
             for (var i = 0; i < responses.Count; i++)
             {
-                var index = new AtomicInteger();
+                var index = 0;
                 var response = responses[i];
                 var name = InProcessServerBuilder.GenerateName();
                 var nodeAccountId = new AccountId(0, 0, 3 + i);
                 var builder = InProcessServerBuilder.ForName(name);
                 ConfigureServerBuilder(builder);
-                network.Put("in-process:" + name, nodeAccountId);
+                network.Add("in-process:" + name, nodeAccountId);
                 foreach (var service in services)
                 {
-                    var descriptor = ServerServiceDefinition(service);
-                    foreach (MethodDescriptor<?, ?> method in service.GetMethods())
+                    foreach (MethodDescriptor method in service.Methods)
                     {
-                        var methodDefinition = ServerMethodDefinition.Create((MethodDescriptor<object, object>)method, ServerCalls.AsyncUnaryCall((request, responseObserver) =>
+                        var methodDefinition = ServerMethodDefinition.Create((MethodDescriptor)method, ServerCalls.AsyncUnaryCall((request, responseObserver) =>
                         {
-                            var responseIndex = index.GetAndIncrement();
+                            var responseIndex = Interlocked.Increment(ref index);
                             if (responseIndex >= response.Count)
                             {
                                 responseObserver.OnError(ResponseStatus.Code.ABORTED.ToStatus().AsRuntimeException());
@@ -52,8 +56,8 @@ namespace Hedera.Hashgraph.Tests.SDK
                             }
 
                             var r = response[responseIndex];
-                            if (r is Function<?, ?>)
-                            {
+                            
+                            if (r is Func)
                                 try
                                 {
                                     r = ((Function<object, object>)r).Apply(request);
@@ -62,11 +66,10 @@ namespace Hedera.Hashgraph.Tests.SDK
                                 {
                                     r = Status.ABORTED.WithDescription(e.GetMessage()).AsRuntimeException();
                                 }
-                            }
 
-                            if (r is Exception)
+                            if (r is Exception rexception)
                             {
-                                responseObserver.OnError((Exception)r);
+                                responseObserver.OnError(rexception);
                             }
                             else
                             {
@@ -74,28 +77,37 @@ namespace Hedera.Hashgraph.Tests.SDK
                                 responseObserver.OnCompleted();
                             }
                         }));
-                        descriptor.AddMethod(methodDefinition);
+
+                        service.Methods.Add(methodDefinition);
                     }
 
-                    builder.AddService(descriptor.Build());
+                    builder.AddService(service);
                 }
 
                 try
                 {
-                    this.servers.Add(builder.DirectExecutor().Build().Start());
+                    servers.Add(builder.DirectExecutor().Build().Start());
                 }
                 catch (IOException e)
                 {
-                    throw new Exception(e);
+                    throw new Exception(e.Message, e);
                 }
             }
 
-            this.client = Client.ForNetwork(network).OperatorSet(new AccountId(0, 0, 1800), PRIVATE_KEY).SetMinBackoff(TimeSpan.FromMilliseconds(0)).SetMaxBackoff(TimeSpan.FromMilliseconds(0)).SetNodeMinBackoff(TimeSpan.FromMilliseconds(0)).SetNodeMaxBackoff(TimeSpan.FromMilliseconds(0)).SetMinNodeReadmitTime(TimeSpan.FromMilliseconds(0)).SetMaxNodeReadmitTime(TimeSpan.FromMilliseconds(0)).SetLogger(new Logger(LogLevel.SILENT));
+            client = Client.ForNetwork(network, client =>
+            {
+                client.MinBackoff = TimeSpan.FromMilliseconds(0);
+                client.MaxBackoff = TimeSpan.FromMilliseconds(0);
+                client.NodeMinBackoff = TimeSpan.FromMilliseconds(0);
+                client.NodeMaxBackoff = TimeSpan.FromMilliseconds(0);
+                client.MinNodeReadmitTime = TimeSpan.FromMilliseconds(0);
+                client.MaxNodeReadmitTime = TimeSpan.FromMilliseconds(0);
+
+                client.OperatorSet(new AccountId(0, 0, 1800), PRIVATE_KEY);
+            });
         }
 
-        protected virtual void ConfigureServerBuilder(InProcessServerBuilder builder)
-        {
-        }
+        protected virtual void ConfigureServerBuilder(InProcessServerBuilder builder) { }
 
         public static Mocker WithResponses(IList<IList<object>> responses)
         {
@@ -105,10 +117,10 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual void Dispose()
         {
             client.Dispose();
+
             foreach (var server in servers)
             {
-                server.Shutdown();
-                server.AwaitTermination();
+                server.ShutdownAsync();
             }
         }
     }

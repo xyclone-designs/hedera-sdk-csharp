@@ -6,10 +6,10 @@ using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
-using Hedera.Hashgraph.SDK.System;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Systems;
 
 namespace Hedera.Hashgraph.Tests.SDK.System
 {
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.444"),
-				ExpirationTime = Timestamp.FromDateTimeOffset(validStart),
+				ExpirationTime = validStart,
 				MaxTransactionFee = new Hbar(1),
 			}
             .Freeze()
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				ContractId = ContractId.FromString("0.0.444"),
-				ExpirationTime = Timestamp.FromDateTimeOffset(validStart),
+				ExpirationTime = validStart,
 				MaxTransactionFee = new Hbar(1),
 			}
             .Freeze()
@@ -126,11 +126,11 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.NotNull(systemDeleteTransactionWithFileId.FileId);
             Assert.Equal(systemDeleteTransactionWithFileId.FileId, testFileId);
             Assert.Null(systemDeleteTransactionWithFileId.ContractId);
-            Assert.Equal(systemDeleteTransactionWithFileId.ExpirationTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
+            Assert.Equal(systemDeleteTransactionWithFileId.ExpirationTime?.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
             Assert.Null(systemDeleteTransactionWithContractId.FileId);
             Assert.NotNull(systemDeleteTransactionWithContractId.ContractId);
             Assert.Equal(systemDeleteTransactionWithContractId.ContractId, testContractId);
-            Assert.Equal(systemDeleteTransactionWithContractId.ExpirationTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
+            Assert.Equal(systemDeleteTransactionWithContractId.ExpirationTime?.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
 
         public virtual void GetSetFileId()
@@ -169,16 +169,16 @@ namespace Hedera.Hashgraph.Tests.SDK.System
         {
             var systemDeleteTransaction = new SystemDeleteTransaction
             {
-				ExpirationTime = Timestamp.FromDateTimeOffset(validStart)
+				ExpirationTime = validStart
 			};
             Assert.NotNull(systemDeleteTransaction.ExpirationTime);
-            Assert.Equal(systemDeleteTransaction.ExpirationTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
+            Assert.Equal(systemDeleteTransaction.ExpirationTime?.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
 
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransactionFile();
-            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = Timestamp.FromDateTimeOffset(validStart));
+            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = validStart);
         }
 
         public virtual void ResetFileId()

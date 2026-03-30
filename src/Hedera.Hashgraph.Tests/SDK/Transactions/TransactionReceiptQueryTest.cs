@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var builder = new Proto.Query();
             new TransactionReceiptQuery
             {
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5005"), Timestamp.FromDateTimeOffset(validStart))
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5005"), validStart)
 
 			}.OnMakeRequest(builder, new Proto.QueryHeader());
 

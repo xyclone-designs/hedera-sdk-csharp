@@ -30,15 +30,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         {
             mirrorNodeContractEstimateGasQuery = new MirrorNodeContractEstimateGasQuery();
             mirrorNodeContractCallQuery = new MirrorNodeContractCallQuery();
-            mockContractId = Mockito.Mock(typeof(ContractId));
+            mockContractId = Moq.Mock.Of<ContractId>();
         }
 
         public virtual void TestSetAndGetContractId()
         {
             mirrorNodeContractEstimateGasQuery.ContractId = mockContractId;
-            Assert.Equal(mockContractId, mirrorNodeContractEstimateGasQuery.ContractId;
+            Assert.Equal(mockContractId, mirrorNodeContractEstimateGasQuery.ContractId);
             mirrorNodeContractCallQuery.ContractId = mockContractId;
-            Assert.Equal(mockContractId, mirrorNodeContractCallQuery.ContractId;
+            Assert.Equal(mockContractId, mirrorNodeContractCallQuery.ContractId);
         }
 
         public virtual void TestSetContractIdWithNullThrowsException()
@@ -214,9 +214,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void ShouldSerialize()
         {
-            ContractId testContractId = new ContractId(0, 0, 1234);
+            ContractId testContractId = new (0, 0, 1234);
             string testEvmAddress = "0x1234567890abcdef1234567890abcdef12345678";
-            AccountId testSenderId = new AccountId(0, 0, 5678);
+            AccountId testSenderId = new (0, 0, 5678);
             string testSenderEvmAddress = "0xabcdefabcdefabcdefabcdefabcdefabcdef";
             ByteString testCallData = ByteString.CopyFromUtf8("testData");
             string testFunctionName = "myFunction";

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
-    public interface TestService
+    public interface ITestService
     {
         private static void Respond<ResponseTypeT>(StreamObserver<ResponseTypeT> streamObserver, ResponseTypeT normalResponse, StatusRuntimeException errorResponse, string exceptionString)
         {
@@ -32,26 +32,26 @@ namespace Hedera.Hashgraph.Tests.SDK
         }
 
         Buffer GetBuffer();
-        void RespondToTransaction(Transaction request, StreamObserver<TransactionResponse> streamObserver, TestResponse response)
+        void RespondToTransaction(Proto.Transaction request, StreamObserver<Proto.TransactionResponse> streamObserver, TestResponse response)
         {
             GetBuffer().transactionRequestsReceived.Add(request);
             var exceptionString = "TestService tried to respond to transaction with query response";
             Respond(streamObserver, response.transactionResponse, response.errorResponse, exceptionString);
         }
 
-        void RespondToQuery(Query request, StreamObserver<Response> streamObserver, TestResponse response)
+        void RespondToQuery(Proto.Query request, StreamObserver<Proto.Response> streamObserver, TestResponse response)
         {
             GetBuffer().queryRequestsReceived.Add(request);
             var exceptionString = "TestService tried to respond to query with transaction response";
             Respond(streamObserver, response.queryResponse, response.errorResponse, exceptionString);
         }
 
-        void RespondToTransactionFromQueue(Transaction request, StreamObserver<TransactionResponse> streamObserver)
+        void RespondToTransactionFromQueue(Proto.Transaction request, IStreamObserver<Proto.TransactionResponse> streamObserver)
         {
             RespondToTransaction(request, streamObserver, GetBuffer().responsesToSend.Remove());
         }
 
-        void RespondToQueryFromQueue(Query request, StreamObserver<Response> streamObserver)
+        void RespondToQueryFromQueue(Proto.Query request, StreamObserver<Proto.Response> streamObserver)
         {
             RespondToQuery(request, streamObserver, GetBuffer().responsesToSend.Remove());
         }

@@ -29,9 +29,11 @@ namespace Hedera.Hashgraph.SDK
     public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> : Executable where TProtoRequest : class, IMessage where TProtoResponse : class, IMessage
 	{
         protected static readonly Random random = new ();
-		protected Func<GrpcRequest, TProtoResponse> BlockingUnaryCall 
+
+		internal Func<GrpcRequest, TProtoResponse> BlockingUnaryCall 
 		{
-			get => grpcRequest =>
+			set => field = value;
+			get => field ??= grpcRequest =>
 			{
 				var call = grpcRequest.CreateCall();
 				var request = grpcRequest.GetRequest();

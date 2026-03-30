@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
                 FileId = testFileId,
                 FileHash = testFileHash,
-                StartTime = Timestamp.FromDateTimeOffset(validStart),
+                StartTime = validStart,
                 FreezeType = testFreezeType,
                 MaxTransactionFee = Hbar.FromTinybars(100000),
             }

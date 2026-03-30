@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
+
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Topic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-
-using Hedera.Hashgraph.SDK.Topic;
-using Hedera.Hashgraph.SDK;
-
-using Google.Protobuf.WellKnownTypes;
-using System.Threading.Tasks;
-using Grpc.Core;
+using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
@@ -18,27 +19,23 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         private static readonly DateTimeOffset START_TIME = DateTimeOffset.UtcNow;
         private Client client;
         private bool complete = false;
-        private readonly List<Exception> errors = [];
-        private readonly List<TopicMessage> received = [];
-        private readonly ConsensusServiceStub consensusServiceStub = new ();
+        private readonly List<Exception> errors = new();
+        private readonly List<TopicMessage> received = new();
+        private readonly ConsensusServiceStub consensusServiceStub = new();
         private Server server;
         private TopicMessageQuery topicMessageQuery;
-        static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void Setup()
         {
-            client = Client.ForNetwork([]);
-            client.MirrorNetwork_.Network = ["in-process:test"];
+            client = Client.ForNetwork(new Dictionary<string, AccountId>());
+            client.MirrorNetwork_.Network = new[] { "in-process:test" };
 
-            server = InProcessServerBuilder.ForName("test").AddService(consensusServiceStub).DirectExecutor().Start();
+            server = new Server
+            {
+                Services = { Proto.ConsensusService.BindService(consensusServiceStub) },
+                Ports = { new ServerPort("localhost", 1000, ServerCredentials.Insecure) }
+            };
+            server.Start();
 
             topicMessageQuery = new TopicMessageQuery
             {
@@ -56,208 +53,259 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             consensusServiceStub.Verify();
 
             client?.Dispose();
-            server?.ShutdownAsync();
+            server?.ShutdownAsync().Wait();
         }
 
         public virtual void Subscribe()
         {
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(Response(1));
-            consensusServiceStub.responses.Append(Response(2));
-            SubscribeToMirror(received.Add());
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(Response(1));
+            consensusServiceStub.responses.Enqueue(Response(2));
+
+            SubscribeToMirror(received.Add);
+
             Assert.Empty(errors);
-            Assert.That(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
+            Assert.Equal(2, received.Count);
+            Assert.Equal((ulong)1, received[0].SequenceNumber);
+            Assert.Equal((ulong)2, received[1].SequenceNumber);
         }
 
         public virtual void SubscribeChunked()
         {
             Proto.ConsensusTopicResponse response1 = Response(1, 2);
             Proto.ConsensusTopicResponse response2 = Response(2, 2);
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(response1);
-            consensusServiceStub.responses.Append(response2);
-            SubscribeToMirror(received.Add());
+
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(response1);
+            consensusServiceStub.responses.Enqueue(response2);
+
+            SubscribeToMirror(received.Add);
+
             var message = Combine(response1.Message.ToByteArray(), response2.Message.ToByteArray());
+
             Assert.Empty(errors);
-            Assert.Contains(received).HasSize(1).First()
-                .Returns(ToDateTime(response2.GetConsensusTimestamp()), (t) => t.consensusTimestamp)
-                .Returns(response2.GetChunkInfo().GetInitialTransactionID(), (t) => t.transactionId).ToProtobuf())
-            .Returns(message, (t) => t.contents)
-                .Returns(response2.GetRunningHash().ToByteArray(), (t) => t.runningHash)
-                .Returns(response2.GetSequenceNumber(), (t) => t.sequenceNumber).Extracting((t) => t.chunks).AsInstanceOf(InstanceOfAssertFactories.ARRAY).HasSize(2).Extracting((c) => ((TopicMessageChunk)c).sequenceNumber, 1, 2);
+            Assert.Single(received);
+            var first = received[0];
+            Assert.Equal(response2.ConsensusTimestamp.ToDateTimeOffset(), first.ConsensusTimestamp);
+            Assert.Equal(response2.ChunkInfo.InitialTransactionID, first.TransactionId.ToProtobuf());
+            Assert.Equal(message, first.Contents);
+            Assert.Equal(response2.RunningHash.ToByteArray(), first.RunningHash);
+            Assert.Equal(response2.SequenceNumber, first.SequenceNumber);
+            Assert.Equal(2, first.Chunks.Length);
+            Assert.Equal((ulong)1, first.Chunks[0].SequenceNumber);
+            Assert.Equal((ulong)2, first.Chunks[1].SequenceNumber);
         }
 
         public virtual void SubscribeNoResponse()
         {
-            consensusServiceStub.requests.Append(Request());
-            SubscribeToMirror(received.Add());
+            consensusServiceStub.requests.Enqueue(Request());
+
+            SubscribeToMirror(received.Add);
+
             Assert.Empty(errors);
             Assert.Empty(received);
         }
 
         public virtual void ErrorDuringOnNext()
         {
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(Response(1));
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(Response(1));
+
             SubscribeToMirror((t) =>
             {
                 throw new Exception();
             });
-            Assert.IsType<Exception>(errors).HasSize(1).First();
+
+            Assert.Single(errors);
+            Assert.IsType<Exception>(errors[0]);
             Assert.Empty(received);
         }
 
-        public virtual void RetryRecovers(ResponseStatus.Code code, string description)
+        public virtual void RetryRecovers(StatusCode code, string description)
         {
             Proto.ConsensusTopicResponse response = Response(1);
-            DateTimeOffset nextTimestamp = ToDateTime(response.GetConsensusTimestamp()).PlusNanos(1);
-			Proto.ConsensusTopicQuery request = Request();
-            consensusServiceStub.requests.Append(request);
-            consensusServiceStub.requests.Append(request.SetConsensusStartTime(ToTimestamp(nextTimestamp)));
-            consensusServiceStub.responses.Append(response);
-            consensusServiceStub.responses.Append(code.ToStatus().WithDescription(description).AsRuntimeException());
-            consensusServiceStub.responses.Append(Response(2));
-            SubscribeToMirror(received.Add());
-            Assert.That(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
+            DateTimeOffset nextTimestamp = response.ConsensusTimestamp.ToDateTimeOffset().AddTicks(1);
+            Proto.ConsensusTopicQuery request = Request();
+
+            var retryRequest = Request();
+            retryRequest.ConsensusStartTime = nextTimestamp.ToProtoTimestamp();
+
+            consensusServiceStub.requests.Enqueue(request);
+            consensusServiceStub.requests.Enqueue(retryRequest);
+            consensusServiceStub.responses.Enqueue(response);
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(code, description)));
+            consensusServiceStub.responses.Enqueue(Response(2));
+
+            SubscribeToMirror(received.Add);
+
+            Assert.Equal(2, received.Count);
+            Assert.Equal((ulong)1, received[0].SequenceNumber);
+            Assert.Equal((ulong)2, received[1].SequenceNumber);
             Assert.Empty(errors);
         }
 
-        public virtual void NoRetry(ResponseStatus.Code code, string description)
+        public virtual void NoRetry(StatusCode code, string description)
         {
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(code.ToStatus().WithDescription(description).AsRuntimeException());
-            SubscribeToMirror(received.Add());
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(code, description)));
+
+            SubscribeToMirror(received.Add);
+
             Assert.Empty(received);
-            Assert.Equal(errors).HasSize(1).First().IsInstanceOf(typeof(StatusRuntimeException)).Extracting((t) => ((StatusRuntimeException)t).GetStatus().GetCode(), code);
+            Assert.Single(errors);
+            var rpcEx = Assert.IsType<RpcException>(errors[0]);
+            Assert.Equal(code, rpcEx.StatusCode);
         }
 
         public virtual void CustomRetry()
         {
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(ResponseStatus.INVALID_ARGUMENT.AsRuntimeException());
-            consensusServiceStub.responses.Append(Response(1));
-            topicMessageQuery
-                .SetRetryHandler((t) => true);
-            SubscribeToMirror(received.Add());
-            Assert.That(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(StatusCode.InvalidArgument, string.Empty)));
+            consensusServiceStub.responses.Enqueue(Response(1));
+            topicMessageQuery.RetryHandler = (t) => true;
+
+            SubscribeToMirror(received.Add);
+
+            Assert.Single(received);
+            Assert.Equal((ulong)1, received[0].SequenceNumber);
             Assert.Empty(errors);
         }
 
         public virtual void RetryWithLimit()
         {
             Proto.ConsensusTopicResponse response = Response(1);
-            DateTimeOffset nextTimestamp = ToDateTime(response.GetConsensusTimestamp()).PlusNanos(1);
+            DateTimeOffset nextTimestamp = response.ConsensusTimestamp.ToDateTimeOffset().AddTicks(1);
             Proto.ConsensusTopicQuery request = Request();
-            topicMessageQuery
-                .SetLimit(2);
-            consensusServiceStub.requests.Append(request
-                .SetLimit(2));
-            consensusServiceStub.requests.Append(request
-                .SetConsensusStartTime(ToTimestamp(nextTimestamp))
-                .SetLimit(1));
-            consensusServiceStub.responses.Append(response);
-            consensusServiceStub.responses.Append(ResponseStatus.RESOURCE_EXHAUSTED.AsRuntimeException());
-            consensusServiceStub.Responses.Add(Response(2));
-            SubscribeToMirror(received.Add());
-            Assert.That(received).HasSize(2).Extracting((t) => t.sequenceNumber).ContainsExactly(1, 2);
+
+            topicMessageQuery.Limit = 2;
+
+            var requestWithLimit = Request();
+            requestWithLimit.Limit = 2;
+
+            var retryRequest = Request();
+            retryRequest.ConsensusStartTime = nextTimestamp.ToProtoTimestamp();
+            retryRequest.Limit = 1;
+
+            consensusServiceStub.requests.Enqueue(requestWithLimit);
+            consensusServiceStub.requests.Enqueue(retryRequest);
+            consensusServiceStub.responses.Enqueue(response);
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(StatusCode.ResourceExhausted, string.Empty)));
+            consensusServiceStub.responses.Enqueue(Response(2));
+
+            SubscribeToMirror(received.Add);
+
+            Assert.Equal(2, received.Count);
+            Assert.Equal((ulong)1, received[0].SequenceNumber);
+            Assert.Equal((ulong)2, received[1].SequenceNumber);
             Assert.Empty(errors);
         }
 
         public virtual void RetriesExhausted()
         {
-            topicMessageQuery
-                .SetMaxAttempts(1);
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(ResponseStatus.RESOURCE_EXHAUSTED.AsRuntimeException());
-            consensusServiceStub.responses.Append(ResponseStatus.RESOURCE_EXHAUSTED.AsRuntimeException());
-            SubscribeToMirror(received.Add());
+            topicMessageQuery.MaxAttempts = 1;
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(StatusCode.ResourceExhausted, string.Empty)));
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(StatusCode.ResourceExhausted, string.Empty)));
+
+            SubscribeToMirror(received.Add);
+
             Assert.Empty(received);
-            Assert.Equal(errors).HasSize(1).First().IsInstanceOf(typeof(StatusRuntimeException)).Extracting((t) => ((StatusRuntimeException)t).GetStatus(), Status.RESOURCE_EXHAUSTED);
+            Assert.Single(errors);
+            var rpcEx = Assert.IsType<RpcException>(errors[0]);
+            Assert.Equal(StatusCode.ResourceExhausted, rpcEx.StatusCode);
         }
 
         public virtual void ErrorWhenCallIsCancelled()
         {
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(ResponseStatus.CANCELLED.AsRuntimeException());
-            SubscribeToMirror(received.Add());
-            Assert.Equal(errors).HasSize(1).First().IsInstanceOf(typeof(StatusRuntimeException)).Extracting((t) => ((StatusRuntimeException)t).GetStatus(), Status.CANCELLED);
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(StatusCode.Cancelled, string.Empty)));
+
+            SubscribeToMirror(received.Add);
+
+            Assert.Single(errors);
+            var rpcEx = Assert.IsType<RpcException>(errors[0]);
+            Assert.Equal(StatusCode.Cancelled, rpcEx.StatusCode);
             Assert.Empty(received);
         }
 
         public virtual void UnsubscribeDoesNotInvokeErrorOrRetry()
         {
-            consensusServiceStub.requests.Append(Request());
-            SubscriptionHandle handle = topicMessageQuery.Subscribe(client, received.Add());
+            consensusServiceStub.requests.Enqueue(Request());
+            SubscriptionHandle handle = topicMessageQuery.Subscribe(client, received.Add);
             handle.Unsubscribe();
-            Uninterruptibles.SleepUninterruptibly(100, TimeUnit.MILLISECONDS);
+            Thread.Sleep(100);
             Assert.Empty(errors);
             Assert.Empty(received);
         }
 
         public virtual void ServerCancelledRetriesWhenCustomRetryAllows()
         {
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(ResponseStatus.CANCELLED.AsRuntimeException());
-            consensusServiceStub.responses.Append(Response(1));
-            topicMessageQuery
-                .SetRetryHandler((t) =>
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(StatusCode.Cancelled, string.Empty)));
+            consensusServiceStub.responses.Enqueue(Response(1));
+            topicMessageQuery.RetryHandler = (t) =>
             {
-                if (t is StatusRuntimeException)
+                if (t is RpcException sre)
                 {
-                    return sre.GetStatus().GetCode() == Status.Code.CANCELLED;
+                    return sre.StatusCode == StatusCode.Cancelled;
                 }
 
                 return false;
-            });
-            SubscribeToMirror(received.Add());
-            Assert.That(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
+            };
+
+            SubscribeToMirror(received.Add);
+
+            Assert.Single(received);
+            Assert.Equal((ulong)1, received[0].SequenceNumber);
             Assert.Empty(errors);
         }
 
         public virtual void UnsubscribeThenResubscribeResetsClientCancelFlagAllowsRetryOnCancelled()
         {
-            consensusServiceStub.requests.Append(Request());
-            SubscriptionHandle firstHandle = topicMessageQuery.Subscribe(client, received.Add());
+            consensusServiceStub.requests.Enqueue(Request());
+            SubscriptionHandle firstHandle = topicMessageQuery.Subscribe(client, received.Add);
             firstHandle.Unsubscribe();
-            Uninterruptibles.SleepUninterruptibly(100, TimeUnit.MILLISECONDS);
+            Thread.Sleep(100);
             Assert.Empty(errors);
             Assert.Empty(received);
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.requests.Append(Request());
-            consensusServiceStub.responses.Append(ResponseStatus.CANCELLED.AsRuntimeException());
-            consensusServiceStub.responses.Append(Response(1));
-            topicMessageQuery
-                .SetRetryHandler((t) =>
+
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.requests.Enqueue(Request());
+            consensusServiceStub.responses.Enqueue(new RpcException(new Status(StatusCode.Cancelled, string.Empty)));
+            consensusServiceStub.responses.Enqueue(Response(1));
+            topicMessageQuery.RetryHandler = (t) =>
             {
-                if (t is StatusRuntimeException)
+                if (t is RpcException sre)
                 {
-                    return sre.GetStatus().GetCode() == Status.Code.CANCELLED;
+                    return sre.StatusCode == StatusCode.Cancelled;
                 }
 
                 return false;
-            });
-            SubscriptionHandle secondHandle = topicMessageQuery.Subscribe(client, received.Add());
-            Stopwatch stopwatch = Stopwatch.CreateStarted();
-            while (received.Count < 1 && stopwatch.Elapsed(TimeUnit.SECONDS) < 3)
+            };
+
+            SubscriptionHandle secondHandle = topicMessageQuery.Subscribe(client, received.Add);
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            while (received.Count < 1 && stopwatch.Elapsed.TotalSeconds < 3)
             {
-                Uninterruptibles.SleepUninterruptibly(50, TimeUnit.MILLISECONDS);
+                Thread.Sleep(50);
             }
 
             Assert.Empty(errors);
-            Assert.That(received).HasSize(1).Extracting((t) => t.sequenceNumber).ContainsExactly(1);
+            Assert.Single(received);
+            Assert.Equal((ulong)1, received[0].SequenceNumber);
             secondHandle.Unsubscribe();
         }
 
-        private void SubscribeToMirror(Consumer<TopicMessage> onNext)
+        private void SubscribeToMirror(Action<TopicMessage> onNext)
         {
             SubscriptionHandle subscriptionHandle = topicMessageQuery.Subscribe(client, onNext);
-            Stopwatch stopwatch = Stopwatch.CreateStarted();
-            while (!complete.Get() && errors.IsEmpty() && stopwatch.Elapsed(TimeUnit.SECONDS) < 3)
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            while (!Volatile.Read(ref complete) && errors.Count == 0 && stopwatch.Elapsed.TotalSeconds < 3)
             {
-                Uninterruptibles.SleepUninterruptibly(100, TimeUnit.MILLISECONDS);
+                Thread.Sleep(100);
             }
 
             subscriptionHandle.Unsubscribe();
@@ -265,11 +313,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         private static Proto.ConsensusTopicQuery Request()
         {
-            return Proto.ConsensusTopicQuery.NewBuilder()
-                .SetConsensusEndTime(ToTimestamp(START_TIME.AddSeconds(100)))
-                .SetConsensusStartTime(ToTimestamp(START_TIME))
-                .SetTopicID(TopicID.NewBuilder()
-                .SetTopicNum(1000));
+            return new Proto.ConsensusTopicQuery
+            {
+                ConsensusEndTime = START_TIME.AddSeconds(100).ToProtoTimestamp(),
+                ConsensusStartTime = START_TIME.ToProtoTimestamp(),
+                TopicID = new Proto.TopicID { TopicNum = 1000 }
+            };
+        }
+
+        private static Timestamp ToTimestamp(DateTimeOffset dateTimeOffset)
+        {
+            return Timestamp.FromDateTimeOffset(dateTimeOffset);
         }
 
         private static Proto.ConsensusTopicResponse Response(long sequenceNumber)
@@ -279,68 +333,56 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
         private static Proto.ConsensusTopicResponse Response(long sequenceNumber, int total)
         {
-            Proto.ConsensusTopicResponse consensusTopicResponseBuilder = Proto.ConsensusTopicResponse.NewBuilder();
+            var response = new Proto.ConsensusTopicResponse();
+
             if (total > 0)
             {
-                var chunkInfo = ConsensusMessageChunkInfo.NewBuilder()
-                    .SetInitialTransactionID(TransactionID.NewBuilder()
-                    .SetAccountID(AccountID.NewBuilder()
-                    .SetAccountNum(3))
-                    .SetTransactionValidStart(ToTimestamp(START_TIME)))
-                    .SetNumber((int)sequenceNumber)
-                    .SetTotal(total);
-                consensusTopicResponseBuilder
-                    .SetChunkInfo(chunkInfo);
+                response.ChunkInfo = new Proto.ConsensusMessageChunkInfo
+                {
+                    Number = (int)sequenceNumber,
+                    Total = total,
+                    InitialTransactionID = new Proto.TransactionID
+                    {
+                        AccountID = new Proto.AccountID { AccountNum = 3 },
+                        TransactionValidStart = START_TIME.ToProtoTimestamp(),
+                    },
+                };
             }
 
-            var message = ByteString.CopyFrom(Longs.ToByteArray(sequenceNumber));
+            var message = ByteString.CopyFrom(new byte[] { (byte)sequenceNumber });
 
-            return consensusTopicResponseBuilder
-                .SetConsensusTimestamp(ToTimestamp(START_TIME.AddSeconds(sequenceNumber)))
-                .SetSequenceNumber(sequenceNumber)
-                .SetMessage(message)
-                .SetRunningHash(message)
-                .SetRunningHashVersion(2);
-        }
+            response.ConsensusTimestamp = START_TIME.AddSeconds(sequenceNumber).ToProtoTimestamp();
+            response.SequenceNumber = (ulong)sequenceNumber;
+            response.Message = message;
+            response.RunningHash = message;
+            response.RunningHashVersion = 2;
 
-        private static DateTimeOffset ToDateTime(Timestamp timestamp)
-        {
-            return DateTimeOffset.FromUnixTimeMilliseconds(timestamp.Seconds, timestamp.Nanos);
-        }
-
-        private static Timestamp ToTimestamp(DateTimeOffset instant)
-        {
-            return new Timestamp
-            {
-                Seconds = instant.ToUnixTimeSeconds(),
-                Nanos = instant.Nanosecond,
-            };
+            return response;
         }
 
         private class ConsensusServiceStub : Proto.ConsensusService.ConsensusServiceBase
         {
-            public readonly Queue<Proto.ConsensusTopicQuery> requests = new ();
-            public readonly Queue<object> responses = new ();
+            public readonly Queue<Proto.ConsensusTopicQuery> requests = new();
+            public readonly Queue<object> responses = new();
 
-            public override Task subscribeTopic(Proto.ConsensusTopicQuery request, IServerStreamWriter<Proto.ConsensusTopicResponse> streamObserver, ServerCallContext context)
+            public override async Task subscribeTopic(Proto.ConsensusTopicQuery consensusTopicQuery, IServerStreamWriter<Proto.ConsensusTopicResponse> streamWriter, ServerCallContext context)
             {
-                var request = requests.Poll();
+                var request = requests.Count > 0 ? requests.Dequeue() : null;
                 Assert.NotNull(request);
                 Assert.Equal(consensusTopicQuery, request);
-                while (!responses.IsEmpty())
+
+                while (responses.Count > 0)
                 {
-                    var response = responses.Poll();
+                    var response = responses.Dequeue();
                     Assert.NotNull(response);
-                    if (response is Exception)
+
+                    if (response is RpcException rpcEx)
                     {
-                        streamObserver.OnError((Exception)response);
-                        return;
+                        throw rpcEx;
                     }
 
-                    streamObserver.WriteAsync((Proto.ConsensusTopicResponse)response);
+                    await streamWriter.WriteAsync((Proto.ConsensusTopicResponse)response);
                 }
-
-                return base.subscribeTopic(request, responseStream, context);
             }
 
             public virtual void Verify()

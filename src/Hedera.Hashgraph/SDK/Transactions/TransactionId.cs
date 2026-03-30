@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.WithValidStart(AccountId,DateTimeOffset)"]/*' />
 		public static TransactionId WithValidStart(AccountId accountId, DateTimeOffset validStart)
         {
-            return new TransactionId(accountId, validStart);
+			return new TransactionId(accountId, validStart);
         }
 
         /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromString(System.String)"]/*' />

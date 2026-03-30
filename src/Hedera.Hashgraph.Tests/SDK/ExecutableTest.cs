@@ -1,26 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Org.Mockito.ArgumentMatchers;
-using Org.Mockito.Mockito;
-using Com.Hedera.Hashgraph.Sdk.Executable;
-using Com.Hedera.Hashgraph.Sdk.Logger;
-using Proto;
-using Io.Grpc;
-using Java.Time;
-using Java.Util;
-using Java.Util.Concurrent;
-using Java.Util.Concurrent.Atomic;
-using Javax.Annotation;
-using Org.Junit.Jupiter.Api;
-using Org.Mockito;
-using Org.Mockito.Stubbing;
+using Google.Protobuf.Reflection;
+
+using Grpc.Core;
+
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Networking;
+using Hedera.Hashgraph.SDK.Queries;
+using Hedera.Hashgraph.SDK.Transactions;
+
+using Moq;
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Networking;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -30,98 +25,128 @@ namespace Hedera.Hashgraph.Tests.SDK
         Network network;
         Node node3, node4, node5;
         IList<AccountId> nodeAccountIds;
+
+        // Keep references to mocks
+        Mock<Network> networkMock;
+        Mock<Node> node3Mock, node4Mock, node5Mock;
+
         public virtual void Setup()
         {
-            client = Client.ForMainnet();
-            network = Mockito.Mock(typeof(Network));
-            client.network = network;
-            client.SetLogger(new Logger(LogLevel.WARN));
-            node3 = Mockito.Mock(typeof(Node));
-            node4 = Mockito.Mock(typeof(Node));
-            node5 = Mockito.Mock(typeof(Node));
-            When(node3.GetAccountId()).ThenReturn(new AccountId(0, 0, 3));
-            When(node4.GetAccountId()).ThenReturn(new AccountId(0, 0, 4));
-            When(node5.GetAccountId()).ThenReturn(new AccountId(0, 0, 5));
-            When(network.GetNodeProxies(new AccountId(0, 0, 3))).ThenReturn(List.Of(node3));
-            When(network.GetNodeProxies(new AccountId(0, 0, 4))).ThenReturn(List.Of(node4));
-            When(network.GetNodeProxies(new AccountId(0, 0, 5))).ThenReturn(List.Of(node5));
-            nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
+            networkMock = new Mock<Network>();
+
+            client = Client.ForMainnet(c =>
+            {
+                c.Network_ = network = networkMock.Object;
+            });
+
+            node3Mock = new Mock<Node>();
+            node4Mock = new Mock<Node>();
+            node5Mock = new Mock<Node>();
+
+            node3 = node3Mock.Object;
+            node4 = node4Mock.Object;
+            node5 = node5Mock.Object;
+
+            // Property setups
+            node3Mock.Setup(n => n.AccountId).Returns(new AccountId(0, 0, 3));
+            node4Mock.Setup(n => n.AccountId).Returns(new AccountId(0, 0, 4));
+            node5Mock.Setup(n => n.AccountId).Returns(new AccountId(0, 0, 5));
+
+            // Method setups
+            networkMock.Setup(n => n.GetNodeProxies(new AccountId(0, 0, 3))).Returns(new[] { node3 });
+            networkMock.Setup(n => n.GetNodeProxies(new AccountId(0, 0, 4))).Returns(new[] { node4 });
+            networkMock.Setup(n => n.GetNodeProxies(new AccountId(0, 0, 5))).Returns(new[] { node5 });
+
+            nodeAccountIds = new List<AccountId>
+            {
+                new AccountId(0, 0, 3),
+                new AccountId(0, 0, 4),
+                new AccountId(0, 0, 5)
+            };
         }
 
         public virtual void FirstNodeHealthy()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            var tx = new DummyTransaction();
-            txNodeAccountIds = nodeAccountIds,;
-            tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
-            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+
+            var tx = new DummyTransaction
+            {
+                NodeAccountIds = [.. nodeAccountIds],
+                MinBackoff = TimeSpan.FromMilliseconds(10),
+                MaxBackoff = TimeSpan.FromMilliseconds(1000),
+            };
+
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node3);
         }
 
         public virtual void CalloptionsShouldRespectGrpcDeadline()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            var tx = new DummyTransaction();
-            txNodeAccountIds = nodeAccountIds,;
-            tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
-            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
-            tx.SetGrpcDeadline(TimeSpan.FromSeconds(10));
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+
+            var tx = new DummyTransaction
+            {
+                NodeAccountIds = [.. nodeAccountIds],
+                MinBackoff = TimeSpan.FromMilliseconds(10),
+                MaxBackoff = TimeSpan.FromMilliseconds(1000),
+                GrpcDeadline = TimeSpan.FromSeconds(10),
+            };
+
             var grpcRequest = tx.GetGrpcRequest(1);
-            var timeRemaining = grpcRequest.GetCallOptions().GetDeadline().TimeRemaining(TimeUnit.MILLISECONDS);
+            var timeRemaining = (DateTime.UtcNow - grpcRequest.CallOptions.Deadline)?.TotalMilliseconds;
             Assert.True(timeRemaining < 10000);
             Assert.True(timeRemaining > 9000);
         }
 
         public virtual void ExecutableShouldUseGrpcDeadline()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            var tx = new DummyTransaction();
-            txNodeAccountIds = nodeAccountIds,;
-            tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
-            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
-            tx.SetMaxAttempts(10);
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+
+            var tx = new DummyTransaction
+            {
+                NodeAccountIds = [.. nodeAccountIds],
+                MinBackoff = TimeSpan.FromMilliseconds(10),
+                MaxBackoff = TimeSpan.FromMilliseconds(1000),
+                MaxAttempts = 10,
+            };
+
             var timeout = TimeSpan.FromSeconds(5);
-            var currentTimeRemaining = new AtomicLong(timeout.ToMillis());
+            long currentTimeRemaining = (long)timeout.TotalMilliseconds;
             long minimumRetryDelayMs = 100;
-            long defaultDeadlineMs = timeout.ToMillis() - (minimumRetryDelayMs * (tx.GetMaxAttempts() / 2));
+            long defaultDeadlineMs = (long)(timeout.TotalMilliseconds - (minimumRetryDelayMs * (tx.MaxAttempts / 2)));
 
             // later on when the transaction is executed its grpc deadline should not be modified...
-            tx.SetGrpcDeadline(TimeSpan.FromMilliseconds(defaultDeadlineMs));
-            tx.blockingUnaryCall = (grpcRequest) =>
+            tx.GrpcDeadline = TimeSpan.FromMilliseconds(defaultDeadlineMs);
+            tx.BlockingUnaryCall = (grpcRequest) =>
             {
-                var grpc = (GrpcRequest)grpcRequest;
-                var grpcTimeRemaining = grpc.GetCallOptions().GetDeadline().TimeRemaining(TimeUnit.MILLISECONDS);
+                var grpc = (Executable.GrpcRequest)grpcRequest;
+                var grpcTimeRemaining = (DateTime.UtcNow - grpc.CallOptions.Deadline)?.TotalMilliseconds;
 
                 // the actual grpc deadline should be no larger than the smaller of the two values -
                 // the default transaction level grpc deadline and the remaining timeout
                 Assert.True(grpcTimeRemaining <= defaultDeadlineMs);
-                Assert.True(grpcTimeRemaining <= currentTimeRemaining.Get());
+                Assert.True(grpcTimeRemaining <= Volatile.Read(ref currentTimeRemaining));
                 Assert.True(grpcTimeRemaining > 0);
 
                 // transaction's grpc deadline should keep its original value
-                Assert.Equal(tx.GrpcDeadline().ToMillis(), defaultDeadlineMs);
-                currentTimeRemaining.Set(currentTimeRemaining.Get() - minimumRetryDelayMs);
-                if (currentTimeRemaining.Get() > 0)
+                Assert.Equal(tx.GrpcDeadline.TotalMilliseconds, defaultDeadlineMs);
+                Volatile.Write(ref currentTimeRemaining, Volatile.Read(ref currentTimeRemaining) - minimumRetryDelayMs);
+                if (Volatile.Read(ref currentTimeRemaining) > 0)
                 {
                     try
                     {
-                        Thread.Sleep(minimumRetryDelayMs);
+                        Thread.Sleep((int)minimumRetryDelayMs);
                     }
-                    catch (InterruptedException e)
+                    catch (ThreadInterruptedException e)
                     {
-                        throw new Exception(e);
+                        throw new Exception(e.Message, e);
                     }
 
-
-                    // Status.UNAVAILABLE tells the Executable to retry the request
-                    throw new StatusRuntimeException(io.grpc.Status.UNAVAILABLE);
+                    // StatusCode.Unavailable tells the Executable to retry the request
+                    throw new RpcException(new Status(StatusCode.Unavailable, string.Empty));
                 }
 
-                throw new StatusRuntimeException(io.grpc.Status.ABORTED);
+                throw new RpcException(new Status(StatusCode.Aborted, string.Empty));
             };
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() =>
             {
@@ -131,485 +156,450 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void MultipleNodesUnhealthy()
         {
-            When(node3.IsHealthy()).ThenReturn(false);
-            When(node4.IsHealthy()).ThenReturn(true);
-            When(node3.GetRemainingTimeForBackoff()).ThenReturn(1000);
-            var tx = new DummyTransaction();
-            txNodeAccountIds = nodeAccountIds,;
-            tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
-            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
+            node3Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(1000);
+
+            var tx = new DummyTransaction
+            {
+                NodeAccountIds = [.. nodeAccountIds],
+                MinBackoff = TimeSpan.FromMilliseconds(10),
+                MaxBackoff = TimeSpan.FromMilliseconds(1000),
+            };
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node4);
         }
 
         public virtual void AllNodesUnhealthy()
         {
-            When(node3.IsHealthy()).ThenReturn(false);
-            When(node4.IsHealthy()).ThenReturn(false);
-            When(node5.IsHealthy()).ThenReturn(false);
-            When(node3.GetRemainingTimeForBackoff()).ThenReturn(4000);
-            When(node4.GetRemainingTimeForBackoff()).ThenReturn(3000);
-            When(node5.GetRemainingTimeForBackoff()).ThenReturn(5000);
-            var tx = new DummyTransaction();
-            txNodeAccountIds = nodeAccountIds,;
-            tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
-            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
-            tx.nodeAccountIds.Index = 1;
+            node3Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node5Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node3Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(4000);
+            node4Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(3000);
+            node5Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(5000);
+
+            var tx = new DummyTransaction
+            {
+                NodeAccountIds = [.. nodeAccountIds],
+                MinBackoff = TimeSpan.FromMilliseconds(10),
+                MaxBackoff = TimeSpan.FromMilliseconds(1000),
+            };
+
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node4);
         }
 
         public virtual void MultipleRequestsWithSingleHealthyNode()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node4.IsHealthy()).ThenReturn(false);
-            When(node5.IsHealthy()).ThenReturn(false);
-            When(node4.GetRemainingTimeForBackoff()).ThenReturn(4000);
-            When(node5.GetRemainingTimeForBackoff()).ThenReturn(3000);
-            var tx = new DummyTransaction();
-            txNodeAccountIds = nodeAccountIds,;
-            tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
-            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node5Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node4Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(4000);
+            node5Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(3000);
+
+            var tx = new DummyTransaction
+            {
+                NodeAccountIds = [.. nodeAccountIds],
+                MinBackoff = TimeSpan.FromMilliseconds(10),
+                MaxBackoff = TimeSpan.FromMilliseconds(1000),
+            };
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node3);
-            tx.nodeAccountIds.Advance();
-            tx.nodes.Advance();
+            tx.NodeAccountIds.Advance();
             node = tx.GetNodeForExecute(2);
             Assert.Equal(node, node3);
-            Verify(node4).GetRemainingTimeForBackoff();
-            Verify(node5).GetRemainingTimeForBackoff();
+            node4Mock.Verify(n => n.GetRemainingTimeForBackoff());
+            node5Mock.Verify(n => n.GetRemainingTimeForBackoff());
         }
 
         public virtual void MultipleRequestsWithNoHealthyNodes()
         {
-            AtomicInteger i = new AtomicInteger();
-            When(node3.IsHealthy()).ThenReturn(false);
-            When(node4.IsHealthy()).ThenReturn(false);
-            When(node5.IsHealthy()).ThenReturn(false);
-            long[] node3Times = new[]
+            int i = 0;
+            node3Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(false);
+            node5Mock.Setup(n => n.IsHealthy()).Returns(false);
+
+            long[] node3Times = new long[] { 4000, 3000, 1000 };
+            long[] node4Times = new long[] { 3000, 1000, 4000 };
+            long[] node5Times = new long[] { 1000, 3000, 4000 };
+
+            node3Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(() => node3Times[Volatile.Read(ref i)]);
+            node4Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(() => node4Times[Volatile.Read(ref i)]);
+            node5Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(() => node5Times[Volatile.Read(ref i)]);
+
+            var tx = new DummyTransaction
             {
-                4000,
-                3000,
-                1000
+                NodeAccountIds = [.. nodeAccountIds],
+                MinBackoff = TimeSpan.FromMilliseconds(10),
+                MaxBackoff = TimeSpan.FromMilliseconds(1000),
             };
-            long[] node4Times = new[]
-            {
-                3000,
-                1000,
-                4000
-            };
-            long[] node5Times = new[]
-            {
-                1000,
-                3000,
-                4000
-            };
-            When(node3.GetRemainingTimeForBackoff()).ThenAnswer((Answer<long>)(invocation) => node3Times[i.Get()]);
-            When(node4.GetRemainingTimeForBackoff()).ThenAnswer((Answer<long>)(invocation) => node4Times[i.Get()]);
-            When(node5.GetRemainingTimeForBackoff()).ThenAnswer((Answer<long>)(invocation) => node5Times[i.Get()]);
-            var tx = new DummyTransaction();
-            txNodeAccountIds = nodeAccountIds,;
-            tx.SetNodesFromNodeAccountIds(client);
-            tx.SetMinBackoff(TimeSpan.FromMilliseconds(10));
-            tx.SetMaxBackoff(TimeSpan.FromMilliseconds(1000));
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node5);
-            i.IncrementAndGet();
+            Interlocked.Increment(ref i);
             node = tx.GetNodeForExecute(2);
             Assert.Equal(node, node4);
-            i.IncrementAndGet();
+            Interlocked.Increment(ref i);
             node = tx.GetNodeForExecute(3);
             Assert.Equal(node, node3);
         }
 
         public virtual void SuccessfulExecute()
         {
-            var now = java.time.DateTimeOffset.UtcNow;
-            var tx = new AnonymousDummyTransaction(this);
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
-            tx.blockingUnaryCall = (grpcRequest) => txResp;
+            var now = DateTimeOffset.UtcNow;
+            var tx = new AnonymousDummyTransaction(now)
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
+            };
+
+            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok };
+            tx.BlockingUnaryCall = (grpcRequest) => txResp;
+
             TransactionResponse resp = (TransactionResponse)tx.Execute(client);
-            Assert.Equal(resp.nodeId, new AccountId(0, 0, 3));
-            Assert.True(resp.GetValidateStatus());
+            Assert.Equal(resp.NodeId, new AccountId(0, 0, 3));
+            Assert.True(resp.ValidateStatus);
             Assert.NotNull(resp.ToString());
         }
 
-        private sealed class AnonymousDummyTransaction : DummyTransaction
+        private sealed class AnonymousDummyTransaction : DummyTransaction<T>
         {
-            public AnonymousDummyTransaction(ExecutableTest parent)
+            private readonly DateTimeOffset _now;
+
+            public AnonymousDummyTransaction(DateTimeOffset now)
             {
-                this.parent = parent;
+                _now = now;
             }
 
-            private readonly ExecutableTest parent;
-            TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
             {
-                return new TransactionResponse(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), now), new byte[] { 1, 2, 3 }, null, null).SetValidateStatus(true);
+                return new TransactionResponse(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), _now), new byte[] { 1, 2, 3 }, null, null)
+                {
+                    ValidateStatus = true
+                };
             }
         }
 
         public virtual void ExecuteWithChannelFailure()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node4.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
-            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(false);
-            var now = java.time.DateTimeOffset.UtcNow;
-            var tx = new AnonymousDummyTransaction1(this);
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
-            tx.blockingUnaryCall = (grpcRequest) => txResp;
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(true);
+            node4Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+
+            var now = DateTimeOffset.UtcNow;
+            var tx = new AnonymousDummyTransaction1(now)
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
+            };
+            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok };
+            tx.BlockingUnaryCall = (grpcRequest) => txResp;
+
             TransactionResponse resp = (TransactionResponse)tx.Execute(client);
-            Verify(node3).ChannelFailedToConnect(Any(typeof(DateTime)));
-            Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
-            Assert.Equal(resp.nodeId, new AccountId(0, 0, 4));
+            node3Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
+            node4Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
+
+            Assert.Equal(resp.NodeId, new AccountId(0, 0, 4));
         }
 
-        private sealed class AnonymousDummyTransaction1 : DummyTransaction
+        private sealed class AnonymousDummyTransaction1 : DummyTransaction<T>
         {
-            public AnonymousDummyTransaction1(ExecutableTest parent)
+            private readonly DateTimeOffset _now;
+
+            public AnonymousDummyTransaction1(DateTimeOffset now)
             {
-                this.parent = parent;
+                _now = now;
             }
 
-            private readonly ExecutableTest parent;
-            TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
             {
-                return new TransactionResponse(new AccountId(0, 0, 4), TransactionId.WithValidStart(new AccountId(0, 0, 4), now), new byte[] { 1, 2, 3 }, null, null);
+                return new TransactionResponse(new AccountId(0, 0, 4), TransactionId.WithValidStart(new AccountId(0, 0, 4), _now), new byte[] { 1, 2, 3 }, null, null);
             }
         }
 
         public virtual void ExecuteWithAllUnhealthyNodes()
         {
-            AtomicInteger i = new AtomicInteger();
+            int i = 0;
 
             // 1st round, pick node3, fail channel connect
             // 2nd round, pick node4, fail channel connect
             // 3rd round, pick node5, fail channel connect
-            // 4th round, pick node 3, wait for delay, channel connect ok
-            When(node3.IsHealthy()).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node4.IsHealthy()).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node5.IsHealthy()).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenAnswer((Answer<bool>)(inv) => i.Get() == 0);
-            When(node5.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenAnswer((Answer<bool>)(inv) => i.GetAndIncrement() == 0);
-            When(node3.GetRemainingTimeForBackoff()).ThenReturn(500);
-            When(node4.GetRemainingTimeForBackoff()).ThenReturn(600);
-            When(node5.GetRemainingTimeForBackoff()).ThenReturn(700);
-            var now = java.time.DateTimeOffset.UtcNow;
-            var tx = new AnonymousDummyTransaction2(this);
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.OK).Build();
-            tx.blockingUnaryCall = (grpcRequest) => txResp;
+            // 4th round, pick node3, wait for delay, channel connect ok
+            node3Mock.Setup(n => n.IsHealthy()).Returns(() => i == 0);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(() => i == 0);
+            node5Mock.Setup(n => n.IsHealthy()).Returns(() => i == 0);
+
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(() => i == 0);
+            node4Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(() => i == 0);
+            node5Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(() => i++ == 0);
+
+            node3Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(500);
+            node4Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(600);
+            node5Mock.Setup(n => n.GetRemainingTimeForBackoff()).Returns(700);
+
+            var now = DateTimeOffset.UtcNow;
+            var tx = new AnonymousDummyTransaction2(now)
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
+            };
+            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok };
+            tx.BlockingUnaryCall = (grpcRequest) => txResp;
+
             TransactionResponse resp = (TransactionResponse)tx.Execute(client);
-            Verify(node3, Times(2)).ChannelFailedToConnect(Any(typeof(DateTime)));
-            Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
-            Verify(node5).ChannelFailedToConnect(Any(typeof(DateTime)));
-            Assert.Equal(resp.nodeId, new AccountId(0, 0, 3));
+
+            node3Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()), Times.Exactly(2));
+            node4Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
+            node5Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
+
+            Assert.Equal(resp.NodeId, new AccountId(0, 0, 3));
         }
 
-        private sealed class AnonymousDummyTransaction2 : DummyTransaction
+        private sealed class AnonymousDummyTransaction2 : DummyTransaction<T>
         {
-            public AnonymousDummyTransaction2(ExecutableTest parent)
+            private readonly DateTimeOffset _now;
+
+            public AnonymousDummyTransaction2(DateTimeOffset now)
             {
-                this.parent = parent;
+                _now = now;
             }
 
-            private readonly ExecutableTest parent;
-            TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
             {
-                return new TransactionResponse(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), now), new byte[] { 1, 2, 3 }, null, null);
+                return new TransactionResponse(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), _now), new byte[] { 1, 2, 3 }, null, null);
             }
         }
 
         public virtual void ExecuteExhaustRetries()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node4.IsHealthy()).ThenReturn(true);
-            When(node5.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
-            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
-            When(node5.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
-            var tx = new DummyTransaction();
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => tx.Execute(client));
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node5Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(true);
+            node4Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(true);
+            node5Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(true);
+
+            var tx = new DummyTransaction
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
+            };
+
+            MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => { tx.Execute(client); });
         }
 
         public virtual void ExecuteRetriableErrorDuringCall()
         {
-            AtomicInteger i = new AtomicInteger();
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node4.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(false);
-            When(node4.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(false);
-            var tx = new DummyTransaction();
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            tx.blockingUnaryCall = (grpcRequest) =>
+            int i = 0;
+
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+            node4Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+
+            var tx = new DummyTransaction
             {
-                if (i.GetAndIncrement() == 0)
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)],
+            };
+
+            tx.BlockingUnaryCall = (grpcRequest) =>
+            {
+                if (Interlocked.Increment(ref i) == 1)
                 {
-                    throw new StatusRuntimeException(io.grpc.Status.UNAVAILABLE);
+                    throw new RpcException(new Status(StatusCode.Unavailable, string.Empty));
                 }
                 else
                 {
-                    throw new StatusRuntimeException(io.grpc.Status.ABORTED);
+                    throw new RpcException(new Status(StatusCode.Aborted, string.Empty));
                 }
             };
-            Exception exception = Assert.Throws<Exception>(() => tx.Execute(client));
-            Verify(node3).ChannelFailedToConnect(Any(typeof(DateTime)));
-            Verify(node4).ChannelFailedToConnect(Any(typeof(DateTime)));
+            Exception exception = Assert.Throws<Exception>(() => { tx.Execute(client); });
+            node3Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
+            node4Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
         }
 
         public virtual void TestChannelFailedToConnectTimeout()
         {
-            TransactionResponse transactionResponse = new TransactionResponse(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), java.time.DateTimeOffset.UtcNow), new byte[] { 1, 2, 3 }, null, null);
+            TransactionResponse transactionResponse = new(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), DateTimeOffset.UtcNow), new byte[] { 1, 2, 3 }, null, null);
             var tx = new DummyTransaction();
-            tx.blockingUnaryCall = (grpcRequest) =>
+            tx.BlockingUnaryCall = (grpcRequest) =>
             {
-                throw new StatusRuntimeException(io.grpc.Status.UNAVAILABLE);
+                throw new RpcException(new Status(StatusCode.Unavailable, string.Empty));
             };
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect(Any(typeof(DateTime)))).ThenReturn(true);
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(true);
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => transactionResponse.GetReceipt(client, TimeSpan.FromSeconds(2)));
         }
 
         public virtual void ExecuteQueryDelay()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node4.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect()).ThenReturn(false);
-            When(node4.ChannelFailedToConnect()).ThenReturn(false);
-            AtomicInteger i = new AtomicInteger();
-            var tx = new AnonymousDummyQuery(this);
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            var receipt = Proto.TransactionReceipt.NewBuilder().SetStatus(ResponseCodeEnum.OK).Build();
-            var receiptResp = Proto.TransactionGetReceiptResponse.NewBuilder().SetReceipt(receipt).Build();
-            var resp = Response.NewBuilder().SetTransactionGetReceipt(receiptResp).Build();
-            tx.blockingUnaryCall = (grpcRequest) => resp;
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+            node4Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+
+            int i = 0;
+            var tx = new AnonymousDummyQuery(i)
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
+            };
+
+            var receipt = new Proto.TransactionReceipt { Status = Proto.ResponseCodeEnum.Ok };
+            var receiptResp = new Proto.TransactionGetReceiptResponse { Receipt = receipt };
+            var resp = new Proto.Response { TransactionGetReceipt = receiptResp };
+            tx.BlockingUnaryCall = (grpcRequest) => resp;
             tx.Execute(client);
 
             // RETRY case doesn't advance to next node, so it checks the same node twice: once for first attempt, once for
             // retry attempt
-            Verify(node3, Times(2)).ChannelFailedToConnect(Any(typeof(DateTime)));
+            node3Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()), Times.Exactly(2));
         }
 
         private sealed class AnonymousDummyQuery : DummyQuery
         {
-            public AnonymousDummyQuery(ExecutableTest parent)
+            private int _i;
+
+            public AnonymousDummyQuery(int i)
             {
-                this.parent = parent;
+                _i = i;
             }
 
-            private readonly ExecutableTest parent;
-            Status MapResponseStatus(Proto.Response response)
+            public override ResponseStatus MapResponseStatus(Proto.Response response)
             {
-                return Status.RECEIPT_NOT_FOUND;
+                return ResponseStatus.ReceiptNotFound;
             }
-
-            ExecutionState GetExecutionState(Status status, Response response)
+            public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Response response)
             {
-                return i.GetAndIncrement() == 0 ? ExecutionState.RETRY : ExecutionState.SUCCESS;
+                return Interlocked.Increment(ref _i) == 1 ? ExecutionState.Retry : ExecutionState.Success;
             }
         }
 
         public virtual void ExecuteUserError()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect()).ThenReturn(false);
-            var tx = new AnonymousDummyTransaction3(this);
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.ACCOUNT_DELETED).Build();
-            tx.blockingUnaryCall = (grpcRequest) => txResp;
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+            var tx = new AnonymousDummyTransaction3
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
+            };
+
+            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.AccountDeleted };
+            tx.BlockingUnaryCall = (grpcRequest) => txResp;
             PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() => tx.Execute(client));
-            Verify(node3).ChannelFailedToConnect(Any(typeof(DateTime)));
+
+            node3Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
         }
 
-        private sealed class AnonymousDummyTransaction3 : DummyTransaction
+        private sealed class AnonymousDummyTransaction3 : DummyTransaction<T>
         {
-            public AnonymousDummyTransaction3(ExecutableTest parent)
+            public override ResponseStatus MapResponseStatus(Proto.Response response)
             {
-                this.parent = parent;
-            }
-
-            private readonly ExecutableTest parent;
-            Status MapResponseStatus(Proto.TransactionResponse response)
-            {
-                return Status.ACCOUNT_DELETED;
+                return ResponseStatus.AccountDeleted;
             }
         }
 
         public virtual void ShouldRetryReturnsCorrectStates()
         {
             var tx = new DummyTransaction();
-            Assert.Equal(tx.GetExecutionState(ResponseStatus.PLATFORM_TRANSACTION_NOT_CREATED, null), ExecutionState.SERVER_ERROR);
-            Assert.Equal(tx.GetExecutionState(ResponseStatus.PLATFORM_NOT_ACTIVE, null), ExecutionState.SERVER_ERROR);
-            Assert.Equal(tx.GetExecutionState(ResponseStatus.BUSY, null), ExecutionState.RETRY);
-            Assert.Equal(tx.GetExecutionState(ResponseStatus.INVALID_NODE_ACCOUNT, null), ExecutionState.RETRY);
-            Assert.Equal(tx.GetExecutionState(ResponseStatus.OK, null), ExecutionState.SUCCESS);
-            Assert.Equal(tx.GetExecutionState(ResponseStatus.ACCOUNT_DELETED, null), ExecutionState.REQUEST_ERROR);
+
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.PlatformTransactionNotCreated, null), ExecutionState.ServerError);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.PlatformNotActive, null), ExecutionState.ServerError);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.Busy, null), ExecutionState.Retry);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.InvalidNodeAccount, null), ExecutionState.Retry);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.Ok, null), ExecutionState.Success);
+            Assert.Equal(tx.GetExecutionState(ResponseStatus.AccountDeleted, null), ExecutionState.RequestError);
         }
 
         public virtual void ShouldSetMaxRetry()
         {
             var tx = new DummyTransaction();
-            tx.SetMaxRetry(1);
-            Assert.Equal(tx.GetMaxRetry(), 1);
-            Assert.Throws<ArgumentException>(() => tx.SetMaxRetry(0));
+            tx.MaxRetry = 1;
+            Assert.Equal(tx.MaxRetry, 1);
+            Assert.Throws<ArgumentException>(() => { tx.MaxRetry = 0; });
         }
 
         public virtual void ShouldMarkNodeAsUnusableOnInvalidNodeAccountId()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect()).ThenReturn(false);
-            When(node4.IsHealthy()).ThenReturn(true);
-            When(node4.ChannelFailedToConnect()).ThenReturn(false);
-            When(node5.IsHealthy()).ThenReturn(true);
-            When(node5.ChannelFailedToConnect()).ThenReturn(false);
-            var tx = new AnonymousDummyTransaction4(this);
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5));
-            txNodeAccountIds = nodeAccountIds,;
-            var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.INVALID_NODE_ACCOUNT).Build();
-            tx.blockingUnaryCall = (grpcRequest) => txResp;
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+            node4Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node4Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+            node5Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node5Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+            var tx = new AnonymousDummyTransaction4
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
+            };
+
+            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.InvalidNodeAccount };
+            tx.BlockingUnaryCall = (grpcRequest) => txResp;
 
             // INVALID_NODE_ACCOUNT maps to RETRY, so it retries on the same node (doesn't advance)
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => tx.Execute(client));
 
             // Verify that increaseBackoff was called on the network for the node that returned INVALID_NODE_ACCOUNT
-            Verify(network, AtLeastOnce()).IncreaseBackoff(Any(typeof(Node)));
+            networkMock.Verify(n => n.IncreaseBackoff(It.IsAny<Node>()), Times.AtLeastOnce());
         }
 
-        private sealed class AnonymousDummyTransaction4 : DummyTransaction
+        private sealed class AnonymousDummyTransaction4 : DummyTransaction<T>
         {
-            public AnonymousDummyTransaction4(ExecutableTest parent)
+            public override ResponseStatus MapResponseStatus(Proto.Response response)
             {
-                this.parent = parent;
-            }
-
-            private readonly ExecutableTest parent;
-            Status MapResponseStatus(Proto.TransactionResponse response)
-            {
-                return Status.INVALID_NODE_ACCOUNT;
+                return ResponseStatus.InvalidNodeAccount;
             }
         }
 
         public virtual void ShouldTriggerAddressBookUpdateOnInvalidNodeAccountId()
         {
-            When(node3.IsHealthy()).ThenReturn(true);
-            When(node3.ChannelFailedToConnect()).ThenReturn(false);
-            var tx = new AnonymousDummyTransaction5(this);
-            var nodeAccountIds = Arrays.AsList(new AccountId(0, 0, 3));
-            txNodeAccountIds = nodeAccountIds,;
-            var txResp = Proto.TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(ResponseCodeEnum.INVALID_NODE_ACCOUNT).Build();
-            tx.blockingUnaryCall = (grpcRequest) => txResp;
+            node3Mock.Setup(n => n.IsHealthy()).Returns(true);
+            node3Mock.Setup(n => n.ChannelFailedToConnect(It.IsAny<DateTime>())).Returns(false);
+            var tx = new AnonymousDummyTransaction5
+            {
+                NodeAccountIds = [new AccountId(0, 0, 3)]
+            };
+            var txResp = new Proto.TransactionResponse
+            {
+                NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.InvalidNodeAccount
+            };
+            tx.BlockingUnaryCall = (grpcRequest) => txResp;
 
             // This should trigger address book update due to INVALID_NODE_ACCOUNT
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => tx.Execute(client));
 
             // Verify that increaseBackoff was called (node marking)
-            Verify(network, AtLeastOnce()).IncreaseBackoff(Any(typeof(Node))); // Note: We can't easily test the address book update in this unit test since it's async
+            networkMock.Verify(n => n.IncreaseBackoff(It.IsAny<Node>()), Times.AtLeastOnce());
+            // Note: We can't easily test the address book update in this unit test since it's async
             // and involves network calls. The integration test would be more appropriate for that.
         }
 
-        private sealed class AnonymousDummyTransaction5 : DummyTransaction
+        private sealed class AnonymousDummyTransaction5 : DummyTransaction<T>
         {
-            public AnonymousDummyTransaction5(ExecutableTest parent)
+            public override ResponseStatus MapResponseStatus(Proto.Response response)
             {
-                this.parent = parent;
-            }
-
-            private readonly ExecutableTest parent;
-            Status MapResponseStatus(Proto.TransactionResponse response)
-            {
-                return Status.INVALID_NODE_ACCOUNT;
+                return ResponseStatus.InvalidNodeAccount;
             }
         }
 
-        class DummyTransaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse> where T : Transaction<T>
+        class DummyTransaction : DummyTransaction<T> { }
+        class DummyTransaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>
         {
-            override void OnExecute(Client client)
-            {
-            }
-
-            override Task<Void> OnExecuteAsync(Client client)
-            {
-                return null;
-            }
-
-            override Proto.Transaction MakeRequest()
-            {
-                return null;
-            }
-
-            override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
-            {
-                return null;
-            }
-
-            override Status MapResponseStatus(Proto.TransactionResponse response)
-            {
-                return Status.OK;
-            }
-
-            override MethodDescriptor<Proto.Transaction, Proto.TransactionResponse> GetMethod()
-            {
-                return null;
-            }
-
-            override TransactionId GetTransactionIdInternal()
-            {
-                return null;
-            }
+            public override TransactionId TransactionIdInternal => null;
+            public override void OnExecute(Client client) { }
+            public override Task OnExecuteAsync(Client client) { return Task.CompletedTask; }
+            public override Proto.Transaction MakeRequest() { return null; }
+            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request) { return null; }
+            public override MethodDescriptor GetMethodDescriptor() { return null; }
+            public override ResponseStatus MapResponseStatus(Proto.Response response) { return ResponseStatus.Ok; }
+            public override Method<Proto.Transaction, Proto.TransactionResponse> GetMethod() { return null; }
         }
 
         class DummyQuery : Query<TransactionReceipt, TransactionReceiptQuery>
         {
-            override void OnExecute(Client client)
-            {
-            }
-
-            override TransactionReceipt MapResponse(Response response, AccountId nodeId, Proto.Query request)
-            {
-                return null;
-            }
-
-            override Status MapResponseStatus(Proto.Response response)
-            {
-                return Status.OK;
-            }
-
-            override MethodDescriptor<Proto.Query, Response> GetMethod()
-            {
-                return null;
-            }
-
-            override void OnMakeRequest(Proto.Query queryBuilder, QueryHeader header)
-            {
-            }
-
-            override ResponseHeader MapResponseHeader(Response response)
-            {
-                return null;
-            }
-
-            override QueryHeader MapRequestHeader(Proto.Query request)
-            {
-                return null;
-            }
-
-            override void ValidateChecksums(Client client)
-            {
-            }
+            public override void OnExecute(Client client) { }
+            public override TransactionReceipt MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request) { return null; }
+            public override MethodDescriptor GetMethodDescriptor() { return null; }
+            public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header) { }
+            public override Proto.ResponseHeader MapResponseHeader(Proto.Response response) { return null; }
+            public override Proto.QueryHeader MapRequestHeader(Proto.Query request) { return null; }
+            public override ResponseStatus MapResponseStatus(Proto.Response response) { return ResponseStatus.Ok; }
+            public override void ValidateChecksums(Client client) { }
         }
     }
 }
