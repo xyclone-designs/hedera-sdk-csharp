@@ -615,7 +615,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Equal(tx.NodeAccountIds.Read.Count, 1);
 				Assert.Equal(tx.NodeAccountIds.Read[0], new AccountId(0, 0, 3));
 				
-                IDictionary<AccountId, IDictionary<PublicKey, byte[]>> signatures = tx.GetSignatures();
+                Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = tx.GetSignatures();
 
 				Assert.Equal(signatures[new AccountId(0, 0, 3)][publicKey1], signature1);
 				Assert.Equal(signatures[new AccountId(0, 0, 3)][publicKey2], signature2);
