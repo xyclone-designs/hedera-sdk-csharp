@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
     {
         private static readonly DateTimeOffset time = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
 
-        static TransactionReceipt SpawnReceiptExample()
+        public static TransactionReceipt SpawnReceiptExample()
         {
             return new TransactionReceipt(
                 null,

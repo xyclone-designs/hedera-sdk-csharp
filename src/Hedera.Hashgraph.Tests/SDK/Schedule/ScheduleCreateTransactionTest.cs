@@ -25,23 +25,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
 
         private ScheduleCreateTransaction SpawnTestTransaction()
         {
-            var transferTransaction = new TransferTransaction
-            {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
-				AdminKey = unusedPrivateKey,
-				PayerAccountId = AccountId.FromString("0.0.222"),
-				ScheduleMemo = "hi",
-				MaxTransactionFee = new Hbar(1),
-				ExpirationTime = validStart,
-
-			}.AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10))
-            .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));
+            var transferTransaction = new TransferTransaction()
+                .AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10))
+                .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));
             
-            return transferTransaction.Schedule()
-                
-            .Freeze()
-            .Sign(unusedPrivateKey);
+            return transferTransaction.Schedule(_ =>
+            {
+                _.NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")];
+				_.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart);
+				_.AdminKey = unusedPrivateKey;
+				_.PayerAccountId = AccountId.FromString("0.0.222");
+				_.ScheduleMemo = "hi";
+				_.MaxTransactionFee = new Hbar(1);
+				_.ExpirationTime = validStart;     
+            
+            }).Freeze().Sign(unusedPrivateKey);
         }
 
         public virtual void ShouldBytes()
@@ -62,34 +60,33 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
 
         public virtual void ShouldSupportExpirationTimeDurationBytesRoundTrip()
         {
-            var transferTransaction = new TransferTransaction
-            {
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
-				AdminKey = unusedPrivateKey,
-				PayerAccountId = AccountId.FromString("0.0.222"),
-				ScheduleMemo = "with-duration",
-				MaxTransactionFee = new Hbar(1),
-				ExpirationTime = TimeSpan.FromSeconds(1234),
-			}
+            var tx = new TransferTransaction()
                 .AddHbarTransfer(AccountId.FromString("0.0.555"), new Hbar(-10))
-                .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10));
-            
-            var tx = transferTransaction.Schedule();
+                .AddHbarTransfer(AccountId.FromString("0.0.333"), new Hbar(10))
+                .Schedule(_ =>
+                {
+                    _.NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")];
+                    _.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart);
+                    _.AdminKey = unusedPrivateKey;
+                    _.PayerAccountId = AccountId.FromString("0.0.222");
+                    _.ScheduleMemo = "with-duration";
+                    _.MaxTransactionFee = new Hbar(1);
+                    _.ExpirationTime = DateTime.UtcNow.AddSeconds(1234);
+                });
             // When expiration is set via Duration, DateTimeOffset getter should be null
-            
+
             Assert.Null(tx.ExpirationTime);
             
             var tx2 = Transaction.FromBytes<ScheduleCreateTransaction>(tx.ToBytes());
 
             Assert.Equal(tx2.ToString(), tx.ToString());
-            Assert.Equal(tx2.ExpirationTime, DateTimeOffset.FromUnixTimeMilliseconds(1234).ToTimestamp());
+            Assert.Equal(tx2.ExpirationTime, DateTimeOffset.FromUnixTimeMilliseconds(1234));
         }
 
         public virtual void SetExpirationTimeDurationOnFrozenTransactionShouldThrow()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = Timestamp.FromDateTimeOffset(DateTimeOffset.FromUnixTimeSeconds(1)));
+            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = DateTimeOffset.FromUnixTimeSeconds(1));
         }
 
         public virtual void GetSetExpirationTimeDateTime()
@@ -97,10 +94,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567).ToTimestamp();
             var tx = new ScheduleCreateTransaction
             {
-				ExpirationTime = instant
+				ExpirationTime = instant.ToDateTimeOffset()
 			};
 
-            Assert.Equal(tx.ExpirationTime, instant);
+            Assert.Equal(tx.ExpirationTime?.ToUnixTimeSeconds(), instant.Seconds);
+            Assert.Equal(tx.ExpirationTime?.Nanosecond, instant.Nanos);
         }
     }
 }

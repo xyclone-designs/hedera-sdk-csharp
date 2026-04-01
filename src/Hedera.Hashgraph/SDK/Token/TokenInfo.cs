@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.SDK.Token
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.LedgerId"]/*' />
         public readonly LedgerId LedgerId;
         
-        TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, TimeSpan autoRenewPeriod, DateTimeOffset expirationTime, string tokenMemo, IEnumerable<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
+        internal TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, TimeSpan autoRenewPeriod, DateTimeOffset expirationTime, string tokenMemo, IEnumerable<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
         {
             TokenId = tokenId;
             Name = name;

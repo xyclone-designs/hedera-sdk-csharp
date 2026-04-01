@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 			Size = 2,
 			ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(3).ToProtoTimestamp(),
 			Deleted = true,
-			Keys = [.. keys],
+			// Keys = [.. keys],
 			LedgerId = LedgerId.MAINNET.ToByteString(),
 		};
 

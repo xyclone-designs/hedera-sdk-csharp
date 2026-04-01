@@ -13,7 +13,20 @@ namespace Hedera.Hashgraph.SDK.Schedule
     public sealed class ScheduleInfo
     {
         /// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.#ctor(ScheduleId,AccountId,AccountId,Proto.SchedulableTransactionBody,KeyList,Key,TransactionId,System.String,DateTimeOffset,DateTimeOffset,DateTimeOffset,LedgerId,System.Boolean)"]/*' />
-        public ScheduleInfo(ScheduleId scheduleId, AccountId creatorAccountId, AccountId payerAccountId, Proto.SchedulableTransactionBody transactionBody, KeyList signers, Key? adminKey, TransactionId scheduledTransactionId, string memo, DateTimeOffset expirationTime, DateTimeOffset executed, DateTimeOffset deleted, LedgerId ledgerId, bool waitForExpiry)
+        public ScheduleInfo(
+			ScheduleId scheduleId, 
+			AccountId creatorAccountId, 
+			AccountId payerAccountId, 
+			Proto.SchedulableTransactionBody transactionBody, 
+			KeyList signers, 
+			Key? adminKey, 
+			TransactionId scheduledTransactionId, 
+			string memo, 
+			DateTimeOffset? expirationTime, 
+			DateTimeOffset? executed, 
+			DateTimeOffset? deleted, 
+			LedgerId ledgerId, 
+			bool waitForExpiry)
         {
             ScheduleId = scheduleId;
             CreatorAccountId = creatorAccountId;
@@ -23,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
             TransactionBody = transactionBody;
             ScheduledTransactionId = scheduledTransactionId;
             Memo = memo;
-            ExpirationTime = expirationTime;
+            ExpirationTime = expirationTime; 
             ExecutedAt = executed;
             DeletedAt = deleted;
             LedgerId = ledgerId;
@@ -69,11 +82,11 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.Memo"]/*' />
 		public string Memo { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.ExpirationTime"]/*' />
-		public DateTimeOffset ExpirationTime { get; }
+		public DateTimeOffset? ExpirationTime { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.ExecutedAt"]/*' />
-		public DateTimeOffset ExecutedAt { get; }
+		public DateTimeOffset? ExecutedAt { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.DeletedAt"]/*' />
-		public DateTimeOffset DeletedAt { get; }
+		public DateTimeOffset? DeletedAt { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.TransactionBody"]/*' />
 		public Proto.SchedulableTransactionBody TransactionBody { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.LedgerId"]/*' />
@@ -103,13 +116,13 @@ namespace Hedera.Hashgraph.SDK.Schedule
                 proto.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
 
             if (ExpirationTime != null)
-                proto.ExpirationTime = ExpirationTime.ToProtoTimestamp();
+                proto.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 
             if (ExecutedAt != null)
-                proto.ExecutionTime = ExecutedAt.ToProtoTimestamp();
+                proto.ExecutionTime = ExecutedAt.Value.ToProtoTimestamp();
 
             if (DeletedAt != null)
-                proto.DeletionTime = DeletedAt.ToProtoTimestamp();
+                proto.DeletionTime = DeletedAt.Value.ToProtoTimestamp();
 
             return proto;
 		}

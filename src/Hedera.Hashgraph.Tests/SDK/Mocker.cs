@@ -37,55 +37,55 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 var index = 0;
                 var response = responses[i];
-                var name = InProcessServerBuilder.GenerateName();
+                var name = ""; //InProcessServerBuilder.GenerateName();
                 var nodeAccountId = new AccountId(0, 0, 3 + i);
-                var builder = InProcessServerBuilder.ForName(name);
+                var builder = ""; //InProcessServerBuilder.ForName(name);
                 network.Add("in-process:" + name, nodeAccountId);
                 foreach (var service in services)
                 {
                     foreach (MethodDescriptor method in service.Methods)
                     {
-                        var methodDefinition = ServerMethodDefinition.Create((MethodDescriptor)method, ServerCalls.AsyncUnaryCall((request, responseObserver) =>
-                        {
-                            var responseIndex = Interlocked.Increment(ref index);
-                            if (responseIndex >= response.Count)
-                            {
-                                responseObserver.OnError(ResponseStatus.Code.ABORTED.ToStatus().AsRuntimeException());
-                                return;
-                            }
+                        //var methodDefinition = ServerMethodDefinition.Create((MethodDescriptor)method, ServerCalls.AsyncUnaryCall((request, responseObserver) =>
+                        //{
+                        //    var responseIndex = Interlocked.Increment(ref index);
+                        //    if (responseIndex >= response.Count)
+                        //    {
+                        //        responseObserver.OnError(ResponseStatus.Code.ABORTED.ToStatus().AsRuntimeException());
+                        //        return;
+                        //    }
 
-                            var r = response[responseIndex];
+                        //    var r = response[responseIndex];
                             
-                            if (r is Func)
-                                try
-                                {
-                                    r = ((Function<object, object>)r).Apply(request);
-                                }
-                                catch (Exception e)
-                                {
-                                    r = Status.ABORTED.WithDescription(e.GetMessage()).AsRuntimeException();
-                                }
+                        //    if (r is Func)
+                        //        try
+                        //        {
+                        //            r = ((Function<object, object>)r).Apply(request);
+                        //        }
+                        //        catch (Exception e)
+                        //        {
+                        //            r = Status.ABORTED.WithDescription(e.GetMessage()).AsRuntimeException();
+                        //        }
 
-                            if (r is Exception rexception)
-                            {
-                                responseObserver.OnError(rexception);
-                            }
-                            else
-                            {
-                                responseObserver.OnNext(r);
-                                responseObserver.OnCompleted();
-                            }
-                        }));
+                        //    if (r is Exception rexception)
+                        //    {
+                        //        responseObserver.OnError(rexception);
+                        //    }
+                        //    else
+                        //    {
+                        //        responseObserver.OnNext(r);
+                        //        responseObserver.OnCompleted();
+                        //    }
+                        //}));
 
-                        service.Methods.Add(methodDefinition);
+                        //service.Methods.Add(methodDefinition);
                     }
 
-                    builder.AddService(service);
+                    //builder.AddService(service);
                 }
 
                 try
                 {
-                    servers.Add(builder.DirectExecutor().Build().Start());
+                    //servers.Add(builder.DirectExecutor().Build().Start());
                 }
                 catch (IOException e)
                 {

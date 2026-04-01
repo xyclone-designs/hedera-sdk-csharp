@@ -35,8 +35,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 {	
 	/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
 	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>
-    {
-		
+    {		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction_2"]/*' />
 		internal Hbar DefaultMaxTransactionFee = new (2);
         

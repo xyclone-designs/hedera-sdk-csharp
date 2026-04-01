@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly AccountId testAccountId = AccountId.FromString("0.6.9");
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
-        private static readonly long testAmount = 4;
+        private static readonly ulong testAmount = 4;
         private static readonly List<long> testSerialNumbers = [8, 9, 10];
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
 
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = TokenId.FromString("0.0.111"),
 				AccountId = testAccountId,
-				Amount = (ulong)testAmount,
+				Amount = testAmount,
 				Serials = [..testSerialNumbers],
 				MaxTransactionFee = new Hbar(1)
 			}
@@ -101,11 +101,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var transactionBody = new Proto.TokenWipeAccountTransactionBody
             {
-				Token = testTokenId.ToProtobuf(),
-				Account = testAccountId.ToProtobuf(),
-				Amount = testAmount,
-			
-            }.AddAllSerialNumbers(testSerialNumbers).Build();
+                Token = testTokenId.ToProtobuf(),
+                Account = testAccountId.ToProtobuf(),
+                Amount = testAmount,
+                SerialNumbers = { testSerialNumbers }
+            };
             var txBody = new Proto.TransactionBody
             {
 				TokenWipe = transactionBody
@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             {
 				TokenId = testTokenId
 			};
-            Assert.Equal(tokenWipeTransaction.GetTokenId(), testTokenId);
+            Assert.Equal(tokenWipeTransaction.TokenId, testTokenId);
         }
 
         public virtual void GetSetTokenIdFrozen()
@@ -166,7 +166,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.Serials = testSerialNumbers);
+            Assert.Throws<InvalidOperationException>(() => tx.Serials.ClearAndSet(testSerialNumbers));
         }
     }
 }

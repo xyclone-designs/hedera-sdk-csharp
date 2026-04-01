@@ -65,7 +65,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicMessage.Contents, testContents);
             Assert.Equal(topicMessage.RunningHash, testRunningHash);
             Assert.Equal(topicMessage.SequenceNumber, testSequenceNumber);
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
             Assert.Equal(topicMessage.TransactionId, testTransactionId);
         }
 
@@ -137,7 +136,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicMessage.Contents, totalContents);
             Assert.Equal(topicMessage.RunningHash, testRunningHash);
             Assert.Equal(topicMessage.SequenceNumber, testSequenceNumber + 1);
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
             Assert.Equal(topicMessage.TransactionId, testTransactionId);
         }
     }

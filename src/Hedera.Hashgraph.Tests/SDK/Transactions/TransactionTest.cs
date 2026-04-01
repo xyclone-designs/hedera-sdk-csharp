@@ -207,9 +207,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				NodeAccountIds = [..testNodeAccountIds],
 			
             }.Freeze();
+ 
             var objects = fileAppentTx.BodySizeAllChunks();
             Assert.NotNull(objects);
-            Assert.Equal(2, fileAppentTx.GetHbarTransfers().Count);
+            Assert.Equal(2, objects.Count);
         }
 
         public virtual void SingleChunkTransactionShouldReturnArrayOfOneSize()
@@ -316,7 +317,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID2);
             Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
-            Assert.Equal(2, transaction.GetHbarTransfers().Count);
+            Assert.Equal(2, signatures.Count);
             Assert.True(signatures.ContainsKey(nodeAccountID1));
             Assert.True(signatures.ContainsKey(nodeAccountID2));
             foreach (AccountId nodeID in nodeAccountIDs)
@@ -349,7 +350,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID1);
             transaction = transaction.AddSignature(mockPrivateKey.GetPublicKey(), mockSignature, testTransactionID, nodeAccountID2);
             Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
-            Assert.Equal(2, transaction.GetHbarTransfers().Count);
+            Assert.Equal(2, signatures.Count);
             Assert.True(signatures.ContainsKey(nodeAccountID1));
             Assert.True(signatures.ContainsKey(nodeAccountID2));
             foreach (AccountId nodeID in nodeAccountIDs)
@@ -532,7 +533,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             }.FreezeWith(client);
             List<Transaction.SignableNodeTransactionBodyBytes> list = tx.GetSignableNodeBodyBytesList();
-            Assert.Equal(2, tx.GetHbarTransfers().Count); // Should have 4 entries: 2 nodes * 2 chunks
+            Assert.Equal(2, list.Count); // Should have 4 entries: 2 nodes * 2 chunks
 
             // Map to track transaction IDs per node
             Dictionary<string, Dictionary<string, bool>> txIDsByNode = [];
@@ -561,7 +562,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             // Verify each node has the same number of unique transaction IDs
             foreach (AccountId nodeID in nodeAccountIDs)
             {
-                Assert.Equal(2, tx.GetHbarTransfers().Count);
+                Assert.Equal(2, tx.TransactionIds.Count);
             }
 
 

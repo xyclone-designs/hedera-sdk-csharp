@@ -1,13 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Transactions;
+using System;
+using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
@@ -19,7 +16,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
-            var result = tx.HookToCreate.Add(hookDetails);
+            tx.HookCreationDetails_.Add(hookDetails);
+            var result = tx;
             Assert.Equal(result, tx);
             Assert.Single(tx.HookCreationDetails_);
             Assert.Equal(tx.HookCreationDetails_[0], hookDetails);
@@ -32,31 +30,37 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var lambdaHook = new EvmHook(contractId);
             var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, lambdaHook);
-            var hooks = List.Of(hookDetails1, hookDetails2);
-            var result = tx.SetHooksToCreate(hooks);
+            
+            tx.HookCreationDetails_.ClearAndSet([hookDetails1, hookDetails2]);
+            var result = tx;
             Assert.Equal(result, tx);
-            Assert.Equal(2, tx.HbarTransfers.Count);
-            AssertThat(tx.HookCreationDetails_).ContainsExactlyInAnyOrder(hookDetails1, hookDetails2);
+            //Assert.Equal(2, tx.HbarTransfers.Count);
+            Assert.Contains(hookDetails1, tx.HookCreationDetails_);
+            Assert.Contains(hookDetails2, tx.HookCreationDetails_);
         }
 
         public virtual void ShouldAddHookToDelete()
         {
             var tx = new ContractUpdateTransaction();
-            var hookId = (ulong)123;
+            var hookId = 123;
             tx.HookIdsToDelete.Add(hookId);
+            var result = tx;
             Assert.Equal(result, tx);
             Assert.Single(tx.HookIdsToDelete);
-            Assert.Contains(tx.HookIdsToDelete, hookId);
+            Assert.Contains(hookId, tx.HookIdsToDelete);
         }
 
         public virtual void ShouldAddHooksToDelete()
         {
             var tx = new ContractUpdateTransaction();
-            ulong[] hookIds = [123, 456, 789];
-            var result = tx.HookIdsToDelete.ClearAndSet(hookIds);
+            long[] hookIds = [123, 456, 789];
+            tx.HookIdsToDelete.ClearAndSet(hookIds);
+            var result = tx;
             Assert.Equal(result, tx);
-            Assert.Equal(2, tx.HbarTransfers.Count);
-            AssertThat(tx.HookIdsToDelete).ContainsExactlyInAnyOrder(123, 456, 789);
+            //Assert.Equal(2, tx.HbarTransfers.Count);
+            Assert.Contains(123, tx.HookIdsToDelete);
+            Assert.Contains(456, tx.HookIdsToDelete);
+            Assert.Contains(789, tx.HookIdsToDelete);
         }
 
         public virtual void ShouldGetHooksToCreate()
@@ -161,7 +165,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var builder = tx.ToProtobuf();
             Assert.Single(builder.HookCreationDetails);
             Assert.Single(builder.HookIdsToDelete);
-            Assert.Contains(builder.HookIdsToDelete, 123);
+            Assert.Contains(123, builder.HookIdsToDelete);
         }
 
         public virtual void ShouldDeserializeHooksFromTransactionBody()
@@ -179,7 +183,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             Assert.Single(deserializedTx.HookCreationDetails_);
             Assert.Single(deserializedTx.HookIdsToDelete);
-            Assert.Contains(deserializedTx.HookIdsToDelete, 123);
+            Assert.Contains(123, deserializedTx.HookIdsToDelete);
         }
 
         public virtual void ShouldHandleEmptyHooks()
@@ -206,10 +210,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             tx.HookIdsToDelete.Add(100);
             tx.HookIdsToDelete.Add(200);
 
-            Assert.Equal(2, tx.HbarTransfers.Count);
-            Assert.Equal(2, tx.HbarTransfers.Count);
+            //Assert.Equal(2, tx.HbarTransfers.Count);
 
-            AssertThat(tx.HookIdsToDelete).ContainsExactlyInAnyOrder(100, 200);
+            Assert.Contains(100, tx.HookIdsToDelete);
+            Assert.Contains(200, tx.HookIdsToDelete);
         }
     }
 }

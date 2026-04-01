@@ -33,13 +33,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly PublicKey testPauseKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e17").GetPublicKey();
         private static readonly PublicKey testMetadataKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e18").GetPublicKey();
         private static readonly TokenId testTokenId = TokenId.FromString("0.6.9");
+        private static readonly TokenSupplyType testTokenSupplyType = TokenSupplyType.Finite;
         private static readonly AccountId testTreasuryAccountId = AccountId.FromString("7.7.7");
         private static readonly AccountId testAutoRenewAccountId = AccountId.FromString("8.9.0");
         private static readonly string testTokenName = "test token name";
         private static readonly string testTokenSymbol = "TTN";
         private static readonly string testTokenMemo = "memo";
-        private static readonly int testTokenDecimals = 3;
-        private static readonly long testTokenTotalSupply = 1000;
+        private static readonly uint testTokenDecimals = 3;
+        private static readonly ulong testTokenTotalSupply = 1000;
         private static readonly bool testTokenFreezeStatus = true;
         private static readonly bool testTokenKycStatus = true;
         private static readonly bool testTokenIsDeleted = false;
@@ -77,7 +78,35 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         };
         private static TokenInfo SpawnTokenInfoExample()
         {
-            return new TokenInfo(testTokenId, testTokenName, testTokenSymbol, testTokenDecimals, testTokenTotalSupply, testTreasuryAccountId, testAdminKey, testKycKey, testFreezeKey, testWipeKey, testSupplyKey, testFeeScheduleKey, testTokenFreezeStatus, testTokenKycStatus, testTokenIsDeleted, testAutoRenewAccountId, testAutoRenewPeriod, testExpirationTime, testTokenMemo, testTokenCustomFees, testTokenType, testTokenSupplyType, testTokenMaxSupply, testPauseKey, testTokenPauseStatus, testMetadata, testMetadataKey, testTokenLedgerId);
+            return new TokenInfo(
+                testTokenId, 
+                testTokenName, 
+                testTokenSymbol, 
+                testTokenDecimals, 
+                testTokenTotalSupply, 
+                testTreasuryAccountId, 
+                testAdminKey, 
+                testKycKey, 
+                testFreezeKey, 
+                testWipeKey, 
+                testSupplyKey, 
+                testFeeScheduleKey, 
+                testTokenFreezeStatus, 
+                testTokenKycStatus, 
+                testTokenIsDeleted, 
+                testAutoRenewAccountId, 
+                testAutoRenewPeriod, 
+                testExpirationTime, 
+                testTokenMemo, 
+                testTokenCustomFees, 
+                testTokenType,
+                testTokenSupplyType, 
+                testTokenMaxSupply, 
+                testPauseKey, 
+                testTokenPauseStatus, 
+                testMetadata, 
+                testMetadataKey, 
+                testTokenLedgerId);
         }
 
         public virtual void ShouldSerialize()

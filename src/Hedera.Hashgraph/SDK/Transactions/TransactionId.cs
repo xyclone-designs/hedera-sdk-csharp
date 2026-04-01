@@ -22,10 +22,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
         
         /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]/*' />
-        public TransactionId(AccountId accountId, DateTimeOffset validStart)
+        public TransactionId(AccountId accountId, DateTimeOffset? validStart)
         {
             AccountId = accountId;
-            ValidStart = validStart;
+            ValidStart = validStart ?? DateTimeOffset.UtcNow;
             Scheduled = false;
         }
 

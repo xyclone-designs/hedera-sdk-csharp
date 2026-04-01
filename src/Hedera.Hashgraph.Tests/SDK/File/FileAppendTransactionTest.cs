@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Verifier.Verify(HashesToString(SpawnTestTransactionBigContents(nodeAccountIds).GetAllTransactionHashesPerNode()));
         }
 
-        public virtual string SignaturesToString(IDictionary<AccountId, IDictionary<PublicKey, byte[]>> signatures)
+        public virtual string SignaturesToString(Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures)
         {
             var outString = new StringBuilder();
             outString.Append('{');
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             return outString + "}";
         }
 
-        public virtual string AllSignaturesToString(List<IDictionary<AccountId, IDictionary<PublicKey, byte[]>>> allSignatures)
+        public virtual string AllSignaturesToString(List<Dictionary<AccountId, Dictionary<PublicKey, byte[]>>> allSignatures)
         {
             var outString = new StringBuilder();
             outString.Append('[');
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
                 AccountId.FromString("0.0.555"),
             };
             var signatures = SpawnTestTransaction(nodeAccountIds).Sign(secondPrivateKey).GetSignatures();
-            
+
             Verifier.Verify(SignaturesToString(signatures));
         }
 

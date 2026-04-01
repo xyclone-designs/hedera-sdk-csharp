@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var hookCall = new FungibleHookCall(123, new EvmHookCall(new byte[] { 1, 2, 3 }, 100000), FungibleHookType.PreTxAllowanceHook);
 
             // Set up the transaction properly before freezing
-            tx.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), Timestamp.FromDateTimeOffset(DateTimeOffset.UtcNow));
+            tx.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.UtcNow);
             tx.NodeAccountIds = [AccountId.FromString("0.0.5005")];
 
             // Freeze the transaction

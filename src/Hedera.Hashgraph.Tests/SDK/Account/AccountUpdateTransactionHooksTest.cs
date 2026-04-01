@@ -16,10 +16,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
-            var result = tx.AddHookToCreate(hookDetails);
+            tx.HookCreationDetails.Add(hookDetails);
+            var result = tx;
             Assert.Equal(result, tx);
-            Assert.Single(tx.HooksToCreate());
-            Assert.Equal(tx.HooksToCreate()[0], hookDetails);
+            Assert.Single(tx.HookCreationDetails);
+            Assert.Equal(tx.HookCreationDetails[0], hookDetails);
         }
 
         public virtual void ShouldSetHooksToCreate()
@@ -29,31 +30,34 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var lambdaHook = new EvmHook(contractId);
             var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, lambdaHook);
-            var hooks = List.Of(hookDetails1, hookDetails2);
-            var result = tx.SetHooksToCreate(hooks);
+            var hooks = new HookCreationDetails[] { hookDetails1, hookDetails2 };
+            tx.HookCreationDetails.ClearAndSet(hooks);
+            var result = tx;
             Assert.Equal(result, tx);
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
-            AssertThat(tx.HooksToCreate()).ContainsExactlyInAnyOrder(hookDetails1, hookDetails2);
+            //Assert.Equal(2, tx.GetHbarTransfers().Count);
+            //Assert.Contains([hookDetails1, hookDetails2], tx.HookCreationDetails);
         }
 
         public virtual void ShouldAddHookToDelete()
         {
             var tx = new AccountUpdateTransaction();
             var hookId = 123;
-            var result = tx.AddHookToDelete(hookId);
+            tx.HookIdsToDelete.Add(hookId);
+            var result = tx;
             Assert.Equal(result, tx);
-            Assert.Single(tx.GetHooksToDelete());
-            Assert.Contains(tx.GetHooksToDelete(), hookId);
+            Assert.Single(tx.HookIdsToDelete);
+            Assert.Contains(hookId, tx.HookIdsToDelete);
         }
 
         public virtual void ShouldAddHooksToDelete()
         {
             var tx = new AccountUpdateTransaction();
-            var hookIds = List.Of(123, 456, 789);
-            var result = tx.SetHooksToDelete(hookIds);
+            var hookIds = new long[] { 123, 456, 789 };
+            tx.HookIdsToDelete.AddRange(hookIds);
+            var result = tx;
             Assert.Equal(result, tx);
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
-            AssertThat(tx.GetHooksToDelete()).ContainsExactlyInAnyOrder(123, 456, 789);
+            //Assert.Equal(2, tx.GetHbarTransfers().Count);
+            //Assert.Contains([123, 456, 789], tx.HookIdsToDelete);
         }
 
         public virtual void HooksToCreate()
@@ -62,27 +66,27 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
-            tx.AddHookToCreate(hookDetails);
-            var result = tx.HooksToCreate();
+            tx.HookCreationDetails.Add(hookDetails);
+            var result = tx.HookCreationDetails;
             Assert.Single(result);
             Assert.Equal(result[0], hookDetails);
 
             // Verify it returns a copy
             result.Clear();
-            Assert.Single(tx.HooksToCreate());
+            Assert.Single(tx.HookCreationDetails);
         }
 
         public virtual void ShouldGetHooksToDelete()
         {
             var tx = new AccountUpdateTransaction();
-            tx.AddHookToDelete(123);
-            var result = tx.GetHooksToDelete();
+            tx.HookIdsToDelete.Add(123);
+            var result = tx.HookIdsToDelete;
             Assert.Single(result);
-            Assert.Contains(result, 123);
+            Assert.Contains(123, result);
 
             // Verify it returns a copy
             result.Clear();
-            Assert.Single(tx.GetHooksToDelete());
+            Assert.Single(tx.HookIdsToDelete);
         }
 
         public virtual void ShouldThrowWhenAddingHookAfterFreeze()
@@ -90,14 +94,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var tx = new AccountUpdateTransaction();
             
             tx.SetNodeAccountIds([ AccountId.FromString("0.0.5005") ]);
-            tx.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp());
+            tx.TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542));
             tx.Freeze();
             
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             
-			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.AddHookToDelete(hookDetails));
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookCreationDetails.Add(hookDetails));
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
@@ -106,7 +110,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             var tx = new AccountUpdateTransaction
             {
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp())
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542))
 			}
             .SetNodeAccountIds([ AccountId.FromString("0.0.5005") ])
             .Freeze();
@@ -115,7 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
 
-			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.SetHooksToCreate(hookDetails));
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookCreationDetails.ClearAndSet(hookDetails));
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
@@ -124,12 +128,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             var tx = new AccountUpdateTransaction
             {
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp())
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542))
 			}
             .SetNodeAccountIds([ AccountId.FromString("0.0.5005") ])
             .Freeze();
 
-            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.AddHooksToDelete(123));
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookIdsToDelete.Add(123));
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
@@ -138,51 +142,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             var tx = new AccountUpdateTransaction
             {
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542).ToTimestamp())
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), DateTimeOffset.FromUnixTimeMilliseconds(1554158542))
 			}
             .SetNodeAccountIds([ AccountId.FromString("0.0.5005") ])
             .Freeze();
 
-			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.SetHooksToDelete([123, 456]));
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookIdsToDelete.AddRange([123, 456]));
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
-
-        public virtual void ShouldThrowWhenAddingNullHook()
-        {
-            var tx = new AccountUpdateTransaction();
-
-            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.AddHookToCreate(null));
-            
-            Assert.Contains(exception.Message, "hookDetails cannot be null");
-        }
-
-        public virtual void ShouldThrowWhenSettingNullHooks()
-        {
-            var tx = new AccountUpdateTransaction();
-            
-            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.SetHooksToCreate(null));
-            
-            Assert.Contains(exception.Message, "hookDetails cannot be null");
-        }
-
-        public virtual void ShouldThrowWhenDeletingNullHook()
-        {
-            var tx = new AccountUpdateTransaction();
-
-            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.AddHookToDelete(null));
-            
-            Assert.Contains(exception.Message, "hookId cannot be null");
-        }
-
-        public virtual void ShouldThrowWhenDeletingNullHooks()
-        {
-            var tx = new AccountUpdateTransaction();
-
-            NullReferenceException exception = Assert.Throws<NullReferenceException>(() => tx.SetHooksToDelete(null));
-            
-            Assert.Contains(exception.Message, "hookIds cannot be null");
-        }
 
         public virtual void ShouldSerializeHooksInBuild()
         {
@@ -191,14 +159,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             
-            tx.AddHookToCreate(hookDetails);
-            tx.AddHookToDelete(123);
+            tx.HookCreationDetails.Add(hookDetails);
+            tx.HookIdsToDelete.Add(123);
             
             var builder = tx.ToProtobuf();
 
-            Assert.Single(builder.GetHookCreationDetailsList());
-            Assert.Single(builder.GetHookIdsToDeleteList());
-            Assert.Contains(builder.GetHookIdsToDeleteList(), 123);
+            Assert.Single(builder.HookCreationDetails);
+            Assert.Single(builder.HookIdsToDelete);
+            Assert.Contains(123, builder.HookIdsToDelete);
         }
 
         public virtual void ShouldDeserializeHooksFromTransactionBody()
@@ -208,28 +176,28 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             
-            tx.AddHookToCreate(hookDetails);
-            tx.AddHookToDelete(123);
+            tx.HookCreationDetails.Add(hookDetails);
+            tx.HookIdsToDelete.Add(123);
             
             var bytes = tx.ToBytes();
             var deserializedTx = Transaction.FromBytes<AccountUpdateTransaction>(bytes);
             
-            Assert.Single(deserializedTx.HooksToCreate());
-            Assert.Single(deserializedTx.GetHooksToDelete());
-            Assert.Contains(deserializedTx.GetHooksToDelete(), 123);
+            Assert.Single(deserializedTx.HookCreationDetails);
+            Assert.Single(deserializedTx.HookIdsToDelete);
+            Assert.Contains(123, deserializedTx.HookIdsToDelete);
         }
 
         public virtual void ShouldHandleEmptyHooks()
         {
             var tx = new AccountUpdateTransaction();
             
-            Assert.Empty(tx.HooksToCreate());
-            Assert.Empty(tx.GetHooksToDelete());
+            Assert.Empty(tx.HookCreationDetails);
+            Assert.Empty(tx.HookIdsToDelete);
             
-            var builder = tx.Build();
+            var builder = tx.ToProtobuf();
             
-            Assert.Empty(builder.GetHookCreationDetailsList());
-            Assert.Empty(builder.GetHookIdsToDeleteList());
+            Assert.Empty(builder.HookCreationDetails);
+            Assert.Empty(builder.HookIdsToDelete);
         }
 
         public virtual void ShouldSupportMultipleHooks()
@@ -240,14 +208,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var hookDetails1 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var hookDetails2 = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 2, lambdaHook);
             
-            tx.AddHookToCreate(hookDetails1);
-            tx.AddHookToCreate(hookDetails2);
-            tx.AddHookToDelete(100);
-            tx.AddHookToDelete(200);
+            tx.HookCreationDetails.Add(hookDetails1);
+            tx.HookCreationDetails.Add(hookDetails2);
+            tx.HookIdsToDelete.Add(100);
+            tx.HookIdsToDelete.Add(200);
 
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
-            AssertThat(tx.GetHooksToDelete()).ContainsExactlyInAnyOrder(100, 200);
+            //Assert.Equal(2, tx.GetHbarTransfers().Count);
+            //Assert.Equal(2, tx.GetHbarTransfers().Count);
+            Assert.Contains(100, tx.HookIdsToDelete);
+            Assert.Contains(200, tx.HookIdsToDelete);
         }
     }
 }

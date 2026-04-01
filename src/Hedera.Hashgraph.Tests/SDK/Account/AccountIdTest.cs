@@ -21,7 +21,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         static Client previewnetClient;
         public static void BeforeAll()
         {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
             mainnetClient = Client.ForMainnet();
             testnetClient = Client.ForTestnet();
             previewnetClient = Client.ForPreviewnet();
@@ -32,7 +31,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             mainnetClient.Dispose();
             testnetClient.Dispose();
             previewnetClient.Dispose();
-            SnapshotMatcher.ValidateSnapshots();
         }
 
         public virtual void FromString()

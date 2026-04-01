@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PendingAirdropRecords"]/*' />
         public readonly List<PendingAirdropRecord> PendingAirdropRecords;
 
-        TransactionRecord(
+        internal TransactionRecord(
             TransactionReceipt transactionReceipt, 
             ByteString transactionHash, 
             DateTimeOffset consensusTimestamp, 

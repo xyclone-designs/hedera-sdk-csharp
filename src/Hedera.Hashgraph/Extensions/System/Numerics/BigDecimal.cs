@@ -1,10 +1,17 @@
 ﻿
 namespace System.Numerics
 {
-	public readonly struct BigDecimal(BigInteger unscaledValue, int scale) : IEquatable<BigDecimal>
+	public readonly struct BigDecimal : IEquatable<BigDecimal>
 	{
-		public BigInteger UnscaledValue { get; } = unscaledValue;
-		public int Scale { get; } = scale;
+		public BigDecimal(BigInteger unscaledValue, int scale = 0)
+		{
+            UnscaledValue = unscaledValue;
+            Scale = scale;
+        }
+        public BigDecimal(string value, int scale = 0) : this(BigInteger.Parse(value)) { }
+
+        public BigInteger UnscaledValue { get; }
+		public int Scale { get; }
 
 		public static BigDecimal Parse(string s)
 		{

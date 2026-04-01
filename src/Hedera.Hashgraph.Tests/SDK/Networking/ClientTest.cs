@@ -324,7 +324,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             builder.ServiceEndpoint.Add(new Proto.ServiceEndpoint
             {
                 IpAddressV4 = ByteString.CopyFrom(ipv4),
-                Port = PORT_NODE_PLAIN
+                Port = BaseNodeAddress.PORT_NODE_PLAIN
             });
                 
             if (certHash != null)

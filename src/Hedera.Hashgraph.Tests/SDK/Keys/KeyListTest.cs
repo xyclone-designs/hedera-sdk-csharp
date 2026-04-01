@@ -82,7 +82,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var emptyKeyList = new KeyList();
 
             // Then
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
             Assert.Empty(emptyKeyList);
         }
 
@@ -112,7 +111,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             keyList.Add(mTestPublicKey3);
 
             // Then
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
 
@@ -126,7 +124,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             keyList.Remove(mTestPublicKey1);
 
             // Then
-            Assert.Equal(2, tx.GetHbarTransfers().Count);
             Assert.False(keyList.Contains(mTestPublicKey1));
             Assert.True(keyList.Contains(mTestPublicKey2));
             Assert.True(keyList.Contains(mTestPublicKey3));
