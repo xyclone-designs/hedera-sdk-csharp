@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         {
             return new TokenNftInfo(TokenId.FromString("1.2.3").Nft(4), AccountId.FromString("5.6.7"), creationTime, Hex.Decode("deadbeef"), LedgerId.MAINNET, spenderAccountId);
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalTokenInfo = SpawnTokenNftInfoExample(AccountId.FromString("8.9.10"));
@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(copyTokenInfo.ToString(), originalTokenInfo.ToString());
             Verifier.Verify(originalTokenInfo.ToString());
         }
-
+        [Fact]
         public virtual void ShouldSerializeNullSpender()
         {
             var originalTokenInfo = SpawnTokenNftInfoExample(null);

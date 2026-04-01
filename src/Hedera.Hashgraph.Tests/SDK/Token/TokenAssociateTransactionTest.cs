@@ -25,6 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenAssociateTransaction();
@@ -46,6 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Sign(unusedPrivateKey);
         }
 
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -53,6 +55,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -63,6 +66,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenAssociateTransaction>(tx);
         }
 
+        [Fact]
         public virtual void ConstructTokenDeleteTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.TokenAssociateTransactionBody
@@ -82,6 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenAssociateTransaction.TokenIds.Count, tokenIds.Count);
         }
 
+        [Fact]
         public virtual void GetSetAccountId()
         {
             var transaction = new TokenAssociateTransaction
@@ -91,12 +96,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(transaction.AccountId, accountId);
         }
 
+        [Fact]
         public virtual void GetSetAccountIdFrozen()
         {
             var transaction = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => transaction.AccountId = accountId);
         }
 
+        [Fact]
         public virtual void GetSetTokenIds()
         {
             var transaction = new TokenAssociateTransaction
@@ -106,6 +113,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(transaction.TokenIds, tokenIds);
         }
 
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var transaction = SpawnTestTransaction();

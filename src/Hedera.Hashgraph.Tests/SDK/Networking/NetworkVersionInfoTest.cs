@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         {
             return new NetworkVersionInfo(new SemanticVersion(1, 2, 3), new SemanticVersion(4, 5, 6));
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalNetworkVersionInfo = SpawnNetworkVerionInfoExample();

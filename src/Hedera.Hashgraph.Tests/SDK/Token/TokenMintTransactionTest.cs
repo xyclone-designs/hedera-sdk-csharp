@@ -23,17 +23,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly List<byte[]> testMetadataList = [new byte[] { 1, 2, 3, 4, 5 }];
         private static readonly ByteString testMetadataByteString = ByteString.CopyFrom(new byte[] { 1, 2, 3, 4, 5 });
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-
+        
         public virtual void ShouldSerialize()
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
         public virtual void ShouldSerializeMetadata()
         {
             Verifier.Verify(SpawnMetadataTestTransaction().ToString());
         }
 
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenMintTransaction();
@@ -55,7 +55,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
         private TokenMintTransaction SpawnMetadataTestTransaction()
         {
             return new TokenMintTransaction
@@ -70,20 +69,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Sign(unusedPrivateKey);
         }
 
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<TokenUpdateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesMetadata()
         {
             var tx = SpawnMetadataTestTransaction();
             var tx2 = Transaction.FromBytes<TokenUpdateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var tx = Transaction.FromScheduledTransaction<TokenMintTransaction>(transactionBody);
             Assert.IsType<TokenMintTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenMintTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.TokenMintTransactionBody
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenMintTransaction.Amount, testAmount);
             Assert.Equal(tokenMintTransaction.Metadata.Last(), testMetadataByteString.ToByteArray());
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenMintTransaction = new TokenMintTransaction
@@ -121,13 +121,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 			};
             Assert.Equal(tokenMintTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetAmount()
         {
             var tokenMintTransaction = new TokenMintTransaction
@@ -136,25 +136,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 			};
             Assert.Equal(tokenMintTransaction.Amount, testAmount);
         }
-
+        [Fact]
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Amount = testAmount);
         }
-
+        [Fact]
         public virtual void GetSetMetadata()
         {
             var tokenMintTransaction = new TokenMintTransaction { Metadata = testMetadataList };
             Assert.Equal(tokenMintTransaction.Metadata, testMetadataList);
         }
-
+        [Fact]
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Metadata = testMetadataList);
         }
-
+        [Fact]
         public virtual void AddMetadata()
         {
             var tokenMintTransaction = new TokenMintTransaction { Metadata = [testMetadataList.Last()] };

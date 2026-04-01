@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TopicMessageSubmitTransaction();
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TopicMessageSubmitTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTopicMessageSubmitTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.ConsensusSubmitMessageTransactionBody
@@ -78,7 +78,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             var topicSubmitMessageTransaction = new TopicMessageSubmitTransaction(tx);
             Assert.Equal(topicSubmitMessageTransaction.TopicId, testTopicId);
         }
-
+        [Fact]
         public virtual void GetSetTopicId()
         {
             var topicSubmitMessageTransaction = new TopicMessageSubmitTransaction
@@ -88,13 +88,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
             Assert.Equal(topicSubmitMessageTransaction.TopicId, testTopicId);
         }
-
+        [Fact]
         public virtual void GetSetTopicIdFrozen()
         {
             var tx = SpawnTestTransactionString();
             Assert.Throws<InvalidOperationException>(() => tx.TopicId = testTopicId);
         }
-
+        [Fact]
         public virtual void GetSetMessage()
         {
             var topicSubmitMessageTransactionString = new TopicMessageSubmitTransaction
@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicSubmitMessageTransactionString.Message.ToByteArray(), testMessageBytes);
             Assert.Equal(topicSubmitMessageTransactionBytes.Message.ToByteArray(), testMessageBytes);
         }
-
+        [Fact]
         public virtual void GetSetMessageFrozen()
         {
             var topicSubmitMessageTransactionString = SpawnTestTransactionString();
@@ -118,7 +118,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Throws<InvalidOperationException>(() => topicSubmitMessageTransactionString.Message = ByteString.CopyFrom(testMessageBytes));
             Assert.Throws<InvalidOperationException>(() => topicSubmitMessageTransactionBytes.Message = ByteString.CopyFrom(testMessageBytes));
         }
-
+        [Fact]
         public virtual void ShouldSetCustomFeeLimits()
         {
             var customFeeLimits = new List<CustomFeeLimit>
@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             var topicMessageSubmitTransaction = new TopicMessageSubmitTransaction { CustomFeeLimits = customFeeLimits };
             Assert.Equal(topicMessageSubmitTransaction.CustomFeeLimits, customFeeLimits);
         }
-
+        [Fact]
         public virtual void ShouldAddCustomFeeLimitToList()
         {
             var customFeeLimits = new List<CustomFeeLimit>
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
             Assert.Equal(topicMessageSubmitTransaction.CustomFeeLimits, expectedCustomFeeLimits);
         }
-
+        [Fact]
         public virtual void ShouldAddCustomFeeLimitToEmptyList()
         {
             var customFeeLimitToBeAdded = new CustomFeeLimit

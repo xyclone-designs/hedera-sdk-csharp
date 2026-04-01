@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             //Verifier.Verify((Proto.TokenSupplyType)tokenSupplyTypeInfinite, (Proto.TokenSupplyType)tokenSupplyTypeFinite);
         }
-
+        [Fact]
         public virtual void TokenSupplyTestToString()
         {
             Assert.Equal(TokenSupplyType.Infinite.ToString(), "INFINITE");

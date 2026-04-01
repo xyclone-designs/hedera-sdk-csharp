@@ -11,6 +11,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
     public class TransferTransactionHooksTest
     {
+        [Fact]
         public virtual void ShouldAddHbarTransferWithPreTxAllowanceHook()
         {
             var tx = new TransferTransaction();
@@ -22,7 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Single(tx.GetHbarTransfers());
             Assert.Equal(tx.GetHbarTransfers()[accountId], amount);
         }
-
+        [Fact]
         public virtual void ShouldAddHbarTransferWithPrePostTxAllowanceHook()
         {
             var tx = new TransferTransaction();
@@ -34,13 +35,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Single(tx.GetHbarTransfers());
             Assert.Equal(tx.GetHbarTransfers()[accountId], amount);
         }
-
+        [Fact]
         public virtual void ShouldNotAllowNullHookTypeRemovedByTypedAPI()
         {
             // No-op: hook type is encoded in FungibleHookCall now
             Assert.True(true);
         }
-
+        [Fact]
         public virtual void ShouldUpdateExistingTransferWithHook()
         {
             var tx = new TransferTransaction();
@@ -57,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Single(tx.GetHbarTransfers());
             Assert.Equal(tx.GetHbarTransfers()[accountId], Hbar.FromTinybars(2000));
         }
-
+        [Fact]
         public virtual void ShouldCreateNewTransferWhenExistingTransferHasHook()
         {
             var tx = new TransferTransaction();
@@ -74,7 +75,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Single(tx.GetHbarTransfers());
             Assert.Equal(tx.GetHbarTransfers()[accountId], Hbar.FromTinybars(2000));
         }
-
+        [Fact]
         public virtual void ShouldHandleMultipleAccountsWithHooks()
         {
             var tx = new TransferTransaction();
@@ -89,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(tx.GetHbarTransfers()[accountId1], amount);
             Assert.Equal(tx.GetHbarTransfers()[accountId2], amount);
         }
-
+        [Fact]
         public virtual void ShouldThrowExceptionWhenFrozen()
         {
             var tx = new TransferTransaction();

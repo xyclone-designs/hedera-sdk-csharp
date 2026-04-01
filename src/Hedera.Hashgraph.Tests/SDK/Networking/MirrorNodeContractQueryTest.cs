@@ -13,19 +13,19 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
-    class MirrorNodeContractQueryTest
+    public class MirrorNodeContractQueryTest
     {
         private MirrorNodeContractEstimateGasQuery mirrorNodeContractEstimateGasQuery;
         private MirrorNodeContractCallQuery mirrorNodeContractCallQuery;
         private ContractId mockContractId;
-
+        
         public virtual void SetUp()
         {
             mirrorNodeContractEstimateGasQuery = new MirrorNodeContractEstimateGasQuery();
             mirrorNodeContractCallQuery = new MirrorNodeContractCallQuery();
             mockContractId = Moq.Mock.Of<ContractId>();
         }
-
+        [Fact]
         public virtual void TestSetAndGetContractId()
         {
             mirrorNodeContractEstimateGasQuery.ContractId = mockContractId;
@@ -33,13 +33,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             mirrorNodeContractCallQuery.ContractId = mockContractId;
             Assert.Equal(mockContractId, mirrorNodeContractCallQuery.ContractId);
         }
-
+        [Fact]
         public virtual void TestSetContractIdWithNullThrowsException()
         {
             Assert.Throws<NullReferenceException>(() => mirrorNodeContractEstimateGasQuery.ContractId = null);
             Assert.Throws<NullReferenceException>(() => mirrorNodeContractCallQuery.ContractId = null);
         }
-
+        [Fact]
         public virtual void TestSetAndGetContractEvmAddress()
         {
             string evmAddress = "0x1234567890abcdef1234567890abcdef12345678";
@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Throws<NullReferenceException>(() => mirrorNodeContractEstimateGasQuery.ContractEvmAddress = null);
             Assert.Throws<NullReferenceException>(() => mirrorNodeContractCallQuery.ContractEvmAddress = null);
         }
-
+        [Fact]
         public virtual void TestSetAndGetcallData()
         {
             ByteString @params = ByteString.CopyFromUtf8("test");
@@ -65,13 +65,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             mirrorNodeContractCallQuery.SetFunctionParameters(@params);
             Assert.Equal(@params.ToByteArray(), mirrorNodeContractCallQuery.CallData);
         }
-
+        [Fact]
         public virtual void TestSetFunctionWithoutParameters()
         {
             mirrorNodeContractEstimateGasQuery.SetFunction(",ZyFunction");
             Assert.NotNull(mirrorNodeContractEstimateGasQuery.CallData);
         }
-
+        [Fact]
         public virtual void TestSetAndGetBlockNumber()
         {
             long blockNumber = 123456;
@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             mirrorNodeContractCallQuery.BlockNumber = blockNumber;
             Assert.Equal(blockNumber, mirrorNodeContractCallQuery.BlockNumber);
         }
-
+        [Fact]
         public virtual void TestSetAndGetValue()
         {
             long value = 1000;
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             mirrorNodeContractCallQuery.Value = value;
             Assert.Equal(value, mirrorNodeContractCallQuery.Value);
         }
-
+        [Fact]
         public virtual void TestSetAndGetGas()
         {
             long gas = 50000;
@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             mirrorNodeContractCallQuery.GasLimit = gas;
             Assert.Equal(gas, mirrorNodeContractCallQuery.GasLimit);
         }
-
+        [Fact]
         public virtual void TestSetAndGetGasPrice()
         {
             long gasPrice = 200;
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             mirrorNodeContractCallQuery.GasPrice = gasPrice;
             Assert.Equal(gasPrice, mirrorNodeContractCallQuery.GasPrice);
         }
-
+        [Fact]
         public virtual void TestCreateJsonPayloadAllFieldsSet()
         {
 			byte[] data = Encoding.UTF8.GetBytes("testData");
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             expectedJson.Add("value", value);
             Assert.Equal(expectedJson.ToString(), jsonPayload);
         }
-
+        [Fact]
         public virtual void TestCreateJsonPayloadOnlyRequiredFieldsSet()
         {
 			byte[] data = Encoding.UTF8.GetBytes("testData");
@@ -149,7 +149,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             expectedJson.Add("blockNumber", blockNumber);
             Assert.Equal(expectedJson.ToString(), jsonPayload);
         }
-
+        [Fact]
         public virtual void TestCreateJsonPayloadSomeOptionalFieldsSet()
         {
 			byte[] data = Encoding.UTF8.GetBytes("testData");
@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             expectedJson.Add("value", value);
             Assert.Equal(expectedJson.ToString(), jsonPayload);
         }
-
+        [Fact]
         public virtual void TestCreateJsonPayloadAllOptionalFieldsDefault()
         {
             byte[] data = Encoding.UTF8.GetBytes("testData");
@@ -190,21 +190,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             expectedJson.Add("blockNumber", blockNumber);
             Assert.Equal(expectedJson.ToString(), jsonPayload);
         }
-
+        [Fact]
         public virtual void TestParseHexEstimateToLong()
         {
             string responseBody = "{\"result\": \"0x1234\"}";
             long parsedResult = MirrorNodeContractQuery.ParseHexEstimateToLong(responseBody);
             Assert.Equal(0x1234, parsedResult);
         }
-
+        [Fact]
         public virtual void TestParseContractCallResult()
         {
             string responseBody = "{\"result\": \"0x1234abcdef\"}";
             string parsedResult = MirrorNodeContractQuery.ParseContractCallResult(responseBody);
             Assert.Equal("0x1234abcdef", parsedResult);
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             ContractId testContractId = new (0, 0, 1234);

@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUnfreezeTransaction();
@@ -43,14 +43,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<TokenUnfreezeTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody

@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
                 LedgerId.TESTNET, 
                 true);
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalScheduleInfo = SpawnScheduleInfoExample();
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             
             Verifier.Verify(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
         }
-
+        [Fact]
         public virtual void ShouldSerializeDeleted()
         {
             var originalScheduleInfo = SpawnScheduleInfoDeletedExample();

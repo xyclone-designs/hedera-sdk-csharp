@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenBurnTransaction();
@@ -64,21 +64,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesFungible()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<TokenBurnTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransactionNft();
             var tx2 = Transaction.FromBytes<TokenBurnTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TokenBurnTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenBurnTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.TokenBurnTransactionBody
@@ -108,34 +108,34 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenBurnTransaction.Amount, testAmount);
             Assert.Equal(tokenBurnTransaction.Serials, testSerials);
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenBurnTransaction = new TokenBurnTransaction { TokenId = testTokenId };
             
             Assert.Equal(tokenBurnTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
             
             Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetAmount()
         {
             var tokenBurnTransaction = new TokenBurnTransaction { Amount = testAmount };
 
             Assert.Equal(tokenBurnTransaction.Amount, testAmount);
         }
-
+        [Fact]
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Amount = testAmount);
         }
-
+        [Fact]
         public virtual void GetSetSerials()
         {
             var tokenBurnTransaction = new TokenBurnTransaction
@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(tokenBurnTransaction.Serials, testSerials);
         }
-
+        [Fact]
         public virtual void GetSetSerialsFrozen()
         {
             var tx = SpawnTestTransactionNft();

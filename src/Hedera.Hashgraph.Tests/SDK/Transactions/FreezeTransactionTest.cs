@@ -45,21 +45,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<FreezeTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FreezeTransaction();
             var tx2 = Transaction.FromBytes<FreezeTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             Assert.IsType<FreezeTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructFreezeTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.FreezeTransactionBody
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(freezeTransaction.StartTime.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
             Assert.Equal(freezeTransaction.FreezeType, testFreezeType);
         }
-
+        [Fact]
         public virtual void GetSetFileId()
         {
             var freezeTransaction = new FreezeTransaction
@@ -106,13 +106,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotNull(freezeTransaction.FileId);
             Assert.Equal(freezeTransaction.FileId, testFileId);
         }
-
+        [Fact]
         public virtual void GetSetFileIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.FileId = testFileId);
         }
-
+        [Fact]
         public virtual void GetSetFileHash()
         {
             var freezeTransaction = new FreezeTransaction
@@ -122,13 +122,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotNull(freezeTransaction.FileHash);
             Assert.Equal(freezeTransaction.FileHash, testFileHash);
         }
-
+        [Fact]
         public virtual void GetSetFileHashFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.FileHash = testFileHash);
         }
-
+        [Fact]
         public virtual void GetSetStartTime()
         {
             var freezeTransaction = new FreezeTransaction
@@ -138,13 +138,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotNull(freezeTransaction.StartTime);
             Assert.Equal(freezeTransaction.StartTime.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
-
+        [Fact]
         public virtual void GetSetStartTimeFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.StartTime = validStart);
         }
-
+        [Fact]
         public virtual void GetSetFreezeType()
         {
             var freezeTransaction = new FreezeTransaction
@@ -153,7 +153,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			};
             Assert.Equal(freezeTransaction.FreezeType, testFreezeType);
         }
-
+        [Fact]
         public virtual void GetSetFreezeTypeFrozen()
         {
             var tx = SpawnTestTransaction();

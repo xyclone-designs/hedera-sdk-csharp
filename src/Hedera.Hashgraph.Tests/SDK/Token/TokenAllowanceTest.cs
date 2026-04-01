@@ -10,6 +10,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly AccountId testOwnerAccountId = AccountId.FromString("8.8.8");
         private static readonly AccountId testSpenderAccountId = AccountId.FromString("7.7.7");
         private static readonly long testAmount = 4;
+        [Fact]
         public virtual void ConstructWithTokenIdOwnerSpenderAmount()
         {
             TokenAllowance tokenAllowance = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount);
@@ -19,6 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenAllowance.Amount, testAmount);
         }
 
+        [Fact]
         public virtual void FromProtobuf()
         {
             var tokenAllowanceProtobuf = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount).ToProtobuf();
@@ -29,6 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenAllowance.Amount, testAmount);
         }
 
+        [Fact]
         public virtual void ToProtobuf()
         {
             var tokenAllowanceProtobuf = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount).ToProtobuf();

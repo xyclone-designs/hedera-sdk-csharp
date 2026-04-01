@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         private static readonly byte[] TEST_GRPC_CERTIFICATE_HASH = new byte[48]; // SHA-384 hash (48 bytes)
         private static readonly PublicKey TEST_ADMIN_KEY = PrivateKey.FromString("302e020100300506032b65700422042062c4b69e9f45a554e5424fb5a6fe5e6ac1f19ead31dc7718c2d980fd1f998d4b").GetPublicKey();
         readonly DateTimeOffset TEST_VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        
+        [Fact]
         public virtual void ShouldSerialize()
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             .Freeze()
             .Sign(TEST_PRIVATE_KEY);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new NodeUpdateTransaction();
@@ -101,7 +101,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void TestUnrecognizedServicePort()
         {
             var tx = new NodeUpdateTransaction
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void TestEmptyCertificates()
         {
             // Empty gRPC certificate hash is allowed (network validates it)
@@ -132,7 +132,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(deserializedTx.GrpcCertificateHash, new byte[] { });
         }
-
+        [Fact]
         public virtual void TestSetNull()
         {
             _ = new NodeUpdateTransaction
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 				AdminKey = null,
 			};
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -154,7 +154,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.IsType<NodeUpdateTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructNodeUpdateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyBuilder = new Proto.NodeUpdateTransactionBody
@@ -190,7 +190,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(nodeUpdateTransaction.AdminKey, TEST_ADMIN_KEY);
             Assert.Equal(nodeUpdateTransaction.DeclineReward, true);
         }
-
+        [Fact]
         public virtual void GetSetNodeId()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -199,13 +199,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.NodeId, TEST_NODE_ID);
         }
-
+        [Fact]
         public virtual void GetSetNodeIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.NodeId = TEST_NODE_ID);
         }
-
+        [Fact]
         public virtual void GetSetAccountId()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -214,13 +214,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.AccountId, TEST_ACCOUNT_ID);
         }
-
+        [Fact]
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = TEST_ACCOUNT_ID);
         }
-
+        [Fact]
         public virtual void GetSetDescription()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -229,13 +229,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.Description, TEST_DESCRIPTION);
         }
-
+        [Fact]
         public virtual void GetSetDescriptionFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Description = TEST_DESCRIPTION);
         }
-
+        [Fact]
         public virtual void GetSetGossipEndpoints()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -244,13 +244,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.GossipEndpoints, TEST_GOSSIP_ENDPOINTS);
         }
-
+        [Fact]
         public virtual void SetTestGossipEndpointsFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GossipEndpoints = TEST_GOSSIP_ENDPOINTS);
         }
-
+        [Fact]
         public virtual void GetSetServiceEndpoints()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -259,13 +259,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.ServiceEndpoints, TEST_SERVICE_ENDPOINTS);
         }
-
+        [Fact]
         public virtual void GetSetServiceEndpointsFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.ServiceEndpoints = TEST_SERVICE_ENDPOINTS);
         }
-
+        [Fact]
         public virtual void GetSetGossipCaCertificate()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -274,13 +274,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.GossipCaCertificate, TEST_GOSSIP_CA_CERTIFICATE);
         }
-
+        [Fact]
         public virtual void GetSetGossipCaCertificateFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GossipCaCertificate = TEST_GOSSIP_CA_CERTIFICATE);
         }
-
+        [Fact]
         public virtual void GetSetGrpcCertificateHash()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -289,13 +289,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 			};
             Assert.Equal(nodeUpdateTransaction.GrpcCertificateHash, TEST_GRPC_CERTIFICATE_HASH);
         }
-
+        [Fact]
         public virtual void GetSetGrpcCertificateHashFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GrpcCertificateHash = TEST_GRPC_CERTIFICATE_HASH);
         }
-
+        [Fact]
         public virtual void GetSetAdminKey()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -304,13 +304,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.AdminKey, TEST_ADMIN_KEY);
         }
-
+        [Fact]
         public virtual void GetSetAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AdminKey = TEST_ADMIN_KEY);
         }
-
+        [Fact]
         public virtual void GetSetDeclineReward()
         {
             var tx = new NodeUpdateTransaction
@@ -319,13 +319,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(tx.DeclineReward, true);
         }
-
+        [Fact]
         public virtual void GetSetDeclineRewardFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.DeclineReward = false);
         }
-
+        [Fact]
         public virtual void GetGrpcWebProxyEndpoint()
         {
             var nodeUpdateTransaction = new NodeUpdateTransaction
@@ -334,13 +334,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             };
             Assert.Equal(nodeUpdateTransaction.GrpcWebProxyEndpoint, TEST_GRPC_WEB_PROXY_ENDPOINT);
         }
-
+        [Fact]
         public virtual void SetGrpcWebProxyEndpointRequiresFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.GrpcWebProxyEndpoint = TEST_GRPC_WEB_PROXY_ENDPOINT);
         }
-
+        [Fact]
         public virtual void ShouldFreezeSuccessfullyWhenNodeIdIsSet()
         {
             var transaction = new NodeUpdateTransaction
@@ -354,7 +354,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
 			Assert.Equal(transaction.NodeId, TEST_NODE_ID);
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenFreezingWithoutSettingNodeId()
         {
             var transaction = new NodeUpdateTransaction
@@ -367,7 +367,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "NodeUpdateTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenFreezingWithZeroNodeId()
         {
             var transaction = new NodeUpdateTransaction
@@ -379,7 +379,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "NodeUpdateTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
-
+        [Fact]
         public virtual void ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet()
         {
 			var transaction = new NodeUpdateTransaction
@@ -394,7 +394,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
                 
             Assert.Equal(transaction.NodeId, TEST_NODE_ID);
         }
-
+        [Fact]
         public virtual void ShouldFreezeSuccessfullyWhenNodeIdIsSetWithAdditionalFields()
         {
             var transaction = new NodeUpdateTransaction
@@ -414,7 +414,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(transaction.AccountId, TEST_ACCOUNT_ID);
             Assert.Equal(transaction.DeclineReward, false);
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt()
         {
             var transaction = new NodeUpdateTransaction();
@@ -423,7 +423,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(exception.Message, "NodeUpdateTransaction: 'nodeId' has not been set");
         }
 
-        // ===== Validation Tests =====
+        [Fact]// ===== Validation Tests =====
         public virtual void ShouldAllowSettingNodeIdToZero()
         {
             var transaction = new NodeUpdateTransaction
@@ -432,7 +432,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 			};
             Assert.Equal(transaction.NodeId, (ulong)0);
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenDescriptionExceeds100Bytes()
         {
             var transaction = new NodeUpdateTransaction();
@@ -443,7 +443,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(exception.Message, "Description must not exceed 100 bytes when encoded as UTF-8");
         }
-
+        [Fact]
         public virtual void ShouldAllowDescriptionWith100Bytes()
         {
             var transaction = new NodeUpdateTransaction();
@@ -452,13 +452,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(transaction.Description, description);
         }
-
+        [Fact]
         public virtual void ShouldAllowNullDescription()
         {
             var transaction = new NodeUpdateTransaction();
             transaction.Description = null;
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenSettingEmptyGossipEndpointsList()
         {
             var transaction = new NodeUpdateTransaction();
@@ -466,7 +466,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(exception.Message, "Gossip endpoints list must not be empty");
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenSettingMoreThan10GossipEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -486,7 +486,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var exception = Assert.Throws<ArgumentException>(() => transaction.GossipEndpoints = endpoints);
             Assert.Equal(exception.Message, "Gossip endpoints list must not contain more than 10 entries");
         }
-
+        [Fact]
         public virtual void ShouldAllowExactly10GossipEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -504,7 +504,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             transaction.GossipEndpoints = endpoints;
 		}
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenGossipEndpointHasBothIpAndDomain()
         {
             var transaction = new NodeUpdateTransaction();
@@ -517,7 +517,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var exception = Assert.Throws<ArgumentException>(() => transaction.GossipEndpoints = [endpoint]);
             Assert.Equal(exception.Message, "Endpoint must not contain both ipAddressV4 and domainName");
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenSettingEmptyServiceEndpointsList()
         {
             var transaction = new NodeUpdateTransaction();
@@ -525,7 +525,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "Service endpoints list must not be empty");
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenSettingMoreThan8ServiceEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -545,7 +545,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "Service endpoints list must not contain more than 8 entries");
         }
-
+        [Fact]
         public virtual void ShouldAllowExactly8ServiceEndpoints()
         {
             var transaction = new NodeUpdateTransaction();
@@ -563,7 +563,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             transaction.ServiceEndpoints = endpoints;
 
 		}
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenServiceEndpointHasBothIpAndDomain()
         {
             var transaction = new NodeUpdateTransaction();
@@ -577,7 +577,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "Endpoint must not contain both ipAddressV4 and domainName");
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenSettingNullGossipCaCertificate()
         {
             var transaction = new NodeUpdateTransaction();
@@ -585,7 +585,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "Gossip CA certificate must not be null or empty");
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenSettingEmptyGossipCaCertificate()
         {
             var transaction = new NodeUpdateTransaction();
@@ -593,7 +593,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "Gossip CA certificate must not be null or empty");
         }
-
+        [Fact]
         public virtual void ShouldAllowValidGossipCaCertificate()
         {
             var transaction = new NodeUpdateTransaction();
@@ -610,7 +610,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
 			Assert.Equal(transaction.GossipCaCertificate, cert);
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenSettingGrpcCertificateHashWithWrongSize()
         {
             var transaction = new NodeUpdateTransaction();
@@ -619,7 +619,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(exception.Message, "gRPC certificate hash must be exactly 48 bytes (SHA-384)");
         }
-
+        [Fact]
         public virtual void ShouldAllowGrpcCertificateHashWith48Bytes()
         {
             var transaction = new NodeUpdateTransaction();
@@ -628,13 +628,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             transaction.GrpcCertificateHash = validHash;
 			Assert.Equal(transaction.GrpcCertificateHash, validHash);
         }
-
+        [Fact]
         public virtual void ShouldAllowNullGrpcCertificateHash()
         {
             var transaction = new NodeUpdateTransaction();
             transaction.GrpcCertificateHash = null;
 		}
-
+        [Fact]
         public virtual void ShouldAllowEmptyGrpcCertificateHash()
         {
             var transaction = new NodeUpdateTransaction();

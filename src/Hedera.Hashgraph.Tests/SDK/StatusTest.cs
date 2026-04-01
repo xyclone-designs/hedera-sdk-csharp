@@ -6,8 +6,9 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
-    class StatusTest
+    public class StatusTest
     {
+        [Fact]
         public virtual void StatusToResponseCode()
         {
             foreach (Proto.ResponseCodeEnum code in Enum.GetValues<Proto.ResponseCodeEnum>())
@@ -22,6 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
+        [Fact]
         public virtual void NewHookAndLambdaStatusesRoundTrip()
         {
             KeyValuePair<ResponseStatus, Proto.ResponseCodeEnum>[] pairs = new []

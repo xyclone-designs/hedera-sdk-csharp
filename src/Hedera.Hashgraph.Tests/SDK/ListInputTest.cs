@@ -13,6 +13,7 @@ namespace Hedera.Hashgraph.Tests.SDK
     // that would be returned by foo.getBar().
     public class ListInputTest
     {
+        [Fact]
         public virtual void TokenAssociateListTest()
         {
             var tx = new TokenAssociateTransaction();
@@ -33,7 +34,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var v3 = tx.TokenIds;
             Assert.Equal(v1.ToString(), v3.ToString());
         }
-
+        
+        [Fact]
         public virtual void NodeAccountIdsListTest()
         {
             var tx = new TokenAssociateTransaction();
@@ -54,7 +56,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var v3 = tx.NodeAccountIds;
             Assert.Equal(v1.ToString(), v3.ToString());
         }
-
+        
+        [Fact]
         public virtual void TokenBurnListTest()
         {
             var tx = new TokenBurnTransaction
@@ -75,7 +78,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var v3 = tx.Serials;
             Assert.Equal(v1.ToString(), v3.ToString());
         }
-
+        
+        [Fact]
         public virtual void TokenWipeListTest()
         {
             var tx = new TokenWipeTransaction
@@ -96,7 +100,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var v3 = tx.Serials;
             Assert.Equal(v1.ToString(), v3.ToString());
         }
-
+        
+        [Fact]
         public virtual void TokenMintListTest()
         {
             var tx = new TokenMintTransaction();
@@ -117,7 +122,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var v3 = tx.Metadata;
             Assert.Equal(v1.ToString(), v3.ToString());
         }
-
+        
+        [Fact]
         public virtual void TokenDissociateListTest()
         {
             var tx = new TokenDissociateTransaction();
@@ -138,7 +144,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var v3 = tx.TokenIds;
             Assert.Equal(v1.ToString(), v3.ToString());
         }
-
+        
+        [Fact]
         public virtual void TokenCreateListTest()
         {
             var tx = new TokenCreateTransaction();
@@ -161,6 +168,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(v1.ToString(), v3.ToString());
         }
 
+        [Fact]
         public virtual void TokenFeeScheduleUpdateListTest()
         {
             var tx = new TokenFeeScheduleUpdateTransaction();

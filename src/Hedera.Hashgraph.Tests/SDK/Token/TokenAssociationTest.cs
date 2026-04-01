@@ -30,6 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Verifier.Verify(Regex.Replace(originalTokenAssociation.ToString(), "@[A-Za-z0-9]+", ""));
         }
+        [Fact]
         public virtual void FromProtobuf()
         {
             var tokenAssociationProtobuf = new TokenAssociation(testTokenId, testAccountId).ToProtobuf();
@@ -38,6 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenAssociation.AccountId, testAccountId);
             Assert.Equal(tokenAssociation.TokenId, testTokenId);
         }
+        [Fact]
         public virtual void ToProtobuf()
         {
             var tokenAssociationProtobuf = new TokenAssociation(testTokenId, testAccountId).ToProtobuf();
@@ -51,6 +53,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenAssociationProtobuf.TokenId.RealmNum, testTokenId.Realm);
             Assert.Equal(tokenAssociationProtobuf.TokenId.TokenNum, testTokenId.Num);
         }
+        [Fact]
         public virtual void FromBytes()
         {
             var tokenAssociationProtobuf = new TokenAssociation(testTokenId, testAccountId).ToProtobuf();
@@ -59,6 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenAssociation.AccountId, testAccountId);
             Assert.Equal(tokenAssociation.TokenId, testTokenId);
         }
+        [Fact]
         public virtual void ToBytes()
         {
             var tokenAssociation = new TokenAssociation(testTokenId, testAccountId);

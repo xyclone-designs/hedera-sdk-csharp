@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
         {
             Verifier.Verify(SpawnTestTransactionContract().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new SystemDeleteTransaction();
@@ -65,21 +65,21 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesContract()
         {
             var tx = SpawnTestTransactionContract();
             var tx2 = Transaction.FromBytes<SystemDeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesFile()
         {
             var tx = SpawnTestTransactionFile();
             var tx2 = Transaction.FromBytes<SystemDeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
 
             Assert.IsType<SystemDeleteTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructSystemDeleteTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyWithFileId = new Proto.SystemDeleteTransactionBody
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Equal(systemDeleteTransactionWithContractId.ContractId, testContractId);
             Assert.Equal(systemDeleteTransactionWithContractId.ExpirationTime?.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
-
+        [Fact]
         public virtual void GetSetFileId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction
@@ -133,13 +133,13 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.NotNull(systemDeleteTransaction.FileId);
             Assert.Equal(systemDeleteTransaction.FileId, testFileId);
         }
-
+        [Fact]
         public virtual void GetSetFileIdFrozen()
         {
             var tx = SpawnTestTransactionFile();
             Assert.Throws<InvalidOperationException>(() => tx.FileId = testFileId);
         }
-
+        [Fact]
         public virtual void GetSetContractId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction
@@ -155,7 +155,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             var tx = SpawnTestTransactionContract();
             Assert.Throws<InvalidOperationException>(() => tx.ContractId = testContractId);
         }
-
+        [Fact]
         public virtual void GetSetExpirationTime()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction
@@ -165,13 +165,13 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.NotNull(systemDeleteTransaction.ExpirationTime);
             Assert.Equal(systemDeleteTransaction.ExpirationTime?.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
-
+        [Fact]
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransactionFile();
             Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = validStart);
         }
-
+        [Fact]
         public virtual void ResetFileId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction();
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             Assert.Null(systemDeleteTransaction.FileId);
             Assert.NotNull(systemDeleteTransaction.ContractId);
         }
-
+        [Fact]
         public virtual void ResetContractId()
         {
             var systemDeleteTransaction = new SystemDeleteTransaction();

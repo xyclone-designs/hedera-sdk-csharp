@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             Verifier.Verify(new TokenId(0, 0, 5005).ToSolidityAddress());
         }
-
+        [Fact]
         public virtual void TestTopicIdFromEvmAddressIncorrectAddress()
         {
 
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             });
             Assert.True(exception4.Message.Contains("EVM address is not a correct long zero address"));
         }
-
+        [Fact]
         public virtual void TestTopicIdFromEvmAddress()
         {
 
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(1, id.Realm);
             Assert.Equal(1234, id.Num);
         }
-
+        [Fact]
         public virtual void TestTopicIdToEvmAddress()
         {
 

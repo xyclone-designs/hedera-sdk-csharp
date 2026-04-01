@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             Verifier.Verify(new TokenId(0, 0, 5005).ToSolidityAddress());
         }
-
+        [Fact]
         public virtual void UnitTokenIdFromString()
         {
             TokenId tokenId = new (1, 2, 3);
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tokenId, tokenIdFromString);
         }
-
+        [Fact]
         public virtual void UnitTokenIdChecksumFromString()
         {
             TokenId tokenId = TokenId.FromString("0.0.123");
@@ -66,19 +66,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             tokenId.CompareTo(new TokenId(0, 0, 32));
             Assert.Equal(123, tokenId.Num);
         }
-
+        [Fact]
         public virtual void UnitTokenIdChecksumToString()
         {
             TokenId id = new TokenId(50, 150, 520);
             Assert.Equal("50.150.520", id.ToString());
         }
-
+        [Fact]
         public virtual void UnitTokenIdFromStringEVM()
         {
             TokenId id = TokenId.FromString("0.0.434");
             Assert.Equal("0.0.434", id.ToString());
         }
-
+        [Fact]
         public virtual void UnitTokenIdProtobuf()
         {
             TokenId tokenId = TokenId.FromString("0.0.434");
@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tokenId, pbFrom);
         }
-
+        [Fact]
         public virtual void TestTokenIdFromEvmAddressIncorrectAddress()
         {
 
@@ -125,7 +125,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             });
             Assert.True(exception4.Message.Contains("EVM address is not a correct long zero address"));
         }
-
+        [Fact]
         public virtual void TestTokenIdFromEvmAddress()
         {
             // Test with a long zero address representing token 1234
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(1, tokenId.Realm);
             Assert.Equal(1234, tokenId.Num);
         }
-
+        [Fact]
         public virtual void TestTokenIdToEvmAddress()
         {
             // Test with a normal token ID

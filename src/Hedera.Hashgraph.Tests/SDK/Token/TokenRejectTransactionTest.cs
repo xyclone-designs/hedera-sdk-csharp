@@ -43,6 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Sign(TEST_PRIVATE_KEY);
         }
 
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenRejectTransaction();
@@ -51,6 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -59,6 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -70,6 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenRejectTransaction>(tx);
         }
 
+        [Fact]
         public virtual void ConstructTokenRejectTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyBuilder = new Proto.TokenRejectTransactionBody
@@ -101,23 +105,27 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenRejectTransaction.NftIds_Read.Count, TEST_NFT_IDS.Count);
         }
 
+        [Fact]
         public virtual void GetSetOwnerId()
         {
             var transaction = new TokenRejectTransaction { OwnerId = TEST_OWNER_ID };
             Assert.Equal(transaction.OwnerId, TEST_OWNER_ID);
         }
 
+        [Fact]
         public virtual void GetSetOwnerIdFrozen()
         {
             var transaction = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => transaction.OwnerId = TEST_OWNER_ID);
         }
 
+        [Fact]
         public virtual void GetSetTokenIds()
         {
             var transaction = new TokenRejectTransaction { TokenIds = TEST_TOKEN_IDS };
             Assert.Equal(transaction.TokenIds_Read, TEST_TOKEN_IDS);
         }
+        [Fact]
         public virtual void GetSetNftIds()
         {
             var transaction = new TokenRejectTransaction { NftIds = TEST_NFT_IDS };

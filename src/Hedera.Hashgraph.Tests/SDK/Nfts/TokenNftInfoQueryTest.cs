@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }
-
+        [Fact]
         public virtual void PropertiesTest()
         {
             var tokenId = TokenId.FromString("0.0.5005");

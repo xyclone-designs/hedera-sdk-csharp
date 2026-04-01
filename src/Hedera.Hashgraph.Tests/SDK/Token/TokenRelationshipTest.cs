@@ -13,7 +13,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             return new TokenRelationship(TokenId.FromString("1.2.3"), "ABC", 55, true, true, 4, true);
         }
-
+        [Fact]
         public virtual void ShouldSerializeTokenRelationship()
         {
             var originalTokenRelationship = SpawnTokenRelationshipExample();

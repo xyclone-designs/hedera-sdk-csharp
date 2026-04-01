@@ -7,8 +7,6 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 
-using Google.Protobuf.WellKnownTypes;
-
 using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
@@ -38,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenRevokeKycTransaction();
@@ -46,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -54,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -64,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 			var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TokenRevokeKycTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenRevokeKycTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.TokenRevokeKycTransactionBody
@@ -77,25 +75,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tokenRevokeKycTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetAccountId()
         {
             var tokenRevokeKycTransaction = new TokenRevokeKycTransaction { AccountId = testAccountId };
             Assert.Equal(tokenRevokeKycTransaction.AccountId, testAccountId);
         }
-
+        [Fact]
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenRevokeKycTransaction = new TokenRevokeKycTransaction { TokenId = testTokenId };
             Assert.Equal(tokenRevokeKycTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();

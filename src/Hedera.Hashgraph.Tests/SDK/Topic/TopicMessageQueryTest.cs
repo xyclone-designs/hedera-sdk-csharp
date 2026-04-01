@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             client?.Dispose();
             server?.ShutdownAsync().Wait();
         }
-
+        [Fact]
         public virtual void Subscribe()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)1, received[0].SequenceNumber);
             Assert.Equal((ulong)2, received[1].SequenceNumber);
         }
-
+        [Fact]
         public virtual void SubscribeChunked()
         {
             Proto.ConsensusTopicResponse response1 = Response(1, 2);
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)1, first.Chunks[0].SequenceNumber);
             Assert.Equal((ulong)2, first.Chunks[1].SequenceNumber);
         }
-
+        [Fact]
         public virtual void SubscribeNoResponse()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(errors);
             Assert.Empty(received);
         }
-
+        [Fact]
         public virtual void ErrorDuringOnNext()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -120,7 +120,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.IsType<Exception>(errors[0]);
             Assert.Empty(received);
         }
-
+        [Fact]
         public virtual void RetryRecovers(StatusCode code, string description)
         {
             Proto.ConsensusTopicResponse response = Response(1);
@@ -143,7 +143,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)2, received[1].SequenceNumber);
             Assert.Empty(errors);
         }
-
+        [Fact]
         public virtual void NoRetry(StatusCode code, string description)
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             var rpcEx = Assert.IsType<RpcException>(errors[0]);
             Assert.Equal(code, rpcEx.StatusCode);
         }
-
+        [Fact]
         public virtual void CustomRetry()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -171,7 +171,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)1, received[0].SequenceNumber);
             Assert.Empty(errors);
         }
-
+        [Fact]
         public virtual void RetryWithLimit()
         {
             Proto.ConsensusTopicResponse response = Response(1);
@@ -200,7 +200,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)2, received[1].SequenceNumber);
             Assert.Empty(errors);
         }
-
+        [Fact]
         public virtual void RetriesExhausted()
         {
             topicMessageQuery.MaxAttempts = 1;
@@ -216,7 +216,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             var rpcEx = Assert.IsType<RpcException>(errors[0]);
             Assert.Equal(StatusCode.ResourceExhausted, rpcEx.StatusCode);
         }
-
+        [Fact]
         public virtual void ErrorWhenCallIsCancelled()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -229,7 +229,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(StatusCode.Cancelled, rpcEx.StatusCode);
             Assert.Empty(received);
         }
-
+        [Fact]
         public virtual void UnsubscribeDoesNotInvokeErrorOrRetry()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Empty(errors);
             Assert.Empty(received);
         }
-
+        [Fact]
         public virtual void ServerCancelledRetriesWhenCustomRetryAllows()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -262,7 +262,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)1, received[0].SequenceNumber);
             Assert.Empty(errors);
         }
-
+        [Fact]
         public virtual void UnsubscribeThenResubscribeResetsClientCancelFlagAllowsRetryOnCancelled()
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -298,7 +298,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)1, received[0].SequenceNumber);
             secondHandle.Unsubscribe();
         }
-
+        [Fact]
         private void SubscribeToMirror(Action<TopicMessage> onNext)
         {
             SubscriptionHandle subscriptionHandle = topicMessageQuery.Subscribe(client, onNext);
@@ -359,7 +359,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
             return response;
         }
-
+        [Fact]
         private class ConsensusServiceStub : Proto.ConsensusService.ConsensusServiceBase
         {
             public readonly Queue<Proto.ConsensusTopicQuery> requests = new();

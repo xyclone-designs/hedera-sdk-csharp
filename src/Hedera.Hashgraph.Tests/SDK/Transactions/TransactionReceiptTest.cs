@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 [],
                 []);
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalTransactionReceipt = SpawnReceiptExample();

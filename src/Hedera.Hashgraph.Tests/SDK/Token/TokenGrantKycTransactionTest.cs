@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenGrantKycTransaction();
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.IsType<TokenGrantKycTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenGrantKycTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.TokenGrantKycTransactionBody
@@ -80,7 +80,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(tokenGrantKycTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetAccountId()
         {
             var tokenGrantKycTransaction = new TokenGrantKycTransaction
@@ -90,14 +90,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(tokenGrantKycTransaction.AccountId, testAccountId);
         }
-
+        [Fact]
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenGrantKycTransaction = new TokenGrantKycTransaction
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tokenGrantKycTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();

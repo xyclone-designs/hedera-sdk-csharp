@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TransferTransaction();
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                     .AddTokenTransferWithDecimals(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.7"), -100, 3);
             });
         }
-
+        [Fact]
         public virtual void CanGetDecimals()
         {
             var tx = new TransferTransaction();
@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             tx.AddTokenTransferWithDecimals(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.7"), -100, 5);
             Assert.Equal(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")], (uint)5);
         }
-
+        [Fact]
         public virtual void TransactionBodiesMustMatch()
         {
             Proto.Transaction tx1 = Proto.TransactionList.Parser.ParseFrom(SpawnTestTransaction().ToBytes()).TransactionList_[0];
@@ -129,7 +129,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Transaction.FromBytes<TransferTransaction>(brokenTxBytes);
             });
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody()

@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     public class NetworkVersionInfoQueryTest
     {
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var builder = new Proto.Query();

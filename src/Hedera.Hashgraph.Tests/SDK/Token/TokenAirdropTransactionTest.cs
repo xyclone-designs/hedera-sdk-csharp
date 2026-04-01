@@ -13,7 +13,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    class TokenAirdropTransactionTest
+    public class TokenAirdropTransactionTest
     {
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -28,6 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenAirdropTransaction();
@@ -59,6 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 .Sign(privateKey);
         }
 
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -66,6 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
+        [Fact]
         public virtual void DecimalsMustBeConsistent()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -76,6 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             });
         }
 
+        [Fact]
         public virtual void CanGetDecimals()
         {
             var tx = new TokenAirdropTransaction();
@@ -91,6 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")], (uint)5);
         }
 
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -102,12 +107,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.IsType<TokenAirdropTransaction>(tx);
         }
 
+        [Fact]
         public virtual void TestDefaultMaxTransactionFeeIsSet()
         {
             Assert.Equal(new Hbar(1), transaction.DefaultMaxTransactionFee);
             //Assert.Equal(new Hbar(1), transaction.DefaultMaxTransactionFee, "Default max transaction fee should be 1 Hbar");
         }
 
+        [Fact]
         public virtual void TestAddTokenTransfer()
         {
             TokenId tokenId = new (0, 0, 123);
@@ -121,6 +128,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(value, tokenTransfers[tokenId][accountId]);
         }
 
+        [Fact]
         public virtual void TestAddApprovedTokenTransfer()
         {
             TokenId tokenId = new (0, 0, 123);
@@ -135,6 +143,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(value, tokenTransfers[tokenId][accountId]);
         }
 
+        [Fact]
         public virtual void TestAddNftTransfer()
         {
             NftId nftId = new NftId(new TokenId(0, 0, 123), 1);
@@ -150,6 +159,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(receiver, nftTransfers[nftId.TokenId][0].Receiver);
         }
 
+        [Fact]
         public virtual void TestAddApprovedNftTransfer()
         {
             NftId nftId = new (new TokenId(0, 0, 123), 1);
@@ -165,6 +175,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(receiver, nftTransfers[nftId.TokenId][0].Receiver);
         }
 
+        [Fact]
         public virtual void TestGetTokenIdDecimals()
         {
             TokenId tokenId = new (0, 0, 123);
@@ -177,12 +188,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(decimals, decimalsMap[tokenId]);
         }
 
+        [Fact]
         public virtual void TestBuildTransactionBody()
         {
             Proto.TokenAirdropTransactionBody builder = SpawnTestTransaction().ToProtobuf();
             Assert.NotNull(builder);
         }
 
+        [Fact]
         public virtual void TestGetMethodDescriptor()
         {
             //Assert.Equal(Proto.TokenService.Descriptor.GetAirdropTokensMethod(), transaction.GetMethodDescriptor());

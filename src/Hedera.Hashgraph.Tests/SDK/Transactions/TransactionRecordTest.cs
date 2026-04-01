@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 ]
             );
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalRecord = SpawnRecordExample(ByteString.CopyFromUtf8("very random bytes"), null);
@@ -95,7 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             Verifier.Verify(originalRecord.ToString());
         }
-
+        [Fact]
         public virtual void ShouldSerialize2()
         {
             var originalRecord = SpawnRecordExample(null, 4);

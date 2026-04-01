@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             .Freeze()
             .Sign(TEST_PRIVATE_KEY);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new NodeDeleteTransaction();
@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.IsType<NodeDeleteTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructNodeDeleteTransactionFromTransactionBodyProtobuf()
         {
             var transactionBodyBuilder = new Proto.NodeDeleteTransactionBody();
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var nodeDeleteTransaction = new NodeDeleteTransaction(tx);
             Assert.Equal(nodeDeleteTransaction.NodeId, TEST_NODE_ID);
         }
-
+        [Fact]
         public virtual void GetSetNodeId()
         {
             var nodeDeleteTransaction = new NodeDeleteTransaction
@@ -83,13 +83,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 			};
             Assert.Equal(nodeDeleteTransaction.NodeId, TEST_NODE_ID);
         }
-
+        [Fact]
         public virtual void GetSetNodeIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.NodeId = TEST_NODE_ID);
         }
-
+        [Fact]
         public virtual void ShouldFreezeSuccessfullyWhenNodeIdIsSet()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
 			Assert.Equal(transaction.NodeId, (ulong)420);
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenFreezingWithoutSettingNodeId()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenFreezingWithZeroNodeId()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' must be explicitly set before calling freeze().");
         }
-
+        [Fact]
         public virtual void ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet()
         {
             DateTimeOffset VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1596210382);
@@ -149,7 +149,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             transaction.FreezeWith(mockClient); //.DoesNotThrowAnyException();
             Assert.Equal(transaction.NodeId, (ulong)420);
         }
-
+        [Fact]
         public virtual void ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt()
         {
             var transaction = new NodeDeleteTransaction();
@@ -158,7 +158,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(exception.Message, "NodeDeleteTransaction: 'nodeId' has not been set");
         }
 
-
+        [Fact]
         public virtual void ShouldAllowSettingNodeIdToZero()
         {
             var transaction = new NodeDeleteTransaction

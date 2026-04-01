@@ -9,8 +9,9 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
-    class NftHookCallTest
+    public class NftHookCallTest
     {
+        [Fact]
         public virtual void ConstructorWithNumericIdAndType()
         {
             var evm = new EvmHookCall(new byte[] { }, 25000);
@@ -18,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             
             Assert.Equal(call.Type, NftHookType.PreHookSender);
         }
-
+        [Fact]
         public virtual void NftTransferSerializesSenderAndReceiverHooksByType()
         {
             var tx = new TransferTransaction();

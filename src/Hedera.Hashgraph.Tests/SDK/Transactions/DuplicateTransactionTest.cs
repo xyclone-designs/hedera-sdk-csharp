@@ -8,6 +8,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
     public class DuplicateTransactionTest
     {
+        [Fact]
         public virtual void GenerateTransactionIds()
         {
             TransactionId[] ids = new TransactionId[1000000];

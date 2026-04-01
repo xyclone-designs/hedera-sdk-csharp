@@ -29,6 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Endpoint.ValidateNoIpAndDomain(ep);
         }
 
+        [Fact]
         public virtual void ValidateThrowsOnIpAndDomain()
         {
             var ep = new Endpoint

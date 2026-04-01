@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ScheduleSignTransaction();
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();

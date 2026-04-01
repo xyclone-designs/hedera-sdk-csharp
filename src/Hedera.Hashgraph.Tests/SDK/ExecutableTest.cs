@@ -64,7 +64,8 @@ namespace Hedera.Hashgraph.Tests.SDK
                 new AccountId(0, 0, 5)
             };
         }
-
+        
+        [Fact]
         public virtual void FirstNodeHealthy()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -79,7 +80,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node3);
         }
-
+        
+        [Fact]
         public virtual void CalloptionsShouldRespectGrpcDeadline()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -97,7 +99,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.True(timeRemaining < 10000);
             Assert.True(timeRemaining > 9000);
         }
-
+        
+        [Fact]
         public virtual void ExecutableShouldUseGrpcDeadline()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -152,7 +155,8 @@ namespace Hedera.Hashgraph.Tests.SDK
                 tx.Execute(client, timeout);
             });
         }
-
+        
+        [Fact]
         public virtual void MultipleNodesUnhealthy()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(false);
@@ -168,7 +172,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node4);
         }
-
+        
+        [Fact]
         public virtual void AllNodesUnhealthy()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(false);
@@ -188,7 +193,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             var node = tx.GetNodeForExecute(1);
             Assert.Equal(node, node4);
         }
-
+        
+        [Fact]
         public virtual void MultipleRequestsWithSingleHealthyNode()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -211,7 +217,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             node4Mock.Verify(n => n.GetRemainingTimeForBackoff());
             node5Mock.Verify(n => n.GetRemainingTimeForBackoff());
         }
-
+        
+        [Fact]
         public virtual void MultipleRequestsWithNoHealthyNodes()
         {
             int i = 0;
@@ -243,6 +250,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(node, node3);
         }
 
+        [Fact]
         public virtual void SuccessfulExecute()
         {
             var now = DateTimeOffset.UtcNow;
@@ -278,6 +286,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
+        [Fact]
         public virtual void ExecuteWithChannelFailure()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -315,6 +324,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
+        [Fact]
         public virtual void ExecuteWithAllUnhealthyNodes()
         {
             int i = 0;
@@ -367,6 +377,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
+        [Fact]
         public virtual void ExecuteExhaustRetries()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -384,6 +395,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => { tx.Execute(client); });
         }
 
+        [Fact]
         public virtual void ExecuteRetriableErrorDuringCall()
         {
             int i = 0;
@@ -414,6 +426,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             node4Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
         }
 
+        [Fact]
         public virtual void TestChannelFailedToConnectTimeout()
         {
             TransactionResponse transactionResponse = new(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), DateTimeOffset.UtcNow), new byte[] { 1, 2, 3 }, null, null);
@@ -427,6 +440,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             MaxAttemptsExceededException exception = Assert.Throws<MaxAttemptsExceededException>(() => transactionResponse.GetReceipt(client, TimeSpan.FromSeconds(2)));
         }
 
+        [Fact]
         public virtual void ExecuteQueryDelay()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -494,6 +508,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
+        [Fact]
         public virtual void ShouldRetryReturnsCorrectStates()
         {
             var tx = new DummyTransaction();
@@ -506,6 +521,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(tx.GetExecutionState(ResponseStatus.AccountDeleted, null), ExecutionState.RequestError);
         }
 
+        [Fact]
         public virtual void ShouldSetMaxRetry()
         {
             var tx = new DummyTransaction();
@@ -514,6 +530,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Throws<ArgumentException>(() => { tx.MaxRetry = 0; });
         }
 
+        [Fact]
         public virtual void ShouldMarkNodeAsUnusableOnInvalidNodeAccountId()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);
@@ -545,6 +562,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
+        [Fact]
         public virtual void ShouldTriggerAddressBookUpdateOnInvalidNodeAccountId()
         {
             node3Mock.Setup(n => n.IsHealthy()).Returns(true);

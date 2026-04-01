@@ -14,7 +14,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    class TokenClaimAirdropTransactionTest
+    public class TokenClaimAirdropTransactionTest
     {
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenClaimAirdropTransaction();
@@ -55,12 +55,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             transaction = new TokenClaimAirdropTransaction();
         }
-
+        [Fact]
         public virtual void TestConstructorSetsDefaultMaxTransactionFee()
         {
             Assert.Equal(Hbar.From(1), transaction.DefaultMaxTransactionFee);
         }
-
+        [Fact]
         public virtual void TestGetAndSetPendingAirdropIds()
         {
             List<PendingAirdropId> pendingAirdropIds =
@@ -72,12 +72,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(pendingAirdropIds, transaction.PendingAirdropIds);
         }
-
+        [Fact]
         public virtual void TestSetPendingAirdropIdsNullThrowsException()
         {
             Assert.Throws<NullReferenceException>(() => transaction.PendingAirdropIds = null);
         }
-
+        [Fact]
         public virtual void TestClearPendingAirdropIds()
         {
             IList<PendingAirdropId> pendingAirdropIds = [];
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             transaction.PendingAirdropIds.Clear();
             Assert.True(transaction.PendingAirdropIds.Count == 0);
         }
-
+        [Fact]
         public virtual void TestAddAllPendingAirdrops()
         {
             PendingAirdropId pendingAirdropId1 = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
@@ -100,7 +100,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.True(transaction.PendingAirdropIds.Contains(pendingAirdropId1));
             Assert.True(transaction.PendingAirdropIds.Contains(pendingAirdropId2));
         }
-
+        [Fact]
         public virtual void TestBuildTransactionBody()
         {
             PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123));
@@ -116,7 +116,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             //Assert.Equal(TokenServiceGrpc.ClaimAirdropMethod, transaction.GetMethodDescriptor());
         }
-
+        [Fact]
         public virtual void TestOnFreeze()
         {
             var bodyBuilder = new Proto.TransactionBody();
@@ -124,7 +124,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.True(bodyBuilder.TokenClaimAirdrop is not null);
         }
-
+        [Fact]
         public virtual void TestOnScheduled()
         {
             Proto.SchedulableTransactionBody scheduled = new ();

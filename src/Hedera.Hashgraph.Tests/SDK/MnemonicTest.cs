@@ -14,19 +14,20 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         private static readonly string MNEMONIC_LEGACY_V1_STRING = "jolly kidnap tom lawn drunk chick optic lust mutter mole bride galley dense member sage neural widow decide curb aboard margin manure";
         private static readonly string MNEMONIC_LEGACY_V2_STRING = "obvious favorite remain caution remove laptop base vacant increase video erase pass sniff sausage knock grid argue salt romance way alone fever slush dune";
-        private static readonly string MNEMONIC_24_WORD_STRING = "inmate flip alley wear offer often piece magnet surge toddler submit right radio absent pear floor belt raven price stove replace reduce plate home";
-        private static readonly string MNEMONIC_12_WORD_STRING = "finish furnace tomorrow wine mass goose festival air palm easy region guilt";
+        private static readonly string MNEMONIC_24_WORD_STRING = "inmate flip alley wear offer often piece magnet surge toddler submit right radio absent pear floor belt raven price stove replace reduce plate home";private 
+        static readonly string MNEMONIC_12_WORD_STRING = "finish furnace tomorrow wine mass goose festival air palm easy region guilt";
+        
         public virtual void GenerateValidMnemonic()
         {
             Mnemonic.Generate24();
             Mnemonic.Generate12();
-        }
-
+        }        
         public virtual void KnownGoodMnemonics(string mnemonicStr)
         {
             Mnemonic.FromString(mnemonicStr);
         }
-
+        
+        [Fact]
         public virtual void ShortWordList()
         {
             BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["lorem", "ipsum", "dolor"]));
@@ -34,7 +35,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(BadMnemonicReason.BadLength, error.Reason);
             Assert.Null(error.UnknownWordIndices);
         }
-
+        
+        [Fact]
         public virtual void LongWordList()
         {
             BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame", "gate", "village", "viable", "include", "mixed", "term", "draft", "among", "monitor", "swear", "swing", "novel", "track"]));
@@ -42,7 +44,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(BadMnemonicReason.BadLength, error.Reason);
             Assert.Null(error.UnknownWordIndices);
         }
-
+        
+        [Fact]
         public virtual void BetweenWordList()
         {
             BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["" + "lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame"]));
@@ -50,7 +53,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(BadMnemonicReason.BadLength, error.Reason);
             Assert.Null(error.UnknownWordIndices);
         }
-
+        
+        [Fact]
         public virtual void UnknownWords()
         {
             BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["abandon", "ability", "able", "about", "above", "absent", "adsorb", "abstract", "absurd", "abuse", "access", "accident", "acount", "accuse", "achieve", "acid", "acoustic", "acquired", "across", "act", "action", "actor", "actress", "actual"]));
@@ -58,7 +62,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(BadMnemonicReason.UnknownWords, error.Reason);
             Assert.Equal(error.UnknownWordIndices, [6, 12, 17]);
         }
-
+        
+        [Fact]
         public virtual void ChecksumMismatch()
         {
             // this mnemonic was just made up, the checksum should definitely not match
@@ -67,7 +72,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(BadMnemonicReason.ChecksumMismatch, error.Reason);
             Assert.Null(error.UnknownWordIndices);
         }
-
+        
+        [Fact]
         public virtual void ChecksumMismatch12()
         {
             // this mnemonic was just made up, the checksum should definitely not match
@@ -76,14 +82,16 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(BadMnemonicReason.ChecksumMismatch, error.Reason);
             Assert.Null(error.UnknownWordIndices);
         }
-
+        
+        [Fact]
         public virtual void InvalidToPrivateKey()
         {
             BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual"]));
 
             Assert.NotNull(error.Mnemonic);
         }
-
+        
+        [Fact]
         public virtual void LegacyV1MnemonicTest()
         {
             // TODO: add link to reference test vectors
@@ -117,7 +125,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
             Assert.Equal(key4.GetPublicKey().ToStringRaw(), PUBLIC_KEY4);
         }
-
+        
+        [Fact]
         public virtual void LegacyV2MnemonicTest()
         {
 
@@ -145,14 +154,16 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
             Assert.Equal(key3.GetPublicKey().ToStringRaw(), PUBLIC_KEY3);
         }
-
+        
+        [Fact]
         public virtual void MnemonicTest_()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
             PrivateKey key = mnemonic.ToPrivateKey();
             Assert.Equal(key.ToString(), "302e020100300506032b657004220420853f15aecd22706b105da1d709b4ac05b4906170c2b9c7495dff9af49e1391da");
         }
-
+        
+        [Fact]
         public virtual void MnemonicPassphraseTest()
         {
 
@@ -165,7 +176,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             PrivateKey key = mnemonic.ToPrivateKey(passphrase);
             Assert.Equal(key.ToString(), expectedPrivateKey);
         }
-
+        
+        [Fact]
         public virtual void Bip39()
         {
             string passphrase = "TREZOR";
@@ -215,7 +227,8 @@ namespace Hedera.Hashgraph.Tests.SDK
                 Assert.Equal(Hex.ToHexString(seed), EXPECTED_SEEDS[i]);
             }
         }
-
+        
+        [Fact]
         public virtual void ToStandardED25519PrivateKey()
         {
 
@@ -258,7 +271,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
             Assert.Contains(PUBLIC_KEY4, key4.GetPublicKey().ToStringRaw());
         }
-
+        
+        [Fact]
         public virtual void ToStandardED25519PrivateKey2()
         {
 
@@ -301,7 +315,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
             Assert.Contains(PUBLIC_KEY4, key4.GetPublicKey().ToStringRaw());
         }
-
+        
+        [Fact]
         public virtual void ToStandardED25519PrivateKeyShouldFailWhenIndexIsPreHardened()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
@@ -313,7 +328,8 @@ namespace Hedera.Hashgraph.Tests.SDK
            
             }); Assert.Equal(argumentexception.Message, "the index should not be pre-hardened");
         }
-
+        
+        [Fact]
         public virtual void ToStandardECDSAsecp256k1PrivateKey()
         {
 
@@ -374,7 +390,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
             Assert.Contains(PUBLIC_KEY6, key6.GetPublicKey().ToStringRaw());
         }
-
+        
+        [Fact]
         public virtual void ToStandardECDSAsecp256k1PrivateKey2()
         {
 
@@ -435,7 +452,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
             Assert.Contains(PUBLIC_KEY6, key6.GetPublicKey().ToStringRaw());
         }
-
+        
+        [Fact]
         public virtual void ToStandardECDSAsecp256k1PrivateKeyCustomDpathInvalidInputs()
         {
             string DPATH_1 = "XYZ/44'/60'/0'/0/0"; // invalid derivation path
@@ -475,7 +493,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             
             }); Assert.Equal(argumentexception3.Message, "Invalid derivation path format");
         }
-
+        
+        [Fact]
         public virtual void ToStandardECDSAsecp256k1PrivateKeyCustomDpath()
         {
             string DPATH_1 = "m/44'/60'/0'/0/0";

@@ -15,12 +15,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
     {
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-
         public virtual void ShouldSerialize()
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenDeleteTransaction();
@@ -41,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -49,7 +48,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -59,14 +58,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TokenDeleteTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenDeleteTransaction()
         {
             var transaction = new TokenDeleteTransaction();
             
             Assert.Null(transaction.TokenId);
         }
-
+        [Fact]
         public virtual void ConstructTokenDeleteTransactionFromTransactionBodyProtobuf()
         {
             var tokenId = TokenId.FromString("1.2.3");
@@ -82,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(tokenDeleteTransaction.TokenId, tokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenId = TokenId.FromString("1.2.3");
@@ -92,7 +91,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 			};
             Assert.Equal(transaction.TokenId, tokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var tokenId = TokenId.FromString("1.2.3");

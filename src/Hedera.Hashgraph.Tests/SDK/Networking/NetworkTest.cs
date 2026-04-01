@@ -7,10 +7,9 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
-    class NetworkTest
+    public class NetworkTest
     {
         private ExecutorService executor;
-
         public virtual void SetUp()
         {
             executor = new ExecutorService();
@@ -20,6 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             executor?.ForceShutdown();
         }
 
+        [Fact]
         public virtual void GetNumberOfNodesForRequestReturnsFullNetworkSizeWhenNotSet()
         {
             Network network = CreateNetwork(3);
@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 3);
         }
-
+        [Fact]
         public virtual void GetNumberOfNodesForRequestReturnsMaxWhenSetAndLessThanNetworkSize()
         {
             Network network = CreateNetwork(5);
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 2);
         }
-
+        [Fact]
         public virtual void GetNumberOfNodesForRequestReturnsNetworkSizeWhenMaxIsGreater()
         {
             Network network = CreateNetwork(2);
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 2);
         }
-
+        [Fact]
         public virtual void GetNumberOfNodesForRequestReturnsNetworkSizeWhenMaxEqualsNetworkSize()
         {
             Network network = CreateNetwork(4);
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 4);
         }
-
+        [Fact]
         public virtual void GetNumberOfNodesForRequestReturnsOneForSingleNodeNetwork()
         {
             Network network = CreateNetwork(1);
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             int numberOfNodes = network.NumberOfNodesForRequest;
             Assert.Equal(numberOfNodes, 1);
         }
-
+        [Fact]
         public virtual void GetNumberOfNodesForRequestReturnsZeroForEmptyNetwork()
         {
             Network network = CreateNetwork(0);

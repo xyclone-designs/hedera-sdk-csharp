@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 			
             }.Freeze();
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenFeeScheduleUpdateTransaction();
@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalUpdate = SpawnTestTransaction();
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Verifier.Verify(originalUpdate.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody

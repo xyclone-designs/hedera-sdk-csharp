@@ -44,7 +44,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TopicUpdateTransaction();
@@ -68,14 +68,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
             }.Freeze().Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<TopicUpdateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<TopicUpdateTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTopicUpdateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.ConsensusUpdateTopicTransactionBody
@@ -117,143 +117,143 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             var tx = new Proto.TransactionBody { CryptoDelete = transactionBody };
             new TopicUpdateTransaction(tx);
         }
-
+        [Fact]
         public virtual void GetSetTopicId()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { TopicId = testTopicId };
             Assert.Equal(topicUpdateTransaction.TopicId, testTopicId);
         }
-
+        [Fact]
         public virtual void GetSetTopicIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TopicId = testTopicId);
         }
-
+        [Fact]
         public virtual void GetSetTopicMemo()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { TopicMemo = testTopicMemo };
             Assert.Equal(topicUpdateTransaction.TopicMemo, testTopicMemo);
         }
-
+        [Fact]
         public virtual void GetSetTopicMemoFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TopicMemo = testTopicMemo);
         }
-
+        [Fact]
         public virtual void ClearTopicMemo()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { TopicMemo = testTopicMemo };
             topicUpdateTransaction.TopicMemo = null;
             Assert.Empty(topicUpdateTransaction.TopicMemo);
         }
-
+        [Fact]
         public virtual void ClearTopicMemoFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TopicMemo = null);
         }
-
+        [Fact]
         public virtual void GetSetExpirationTime()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { ExpirationTime = testExpirationTime };
             Assert.Equal(topicUpdateTransaction.ExpirationTime, testExpirationTime);
         }
-
+        [Fact]
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = testExpirationTime);
         }
-
+        [Fact]
         public virtual void GetSetAdminKey()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { AdminKey = testAdminKey };
             Assert.Equal(topicUpdateTransaction.AdminKey, testAdminKey);
         }
-
+        [Fact]
         public virtual void GetSetAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AdminKey = testAdminKey);
         }
-
+        [Fact]
         public virtual void ClearAdminKey()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { AdminKey = testAdminKey };
             topicUpdateTransaction.AdminKey = null;
             Assert.Equal(topicUpdateTransaction.AdminKey, new KeyList());
         }
-
+        [Fact]
         public virtual void ClearAdminKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AdminKey = null);
         }
-
+        [Fact]
         public virtual void GetSetSubmitKey()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { SubmitKey = testSubmitKey };
             Assert.Equal(topicUpdateTransaction.SubmitKey, testSubmitKey);
         }
-
+        [Fact]
         public virtual void GetSetSubmitKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.SubmitKey = testSubmitKey);
         }
-
+        [Fact]
         public virtual void ClearSubmitKey()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { SubmitKey = testSubmitKey };
             topicUpdateTransaction.SubmitKey = null;
             Assert.Equal(topicUpdateTransaction.SubmitKey, new KeyList());
         }
-
+        [Fact]
         public virtual void ClearSubmitKeyFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.SubmitKey = null);
         }
-
+        [Fact]
         public virtual void GetSetAutoRenewPeriod()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { AutoRenewPeriod = testAutoRenewPeriod };
             Assert.Equal(topicUpdateTransaction.AutoRenewPeriod, testAutoRenewPeriod);
         }
-
+        [Fact]
         public virtual void GetSetAutoRenewPeriodFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AutoRenewPeriod = testAutoRenewPeriod);
         }
-
+        [Fact]
         public virtual void GetSetAutoRenewAccountId()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { AutoRenewAccountId = testAutoRenewAccountId };
             Assert.Equal(topicUpdateTransaction.AutoRenewAccountId, testAutoRenewAccountId);
         }
-
+        [Fact]
         public virtual void GetSetAutoRenewAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AutoRenewAccountId = testAutoRenewAccountId);
         }
-
+        [Fact]
         public virtual void ClearAutoRenewAccountId()
         {
             var topicUpdateTransaction = new TopicUpdateTransaction { AutoRenewAccountId = testAutoRenewAccountId };
             topicUpdateTransaction.AutoRenewAccountId = null;
             Assert.Equal(topicUpdateTransaction.AutoRenewAccountId, new AccountId(0, 0, 0));
         }
-
+        [Fact]
         public virtual void ClearAutoRenewAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AutoRenewAccountId = null);
         }
-
+        [Fact]
         public virtual void ShouldSetFeeScheduleKey()
         {
             PrivateKey feeScheduleKey = PrivateKey.GenerateECDSA();
@@ -263,7 +263,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             };
             Assert.Equal(topicUpdateTransaction.FeeScheduleKey.ToString(), feeScheduleKey.ToString());
         }
-
+        [Fact]
         public virtual void ShouldSetFeeExemptKeys()
         {
             IList<PrivateKey> feeExemptKeys = [PrivateKey.GenerateECDSA(), PrivateKey.GenerateECDSA()];
@@ -273,7 +273,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             };
             Assert.Equal(topicUpdateTransaction.FeeExemptKeys, feeExemptKeys);
         }
-
+        [Fact]
         public virtual void ShouldAddFeeExemptKeyToEmptyList()
         {
             TopicUpdateTransaction topicUpdateTransaction = new TopicUpdateTransaction();
@@ -282,7 +282,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicUpdateTransaction.FeeExemptKeys.Count, 1);
             Assert.Equal(topicUpdateTransaction.FeeExemptKeys, [feeExemptKeyToBeAdded]);
         }
-
+        [Fact]
         public virtual void ShouldAddFeeExemptKeyToList()
         {
             PrivateKey feeExemptKey = PrivateKey.GenerateECDSA();
@@ -296,7 +296,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicUpdateTransaction.FeeExemptKeys.Count, 2);
             Assert.Equal(topicUpdateTransaction.FeeExemptKeys, [feeExemptKey, feeExemptKeyToBeAdded]);
         }
-
+        [Fact]
         public virtual void ShouldSetCustomFees()
         {
             IList<CustomFixedFee> customFixedFees =
@@ -324,7 +324,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicUpdateTransaction.CustomFees.Count, 3);
             Assert.Equal(topicUpdateTransaction.CustomFees, customFixedFees);
         }
-
+        [Fact]
         public virtual void ShouldAddCustomFeeToList()
         {
             IList<CustomFixedFee> customFixedFees =
@@ -360,7 +360,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicUpdateTransaction.CustomFees.Count, 4);
             Assert.Equal(topicUpdateTransaction.CustomFees, expectedCustomFees);
         }
-
+        [Fact]
         public virtual void ShouldAddCustomFeeToEmptyList()
         {
             CustomFixedFee customFixedFeeToBeAdded = new CustomFixedFee
@@ -373,7 +373,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicUpdateTransaction.CustomFees.Count, 1);
             Assert.Equal(topicUpdateTransaction.CustomFees, [customFixedFeeToBeAdded]);
         }
-
+        [Fact]
         public virtual void ShouldClearCustomFees()
         {
             IList<CustomFixedFee> customFixedFees = 

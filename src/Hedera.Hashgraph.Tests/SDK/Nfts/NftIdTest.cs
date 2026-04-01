@@ -9,7 +9,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
-    class NftIdTest
+    public class NftIdTest
     {
         static Client? mainnetClient;
         static Client? testnetClient;
@@ -57,7 +57,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         {
             Verifier.Verify(Hex.ToHexString(new TokenId(0, 0, 5005).Nft(4920).ToBytes()));
         }
-		public virtual void ToFromString()
+        [Fact]
+        public virtual void ToFromString()
 		{
 			var id1 = NftId.FromString("0.0.5005@1234");
 			var id2 = NftId.FromString(id1.ToString());

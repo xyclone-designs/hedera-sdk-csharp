@@ -29,6 +29,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         };
         private static readonly ulong testSequenceNumber = 7;
         private static readonly TransactionId testTransactionId = new TransactionId(new AccountId(0, 0, 1), testTimestamp);
+
+        [Fact]
         public virtual void ConstructWithArgs()
         {
             var consensusTopicResponse = new Proto.ConsensusTopicResponse
@@ -67,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal(topicMessage.SequenceNumber, testSequenceNumber);
             Assert.Equal(topicMessage.TransactionId, testTransactionId);
         }
-
+        [Fact]
         public virtual void OfSingle()
         {
             var consensusTopicResponse = new Proto.ConsensusTopicResponse
@@ -91,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Single(topicMessage.Chunks);
             Assert.Equal(topicMessage.TransactionId, testTransactionId);
         }
-
+        [Fact]
         public virtual void OfMany()
         {
             var consensusTopicResponse1 = new Proto.ConsensusTopicResponse

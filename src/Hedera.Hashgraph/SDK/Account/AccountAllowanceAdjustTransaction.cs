@@ -207,9 +207,7 @@ namespace Hedera.Hashgraph.SDK.Account
 				allowance.ValidateChecksums(client);
 			}
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
-        {
-        }
+        public override void OnFreeze(Proto.TransactionBody bodyBuilder) { }
         public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule AccountAllowanceAdjustTransaction");

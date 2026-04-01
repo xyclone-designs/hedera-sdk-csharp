@@ -10,6 +10,8 @@ namespace Hedera.Hashgraph.Tests.SDK
     public class ExchangeRatesTest
     {
         private static readonly string exchangeRateSetHex = "0a1008b0ea0110b6b4231a0608f0bade9006121008b0ea01108cef231a060880d7de9006";
+
+        [Fact]
         public virtual void FromProtobuf()
         {
             byte[] exchangeRatesBytes = Hex.Decode(exchangeRateSetHex);

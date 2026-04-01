@@ -24,6 +24,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenInfoQuery = new TokenInfoQuery

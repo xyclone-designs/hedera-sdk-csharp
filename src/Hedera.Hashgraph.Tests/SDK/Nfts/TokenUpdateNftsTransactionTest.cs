@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             .Freeze()
             .Sign(testMetadataKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUpdateNftsTransaction();
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             var tx = Transaction.FromScheduledTransaction<TokenUpdateNftsTransaction>(transactionBody);
             Assert.IsType<TokenUpdateNftsTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenUpdateTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.TokenUpdateNftsTransactionBody
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.Equal(tokenUpdateNftsTransaction.Metadata, testMetadata);
             Assert.Equal(tokenUpdateNftsTransaction.Serials, testSerialNumbers);
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenUpdateNftsTransaction = new TokenUpdateNftsTransaction
@@ -98,31 +98,31 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             
             Assert.Equal(tokenUpdateNftsTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetMetadata()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Metadata, testMetadata);
         }
-
+        [Fact]
         public virtual void GetSetMetadataFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Metadata = testMetadata);
         }
-
+        [Fact]
         public virtual void GetSetSerialNumbers()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Serials, testSerialNumbers);
         }
-
+        [Fact]
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();

@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenWipeTransaction();
@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesFungible()
         {
             var tx = SpawnTestTransaction();
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransactionNft();
@@ -85,7 +85,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var tx = Transaction.FromScheduledTransaction<TokenWipeTransaction>(transactionBody);
             Assert.IsType<TokenWipeTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenWipeTransactionFromTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.TokenWipeAccountTransactionBody
@@ -117,7 +117,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenWipeTransaction.Amount, testAmount);
             Assert.Equal(tokenWipeTransaction.Serials, testSerialNumbers);
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenWipeTransaction = new TokenWipeTransaction
@@ -132,37 +132,37 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.TokenId = testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetAccountId()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.AccountId, testAccountId);
         }
-
+        [Fact]
         public virtual void GetSetAccountIdFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.AccountId = testAccountId);
         }
-
+        [Fact]
         public virtual void GetSetAmount()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Amount, (ulong)testAmount);
         }
-
+        [Fact]
         public virtual void GetSetAmountFrozen()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.Amount = (ulong)testAmount);
         }
-
+        [Fact]
         public virtual void GetSetSerialNumbers()
         {
             var tx = SpawnTestTransaction();
             Assert.Equal(tx.Serials, testSerialNumbers);
         }
-
+        [Fact]
         public virtual void GetSetSerialNumbersFrozen()
         {
             var tx = SpawnTestTransaction();

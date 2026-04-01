@@ -60,21 +60,21 @@ namespace Hedera.Hashgraph.Tests.SDK.System
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesContract()
         {
             var tx = SpawnTestTransactionContract();
             var tx2 = Transaction.FromBytes<SystemUndeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesFile()
         {
             var tx = SpawnTestTransactionFile();
             var tx2 = Transaction.FromBytes<SystemUndeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody

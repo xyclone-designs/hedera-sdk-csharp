@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-
+        
         public virtual TokenUnpauseTransaction SpawnTestTransaction()
         {
             return new TokenUnpauseTransaction
@@ -29,26 +29,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new TokenUnpauseTransaction();
             var tx2 = Transaction.FromBytes<TokenUnpauseTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
         public virtual void ShouldSerialize()
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<TokenCreateTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -59,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.IsType<TokenUnpauseTransaction>(tx);
         }
-
+        [Fact]
         public virtual void ConstructTokenUnpauseTransactionFromTransactionBodyProtobuf()
         {
             var tx = new Proto.TransactionBody
@@ -73,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Assert.Equal(tokenUnpauseTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenId()
         {
             var tokenUnpauseTransaction = new TokenUnpauseTransaction
@@ -82,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 			};
             Assert.Equal(tokenUnpauseTransaction.TokenId, testTokenId);
         }
-
+        [Fact]
         public virtual void GetSetTokenIdFrozen()
         {
             var tx = SpawnTestTransaction();

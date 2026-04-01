@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 9
             };
         }
-
+        [Fact]
         public virtual void TransactionFromBytesWorksWithProtobufTransactionBytes()
         {
             var bytes = Hex.Decode("1acc010a640a2046fe5013b6f6fc796c3e65ec10d2a10d03c07188fc3de13d46caad6b8ec4dfb81a4045f1186be5746c9783f68cb71d6a71becd3ffb024906b855ac1fa3a2601273d41b58446e5d6a0aaf421c229885f9e70417353fab2ce6e9d8e7b162e9944e19020a640a20f102e75ff7dc3d72c9b7075bb246fcc54e714c59714814011e8f4b922d2a6f0a1a40f2e5f061349ab03fa21075020c75cf876d80498ae4bac767f35941b8e3c393b0e0a886ede328e44c1df7028ea1474722f2dcd493812d04db339480909076a10122500a180a0c08a1cc98830610c092d09e0312080800100018e4881d120608001000180418b293072202087872240a220a0f0a080800100018e4881d10ff83af5f0a0f0a080800100018eb881d108084af5f");
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.True(transaction.GetHbarTransfers().Contains(KeyValuePair.Create(new AccountId(0, 0, 476260), new Hbar(1).Negated())));
             Assert.True(transaction.GetHbarTransfers().Contains(KeyValuePair.Create(new AccountId(0, 0, 476267), new Hbar(1))));
         }
-
+        [Fact]
         public virtual void TokenAssociateTransactionFromTransactionBodyBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody { };
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
-
+        [Fact]
         public virtual void TokenAssociateTransactionFromSignedTransactionBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody { };
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
-
+        [Fact]
         public virtual void TokenAssociateTransactionFromTransactionBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody
@@ -116,7 +116,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             }.Freeze().Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void SameSizeForIdenticalTransactions()
         {
             var accountCreateTransaction = new AccountCreateTransaction
@@ -135,7 +135,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             Assert.Equal(accountCreateTransaction.GetTransactionSize(), accountCreateTransaction2.GetTransactionSize());
         }
-
+        [Fact]
         public virtual void SignedTransactionShouldHaveLargerSize()
         {
             var accountCreateTransaction = new AccountCreateTransaction
@@ -154,7 +154,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             Assert.True(accountCreateTransaction.GetTransactionSize() > accountCreateTransaction2.GetTransactionSize());
         }
-
+        [Fact]
         public virtual void TransactionWithLargerContentShouldHaveLargerTransactionBody()
         {
             var fileCreateTransactionSmallContent = new FileCreateTransaction
@@ -173,7 +173,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             Assert.True(fileCreateTransactionSmallContent.GetTransactionBodySize() < fileCreateTransactionLargeContent.GetTransactionBodySize());
         }
-
+        [Fact]
         public virtual void TransactionWithoutOptionalFieldsShouldHaveSmallerTransactionBody()
         {
             var noOptionalFieldsTransaction = new AccountCreateTransaction
@@ -192,7 +192,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             Assert.True(noOptionalFieldsTransaction.GetTransactionBodySize() < fullOptionalFieldsTransaction.GetTransactionBodySize());
         }
-
+        [Fact]
         public virtual void MultiChunkTransactionShouldReturnArrayOfBodySizes()
         {
             var chunkSize = 1024;
@@ -212,7 +212,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotNull(objects);
             Assert.Equal(2, objects.Count);
         }
-
+        [Fact]
         public virtual void SingleChunkTransactionShouldReturnArrayOfOneSize()
         {
 
@@ -231,7 +231,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotNull(bodySizes);
             Assert.Single(bodySizes);
         }
-
+        [Fact]
         public virtual void TransactionWithNoContentShouldReturnSingleBodyChunk()
         {
             var fileAppendTx = new FileAppendTransaction
@@ -246,7 +246,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.NotNull(bodySizes);
             Assert.Single(bodySizes); // Contains one empty chunk
         }
-
+        [Fact]
         public virtual void ChunkedFileAppendTransactionShouldReturnProperSizes()
         {
             byte[] largeContent = new byte[2048];
@@ -280,7 +280,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             // The larger chunked transaction should be bigger than the small single-chunk transaction
             Assert.True(largeSize > smallSize);
         }
-
+        [Fact]
         public virtual void TestAddSignatureV2SingleNodeSingleChunk()
         {
             var transaction = new FileAppendTransaction
@@ -302,7 +302,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Assert.Equal(entry.Value, mockSignature);
             }
         }
-
+        [Fact]
         public virtual void TestAddSignatureV2MultipleNodesSingleChunk()
         {
             var transaction = new FileAppendTransaction
@@ -329,7 +329,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 }
             }
         }
-
+        [Fact]
         public virtual void TestAddSignatureV2MultipleNodesMultipleChunks()
         {
             byte[] content = new byte[2048];
@@ -365,7 +365,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 }
             }
         }
-
+        [Fact]
         public virtual void TestAddSignatureV2WrongNodeID()
         {
             var transaction = new FileAppendTransaction
@@ -382,7 +382,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Dictionary<AccountId, Dictionary<PublicKey, byte[]>> signatures = transaction.GetSignatures();
             Assert.False(signatures.ContainsKey(invalidNodeID));
         }
-
+        [Fact]
         public virtual void TestAddSignatureV2WrongTransactionID()
         {
             var transaction = new FileAppendTransaction
@@ -402,7 +402,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Assert.False(signatures[nodeAccountID1].ContainsKey(mockPrivateKey.GetPublicKey()));
             }
         }
-
+        [Fact]
         public virtual void TestAddSignatureV2SameSignatureTwice()
         {
             var transaction = new FileAppendTransaction
@@ -426,7 +426,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Assert.Equal(entry.Value, mockSignature);
             }
         }
-
+        [Fact]
         public virtual void TestAddSignatureV2WithEmptyInnerSignedTransactions()
         {
             var tx = new FileAppendTransaction();
@@ -444,7 +444,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var result = tx.AddSignature(key.GetPublicKey(), mockSig, testTxID, nodeID);
             Assert.Equal(result, tx);
         }
-
+        [Fact]
         public virtual void TestGetSignableNodeBodyBytesListUnfrozen()
         {
             var tx = new TransferTransaction();
@@ -453,7 +453,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 tx.GetSignableNodeBodyBytesList();
             });
         }
-
+        [Fact]
         public virtual void TestGetSignableNodeBodyBytesListBasic()
         {
             var tx = new TransferTransaction
@@ -471,7 +471,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(list[0].TransactionID, testTransactionID);
             Assert.NotEmpty(list[0].Body);
         }
-
+        [Fact]
         public virtual void TestGetSignableNodeBodyBytesListContents()
         {
             var tx = new TransferTransaction
@@ -488,7 +488,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), nodeAccountID1.ToString());
             Assert.Equal(TransactionId.FromProtobuf(body.TransactionID).ToString(), testTransactionID.ToString());
         }
-
+        [Fact]
         public virtual void TestGetSignableNodeBodyBytesListMultipleNodeIDs()
         {
             var tx = new TransferTransaction
@@ -514,7 +514,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), nodeID.ToString());
             }
         }
-
+        [Fact]
         public virtual void TestGetSignableNodeBodyBytesListFileAppendMultipleChunks()
         {
             byte[] content = new byte[4096];

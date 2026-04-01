@@ -108,7 +108,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 testMetadataKey, 
                 testTokenLedgerId);
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalTokenInfo = SpawnTokenInfoExample();
@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
             Verifier.Verify(originalTokenInfo.ToString());
         }
-
+        [Fact]
         public virtual void FromProtobuf()
         {
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
@@ -154,7 +154,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenInfo.MetadataKey.ToBytes(), testMetadataKey.ToBytes());
             Assert.Equal(tokenInfo.LedgerId, testTokenLedgerId);
         }
-
+        [Fact]
         public virtual void FromBytes()
         {
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenInfo.MetadataKey.ToBytes(), testMetadataKey.ToBytes());
             Assert.Equal(tokenInfo.LedgerId, testTokenLedgerId);
         }
-
+        [Fact]
         public virtual void ToProtobuf()
         {
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
@@ -229,7 +229,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenInfoProto.TokenInfo.MetadataKey.Ed25519.ToByteArray(), testMetadataKey.ToBytesRaw());
             Assert.Equal(tokenInfoProto.TokenInfo.LedgerId, testTokenLedgerId.ToByteString());
         }
-
+        [Fact]
         public virtual void ToBytes()
         {
             var tokenInfo = SpawnTokenInfoExample();

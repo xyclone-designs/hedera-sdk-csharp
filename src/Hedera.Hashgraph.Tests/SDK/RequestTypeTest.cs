@@ -7,8 +7,9 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
-    class RequestTypeTest
+    public class RequestTypeTest
     {
+        [Fact]
         public virtual void ValueOf()
         {
             var codeValues = Enum.GetValues<Proto.HederaFunctionality>();
@@ -24,6 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
+        [Fact]
         public virtual void ValueOfMapsNewFunctions()
         {
             Assert.Equal((RequestType)Proto.HederaFunctionality.AtomicBatch, RequestType.AtomicBatch);
@@ -31,6 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal((RequestType)Proto.HederaFunctionality.HookDispatch, RequestType.HookDispatch);
         }
 
+        [Fact]
         public virtual void ToStringStableForNewEntries()
         {
             Assert.Equal(RequestType.AtomicBatch.ToString(), "ATOMIC_BATCH");
@@ -38,6 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(RequestType.HookDispatch.ToString(), "HOOK_DISPATCH");
         }
 
+        [Fact]
         public virtual void RoundTripNewEntries()
         {
             var pairs = new object[][]

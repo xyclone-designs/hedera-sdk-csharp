@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             
             }).Freeze().Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ScheduleCreateTransaction();
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldSupportExpirationTimeDurationBytesRoundTrip()
         {
             var tx = new TransferTransaction()
@@ -82,13 +82,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
             Assert.Equal(tx2.ToString(), tx.ToString());
             Assert.Equal(tx2.ExpirationTime, DateTimeOffset.FromUnixTimeMilliseconds(1234));
         }
-
+        [Fact]
         public virtual void SetExpirationTimeDurationOnFrozenTransactionShouldThrow()
         {
             var tx = SpawnTestTransaction();
             Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = DateTimeOffset.FromUnixTimeSeconds(1));
         }
-
+        [Fact]
         public virtual void GetSetExpirationTimeDateTime()
         {
             var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567).ToTimestamp();

@@ -40,6 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             //Verifier.Verify(SpawnHbarAllowance().ToString(), SpawnTokenAllowance().ToString(), SpawnNftAllowance().ToString(), SpawnAllNftAllowance().ToString());
         }
 
+        [Fact]
         public virtual void ShouldBytes()
         {
             var hbar1 = SpawnHbarAllowance();

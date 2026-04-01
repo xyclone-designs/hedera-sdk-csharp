@@ -21,28 +21,28 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             Verifier.Verify(TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled/3").ToString());
         }
-
+        [Fact]
         public virtual void ShouldToBytes()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325");
             var copyId = TransactionId.FromProtobuf(originalId.ToProtobuf());
             Assert.Equal(copyId.ToString(), originalId.ToString());
         }
-
+        [Fact]
         public virtual void ShouldToBytes2()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled/2");
             var copyId = TransactionId.FromProtobuf(originalId.ToProtobuf());
             Assert.Equal(copyId.ToString(), originalId.ToString());
         }
-
+        [Fact]
         public virtual void ShouldFromBytes()
         {
             var originalId = TransactionId.FromString("0.0.23847@1588539964.632521325");
             var copyId = TransactionId.FromBytes(originalId.ToProtobuf().ToByteArray());
             Assert.Equal(copyId.ToString(), originalId.ToString());
         }
-
+        [Fact]
         public virtual void ShouldParse()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325");
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(validStart.ToUnixTimeSeconds(), 1588539964);
             Assert.Equal(validStart.Nanosecond, 632521325);
         }
-
+        [Fact]
         public virtual void ShouldParseScheduled()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled");
@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Null(transactionId.Nonce);
             Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325?scheduled");
         }
-
+        [Fact]
         public virtual void ShouldParseNonce()
         {
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325/4");
@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(transactionId.Nonce, 4);
             Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325/4");
         }
-
+        [Fact]
         public virtual void Compare()
         {
             // Compare when only one of the txs is schedules
@@ -130,20 +130,20 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             transactionId2 = new TransactionId(null, null);
             Assert.Equal(transactionId1, transactionId2);
         }
-
+        [Fact]
         public virtual void ShouldFail()
         {
             Assert.Throws<ArgumentException>(() => TransactionId.FromString("0.0.23847.1588539964.632521325/4"));
             Assert.Throws<ArgumentException>(() => TransactionId.FromString("0.0.23847@1588539964/4"));
         }
-
+        [Fact]
         public virtual void ShouldAddTrailingZeroesToNanoseconds()
         {
             var txIdString = "0.0.4163533@1681876267.054802581";
             var txId = TransactionId.FromString(txIdString);
             Assert.Equal(txId.ToString(), txIdString);
         }
-
+        [Fact]
         public virtual void EqualsHashCodeContractWithNonce()
         {
             AccountId accountId = new AccountId(0, 0, 1000);

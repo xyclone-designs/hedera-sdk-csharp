@@ -26,6 +26,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         };
         private static readonly ulong testSequenceNumber = 7;
         private static readonly TransactionId testTransactionId = new TransactionId(new AccountId(0, 0, 1), testTimestamp);
+
+        [Fact]
         public virtual void ConstructWithArgs()
         {
             var consensusTopicResponse = new Proto.ConsensusTopicResponse
