@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
@@ -12,14 +13,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void SetUp()
         {
-            executor = new ThreadPoolExecutor(2, 2, 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue(), new CallerRunsPolicy());
+            executor = new ExecutorService();
         }
         public virtual void TearDown()
         {
-            if (executor != null)
-            {
-                executor.Shutdown();
-            }
+            executor?.ForceShutdown();
         }
 
         public virtual void GetNumberOfNodesForRequestReturnsFullNetworkSizeWhenNotSet()

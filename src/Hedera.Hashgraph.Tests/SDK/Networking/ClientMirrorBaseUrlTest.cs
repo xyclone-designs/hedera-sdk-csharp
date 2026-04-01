@@ -14,15 +14,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         private ExecutorService executor;
         public virtual void SetUp()
         {
-            executor = Executors.NewSingleThreadExecutor();
+            executor = new ExecutorService();
         }
 
         public virtual void TearDown()
         {
-            if (executor != null)
-            {
-                executor.Shutdown();
-            }
+            executor?.ForceShutdown();
         }
 
         public virtual void HostPort_customPort_preserved_https_whenLedgerSet()
@@ -30,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var network = Network.ForNetwork(executor, []);
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, [ "mirror.example.com:8080" ]);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            client.LedgerId = LedgerId.TESTNET;
+            client.Network_.LedgerId = LedgerId.TESTNET;
             string _base = client.MirrorRestBaseUrl;
             Assert.Equal(_base, "https://mirror.example.com:8080/api/v1");
         }
@@ -40,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             var network = Network.ForNetwork(executor, []);
             var mirrorNetwork = MirrorNetwork.ForNetwork(executor, [ "mirror.example.com:443" ]);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            client.LedgerId = LedgerId.TESTNET;
+            client.Network_.LedgerId = LedgerId.TESTNET;
             string _base = client.MirrorRestBaseUrl;
             Assert.Equal(_base, "https://mirror.example.com/api/v1");
         }

@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.RequestType"]/*' />
         public virtual RequestType RequestType { get; set; }
 		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Fees"]/*' />
-		public virtual List<FeeData> Fees { get; protected set; }
+		public virtual List<FeeData> Fees { get; internal set; }
 		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.Feedata"]/*' />
 		public virtual FeeData? Feedata { get; set; }
 

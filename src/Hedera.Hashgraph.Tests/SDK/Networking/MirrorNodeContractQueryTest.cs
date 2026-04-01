@@ -9,6 +9,8 @@ using System;
 using System.Text;
 using System.Text.Json.Nodes;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     class MirrorNodeContractQueryTest
@@ -16,15 +18,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         private MirrorNodeContractEstimateGasQuery mirrorNodeContractEstimateGasQuery;
         private MirrorNodeContractCallQuery mirrorNodeContractCallQuery;
         private ContractId mockContractId;
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void SetUp()
         {
@@ -252,7 +245,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 			.SetFunction(testFunctionName, testParams)
 			.SetFunctionParameters(testCallData);
             
-            SnapshotMatcher.Expect(mirrorNodeContractEstimateGasQuery.ToString() + mirrorNodeContractCallQuery.ToString()).ToMatchSnapshot();
+            Verifier.Verify(mirrorNodeContractEstimateGasQuery.ToString() + mirrorNodeContractCallQuery.ToString());
         }
     }
 }

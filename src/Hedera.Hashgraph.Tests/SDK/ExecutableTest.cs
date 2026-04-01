@@ -119,8 +119,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             tx.GrpcDeadline = TimeSpan.FromMilliseconds(defaultDeadlineMs);
             tx.BlockingUnaryCall = (grpcRequest) =>
             {
-                var grpc = (Executable.GrpcRequest)grpcRequest;
-                var grpcTimeRemaining = (DateTime.UtcNow - grpc.CallOptions.Deadline)?.TotalMilliseconds;
+                var grpcTimeRemaining = (DateTime.UtcNow - grpcRequest.CallOptions.Deadline)?.TotalMilliseconds;
 
                 // the actual grpc deadline should be no larger than the smaller of the two values -
                 // the default transaction level grpc deadline and the remaining timeout
@@ -261,7 +260,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.NotNull(resp.ToString());
         }
 
-        private sealed class AnonymousDummyTransaction : DummyTransaction<T>
+        private sealed class AnonymousDummyTransaction : DummyTransaction
         {
             private readonly DateTimeOffset _now;
 
@@ -301,7 +300,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(resp.NodeId, new AccountId(0, 0, 4));
         }
 
-        private sealed class AnonymousDummyTransaction1 : DummyTransaction<T>
+        private sealed class AnonymousDummyTransaction1 : DummyTransaction
         {
             private readonly DateTimeOffset _now;
 
@@ -353,7 +352,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(resp.NodeId, new AccountId(0, 0, 3));
         }
 
-        private sealed class AnonymousDummyTransaction2 : DummyTransaction<T>
+        private sealed class AnonymousDummyTransaction2 : DummyTransaction
         {
             private readonly DateTimeOffset _now;
 
@@ -487,7 +486,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             node3Mock.Verify(n => n.ChannelFailedToConnect(It.IsAny<DateTime>()));
         }
 
-        private sealed class AnonymousDummyTransaction3 : DummyTransaction<T>
+        private sealed class AnonymousDummyTransaction3 : DummyTransaction
         {
             public override ResponseStatus MapResponseStatus(Proto.Response response)
             {
@@ -538,7 +537,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             networkMock.Verify(n => n.IncreaseBackoff(It.IsAny<Node>()), Times.AtLeastOnce());
         }
 
-        private sealed class AnonymousDummyTransaction4 : DummyTransaction<T>
+        private sealed class AnonymousDummyTransaction4 : DummyTransaction
         {
             public override ResponseStatus MapResponseStatus(Proto.Response response)
             {
@@ -569,7 +568,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             // and involves network calls. The integration test would be more appropriate for that.
         }
 
-        private sealed class AnonymousDummyTransaction5 : DummyTransaction<T>
+        private sealed class AnonymousDummyTransaction5 : DummyTransaction
         {
             public override ResponseStatus MapResponseStatus(Proto.Response response)
             {
@@ -577,8 +576,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             }
         }
 
-        class DummyTransaction : DummyTransaction<T> { }
-        class DummyTransaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>
+        class DummyTransaction : Executable<object, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>
         {
             public override TransactionId TransactionIdInternal => null;
             public override void OnExecute(Client client) { }

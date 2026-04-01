@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
-using System.Collections.Generic;
 
 using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 
-using Google.Protobuf.WellKnownTypes;
 using Google.Protobuf;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -42,19 +41,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             5
         };
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
+ 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -76,14 +66,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				SupplyKey = testSupplyKey,
 				AdminKey = testAdminKey,
 				AutoRenewAccountId = testAutoRenewAccountId,
-				AutoRenewPeriod = testAutoRenewPeriod.ToDuration(),
+				AutoRenewPeriod = testAutoRenewPeriod,
 				FreezeKey = testFreezeKey,
 				WipeKey = testWipeKey,
 				TokenSymbol = testTokenSymbol,
 				KycKey = testKycKey,
 				PauseKey = testPauseKey,
 				MetadataKey = testMetadataKey,
-				ExpirationTime = validStart.ToTimestamp(),
+				ExpirationTime = validStart,
 				TreasuryAccountId = testTreasuryAccountId,
 				TokenName = testTokenName,
 				TokenMemo = testTokenMemo,
@@ -160,8 +150,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenUpdateTransaction.WipeKey, testWipeKey);
             Assert.Equal(tokenUpdateTransaction.SupplyKey, testSupplyKey);
             Assert.Equal(tokenUpdateTransaction.AutoRenewAccountId, testAutoRenewAccountId);
-            Assert.Equal(tokenUpdateTransaction.AutoRenewPeriod.ToTimeSpan().TotalSeconds, testAutoRenewPeriod.TotalSeconds);
-            Assert.Equal(tokenUpdateTransaction.ExpirationTime?.ToDateTimeOffset().ToUnixTimeSeconds(), testExpirationTime.ToUnixTimeSeconds());
+            Assert.Equal(tokenUpdateTransaction.AutoRenewPeriod?.TotalSeconds, testAutoRenewPeriod.TotalSeconds);
+            Assert.Equal(tokenUpdateTransaction.ExpirationTime?.ToUnixTimeSeconds(), testExpirationTime.ToUnixTimeSeconds());
             Assert.Equal(tokenUpdateTransaction.TokenMemo, testTokenMemo);
             Assert.Equal(tokenUpdateTransaction.FeeScheduleKey, testFeeScheduleKey);
             Assert.Equal(tokenUpdateTransaction.PauseKey, testPauseKey);
@@ -324,30 +314,30 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
             {
-                AutoRenewPeriod = testAutoRenewPeriod.ToDuration()
+                AutoRenewPeriod = testAutoRenewPeriod
             };
-            Assert.Equal(tokenUpdateTransaction.AutoRenewPeriod, testAutoRenewPeriod.ToDuration());
+            Assert.Equal(tokenUpdateTransaction.AutoRenewPeriod, testAutoRenewPeriod);
         }
 
         public virtual void GetSetAutoRenewPeriodFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.AutoRenewPeriod = testAutoRenewPeriod.ToDuration());
+            Assert.Throws<InvalidOperationException>(() => tx.AutoRenewPeriod = testAutoRenewPeriod);
         }
 
         public virtual void GetSetExpirationTime()
         {
             var tokenUpdateTransaction = new TokenUpdateTransaction
             {
-                ExpirationTime = testExpirationTime.ToTimestamp()
+                ExpirationTime = testExpirationTime
             };
-            Assert.Equal(tokenUpdateTransaction.ExpirationTime, testExpirationTime.ToTimestamp());
+            Assert.Equal(tokenUpdateTransaction.ExpirationTime, testExpirationTime);
         }
 
         public virtual void GetSetExpirationTimeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = testExpirationTime.ToTimestamp());
+            Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = testExpirationTime);
         }
 
         public virtual void GetSetTokenMemo()

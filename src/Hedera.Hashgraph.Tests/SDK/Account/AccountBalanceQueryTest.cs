@@ -2,22 +2,14 @@
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Contract;
 
-using System;
 using System.Text.RegularExpressions;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
     public class AccountBalanceQueryTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerializeWithAccountId()
         {
             var builder = new Proto.Query();
@@ -27,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             
             }.OnMakeRequest(builder, new Proto.QueryHeader());
 
-            SnapshotMatcher.Expect(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }
         public virtual void ShouldSerializeWithContractId()
         {
@@ -38,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             
             }.OnMakeRequest(builder, new Proto.QueryHeader());
 
-            SnapshotMatcher.Expect(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }
     }
 }

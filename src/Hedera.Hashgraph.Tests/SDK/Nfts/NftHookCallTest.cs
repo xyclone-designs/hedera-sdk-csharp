@@ -5,7 +5,6 @@ using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
-using System;
 using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts

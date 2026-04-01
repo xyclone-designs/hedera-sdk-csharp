@@ -13,20 +13,13 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
     public class TransactionReceiptTest
     {
         private static readonly DateTimeOffset time = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         static TransactionReceipt SpawnReceiptExample()
         {
@@ -43,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 3, 
                 ByteString.CopyFromUtf8("how now brown cow"), 30, 
                 ScheduleId.FromString("1.1.1"), 
-                TransactionId.WithValidStart(AccountId.FromString("3.3.3"), Timestamp.FromDateTimeOffset(time)), 
+                TransactionId.WithValidStart(AccountId.FromString("3.3.3"), time), 
                 [1, 2, 3], 
                 1, 
                 [],
@@ -54,10 +47,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var originalTransactionReceipt = SpawnReceiptExample();
             byte[] transactionReceiptBytes = originalTransactionReceipt.ToBytes();
-            var copyTransactionReceipt = Transaction.FromBytes<TransactionReceipt>(transactionReceiptBytes);
+            var copyTransactionReceipt = TransactionReceipt.FromBytes(transactionReceiptBytes);
             Assert.Equal(copyTransactionReceipt.ToString(), originalTransactionReceipt.ToString());
             
-            SnapshotMatcher.Expect(originalTransactionReceipt.ToString()).ToMatchSnapshot();
+            Verifier.Verify(originalTransactionReceipt.ToString());
         }
     }
 }

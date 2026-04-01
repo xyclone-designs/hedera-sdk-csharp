@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.SDK.Token
         public readonly AccountId AccountId;
 
         /// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.TokenAssociation(TokenId,AccountId)"]/*' />
-        TokenAssociation(TokenId tokenId, AccountId accountId)
+        internal TokenAssociation(TokenId tokenId, AccountId accountId)
         {
             this.TokenId = tokenId;
             this.AccountId = accountId;

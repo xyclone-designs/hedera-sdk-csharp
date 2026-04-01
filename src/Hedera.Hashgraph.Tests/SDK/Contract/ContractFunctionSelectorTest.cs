@@ -45,8 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
         public virtual void SelectorError()
         {
-            var signature = new ContractFunctionSelector("testFunction")
-                .AddAddress();
+            var signature = new ContractFunctionSelector("testFunction").AddAddress();
             
             signature.Finish();
             Assert.Throws(typeof(InvalidOperationException), () => signature.AddStringArray());

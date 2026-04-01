@@ -2,13 +2,13 @@
 using System;
 using System.Text.RegularExpressions;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Networking;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Schedule
 {
@@ -16,15 +16,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
     {
         private static readonly PublicKey unusedPublicKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10").GetPublicKey();
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual ScheduleInfo SpawnScheduleInfoExample()
         {
@@ -43,8 +34,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
                 unusedPublicKey, 
                 TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart), 
                 "memo", 
-                validStart.ToTimestamp(), 
-                validStart.ToTimestamp(), 
+                validStart, 
+                validStart, 
                 null, 
                 LedgerId.TESTNET, 
                 true);
@@ -67,9 +58,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
                 unusedPublicKey, 
                 TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart), 
                 "memo", 
-                validStart.ToTimestamp(), 
+                validStart, 
                 null, 
-                validStart.ToTimestamp(), 
+                validStart, 
                 LedgerId.TESTNET, 
                 true);
         }
@@ -78,22 +69,22 @@ namespace Hedera.Hashgraph.Tests.SDK.Schedule
         {
             var originalScheduleInfo = SpawnScheduleInfoExample();
             byte[] scheduleInfoBytes = originalScheduleInfo.ToBytes();
-            var copyScheduleInfo = Transaction.FromBytes<ScheduleInfo>(scheduleInfoBytes);
+            var copyScheduleInfo = ScheduleInfo.FromBytes(scheduleInfoBytes);
             
             Assert.Equal(Regex.Replace(copyScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
             
-            SnapshotMatcher.Expect(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Verifier.Verify(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
         }
 
         public virtual void ShouldSerializeDeleted()
         {
             var originalScheduleInfo = SpawnScheduleInfoDeletedExample();
             byte[] scheduleInfoBytes = originalScheduleInfo.ToBytes();
-            var copyScheduleInfo = Transaction.FromBytes<ScheduleInfo>(scheduleInfoBytes);
+            var copyScheduleInfo = ScheduleInfo.FromBytes(scheduleInfoBytes);
             
             Assert.Equal(Regex.Replace(copyScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
             
-            SnapshotMatcher.Expect(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Verifier.Verify(Regex.Replace(originalScheduleInfo.ToString(), "@[A-Za-z0-9]+", ""));
         }
     }
 }

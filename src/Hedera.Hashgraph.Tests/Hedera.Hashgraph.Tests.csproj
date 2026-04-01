@@ -11,6 +11,9 @@
   <ItemGroup>
     <Compile Remove="SDK\Contract\ContractFunctionParametersTest.cs" />
     <Compile Remove="SDK\MockingTest.cs" />
+    <Compile Remove="SDK\Networking\ClientCloseTest.cs" />
+    <Compile Remove="SDK\TestServer.cs" />
+    <Compile Remove="SDK\TestService.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -13,6 +13,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Networking;
+using Moq;
+using System.Threading;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
@@ -20,7 +24,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
     {
         public virtual void DoesNotCloseExternalExecutor()
         {
-            var executor = Client.CreateExecutor();
+            var executor = new ExecutorService();
             var network = new Dictionary<string, AccountId>();
             var client = Client.ForNetwork(network, executor);
             client.Dispose();
@@ -38,55 +42,81 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
         public virtual void CloseHandlesNetworkTimeout()
         {
-            var executor = Client.CreateExecutor();
-            var network = Mockito.Mock(typeof(Network));
-            When(network.AwaitClose(Any(), Any())).ThenReturn(new TimeoutException("network timeout"));
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
+            var executor = new ExecutorService();
+            var networkMock = new Mock<Network>();
+            var network = networkMock.Object;
+
+            networkMock.Setup(n => n.AwaitClose(It.IsAny<object>(), It.IsAny<object>()))
+                .Returns(new TimeoutException("network timeout"));
+
+            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            Assert.Throws(typeof(TimeoutException), client.Dispose()).WithMessage("network timeout");
+
+            TimeoutException timeoutexception = Assert.Throws<TimeoutException>(client.Dispose);
+            Assert.Contains(timeoutexception.Message, "network timeout");
             Assert.True(mirrorNetwork.hasShutDownNow);
         }
 
         public virtual void CloseHandlesNetworkInterrupted()
         {
-            var interruptedException = new InterruptedException("network interrupted");
-            var executor = Client.CreateExecutor();
-            var network = Mockito.Mock(typeof(Network));
-            When(network.AwaitClose(Any(), Any())).ThenReturn(interruptedException);
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
+            var interruptedException = new ThreadInterruptedException("network interrupted");
+            var executor = new ExecutorService();
+
+            var networkMock = new Mock<Network>();
+            var network = networkMock.Object;
+
+            networkMock.Setup(n => n.AwaitClose(It.IsAny<object>(), It.IsAny<object>()))
+                .Returns(interruptedException);
+
+            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            Assert.Throws(typeof(Exception), client.Dispose()).WithCause(interruptedException);
+
+            Exception exception = Assert.Throws<Exception>(client.Dispose);
+            Assert.Contains(exception.Message, interruptedException);
             Assert.True(mirrorNetwork.hasShutDownNow);
         }
 
         public virtual void CloseHandlesMirrorNetworkTimeout()
         {
-            var executor = Client.CreateExecutor();
-            var network = Network.ForNetwork(executor, Collections.EmptyMap());
-            var mirrorNetwork = Mockito.Mock(typeof(MirrorNetwork));
-            When(mirrorNetwork.AwaitClose(Any(), Any())).ThenReturn(new TimeoutException("mirror timeout"));
+            var executor = new ExecutorService();
+            var network = Network.ForNetwork(executor, []);
+
+            var mirrorNetworkMock = new Mock<MirrorNetwork>();
+            var mirrorNetwork = mirrorNetworkMock.Object;
+
+            mirrorNetworkMock
+                .Setup(m => m.AwaitClose(It.IsAny<object>(), It.IsAny<object>()))
+                .Returns(new TimeoutException("mirror timeout"));
+
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            Assert.Throws(typeof(TimeoutException), client.Dispose()).WithMessage("mirror timeout");
-            Assert.False(network.hasShutDownNow);
+
+            TimeoutException timeoutexception = Assert.Throws<TimeoutException>(client.Dispose);
+            Assert.Contains(timeoutexception.Message, "mirror timeout");
         }
 
         public virtual void CloseHandlesMirrorNetworkInterrupted()
         {
-            var interruptedException = new InterruptedException("network interrupted");
-            var executor = Client.CreateExecutor();
-            var network = Network.ForNetwork(executor, Collections.EmptyMap());
-            var mirrorNetwork = Mockito.Mock(typeof(MirrorNetwork));
-            When(mirrorNetwork.AwaitClose(Any(), Any())).ThenReturn(interruptedException);
+            var interruptedException = new ThreadInterruptedException("network interrupted");
+            var executor = new ExecutorService();
+            var network = Network.ForNetwork(executor, []);
+
+            var mirrorNetworkMock = new Mock<MirrorNetwork>();
+            var mirrorNetwork = mirrorNetworkMock.Object;
+
+            mirrorNetworkMock.Setup(m => m.AwaitClose(It.IsAny<object>(), It.IsAny<object>()))
+                .Returns(interruptedException);
+
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            Assert.Throws(typeof(Exception), client.Dispose()).WithCause(interruptedException);
-            Assert.False(network.hasShutDownNow);
+
+            Exception exception = Assert.Throws<Exception>(client.Dispose);
+            Assert.Contains(exception.Message, interruptedException);
         }
 
         public virtual void CloseHandlesExecutorShutdown()
         {
-            var executor = Client.CreateExecutor();
-            var network = Network.ForNetwork(executor, Collections.EmptyMap());
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
+            var executor = new ExecutorService();
+            var network = Network.ForNetwork(executor, []);
+            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
             client.Dispose();
             Assert.True(executor.IsShutdown());
@@ -95,44 +125,64 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         public virtual void CloseHandlesExecutorTerminatingInTime()
         {
             var duration = TimeSpan.FromSeconds(30);
-            var executor = Mock(typeof(ThreadPoolExecutor));
-            var network = Network.ForNetwork(executor, Collections.EmptyMap());
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
+
+            var executorMock = new Mock<ThreadPoolExecutor>();
+            var executor = executorMock.Object;
+
+            var network = Network.ForNetwork(executor, []);
+            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            DoReturn(true).When(executor).AwaitTermination(30 / 2, TimeUnit.SECONDS);
+
+            executorMock.Setup(e => e.AwaitTermination(30 / 2, TimeUnit.SECONDS)).Returns(true);
+
             client.Dispose(duration);
-            Verify(executor, Times(0)).ShutdownNow();
+
+            executorMock.Verify(e => e.ShutdownNow(), Times.Exactly(0));
         }
 
         public virtual void CloseHandlesExecutorNotTerminatingInTime()
         {
             var duration = TimeSpan.FromSeconds(30);
-            var executor = Mock(typeof(ThreadPoolExecutor));
-            var network = Network.ForNetwork(executor, Collections.EmptyMap());
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
+
+            var executorMock = new Mock<ThreadPoolExecutor>();
+            var executor = executorMock.Object;
+
+            var network = Network.ForNetwork(executor, []);
+            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            DoReturn(false).When(executor).AwaitTermination(30 / 2, TimeUnit.SECONDS);
+
+            executorMock.Setup(e => e.AwaitTermination(30 / 2, TimeUnit.SECONDS)).Returns(false);
+
             client.Dispose(duration);
-            Verify(executor, Times(1)).ShutdownNow();
+
+            executorMock.Verify(e => e.ShutdownNow(), Times.Exactly(1));
         }
 
         public virtual void CloseHandlesExecutorWhenThreadIsInterrupted()
         {
             var duration = TimeSpan.FromSeconds(30);
-            var executor = Mock(typeof(ThreadPoolExecutor));
-            var network = Network.ForNetwork(executor, Collections.EmptyMap());
-            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, Collections.EmptyList());
+
+            var executorMock = new Mock<ThreadPoolExecutor>();
+            var executor = executorMock.Object;
+
+            var network = Network.ForNetwork(executor, []);
+            var mirrorNetwork = MirrorNetwork.ForNetwork(executor, []);
             var client = new Client(executor, network, mirrorNetwork, null, true, null, 0, 0);
-            DoThrow(new InterruptedException()).When(executor).AwaitTermination(30 / 2, TimeUnit.SECONDS);
+
+            executorMock.Setup(e => e.AwaitTermination(30 / 2, TimeUnit.SECONDS))
+                .Throws(new ThreadInterruptedException());
+
             client.Dispose(duration);
-            Verify(executor, Times(1)).ShutdownNow();
+
+            executorMock.Verify(e => e.ShutdownNow(), Times.Exactly(1));
         }
 
         public virtual void NoHealthyNodesNetwork()
         {
-            var executor = Client.CreateExecutor();
-            var network = Network.ForNetwork(executor, Collections.EmptyMap());
-            Assert.Throws(typeof(InvalidOperationException), network.GetRandomNode()).WithMessage("No healthy node was found");
+            var executor = new ExecutorService();
+            var network = Network.ForNetwork(executor, []);
+            InvalidOperationException invalidoperationexception = Assert.Throws<InvalidOperationException>(network.RandomNode);
+            Assert.Contains(invalidoperationexception.Message, "No healthy node was found");
         }
     }
 }

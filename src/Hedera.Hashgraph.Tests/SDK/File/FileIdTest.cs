@@ -5,43 +5,35 @@ using Hedera.Hashgraph.SDK.File;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
     class FileIdTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerializeFromString()
         {
-            SnapshotMatcher.Expect(FileId.FromString("0.0.5005").ToString()).ToMatchSnapshot();
+            Verifier.Verify(FileId.FromString("0.0.5005").ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(new FileId(0, 0, 5005).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(new FileId(0, 0, 5005).ToBytes()));
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(FileId.FromBytes(new FileId(0, 0, 5005).ToBytes()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(FileId.FromBytes(new FileId(0, 0, 5005).ToBytes()).ToString());
         }
 
         public virtual void FromSolidityAddress()
         {
-            SnapshotMatcher.Expect(FileId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(FileId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void ToSolidityAddress()
         {
-            SnapshotMatcher.Expect(new FileId(0, 0, 5005).ToEvmAddress()).ToMatchSnapshot();
+            Verifier.Verify(new FileId(0, 0, 5005).ToEvmAddress());
         }
 
         public virtual void GetAddressBookFileIdForReturnsCorrectFileId()
@@ -64,7 +56,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(102, customAddressBook.Num);
             Assert.Equal("5.10.102", customAddressBook.ToString());
             
-            SnapshotMatcher.Expect(customAddressBook.ToString()).ToMatchSnapshot();
+            Verifier.Verify(customAddressBook.ToString());
         }
 
         public virtual void GetFeeScheduleFileIdForReturnsCorrectFileId()
@@ -87,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(111, customFeeSchedule.Num);
             Assert.Equal("7.12.111", customFeeSchedule.ToString());
 
-            SnapshotMatcher.Expect(customFeeSchedule.ToString()).ToMatchSnapshot();
+            Verifier.Verify(customFeeSchedule.ToString());
         }
 
         public virtual void GetExchangeRatesFileIdForReturnsCorrectFileId()
@@ -110,7 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(112, customExchangeRates.Num);
             Assert.Equal("3.9.112", customExchangeRates.ToString());
 
-            SnapshotMatcher.Expect(customExchangeRates.ToString()).ToMatchSnapshot();
+            Verifier.Verify(customExchangeRates.ToString());
         }
 
         public virtual void TestFileIdFromEvmAddressIncorrectAddress()

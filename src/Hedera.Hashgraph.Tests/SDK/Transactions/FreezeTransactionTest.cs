@@ -10,7 +10,10 @@ using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK;
 
 using System;
+
 using Org.BouncyCastle.Utilities.Encoders;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
@@ -21,19 +24,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         private static readonly byte[] testFileHash = Hex.Decode("1723904587120938954702349857");
         private static readonly FreezeType testFreezeType = FreezeType.TelemetryUpgrade;
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         private FreezeTransaction SpawnTestTransaction()
@@ -99,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(freezeTransaction.FileId, testFileId);
             Assert.Equal(freezeTransaction.FileHash, testFileHash);
             Assert.NotNull(freezeTransaction.StartTime);
-            Assert.Equal(freezeTransaction.StartTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
+            Assert.Equal(freezeTransaction.StartTime.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
             Assert.Equal(freezeTransaction.FreezeType, testFreezeType);
         }
 
@@ -139,16 +133,16 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var freezeTransaction = new FreezeTransaction
             {
-				StartTime = validStart.ToTimestamp()
+				StartTime = validStart
 			};
             Assert.NotNull(freezeTransaction.StartTime);
-            Assert.Equal(freezeTransaction.StartTime.ToDateTimeOffset().ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
+            Assert.Equal(freezeTransaction.StartTime.ToUnixTimeSeconds(), validStart.ToUnixTimeSeconds());
         }
 
         public virtual void GetSetStartTimeFrozen()
         {
             var tx = SpawnTestTransaction();
-            Assert.Throws<InvalidOperationException>(() => tx.StartTime = validStart.ToTimestamp());
+            Assert.Throws<InvalidOperationException>(() => tx.StartTime = validStart);
         }
 
         public virtual void GetSetFreezeType()

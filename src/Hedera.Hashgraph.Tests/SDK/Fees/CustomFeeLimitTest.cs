@@ -1,17 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api;
-using Com.Google.Protobuf;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Java.Util;
-using Java.Util.Stream;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
+
 using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
@@ -20,7 +14,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
     {
         private static readonly AccountId TEST_PAYER_ID = new AccountId(0, 0, 1234);
         // Creating a sample FixedFee protobuf for testing
-        private static readonly FixedFee TEST_FIXED_FEE_PROTO = FixedFee.NewBuilder().SetAmount(1000).Build();
+        private static readonly Proto.FixedFee TEST_FIXED_FEE_PROTO = new Proto.FixedFee { Amount = 1000 };
         // Using fromProtobuf() to properly initialize CustomFixedFee
         private static readonly CustomFixedFee TEST_CUSTOM_FIXED_FEE = CustomFixedFee.FromProtobuf(TEST_FIXED_FEE_PROTO);
         private static readonly List<CustomFixedFee> TEST_FEES = [TEST_CUSTOM_FIXED_FEE];
@@ -34,76 +28,78 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             }
             catch (InvalidProtocolBufferException e)
             {
-                throw new Exception(e);
+                throw new Exception(e.Message, e);
             }
         }
 
         private static CustomFeeLimit CreateTestCustomFeeLimit()
         {
-
             // Step 1: Build the Protobuf representation
-            var proto = Proto.CustomFeeLimit.NewBuilder().SetAccountId(TEST_PAYER_ID.ToProtobuf()).AddAllFees(TEST_FEES.Stream().Map(CustomFixedFee.ToFixedFeeProtobuf()).ToList()).Build();
-
+            var proto = new Proto.CustomFeeLimit
+            {
+                AccountId = TEST_PAYER_ID.ToProtobuf(),
+                Fees = { TEST_FEES.Select(_ => _.ToFixedFeeProtobuf()) }
+            };
+            
             // Step 2: Convert Protobuf to CustomFeeLimit instance
-            return CustomFeeLimit.ParseFrom(proto.ToByteArray());
-        }
-
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
+            return CustomFeeLimit.FromProtobuf(proto);
         }
 
         public virtual void TestGetPayerId()
         {
-            Assert.Equal(TEST_PAYER_ID, AccountId.FromProtobuf(TEST_CUSTOM_FEE_LIMIT.GetAccountId()));
+            Assert.Equal(TEST_PAYER_ID, TEST_CUSTOM_FEE_LIMIT.PayerId);
         }
 
         public virtual void TestSetPayerId()
         {
-            AccountId newPayerId = new AccountId(0, 0, 5678);
+            AccountId newPayerId = new (0, 0, 5678);
 
             // Create a new instance using the builder
-            CustomFeeLimit updatedFeeLimit = CustomFeeLimit.NewBuilder().SetAccountId(newPayerId.ToProtobuf()).AddAllFees(TEST_FEES.Stream().Map(CustomFixedFee.ToFixedFeeProtobuf()).ToList()).Build();
-            Assert.Equal(newPayerId, AccountId.FromProtobuf(updatedFeeLimit.AccountId));
+            CustomFeeLimit updatedFeeLimit = new ()
+            {
+                PayerId = newPayerId,
+                CustomFees = [.. TEST_FEES]
+            };
+            
+            Assert.Equal(newPayerId, updatedFeeLimit.PayerId);
         }
 
         public virtual void TestGetCustomFees()
         {
-            Assert.Equal(TEST_FEES.Stream().Map(CustomFixedFee.ToFixedFeeProtobuf()).Collect(Collectors.ToList()), TEST_CUSTOM_FEE_LIMIT.GetFeesList());
+            Assert.Equal(TEST_FEES, TEST_CUSTOM_FEE_LIMIT.CustomFees);
         }
 
         public virtual void TestSetCustomFees()
         {
-            IList<CustomFixedFee> newFees = Collections.EmptyList();
+            IList<CustomFixedFee> newFees = [];
 
             // Create a new instance using the builder
-            CustomFeeLimit updatedFeeLimit = CustomFeeLimit.NewBuilder().SetAccountId(TEST_PAYER_ID.ToProtobuf()).AddAllFees(newFees.Stream().Map(CustomFixedFee.ToFixedFeeProtobuf()).ToList()).Build();
-            Assert.Equal(newFees, updatedFeeLimit.GetFeesList());
+            CustomFeeLimit updatedFeeLimit = new ()
+            {
+                PayerId = TEST_PAYER_ID,
+                CustomFees = [.. newFees]
+            };
+
+            Assert.Equal(newFees, updatedFeeLimit.CustomFees);
         }
 
         public virtual void TestToProtobuf()
         {
-
             // Create a protobuf representation manually
             var proto = CreateTestCustomFeeLimit();
 
             // Validate fields
-            Assert.Equal(TEST_PAYER_ID.ToProtobuf(), proto.GetAccountId());
-            Assert.False(proto.GetFeesList().Count == 0);
+            Assert.Equal(TEST_PAYER_ID, proto.PayerId);
+            Assert.False(proto.CustomFees.Count == 0);
         }
 
         public virtual void TestFromProtobuf()
         {
-            var proto = new CustomFeeLimit
+            var proto = new Proto.CustomFeeLimit
             {
 				AccountId = TEST_PAYER_ID.ToProtobuf(),
-                
-			}.AddAllFees(TEST_FEES.Select(_ => _.ToFixedFeeProtobuf()));
+                Fees = { TEST_FEES.Select(_ => _.ToFixedFeeProtobuf()) }   
+			};
             
             CustomFeeLimit converted = CustomFeeLimit.FromProtobuf(proto);
 

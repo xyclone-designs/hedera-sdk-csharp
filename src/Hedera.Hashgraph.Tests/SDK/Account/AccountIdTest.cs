@@ -10,6 +10,8 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
     class AccountIdTest
@@ -35,22 +37,22 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void FromString()
         {
-            SnapshotMatcher.Expect(AccountId.FromString("0.0.5005").ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromString("0.0.5005").ToString());
         }
 
         public virtual void FromStringWithChecksumOnMainnet()
         {
-            SnapshotMatcher.Expect(AccountId.FromString("0.0.123-vfmkw").ToStringWithChecksum(mainnetClient)).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromString("0.0.123-vfmkw").ToStringWithChecksum(mainnetClient));
         }
 
         public virtual void FromStringWithChecksumOnTestnet()
         {
-            SnapshotMatcher.Expect(AccountId.FromString("0.0.123-esxsf").ToStringWithChecksum(testnetClient)).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromString("0.0.123-esxsf").ToStringWithChecksum(testnetClient));
         }
 
         public virtual void FromStringWithChecksumOnPreviewnet()
         {
-            SnapshotMatcher.Expect(AccountId.FromString("0.0.123-ogizo").ToStringWithChecksum(previewnetClient)).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromString("0.0.123-ogizo").ToStringWithChecksum(previewnetClient));
         }
 
         public virtual void GoodChecksumOnMainnet()
@@ -126,42 +128,42 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void FromStringWithAliasKey()
         {
-            SnapshotMatcher.Expect(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToString());
         }
 
         public virtual void FromStringWithEvmAddress()
         {
-            SnapshotMatcher.Expect(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToString());
         }
 
         public virtual void FromSolidityAddress()
         {
-            SnapshotMatcher.Expect(AccountId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void FromSolidityAddressWith0x()
         {
-            SnapshotMatcher.Expect(AccountId.FromSolidityAddress("0x000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromSolidityAddress("0x000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(new AccountId(0, 0, 5005).ToProtobuf().ToByteArray())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(new AccountId(0, 0, 5005).ToProtobuf().ToByteArray()));
         }
 
         public virtual void ToBytesAlias()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToBytes()));
         }
 
         public virtual void ToBytesEvmAddress()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToBytes()));
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(AccountId.FromBytes(new AccountId(0, 0, 5005).ToBytes()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromBytes(new AccountId(0, 0, 5005).ToBytes()).ToString());
         }
 
         public virtual void ToFromProtobuf()
@@ -173,7 +175,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void FromBytesAlias()
         {
-            SnapshotMatcher.Expect(AccountId.FromBytes(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToBytes()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromBytes(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToBytes()).ToString());
         }
 
         public virtual void ToFromProtobufAliasKey()
@@ -192,7 +194,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void FromBytesEvmAddress()
         {
-            SnapshotMatcher.Expect(AccountId.FromBytes(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToBytes()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountId.FromBytes(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToBytes()).ToString());
         }
 
         public virtual void ToFromProtobufEvmAddress()
@@ -211,7 +213,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void ToSolidityAddress()
         {
-            SnapshotMatcher.Expect(new AccountId(0, 0, 5005).ToEvmAddress()).ToMatchSnapshot();
+            Verifier.Verify(new AccountId(0, 0, 5005).ToEvmAddress());
         }
 
         public virtual void FromEvmAddress()

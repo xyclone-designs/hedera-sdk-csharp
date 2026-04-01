@@ -2,6 +2,8 @@
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Account;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
     public class CustomRoyaltyFeeTest
@@ -20,19 +22,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
                 Denominator = denominator,
             },
         };
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(CustomRoyaltyFee.FromProtobuf(fee).ToString()).ToMatchSnapshot();
+            Verifier.Verify(CustomRoyaltyFee.FromProtobuf(fee).ToString());
         }
 
         public virtual void DeepCloneSubclass()
@@ -50,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(CustomRoyaltyFee.FromProtobuf(fee).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(CustomRoyaltyFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
 
         public virtual void GetSetNumerator()

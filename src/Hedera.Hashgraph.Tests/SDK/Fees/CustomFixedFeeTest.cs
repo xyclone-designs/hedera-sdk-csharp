@@ -4,6 +4,8 @@ using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Token;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
     public class CustomFixedFeeTest
@@ -17,19 +19,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 			Amount = amount,
 			DenominatingTokenId = tokenId.ToProtobuf(),
 		};
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(CustomFixedFee.FromProtobuf(fee).ToString()).ToMatchSnapshot();
+            Verifier.Verify(CustomFixedFee.FromProtobuf(fee).ToString());
         }
 
         public virtual void DeepCloneSubclass()
@@ -47,12 +40,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(CustomFixedFee.FromProtobuf(fee).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(CustomFixedFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
 
         public virtual void ToFixedFeeProtobuf()
         {
-            SnapshotMatcher.Expect(CustomFixedFee.FromProtobuf(fee).ToFixedFeeProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(CustomFixedFee.FromProtobuf(fee).ToFixedFeeProtobuf().ToString());
         }
 
         public virtual void GetSetAmount()

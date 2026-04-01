@@ -9,8 +9,6 @@ using Hedera.Hashgraph.SDK.HBar;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
-using Google.Protobuf.WellKnownTypes;
-
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
     public class PrivateKeyTest

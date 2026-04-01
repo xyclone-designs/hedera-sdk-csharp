@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Transactions;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -19,19 +19,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly AccountId testAccountId = AccountId.FromString("6.9.0");
         private static readonly List<TokenId> testTokenIds = [TokenId.FromString("4.2.0"), TokenId.FromString("4.2.1"), TokenId.FromString("4.2.2") ];
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
+        
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()

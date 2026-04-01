@@ -1,15 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Proto;
-using Io.Github.JsonSnapshot;
-using Org.Junit.Jupiter.Api;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
@@ -34,38 +27,27 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 			},
 		};
 
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(CustomFractionalFee.FromProtobuf(fee).ToString()).ToMatchSnapshot();
+            Verifier.Verify(CustomFractionalFee.FromProtobuf(fee).ToString());
         }
 
         public virtual void DeepCloneSubclass()
         {
             var customFractionalFee = new CustomFractionalFee
             {
-				FeeCollectorAccountId = feeCollectorAccountId
-			
-            }
-            .SetAllCollectorsAreExempt(allCollectorsAreExempt);
+				FeeCollectorAccountId = feeCollectorAccountId,
+                AllCollectorsAreExempt = allCollectorsAreExempt
+            };
             var clonedCustomFractionalFee = customFractionalFee.DeepCloneSubclass();
 
-            Assert.Equal(clonedCustomFractionalFee.GetFeeCollectorAccountId(), feeCollectorAccountId);
-            Assert.Equal(clonedCustomFractionalFee.GetAllCollectorsAreExempt(), allCollectorsAreExempt);
+            Assert.Equal(clonedCustomFractionalFee.FeeCollectorAccountId, feeCollectorAccountId);
+            Assert.Equal(clonedCustomFractionalFee.AllCollectorsAreExempt, allCollectorsAreExempt);
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(CustomFractionalFee.FromProtobuf(fee).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(CustomFractionalFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
 
         public virtual void GetSetNumerator()

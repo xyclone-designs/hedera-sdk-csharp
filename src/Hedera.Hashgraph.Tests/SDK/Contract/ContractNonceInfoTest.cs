@@ -5,6 +5,8 @@ using Hedera.Hashgraph.SDK.Contract;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractNonceInfoTest
@@ -14,34 +16,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 			ContractId = new ContractId(0, 0, 1).ToProtobuf(),
 			Nonce = 2,
 		};
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(ContractNonceInfo.FromProtobuf(info).ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractNonceInfo.FromProtobuf(info).ToString());
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(ContractNonceInfo.FromProtobuf(info).ToProtobuf()).ToMatchSnapshot();
+            Verifier.Verify(ContractNonceInfo.FromProtobuf(info).ToProtobuf());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(ContractNonceInfo.FromProtobuf(info).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(ContractNonceInfo.FromProtobuf(info).ToBytes()));
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(ContractNonceInfo.FromBytes(info.ToByteArray()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractNonceInfo.FromBytes(info.ToByteArray()).ToString());
         }
     }
 }

@@ -9,6 +9,8 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
     public class FileInfoTest
@@ -24,34 +26,24 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 			LedgerId = LedgerId.MAINNET.ToByteString(),
 		};
 
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(FileInfo.FromProtobuf(info).ToString()).ToMatchSnapshot();
+            Verifier.Verify(FileInfo.FromProtobuf(info).ToString());
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(FileInfo.FromProtobuf(info).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(FileInfo.FromProtobuf(info).ToProtobuf().ToString());
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(FileInfo.FromBytes(info.ToByteArray()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(FileInfo.FromBytes(info.ToByteArray()).ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(FileInfo.FromProtobuf(info).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(FileInfo.FromProtobuf(info).ToBytes()));
         }
     }
 }

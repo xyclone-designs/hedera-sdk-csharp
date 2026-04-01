@@ -10,6 +10,8 @@ using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Keys;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     class TokenClaimAirdropTransactionTest
@@ -17,15 +19,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         private TokenClaimAirdropTransaction transaction;
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         private TokenClaimAirdropTransaction SpawnTestTransaction()
         {
@@ -47,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -112,7 +105,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123));
 
             transaction.PendingAirdropIds.Add(pendingAirdropId);
-            Proto.TokenClaimAirdropTransactionBody builder = transaction;
+            Proto.TokenClaimAirdropTransactionBody builder = transaction.ToProtobuf();
             
             Assert.Equal(1, builder.PendingAirdrops.Count);
             Assert.Equal(pendingAirdropId.ToProtobuf(), builder.PendingAirdrops[0]);

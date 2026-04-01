@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Airdrops;
@@ -12,6 +10,8 @@ using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Keys;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     class TokenCancelAirdropTransactionTest
@@ -19,15 +19,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly PrivateKey privateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         private TokenCancelAirdropTransaction transaction;
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         private TokenCancelAirdropTransaction SpawnTestTransaction()
         {
@@ -48,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()

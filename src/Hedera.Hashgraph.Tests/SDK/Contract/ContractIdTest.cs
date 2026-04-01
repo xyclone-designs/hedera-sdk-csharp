@@ -5,48 +5,40 @@ using Hedera.Hashgraph.SDK.Contract;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     class ContractIdTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void FromString()
         {
-            SnapshotMatcher.Expect(ContractId.FromString("0.0.5005").ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromString("0.0.5005").ToString());
         }
 
         public virtual void FromSolidityAddress()
         {
-            SnapshotMatcher.Expect(ContractId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void FromSolidityAddressWith0x()
         {
-            SnapshotMatcher.Expect(ContractId.FromSolidityAddress("0x000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromSolidityAddress("0x000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void FromEvmAddress()
         {
-            SnapshotMatcher.Expect(ContractId.FromEvmAddress(1, 2, "98329e006610472e6B372C080833f6D79ED833cf").ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromEvmAddress(1, 2, "98329e006610472e6B372C080833f6D79ED833cf").ToString());
         }
 
         public virtual void FromEvmAddressWith0x()
         {
-            SnapshotMatcher.Expect(ContractId.FromEvmAddress(1, 2, "0x98329e006610472e6B372C080833f6D79ED833cf").ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromEvmAddress(1, 2, "0x98329e006610472e6B372C080833f6D79ED833cf").ToString());
         }
 
         public virtual void FromStringWithEvmAddress()
         {
-            SnapshotMatcher.Expect(ContractId.FromString("1.2.98329e006610472e6B372C080833f6D79ED833cf").ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromString("1.2.98329e006610472e6B372C080833f6D79ED833cf").ToString());
         }
 
         public virtual void ToFromBytes()
@@ -59,22 +51,22 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(new ContractId(0, 0, 5005).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(new ContractId(0, 0, 5005).ToBytes()));
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(ContractId.FromBytes(new ContractId(0, 0, 5005).ToBytes()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromBytes(new ContractId(0, 0, 5005).ToBytes()).ToString());
         }
 
         public virtual void ToSolidityAddress()
         {
-            SnapshotMatcher.Expect(new ContractId(0, 0, 5005).ToEvmAddress()).ToMatchSnapshot();
+            Verifier.Verify(new ContractId(0, 0, 5005).ToEvmAddress());
         }
 
         public virtual void ToSolidityAddress2()
         {
-            SnapshotMatcher.Expect(ContractId.FromEvmAddress(1, 2, "0x98329e006610472e6B372C080833f6D79ED833cf").ToEvmAddress()).ToMatchSnapshot();
+            Verifier.Verify(ContractId.FromEvmAddress(1, 2, "0x98329e006610472e6B372C080833f6D79ED833cf").ToEvmAddress());
         }
 
         public virtual void FromEvmAddressIncorrectSizeTooShort()

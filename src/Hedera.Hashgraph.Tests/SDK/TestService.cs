@@ -1,14 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-using Proto;
-using Io.Grpc;
-using Io.Grpc.Stub;
-using Java.Util;
-using Javax.Annotation;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
@@ -48,22 +42,22 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         void RespondToTransactionFromQueue(Proto.Transaction request, IStreamObserver<Proto.TransactionResponse> streamObserver)
         {
-            RespondToTransaction(request, streamObserver, GetBuffer().responsesToSend.Remove());
+            RespondToTransaction(request, streamObserver, GetBuffer().responsesToSend.Dequeue());
         }
 
         void RespondToQueryFromQueue(Proto.Query request, StreamObserver<Proto.Response> streamObserver)
         {
-            RespondToQuery(request, streamObserver, GetBuffer().responsesToSend.Remove());
+            RespondToQuery(request, streamObserver, GetBuffer().responsesToSend.Dequeue());
         }
 
         class Buffer
         {
-            public readonly List<Transaction<T>> transactionRequestsReceived = new List();
-            public readonly List<Query> queryRequestsReceived = new List();
-            public readonly Queue<TestResponse> responsesToSend = new ArrayDeque();
+            public readonly List<ITransaction> transactionRequestsReceived = [];
+            public readonly List<Proto.Query> queryRequestsReceived = [];
+            public readonly Queue<TestResponse> responsesToSend = new ();
             public virtual Buffer EnqueueResponse(TestResponse response)
             {
-                responsesToSend.Add(response);
+                responsesToSend.Enqueue(response);
                 return this;
             }
         }

@@ -40,7 +40,6 @@ namespace Hedera.Hashgraph.Tests.SDK
                 var name = InProcessServerBuilder.GenerateName();
                 var nodeAccountId = new AccountId(0, 0, 3 + i);
                 var builder = InProcessServerBuilder.ForName(name);
-                ConfigureServerBuilder(builder);
                 network.Add("in-process:" + name, nodeAccountId);
                 foreach (var service in services)
                 {
@@ -106,8 +105,6 @@ namespace Hedera.Hashgraph.Tests.SDK
                 client.OperatorSet(new AccountId(0, 0, 1800), PRIVATE_KEY);
             });
         }
-
-        protected virtual void ConfigureServerBuilder(InProcessServerBuilder builder) { }
 
         public static Mocker WithResponses(IList<IList<object>> responses)
         {

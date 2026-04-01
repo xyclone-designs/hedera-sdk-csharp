@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
@@ -10,6 +8,8 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Systems;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.System
 {
@@ -19,19 +19,10 @@ namespace Hedera.Hashgraph.Tests.SDK.System
         private static readonly FileId testFileId = FileId.FromString("4.2.0");
         private static readonly ContractId testContractId = ContractId.FromString("0.6.9");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerializeFile()
         {
-            SnapshotMatcher.Expect(SpawnTestTransactionFile().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransactionFile().ToString());
         }
 
         private SystemDeleteTransaction SpawnTestTransactionFile()
@@ -50,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.System
 
         public virtual void ShouldSerializeContract()
         {
-            SnapshotMatcher.Expect(SpawnTestTransactionContract().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransactionContract().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()

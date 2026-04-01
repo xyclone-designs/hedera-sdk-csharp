@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// <include file="FeeSchedule.cs.xml" path='docs/member[@name="T:FeeSchedule"]/*' />
     public class FeeSchedule : ICloneable
     {
-        private DateTimeOffset ExpirationTime = new ();
+        internal DateTimeOffset ExpirationTime = new ();
         /// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.#ctor"]/*' />
         public FeeSchedule() { }
 

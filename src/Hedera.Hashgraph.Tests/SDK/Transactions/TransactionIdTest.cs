@@ -4,31 +4,22 @@ using System;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Account;
 
-using Google.Protobuf.WellKnownTypes;
 using Google.Protobuf;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
     class TransactionIdTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(TransactionId.FromString("0.0.23847@1588539964.632521325").ToString()).ToMatchSnapshot();
+            Verifier.Verify(TransactionId.FromString("0.0.23847@1588539964.632521325").ToString());
         }
 
         public virtual void ShouldSerialize2()
         {
-            SnapshotMatcher.Expect(TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled/3").ToString()).ToMatchSnapshot();
+            Verifier.Verify(TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled/3").ToString());
         }
 
         public virtual void ShouldToBytes()
@@ -59,8 +50,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var validStart = transactionId.ValidStart;
             Assert.Equal(accountId.Shard, 0);
             Assert.Equal(accountId.Num, 23847);
-            Assert.Equal(validStart.ToDateTimeOffset().ToUnixTimeSeconds(), 1588539964);
-            Assert.Equal(validStart.Nanos, 632521325);
+            Assert.Equal(validStart.ToUnixTimeSeconds(), 1588539964);
+            Assert.Equal(validStart.Nanosecond, 632521325);
         }
 
         public virtual void ShouldParseScheduled()
@@ -70,8 +61,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var validStart = transactionId.ValidStart;
             Assert.Equal(accountId.Shard, 0);
             Assert.Equal(accountId.Num, 23847);
-            Assert.Equal(validStart.ToDateTimeOffset().ToUnixTimeSeconds(), 1588539964);
-            Assert.Equal(validStart.Nanos, 632521325);
+            Assert.Equal(validStart.ToUnixTimeSeconds(), 1588539964);
+            Assert.Equal(validStart.Nanosecond, 632521325);
             Assert.True(transactionId.Scheduled);
             Assert.Null(transactionId.Nonce);
             Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325?scheduled");
@@ -84,8 +75,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var validStart = transactionId.ValidStart;
             Assert.Equal(accountId.Shard, 0);
             Assert.Equal(accountId.Num, 23847);
-            Assert.Equal(validStart.ToDateTimeOffset().ToUnixTimeSeconds(), 1588539964);
-            Assert.Equal(validStart.Nanos, 632521325);
+            Assert.Equal(validStart.ToUnixTimeSeconds(), 1588539964);
+            Assert.Equal(validStart.Nanosecond, 632521325);
             Assert.False(transactionId.Scheduled);
             Assert.Equal(transactionId.Nonce, 4);
             Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325/4");
@@ -93,7 +84,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void Compare()
         {
-
             // Compare when only one of the txs is schedules
             var transactionId1 = TransactionId.FromString("0.0.23847@1588539964.632521325");
             var transactionId2 = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled");
@@ -103,11 +93,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
 
             // Compare when only one of the txs has accountId
-            transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
-            transactionId2 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
+            transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
+            transactionId2 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
-            transactionId1 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
-            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
+            transactionId1 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
+            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
 
             // Compare the AccountIds
@@ -123,18 +113,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
             // Compare when only one of the txs has valid start
             transactionId1 = new TransactionId(null, null);
-            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
+            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
-            transactionId1 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
+            transactionId1 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             transactionId2 = new TransactionId(null, null);
             Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
 
             // Compare the validStarts
-            transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539965).ToTimestamp());
-            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
+            transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539965));
+            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
-            transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964).ToTimestamp());
-            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539965).ToTimestamp());
+            transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
+            transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539965));
             Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
             transactionId1 = new TransactionId(null, null);
             transactionId2 = new TransactionId(null, null);
@@ -157,7 +147,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void EqualsHashCodeContractWithNonce()
         {
             AccountId accountId = new AccountId(0, 0, 1000);
-            Timestamp now = DateTimeOffset.UtcNow.ToTimestamp();
+            DateTimeOffset now = DateTimeOffset.UtcNow;
             TransactionId txnId1 = TransactionId.WithValidStart(accountId, now);
             TransactionId txnId2 = TransactionId.WithValidStart(accountId, now);
             txnId2.Nonce = 0;

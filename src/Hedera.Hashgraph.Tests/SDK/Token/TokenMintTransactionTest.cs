@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Account;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -22,24 +23,15 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly List<byte[]> testMetadataList = [new byte[] { 1, 2, 3, 4, 5 }];
         private static readonly ByteString testMetadataByteString = ByteString.CopyFrom(new byte[] { 1, 2, 3, 4, 5 });
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldSerializeMetadata()
         {
-            SnapshotMatcher.Expect(SpawnMetadataTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnMetadataTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -107,9 +99,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             var transactionBody = new Proto.TokenMintTransactionBody
             {
 				Token = testTokenId.ToProtobuf(),
-				Amount = testAmount
-			
-            }.AddMetadata(testMetadataByteString);
+				Amount = (ulong)testAmount,
+                Metadata = { testMetadataByteString }
+            };
             var tx = new Proto.TransactionBody
             {
 				TokenMint = transactionBody
@@ -153,8 +145,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void GetSetMetadata()
         {
-            var tokenMintTransaction = new TokenMintTransaction().Metadata = testMetadataList;
-            Assert.Equal(tokenMintTransaction.MetadataList, testMetadataList);
+            var tokenMintTransaction = new TokenMintTransaction { Metadata = testMetadataList };
+            Assert.Equal(tokenMintTransaction.Metadata, testMetadataList);
         }
 
         public virtual void GetSetMetadataFrozen()
@@ -165,9 +157,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void AddMetadata()
         {
-            var tokenMintTransaction = new TokenMintTransaction().AddMetadata(testMetadataList.Last());
+            var tokenMintTransaction = new TokenMintTransaction { Metadata = [testMetadataList.Last()] };
             
-            Assert.Equal(tokenMintTransaction.MetadataList.Last(), testMetadataList.Last());
+            Assert.Equal(tokenMintTransaction.Metadata.Last(), testMetadataList.Last());
         }
     }
 }

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
 using System.Collections.Generic;
-using System.Linq;
+using System.Text.RegularExpressions;
 
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Fees;
-using System.Text.RegularExpressions;
-using Hedera.Hashgraph.SDK.Transactions;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
@@ -23,15 +23,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 			FeeCollectorAccountId = feeCollector.ToProtobuf(),
             // EffectivePayerAccountId = [payerAccountIds.Select(_ => _.ToProtobuf())]
         };
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual AssessedCustomFee SpawnAssessedCustomFeeExample()
         {
@@ -46,17 +37,17 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             
             Assert.Equal(Regex.Replace(originalAssessedCustomFee.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(copyAssessedCustomFee.ToString(), "@[A-Za-z0-9]+", ""));
             
-            SnapshotMatcher.Expect(Regex.Replace(originalAssessedCustomFee.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Verifier.Verify(Regex.Replace(originalAssessedCustomFee.ToString(), "@[A-Za-z0-9]+", ""));
         }
 
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(AssessedCustomFee.FromProtobuf(fee).ToString()).ToMatchSnapshot();
+            Verifier.Verify(AssessedCustomFee.FromProtobuf(fee).ToString());
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(AssessedCustomFee.FromProtobuf(fee).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(AssessedCustomFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
 
         public virtual void ShouldBytes()

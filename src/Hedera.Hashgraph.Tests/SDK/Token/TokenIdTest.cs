@@ -6,43 +6,35 @@ using Org.BouncyCastle.Utilities.Encoders;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Token;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     class TokenIdTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerializeFromString()
         {
-            SnapshotMatcher.Expect(TokenId.FromString("0.0.5005").ToString()).ToMatchSnapshot();
+            Verifier.Verify(TokenId.FromString("0.0.5005").ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(new TokenId(0, 0, 5005).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(new TokenId(0, 0, 5005).ToBytes()));
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(TokenId.FromBytes(new TokenId(0, 0, 5005).ToBytes()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(TokenId.FromBytes(new TokenId(0, 0, 5005).ToBytes()).ToString());
         }
 
         public virtual void FromSolidityAddress()
         {
-            SnapshotMatcher.Expect(TokenId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(TokenId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void ToSolidityAddress()
         {
-            SnapshotMatcher.Expect(new TokenId(0, 0, 5005).ToSolidityAddress()).ToMatchSnapshot();
+            Verifier.Verify(new TokenId(0, 0, 5005).ToSolidityAddress());
         }
 
         public virtual void UnitTokenIdFromString()

@@ -7,22 +7,13 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Transactions;
 
-using Google.Protobuf.WellKnownTypes;
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     public class TokenFeeScheduleUpdateTransactionTest
     {
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         private TokenFeeScheduleUpdateTransaction SpawnTestTransaction()
         {
@@ -70,7 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             
             Assert.Equal(copyUpdate.ToString(), originalUpdate.ToString());
 
-            SnapshotMatcher.Expect(originalUpdate.ToString()).ToMatchSnapshot();
+            Verifier.Verify(originalUpdate.ToString());
         }
 
         public virtual void FromScheduledTransaction()

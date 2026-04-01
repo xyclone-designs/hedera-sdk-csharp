@@ -18,8 +18,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             var result = tx.AddHookToCreate(hookDetails);
             Assert.Equal(result, tx);
-            Assert.Single(tx.GetHooksToCreate());
-            Assert.Equal(tx.GetHooksToCreate()[0], hookDetails);
+            Assert.Single(tx.HooksToCreate());
+            Assert.Equal(tx.HooksToCreate()[0], hookDetails);
         }
 
         public virtual void ShouldSetHooksToCreate()
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var result = tx.SetHooksToCreate(hooks);
             Assert.Equal(result, tx);
             Assert.Equal(2, tx.GetHbarTransfers().Count);
-            AssertThat(tx.GetHooksToCreate()).ContainsExactlyInAnyOrder(hookDetails1, hookDetails2);
+            AssertThat(tx.HooksToCreate()).ContainsExactlyInAnyOrder(hookDetails1, hookDetails2);
         }
 
         public virtual void ShouldAddHookToDelete()
@@ -56,20 +56,20 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             AssertThat(tx.GetHooksToDelete()).ContainsExactlyInAnyOrder(123, 456, 789);
         }
 
-        public virtual void ShouldGetHooksToCreate()
+        public virtual void HooksToCreate()
         {
             var tx = new AccountUpdateTransaction();
             var contractId = new ContractId(0, 0, 1);
             var lambdaHook = new EvmHook(contractId);
             var hookDetails = new HookCreationDetails(HookExtensionPoint.AccountAllowanceHook, 1, lambdaHook);
             tx.AddHookToCreate(hookDetails);
-            var result = tx.GetHooksToCreate();
+            var result = tx.HooksToCreate();
             Assert.Single(result);
             Assert.Equal(result[0], hookDetails);
 
             // Verify it returns a copy
             result.Clear();
-            Assert.Single(tx.GetHooksToCreate());
+            Assert.Single(tx.HooksToCreate());
         }
 
         public virtual void ShouldGetHooksToDelete()
@@ -214,7 +214,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var bytes = tx.ToBytes();
             var deserializedTx = Transaction.FromBytes<AccountUpdateTransaction>(bytes);
             
-            Assert.Single(deserializedTx.GetHooksToCreate());
+            Assert.Single(deserializedTx.HooksToCreate());
             Assert.Single(deserializedTx.GetHooksToDelete());
             Assert.Contains(deserializedTx.GetHooksToDelete(), 123);
         }
@@ -223,7 +223,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             var tx = new AccountUpdateTransaction();
             
-            Assert.Empty(tx.GetHooksToCreate());
+            Assert.Empty(tx.HooksToCreate());
             Assert.Empty(tx.GetHooksToDelete());
             
             var builder = tx.Build();

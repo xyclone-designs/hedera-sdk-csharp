@@ -29,84 +29,63 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void ShortWordList()
         {
-            Assert
-                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "lorem", "ipsum", "dolor" ]))
-                .Satisfies((error) =>
-                {
-                    Assert.Equal(error.reason, BadMnemonicReason.BadLength);
-                    Assert.Null(error.unknownWordIndices);
-                });
+            BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["lorem", "ipsum", "dolor"]));
+
+            Assert.Equal(BadMnemonicReason.BadLength, error.Reason);
+            Assert.Null(error.UnknownWordIndices);
         }
 
         public virtual void LongWordList()
         {
-            Assert
-                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame", "gate", "village", "viable", "include", "mixed", "term", "draft", "among", "monitor", "swear", "swing", "novel", "track" ]))
-                .Satisfies((error) =>
-                {
-                    Assert.Equal(error.reason, BadMnemonicReason.BadLength);
-                    Assert.Null(error.unknownWordIndices);
-                });
+            BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame", "gate", "village", "viable", "include", "mixed", "term", "draft", "among", "monitor", "swear", "swing", "novel", "track"]));
+
+            Assert.Equal(BadMnemonicReason.BadLength, error.Reason);
+            Assert.Null(error.UnknownWordIndices);
         }
 
         public virtual void BetweenWordList()
         {
-            Assert
-                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "" + "lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame" ]))
-                .Satisfies((error) =>
-                {
-                    Assert.Equal(error.reason, BadMnemonicReason.BadLength);
-                    Assert.Null(error.unknownWordIndices);
-                });
+            BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["" + "lorem", "ipsum", "dolor", "ramp", "april", "job", "flavor", "surround", "pyramid", "fish", "sea", "good", "know", "blame"]));
+
+            Assert.Equal(BadMnemonicReason.BadLength, error.Reason);
+            Assert.Null(error.UnknownWordIndices);
         }
 
         public virtual void UnknownWords()
         {
-            Assert
-                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "adsorb", "abstract", "absurd", "abuse", "access", "accident", "acount", "accuse", "achieve", "acid", "acoustic", "acquired", "across", "act", "action", "actor", "actress", "actual" ]))
-                .Satisfies((error) =>
-                {
-                    Assert.Equal(error.reason, BadMnemonicReason.UnknownWords);
-                    AssertThat(error.unknownWordIndices).ContainsExactly(6, 12, 17);
-                });
+            BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["abandon", "ability", "able", "about", "above", "absent", "adsorb", "abstract", "absurd", "abuse", "access", "accident", "acount", "accuse", "achieve", "acid", "acoustic", "acquired", "across", "act", "action", "actor", "actress", "actual"]));
+
+            Assert.Equal(BadMnemonicReason.UnknownWords, error.Reason);
+            Assert.Equal(error.UnknownWordIndices, [6, 12, 17]);
         }
 
         public virtual void ChecksumMismatch()
         {
-
             // this mnemonic was just made up, the checksum should definitely not match
-            Assert
-                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual" ]))
-                .Satisfies((error) =>
-                {
-                    Assert.Equal(error.reason, BadMnemonicReason.ChecksumMismatch);
-                    Assert.Null(error.unknownWordIndices);
-                });
+            BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual"]));
+
+            Assert.Equal(BadMnemonicReason.ChecksumMismatch, error.Reason);
+            Assert.Null(error.UnknownWordIndices);
         }
 
         public virtual void ChecksumMismatch12()
         {
-
             // this mnemonic was just made up, the checksum should definitely not match
-            Assert
-                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident" ]))
-                .Satisfies((error) =>
-                {
-                    Assert.Equal(error.reason, BadMnemonicReason.ChecksumMismatch);
-                    Assert.Null(error.unknownWordIndices);
-                });
+            BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident"]));
+
+            Assert.Equal(BadMnemonicReason.ChecksumMismatch, error.Reason);
+            Assert.Null(error.UnknownWordIndices);
         }
 
         public virtual void InvalidToPrivateKey()
         {
-            Assert
-                .Throws<BadMnemonicException>(() => Mnemonic.FromWords([ "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual" ]))
-                .Satisfies((error) => AssertThat(error.mnemonic).IsNotNull());
-            }
+            BadMnemonicException error = Assert.Throws<BadMnemonicException>(() => Mnemonic.FromWords(["abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse", "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act", "action", "actor", "actress", "actual"]));
 
-            public virtual void LegacyV1MnemonicTest()
-            {
+            Assert.NotNull(error.Mnemonic);
+        }
 
+        public virtual void LegacyV1MnemonicTest()
+        {
             // TODO: add link to reference test vectors
             string PRIVATE_KEY1 = "00c2f59212cb3417f0ee0d38e7bd876810d04f2dd2cb5c2d8f26ff406573f2bd";
             string PUBLIC_KEY1 = "0c5bb4624df6b64c2f07a8cb8753945dd42d4b9a2ed4c0bf98e87ef154f473e9";
@@ -167,7 +146,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             Assert.Equal(key3.GetPublicKey().ToStringRaw(), PUBLIC_KEY3);
         }
 
-        public virtual void MnemonicTest()
+        public virtual void MnemonicTest_()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
             PrivateKey key = mnemonic.ToPrivateKey();
@@ -259,25 +238,25 @@ namespace Hedera.Hashgraph.Tests.SDK
             PrivateKey key1 = mnemonic.ToStandardEd25519PrivateKey("", 0);
             Assert.Equal(Hex.ToHexString(key1.GetChainCode().GetKey()), CHAIN_CODE1);
             Assert.Equal(key1.ToStringRaw(), PRIVATE_KEY1);
-            AssertThat(key1.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY1);
+            Assert.Contains(PUBLIC_KEY1, key1.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0'/2147483647'
             PrivateKey key2 = mnemonic.ToStandardEd25519PrivateKey("", 2147483647);
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY2);
-            AssertThat(key2.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY2);
+            Assert.Contains(PUBLIC_KEY2, key2.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0'/0'; Passphrase: "some pass"
             PrivateKey key3 = mnemonic.ToStandardEd25519PrivateKey("some pass", 0);
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
-            AssertThat(key3.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY3);
+            Assert.Contains(PUBLIC_KEY3, key3.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0'/2147483647'; Passphrase: "some pass"
             PrivateKey key4 = mnemonic.ToStandardEd25519PrivateKey("some pass", 2147483647);
             Assert.Equal(Hex.ToHexString(key4.GetChainCode().GetKey()), CHAIN_CODE4);
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
-            AssertThat(key4.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY4);
+            Assert.Contains(PUBLIC_KEY4, key4.GetPublicKey().ToStringRaw());
         }
 
         public virtual void ToStandardED25519PrivateKey2()
@@ -302,34 +281,37 @@ namespace Hedera.Hashgraph.Tests.SDK
             PrivateKey key1 = mnemonic.ToStandardEd25519PrivateKey("", 0);
             Assert.Equal(Hex.ToHexString(key1.GetChainCode().GetKey()), CHAIN_CODE1);
             Assert.Equal(key1.ToStringRaw(), PRIVATE_KEY1);
-            AssertThat(key1.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY1);
+            Assert.Contains(PUBLIC_KEY1, key1.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0'/2147483647'
             PrivateKey key2 = mnemonic.ToStandardEd25519PrivateKey("", 2147483647);
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY2);
-            AssertThat(key2.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY2);
+            Assert.Contains(PUBLIC_KEY2, key2.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0'/0'; Passphrase: "some pass"
             PrivateKey key3 = mnemonic.ToStandardEd25519PrivateKey("some pass", 0);
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
-            AssertThat(key3.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY3);
+            Assert.Contains(PUBLIC_KEY3, key3.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0'/2147483647'; Passphrase: "some pass"
             PrivateKey key4 = mnemonic.ToStandardEd25519PrivateKey("some pass", 2147483647);
             Assert.Equal(Hex.ToHexString(key4.GetChainCode().GetKey()), CHAIN_CODE4);
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
-            AssertThat(key4.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY4);
+            Assert.Contains(PUBLIC_KEY4, key4.GetPublicKey().ToStringRaw());
         }
 
         public virtual void ToStandardED25519PrivateKeyShouldFailWhenIndexIsPreHardened()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
-            int hardenedIndex = Bip32Utils.ToHardenedIndex(10);
-            Assert
-                .Throws<ArgumentException>(() => mnemonic.ToStandardEd25519PrivateKey("", hardenedIndex))
-                .Satisfies((error) => Assert.Equal(error.GetMessage(), "the index should not be pre-hardened"));
+            int hardenedIndex = (int)Bip32Utils.ToHardenedIndex(10);
+
+            ArgumentException argumentexception = Assert.Throws<ArgumentException>(() =>
+            {
+                mnemonic.ToStandardEd25519PrivateKey("", hardenedIndex);
+           
+            }); Assert.Equal(argumentexception.Message, "the index should not be pre-hardened");
         }
 
         public virtual void ToStandardECDSAsecp256k1PrivateKey()
@@ -360,37 +342,37 @@ namespace Hedera.Hashgraph.Tests.SDK
             PrivateKey key1 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("", 0);
             Assert.Equal(Hex.ToHexString(key1.GetChainCode().GetKey()), CHAIN_CODE1);
             Assert.Equal(key1.ToStringRaw(), PRIVATE_KEY1);
-            AssertThat(key1.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY1);
+            Assert.Contains(PUBLIC_KEY1, key1.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/0'
-            PrivateKey key2 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("", Bip32Utils.ToHardenedIndex(0));
+            PrivateKey key2 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("", (int)Bip32Utils.ToHardenedIndex(0));
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY2);
-            AssertThat(key2.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY2);
+            Assert.Contains(PUBLIC_KEY2, key2.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/0; Passphrase "some pass"
             PrivateKey key3 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", 0);
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
-            AssertThat(key3.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY3);
+            Assert.Contains(PUBLIC_KEY3, key3.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/0'; Passphrase "some pass"
-            PrivateKey key4 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", Bip32Utils.ToHardenedIndex(0));
+            PrivateKey key4 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", (int)Bip32Utils.ToHardenedIndex(0));
             Assert.Equal(Hex.ToHexString(key4.GetChainCode().GetKey()), CHAIN_CODE4);
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
-            AssertThat(key4.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY4);
+            Assert.Contains(PUBLIC_KEY4, key4.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/2147483647; Passphrase "some pass"
             PrivateKey key5 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", 2147483647);
             Assert.Equal(Hex.ToHexString(key5.GetChainCode().GetKey()), CHAIN_CODE5);
             Assert.Equal(key5.ToStringRaw(), PRIVATE_KEY5);
-            AssertThat(key5.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY5);
+            Assert.Contains(PUBLIC_KEY5, key5.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/2147483647'; Passphrase "some pass"
-            PrivateKey key6 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", Bip32Utils.ToHardenedIndex(2147483647));
+            PrivateKey key6 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", (int)Bip32Utils.ToHardenedIndex(2147483647));
             Assert.Equal(Hex.ToHexString(key6.GetChainCode().GetKey()), CHAIN_CODE6);
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
-            AssertThat(key6.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY6);
+            Assert.Contains(PUBLIC_KEY6, key6.GetPublicKey().ToStringRaw());
         }
 
         public virtual void ToStandardECDSAsecp256k1PrivateKey2()
@@ -421,37 +403,37 @@ namespace Hedera.Hashgraph.Tests.SDK
             PrivateKey key1 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("", 0);
             Assert.Equal(Hex.ToHexString(key1.GetChainCode().GetKey()), CHAIN_CODE1);
             Assert.Equal(key1.ToStringRaw(), PRIVATE_KEY1);
-            AssertThat(key1.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY1);
+            Assert.Contains(PUBLIC_KEY1, key1.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/0'
-            PrivateKey key2 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("", Bip32Utils.ToHardenedIndex(0));
+            PrivateKey key2 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("", (int)Bip32Utils.ToHardenedIndex(0));
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY2);
-            AssertThat(key2.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY2);
+            Assert.Contains(PUBLIC_KEY2, key2.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/0; Passphrase "some pass"
             PrivateKey key3 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", 0);
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY3);
-            AssertThat(key3.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY3);
+            Assert.Contains(PUBLIC_KEY3, key3.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/0'; Passphrase "some pass"
-            PrivateKey key4 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", Bip32Utils.ToHardenedIndex(0));
+            PrivateKey key4 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", (int)Bip32Utils.ToHardenedIndex(0));
             Assert.Equal(Hex.ToHexString(key4.GetChainCode().GetKey()), CHAIN_CODE4);
             Assert.Equal(key4.ToStringRaw(), PRIVATE_KEY4);
-            AssertThat(key4.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY4);
+            Assert.Contains(PUBLIC_KEY4, key4.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/2147483647; Passphrase "some pass"
             PrivateKey key5 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", 2147483647);
             Assert.Equal(Hex.ToHexString(key5.GetChainCode().GetKey()), CHAIN_CODE5);
             Assert.Equal(key5.ToStringRaw(), PRIVATE_KEY5);
-            AssertThat(key5.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY5);
+            Assert.Contains(PUBLIC_KEY5, key5.GetPublicKey().ToStringRaw());
 
             // Chain m/44'/3030'/0'/0/2147483647'; Passphrase "some pass"
-            PrivateKey key6 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", Bip32Utils.ToHardenedIndex(2147483647));
+            PrivateKey key6 = mnemonic.ToStandardECDSAsecp256k1PrivateKey("some pass", (int)Bip32Utils.ToHardenedIndex(2147483647));
             Assert.Equal(Hex.ToHexString(key6.GetChainCode().GetKey()), CHAIN_CODE6);
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
-            AssertThat(key6.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY6);
+            Assert.Contains(PUBLIC_KEY6, key6.GetPublicKey().ToStringRaw());
         }
 
         public virtual void ToStandardECDSAsecp256k1PrivateKeyCustomDpathInvalidInputs()
@@ -471,37 +453,28 @@ namespace Hedera.Hashgraph.Tests.SDK
             string CHAIN_CODE_3 = "c8c798d2b3696be1e7a29d1cea205507eedc2057006b9ef1cde1b4e346089e17";
             string PRIVATE_KEY_3 = "31c24292eac951279b659c335e44a2e812d0f1a228b1d4d87034874d376e605a";
             string PUBLIC_KEY_3 = "0207ff3faf4055c1aa7a5ad94d6ff561fac35b9ae695ef486706243667d2b4d10e";
-            Assert.Throws<ArgumentException>(() =>
+
+            ArgumentException argumentexception1 = Assert.Throws<ArgumentException>(() =>
             {
                 Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
                 mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_1, DPATH_1);
-            })
-                
-                .Satisfies((iae) =>
-                {
-                    Assert.Equal(iae.GetMessage(), "Invalid derivation path format");
-                });
-                Assert.Throws<ArgumentException>(() =>
+            
+            }); Assert.Equal(argumentexception1.Message, "Invalid derivation path format");
+
+            ArgumentException argumentexception2 = Assert.Throws<ArgumentException>(() =>
             {
                 Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
                 mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_2, DPATH_2);
-            })
-                
-                .Satisfies((iae) =>
-                {
-                    Assert.Equal(iae.GetMessage(), "Derivation path cannot be null or empty");
-                });
-                Assert.Throws<ArgumentException>(() =>
+
+            }); Assert.Equal(argumentexception2.Message, "Derivation path cannot be null or empty");
+
+            ArgumentException argumentexception3 = Assert.Throws<ArgumentException>(() =>
             {
                 Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_24_WORD_STRING);
                 mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_3, DPATH_3);
-            })
-                
-                .Satisfies((iae) =>
-                {
-                    Assert.Equal(iae.GetMessage(), "Invalid derivation path format");
-                });
-            }
+            
+            }); Assert.Equal(argumentexception3.Message, "Invalid derivation path format");
+        }
 
         public virtual void ToStandardECDSAsecp256k1PrivateKeyCustomDpath()
         {
@@ -526,19 +499,19 @@ namespace Hedera.Hashgraph.Tests.SDK
             PrivateKey key1 = mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_1, DPATH_1);
             Assert.Equal(Hex.ToHexString(key1.GetChainCode().GetKey()), CHAIN_CODE_1);
             Assert.Equal(key1.ToStringRaw(), PRIVATE_KEY_1);
-            AssertThat(key1.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY_1);
+            Assert.Contains(PUBLIC_KEY_1, key1.GetPublicKey().ToStringRaw());
 
             // m/44'/60'/0'/0/1
             PrivateKey key2 = mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_2, DPATH_2);
             Assert.Equal(Hex.ToHexString(key2.GetChainCode().GetKey()), CHAIN_CODE_2);
             Assert.Equal(key2.ToStringRaw(), PRIVATE_KEY_2);
-            AssertThat(key2.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY_2);
+            Assert.Contains(PUBLIC_KEY_2, key2.GetPublicKey().ToStringRaw());
 
             // m/44'/60'/0'/0/2
             PrivateKey key3 = mnemonic.ToStandardECDSAsecp256k1PrivateKeyCustomDerivationPath(PASSPHRASE_3, DPATH_3);
             Assert.Equal(Hex.ToHexString(key3.GetChainCode().GetKey()), CHAIN_CODE_3);
             Assert.Equal(key3.ToStringRaw(), PRIVATE_KEY_3);
-            AssertThat(key3.GetPublicKey().ToStringRaw()).IsSubstringOf(PUBLIC_KEY_3);
+            Assert.Contains(PUBLIC_KEY_3, key3.GetPublicKey().ToStringRaw());
         }
     }
 }

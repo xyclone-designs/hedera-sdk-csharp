@@ -8,6 +8,8 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     public class NodeDeleteTransactionTest
@@ -16,18 +18,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         private static readonly ulong TEST_NODE_ID = 420;
         readonly DateTimeOffset TEST_VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         private NodeDeleteTransaction SpawnTestTransaction()

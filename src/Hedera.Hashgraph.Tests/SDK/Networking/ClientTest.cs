@@ -9,7 +9,6 @@ using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Networking;
 
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {

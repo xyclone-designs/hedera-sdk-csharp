@@ -2,14 +2,14 @@
 using System;
 using System.Collections.Generic;
 
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Keys;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -23,19 +23,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             transaction = new TokenAirdropTransaction();
         }
 
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -177,9 +167,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             TokenId tokenId = new (0, 0, 123);
             AccountId accountId = new (0, 0, 456);
             long value = 1000;
-            int decimals = 8;
+            uint decimals = 8;
             transaction.AddTokenTransferWithDecimals(tokenId, accountId, value, decimals);
-            Dictionary<TokenId, int> decimalsMap = transaction.GetTokenIdDecimals();
+            Dictionary<TokenId, uint?> decimalsMap = transaction.GetTokenIdDecimals();
             Assert.True(decimalsMap.ContainsKey(tokenId));
             Assert.Equal(decimals, decimalsMap[tokenId]);
         }

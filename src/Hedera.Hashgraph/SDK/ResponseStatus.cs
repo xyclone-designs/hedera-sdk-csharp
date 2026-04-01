@@ -779,6 +779,7 @@ namespace Hedera.Hashgraph.SDK
         TransactionRequiresZeroHooks = Proto.ResponseCodeEnum.TransactionRequiresZeroHooks,
         /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_309"]/*' />
         InvalidHookCall = Proto.ResponseCodeEnum.InvalidHookCall,
-    /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_310"]/*' />
+        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_310"]/*' />
+        HooksAreNotSupportedInAirdrops = Proto.ResponseCodeEnum.HooksAreNotSupportedInAirdrops
     }
 }

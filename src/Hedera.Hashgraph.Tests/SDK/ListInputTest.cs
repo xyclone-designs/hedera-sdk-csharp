@@ -1,12 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Junit.Jupiter.Api.Assertions;
-using Java.Util;
-using Org.Junit.Jupiter.Api;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Fees;
@@ -46,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             
             var list = new List<AccountId>();
             list.Add(AccountId.FromString("1.2.3"));
-            tx.NodeAccountIds = list;
+            tx.NodeAccountIds = [.. list];
             
             var v1 = new List<AccountId>(tx.NodeAccountIds.Read);
             list.Add(AccountId.FromString("4.5.6"));
@@ -68,7 +62,8 @@ namespace Hedera.Hashgraph.Tests.SDK
 				Serials = [0]
 			};
 
-			var v1 = new List<long>(tx.Serials);
+            var list = new List<int>();
+            var v1 = new List<long>(tx.Serials);
             list.Add(1);
             
             var v2 = new List<long>(tx.Serials);
@@ -87,7 +82,8 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 Serials = [0]
             };
-            
+
+            var list = new List<int>();
             var v1 = new List<long>(tx.Serials);
             list.Add(1);
             
@@ -109,10 +105,10 @@ namespace Hedera.Hashgraph.Tests.SDK
             list.Add(new byte[] { 0 });
             tx.Metadata = list;
             
-            var v1 = new List(tx.Metadata);
+            List<byte[]> v1 = [ .. tx.Metadata ];
             list.Add(new byte[] { 1 });
             
-            var v2 = new List(tx.Metadata);
+            List<byte[]> v2 = [ .. tx.Metadata ];
             Assert.Equal(v1.ToString(), v2.ToString());
             
             var list2 = tx.Metadata;

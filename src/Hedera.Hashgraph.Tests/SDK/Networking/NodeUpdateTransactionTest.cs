@@ -12,6 +12,8 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using Google.Protobuf;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     public class NodeUpdateTransactionTest
@@ -39,18 +41,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         private static readonly PublicKey TEST_ADMIN_KEY = PrivateKey.FromString("302e020100300506032b65700422042062c4b69e9f45a554e5424fb5a6fe5e6ac1f19ead31dc7718c2d980fd1f998d4b").GetPublicKey();
         readonly DateTimeOffset TEST_VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         private static Endpoint SpawnTestEndpointIpOnly(byte offset)

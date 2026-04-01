@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnHbarAllowance().ToString(), SpawnTokenAllowance().ToString(), SpawnNftAllowance().ToString(), SpawnAllNftAllowance().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnHbarAllowance().ToString(), SpawnTokenAllowance().ToString(), SpawnNftAllowance().ToString(), SpawnAllNftAllowance().ToString());
         }
 
         public virtual void ShouldBytes()

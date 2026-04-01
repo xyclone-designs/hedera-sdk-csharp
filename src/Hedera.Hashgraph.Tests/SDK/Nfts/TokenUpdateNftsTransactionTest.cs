@@ -1,14 +1,17 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 using System.Collections.Generic;
+
 using Hedera.Hashgraph.SDK.HBar;
-using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Keys;
+
 using Google.Protobuf;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
@@ -19,18 +22,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         private static readonly List<long> testSerialNumbers = [8, 9, 10];
         private static readonly byte[] testMetadata = [1, 2, 3, 4, 5];
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         private TokenUpdateNftsTransaction SpawnTestTransaction()
@@ -41,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				TokenId = testTokenId,
 				Metadata = testMetadata,
-				Serials = testSerialNumbers,
+				Serials = [..testSerialNumbers],
 				MaxTransactionFee = new Hbar(1),
             }
             .Freeze()

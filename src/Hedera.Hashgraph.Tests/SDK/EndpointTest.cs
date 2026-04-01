@@ -14,7 +14,8 @@ namespace Hedera.Hashgraph.Tests.SDK
 				Address = new byte[] { 127, 0, 0, 1 },
 				Port = 50211
 			};
-            AssertThatCode(() => Endpoint.ValidateNoIpAndDomain(ep)).DoesNotThrowAnyException();
+            
+            Endpoint.ValidateNoIpAndDomain(ep);
         }
 
         public virtual void ValidateAllowsOnlyDomain()
@@ -24,7 +25,8 @@ namespace Hedera.Hashgraph.Tests.SDK
 				DomainName = "node1.test.local",
 				Port = 50211,
 			};
-            AssertThatCode(() => Endpoint.ValidateNoIpAndDomain(ep)).DoesNotThrowAnyException();
+            
+            Endpoint.ValidateNoIpAndDomain(ep);
         }
 
         public virtual void ValidateThrowsOnIpAndDomain()
@@ -40,7 +42,8 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public virtual void ValidateNoOpOnNull()
         {
-            AssertThatCode(() => Endpoint.ValidateNoIpAndDomain(null)).DoesNotThrowAnyException();
+            
+            Endpoint.ValidateNoIpAndDomain(null);
         }
 
         public virtual void ValidateAllowsEmptyDomainWithIp()
@@ -51,7 +54,8 @@ namespace Hedera.Hashgraph.Tests.SDK
 				DomainName = "",
 				Port = 50211
 			};
-            AssertThatCode(() => Endpoint.ValidateNoIpAndDomain(ep)).DoesNotThrowAnyException();
+            
+            Endpoint.ValidateNoIpAndDomain(ep);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Exceptions
     {
         public virtual void ShouldHaveMessage()
         {
-            var e = new MaxQueryPaymentExceededException(new AccountBalanceQuery(), new Hbar(30), new Hbar(15));
+            var e = new MaxQueryPaymentExceededException(typeof(AccountBalanceQuery), new Hbar(30), new Hbar(15));
 
             Assert.Equal(e.Message, "cost for AccountBalanceQuery, of 30 ℏ, without explicit payment is greater than the maximum allowed payment of 15 ℏ");
         }

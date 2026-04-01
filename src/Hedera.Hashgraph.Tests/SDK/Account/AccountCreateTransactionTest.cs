@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.HBar;
@@ -9,6 +7,8 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
     public class AccountCreateTransactionTest
@@ -16,15 +16,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         private static readonly PrivateKey privateKeyED25519 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         PrivateKey privateKeyECDSA = PrivateKey.FromStringECDSA("7f109a9e3b0d8ecfba9cc23a3614433ce0fa7ddcc80f2a8f10b222179a5a80d6");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual AccountCreateTransaction SpawnTestTransaction()
         {
@@ -73,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytes()
@@ -86,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void ShouldSerialize2()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction2().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction2().ToString());
         }
 
         public virtual void ShouldBytes2()

@@ -7,6 +7,8 @@ using Hedera.Hashgraph.SDK.Networking;
 
 using System;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
     public class AccountInfoTest
@@ -40,34 +42,24 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             // .AddLiveHashes(liveHash)
         };
 
-		public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void FromProtobufWithOtherOptions()
         {
-            SnapshotMatcher.Expect(AccountInfo.FromProtobuf(info).ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountInfo.FromProtobuf(info).ToString());
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(AccountInfo.FromBytes(info.ToByteArray()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountInfo.FromBytes(info.ToByteArray()).ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(AccountInfo.FromBytes(info.ToByteArray()).ToBytes()).ToMatchSnapshot();
+            Verifier.Verify(AccountInfo.FromBytes(info.ToByteArray()).ToBytes());
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(AccountInfo.FromProtobuf(info).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(AccountInfo.FromProtobuf(info).ToProtobuf().ToString());
         }
     }
 }

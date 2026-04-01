@@ -11,6 +11,8 @@ using Hedera.Hashgraph.SDK.HBar;
 
 using Google.Protobuf.WellKnownTypes;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     public class TokenRejectTransactionTest
@@ -20,19 +22,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly List<TokenId> TEST_TOKEN_IDS = [ TokenId.FromString("1.2.3"), TokenId.FromString("4.5.6"), TokenId.FromString("7.8.9") ];
         private static readonly List<NftId> TEST_NFT_IDS = [ new NftId(TokenId.FromString("4.5.6"), 2), new NftId(TokenId.FromString("7.8.9"), 3) ];
         readonly DateTimeOffset TEST_VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         private TokenRejectTransaction SpawnTestTransaction()
@@ -40,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             return new TokenRejectTransaction
             {
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
-				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START.ToTimestamp()),
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 				OwnerId = TEST_OWNER_ID,
 				TokenIds = TEST_TOKEN_IDS,
 				NftIds = TEST_NFT_IDS,

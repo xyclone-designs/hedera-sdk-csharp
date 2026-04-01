@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 
 using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.HBar;
 
-using Google.Protobuf.WellKnownTypes;
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
@@ -21,19 +20,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly long testAmount = 4;
         private static readonly List<long> testSerialNumbers = [8, 9, 10];
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerializeFungible()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -53,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				TokenId = TokenId.FromString("0.0.111"),
 				AccountId = testAccountId,
 				Amount = (ulong)testAmount,
-				Serials = testSerialNumbers,
+				Serials = [..testSerialNumbers],
 				MaxTransactionFee = new Hbar(1)
 			}
             .Freeze()
@@ -62,7 +52,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void ShouldSerializeNft()
         {
-            SnapshotMatcher.Expect(SpawnTestTransactionNft().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransactionNft().ToString());
         }
 
         private TokenWipeTransaction SpawnTestTransactionNft()

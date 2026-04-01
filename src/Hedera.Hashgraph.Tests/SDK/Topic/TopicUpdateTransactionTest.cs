@@ -9,6 +9,8 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Fees;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
     public class TopicUpdateTransactionTest
@@ -22,19 +24,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         private static readonly DateTimeOffset testExpirationTime = DateTimeOffset.UtcNow;
         private static readonly AccountId testAutoRenewAccountId = AccountId.FromString("8.8.8");
         private static readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ClearShouldSerialize()
         {
-            SnapshotMatcher.Expect(new TopicUpdateTransaction
+            Verifier.Verify(new TopicUpdateTransaction
             {
                 NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
@@ -44,12 +37,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 SubmitKey = null,
                 TopicMemo = null,
             
-            }.Freeze().Sign(unusedPrivateKey).ToString()).ToMatchSnapshot();
+            }.Freeze().Sign(unusedPrivateKey).ToString());
         }
 
         public virtual void SetShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()

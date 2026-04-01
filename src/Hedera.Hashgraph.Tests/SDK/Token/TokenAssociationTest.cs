@@ -6,21 +6,14 @@ using Google.Protobuf;
 
 using System.Text.RegularExpressions;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     public class TokenAssociationTest
     {
         private static readonly AccountId testAccountId = AccountId.FromString("4.2.0");
         private static readonly TokenId testTokenId = TokenId.FromString("0.6.9");
-
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual TokenAssociation SpawnTokenAssociationExample()
         {
@@ -31,11 +24,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var originalTokenAssociation = SpawnTokenAssociationExample();
             byte[] tokenAssociationBytes = originalTokenAssociation.ToBytes();
-            var copyTokenAssociation = Transaction.FromBytes<TokenAssociation>(tokenAssociationBytes);
+            var copyTokenAssociation = TokenAssociation.FromBytes(tokenAssociationBytes);
             
             Assert.Equal(Regex.Replace(copyTokenAssociation.ToString(), "@[A-Za-z0-9]+", ""), Regex.Replace(originalTokenAssociation.ToString(), "@[A-Za-z0-9]+", ""));
             
-            SnapshotMatcher.Expect(Regex.Replace(originalTokenAssociation.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Verifier.Verify(Regex.Replace(originalTokenAssociation.ToString(), "@[A-Za-z0-9]+", ""));
         }
         public virtual void FromProtobuf()
         {

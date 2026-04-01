@@ -11,6 +11,8 @@ using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Collections.Generic;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     public class TokenCreateTransactionTest
@@ -50,19 +52,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             5
         };
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
 
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerializeFungible()
         {
-            SnapshotMatcher.Expect(SpawnTestTransactionFungible().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransactionFungible().ToString());
         }
 
         public virtual void ShouldBytesNoSetters()
@@ -75,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 
         public virtual void ShouldSerializeNft()
         {
-            SnapshotMatcher.Expect(SpawnTestTransactionNft().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransactionNft().ToString());
         }
 
         private TokenCreateTransaction SpawnTestTransactionFungible()

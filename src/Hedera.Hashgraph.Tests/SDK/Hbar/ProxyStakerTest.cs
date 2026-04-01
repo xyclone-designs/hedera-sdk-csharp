@@ -2,6 +2,8 @@
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Account;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.HBar
 {
     public class ProxyStakerTest
@@ -12,19 +14,9 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Amount = 10
         };
 
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(ProxyStaker.FromProtobuf(proxyStaker).ToString()).ToMatchSnapshot();
+            Verifier.Verify(ProxyStaker.FromProtobuf(proxyStaker).ToString());
         }
     }
 }

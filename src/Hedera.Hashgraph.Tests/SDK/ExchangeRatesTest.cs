@@ -13,7 +13,7 @@ namespace Hedera.Hashgraph.Tests.SDK
         public virtual void FromProtobuf()
         {
             byte[] exchangeRatesBytes = Hex.Decode(exchangeRateSetHex);
-            ExchangeRates exchangeRates = Transaction.FromBytes<ExchangeRates>(exchangeRatesBytes);
+            ExchangeRates exchangeRates = ExchangeRates.FromBytes(exchangeRatesBytes);
             Assert.Equal(exchangeRates.CurrentRate.Cents, 580150);
             Assert.Equal(exchangeRates.CurrentRate.Hbars, 30000);
             DateTimeOffset currentExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1645714800);

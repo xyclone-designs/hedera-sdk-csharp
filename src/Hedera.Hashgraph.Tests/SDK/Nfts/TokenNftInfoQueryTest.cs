@@ -6,19 +6,12 @@ using Hedera.Hashgraph.SDK.Account;
 
 using System.Text.RegularExpressions;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Nfts
 {
     public class TokenNftInfoQueryTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void ShouldSerialize()
         {
             var builder = new Proto.Query();
@@ -29,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 
             }.OnMakeRequest(builder, new Proto.QueryHeader());
 
-            SnapshotMatcher.Expect(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", "")).ToMatchSnapshot();
+            Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }
 
         public virtual void PropertiesTest()

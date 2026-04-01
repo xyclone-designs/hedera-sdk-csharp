@@ -1,15 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
-using Org.Assertj.Core.Api.Assertions;
-using Com.Google.Protobuf;
-using Proto;
-using Proto.Mirror;
-using Java.Time;
-using Org.Junit.Jupiter.Api;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Topic;
+
+using Google.Protobuf;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
@@ -28,16 +24,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             0x05,
             0x06
         };
-        private static readonly long testSequenceNumber = 7;
+        private static readonly ulong testSequenceNumber = 7;
         private static readonly TransactionId testTransactionId = new TransactionId(new AccountId(0, 0, 1), testTimestamp);
         public virtual void ConstructWithArgs()
         {
-            var consensusTopicResponse = Proto.ConsensusTopicResponse.NewBuilder().SetConsensusTimestamp(Timestamp.NewBuilder().SetSeconds(testTimestamp.GetEpochSecond())).SetMessage(ByteString.CopyFrom(testContents)).SetRunningHash(ByteString.CopyFrom(testRunningHash)).SetSequenceNumber(testSequenceNumber).SetChunkInfo(ConsensusMessageChunkInfo.NewBuilder().SetInitialTransactionID(testTransactionId.ToProtobuf()).Build()).Build();
-            TopicMessageChunk topicMessageChunk = new TopicMessageChunk(consensusTopicResponse);
-            Assert.Equal(topicMessageChunk.consensusTimestamp, testTimestamp);
-            Assert.Equal(topicMessageChunk.contentSize, testContents.Length);
-            Assert.Equal(topicMessageChunk.runningHash, testRunningHash);
-            Assert.Equal(topicMessageChunk.sequenceNumber, testSequenceNumber);
+            var consensusTopicResponse = new Proto.ConsensusTopicResponse
+            {
+                ConsensusTimestamp = new Proto.Timestamp{ Seconds = testTimestamp.ToUnixTimeSeconds() },
+                Message = ByteString.CopyFrom(testContents),
+                RunningHash = ByteString.CopyFrom(testRunningHash),
+                SequenceNumber = testSequenceNumber,
+                ChunkInfo = new Proto.ConsensusMessageChunkInfo { InitialTransactionID = testTransactionId.ToProtobuf() },
+            };
+
+            TopicMessageChunk topicMessageChunk = new (consensusTopicResponse);
+
+            Assert.Equal(topicMessageChunk.ConsensusTimestamp, testTimestamp);
+            Assert.Equal(topicMessageChunk.ContentSize, testContents.Length);
+            Assert.Equal(topicMessageChunk.RunningHash, testRunningHash);
+            Assert.Equal(topicMessageChunk.SequenceNumber, testSequenceNumber);
         }
     }
 }

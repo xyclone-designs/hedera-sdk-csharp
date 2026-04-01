@@ -10,18 +10,20 @@ using Hedera.Hashgraph.SDK.Networking;
 
 using Google.Protobuf;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     // TODO: update this, test deepClone()
     public class TokenInfoTest
     {
         /*
-    if we will init PrivateKey using method `PrivateKey.fromSeedECDSAsecp256k1(byte[] seed)` (like in C++ SDK, for example)
-    => we will get public key each time we run tests on different machines
-    => io.github.jsonSnapshot.SnapshotMatcher will fail tests
-    => we need to init PrivateKey fromString to get the same key each time
-    => `toProtobuf()` tests uses getEd25519() method to assert equality
-    */
+        if we will init PrivateKey using method `PrivateKey.fromSeedECDSAsecp256k1(byte[] seed)` (like in C++ SDK, for example)
+        => we will get public key each time we run tests on different machines
+        => io.github.jsonSnapshot.SnapshotMatcher will fail tests
+        => we need to init PrivateKey fromString to get the same key each time
+        => `toProtobuf()` tests uses getEd25519() method to assert equality
+        */
         private static readonly PublicKey testAdminKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e11").GetPublicKey();
         private static readonly PublicKey testKycKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e12").GetPublicKey();
         private static readonly PublicKey testFreezeKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e13").GetPublicKey();
@@ -73,16 +75,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             4,
             5
         };
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         private static TokenInfo SpawnTokenInfoExample()
         {
             return new TokenInfo(testTokenId, testTokenName, testTokenSymbol, testTokenDecimals, testTokenTotalSupply, testTreasuryAccountId, testAdminKey, testKycKey, testFreezeKey, testWipeKey, testSupplyKey, testFeeScheduleKey, testTokenFreezeStatus, testTokenKycStatus, testTokenIsDeleted, testAutoRenewAccountId, testAutoRenewPeriod, testExpirationTime, testTokenMemo, testTokenCustomFees, testTokenType, testTokenSupplyType, testTokenMaxSupply, testPauseKey, testTokenPauseStatus, testMetadata, testMetadataKey, testTokenLedgerId);
@@ -92,11 +84,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var originalTokenInfo = SpawnTokenInfoExample();
             byte[] tokenInfoBytes = originalTokenInfo.ToBytes();
-            var copyTokenInfo = Transaction.FromBytes<TokenInfo>(tokenInfoBytes);
+            var copyTokenInfo = TokenInfo.FromBytes(tokenInfoBytes);
             
             Assert.Equal(copyTokenInfo.ToString(), originalTokenInfo.ToString());
 
-            SnapshotMatcher.Expect(originalTokenInfo.ToString()).ToMatchSnapshot();
+            Verifier.Verify(originalTokenInfo.ToString());
         }
 
         public virtual void FromProtobuf()
@@ -155,7 +147,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenInfo.IsDeleted, testTokenIsDeleted);
             Assert.Equal(tokenInfo.AutoRenewAccount, testAutoRenewAccountId);
             Assert.Equal(tokenInfo.AutoRenewPeriod, testAutoRenewPeriod);
-            Assert.Equal(tokenInfo.ExpirationTime.ToDateTime(), testExpirationTime);
+            Assert.Equal(tokenInfo.ExpirationTime, testExpirationTime);
             Assert.Equal(tokenInfo.TokenMemo, testTokenMemo);
             Assert.Equal(tokenInfo.TokenType, testTokenType);
             Assert.Equal(tokenInfo.SupplyType, testTokenSupplyType);
@@ -172,6 +164,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ToProtobuf()
         {
             var tokenInfoProto = SpawnTokenInfoExample().ToProtobuf();
+
             Assert.Equal(tokenInfoProto.TokenInfo.TokenId.ShardNum, testTokenId.Shard);
             Assert.Equal(tokenInfoProto.TokenInfo.TokenId.RealmNum, testTokenId.Realm);
             Assert.Equal(tokenInfoProto.TokenInfo.TokenId.TokenNum, testTokenId.Num);
@@ -196,8 +189,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tokenInfoProto.TokenInfo.AutoRenewPeriod.Seconds, testAutoRenewPeriod.TotalSeconds);
             Assert.Equal(tokenInfoProto.TokenInfo.Expiry.Seconds, testExpirationTime.ToUnixTimeSeconds());
             Assert.Equal(tokenInfoProto.TokenInfo.Memo, testTokenMemo);
-            Assert.Equal(tokenInfoProto.TokenInfo.TokenType, Proto.TokenType.ValueOf(testTokenType.Name()));
-            Assert.Equal(tokenInfoProto.TokenInfo.SupplyType, Proto.TokenSupplyType.ValueOf(testTokenSupplyType.Name()));
+            Assert.Equal(tokenInfoProto.TokenInfo.TokenType, (Proto.TokenType)testTokenType);
+            Assert.Equal(tokenInfoProto.TokenInfo.SupplyType, (Proto.TokenSupplyType)testTokenSupplyType);
             Assert.Equal(tokenInfoProto.TokenInfo.MaxSupply, testTokenMaxSupply);
             Assert.Equal(tokenInfoProto.TokenInfo.FeeScheduleKey.Ed25519.ToByteArray(), testFeeScheduleKey.ToBytesRaw());
 			Assert.Equal(tokenInfoProto.TokenInfo.CustomFees.Count, testTokenCustomFees.Count);

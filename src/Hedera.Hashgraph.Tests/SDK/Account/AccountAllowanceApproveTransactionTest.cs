@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Keys;
@@ -8,6 +6,8 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
+
+using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
@@ -19,15 +19,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         private static readonly AccountId testSpenderAccountId = AccountId.FromString("8.9.0");
         private static readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
         
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual AccountAllowanceApproveTransaction SpawnTestTransaction()
         {
             var ownerId = AccountId.FromString("5.6.7");
@@ -59,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
         public virtual void ShouldBytes()
         {

@@ -1,74 +1,39 @@
 // SPDX-License-Identifier: Apache-2.0
-using Com.Fasterxml.Jackson.Annotation;
-using Com.Fasterxml.Jackson.Core;
-using Com.Fasterxml.Jackson.Core.Util;
-using Com.Fasterxml.Jackson.Databind;
-using Java.Io;
-using Javax.Annotation;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
     sealed class Snapshot
     {
-        private static readonly ObjectMapper objectMapper = BuildObjectMapper();
-        static string AsJsonString(object @object)
+        private static readonly JsonSerializerOptions Options = BuildOptions();
+
+        public static string AsJsonString(object obj)
         {
             try
             {
-                return objectMapper.Writer(BuildDefaultPrettyPrinter()).WriteValueAsString(@object);
+                return JsonSerializer.Serialize(obj, Options);
             }
-            catch (JsonProcessingException e)
+            catch (Exception e)
             {
-                throw new IOException(e);
+                throw new IOException("JSON serialization failed", e);
             }
         }
 
         /// <summary>
-        /// Unmodified copy of {@code io.github.jsonSnapshot.SnapshotMatcher#buildObjectMapper}
+        /// Equivalent to Jackson ObjectMapper configuration
         /// </summary>
-        private static ObjectMapper BuildObjectMapper()
+        private static JsonSerializerOptions BuildOptions()
         {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.Configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
-            objectMapper.SetSerializationInclusion(JsonInclude.Include.NON_NULL);
-            objectMapper.SetVisibility(objectMapper.GetSerializationConfig().GetDefaultVisibilityChecker().WithFieldVisibility(JsonAutoDetect.Visibility.ANY).WithGetterVisibility(JsonAutoDetect.Visibility.NONE).WithSetterVisibility(JsonAutoDetect.Visibility.NONE).WithCreatorVisibility(JsonAutoDetect.Visibility.NONE));
-            return objectMapper;
-        }
-
-        /// <summary>
-        /// Modified copy of {@code io.github.jsonSnapshot.SnapshotMatcher#buildDefaultPrettyPrinter}
-        /// </summary>
-        private static PrettyPrinter BuildDefaultPrettyPrinter()
-        {
-            DefaultPrettyPrinter pp = new AnonymousDefaultPrettyPrinter(this);
-            DefaultPrettyPrinter.Indenter lfOnlyIndenter = new DefaultIndenter("  ", "\n");
-            pp.IndentArraysWith(lfOnlyIndenter);
-            pp.IndentObjectsWith(lfOnlyIndenter);
-            return pp;
-        }
-
-        private sealed class AnonymousDefaultPrettyPrinter : DefaultPrettyPrinter
-        {
-            public AnonymousDefaultPrettyPrinter(Snapshot parent)
+            return new JsonSerializerOptions
             {
-                this.parent = parent;
-            }
-
-            private readonly Snapshot parent;
-            public DefaultPrettyPrinter CreateInstance()
-            {
-                return this;
-            }
-
-            public void WriteObjectFieldValueSeparator(JsonGenerator jg)
-            {
-                jg.WriteRaw(": ");
-            }
+                WriteIndented = true, // Pretty printing
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, // Ignore nulls
+                PropertyNamingPolicy = null, // Keep property names as-is
+                DictionaryKeyPolicy = null // Keep dictionary keys as-is
+            };
         }
     }
 }

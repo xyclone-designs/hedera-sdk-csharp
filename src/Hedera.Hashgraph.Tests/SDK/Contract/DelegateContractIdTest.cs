@@ -5,48 +5,40 @@ using Hedera.Hashgraph.SDK.Contract;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     class DelegateContractIdTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void FromString()
         {
-            SnapshotMatcher.Expect(DelegateContractId.FromString("0.0.5005").ToString()).ToMatchSnapshot();
+            Verifier.Verify(DelegateContractId.FromString("0.0.5005").ToString());
         }
 
         public virtual void FromSolidityAddress()
         {
-            SnapshotMatcher.Expect(DelegateContractId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(DelegateContractId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void FromSolidityAddressWith0x()
         {
-            SnapshotMatcher.Expect(DelegateContractId.FromSolidityAddress("0x000000000000000000000000000000000000138D").ToString()).ToMatchSnapshot();
+            Verifier.Verify(DelegateContractId.FromSolidityAddress("0x000000000000000000000000000000000000138D").ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(new DelegateContractId(0, 0, 5005).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(new DelegateContractId(0, 0, 5005).ToBytes()));
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(DelegateContractId.FromBytes(new DelegateContractId(0, 0, 5005).ToBytes()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(DelegateContractId.FromBytes(new DelegateContractId(0, 0, 5005).ToBytes()).ToString());
         }
 
         public virtual void ToSolidityAddress()
         {
-            SnapshotMatcher.Expect(new DelegateContractId(0, 0, 5005).ToEvmAddress()).ToMatchSnapshot();
+            Verifier.Verify(new DelegateContractId(0, 0, 5005).ToEvmAddress());
         }
 
         public virtual void FromEvmAddressIncorrectSizeTooShort()

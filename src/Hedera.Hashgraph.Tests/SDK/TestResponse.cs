@@ -10,8 +10,8 @@ namespace Hedera.Hashgraph.Tests.SDK
     {
         public readonly Proto.TransactionResponse transactionResponse;
         public readonly Proto.Response queryResponse;
-        public readonly StatusRuntimeException errorResponse;
-        private TestResponse(Proto.TransactionResponse transactionResponse, Proto.Response queryResponse, StatusRuntimeException errorResponse)
+        public readonly RpcException errorResponse;
+        private TestResponse(Proto.TransactionResponse transactionResponse, Proto.Response queryResponse, RpcException errorResponse)
         {
             this.transactionResponse = transactionResponse;
             this.queryResponse = queryResponse;
@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public static TestResponse TransactionOk(Hbar cost)
         {
-            return Transaction(ResponseStatus.Ok, cost);
+            return Transaction(Status.DefaultSuccess, cost);
         }
 
         public static TestResponse TransactionOk()
@@ -45,23 +45,33 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         public static TestResponse Receipt(Status status)
         {
-            var response = Response.NewBuilder().SetTransactionGetReceipt(TransactionGetReceiptResponse.NewBuilder().SetReceipt(TransactionReceipt.NewBuilder().SetStatus(status.code).Build()).Build()).Build();
+            var response = new Proto.Response
+            {
+                TransactionGetReceipt = new Proto.TransactionGetReceiptResponse
+                {
+                    Receipt = new Proto.TransactionReceipt { Status = (Proto.ResponseCodeEnum)status.StatusCode }
+                }
+            };
             return new TestResponse(null, response, null);
         }
 
         public static TestResponse SuccessfulReceipt()
         {
-            return Receipt(ResponseStatus.Success);
+            return Receipt(Status.DefaultSuccess);
         }
 
-        public static TestResponse Error(StatusRuntimeException exception)
+        public static TestResponse Error(RpcException exception)
         {
             return new TestResponse(null, null, exception);
         }
 
-        public static TransactionResponse BuildTransactionResponse(Status status, Hbar cost)
+        public static Proto.TransactionResponse BuildTransactionResponse(Status status, Hbar cost)
         {
-            return TransactionResponse.NewBuilder().SetNodeTransactionPrecheckCode(status.code).SetCost(cost.ToTinybars()).Build();
+            return new Proto.TransactionResponse
+            {
+                NodeTransactionPrecheckCode = (Proto.ResponseCodeEnum)status.StatusCode,
+                Cost = (ulong)cost.ToTinybars()
+            };
         }
     }
 }

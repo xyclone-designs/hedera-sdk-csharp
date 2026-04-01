@@ -14,6 +14,8 @@ using Hedera.Hashgraph.SDK.Account;
 
 using Google.Protobuf;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
     public class TopicInfoTest
@@ -48,39 +50,29 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 FeeScheduleKey = feeScheduleKey.GetPublicKey().ToProtobufKey(),
                 AutoRenewAccount = new AccountId(0, 0, 4).ToProtobuf(),
                 LedgerId = LedgerId.TESTNET.ToByteString(),
-                FeeExemptKeyList = [.. feeExemptKeys.Select(_ = _.GetPublicKey().ToProtobufKey())],
-                CustomFees = [.. customFees.Select(_ => _.ToTopicFeeProtobuf())],
+                FeeExemptKeyList = { feeExemptKeys.Select(_ => _.GetPublicKey().ToProtobufKey()) },
+                CustomFees = { customFees.Select(_ => _.ToTopicFeeProtobuf()) },
             }
         };
             
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(TopicInfo.FromProtobuf(info).ToString()).ToMatchSnapshot();
+            Verifier.Verify(TopicInfo.FromProtobuf(info).ToString());
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(TopicInfo.FromProtobuf(info).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(TopicInfo.FromProtobuf(info).ToProtobuf().ToString());
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(TopicInfo.FromBytes(info.ToByteArray()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(TopicInfo.FromBytes(info.ToByteArray()).ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(TopicInfo.FromProtobuf(info).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(TopicInfo.FromProtobuf(info).ToBytes()));
         }
     }
 }

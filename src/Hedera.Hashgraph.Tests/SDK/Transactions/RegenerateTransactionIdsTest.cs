@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 try
                 {
-                    var transaction = (Transaction<>)o;
+                    var transaction = (ITransaction)o;
                     var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(transaction.SignedTransactionBytes);
                     var transactionBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
                     var transactionId = TransactionId.FromProtobuf(transactionBody.TransactionID);

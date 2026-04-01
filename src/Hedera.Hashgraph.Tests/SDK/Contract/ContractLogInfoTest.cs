@@ -5,6 +5,8 @@ using Hedera.Hashgraph.SDK.Contract;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractLogInfoTest
@@ -16,35 +18,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 			//Topic = [ByteString.CopyFromUtf8("bloom")],
 			Data = ByteString.CopyFromUtf8("data"),
 		};
-        
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void FromProtobuf()
         {
-            SnapshotMatcher.Expect(ContractLogInfo.FromProtobuf(info).ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractLogInfo.FromProtobuf(info).ToString());
         }
 
         public virtual void ToProtobuf()
         {
-            SnapshotMatcher.Expect(ContractLogInfo.FromProtobuf(info).ToProtobuf().ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractLogInfo.FromProtobuf(info).ToProtobuf().ToString());
         }
 
         public virtual void FromBytes()
         {
-            SnapshotMatcher.Expect(ContractLogInfo.FromBytes(info.ToByteArray()).ToString()).ToMatchSnapshot();
+            Verifier.Verify(ContractLogInfo.FromBytes(info.ToByteArray()).ToString());
         }
 
         public virtual void ToBytes()
         {
-            SnapshotMatcher.Expect(Hex.ToHexString(ContractLogInfo.FromProtobuf(info).ToBytes())).ToMatchSnapshot();
+            Verifier.Verify(Hex.ToHexString(ContractLogInfo.FromProtobuf(info).ToBytes()));
         }
     }
 }

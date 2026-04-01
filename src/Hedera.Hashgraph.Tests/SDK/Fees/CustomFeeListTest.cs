@@ -5,20 +5,12 @@ using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Account;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
     public class CustomFeeListTest
     {
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
-
         private static IList<CustomFee> SpawnCustomFeeListExample()
         {
             return new List<CustomFee>
@@ -44,7 +36,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             
             Assert.Equal(originalCustomFeeList.ToString(), copyCustomFeeList.ToString());
 
-            SnapshotMatcher.Expect(originalCustomFeeList.ToString()).ToMatchSnapshot();
+            Verifier.Verify(originalCustomFeeList.ToString());
         }
 
         public virtual void DeepClone()
@@ -62,7 +54,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             ((CustomFixedFee)copyCustomFeeList[0]).DenominatingTokenId = new TokenId(0, 0, 89803);
             Assert.Equal(originalCustomFeeListString, originalCustomFeeList.ToString());
 
-            SnapshotMatcher.Expect(originalCustomFeeList.ToString()).ToMatchSnapshot();
+            Verifier.Verify(originalCustomFeeList.ToString());
         }
     }
 }

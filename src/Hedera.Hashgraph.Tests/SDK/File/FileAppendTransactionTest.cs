@@ -13,6 +13,8 @@ using Hedera.Hashgraph.SDK.HBar;
 
 using Google.Protobuf;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
     public class FileAppendTransactionTest
@@ -21,19 +23,10 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         private static readonly PrivateKey unusedPrivateKey = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly PrivateKey secondPrivateKey = PrivateKey.FromString("302e020100300506032b65700422042099b8587e5abccf6999b0d42b88c581c45284290450487ce90095561c85af11e4");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction([AccountId.FromString("0.0.5005")]).ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction([AccountId.FromString("0.0.5005")]).ToString());
         }
 
         private FileAppendTransaction SpawnTestTransaction(IList<AccountId> accountIds)
@@ -64,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             nodeAccountIds.Add(AccountId.FromString("0.0.444"));
             nodeAccountIds.Add(AccountId.FromString("0.0.555"));
 
-            SnapshotMatcher.Expect(SpawnTestTransactionBigContents(nodeAccountIds).ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransactionBigContents(nodeAccountIds).ToString());
         }
 
         private FileAppendTransaction SpawnTestTransactionBigContents(List<AccountId> nodeAccountIds)
@@ -109,7 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
                 AccountId.FromString("0.0.555")
             };
             
-            SnapshotMatcher.Expect(HashesToString(SpawnTestTransactionBigContents(nodeAccountIds).GetAllTransactionHashesPerNode())).ToMatchSnapshot();
+            Verifier.Verify(HashesToString(SpawnTestTransactionBigContents(nodeAccountIds).GetAllTransactionHashesPerNode()));
         }
 
         public virtual string SignaturesToString(IDictionary<AccountId, IDictionary<PublicKey, byte[]>> signatures)
@@ -151,7 +144,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             };
             var signatures = SpawnTestTransaction(nodeAccountIds).Sign(secondPrivateKey).GetSignatures();
             
-            SnapshotMatcher.Expect(SignaturesToString(signatures)).ToMatchSnapshot();
+            Verifier.Verify(SignaturesToString(signatures));
         }
 
         public virtual void ShouldGetAllSignatures()
@@ -164,7 +157,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
             var signatures = SpawnTestTransactionBigContents(nodeAccountIds).Sign(secondPrivateKey).GetAllSignatures();
             
-            SnapshotMatcher.Expect(AllSignaturesToString(signatures)).ToMatchSnapshot();
+            Verifier.Verify(AllSignaturesToString(signatures));
         }
 
         public virtual void ShouldBytes()

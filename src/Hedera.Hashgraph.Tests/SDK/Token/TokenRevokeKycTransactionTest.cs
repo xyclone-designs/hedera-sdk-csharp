@@ -9,6 +9,8 @@ using Hedera.Hashgraph.SDK.HBar;
 
 using Google.Protobuf.WellKnownTypes;
 
+using VerifyXunit;
+
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
     public class TokenRevokeKycTransactionTest
@@ -17,19 +19,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         private static readonly TokenId testTokenId = TokenId.FromString("4.2.0");
         private static readonly AccountId testAccountId = AccountId.FromString("6.9.0");
         private readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
-        public static void BeforeAll()
-        {
-            SnapshotMatcher.Start(Snapshot.AsJsonString());
-        }
-
-        public static void AfterAll()
-        {
-            SnapshotMatcher.ValidateSnapshots();
-        }
 
         public virtual void ShouldSerialize()
         {
-            SnapshotMatcher.Expect(SpawnTestTransaction().ToString()).ToMatchSnapshot();
+            Verifier.Verify(SpawnTestTransaction().ToString());
         }
 
         private TokenRevokeKycTransaction SpawnTestTransaction()
