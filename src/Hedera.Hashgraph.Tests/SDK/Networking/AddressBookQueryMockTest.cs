@@ -4,6 +4,7 @@ using Grpc.Core;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.File;
+using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Networking;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,13 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
-	class AddressBookQueryMockTest
+	public class AddressBookQueryMockTest
 	{
 		private Client client;
 		private readonly AddressBookQueryStub addressBookServiceStub = new ();
 		private Server server;
 		private AddressBookQuery addressBookQuery;
+
 		public virtual void Setup()
 		{
 			client = Client.ForNetwork([], _ =>
@@ -34,7 +36,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             server.Start();
             addressBookQuery = new AddressBookQuery { FileId = FileId.ADDRESS_BOOK };
 		}
-
 		public virtual void Teardown()
 		{
 			addressBookServiceStub.Verify();
@@ -43,7 +44,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             server?.ShutdownAsync();
         }
 
-		public virtual void AddressBookQueryWorks(string executeVersion)
+        [Theory]
+        [InlineData("")]
+        public virtual void AddressBookQueryWorks(string executeVersion)
 		{
 			addressBookServiceStub.requests.Append(new Proto.AddressBookQuery { FileId = FileId.ADDRESS_BOOK.ToProtobuf(), Limit = 3 });
 			addressBookServiceStub.responses.Append(new NodeAddress { AccountId = AccountId.FromString("0.0.3") }.ToProtobuf());
@@ -62,8 +65,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
                 Port = BaseNodeAddress.PORT_NODE_PLAIN
             };
 		}
-
-		public virtual void NetworkUpdatePeriodWorks()
+        [Fact]
+        public virtual void NetworkUpdatePeriodWorks()
 		{
 			addressBookServiceStub.requests.Append(new Proto.AddressBookQuery { FileId = FileId.ADDRESS_BOOK.ToProtobuf() });
 			addressBookServiceStub.responses.Append(new NodeAddress { AccountId = AccountId.FromString("0.0.3"), Addresses = [SpawnEndpoint()] }.ToProtobuf());
@@ -74,8 +77,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 			Assert.Single(client.Network_.Network_Read);
 			Assert.True(client.Network_.Network_Read.Keys.Contains(AccountId.FromString("0.0.3")));
 		}
-
-		public virtual void AddressBookQueryRetries(string executeVersion, Status code, string description)
+        [Theory]
+        [MemberData(nameof(AddressBookQueryRetries_Data))]
+        public virtual void AddressBookQueryRetries(string executeVersion, Status code, string description)
 		{
 			addressBookServiceStub.requests.Append(new Proto.AddressBookQuery { FileId = FileId.ADDRESS_BOOK.ToProtobuf() });
 			addressBookServiceStub.requests.Append(new Proto.AddressBookQuery { FileId = FileId.ADDRESS_BOOK.ToProtobuf() });
@@ -86,9 +90,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
 			Assert.Single(nodes.NodeAddresses);
 			Assert.Equal(nodes.NodeAddresses[0].AccountId, AccountId.FromString("0.0.3"));
-		}
+        }
+        public static IEnumerable<object?[]> AddressBookQueryRetries_Data() { yield return ["", Status.DefaultSuccess, ""]; }
 
-		public virtual void AddressBookQueryFails(string executeVersion, Status code, string description)
+        public virtual void AddressBookQueryFails(string executeVersion, Status code, string description)
 		{
 			addressBookServiceStub.requests.Append(new Proto.AddressBookQuery { FileId = FileId.ADDRESS_BOOK.ToProtobuf() });
 			//addressBookServiceStub.responses.Append(code.ToStatus().WithDescription(description).AsRuntimeException());

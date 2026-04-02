@@ -4,8 +4,9 @@ using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class HookIdTest
+    public class HookIdTest
     {
+        [Fact]
         public virtual void ToFromProtoAndEquality()
         {
             var acct = new AccountId(0, 0, 1001);

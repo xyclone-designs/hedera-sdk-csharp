@@ -13,9 +13,11 @@ using Google.Protobuf.WellKnownTypes;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class LiveHashAddIntegrationTest
+    public class LiveHashAddIntegrationTest
     {
         private static readonly byte[] HASH = Hex.Decode("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002");
+
+        [Fact]
         public virtual void CannotCreateLiveHashBecauseItsNotSupported()
         {
             using (var testEnv = new IntegrationTestEnv(1))

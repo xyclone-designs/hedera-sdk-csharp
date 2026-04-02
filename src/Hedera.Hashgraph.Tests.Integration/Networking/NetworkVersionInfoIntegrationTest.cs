@@ -5,6 +5,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class NetworkVersionInfoIntegrationTest
     {
+        [Fact]
         public virtual void CannotQueryNetworkVersionInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))

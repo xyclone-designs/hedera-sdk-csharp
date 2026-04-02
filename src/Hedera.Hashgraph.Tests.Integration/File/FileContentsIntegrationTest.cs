@@ -9,7 +9,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
 	public class FileContentsIntegrationTest
 	{
-		public virtual void CanQueryFileContents()
+        [Fact]
+        public virtual void CanQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{
@@ -28,8 +29,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				new FileDeleteTransaction { FileId = fileId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 			}
 		}
-
-		public virtual void CanQueryEmptyFileContents()
+        [Fact]
+        public virtual void CanQueryEmptyFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{
@@ -46,8 +47,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				new FileDeleteTransaction { FileId = fileId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 			}
 		}
-
-		public virtual void CannotQueryFileContentsWhenFileIDIsNotSet()
+        [Fact]
+        public virtual void CannotQueryFileContentsWhenFileIDIsNotSet()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{
@@ -59,8 +60,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains(ResponseStatus.InvalidFileId.ToString(), exception.Message);
 			}
 		}
-
-		public virtual void GetCostBigMaxQueryFileContents()
+        [Fact]
+        public virtual void GetCostBigMaxQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{
@@ -84,8 +85,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				new FileDeleteTransaction { FileId = fileId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 			}
 		}
-
-		public virtual void GetCostSmallMaxQueryFileContents()
+        [Fact]
+        public virtual void GetCostSmallMaxQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{
@@ -111,8 +112,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				new FileDeleteTransaction { FileId = fileId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
 			}
 		}
-
-		public virtual void GetCostInsufficientTxFeeQueryFileContents()
+        [Fact]
+        public virtual void GetCostInsufficientTxFeeQueryFileContents()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
 			{

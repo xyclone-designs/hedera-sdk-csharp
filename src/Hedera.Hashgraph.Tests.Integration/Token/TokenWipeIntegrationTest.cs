@@ -8,8 +8,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenWipeIntegrationTest
+    public class TokenWipeIntegrationTest
     {
+        [Fact]
         public virtual void CanWipeAccountsBalance()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -62,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanWipeAccountsNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -126,7 +127,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotWipeAccountsNftsIfNotOwned()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -191,7 +192,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.AccountDoesNotOwnWipedNft.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotWipeAccountsBalanceWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -253,7 +254,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotWipeAccountsBalanceWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -321,7 +322,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanWipeAccountsBalanceWhenAmountIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class ScheduleTransactionIntegrationTest
     {
+        [Fact]
         public virtual void ShouldChargeHbarsWithLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -83,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -157,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

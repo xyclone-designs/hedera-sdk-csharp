@@ -10,7 +10,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Transactions
 {
-    class TransactionIdTest
+    public class TransactionIdTest
     {
         public virtual void ShouldSerialize()
         {

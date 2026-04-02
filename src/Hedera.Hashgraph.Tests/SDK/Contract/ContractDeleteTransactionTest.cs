@@ -35,21 +35,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<ContractDeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ContractDeleteTransaction();
             var tx2 = Transaction.FromBytes<ContractDeleteTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<ContractDeleteTransaction>(tx);
         }
-
+        [Fact]
         public virtual void SetsPermanentRemovalInProtobufBody()
         {
             var tx = new ContractDeleteTransaction
@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             Assert.True(proto.PermanentRemoval);
         }
-
+        [Fact]
         public virtual void ShouldSupportPermanentRemovalBytesRoundTrip()
         {
             var tx = new ContractDeleteTransaction

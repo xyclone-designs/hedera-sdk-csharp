@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             Verifier.Verify(SpawnTestTransaction2().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ContractUpdateTransaction();
@@ -74,7 +74,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             .Freeze()
             .Sign(privateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytes2()
         {
             var tx = SpawnTestTransaction2();
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldSupportExpirationTimeDurationBytesRoundTrip()
         {
             var tx = new ContractUpdateTransaction
@@ -115,14 +115,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(tx2.ToString(), tx.ToString());
             Assert.Equal(tx2.ExpirationTime, DateTimeOffset.FromUnixTimeMilliseconds(1234));
         }
-
+        [Fact]
         public virtual void SetExpirationTimeDurationOnFrozenTransactionShouldThrow()
         {
             var tx = SpawnTestTransaction();
 
             Assert.Throws<InvalidOperationException>(() => tx.ExpirationTime = DateTimeOffset.FromUnixTimeMilliseconds(1));
         }
-
+        [Fact]
         public virtual void GetSetExpirationTimeDateTime()
         {
             var instant = DateTimeOffset.FromUnixTimeMilliseconds(1234567);
@@ -132,7 +132,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 			};
             Assert.Equal(tx.ExpirationTime, instant);
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody

@@ -14,7 +14,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
-    class AccountIdTest
+    public class AccountIdTest
     {
         static Client mainnetClient;
         static Client testnetClient;
@@ -32,42 +32,42 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             testnetClient.Dispose();
             previewnetClient.Dispose();
         }
-
+        
         public virtual void FromString()
         {
             Verifier.Verify(AccountId.FromString("0.0.5005").ToString());
         }
-
+        
         public virtual void FromStringWithChecksumOnMainnet()
         {
             Verifier.Verify(AccountId.FromString("0.0.123-vfmkw").ToStringWithChecksum(mainnetClient));
         }
-
+        
         public virtual void FromStringWithChecksumOnTestnet()
         {
             Verifier.Verify(AccountId.FromString("0.0.123-esxsf").ToStringWithChecksum(testnetClient));
         }
-
+        
         public virtual void FromStringWithChecksumOnPreviewnet()
         {
             Verifier.Verify(AccountId.FromString("0.0.123-ogizo").ToStringWithChecksum(previewnetClient));
         }
-
+        
         public virtual void GoodChecksumOnMainnet()
         {
             AccountId.FromString("0.0.123-vfmkw").ValidateChecksum(mainnetClient);
         }
-
+        
         public virtual void GoodChecksumOnTestnet()
         {
             AccountId.FromString("0.0.123-esxsf").ValidateChecksum(testnetClient);
         }
-
+        
         public virtual void GoodChecksumOnPreviewnet()
         {
             AccountId.FromString("0.0.123-ogizo").ValidateChecksum(previewnetClient);
         }
-
+        [Fact]
         public virtual void BadChecksumOnPreviewnet()
         {
             Assert.Throws<BadEntityIdException>(() =>
@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 AccountId.FromString("0.0.123-ntjli").ValidateChecksum(previewnetClient);
             });
         }
-
+        [Fact]
         public virtual void MalformedIdString()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 AccountId.FromString("0.0.");
             });
         }
-
+        [Fact]
         public virtual void MalformedIdChecksum()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -91,7 +91,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 AccountId.FromString("0.0.123-ntjl");
             });
         }
-
+        [Fact]
         public virtual void MalformedIdChecksum2()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 AccountId.FromString("0.0.123-ntjl1");
             });
         }
-
+        [Fact]
         public virtual void MalformedAliasKey()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf777");
             });
         }
-
+        [Fact]
         public virtual void MalformedAliasKey2()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -115,7 +115,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf777g");
             });
         }
-
+        [Fact]
         public virtual void MalformedAliasKey3()
         {
 			Assert.Throws<ArgumentException>(() =>
@@ -123,97 +123,97 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
                 AccountId.FromString("0.0.303a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777");
             });
         }
-
+        
         public virtual void FromStringWithAliasKey()
         {
             Verifier.Verify(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToString());
         }
-
+        
         public virtual void FromStringWithEvmAddress()
         {
             Verifier.Verify(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToString());
         }
-
+        
         public virtual void FromSolidityAddress()
         {
             Verifier.Verify(AccountId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString());
         }
-
+        
         public virtual void FromSolidityAddressWith0x()
         {
             Verifier.Verify(AccountId.FromSolidityAddress("0x000000000000000000000000000000000000138D").ToString());
         }
-
+        
         public virtual void ToBytes()
         {
             Verifier.Verify(Hex.ToHexString(new AccountId(0, 0, 5005).ToProtobuf().ToByteArray()));
         }
-
+        
         public virtual void ToBytesAlias()
         {
             Verifier.Verify(Hex.ToHexString(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToBytes()));
         }
-
+        
         public virtual void ToBytesEvmAddress()
         {
             Verifier.Verify(Hex.ToHexString(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToBytes()));
         }
-
+        
         public virtual void FromBytes()
         {
             Verifier.Verify(AccountId.FromBytes(new AccountId(0, 0, 5005).ToBytes()).ToString());
         }
-
+        [Fact]
         public virtual void ToFromProtobuf()
         {
             var id1 = new AccountId(0, 0, 5005);
             var id2 = AccountId.FromProtobuf(id1.ToProtobuf());
             Assert.Equal(id2, id1);
         }
-
+        
         public virtual void FromBytesAlias()
         {
             Verifier.Verify(AccountId.FromBytes(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777").ToBytes()).ToString());
         }
-
+        [Fact]
         public virtual void ToFromProtobufAliasKey()
         {
             var id1 = AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82dab5c15ea149f02d34a012087b163516dd70f44acafabf7777");
             var id2 = AccountId.FromProtobuf(id1.ToProtobuf());
             Assert.Equal(id2, id1);
         }
-
+        [Fact]
         public virtual void ToFromProtobufEcdsaAliasKey()
         {
             var id1 = AccountId.FromString("0.0.302d300706052b8104000a032200035d348292bbb8b511fdbe24e3217ec099944b4728999d337f9a025f4193324525");
             var id2 = AccountId.FromProtobuf(id1.ToProtobuf());
             Assert.Equal(id2, id1);
         }
-
+        
         public virtual void FromBytesEvmAddress()
         {
             Verifier.Verify(AccountId.FromBytes(AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da").ToBytes()).ToString());
         }
-
+        [Fact]
         public virtual void ToFromProtobufEvmAddress()
         {
             var id1 = AccountId.FromString("0.0.302a300506032b6570032100114e6abc371b82da");
             var id2 = AccountId.FromProtobuf(id1.ToProtobuf());
             Assert.Equal(id2, id1);
         }
-
+        [Fact]
         public virtual void ToFromProtobufRawEvmAddress()
         {
             var id1 = AccountId.FromString("302a300506032b6570032100114e6abc371b82da");
             var id2 = AccountId.FromProtobuf(id1.ToProtobuf());
             Assert.Equal(id2, id1);
         }
-
+        
         public virtual void ToSolidityAddress()
         {
             Verifier.Verify(new AccountId(0, 0, 5005).ToEvmAddress());
         }
-
+        [Fact]
         public virtual void FromEvmAddress()
         {
             string evmAddress = "302a300506032b6570032100114e6abc371b82da";
@@ -222,7 +222,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.Shard, 5);
             Assert.Equal(id.Realm, 9);
         }
-
+        [Fact]
         public virtual void FromEvmAddressWithPrefix()
         {
             string evmAddressString = "302a300506032b6570032100114e6abc371b82da";
@@ -231,7 +231,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             var id2 = AccountId.FromEvmAddress("0x" + evmAddressString, 0, 0);
             Assert.Equal(id2, id1);
         }
-
+        [Fact]
         public virtual void FromEvmAddressNormalAddress()
         {
             string evmAddress = "742d35Cc6634C0532925a3b844Bc454e4438f44e";
@@ -242,7 +242,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.Num, 0);
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
-
+        [Fact]
         public virtual void FromEvmAddressWithDifferentShardAndRealm()
         {
             string evmAddress = "742d35Cc6634C0532925a3b844Bc454e4438f44e";
@@ -253,7 +253,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.Num, 0);
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
-
+        [Fact]
         public virtual void FromEvmAddressLongZeroAddress()
         {
             string evmAddress = "00000000000000000000000000000000000004d2";
@@ -264,7 +264,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.Num, 0);
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
-
+        [Fact]
         public virtual void FromEvmAddressLongZeroAddressWithShardAndRealm()
         {
             string evmAddress = "00000000000000000000000000000000000004d2";
@@ -275,26 +275,26 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(id.Num, 0);
             Assert.Equal(id.EvmAddress.ToBytes(), expectedBytes);
         }
-
+        [Fact]
         public virtual void ToEvmAddressNormalAccountId()
         {
             AccountId id = new AccountId(0, 0, 123);
             Assert.Equal(id.ToEvmAddress(), "000000000000000000000000000000000000007b");
         }
-
+        [Fact]
         public virtual void ToEvmAddressWithDifferentShardAndRealm()
         {
             AccountId id = new AccountId(1, 1, 123);
             Assert.Equal(id.ToEvmAddress(), "000000000000000000000000000000000000007b");
         }
-
+        [Fact]
         public virtual void ToEvmAddressLongZeroAddress()
         {
             string longZeroAddress = "00000000000000000000000000000000000004d2";
             AccountId id = AccountId.FromEvmAddress(longZeroAddress, 1, 1);
             Assert.Equal(id.ToEvmAddress(), longZeroAddress.ToLower());
         }
-
+        [Fact]
         public virtual void ToEvmAddressNormalEvmAddress()
         {
             string evmAddress = "742d35Cc6634C0532925a3b844Bc454e4438f44e";
@@ -302,7 +302,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             string expected = evmAddress.ToLower();
             Assert.Equal(id.ToEvmAddress(), expected);
         }
-
+        [Fact]
         public virtual void ToEvmAddressNormalEvmAddressWithShardAndRealm()
         {
             string evmAddress = "742d35Cc6634C0532925a3b844Bc454e4438f44e";

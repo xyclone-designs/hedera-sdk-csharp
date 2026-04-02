@@ -9,9 +9,11 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenAirdropTransactionIntegrationTest
+    public class TokenAirdropTransactionIntegrationTest
     {
         private readonly int amount = 100;
+
+        [Fact]
         public virtual void CanAirdropAssociatedTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -54,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CanAirdropNonAssociatedTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -108,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal((ulong)EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CanAirdropToAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -150,7 +152,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CanAirdropWithCustomFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -230,7 +232,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.fungibleInitialBalance - (ulong)amount, operatorBalance.Tokens[tokenID]);
             }
         }
-
+        [Fact]
         public virtual void CanAirdropTokensWithReceiverSigRequiredFungible()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -256,7 +258,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .AddTokenTransfer(tokenID, testEnv.OperatorId, -amount).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanAirdropTokensWithReceiverSigRequiredNFT()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -291,7 +293,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .AddNftTransfer(nftID.Nft(nftSerials[1]), testEnv.OperatorId, receiverAccountId).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotAirdropTokensWithAllowanceAndWithoutBalanceFungible()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -333,7 +335,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.NotSupported.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotAirdropTokensWithAllowanceAndWithoutBalanceNFT()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -384,7 +386,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.NotSupported.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotAirdropTokensWithInvalidBody()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

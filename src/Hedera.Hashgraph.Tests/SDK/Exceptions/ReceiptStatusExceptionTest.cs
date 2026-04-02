@@ -7,8 +7,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.Tests.SDK.Exceptions
 {
-    class ReceiptStatusExceptionTest
+    public class ReceiptStatusExceptionTest
     {
+        [Fact]
         public virtual void ShouldHaveMessage()
         {
             var validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);

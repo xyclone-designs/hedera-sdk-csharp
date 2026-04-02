@@ -10,13 +10,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
     public class ECDSAPrivateKeyTest
     {
         private static readonly string TEST_VECTOR_PEM_PASSPHRASE = "asdasd123";
+        [Fact]
         public virtual void KeyGenerates()
         {
             PrivateKey key = PrivateKey.GenerateECDSA();
             Assert.NotNull(key);
             Assert.NotNull(key.ToBytes());
         }
-
+        [Fact]
         public virtual void KeySerialization()
         {
             PrivateKey key1 = PrivateKey.GenerateECDSA();
@@ -25,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key2Bytes = key2.ToBytes();
             Assert.Equal(key2Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeySerialization2()
         {
             PrivateKey key1 = PrivateKey.GenerateECDSA();
@@ -37,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             // because they're indistinguishable from ED25519 raw bytes
             Assert.Equal(key2Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeySerialization3()
         {
             PrivateKey key1 = PrivateKey.GenerateECDSA();
@@ -49,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeyStringification()
         {
             PrivateKey key1 = PrivateKey.GenerateECDSA();
@@ -58,7 +59,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             string key2String = key2.ToString();
             Assert.Equal(key2String, key1String);
         }
-
+        [Fact]
         public virtual void KeyStringification2()
         {
             PrivateKey key1 = PrivateKey.GenerateECDSA();
@@ -70,7 +71,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             // because it's indistinguishable from ED25519 raw string
             Assert.Equal(key2String, key1String);
         }
-
+        [Fact]
         public virtual void KeyStringification3()
         {
             PrivateKey key1 = PrivateKey.GenerateECDSA();
@@ -82,13 +83,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2String, key1String);
             Assert.Equal(key3String, key1String);
         }
-
+        [Fact]
         public virtual void KeyIsECDSA()
         {
             PrivateKey key = PrivateKey.GenerateECDSA();
             Assert.True(key.IsECDSA());
         }
-
+        [Fact]
         public virtual void KeyIsNotEd25519()
         {
             PrivateKey key = PrivateKey.GenerateECDSA();
@@ -107,7 +108,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 
             return data;
         }
-
+        [Fact]
         public virtual void Slip10TestVector1()
         {
 
@@ -168,7 +169,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
             Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
-
+        [Fact]
         public virtual void Slip10TestVector2()
         {
 
@@ -229,7 +230,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
             Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
-
+        [Fact]
         public virtual void PEMImportTestVectors()
         {
 
@@ -259,7 +260,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(ecdsaPrivateKey4.ToStringRaw(), PRIVATE_KEY4);
             Assert.Equal(ecdsaPrivateKey4.GetPublicKey().ToStringRaw(), PUBLIC_KEY4);
         }
-
+        [Fact]
         public virtual void DERImportTestVectors()
         {
 

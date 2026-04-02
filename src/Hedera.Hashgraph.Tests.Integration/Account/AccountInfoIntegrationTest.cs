@@ -8,8 +8,9 @@ using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountInfoIntegrationTest
+    public class AccountInfoIntegrationTest
     {
+        [Fact]
         public virtual void CanQueryAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -28,6 +29,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
+        [Fact]
         public virtual void GetCostAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -44,6 +46,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(accInfo.AccountId, testEnv.OperatorId);
             }
         }
+        [Fact]
         public virtual void GetCostBigMaxAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -60,6 +63,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(accInfo.AccountId, testEnv.OperatorId);
             }
         }
+        [Fact]
         public virtual void GetCostSmallMaxAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -79,6 +83,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(exception.Message, "MaxQueryPaymentExceededException: cost for AccountInfoQuery, of " + cost.ToString() + ", without explicit payment is greater than the maximum allowed payment of 1 tℏ");
             }
         }
+        [Fact]
         public virtual void GetCostInsufficientTxFeeAccountInfoForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -98,6 +103,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal("INSUFFICIENT_TX_FEE", exception.Status.ToString());
 			}
         }
+        [Fact]
         public virtual void AccountInfoFlowVerifyFunctions()
         {
             using (var testEnv = new IntegrationTestEnv(1))

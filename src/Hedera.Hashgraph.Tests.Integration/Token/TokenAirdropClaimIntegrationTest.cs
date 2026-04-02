@@ -10,9 +10,11 @@ using Hedera.Hashgraph.SDK.Airdrops;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenAirdropClaimIntegrationTest
+    public class TokenAirdropClaimIntegrationTest
     {
         private readonly int amount = 100;
+
+        [Fact]
         public virtual void CanClaimTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -87,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CanClaimTokensToMultipleReceivers()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -171,7 +173,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts - 4, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CanClaimTokensFromMultipleAirdropTxns()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -239,7 +241,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts - 2, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CannotClaimTokensForNonExistingAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -274,7 +276,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotClaimTokensForAlreadyClaimedAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -315,7 +317,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidPendingAirdropId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotClaimWithEmptyPendingAirdropsList()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -333,7 +335,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.EmptyPendingAirdropIdList.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotClaimTokensWithDuplicateEntries()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -366,7 +368,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.PendingAirdropIdRepeated.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotClaimTokensWhenTokenIsPaused()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -404,7 +406,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.TokenIsPaused.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotClaimTokensWhenTokenIsDeleted()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -442,7 +444,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.TokenWasDeleted.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotClaimTokensWhenTokenIsFrozen()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

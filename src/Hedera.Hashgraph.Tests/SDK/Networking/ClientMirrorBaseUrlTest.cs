@@ -16,12 +16,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         {
             executor = new ExecutorService();
         }
-
         public virtual void TearDown()
         {
             executor?.ForceShutdown();
         }
-
+        [Fact]
         public virtual void HostPort_customPort_preserved_https_whenLedgerSet()
         {
             var network = Network.ForNetwork(executor, []);
@@ -31,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             string _base = client.MirrorRestBaseUrl;
             Assert.Equal(_base, "https://mirror.example.com:8080/api/v1");
         }
-
+        [Fact]
         public virtual void HostPort_defaultHttpsPort_omitted()
         {
             var network = Network.ForNetwork(executor, []);
@@ -41,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             string _base = client.MirrorRestBaseUrl;
             Assert.Equal(_base, "https://mirror.example.com/api/v1");
         }
-
+        [Fact]
         public virtual void LocalNetwork_regularQuery_swaps5600to5551()
         {
             var network = Network.ForNetwork(executor, []);
@@ -50,7 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             string _base = client.MirrorRestBaseUrl;
             Assert.Equal(_base, "http://localhost:5551/api/v1");
         }
-
+        [Fact]
         public virtual void LocalNetwork_contractCall_swaps5600to5551()
         {
             var network = Network.ForNetwork(executor, []);
@@ -59,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             string _base = client.MirrorRestBaseUrl;
             Assert.Equal(_base, "http://127.0.0.1:5551/api/v1");
         }
-
+        [Fact]
         public virtual void EmptyMirrorNetwork_throws_whenAccessingBase()
         {
             var network = Network.ForNetwork(executor, []);

@@ -13,6 +13,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 {
     public class AccountCreateTransactionHooksTest
     {
+        [Fact]
         public virtual void TestAccountCreateTransactionWithHooks()
         {
             // Create a test contract ID
@@ -60,7 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.NotNull(secondHook.HookId);
             Assert.True(secondHook.Hook.StorageUpdates.Count == 0);
         }
-
+        [Fact]
         public virtual void TestAccountCreateTransactionSetHooks()
         {
             ContractId contractId = new ContractId(200);
@@ -82,7 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(1, retrievedHooks.Count);
             Assert.Equal(hookDetails, retrievedHooks[0]);
         }
-
+        [Fact]
         public virtual void TestAccountCreateTransactionHookValidation()
         {
             ContractId contractId = new ContractId(300);
@@ -106,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(1, proto.HookCreationDetails[0].HookId);
             Assert.Equal(1, proto.HookCreationDetails[1].HookId);
         }
-
+        [Fact]
         public virtual void TestAccountCreateTransactionProtobufSerialization()
         {
             ContractId contractId = new ContractId(400);
@@ -131,7 +132,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Equal(1, protoHookDetails.HookId);
             Assert.True(protoHookDetails.EvmHook is not null);
         }
-
+        [Fact]
         public virtual void TestAccountCreateTransactionEmptyHooks()
         {
             // Test transaction without hooks
@@ -150,7 +151,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             Assert.Equal(0, protoBody.HookCreationDetails.Count);
         }
-
+        [Fact]
         public virtual void TestAccountCreateTransactionHooksPersistThroughBytesRoundTrip()
         {
             // Create contract and hook details

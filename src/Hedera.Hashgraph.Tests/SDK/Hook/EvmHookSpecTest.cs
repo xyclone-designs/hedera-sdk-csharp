@@ -4,8 +4,9 @@ using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class EvmHookSpecTest
+    public class EvmHookSpecTest
     {
+        [Fact]
         public virtual void GetContractIdReturnsProvidedValue()
         {
             var cid = new ContractId(0, 0, 1234);
@@ -13,6 +14,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             
             Assert.Equal(cid, spec.ContractId);
         }
+        [Fact]
         public virtual void EqualsAndHashCodeDependOnContractId()
         {
             var a = new EvmHook(new ContractId(0, 0, 1));
@@ -23,6 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(a.GetHashCode(), b.GetHashCode());
             Assert.NotEqual(a, c);
         }
+        [Fact]
         public virtual void ToStringContainsContractId()
         {
             var cid = new ContractId(0, 0, 42);

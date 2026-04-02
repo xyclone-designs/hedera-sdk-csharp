@@ -15,9 +15,11 @@ using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class ScheduleCreateIntegrationTest
+    public class ScheduleCreateIntegrationTest
     {
         private readonly int oneDayInSecs = 86400;
+        
+        [Fact]
         public virtual void CanCreateSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -46,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(info.ExecutedAt);
             }
         }
-
+        [Fact]
         public virtual void CanGetTransactionSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -76,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(info.GetScheduledTransaction());
             }
         }
-
+        [Fact]
         public virtual void CanCreateWithSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -100,7 +102,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(info.GetScheduledTransaction());
             }
         }
-
+        [Fact]
         public virtual void CanSignSchedule2()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -193,7 +195,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanScheduleTokenTransfer()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -260,7 +262,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(balanceQuery2.Tokens[tokenId], (ulong)10);
             }
         }
-
+        [Fact]
         public virtual void CannotScheduleTwoTransactions()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -302,7 +304,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains("IDENTICAL_SCHEDULE_ALREADY_CREATED", exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanScheduleTopicMessage()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -378,7 +380,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(info.ExecutedAt);
             }
         }
-
+        [Fact]
         public virtual void CanSignSchedule()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -436,7 +438,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(0, scheduleId.CompareTo(ScheduleId.FromBytes(scheduleId.ToBytes())));
             }
         }
-
+        [Fact]
         public virtual void CannotScheduleTransactionOneYearIntoTheFuture()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -468,7 +470,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(exception.Message, ResponseStatus.ScheduleExpirationTimeTooFarInFuture.ToString());
             }
         }
-
+        [Fact]
         public virtual void CannotScheduleTransactionInThePast()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -501,7 +503,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains(exception.Message, ResponseStatus.ScheduleExpirationTimeMustBeHigherThanConsensusTime.ToString());
             }
         }
-
+        [Fact]
         public virtual void CanSignScheduleAndWaitForExpiry()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -557,7 +559,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(0, scheduleId.CompareTo(ScheduleId.FromBytes(scheduleId.ToBytes())));
             }
         }
-
+        [Fact]
         public virtual void CanSignWithMultiSigAndUpdateSigningRequirements()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -653,7 +655,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(info.ExecutedAt);
             }
         }
-
+        [Fact]
         public virtual void CanSignWithMultiSig()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -749,7 +751,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(info.ExecutedAt);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteWithShortExpirationTime()
         {
             using (var testEnv = new IntegrationTestEnv(1))

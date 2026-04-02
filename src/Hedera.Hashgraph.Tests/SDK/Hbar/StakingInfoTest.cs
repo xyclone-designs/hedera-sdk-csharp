@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
         {
             return new StakingInfo(true, validStart, Hbar.From(5), Hbar.From(10), null, 3);
         }
-
+        [Fact]
         public virtual void ShouldSerializeAccount()
         {
             var originalStakingInfo = SpawnStakingInfoAccountExample();
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             
             Verifier.Verify(Regex.Replace(originalStakingInfo.ToString(), "@[A-Za-z0-9]+", ""));
         }
-
+        [Fact]
         public virtual void ShouldSerializeNode()
         {
             var originalStakingInfo = SpawnStakingInfoNodeExample();

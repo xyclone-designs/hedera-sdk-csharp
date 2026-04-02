@@ -7,8 +7,9 @@ using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenFreezeIntegrationTest
+    public class TokenFreezeIntegrationTest
     {
+        [Fact]
         public virtual void CanFreezeAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -52,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotFreezeAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -77,7 +78,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotFreezeAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -110,7 +111,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotFreezeAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

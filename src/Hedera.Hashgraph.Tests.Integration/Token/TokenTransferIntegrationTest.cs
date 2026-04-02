@@ -9,8 +9,9 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenTransferIntegrationTest
+    public class TokenTransferIntegrationTest
     {
+        [Fact]
         public virtual void TokenTransferTest()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -73,7 +74,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void InsufficientBalanceForFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

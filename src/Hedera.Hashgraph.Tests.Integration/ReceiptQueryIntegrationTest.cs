@@ -54,6 +54,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 recordQuery.Execute(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void GetCostSmallMaxTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -71,6 +72,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(exception.Message, "cost for TransactionRecordQuery, of " + cost.ToString() + ", without explicit payment is greater than the maximum allowed payment of 1 tℏ");
             }
         }
+        [Fact]
         public virtual void GetCostInsufficientTxFeeTransactionRecord()
         {
             using (var testEnv = new IntegrationTestEnv(1))

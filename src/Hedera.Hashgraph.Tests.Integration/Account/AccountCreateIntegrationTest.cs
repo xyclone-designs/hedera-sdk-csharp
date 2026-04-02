@@ -13,8 +13,9 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountCreateIntegrationTest
+    public class AccountCreateIntegrationTest
     {
+        [Fact]
         public virtual void CanCreateAccountWithOnlyInitialBalanceAndKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -41,6 +42,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
+        [Fact]
         public virtual void CanCreateAccountWithNoInitialBalance()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -62,6 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
+        [Fact]
         public virtual void CanNotCreateAccountWithNoKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -79,6 +82,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.KeyRequired.ToString(), exception.Message);
             }
         }
+        [Fact]
         public virtual void CanCreateWithAliasKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -100,6 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(key.GetPublicKey(), info.AliasKey);
             }
         }
+        [Fact]
         public virtual void ManagesExpiration()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -130,6 +135,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
+        [Fact]
         public virtual void CreateAccountWithAliasFromAdminKey()
         {
 
@@ -167,6 +173,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
+        [Fact]
         public virtual void CreateAccountWithAliasFromAdminKeyWithReceiverSigRequired()
         {
 
@@ -206,6 +213,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
+        [Fact]
         public virtual void CannotCreateAccountWithAliasFromAdminKeyWithReceiverSigRequiredAndNoSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -237,6 +245,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains(ResponseStatus.KeyRequired.ToString(), exception.Message);
 			}
         }
+        [Fact]
         public virtual void CreateAccountWithAlias()
         {
 
@@ -277,6 +286,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
+        [Fact]
         public virtual void CannotCreateAccountWithAliasWithoutSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -306,6 +316,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains("Private key is not ECDSA", exception.Message);
 			}
         }
+        [Fact]
         public virtual void CreateAccountWithAliasWithReceiverSigRequired()
         {
 
@@ -341,6 +352,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.Key, adminKey.GetPublicKey());
             }
         }
+        [Fact]
         public virtual void CannotCreateAccountWithAliasWithReceiverSigRequiredWithoutSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -370,6 +382,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
 			}
         }
+        [Fact]
         public virtual void CannotCreateAccountWithAliasWithoutBothKeySignatures()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -399,6 +412,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains("Private key is not ECDSA", exception.Message);
 			}
         }
+        [Fact]
         public virtual void CreateAccountUsingSetKeyWithAliasAccountShouldHaveSameKeyAndSameKeysAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -421,6 +435,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
             }
         }
+        [Fact]
         public virtual void CreateAccountUsingSetKeyWithAliasAccountShouldHaveKeyAsKeyAndECDSAKEyAsAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -444,6 +459,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
             }
         }
+        [Fact]
         public virtual void CreateAccountUsingSetKeyWithoutAliasAccountShouldHaveKeyAsKeyAndNoAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -466,6 +482,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(IsLongZeroAddress(Hex.Decode(info.ContractAccountId)));
             }
         }
+        [Fact]
         public virtual void CreateAccountUsingSetKeyWithAliasWithED25519KeyShouldThrowAnException()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -494,6 +511,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains("Private key is not ECDSA", exception.Message);
 			}
         }
+        [Fact]
         public virtual void CreateAccountUsingSetKeyWithAliasWithPublicKeyShouldHavePublicKeyAndDerivedAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -514,6 +532,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ContractAccountId.ToString(), evmAddress.ToString());
             }
         }
+        [Fact]
         public virtual void CreateAccountUsingSetKeyWithAliasWithED25519KeyAndPublicECDSAKeyShouldHaveED25519KeyAndDerivedAlias()
         {
             using (var testEnv = new IntegrationTestEnv(1))

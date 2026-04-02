@@ -15,9 +15,10 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TopicCreateIntegrationTest
+    public class TopicCreateIntegrationTest
     {
-        public virtual void CanCreateTopic()
+        [Fact] 
+		public virtual void CanCreateTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -40,7 +41,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-        public virtual void CanCreateTopicWithNoFieldsSet()
+        [Fact]
+		public virtual void CanCreateTopicWithNoFieldsSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -49,7 +51,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(response.GetReceipt(testEnv.Client).TopicId);
             }
         }
-        public virtual void CreatesAndUpdatesRevenueGeneratingTopic()
+        [Fact]
+		public virtual void CreatesAndUpdatesRevenueGeneratingTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -168,7 +171,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }
             }
         }
-        public virtual void FailsToCreateRevenueGeneratingTopicWithInvalidFeeExemptKey()
+        [Fact]
+		public virtual void FailsToCreateRevenueGeneratingTopicWithInvalidFeeExemptKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -215,7 +219,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal((Proto.ResponseCodeEnum)exception3.Receipt.Status, Proto.ResponseCodeEnum.MaxEntriesForFeeExemptKeyListExceeded);
             }
         }
-        public virtual void FailsToUpdateFeeScheduleKeyWithoutPermissions()
+        [Fact]
+		public virtual void FailsToUpdateFeeScheduleKeyWithoutPermissions()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -239,7 +244,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal((Proto.ResponseCodeEnum)exception.Receipt.Status, Proto.ResponseCodeEnum.FeeScheduleKeyCannotBeUpdated);
             }
         }
-        public virtual void FailsToUpdateCustomFeesWithoutFeeScheduleKey()
+        [Fact]
+		public virtual void FailsToUpdateCustomFeesWithoutFeeScheduleKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -279,7 +285,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Equal((Proto.ResponseCodeEnum)exception.Receipt.Status, Proto.ResponseCodeEnum.FeeScheduleKeyNotSet);
             }
         }
-        public virtual void ChargesHbarFeesWithLimitsApplied()
+        [Fact]
+		public virtual void ChargesHbarFeesWithLimitsApplied()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -318,7 +325,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(balance.ToTinybars() < hbarAmount / 2);
             }
         }
-        public virtual void ExemptsFeeExemptKeysFromHbarFees()
+        [Fact]
+		public virtual void ExemptsFeeExemptKeysFromHbarFees()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -361,7 +369,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(balance.ToTinybars() > hbarAmount / 2);
             }
         }
-        public virtual void CreateTopicTransactionShouldAssignAutomaticallyAutoRenewAccountId()
+        [Fact]
+		public virtual void CreateTopicTransactionShouldAssignAutomaticallyAutoRenewAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -378,7 +387,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(autoRenewAccountId);
             }
         }
-        public virtual void CreateTopicTransactionWithTransactionIdShouldAssignAutoRenewAccountIdToTransactionIdAccountId()
+        [Fact]
+		public virtual void CreateTopicTransactionWithTransactionIdShouldAssignAutoRenewAccountIdToTransactionIdAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -408,7 +418,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(autoRenewAccountId, accountId);
             }
         }
-
+		[Fact]
 		public virtual void CanClearCustomFeesListAndFeeExemptKeysList()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))
@@ -492,6 +502,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Empty(cleared.CustomFees);
 			}
 		}
+		[Fact]
 		public virtual void CanUpdateTopicWithoutSpecifyingAnythingTopicShouldHaveTheSameValues()
 		{
 			using (var testEnv = new IntegrationTestEnv(1))

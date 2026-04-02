@@ -9,9 +9,11 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class LiveHashDeleteIntegrationTest
+    public class LiveHashDeleteIntegrationTest
     {
         private static readonly byte[] HASH = Hex.Decode("100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002");
+
+        [Fact]
         public virtual void CannotDeleteLiveHashBecauseItsNotSupported()
         {
             using (var testEnv = new IntegrationTestEnv(1))

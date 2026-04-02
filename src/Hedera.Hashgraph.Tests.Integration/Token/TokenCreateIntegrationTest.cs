@@ -14,7 +14,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenCreateIntegrationTest
+    public class TokenCreateIntegrationTest
     {
         private static List<CustomFee> CreateFixedFeeList(int count, AccountId feeCollector)
         {
@@ -28,7 +28,6 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
 			return feeList;
         }
-
         private static List<CustomFee> CreateFractionalFeeList(int count, AccountId feeCollector)
         {
             var feeList = new List<CustomFee>();
@@ -45,6 +44,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 			return feeList;
         }
 
+        [Fact]
         public virtual void CanCreateTokenWithOperatorAsAllKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 response.GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCreateTokenWithMinimalPropertiesSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -86,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateTokenWhenTokenNameIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.MissingTokenName.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateTokenWhenTokenSymbolIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.MissingTokenSymbol.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateTokenWhenTokenTreasuryAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -140,7 +140,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidTreasuryAccountForToken.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateTokenWhenTokenTreasuryAccountIDDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateTokenWhenAdminKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -180,7 +180,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanCreateTokenWithCustomFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -212,7 +212,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateMoreThanTenCustomFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -233,7 +233,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.CustomFeesListTooLong.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanCreateTenFixedFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -250,7 +250,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCreateTenFractionalFees()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -267,7 +267,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateMinGreaterThanMax()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -295,7 +295,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.FractionalFeeMaxAmountLessThanMinAmount.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateInvalidFeeCollector()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -319,7 +319,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidCustomFeeCollector.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateNegativeFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -345,7 +345,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.CustomFeeMustBePositive.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCreateZeroDenominator()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -373,7 +373,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.FractionDividesByZero.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanCreateNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -395,7 +395,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client).TokenId;
             }
         }
-
+        [Fact]
         public virtual void CanCreateRoyaltyFee()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -423,7 +423,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCreateTokenWithMinimalPropertiesSetAutoRenewAccountShouldBeAutomaticallySet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -447,7 +447,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(autoRenewAccount, testEnv.OperatorId);
             }
         }
-
+        [Fact]
         public virtual void CanSetAutoRenewPeriod()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -473,7 +473,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(tokenInfo.ExpirationTime.ToUnixTimeSeconds(), expirationTime.ToUnixTimeSeconds());
             }
         }
-
+        [Fact]
         public virtual void CanSetExpirationTime()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -496,7 +496,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(tokenInfo.ExpirationTime.ToUnixTimeSeconds(), expirationTime.ToUnixTimeSeconds());
             }
         }
-
+        [Fact]
         public virtual void WhenTransactionIdIsSetAutoRenewAccountIdShouldBeEqualToAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -529,7 +529,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(tokenInfo.AutoRenewAccount, accountId);
             }
         }
-
+        [Fact]
         public virtual void CanCreateTokenWithDecimalAdjustmentForSupplyValues()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -563,7 +563,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal((ulong)tokenInfo.MaxSupply, expectedMaxSupply);
             }
         }
-
+        [Fact]
         public virtual void CanCreateNftWithZeroDecimalsAndZeroInitialSupply()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -590,7 +590,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal<ulong>(tokenInfo.TotalSupply, 0);
             }
         }
-
+        [Fact]
         public virtual void CanCreateTokenWithDifferentDecimalPrecisionValues()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -629,7 +629,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }
             }
         }
-
+        [Fact]
         public virtual void CanCreateTokenWhenAutoRenewPeriodIsNull()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

@@ -5,8 +5,9 @@ using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.Exceptions
 {
-    class MaxQueryPaymentExceededExceptionTest
+    public class MaxQueryPaymentExceededExceptionTest
     {
+        [Fact]
         public virtual void ShouldHaveMessage()
         {
             var e = new MaxQueryPaymentExceededException(typeof(AccountBalanceQuery), new Hbar(30), new Hbar(15));

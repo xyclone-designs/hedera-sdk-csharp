@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new AccountUpdateTransaction();
@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             Verifier.Verify(SpawnTestTransaction2().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytes2()
         {
             var tx = SpawnTestTransaction2();
@@ -91,7 +91,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody

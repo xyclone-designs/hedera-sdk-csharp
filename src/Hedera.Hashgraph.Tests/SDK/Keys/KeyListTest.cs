@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
-    class KeyListTest
+    public class KeyListTest
     {
         private static readonly PublicKey mTestPublicKey1 = PrivateKey.FromStringED25519("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10").GetPublicKey();
         private static readonly PublicKey mTestPublicKey2 = PrivateKey.FromStringED25519("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e11").GetPublicKey();
@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(keyList.Contains(mTestPublicKey2));
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
-
+        [Fact]
         public virtual void OfKeys()
         {
 
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(keyList.Contains(mTestPublicKey2));
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
-
+        [Fact]
         public virtual void ToProtobufKey()
         {
 
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(protoKey.KeyList.Keys[1].Ed25519.ToByteArray(), mTestPublicKey2.ToBytesRaw());
             Assert.Equal(protoKey.KeyList.Keys[2].Ed25519.ToByteArray(), mTestPublicKey3.ToBytesRaw());
         }
-
+        [Fact]
         public virtual void ToProtobuf()
         {
 
@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 			Assert.Equal(protoKeyList.Keys[1].Ed25519.ToByteArray(), mTestPublicKey2.ToBytesRaw());
 			Assert.Equal(protoKeyList.Keys[2].Ed25519.ToByteArray(), mTestPublicKey3.ToBytesRaw());
 		}
-
+        [Fact]
         public virtual void Size()
         {
 
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             // Then
             Assert.Empty(emptyKeyList);
         }
-
+        [Fact]
         public virtual void Contains()
         {
 
@@ -100,7 +100,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.False(emptyKeyList.Contains(mTestPublicKey2));
             Assert.False(emptyKeyList.Contains(mTestPublicKey3));
         }
-
+        [Fact]
         public virtual void Add()
         {
 
@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             // Then
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
-
+        [Fact]
         public virtual void Remove()
         {
 
@@ -128,7 +128,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.True(keyList.Contains(mTestPublicKey2));
             Assert.True(keyList.Contains(mTestPublicKey3));
         }
-
+        [Fact]
         public virtual void Clear()
         {
 

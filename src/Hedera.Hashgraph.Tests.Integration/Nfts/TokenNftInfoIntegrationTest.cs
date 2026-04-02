@@ -9,8 +9,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenNftInfoIntegrationTest
+    public class TokenNftInfoIntegrationTest
     {
+        [Fact]
         public virtual void CanQueryNftInfoByNftId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -47,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(nftInfos[0].Metadata[0], (byte)50);
             }
         }
-
+        [Fact]
         public virtual void CannotQueryNftInfoByInvalidNftId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -85,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidNftId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotQueryNftInfoByInvalidSerialNumber()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -123,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidTokenNftSerialNumber.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanQueryNftInfoByAccountId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -167,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }
             }
         }
-
+        [Fact]
         public virtual void CanQueryNftInfoByTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

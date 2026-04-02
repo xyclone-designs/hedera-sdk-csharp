@@ -8,8 +8,9 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountDeleteIntegrationTest
+    public class AccountDeleteIntegrationTest
     {
+        [Fact]
         public virtual void CanDeleteAccount()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -38,6 +39,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
+        [Fact]
         public virtual void CannotCreateAccountWithNoKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -54,6 +56,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.AccountIdDoesNotExist.ToString(), exception.Message);
             }
         }
+        [Fact]
         public virtual void CannotDeleteAccountThatHasNotSignedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

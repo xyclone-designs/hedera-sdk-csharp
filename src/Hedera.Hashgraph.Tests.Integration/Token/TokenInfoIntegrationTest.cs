@@ -9,8 +9,9 @@ using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenInfoIntegrationTest
+    public class TokenInfoIntegrationTest
     {
+        [Fact]
         public virtual void CanQueryTokenInfoWhenAllKeysAreDifferent()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -85,6 +86,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CanQueryTokenInfoWhenTokenIsCreatedWithMinimalProperties()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -123,6 +125,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.SupplyType, TokenSupplyType.Infinite);
             }
         }
+        [Fact]
         public virtual void CanQueryNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -178,6 +181,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
+        [Fact]
         public virtual void GetCostQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -202,6 +206,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 infoQuery.Execute(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void GetCostBigMaxQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -227,6 +232,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				infoQuery.Execute(testEnv.Client);
 			}
         }
+        [Fact]
         public virtual void GetCostSmallMaxTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -253,6 +259,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 });
             }
         }
+        [Fact]
         public virtual void GetCostInsufficientTxFeeQueryTokenInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

@@ -9,6 +9,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class FileInfoIntegrationTest
     {
+        [Fact]
         public virtual void CanQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -41,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanQueryFileInfoWithNoAdminKeyOrContents()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -59,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Null(info.Keys);
             }
         }
-
+        [Fact]
         public virtual void GetCostBigMaxQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -86,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void GetCostSmallMaxQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -117,7 +118,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void GetCostInsufficientTxFeeQueryFileInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))

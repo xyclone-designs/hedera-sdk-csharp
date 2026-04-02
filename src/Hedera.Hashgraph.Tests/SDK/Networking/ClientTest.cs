@@ -1,39 +1,35 @@
 // SPDX-License-Identifier: Apache-2.0
+using Google.Protobuf;
+using Grpc.Core;
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.HBar;
+using Hedera.Hashgraph.SDK.Networking;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-using Hedera.Hashgraph.SDK;
-using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Account;
-using Hedera.Hashgraph.SDK.Networking;
-
-using Google.Protobuf;
-
 namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
-    class ClientTest
+    public class ClientTest
     {
         public virtual void ForMainnet()
         {
             Client.ForMainnet().Dispose();
         }
-
         public virtual void ForMainnetWithExecutor()
         {
             Client.ForMainnet(new ExecutorService()).Dispose();
         }
-
         public virtual void ForTestnetWithExecutor()
         {
             Client.ForTestnet(new ExecutorService()).Dispose();
         }
-
         public virtual void ForPreviewnetWithWithExecutor()
         {
             Client.ForPreviewnet(new ExecutorService()).Dispose();
         }
-
+        [Fact]
         public virtual void SetMaxQueryPaymentNegative()
         {
             var client = Client.ForTestnet();
@@ -43,7 +39,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             });
             client.Dispose();
         }
-
+        [Theory]
+        [InlineData(0)]
         public virtual void SetMaxAttempts(int maxAttempts)
         {
             var client = Client.ForNetwork([]);
@@ -53,7 +50,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             });
             client.Dispose();
         }
-
+        [Theory]
+        [InlineData(0)]
         public virtual void SetMaxBackoffInvalid(long maxBackoffMillis)
         {
             var client = Client.ForNetwork([]);
@@ -63,7 +61,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             });
             client.Dispose();
         }
-
         public virtual void SetMaxBackoffValid(long maxBackoff)
         {
             Client.ForNetwork([]).MaxBackoff = TimeSpan.FromMilliseconds(maxBackoff);
@@ -72,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         {
             Client.ForNetwork([]).MinBackoff = TimeSpan.FromMilliseconds(minBackoff);
         }
-
+        [Fact]
         public virtual void SetMaxTransactionFeeNegative()
         {
             var client = Client.ForTestnet();
@@ -90,7 +87,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Client.FromConfigFile("./src/test/resources/client-config.json").Dispose();
             Client.FromConfigFile("./src/test/resources/client-config-with-operator.json").Dispose();
         }
-
+        [Fact]
         public virtual void FromJsonFileWithShardAndRealm()
         {
             var client = Client.FromConfigFile(new FileInfo("./src/test/resources/client-config-with-shard-realm.json"));
@@ -98,7 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(client.Realm, 2);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void TestFromJson()
         {
 
@@ -115,7 +112,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.NotNull(clientConfigWithOperator);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void TestFromJsonWithShardAndRealm()
         {
 
@@ -124,7 +121,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(client.Shard, 2);
             Assert.Equal(client.Realm, 2);
         }
-
+        [Fact]
         public virtual void SetNetworkWorks()
         {
             var defaultNetwork = new Dictionary<string, AccountId>
@@ -176,7 +173,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             
             client.Dispose();
         }
-
+        [Fact]
         public virtual void SetMirrorNetworkWorks()
         {
             var defaultNetwork = new List<string> { "testnet.mirrornode.hedera.com:443" };
@@ -198,7 +195,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(client.MirrorNetwork_.Network, singleNodeNetworkWithDifferentNode);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void SetMirrorNetworkFails()
         {
             var defaultNetwork =  new List<string> { "testnet.mirrornode.hedera.com:443", "testnet.mirrornode2.hedera.com:443" };
@@ -212,7 +209,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Exception exception = Assert.Throws<Exception>(() => client.MirrorNetwork_.Network = updatedNetwork);
             Assert.EndsWith(exception.Message, "Failed to properly shutdown all channels");
         }
-
+        [Fact]
         public virtual void ForNameReturnsCorrectNetwork()
         {
             Client mainnetClient = Client.ForName("mainnet");
@@ -225,7 +222,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Exception exception = Assert.Throws<Exception>(() => Client.ForName("unknown"));
             Assert.EndsWith(exception.Message, "Name must be one-of `mainnet`, `testnet`, or `previewnet`");
         }
-
+        [Theory]
+        [InlineData("")]
         public virtual void TestExecuteAsyncTimeout(string timeoutSite)
         {
             AccountId accountId = AccountId.FromString("0.0.1");
@@ -264,7 +262,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.True(secondsTaken < 7);
             client.Dispose();
         }
-
+        [Theory]
+        [InlineData("")]
         public virtual void TestExecuteSyncTimeout(string timeoutSite)
         {
             AccountId accountId = AccountId.FromString("0.0.1");
@@ -332,7 +331,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
             return builder;
         }
-
+        [Fact]
         public virtual void SetNetworkFromAddressBook()
         {
             using (Client client = Client.ForNetwork([]))
@@ -376,7 +375,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
                 Assert.Equal(nodeAddress.Invoke(10002).PublicKey, "810002");
             }
         }
-
+        [Fact]
         public virtual void AssignAddressBookOnNodeCreationWhenAddressBookPresentShouldHaveTLSParametersPresent()
         {
             var client = Client.ForTestnet();
@@ -390,7 +389,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.NotNull(addressBookEntry.Description);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void ClientPersistsShardAndRealm()
         {
             var network = Network.ForNetwork(new ExecutorService(), []);
@@ -400,7 +399,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(client.Realm, 1);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void ForNetworkValidatesSameShardAndRealm()
         {
             var network = new Dictionary<string, AccountId>
@@ -414,7 +413,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(client.Realm, 2);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void ForNetworkThrowsExceptionForDifferentShards()
         {
             var network = new Dictionary<string, AccountId>
@@ -426,7 +425,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             ArgumentException argumentexception = Assert.Throws<ArgumentException>(() => Client.ForNetwork(network));
             Assert.Equal(argumentexception.Message, "Network is not valid, all nodes must be in the same shard and realm");
         }
-
+        [Fact]
         public virtual void ForNetworkThrowsExceptionForDifferentRealms()
         {
             var network = new Dictionary<string, AccountId>
@@ -438,7 +437,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             ArgumentException argumentexception = Assert.Throws<ArgumentException>(() => Client.ForNetwork(network));
             Assert.Equal(argumentexception.Message, "Network is not valid, all nodes must be in the same shard and realm");
         }
-
+        [Fact]
         public virtual void ForNetworkWithExecutorValidatesSameShardAndRealm()
         {
             var network = new Dictionary<string, AccountId>
@@ -452,7 +451,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(client.Realm, 2);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void ForNetworkWithExecutorThrowsExceptionForDifferentShards()
         {
             var network = new Dictionary<string, AccountId> 
@@ -465,7 +464,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             ArgumentException argumentexception = Assert.Throws<ArgumentException>(() => Client.ForNetwork(network));
             Assert.Equal(argumentexception.Message, "Network is not valid, all nodes must be in the same shard and realm");
         }
-
+        [Fact]
         public virtual void ForNetworkWithExecutorThrowsExceptionForDifferentRealms()
         {
             var network = new Dictionary<string, AccountId> 
@@ -478,7 +477,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Exception exception = Assert.Throws<Exception>(() => Client.ForNetwork(network));
             Assert.Equal(exception.Message, "Network is not valid, all nodes must be in the same shard and realm");
         }
-
+        [Fact]
         public virtual void ForNetworkHandlesEmptyNetworkMap()
         {
             var client = Client.ForNetwork([]);
@@ -488,7 +487,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
             Assert.Equal(client.Realm, 0);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void ForNetworkHandlesSingleNodeNetwork()
         {
             var network = new Dictionary<string, AccountId>

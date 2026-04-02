@@ -10,6 +10,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractUpdateTransactionHooksTest
     {
+        [Fact]
         public virtual void ShouldAddHookToCreate()
         {
             var tx = new ContractUpdateTransaction();
@@ -22,7 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Single(tx.HookCreationDetails_);
             Assert.Equal(tx.HookCreationDetails_[0], hookDetails);
         }
-
+        [Fact]
         public virtual void ShouldSetHooksToCreate()
         {
             var tx = new ContractUpdateTransaction();
@@ -38,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Contains(hookDetails1, tx.HookCreationDetails_);
             Assert.Contains(hookDetails2, tx.HookCreationDetails_);
         }
-
+        [Fact]
         public virtual void ShouldAddHookToDelete()
         {
             var tx = new ContractUpdateTransaction();
@@ -49,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Single(tx.HookIdsToDelete);
             Assert.Contains(hookId, tx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldAddHooksToDelete()
         {
             var tx = new ContractUpdateTransaction();
@@ -62,7 +63,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Contains(456, tx.HookIdsToDelete);
             Assert.Contains(789, tx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldGetHooksToCreate()
 		{
             var tx = new ContractUpdateTransaction();
@@ -78,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             result.Clear();
             Assert.Single(tx.HookCreationDetails_);
         }
-
+        [Fact]
         public virtual void ShouldGetHooksToDelete()
 		{
             var tx = new ContractUpdateTransaction();
@@ -91,7 +92,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             result.Clear();
             Assert.Single(tx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldThrowWhenAddingHookAfterFreeze()
         {
 			var tx = new ContractUpdateTransaction
@@ -108,7 +109,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookCreationDetails_.Add(hookDetails));
             Assert.Contains(exception.Message, "transaction is immutable");
         }
-
+        [Fact]
         public virtual void ShouldThrowWhenSettingHooksAfterFreeze()
         {
 			var tx = new ContractUpdateTransaction
@@ -125,7 +126,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookCreationDetails_.ClearAndSet(hookDetails));
             Assert.Contains(exception.Message, "transaction is immutable");
         }
-
+        [Fact]
         public virtual void ShouldThrowWhenDeletingHookAfterFreeze()
         {
 			var tx = new ContractUpdateTransaction
@@ -139,7 +140,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookIdsToDelete.Add(123));
             Assert.Contains(exception.Message, "transaction is immutable");
         }
-
+        [Fact]
         public virtual void ShouldThrowWhenDeletingHooksAfterFreeze()
         {
             var tx = new ContractUpdateTransaction
@@ -151,7 +152,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookIdsToDelete.ClearAndSet(123, 456));
             Assert.Contains(exception.Message, "transaction is immutable");
         }
-
+        [Fact]
         public virtual void ShouldSerializeHooksInToProtobuf()
         {
             var tx = new ContractUpdateTransaction();
@@ -167,7 +168,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Single(builder.HookIdsToDelete);
             Assert.Contains(123, builder.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldDeserializeHooksFromTransactionBody()
         {
             var tx = new ContractUpdateTransaction();
@@ -185,7 +186,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Single(deserializedTx.HookIdsToDelete);
             Assert.Contains(123, deserializedTx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldHandleEmptyHooks()
         {
             var tx = new ContractUpdateTransaction();
@@ -196,7 +197,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Empty(builder.HookCreationDetails);
             Assert.Empty(builder.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldSupportMultipleHooks()
         {
             var tx = new ContractUpdateTransaction();

@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class ClientIntegrationTest
     {
+        [Fact]
         public virtual void FailsWhenNoNodesAreMatching()
         {
             var client = Client.ForTestnet(client => client.TransportSecurity = true);
@@ -31,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
          
             client.Dispose();
         }
-
+        [Fact]
         public virtual void CanSkipNodes()
         {
             var client = Client.ForTestnet(client => client.TransportSecurity = true);
@@ -46,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
             client.Dispose();
         }
-
+        [Fact]
         public virtual void TestReplaceNodes()
         {
             Dictionary<string, AccountId> network = new()
@@ -82,7 +83,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 testEnv.Client.Network_.SetNetwork(network);
             }
         }
-
+        [Fact]
         public virtual void TransactionIdNetworkIsVerified()
         {
             Assert.Throws<ArgumentException>(() =>
@@ -98,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 client.Dispose();
             });
         }
-
+        [Fact]
         public virtual void TestMaxNodesPerTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -109,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(transaction.NodeAccountIds.Count, 1);
             }
         }
-
+        [Fact]
         public virtual void Ping()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -122,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 testEnv.Client.Ping(node);
             }
         }
-
+        [Fact]
         public virtual void PingAll()
         {
             using (var testEnv = new IntegrationTestEnv())
@@ -136,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new AccountBalanceQuery { AccountId = node }.Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void PingAllBadNetwork()
         {
             using (var testEnv = new IntegrationTestEnv(3))
@@ -169,7 +170,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(testEnv.Client.Network_.GetNetwork().Values.Count, 1);
             }
         }
-
+        [Fact]
         public virtual void PingAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -182,7 +183,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 testEnv.Client.PingAsync(node).GetAwaiter().GetResult();
             }
         }
-
+        [Fact]
         public virtual void PingAllAsync()
         {
             using (var testEnv = new IntegrationTestEnv())
@@ -200,7 +201,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void TestClientInitWithMirrorNetwork()
         {
             var mirrorNetworkString = "testnet.mirrornode.hedera.com:443";
@@ -212,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             Assert.NotEmpty(client.Network_.Network_Read);
             client.Dispose();
         }
-
+        [Fact]
         public virtual void TestClientInitWithMirrorNetworkAnCustomRealmAndShard()
         {
             var mirrorNetworkString = "testnet.mirrornode.hedera.com:443";

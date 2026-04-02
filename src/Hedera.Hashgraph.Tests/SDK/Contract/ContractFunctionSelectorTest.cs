@@ -9,6 +9,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractFunctionSelectorTest
     {
+        [Fact]
         public virtual void Selector()
         {
             var signature = new ContractFunctionSelector("testFunction")
@@ -42,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             Assert.Equal(Hex.ToHexString(signature), "4438e4ce");
         }
-
+        [Fact]
         public virtual void SelectorError()
         {
             var signature = new ContractFunctionSelector("testFunction").AddAddress();

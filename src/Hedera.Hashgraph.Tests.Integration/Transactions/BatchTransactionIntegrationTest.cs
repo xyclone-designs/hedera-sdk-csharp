@@ -18,8 +18,9 @@ using Google.Protobuf;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class BatchTransactionIntegrationTest
+    public class BatchTransactionIntegrationTest
     {
+        [Fact]
         public virtual void CanCreateBatchTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -42,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(accountIdInnerTransaction, execute.AccountId);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteFromToBytes()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -68,7 +69,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(accountIdInnerTransaction, execute.AccountId);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteLargeBatchTransactionUpToMaximumRequestSize()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -103,7 +104,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }
             }
         }
-
+        [Fact]
         public virtual void BatchTransactionWithoutInnerTransactionsShouldThrowAnError()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -113,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(exception.Message, ResponseStatus.BatchListEmpty.ToString());
             }
         }
-
+        [Fact]
         public virtual void BatchTransactionWithBlacklistedInnerTransactionShouldThrowAnError()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -149,7 +150,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(exception2.Message, "Transaction type BatchTransaction is not allowed in a batch transaction");
             }
         }
-
+        [Fact]
         public virtual void BatchTransactionWithInvalidBatchKeyInsideInnerTransactionShouldThrowAnError()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -174,7 +175,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(exception.Message, ResponseStatus.InvalidSignature.ToString());
             }
         }
-
+        [Fact]
         public virtual void ChunkedInnerTransactionsShouldBeExecutedSuccessfully()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -211,7 +212,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.SequenceNumber, (ulong)1);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteWithDifferentBatchKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -295,7 +296,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
-
+        [Fact]
         public virtual void SuccessfulInnerTransactionsShouldIncurFeesEvenThoughOneFailed()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -353,7 +354,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(finalBalance.GetValue().LongValue() < initialBalance.GetValue().LongValue());
             }
         }
-
+        [Fact]
         public virtual void TransactionShouldFailWhenBatchified()
         {
             using (var testEnv = new IntegrationTestEnv(1))

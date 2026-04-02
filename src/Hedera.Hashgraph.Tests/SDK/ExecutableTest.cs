@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.Tests.SDK
 {
-    class ExecutableTest
+    public class ExecutableTest
     {
         Client client;
         Network network;

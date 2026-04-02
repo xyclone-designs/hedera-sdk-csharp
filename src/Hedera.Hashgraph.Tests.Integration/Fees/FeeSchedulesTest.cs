@@ -8,6 +8,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class FeeSchedulesTest
     {
+        [Fact]
         public virtual void CanFetchFeeSchedules()
         {
             using (var testEnv = new IntegrationTestEnv(1))

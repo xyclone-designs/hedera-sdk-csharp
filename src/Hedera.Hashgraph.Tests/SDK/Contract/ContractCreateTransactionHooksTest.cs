@@ -11,6 +11,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
     public class ContractCreateTransactionHooksTest
     {
+        [Fact]
         public virtual void TestContractCreateTransactionWithHooks()
         {
             // Create a test contract ID that the hook will reference (it can be any number for unit tests)
@@ -52,7 +53,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.NotNull(second.Hook);
             Assert.True(second.Hook.StorageUpdates.Count == 0);
         }
-
+        [Fact]
         public virtual void TestContractCreateTransactionSetHooks()
         {
             ContractId targetContractId = new ContractId(200);
@@ -68,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(1, retrieved.Count);
             Assert.Equal(hookDetails, retrieved[0]);
         }
-
+        [Fact]
         public virtual void TestContractCreateTransactionHookValidationDuplicateIdsNotBlockedClientSide()
         {
             ContractId targetContractId = new ContractId(300);
@@ -89,7 +90,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(1, proto.HookCreationDetails[0].HookId);
             Assert.Equal(1, proto.HookCreationDetails[1].HookId);
         }
-
+        [Fact]
         public virtual void TestContractCreateTransactionProtobufSerialization()
         {
 			ContractId targetContractId = new ContractId(400);
@@ -111,7 +112,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.Equal(1, protoHook.HookId);
             Assert.True(protoHook.EvmHook is not null);
         }
-
+        [Fact]
         public virtual void TestContractCreateTransactionEmptyHooks()
         {
             var tx = new ContractCreateTransaction
@@ -124,7 +125,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var proto = tx.ToProtobuf();
             Assert.Equal(0, proto.HookCreationDetails.Count);
         }
-
+        [Fact]
         public virtual void TestContractCreateTransactionHooksPersistThroughBytesRoundTrip()
         {
             ContractId targetContractId = new ContractId(500);

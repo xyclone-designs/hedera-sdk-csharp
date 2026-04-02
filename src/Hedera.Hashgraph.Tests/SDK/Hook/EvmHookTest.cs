@@ -6,8 +6,9 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class EvmHookTest
+    public class EvmHookTest
     {
+        [Fact]
         public virtual void GettersReturnExpectedAndStorageUpdatesAreImmutable()
         {
             var contractId = new ContractId(0, 0, 123);
@@ -22,8 +23,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(slot, updates[0]);
 			Assert.IsType<IReadOnlyCollection<EvmHookStorageUpdate>>(updates); // list must be unmodifiable
 		}
-
-		public virtual void ProtobufRoundTripPreservesData()
+        [Fact]
+        public virtual void ProtobufRoundTripPreservesData()
         {
             var spec = new ContractId(0, 0, 77);
             var entry = EvmHookMappingEntry.OfKey(new byte[] { 0x0A }, new byte[] { 0x0B });
@@ -37,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(original.ContractId, restored.ContractId);
             Assert.Equal(original.StorageUpdates, restored.StorageUpdates);
         }
-
+        [Fact]
         public virtual void EqualsAndHashCodeDependOnSpecAndUpdates()
         {
             var spec1 = new ContractId(0, 0, 1);
@@ -56,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.NotEqual(a, c);
             Assert.NotEqual(a, d);
         }
-
+        [Fact]
         public virtual void ToStringContainsSpecAndUpdates()
         {
             var spec = new ContractId(0, 0, 10);

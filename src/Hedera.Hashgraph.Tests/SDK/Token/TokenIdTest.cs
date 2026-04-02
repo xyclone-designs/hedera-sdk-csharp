@@ -10,7 +10,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Token
 {
-    class TokenIdTest
+    public class TokenIdTest
     {
         public virtual void ShouldSerializeFromString()
         {

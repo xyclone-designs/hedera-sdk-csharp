@@ -17,7 +17,7 @@ using Hedera.Hashgraph.SDK.Contract;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class FeeEstimateQueryIntegrationTest
+    public class FeeEstimateQueryIntegrationTest
     {
         private static readonly long MIRROR_SYNC_DELAY_MILLIS = (long)TimeSpan.FromSeconds(2).TotalMilliseconds;
         
@@ -32,6 +32,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             return testEnv;
         }
 
+        [Fact]
         public virtual void TokenCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -69,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void TransferTransactionStateModeFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -94,7 +95,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void TransferTransactionIntrinsicModeFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -119,7 +120,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void TransferTransactionDefaultModeIsState()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -139,7 +140,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void TokenMintTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -167,7 +168,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void TopicCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -191,7 +192,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void ContractCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -217,7 +218,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void FileCreateTransactionFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -244,7 +245,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void FileAppendTransactionFeeEstimateAggregatesChunks()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -271,7 +272,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void TopicMessageSubmitSingleChunkFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -298,7 +299,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void TopicMessageSubmitMultipleChunkFeeEstimate()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -325,7 +326,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 AssertComponentTotalsConsistent(response);
             }
         }
-
+        [Fact]
         public virtual void MalformedTransactionReturnsInvalidArgumentError()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -348,7 +349,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains("HTTP status", exception.Message);
             }
         }
-
+        [Fact]
         public virtual void QueryWithoutTransactionThrowsError()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())
@@ -362,7 +363,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Contains("transaction must be set", exception.Message);
             }
         }
-
+        [Fact]
         public virtual void ActualFeesMatchEstimateWithinTolerance()
         {
             using (var testEnv = CreateFeeEstimateTestEnv())

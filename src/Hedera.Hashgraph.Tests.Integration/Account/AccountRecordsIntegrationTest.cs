@@ -6,8 +6,9 @@ using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountRecordsIntegrationTest
+    public class AccountRecordsIntegrationTest
     {
+        [Fact]
         public virtual void CanQueryAccountRecords()
         {
             using (var testEnv = new IntegrationTestEnv(1))

@@ -7,8 +7,9 @@ using Hedera.Hashgraph.SDK.Account;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenDissociateIntegrationTest
+    public class TokenDissociateIntegrationTest
     {
+        [Fact]
         public virtual void CanAssociateAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -60,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteTokenDissociateTransactionEvenWhenTokenIDsAreNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -85,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotDissociateAccountWithTokensWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -112,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotDissociateAccountWhenAccountDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -157,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotDissociateAccountFromTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

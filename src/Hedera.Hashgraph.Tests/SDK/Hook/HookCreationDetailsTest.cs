@@ -5,8 +5,9 @@ using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class HookCreationDetailsTest
+    public class HookCreationDetailsTest
     {
+        [Fact]
         public virtual void GettersAndHasAdminKeyWork()
         {
             var cid = new ContractId(0, 0, 77);
@@ -25,7 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.False(withoutAdmin.HasAdminKey);
             Assert.Null(withoutAdmin.AdminKey);
         }
-
+        [Fact]
         public virtual void ProtobufRoundTripPreservesValues()
         {
             var cid = new ContractId(0, 0, 1234);
@@ -41,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(details, restored);
             Assert.Equal(details.GetHashCode(), restored.GetHashCode());
         }
-
+        [Fact]
         public virtual void EqualsAndHashCodeVaryByFields()
         {
             var lambda1 = new EvmHook(new ContractId(0, 0, 1));
@@ -56,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.NotEqual(a, c);
             Assert.NotEqual(a, d);
         }
-
+        [Fact]
         public virtual void ToStringContainsKeyFields()
         {
             var lambda = new EvmHook(new ContractId(0, 0, 3));

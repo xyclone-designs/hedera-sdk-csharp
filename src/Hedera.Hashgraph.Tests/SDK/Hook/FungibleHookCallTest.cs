@@ -9,8 +9,9 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class FungibleHookCallTest
+    public class FungibleHookCallTest
     {
+        [Fact]
         public virtual void ConstructorWithNumericIdAndType()
         {
             var evm = new EvmHookCall(new byte[] { }, 25000);
@@ -18,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
 
             Assert.Equal(call.Type, FungibleHookType.PreTxAllowanceHook);
         }
-
+        [Fact]
         public virtual void HbarTransferSerializesHookByType()
         {
             var tx = new TransferTransaction();
@@ -40,7 +41,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             
             Assert.Equal(rebuilt.GetHbarTransfers()[accountId], Hbar.FromTinybars(1));
         }
-
+        [Fact]
         public virtual void TokenTransferSerializesHookByType()
         {
             var tx = new TransferTransaction();

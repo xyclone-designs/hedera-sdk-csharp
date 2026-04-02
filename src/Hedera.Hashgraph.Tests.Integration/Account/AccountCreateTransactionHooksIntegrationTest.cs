@@ -8,8 +8,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountCreateTransactionHooksIntegrationTest
+    public class AccountCreateTransactionHooksIntegrationTest
     {
+        [Fact]
         public virtual void AccountCreateWithBasicLambdaHookSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -35,6 +36,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
+        [Fact]
         public virtual void AccountCreateWithLambdaHookAndStorageUpdatesSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -58,6 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
+        [Fact]
         public virtual void AccountCreateWithDuplicateHookIdsFailsPrecheck()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -81,6 +84,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}); Assert.Contains(ResponseStatus.HookIdRepeatedInCreationDetails.ToString(), exception.Message);
             }
         }
+        [Fact]
         public virtual void AccountCreateWithLambdaHookAndAdminKeySucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))

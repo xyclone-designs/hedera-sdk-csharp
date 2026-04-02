@@ -10,7 +10,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
-    class TopicIdTest
+    public class TopicIdTest
     {
         public virtual void ShouldSerializeFromString()
         {

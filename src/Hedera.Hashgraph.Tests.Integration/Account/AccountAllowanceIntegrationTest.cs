@@ -8,6 +8,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class AccountAllowanceIntegrationTest
     {
+        [Fact]
         public virtual void CanSpendHbarAllowance()
         {
             using (var testEnv = new IntegrationTestEnv(1))

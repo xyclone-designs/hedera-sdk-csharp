@@ -7,6 +7,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TopicDeleteIntegrationTest
     {
+        [Fact]
         public virtual void CanDeleteTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -27,7 +28,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotDeleteImmutableTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))

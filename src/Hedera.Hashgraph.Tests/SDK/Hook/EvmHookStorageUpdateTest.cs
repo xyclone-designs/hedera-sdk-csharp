@@ -5,8 +5,9 @@ using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class EvmHookStorageUpdateTest
+    public class EvmHookStorageUpdateTest
     {
+        [Fact]
         public virtual void EvmHookStorageSlotConstructsAndDefensiveCopies()
         {
             byte[] key = new byte[]
@@ -29,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(new byte[] { 0x01, 0x02 }, slot.Key);
             Assert.Equal(new byte[] { 0x03, 0x04 }, slot.Value);
         }
-
+        [Fact]
         public virtual void EvmHookStorageSlotProtobufRoundTrip()
         {
             var original = new EvmHookStorageSlot(new byte[] { 0x0A }, new byte[] { 0x0B });
@@ -42,7 +43,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal(new byte[] { 0x0B }, restoredSlot.Value);
             Assert.True(original.ToString().Contains("key"));
         }
-
+        [Fact]
         public virtual void EvmHookMappingEntriesConstructsValidatesAndCopies()
         {
             byte[] mappingSlot = new byte[]
@@ -65,7 +66,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.NotSame(list1, list2);
             Assert.Equal(list1, list2);
         }
-
+        [Fact]
         public virtual void EvmHookMappingEntriesValidation()
         {
             // mappingSlot cannot be null
@@ -80,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             // current behavior: leading zeros are allowed
             new EvmHookMappingEntries(new byte[] { 0x00, 0x01 }, []);
         }
-
+        [Fact]
         public virtual void EvmHookMappingEntriesProtobufRoundTrip()
         {
             var entry1 = EvmHookMappingEntry.OfKey(new byte[] { 0x11 }, new byte[] { 0x22 });
@@ -95,7 +96,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.Equal([entry1, entry2], restoredME.Entries);
             Assert.True(original.ToString().Contains("mappingSlot"));
         }
-
+        [Fact]
         public virtual void FromProtobufWithoutUpdateThrows()
         {
             var emptyProto = new Proto.EvmHookStorageUpdate();

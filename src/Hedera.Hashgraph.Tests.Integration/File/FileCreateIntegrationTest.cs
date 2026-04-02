@@ -7,6 +7,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class FileCreateIntegrationTest
     {
+        [Fact]
         public virtual void CanCreateFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -39,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCreateFileWithNoContents()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -71,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCreateFileWithNoKeys()
         {
             using (var testEnv = new IntegrationTestEnv(1))

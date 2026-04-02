@@ -7,8 +7,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenGrantKycIntegrationTest
+    public class TokenGrantKycIntegrationTest
     {
+        [Fact]
         public virtual void CanGrantKycAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -62,6 +63,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
+        [Fact]
         public virtual void CannotGrantKycToAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -91,6 +93,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
+        [Fact]
         public virtual void CannotGrantKycToAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -129,6 +132,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
+        [Fact]
         public virtual void CannotGrantKycToAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

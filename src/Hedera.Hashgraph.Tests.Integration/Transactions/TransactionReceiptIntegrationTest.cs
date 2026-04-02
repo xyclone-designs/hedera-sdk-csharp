@@ -6,6 +6,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TransactionReceiptIntegrationTest
     {
+        [Fact]
         public virtual void NextExchangeRatePropertyIsNotNullInTransactionReceipt()
         {
             using (var testEnv = new IntegrationTestEnv(1))

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.Tests.SDK.Topic
 {
-    class TopicMessageQueryTest
+    public class TopicMessageQueryTest
     {
         private static readonly DateTimeOffset START_TIME = DateTimeOffset.UtcNow;
         private Client client;
@@ -120,7 +120,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.IsType<Exception>(errors[0]);
             Assert.Empty(received);
         }
-        [Fact]
+        [Theory]
+        [InlineData(StatusCode.OK, "")]
         public virtual void RetryRecovers(StatusCode code, string description)
         {
             Proto.ConsensusTopicResponse response = Response(1);
@@ -143,7 +144,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)2, received[1].SequenceNumber);
             Assert.Empty(errors);
         }
-        [Fact]
+        [Theory]
+        [InlineData(StatusCode.OK, "")]
         public virtual void NoRetry(StatusCode code, string description)
         {
             consensusServiceStub.requests.Enqueue(Request());
@@ -298,7 +300,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
             Assert.Equal((ulong)1, received[0].SequenceNumber);
             secondHandle.Unsubscribe();
         }
-        [Fact]
         private void SubscribeToMirror(Action<TopicMessage> onNext)
         {
             SubscriptionHandle subscriptionHandle = topicMessageQuery.Subscribe(client, onNext);
@@ -359,7 +360,6 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
 
             return response;
         }
-        [Fact]
         private class ConsensusServiceStub : Proto.ConsensusService.ConsensusServiceBase
         {
             public readonly Queue<Proto.ConsensusTopicQuery> requests = new();

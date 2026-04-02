@@ -5,6 +5,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TopicUpdateIntegrationTest
     {
+        [Fact]
         public virtual void CanUpdateTopic()
         {
             using (var testEnv = new IntegrationTestEnv(1))

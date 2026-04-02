@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             Verifier.Verify(CustomFractionalFee.FromProtobuf(fee).ToString());
         }
-
+        [Fact]
         public virtual void DeepCloneSubclass()
         {
             var customFractionalFee = new CustomFractionalFee
@@ -49,35 +49,35 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             Verifier.Verify(CustomFractionalFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
-
+        [Fact]
         public virtual void GetSetNumerator()
         {
             var customFractionalFee = new CustomFractionalFee { Numerator = numerator };
 
             Assert.Equal(customFractionalFee.Numerator, numerator);
         }
-
+        [Fact]
         public virtual void GetSetDenominator()
         {
             var customFractionalFee = new CustomFractionalFee { Denominator = denominator };
 
             Assert.Equal(customFractionalFee.Denominator, denominator);
         }
-
+        [Fact]
         public virtual void GetSetMinimumAmount()
         {
             var customFractionalFee = new CustomFractionalFee { Min = minAmount };
 
             Assert.Equal(customFractionalFee.Min, minAmount);
         }
-
+        [Fact]
         public virtual void GetSetMaximumAmount()
         {
             var customFractionalFee = new CustomFractionalFee { Max = maxAmount };
 
             Assert.Equal(customFractionalFee.Max, maxAmount);
         }
-
+        [Fact]
         public virtual void GetSetAssessmentMethod()
         {
             var customFractionalFee = new CustomFractionalFee { AssessmentMethod = feeAssessmentMethod };

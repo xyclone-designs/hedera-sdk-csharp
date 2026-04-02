@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TokenUpdateNftsIntegrationTest
     {
+        [Fact]
         public virtual void CanUpdateNFTMetadataOfEntireCollection()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -71,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(metadataListAfterUpdate, updatedMetadataList);
             }
         }
-
+        [Fact]
         public virtual void CanUpdateNFTMetadataOfPartOfCollection()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -133,7 +134,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(metadataList, initialMetadataList[(nftCount / 2) .. nftCount]);
             }
         }
-
+        [Fact]
         public virtual void CannotUpdateNFTMetadataWhenItsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -186,7 +187,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(metadataListAfterUpdate, initialMetadataList);
             }
         }
-
+        [Fact]
         public virtual void CanEraseNFTsMetadata()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -241,7 +242,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(metadataListAfterUpdate, emptyMetadataList);
             }
         }
-
+        [Fact]
         public virtual void CannotUpdateNFTMetadataWhenTransactionIsNotSignedWithMetadataKey()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -305,7 +306,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotUpdateNFTMetadataWhenMetadataKeyNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

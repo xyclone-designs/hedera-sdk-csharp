@@ -11,9 +11,11 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenAirdropCancelIntegrationTest
+    public class TokenAirdropCancelIntegrationTest
     {
         private readonly int amount = 100;
+
+        [Fact]
         public virtual void CanCancelTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -75,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CanCancelTokensWhenTokenIsFrozen()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -115,7 +117,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCancelTokensWhenTokenIsPaused()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -146,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCancelTokensWhenTokenIsDeleted()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -177,7 +179,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetRecord(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanCancelTokensToMultipleReceivers()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -252,7 +254,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CanCancelTokensFromMultipleAirdropTxns()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -321,7 +323,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(EntityHelper.mitedNfts, operatorBalance.Tokens[nftID]);
             }
         }
-
+        [Fact]
         public virtual void CannotCancelTokensForNonExistingAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -355,7 +357,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanonCancelTokensForAlreadyCanceledAirdrop()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -391,7 +393,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.InvalidPendingAirdropId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanonCancelWithEmptyPendingAirdropsList()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -406,7 +408,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.EmptyPendingAirdropIdList.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotCancelTokensWithDuplicateEntries()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

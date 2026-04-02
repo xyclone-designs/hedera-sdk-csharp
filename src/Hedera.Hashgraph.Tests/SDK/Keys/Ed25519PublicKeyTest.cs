@@ -9,10 +9,12 @@ using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
-    class Ed25519PublicKeyTest
+    public class Ed25519PublicKeyTest
     {
         private static readonly string TEST_KEY_STR = "302a300506032b6570032100e0c8ec2758a5879ffac226a13c0c516b799e72e35141a0dd828f94d37988a4b7";
         private static readonly string TEST_KEY_STR_RAW = "e0c8ec2758a5879ffac226a13c0c516b799e72e35141a0dd828f94d37988a4b7";
+
+        [Fact]
         public virtual void VerifyTransaction()
         {
             var transaction = new TransferTransaction
@@ -25,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             key.SignTransaction(transaction);
             Assert.True(key.GetPublicKey().VerifyTransaction(transaction));
         }
-
+        [Fact]
         public virtual void KeyByteValidation()
         {
             byte[] invalidKeyED25519 = new byte[32];
@@ -80,7 +82,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] validDERKey = PrivateKey.GenerateED25519().GetPublicKey().ToBytesDER();
             _ = PublicKey.FromBytesED25519(validDERKey);
         }
-
+        [Fact]
         public virtual void KeyByteSerialization()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -89,7 +91,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key2Bytes = key2.ToBytes();
             Assert.Same(key2Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeyByteSerialization2()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -101,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(key2Bytes, key1Bytes);
             Assert.Same(key3Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeyByteSerialization3()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -113,7 +115,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(key2Bytes, key1Bytes);
             Assert.Same(key3Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeyByteSerializationThroughTransaction()
         {
             var senderAccount = AccountId.FromString("0.0.1337");
@@ -129,7 +131,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             _ = ITransaction.FromBytes(bytes);
             Assert.NotEmpty(tx.GetSignatures());
         }
-
+        [Fact]
         public virtual void KeyStringSerialization()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -142,7 +144,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2Str, key1Str);
             Assert.Equal(key3Str, key1Str);
         }
-
+        [Fact]
         public virtual void KeyStringSerialization2()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -155,7 +157,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2Str, key1Str);
             Assert.Equal(key3Str, key1Str);
         }
-
+        [Fact]
         public virtual void KeyStringSerialization3()
         {
             PublicKey key1 = PrivateKey.GenerateED25519().GetPublicKey();
@@ -168,7 +170,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2Str, key1Str);
             Assert.Equal(key3Str, key1Str);
         }
-
+        [Theory]
+        [InlineData("")]
         public virtual void ExternalKeyDeserialize(string keyStr)
         {
             PublicKey key = PublicKey.FromString(keyStr);
@@ -179,26 +182,26 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key.ToStringDER(), TEST_KEY_STR);
             Assert.Equal(key.ToStringRaw(), TEST_KEY_STR_RAW);
         }
-
+        [Fact]
         public virtual void KeyToString()
         {
             PublicKey key = PublicKey.FromString(TEST_KEY_STR);
             Assert.NotNull(key);
             Assert.Equal(key.ToString(), TEST_KEY_STR);
         }
-
+        [Fact]
         public virtual void KeyIsECDSA()
         {
             PublicKey key = PrivateKey.GenerateED25519().GetPublicKey();
             Assert.True(key.IsED25519());
         }
-
+        [Fact]
         public virtual void KeyIsNotEd25519()
         {
             PublicKey key = PrivateKey.GenerateED25519().GetPublicKey();
             Assert.False(key.IsECDSA());
         }
-
+        [Fact]
         public virtual void DERImportTestVectors()
         {
 

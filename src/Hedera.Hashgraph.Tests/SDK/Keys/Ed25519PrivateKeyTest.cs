@@ -10,11 +10,12 @@ using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
-    class Ed25519PrivateKeyTest
+    public class Ed25519PrivateKeyTest
     {
         private static readonly string TEST_KEY_STR = "302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10";
         private static readonly string TEST_KEY_STR_RAW = "db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10";
@@ -49,8 +50,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             yield return TEST_KEY_STR;
             yield return TEST_KEY_STR_RAW + "e0c8ec2758a5879ffac226a13c0c516b799e72e35141a0dd828f94d37988a4b7";
             yield return TEST_KEY_STR_RAW;
-		}
-
+        }
+        [Fact]
         public virtual void KeyGenerates()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
@@ -60,7 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             // we generate the chain code at the same time
             Assert.True(key.IsDerivable());
         }
-
+        [Fact]
         public virtual void KeySerialization()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -69,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key2Bytes = key2.ToBytes();
             Assert.Equal(key2Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeySerialization2()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -81,7 +82,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeySerialization3()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -93,7 +94,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2Bytes, key1Bytes);
             Assert.Equal(key3Bytes, key1Bytes);
         }
-
+        [Fact]
         public virtual void KeyStringification()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -102,7 +103,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             string key2String = key2.ToString();
             Assert.Equal(key2String, key1String);
         }
-
+        [Fact]
         public virtual void KeyStringification2()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -114,7 +115,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2String, key1String);
             Assert.Equal(key3String, key1String);
         }
-
+        [Fact]
         public virtual void KeyStringification3()
         {
             PrivateKey key1 = PrivateKey.GenerateED25519();
@@ -126,7 +127,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key2String, key1String);
             Assert.Equal(key3String, key1String);
         }
-
+        [Theory]
+        [InlineData("")]
         public virtual void ExternalKeyDeserialize(string keyStr)
         {
             PrivateKey key = PrivateKey.FromString(keyStr);
@@ -137,14 +139,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key.ToStringDER(), TEST_KEY_STR);
             Assert.Equal(key.ToStringRaw(), TEST_KEY_STR_RAW);
         }
-
+        [Fact]
         public virtual void KeyToString()
         {
             PrivateKey key = PrivateKey.FromString(TEST_KEY_STR);
             Assert.NotNull(key);
             Assert.Equal(key.ToString(), TEST_KEY_STR);
         }
-
+        [Fact]
         public virtual void KeyFromPem()
         {
             StringReader stringReader = new StringReader(TEST_KEY_PEM);
@@ -152,7 +154,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 			PrivateKey privateKey = PrivateKey.ReadPem(pemreader);
             Assert.Equal(privateKey.ToString(), TEST_KEY_STR);
         }
-
+        [Fact]
         public virtual void KeyFromMnemonic()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_STRING);
@@ -160,26 +162,24 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             PrivateKey key2 = PrivateKey.FromString(MNEMONIC_PRIVATE_KEY);
             Assert.Equal(key2.ToBytes(), key.ToBytes());
         }
-
         public virtual void ValidateGenerated12()
         {
             Mnemonic mnemonic = Mnemonic.Generate12();
             Mnemonic.FromString(mnemonic.ToString());
         }
-
+        [Fact]
         public virtual void ValidateLegacyMnemonic()
         {
             Mnemonic mnemonic = Mnemonic.FromString(MNEMONIC_LEGACY_STRING);
             PrivateKey key = mnemonic.ToLegacyPrivateKey();
             Assert.Equal(key.LegacyDerive(-1).ToString(), MNEMONIC_LEGACY_PRIVATE_KEY);
         }
-
         public virtual void ValidateGenerated24()
         {
             Mnemonic mnemonic = Mnemonic.Generate24();
             Mnemonic.FromString(mnemonic.ToString());
         }
-
+        [Fact]
         public virtual void DeriveKeyIndex0()
         {
             Mnemonic iosMnemonic = Mnemonic.FromString(IOS_MNEMONIC_STRING);
@@ -193,7 +193,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             PrivateKey androidExpectedKey = PrivateKey.FromString(ANDROID_DEFAULT_PRIVATE_KEY);
             Assert.Equal(androidDerivedKey.ToBytes(), androidExpectedKey.ToBytes());
         }
-
+        [Fact]
         public virtual void KeyFromGeneratedMnemonic24()
         {
             Mnemonic mnemonic = Mnemonic.Generate24();
@@ -202,7 +202,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 			byte[] signature = privateKey.Sign(messageToSign);
             Assert.True(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length));
         }
-
+        [Fact]
         public virtual void KeyFromGeneratedMnemonic12()
         {
             Mnemonic mnemonic = Mnemonic.Generate12();
@@ -211,33 +211,34 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] signature = privateKey.Sign(messageToSign);
             Assert.True(Ed25519.Verify(signature, 0, privateKey.GetPublicKey().ToBytes(), 0, messageToSign, 0, messageToSign.Length));
         }
-
+        [Fact]
         public virtual void KeyFromEncryptedPem()
         {
             PrivateKey privateKey = PrivateKey.FromPem(ENCRYPTED_PEM, PEM_PASSPHRASE);
             Assert.Equal(privateKey.ToString(), TEST_KEY_STR);
         }
-
+        [Fact]
         public virtual void ErrorKeyFromEncryptedPemNoPassphrase()
         {
             BadKeyException exception = Assert.Throws<BadKeyException>(() => PrivateKey.FromPem(ENCRYPTED_PEM));
             
             Assert.Contains("PEM file contained an encrypted private key but no passphrase was given", exception.Message);
         }
-
+        [Theory]
+        [InlineData("")]
         public virtual void ReproducibleSignature(string keyStr)
         {
             PrivateKey key = PrivateKey.FromString(keyStr);
             byte[] signature = key.Sign(MESSAGE_BYTES);
             Assert.Equal(Hex.ToHexString(signature), SIG_STR);
         }
-
+        [Fact]
         public virtual void KeyIsECDSA()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
             Assert.True(key.IsED25519());
         }
-
+        [Fact]
         public virtual void KeyIsNotEd25519()
         {
             PrivateKey key = PrivateKey.GenerateED25519();
@@ -255,7 +256,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
 
 			return data;
         }
-
+        [Fact]
         public virtual void Slip10TestVector1()
         {
             // https://github.com/satoshilabs/slips/blob/master/slip-0010.md#test-vector-1-for-ed25519
@@ -315,7 +316,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
             Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
-
+        [Fact]
         public virtual void Slip10TestVector2()
         {
 
@@ -376,7 +377,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(key6.ToStringRaw(), PRIVATE_KEY6);
             Assert.Contains(key6.GetPublicKey().ToStringRaw(), PUBLIC_KEY6);
         }
-
+        [Fact]
         public virtual void PEMImportTestVectors()
         {
 
@@ -394,7 +395,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(ed25519PrivateKey2.ToStringRaw(), PRIVATE_KEY2);
             Assert.Equal(ed25519PrivateKey2.GetPublicKey().ToStringRaw(), PUBLIC_KEY2);
         }
-
+        [Fact]
         public virtual void DERImportTestVectors()
         {
 

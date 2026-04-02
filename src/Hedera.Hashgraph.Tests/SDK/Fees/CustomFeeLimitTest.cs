@@ -44,12 +44,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             // Step 2: Convert Protobuf to CustomFeeLimit instance
             return CustomFeeLimit.FromProtobuf(proto);
         }
-
+        [Fact]
         public virtual void TestGetPayerId()
         {
             Assert.Equal(TEST_PAYER_ID, TEST_CUSTOM_FEE_LIMIT.PayerId);
         }
-
+        [Fact]
         public virtual void TestSetPayerId()
         {
             AccountId newPayerId = new (0, 0, 5678);
@@ -63,12 +63,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             
             Assert.Equal(newPayerId, updatedFeeLimit.PayerId);
         }
-
+        [Fact]
         public virtual void TestGetCustomFees()
         {
             Assert.Equal(TEST_FEES, TEST_CUSTOM_FEE_LIMIT.CustomFees);
         }
-
+        [Fact]
         public virtual void TestSetCustomFees()
         {
             IList<CustomFixedFee> newFees = [];
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
             Assert.Equal(newFees, updatedFeeLimit.CustomFees);
         }
-
+        [Fact]
         public virtual void TestToProtobuf()
         {
             // Create a protobuf representation manually
@@ -92,7 +92,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(TEST_PAYER_ID, proto.PayerId);
             Assert.False(proto.CustomFees.Count == 0);
         }
-
+        [Fact]
         public virtual void TestFromProtobuf()
         {
             var proto = new Proto.CustomFeeLimit

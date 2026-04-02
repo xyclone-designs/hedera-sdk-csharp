@@ -11,6 +11,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TokenUnpauseIntegrationTest
     {
+        [Fact]
         public virtual void CanExecuteTokenUnpauseTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -85,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotUnpauseWithNoTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

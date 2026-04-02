@@ -13,6 +13,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class FileAppendIntegrationTest
     {
+        [Fact]
         public virtual void CanAppendToFile()
         {
 
@@ -63,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanAppendLargeContentsToFile()
         {
 
@@ -122,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanAppendLargeContentsToFileDespiteExpiration()
         {
 
@@ -184,7 +185,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new FileDeleteTransaction { FileId = fileId, }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanFileAppendSignForMultipleNodes()
         {
             using (var testEnv = new IntegrationTestEnv(1))

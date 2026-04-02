@@ -7,8 +7,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenRevokeKycIntegrationTest
+    public class TokenRevokeKycIntegrationTest
     {
+        [Fact]
         public virtual void CanRevokeKycAccountWithToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -60,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotRevokeKycToAccountOnTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -87,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotRevokeKycToAccountOnTokenWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -123,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotRevokeKycToAccountOnTokenWhenAccountWasNotAssociatedWith()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

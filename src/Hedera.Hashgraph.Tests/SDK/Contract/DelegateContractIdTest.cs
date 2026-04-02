@@ -9,7 +9,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.Contract
 {
-    class DelegateContractIdTest
+    public class DelegateContractIdTest
     {
         public virtual void FromString()
         {
@@ -40,7 +40,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             Verifier.Verify(new DelegateContractId(0, 0, 5005).ToEvmAddress());
         }
-
+        [Fact]
         public virtual void FromEvmAddressIncorrectSizeTooShort()
         {
             ArgumentException exception = Assert.Throws<ArgumentException>(() =>
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             
             Assert.Contains(exception.Message, "Solidity addresses must be 20 bytes or 40 hex chars");
         }
-
+        [Fact]
         public virtual void FromEvmAddressIncorrectSizeTooLong()
         {
             ArgumentException exception = Assert.Throws<ArgumentException>(() =>
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             
             Assert.Contains(exception.Message, "Solidity addresses must be 20 bytes or 40 hex chars");
         }
-
+        [Fact]
         public virtual void FromEvmAddressIncorrectSizeWith0xPrefix()
         {
 			ArgumentException exception = Assert.Throws<ArgumentException>(() =>
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             
             Assert.Contains(exception.Message, "Solidity addresses must be 20 bytes or 40 hex chars");
         }
-
+        [Fact]
         public virtual void FromEvmAddressCorrectSize()
         {
             string correctAddress = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e";
@@ -79,26 +79,26 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             Assert.NotNull(id.EvmAddress);
             Assert.Equal(Hex.ToHexString(id.EvmAddress), "742d35cc6634c0532925a3b844bc454e4438f44e");
         }
-
+        [Fact]
         public virtual void ToEvmAddressNormalContractId()
         {
             DelegateContractId id = new DelegateContractId(0, 0, 123);
             Assert.Equal(id.ToEvmAddress(), "000000000000000000000000000000000000007b");
         }
-
+        [Fact]
         public virtual void ToEvmAddressWithDifferentShardAndRealm()
         {
             DelegateContractId id = new DelegateContractId(1, 1, 123);
             Assert.Equal(id.ToEvmAddress(), "000000000000000000000000000000000000007b");
         }
-
+        [Fact]
         public virtual void ToEvmAddressLongZeroAddress()
         {
             string longZeroAddress = "00000000000000000000000000000000000004d2";
             DelegateContractId id = DelegateContractId.FromEvmAddress(1, 1, longZeroAddress);
             Assert.Equal(id.ToEvmAddress(), longZeroAddress.ToLower());
         }
-
+        [Fact]
         public virtual void ToEvmAddressNormalEvmAddress()
         {
             string evmAddress = "742d35Cc6634C0532925a3b844Bc454e4438f44e";
@@ -106,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             string expected = evmAddress.ToLower();
             Assert.Equal(id.ToEvmAddress(), expected);
         }
-
+        [Fact]
         public virtual void ToEvmAddressNormalEvmAddressWithShardAndRealm()
         {
             string evmAddress = "742d35Cc6634C0532925a3b844Bc454e4438f44e";

@@ -9,8 +9,9 @@ using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountBalanceIntegrationTest
+    public class AccountBalanceIntegrationTest
     {
+        [Fact]
         public virtual void CanConnectToPreviewnetWithTLS()
         {
             var client = Client.ForPreviewnet(client => client.TransportSecurity = true);
@@ -39,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             client.Dispose();
             Assert.True(succeededAtLeastOnce);
         }
-
+        [Fact]
         public virtual void CanConnectToTestnetWithTLS()
         {
             var client = Client.ForPreviewnet(client => client.TransportSecurity = true);
@@ -68,7 +69,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             client.Dispose();
             Assert.True(succeededAtLeastOnce);
         }
-
+        [Fact]
         public virtual void CanConnectToMainnetWithTLS()
         {
             var client = Client.ForPreviewnet(client => client.TransportSecurity = true);
@@ -98,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             client.Dispose();
             Assert.True(succeededAtLeastOnce);
         }
-
+        [Fact]
         public virtual void CannotConnectToPreviewnetWhenNetworkNameIsNullAndCertificateVerificationIsEnabled()
         {
             var client = Client.ForPreviewnet(client =>
@@ -126,7 +127,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
             client.Dispose();
         }
-
+        [Fact]
         public virtual void CanFetchBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -140,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(balance.Hbars.ToTinybars() > 0);
             }
         }
-
+        [Fact]
         public virtual void GetCostBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -157,7 +158,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(0, cost.ToTinybars());
             }
         }
-
+        [Fact]
         public virtual void GetCostBigMaxBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -173,7 +174,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(accBalance.Hbars.ToTinybars() > 0);
             }
         }
-
+        [Fact]
         public virtual void GetCostSmallMaxBalanceForClientOperator()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -190,7 +191,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.True(accBalance.Hbars.ToTinybars() > 0);
             }
         }
-
+        [Fact]
         public virtual void CanNotFetchBalanceForInvalidAccountId()
         {
             using (IntegrationTestEnv testEnv = new IntegrationTestEnv(1))
@@ -206,7 +207,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanFetchTokenBalancesForClientOperator()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

@@ -7,8 +7,9 @@ using Hedera.Hashgraph.SDK.Token;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenMintIntegrationTest
+    public class TokenMintIntegrationTest
     {
+        [Fact]
         public virtual void CanMintTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -41,6 +42,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal<ulong>(1000000 + 10, receipt.TotalSupply);
             }
         }
+        [Fact]
         public virtual void CannotMintMoreThanMaxSupply()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -71,6 +73,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.TokenMaxSupplyReached.ToString(), exception.Message);
             }
         }
+        [Fact]
         public virtual void CannotMintTokensWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -87,6 +90,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
+        [Fact]
         public virtual void CanMintTokensWhenAmountIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -117,6 +121,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(ResponseStatus.Success, receipt.Status);
             }
         }
+        [Fact]
         public virtual void CannotMintTokensWhenSupplyKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -158,6 +163,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
+        [Fact]
         public virtual void CanMintNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -188,6 +194,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(10, receipt.Serials.Count);
             }
         }
+        [Fact]
         public virtual void CannotMintNftsIfMetadataTooBig()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TokenRejectFlowIntegrationTest
     {
+        [Fact]
         public virtual void CanExecuteTokenRejectFlowForFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -74,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteTokenRejectFlowForFungibleTokenAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -140,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                     .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteTokenRejectFlowForNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -212,7 +213,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteTokenRejectFlowForNftWhenRejectingOnlyPartOfOwnedNFTs()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

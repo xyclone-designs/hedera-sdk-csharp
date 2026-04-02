@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TokenRejectIntegrationTest
     {
+        [Fact]
         public virtual void CanExecuteTokenRejectTransactionForFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -76,6 +77,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CanExecuteTokenRejectTransactionForNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -161,6 +163,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftInOneTx()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -278,6 +281,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftWhenTreasuryReceiverSigRequiredIsEnabled()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -437,6 +441,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsFrozen()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -530,6 +535,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsPaused()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -609,6 +615,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains("TOKEN_IS_PAUSED", exception2.Message);
             }
         }
+        [Fact]
         public virtual void CanRemoveAllowanceWhenExecutingTokenRejectForFtAndNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -755,6 +762,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
+        [Fact]
         public virtual void CannotRejectNftWhenUsingAddOrSetTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -818,6 +826,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CannotRejectTokenWhenExecutingTokenRejectAndDuplicatingTokenReference()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -897,6 +906,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CannotRejectTokenWhenOwnerHasEmptyBalance()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -985,6 +995,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
+        [Fact]
         public virtual void CannotRejectTokenWhenTreasuryRejects()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1032,6 +1043,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains("ACCOUNT_IS_TREASURY", exception2.Message);
             }
         }
+        [Fact]
         public virtual void CannotRejectTokenWithInvalidSignature()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1072,6 +1084,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
             }
         }
+        [Fact]
         public virtual void CannotRejectTokenWhenTokenOrNFTIdIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -1090,6 +1103,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains("EMPTY_TOKEN_REFERENCE_LIST", exception.Message);
             }
         }
+        [Fact]
         public virtual void CannotRejectTokenWhenTokenReferenceListSizeExceeded()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

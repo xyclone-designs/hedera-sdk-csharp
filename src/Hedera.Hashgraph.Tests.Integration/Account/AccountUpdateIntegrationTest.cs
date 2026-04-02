@@ -8,8 +8,9 @@ using System;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountUpdateIntegrationTest
+    public class AccountUpdateIntegrationTest
     {
+        [Fact]
         public virtual void CanUpdateAccountWithNewKey()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -59,6 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(info.ProxyReceived, Hbar.ZERO);
             }
         }
+        [Fact]
         public virtual void CannotUpdateAccountWhenAccountIdIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))

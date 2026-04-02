@@ -7,6 +7,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 {
     public class BaseNodeAddressTest
     {
+        [Fact]
         public virtual void FromString()
         {
             var ipAddress = BaseNodeAddress.FromString("35.237.200.180:50211");

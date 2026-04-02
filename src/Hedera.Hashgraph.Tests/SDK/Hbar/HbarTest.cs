@@ -23,6 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             yield return [ new BigDecimal("0.00000005"), HbarUnit.GIGABAR ];
         }
 
+        [Fact]
         public virtual void ShouldConstruct()
         {
             Assert.Equal(fiftyHbar.ToTinybars(), fiftyGTinybar);
@@ -30,12 +31,12 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Assert.Equal(new Hbar(50).ToTinybars(), fiftyGTinybar);
             Assert.Equal(Hbar.FromTinybars(fiftyGTinybar).ToTinybars(), fiftyGTinybar);
         }
-
+        [Fact]
         public virtual void ShouldNotConstruct()
         {
             Exception exception = Assert.Throws<Exception>(() => new Hbar(BigDecimal.Parse("0.1"), HbarUnit.TINYBAR));
         }
-
+        [Fact]
         public virtual void ShouldDisplay()
         {
             Assert.Equal(fiftyHbar.ToString(), "50 ℏ");
@@ -45,13 +46,16 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Assert.Equal(Hbar.FromTinybars(1000).ToString(), "1000 tℏ");
             Assert.Equal(Hbar.FromTinybars(1000).Negated().ToString(), "-1000 tℏ");
         }
-
+        [Theory]
+        [MemberData(nameof(ShouldConvert_Data))]
         public virtual void ShouldConvert(BigDecimal value, HbarUnit unit)
         {
             Assert.Equal(Hbar.From(value, unit), fiftyHbar);
             Assert.Equal(fiftyHbar.To(unit), value);
         }
+        public static IEnumerable<object?[]> ShouldConvert_Data() { yield return [BigDecimal.ValueOf(0), HbarUnit.HBAR]; }
 
+        [Fact]
         public virtual void ShouldCompare()
         {
             Assert.Equal(fiftyHbar, fiftyHbar);
@@ -61,12 +65,12 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
             Assert.True(hundredHbar.CompareTo(fiftyHbar) > 0);
             Assert.True(fiftyHbar.CompareTo(negativeFiftyHbar) > 0);
         }
-
+        [Fact]
         public virtual void ConstructorWorks()
         {
             new Hbar(1);
         }
-
+        [Fact]
         public virtual void FromString()
         {
             Assert.Equal(Hbar.FromString("1").ToTinybars(), 100000000);
@@ -85,27 +89,27 @@ namespace Hedera.Hashgraph.Tests.SDK.HBar
                 Hbar.FromString("1ℏ");
             });
         }
-
+        [Fact]
         public virtual void FromStringUnit()
         {
             Assert.Equal(Hbar.FromString("1", HbarUnit.TINYBAR).ToTinybars(), 1);
         }
-
+        [Fact]
         public virtual void From()
         {
             Assert.Equal(Hbar.From(1).ToTinybars(), 100000000);
         }
-
+        [Fact]
         public virtual void FromUnit()
         {
             Assert.Equal(Hbar.From(1, HbarUnit.TINYBAR).ToTinybars(), 1);
         }
-
+        [Fact]
         public virtual void GetValue()
         {
             Assert.Equal(new Hbar(1).GetValue(), BigDecimal.ValueOf(1));
         }
-
+        [Fact]
         public virtual void HasHashCode()
         {
             Assert.Equal(new Hbar(1).GetHashCode(), 100000031);

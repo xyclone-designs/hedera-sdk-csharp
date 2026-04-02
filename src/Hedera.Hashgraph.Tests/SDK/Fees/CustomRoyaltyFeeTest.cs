@@ -27,7 +27,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             Verifier.Verify(CustomRoyaltyFee.FromProtobuf(fee).ToString());
         }
-
+        [Fact]
         public virtual void DeepCloneSubclass()
         {
             var customRoyaltyFee = new CustomRoyaltyFee
@@ -45,21 +45,21 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             Verifier.Verify(CustomRoyaltyFee.FromProtobuf(fee).ToProtobuf().ToString());
         }
-
+        [Fact]
         public virtual void GetSetNumerator()
         {
             var customRoyaltyFee = new CustomRoyaltyFee { Numerator = numerator };
             
             Assert.Equal(customRoyaltyFee.Numerator, numerator);
         }
-
+        [Fact]
         public virtual void GetSetDenominator()
         {
             var customRoyaltyFee = new CustomRoyaltyFee { Denominator = denominator };
             
             Assert.Equal(customRoyaltyFee.Denominator, denominator);
         }
-
+        [Fact]
         public virtual void GetSetFallbackFee()
         {
             var customRoyaltyFee = new CustomRoyaltyFee { FallbackFee = fallbackFee };

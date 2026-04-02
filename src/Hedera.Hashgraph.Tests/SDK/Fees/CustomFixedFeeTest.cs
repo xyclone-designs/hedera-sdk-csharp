@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             Verifier.Verify(CustomFixedFee.FromProtobuf(fee).ToString());
         }
-
+        [Fact]
         public virtual void DeepCloneSubclass()
         {
             var customFixedFee = new CustomFixedFee
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         {
             Verifier.Verify(CustomFixedFee.FromProtobuf(fee).ToFixedFeeProtobuf().ToString());
         }
-
+        [Fact]
         public virtual void GetSetAmount()
         {
             var customFixedFee1 = new CustomFixedFee { Amount = amount };
@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             Assert.Equal(customFixedFee2.AmountHbar.ToTinybars(), amount);
             Assert.Equal(customFixedFee1.AmountHbar.ToTinybars(), customFixedFee2.Amount);
         }
-
+        [Fact]
         public virtual void GetSetDenominatingToken()
         {
             var customFixedFee = new CustomFixedFee
@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
             Assert.Equal(customFixedFee.DenominatingTokenId, tokenId);
         }
-
+        [Fact]
         public virtual void SetSentinelValueToken()
         {
             var customFixedFee = new CustomFixedFee().SetDenominatingTokenToSameToken();

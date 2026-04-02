@@ -3,8 +3,9 @@ using Hedera.Hashgraph.SDK.Fees;
 
 namespace Hedera.Hashgraph.Tests.SDK.Fees
 {
-    class FeeAssessmentMethodTest
+    public class FeeAssessmentMethodTest
     {
+        [Fact]
         public virtual void FeeAssessmentMethodToString()
         {
             Assert.Equal(true.ToFeeAssessmentMethod().ToString(), FeeAssessmentMethod.Exclusive.ToString());

@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
                 },
             };
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalFeeSchedules = SpawnFeeSchedulesExample();
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
             
             Verifier.Verify(Regex.Replace(originalFeeSchedules.ToString(), "@[A-Za-z0-9]+", ""));
         }
-
+        [Fact]
         public virtual void ShouldSerializeNull()
         {
             var originalFeeSchedules = new FeeSchedules();

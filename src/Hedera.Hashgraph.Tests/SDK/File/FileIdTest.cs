@@ -9,7 +9,7 @@ using VerifyXunit;
 
 namespace Hedera.Hashgraph.Tests.SDK.File
 {
-    class FileIdTest
+    public class FileIdTest
     {
         public virtual void ShouldSerializeFromString()
         {
@@ -35,7 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         {
             Verifier.Verify(new FileId(0, 0, 5005).ToEvmAddress());
         }
-
+        [Fact]
         public virtual void GetAddressBookFileIdForReturnsCorrectFileId()
         {
             FileId defaultAddressBook = FileId.GetAddressBookFileIdFor(0, 0);
@@ -58,7 +58,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             
             Verifier.Verify(customAddressBook.ToString());
         }
-
+        [Fact]
         public virtual void GetFeeScheduleFileIdForReturnsCorrectFileId()
         {
             FileId defaultFeeSchedule = FileId.GetFeeScheduleFileIdFor(0, 0);
@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
             Verifier.Verify(customFeeSchedule.ToString());
         }
-
+        [Fact]
         public virtual void GetExchangeRatesFileIdForReturnsCorrectFileId()
         {
             FileId defaultExchangeRates = FileId.GetExchangeRatesFileIdFor(0, 0);
@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
             Verifier.Verify(customExchangeRates.ToString());
         }
-
+        [Fact]
         public virtual void TestFileIdFromEvmAddressIncorrectAddress()
         {
 
@@ -140,7 +140,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
 
             Assert.True(exception.Message.Contains("EVM address is not a correct long zero address"));
         }
-
+        [Fact]
         public virtual void TestFileIdFromEvmAddress()
         {
             // Test with a long zero address representing file 1234
@@ -156,7 +156,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Equal(1, id.Realm);
             Assert.Equal(1234, id.Num);
         }
-
+        [Fact]
         public virtual void TestFileIdToEvmAddress()
         {
             // Test with a normal file ID

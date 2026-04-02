@@ -11,6 +11,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class FileUpdateIntegrationTest
     {
+        [Fact]
         public virtual void CanUpdateFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -62,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotUpdateImmutableFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -98,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Contains(ResponseStatus.Unauthorized.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotUpdateFileWhenFileIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -114,7 +115,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidFileId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanUpdateFeeScheduleFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))

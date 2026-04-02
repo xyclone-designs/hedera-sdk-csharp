@@ -8,6 +8,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TopicInfoIntegrationTest
     {
+        [Fact]
         public virtual void CanQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -32,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void GetCostQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -59,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void GetCostBigMaxQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -87,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void GetCostSmallMaxQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -118,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void GetCostInsufficientTxFeeQueryTopicInfo()
         {
             using (var testEnv = new IntegrationTestEnv(1))

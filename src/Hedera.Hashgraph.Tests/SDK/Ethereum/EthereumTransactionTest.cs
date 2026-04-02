@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new EthereumTransaction();
@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNft()
         {
             var tx = SpawnTestTransaction();

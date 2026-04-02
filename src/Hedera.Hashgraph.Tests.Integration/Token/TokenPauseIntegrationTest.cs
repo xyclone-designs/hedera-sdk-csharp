@@ -10,6 +10,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TokenPauseIntegrationTest
     {
+        [Fact]
         public virtual void CanExecuteTokenPauseTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -74,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 });
             }
         }
-
+        [Fact]
         public virtual void CannotPauseWithNoTokenId()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

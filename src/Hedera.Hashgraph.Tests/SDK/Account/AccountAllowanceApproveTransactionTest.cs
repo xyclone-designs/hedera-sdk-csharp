@@ -52,12 +52,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         {
             Verifier.Verify(SpawnTestTransaction().ToString());
         }
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
             var tx2 = Transaction.FromBytes<AccountAllowanceApproveTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
+        [Fact]
         public virtual void PropertiesTest()
         {
             var tx = SpawnTestTransaction();
@@ -68,12 +70,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.NotEmpty(tx.GetTokenNftAllowances());
             Assert.NotEmpty(tx.GetTokenNftApprovals());
         }
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new AccountAllowanceApproveTransaction();
             var tx2 = Transaction.FromBytes<AccountAllowanceApproveTransaction>(tx.ToBytes());
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -84,6 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             Assert.IsType<AccountAllowanceApproveTransaction>(tx);
         }
+        [Fact]
         public virtual void DeleteNftAllowanceAllSerials()
         {
             var accountAllowanceApproveTransaction = new AccountAllowanceApproveTransaction().DeleteTokenNftAllowanceAllSerials(testTokenId, testOwnerAccountId, testSpenderAccountId);
@@ -96,6 +101,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.False(accountAllowanceApproveTransaction.GetTokenNftApprovals()[0].AllSerials);
             Assert.Null(accountAllowanceApproveTransaction.GetTokenNftApprovals()[0].DelegatingSpender);
         }
+        [Fact]
         public virtual void DeleteNftAllowanceAllSerialsFrozen()
         {
             var tx = SpawnTestTransaction();

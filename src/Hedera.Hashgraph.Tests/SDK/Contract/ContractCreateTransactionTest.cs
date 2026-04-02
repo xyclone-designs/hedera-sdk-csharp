@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             Verifier.Verify(SpawnTestTransaction2().ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new ContractCreateTransaction();
@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var tx = SpawnTestTransaction();
@@ -89,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
-
+        [Fact]
         public virtual void ShouldBytes2()
         {
             var tx = SpawnTestTransaction2();
@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             Assert.Equal(tx2.ToString(), tx2.ToString());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var tx = Transaction.FromScheduledTransaction(transactionBody);
             Assert.IsType<ContractCreateTransaction>(tx);
         }
-
+        [Fact]
         public virtual void SetGasShouldRejectNegativeValues()
         {
             var tx = new ContractCreateTransaction();
@@ -115,7 +115,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             Assert.Equal(ex.Message, "Gas must be non-negative");
         }
-
+        [Fact]
         public virtual void SetGasShouldAcceptZeroAndPositiveValues()
         {
             var tx = new ContractCreateTransaction();

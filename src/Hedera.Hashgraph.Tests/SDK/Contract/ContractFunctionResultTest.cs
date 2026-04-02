@@ -16,6 +16,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         private static readonly string STRING_ARRAY_RESULT_HEX = "0000000000000000000000000000000000000000000000000000000000000020" + "0000000000000000000000000000000000000000000000000000000000000002" + "0000000000000000000000000000000000000000000000000000000000000040" + "0000000000000000000000000000000000000000000000000000000000000080" + "000000000000000000000000000000000000000000000000000000000000000C" + "72616E646F6D2062797465730000000000000000000000000000000000000000" + "000000000000000000000000000000000000000000000000000000000000000C" + "72616E646F6D2062797465730000000000000000000000000000000000000000";
         private static readonly byte[] callResult = Hex.Decode(CALL_RESULT_HEX);
         private static readonly byte[] stringArrayCallResult = Hex.Decode(STRING_ARRAY_RESULT_HEX);
+        [Fact]
         public virtual void ProvidesResultsCorrectly()
         {
             var proto = new Proto.ContractFunctionResult
@@ -61,7 +62,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             
             Assert.Single(result.ContractNonces, new ContractNonceInfo(ContractId.FromString("1.2.3"), 10));
         }
-
+        [Fact]
         public virtual void CanGetStringArrayResult()
         {
             var result = new ContractFunctionResult(new Proto.ContractFunctionResult

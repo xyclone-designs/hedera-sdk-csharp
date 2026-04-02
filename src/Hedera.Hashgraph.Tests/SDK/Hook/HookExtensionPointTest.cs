@@ -5,8 +5,9 @@ using System;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class HookExtensionPointTest
+    public class HookExtensionPointTest
     {
+        [Fact]
         public virtual void RoundTripAllEnumValues()
         {
             foreach (HookExtensionPoint value in Enum.GetValues<HookExtensionPoint>())
@@ -21,7 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
                 //Assert.Equal(value, restored, "Round-trip mismatch for " + value.ToString());
             }
         }
-
+        [Fact]
         public virtual void ProtoValuesAreStable()
         {
 			foreach (HookExtensionPoint value in Enum.GetValues<HookExtensionPoint>())

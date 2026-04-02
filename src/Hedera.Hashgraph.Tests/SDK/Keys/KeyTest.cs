@@ -13,8 +13,9 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
-    class KeyTest
+    public class KeyTest
     {
+        [Fact]
         public virtual void SignatureVerified()
         {
 			var message = Encoding.UTF8.GetBytes("Hello, World");
@@ -24,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(signature.Length, 64);
             Assert.True(publicKey.Verify(message, signature));
         }
-
+        [Fact]
         public virtual void SignatureVerifiedECDSA()
         {
             var message = Encoding.UTF8.GetBytes("Hello, World");
@@ -38,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             signature[5] += 1;
             Assert.False(publicKey.Verify(message, signature));
         }
-
+        [Fact]
         public virtual void CalculateRecoveryIdECDSA()
         {
 			var message = Encoding.UTF8.GetBytes("Hello, World");
@@ -53,7 +54,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var recId = ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, message);
             Assert.True(recId >= 0 && recId <= 1);
         }
-
+        [Fact]
         public virtual void FailToCalculateRecoveryIdWithIllegalInputDataECDSA()
         {
 
@@ -76,7 +77,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var wrongMessage = Encoding.UTF8.GetBytes("Hello");
 			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => ((PrivateKeyECDSA)privateKey).GetRecoveryId(r, s, wrongMessage));
         }
-
+        [Fact]
         public virtual void FromProtoKeyEd25519()
         {
             var keyBytes = Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011");
@@ -85,7 +86,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.IsType<PublicKeyED25519>(cut);
             Assert.Same(cut.ToBytes(), keyBytes);
         }
-
+        [Fact]
         public virtual void FromProtoKeyECDSA()
         {
             var keyProtobufBytes = Hex.Decode("3a21034e0441201f2bf9c7d9873c2a9dc3fd451f64b7c05e17e4d781d916e3a11dfd99");
@@ -94,7 +95,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.IsType<PublicKeyECDSA>(cut);
             Assert.Same(((PublicKey)cut).ToProtobufKey().ToByteArray(), keyProtobufBytes);
         }
-
+        [Fact]
         public virtual void FromProtoKeyKeyList()
         {
             // given
@@ -122,7 +123,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
             Assert.Same(actual.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
-
+        [Fact]
         public virtual void FromProtoKeyThresholdKey()
         {
             // given
@@ -153,7 +154,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
             Assert.Same(actual.Keys.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
-
+        [Fact]
         public virtual void ThrowsUnsupportedKey()
         {
             byte[] keyBytes = new[]
@@ -165,7 +166,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var protoKey = new Proto.Key { RSA3072 = ByteString.CopyFrom(keyBytes) };
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => Key.FromProtobufKey(protoKey));
         }
-
+        [Fact]
         public virtual void KeyEquals()
         {
             var key1 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -176,13 +177,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.NotEqual(key1.GetPublicKey().ToStringDER(), "random string");
             Assert.NotEqual(key1.GetPublicKey().ToStringRaw(), "random string");
         }
-
+        [Fact]
         public virtual void KeyHash()
         {
             var key = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
             var _ = key.GetHashCode();
         }
-
+        [Fact]
         public virtual void KeyListMethods()
         {
             var key1 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
@@ -225,7 +226,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             keyList.Remove(key3);
             Assert.Empty(keyList);
         }
-
+        [Fact]
         public virtual void FromBytesEd25519()
         {
             var keyBytes = Hex.Decode("0011223344556677889900112233445566778899001122334455667788990011");
@@ -235,7 +236,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(cut.GetType(), typeof(PublicKeyED25519));
             Assert.Same(cut.ToBytes(), keyBytes);
         }
-
+        [Fact]
         public virtual void FromBytesECDSA()
         {
             var keyBytes = Hex.Decode("3a21034e0441201f2bf9c7d9873c2a9dc3fd451f64b7c05e17e4d781d916e3a11dfd99");
@@ -243,7 +244,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Equal(cut.GetType(), typeof(PublicKeyECDSA));
             Assert.Same(cut.ToProtobufKey().ToByteArray(), keyBytes);
         }
-
+        [Fact]
         public virtual void FromBytesKeyList()
         {
             var keyBytes = new byte[][]
@@ -268,7 +269,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
             Assert.Same(actual.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
-
+        [Fact]
         public virtual void FromBytesThresholdKey()
         {
             var keyBytes = new byte[][]
@@ -297,7 +298,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             Assert.Same(actual.Keys.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
             Assert.Same(actual.Keys.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
-
+        [Fact]
         public virtual void ThrowsUnsupportedKeyFromBytes()
         {
             byte[] keyBytes = [0, 1, 2];

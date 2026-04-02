@@ -10,6 +10,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 {
     public class AccountUpdateTransactionHooksTest
     {
+        [Fact]
         public virtual void ShouldAddHookToCreate()
         {
             var tx = new AccountUpdateTransaction();
@@ -22,7 +23,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Single(tx.HookCreationDetails);
             Assert.Equal(tx.HookCreationDetails[0], hookDetails);
         }
-
+        [Fact]
         public virtual void ShouldSetHooksToCreate()
         {
             var tx = new AccountUpdateTransaction();
@@ -37,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             //Assert.Equal(2, tx.GetHbarTransfers().Count);
             //Assert.Contains([hookDetails1, hookDetails2], tx.HookCreationDetails);
         }
-
+        [Fact]
         public virtual void ShouldAddHookToDelete()
         {
             var tx = new AccountUpdateTransaction();
@@ -48,7 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Single(tx.HookIdsToDelete);
             Assert.Contains(hookId, tx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldAddHooksToDelete()
         {
             var tx = new AccountUpdateTransaction();
@@ -59,7 +60,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             //Assert.Equal(2, tx.GetHbarTransfers().Count);
             //Assert.Contains([123, 456, 789], tx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void HooksToCreate()
         {
             var tx = new AccountUpdateTransaction();
@@ -75,7 +76,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             result.Clear();
             Assert.Single(tx.HookCreationDetails);
         }
-
+        [Fact]
         public virtual void ShouldGetHooksToDelete()
         {
             var tx = new AccountUpdateTransaction();
@@ -88,7 +89,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             result.Clear();
             Assert.Single(tx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldThrowWhenAddingHookAfterFreeze()
         {
             var tx = new AccountUpdateTransaction();
@@ -105,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
-
+        [Fact]
         public virtual void ShouldThrowWhenSettingHooksAfterFreeze()
         {
             var tx = new AccountUpdateTransaction
@@ -123,7 +124,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
-
+        [Fact]
         public virtual void ShouldThrowWhenDeletingHookAfterFreeze()
         {
             var tx = new AccountUpdateTransaction
@@ -137,7 +138,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
-
+        [Fact]
         public virtual void ShouldThrowWhenDeletingHooksAfterFreeze()
         {
             var tx = new AccountUpdateTransaction
@@ -151,7 +152,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
 			Assert.Contains(exception.Message, "transaction is immutable");
 		}
-
+        [Fact]
         public virtual void ShouldSerializeHooksInBuild()
         {
             var tx = new AccountUpdateTransaction();
@@ -168,7 +169,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Single(builder.HookIdsToDelete);
             Assert.Contains(123, builder.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldDeserializeHooksFromTransactionBody()
         {
             var tx = new AccountUpdateTransaction();
@@ -186,7 +187,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Single(deserializedTx.HookIdsToDelete);
             Assert.Contains(123, deserializedTx.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldHandleEmptyHooks()
         {
             var tx = new AccountUpdateTransaction();
@@ -199,7 +200,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             Assert.Empty(builder.HookCreationDetails);
             Assert.Empty(builder.HookIdsToDelete);
         }
-
+        [Fact]
         public virtual void ShouldSupportMultipleHooks()
         {
             var tx = new AccountUpdateTransaction();

@@ -9,8 +9,9 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenManualAssociationIntegrationTest
+    public class TokenManualAssociationIntegrationTest
     {
+        [Fact]
         public virtual void CanManuallyAssociateAccountWithFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -47,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(accountBalance.Tokens[tokenId], (ulong)10);
             }
         }
-
+        [Fact]
         public virtual void CanManuallyAssociateAccountWithNft()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -80,7 +81,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 nftTransferTransaction.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanManuallyAssociateContractWithFungibleToken()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -118,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanManuallyAssociateContractWithNft()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -155,7 +156,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanExecuteTokenAssociateTransactionEvenWhenTokenIDsAreNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -170,7 +171,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.FreezeWith(testEnv.Client).Sign(accountKey).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotAssociateAccountWithTokensWhenAccountIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -185,7 +186,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidAccountId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotAssociateAccountWhenAccountDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

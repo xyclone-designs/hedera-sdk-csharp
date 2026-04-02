@@ -8,8 +8,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountUpdateTransactionHooksIntegrationTest
+    public class AccountUpdateTransactionHooksIntegrationTest
     {
+        [Fact]
         public virtual void AccountUpdateWithBasicLambdaHookSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -47,6 +48,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
+        [Fact]
         public virtual void AccountUpdateWithDuplicateHookIdsInSameTransactionFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -82,6 +84,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}); Assert.Contains(ResponseStatus.HookIdRepeatedInCreationDetails.ToString(), exception.Message);
             }
         }
+        [Fact]
         public virtual void AccountUpdateWithExistingHookIdFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -123,6 +126,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookIdInUse);
 			}
         }
+        [Fact]
         public virtual void AccountUpdateWithLambdaHookAndStorageUpdatesSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -156,6 +160,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
+        [Fact]
         public virtual void AccountUpdateWithHookIdAlreadyInUseFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -196,6 +201,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookIdInUse);
             }
         }
+        [Fact]
         public virtual void AccountUpdateWithHookDeletionSucceeds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -230,6 +236,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
+        [Fact]
         public virtual void AccountUpdateWithNonExistentHookIdDeletionFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -267,6 +274,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
+        [Fact]
         public virtual void AccountUpdateWithAddAndDeleteSameHookIdFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -304,6 +312,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Equal(exception.Receipt.Status, ResponseStatus.HookNotFound);
             }
         }
+        [Fact]
         public virtual void AccountUpdateWithAlreadyDeletedHookFails()
         {
             using (var testEnv = new IntegrationTestEnv(1))

@@ -6,8 +6,9 @@ using System.Text;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class ContractIdPopulationIntegrationTest
+    public class ContractIdPopulationIntegrationTest
     {
+        [Fact]
         public virtual void CanPopulateContractIdNumSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -51,8 +52,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(contractId.Num, newContractId.Num);
             }
         }
-
-        public virtual async void CanPopulateContractIdNumAsync()
+        [Fact]
+        public virtual void CanPopulateContractIdNumAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -91,7 +92,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 
                 Thread.Sleep(5000);
 
-                var newContractId = await idMirror.PopulateContractNumAsync(testEnv.Client);
+                var newContractId = idMirror.PopulateContractNumAsync(testEnv.Client).GetAwaiter().GetResult();
                 Assert.Equal(contractId.Num, newContractId.Num);
             }
         }

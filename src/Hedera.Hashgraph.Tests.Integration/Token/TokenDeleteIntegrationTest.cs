@@ -5,8 +5,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenDeleteIntegrationTest
+    public class TokenDeleteIntegrationTest
     {
+        [Fact]
         public virtual void CanDeleteToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -36,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanDeleteTokenWithOnlyAdminKeySet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -53,7 +54,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 var _ = response.GetReceipt(testEnv.Client).TokenId;
             }
         }
-
+        [Fact]
         public virtual void CannotDeleteTokenWhenAdminKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -85,7 +86,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.FreezeWith(testEnv.Client).Sign(key).Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotDeleteTokenWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

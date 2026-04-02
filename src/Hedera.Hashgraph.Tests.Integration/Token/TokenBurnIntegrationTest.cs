@@ -8,8 +8,9 @@ using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenBurnIntegrationTest
+    public class TokenBurnIntegrationTest
     {
+        [Fact]
         public virtual void CanBurnTokens()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -41,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal<ulong>(receipt.TotalSupply, 1000000 - 10);
             }
         }
-
+        [Fact]
         public virtual void CannotBurnTokensWhenTokenIDIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -57,7 +58,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidTokenId.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanBurnTokensWhenAmountIsNotSet()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -88,7 +89,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
-
+        [Fact]
         public virtual void CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -123,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }); Assert.Contains(ResponseStatus.InvalidSignature.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CanBurnNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -159,7 +160,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotBurnNftsWhenNftIsNotOwned()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

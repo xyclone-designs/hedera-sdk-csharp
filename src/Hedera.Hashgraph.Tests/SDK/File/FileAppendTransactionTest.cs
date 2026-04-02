@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             .Freeze()
             .Sign(unusedPrivateKey);
         }
-
+        [Fact]
         public virtual void ShouldBytesNoSetters()
         {
             var tx = new FileAppendTransaction();
@@ -159,7 +159,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             
             Verifier.Verify(AllSignaturesToString(signatures));
         }
-
+        [Fact]
         public virtual void ShouldBytes()
         {
             var nodeAccountIds = new List<AccountId>
@@ -176,7 +176,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
             Assert.Throws<InvalidOperationException>(() => tx2.GetTransactionHash());
             Assert.Throws<InvalidOperationException>(() => tx2.GetTransactionHashPerNode());
         }
-
+        [Fact]
         public virtual void FromScheduledTransaction()
         {
             var transactionBody = new Proto.SchedulableTransactionBody

@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.Airdrops;
 
 namespace Hedera.Hashgraph.Tests.SDK.Airdrops
 {
-    class PendingAirdropIdTest
+    public class PendingAirdropIdTest
     {
         private AccountId sender;
         private AccountId receiver;
@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             tokenId = new TokenId(0, 0, 1003);
             nftId = new NftId(new TokenId(0, 0, 1004), 1);
         }
-
+        [Fact]
         public virtual void TestConstructorWithTokenId()
         {
             PendingAirdropId pendingAirdropId = new PendingAirdropId(sender, receiver, tokenId);
@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             Assert.Equal(tokenId, pendingAirdropId.TokenId);
             Assert.Null(pendingAirdropId.NftId);
         }
-
+        [Fact]
         public virtual void TestConstructorWithNftId()
         {
             PendingAirdropId pendingAirdropId = new PendingAirdropId(sender, receiver, nftId);
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             Assert.Equal(nftId, pendingAirdropId.NftId);
             Assert.Null(pendingAirdropId.TokenId);
         }
-
+        [Fact]
         public virtual void TestToProtobufWithTokenId()
         {
             PendingAirdropId pendingAirdropId = new (sender, receiver, tokenId);
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             Assert.Equal(receiver.ToProtobuf(), proto.ReceiverId);
             Assert.Equal(tokenId.ToProtobuf(), proto.FungibleTokenType);
         }
-
+        [Fact]
         public virtual void TestToProtobufWithNftId()
         {
             PendingAirdropId pendingAirdropId = new (sender, receiver, nftId);
@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             Assert.Equal(receiver.ToProtobuf(), proto.ReceiverId);
             Assert.Equal(nftId.ToProtobuf(), proto.NonFungibleToken);
         }
-
+        [Fact]
         public virtual void TestFromProtobufWithTokenId()
         {
             Proto.PendingAirdropId proto = new()
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             Assert.Equal(tokenId, pendingAirdropId.TokenId);
             Assert.Null(pendingAirdropId.NftId);
         }
-
+        [Fact]
         public virtual void TestFromProtobufWithNftId()
         {
             Proto.PendingAirdropId proto = new ()
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             Assert.Equal(nftId, pendingAirdropId.NftId);
             Assert.Null(pendingAirdropId.TokenId);
         }
-
+        [Fact]
         public virtual void TestToString()
         {
             PendingAirdropId pendingAirdropId = new (sender, receiver, tokenId);

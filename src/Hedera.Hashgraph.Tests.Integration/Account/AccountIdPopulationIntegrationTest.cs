@@ -9,8 +9,9 @@ using System.Threading;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class AccountIdPopulationIntegrationTest
+    public class AccountIdPopulationIntegrationTest
     {
+        [Fact]
         public virtual void CanPopulateAccountIdNumSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -40,7 +41,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(newAccountId.Num, accountId.Num);
             }
         }
-        public virtual async void CanPopulateAccountIdNumAsync()
+        [Fact]
+        public virtual void CanPopulateAccountIdNumAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -66,10 +68,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 
                 Thread.Sleep(5000);
 
-                var accountId = await idMirror.PopulateAccountNumAsync(testEnv.Client);
+                var accountId = idMirror.PopulateAccountNumAsync(testEnv.Client).GetAwaiter().GetResult();
                 Assert.Equal(newAccountId.Num, accountId.Num);
             }
         }
+        [Fact]
         public virtual void CanPopulateAccountIdEvmAddressSync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -98,7 +101,8 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(evmAddressAccount.EvmAddress, accountId.EvmAddress);
             }
         }
-        public virtual async void CanPopulateAccountIdEvmAddressAsync()
+        [Fact]
+        public virtual void CanPopulateAccountIdEvmAddressAsync()
         {
             using (var testEnv = new IntegrationTestEnv(1))
             {
@@ -122,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				
                 Thread.Sleep(5000);
 
-                var accountId = await newAccountId.PopulateAccountEvmAddressAsync(testEnv.Client);
+                var accountId = newAccountId.PopulateAccountEvmAddressAsync(testEnv.Client).GetAwaiter().GetResult();
                 Assert.Equal(evmAddressAccount.EvmAddress, accountId.EvmAddress);
             }
         }

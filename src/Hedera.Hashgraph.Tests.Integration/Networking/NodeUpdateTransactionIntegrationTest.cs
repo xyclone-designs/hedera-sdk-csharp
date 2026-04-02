@@ -12,8 +12,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class NodeUpdateTransactionIntegrationTest
+    public class NodeUpdateTransactionIntegrationTest
     {
+        [Fact]
         public virtual void CanExecuteNodeUpdateTransaction()
         {
 
@@ -48,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 response.GetReceipt(client);
             }
         }
-
+        [Fact]
         public virtual void CanDeleteGrpcWebProxyEndpoint()
         {
 
@@ -74,7 +75,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
-        // ================== hip-1299 changing node account ID (dab) tests ==================
+        [Fact]// ================== hip-1299 changing node account ID (dab) tests ==================
         public virtual void ShouldSucceedWhenUpdatingNodeAccountIdWithProperSignatures()
         {
 
@@ -125,7 +126,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Equal(receipt.Status, ResponseStatus.Success);
 			}
         }
-
+        [Fact]
         public virtual void TestNodeUpdateTransactionCanChangeToSameAccount()
         {
 
@@ -164,7 +165,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
-
+        [Fact]
         public virtual void TestNodeUpdateTransactionCanChangeNodeAccountUpdateAddressbookAndRetry()
         {
 
@@ -239,7 +240,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
-
+        [Fact]
         public virtual void TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingNodeAdminSignature()
         {
 
@@ -288,7 +289,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Equal(exception.Receipt.Status, ResponseStatus.InvalidSignature);
             }
         }
-
+        [Fact]
         public virtual void TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingAccountIdSignature()
         {
 
@@ -338,7 +339,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             }
         }
 
-        // TODO - currently the test fails because returned status is ResponseStatus.InvalidSignature
+        [Fact]// TODO - currently the test fails because returned status is ResponseStatus.InvalidSignature
         public virtual void TestNodeUpdateTransactionFailsWithInvalidAccountIdForNonExistentAccount()
         {
 
@@ -381,7 +382,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Equal(exception.Receipt.Status, ResponseStatus.InvalidAccountId | ResponseStatus.InvalidNodeAccountId);
             }
         }
-
+        [Fact]
         public virtual void TestNodeUpdateTransactionFailsWithAccountDeletedForDeletedAccount()
         {
 
@@ -440,7 +441,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				Assert.Equal(exception.Receipt.Status, ResponseStatus.AccountDeleted);
             }
         }
-
+        [Fact]
         public virtual void TestSubsequentTransactionWithNewNodeAccountIdSucceeds()
         {
 
@@ -504,7 +505,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(receipt.Status, ResponseStatus.Success);
             }
         }
-
+        [Fact]
         public virtual void TestSdkUpdatesNetworkConfigurationOnInvalidNodeAccount()
         {
             var network = new Dictionary<string, AccountId>()
@@ -556,7 +557,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             return resp.GetReceipt(client).AccountId;
         }
 
-        private void UpdateNodeAccountId(Client client, long nodeId, AccountId newAccountId, IList<AccountId> nodeAccountIds)
+        public void UpdateNodeAccountId(Client client, long nodeId, AccountId newAccountId, IList<AccountId> nodeAccountIds)
         {
             var transaction = new NodeUpdateTransaction
             {
@@ -572,8 +573,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 
             Assert.Equal(receipt.Status, ResponseStatus.Success);
         }
-
-        private void ExecuteAccountCreate(Client client, IList<AccountId> nodeAccountIds)
+        public void ExecuteAccountCreate(Client client, IList<AccountId> nodeAccountIds)
         {
             var newAccountKey = PrivateKey.GenerateED25519();
             var resp = new AccountCreateTransaction

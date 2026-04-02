@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TopicMessageIntegrationTest
     {
+        [Fact]
         public virtual void CanReceiveATopicMessage()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -67,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanReceiveALargeTopicMessage()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -131,7 +132,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void UnsubscribingDoesNotLogRetryWarnings()
         {
             using (var testEnv = new IntegrationTestEnv(1))

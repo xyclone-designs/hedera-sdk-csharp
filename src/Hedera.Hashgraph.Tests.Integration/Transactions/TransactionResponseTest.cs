@@ -6,6 +6,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TransactionResponseTest
     {
+        [Fact]
         public virtual void TransactionHashInTransactionRecordIsEqualToTheTransactionResponseTransactionHash()
         {
             using (var testEnv = new IntegrationTestEnv(1))

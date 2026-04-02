@@ -10,6 +10,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class TokenAutomaticAssociationIntegrationTest
     {
+        [Fact]
         public virtual void CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -58,7 +59,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenDeleteTransaction { TokenId = tokenId2 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanTransferNftsToAccountsWithLimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -116,7 +117,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenDeleteTransaction { TokenId = tokenId2 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanSetUnlimitedMaxAutoAssociationsForAccount()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -140,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(accountInfoBeforeTokenAssociation.MaxAutomaticTokenAssociations, -1);
             }
         }
-
+        [Fact]
         public virtual void CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -189,7 +190,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenDeleteTransaction { TokenId = tokenId2 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -219,7 +220,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenDeleteTransaction { TokenId = tokenId2 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -258,7 +259,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenDeleteTransaction { TokenId = tokenId2 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -308,7 +309,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenDeleteTransaction { TokenId = tokenId2 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -351,7 +352,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TokenDeleteTransaction { TokenId = tokenId2 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotSetInvalidMaxAutoAssociationsValues()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

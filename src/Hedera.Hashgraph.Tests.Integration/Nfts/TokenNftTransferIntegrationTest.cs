@@ -10,8 +10,9 @@ using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenNftTransferIntegrationTest
+    public class TokenNftTransferIntegrationTest
     {
+        [Fact]
         public virtual void CanTransferNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -90,7 +91,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 .GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotTransferUnownedNfts()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

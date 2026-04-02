@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 			    new CustomRoyaltyFee { FeeCollectorAccountId = new AccountId(0, 0, 23423), Numerator = 5, Denominator = 8, FallbackFee = new CustomFixedFee { DenominatingTokenId = new TokenId(0, 0, 483902), Amount = 10 } },
 			};
         }
-
+        [Fact]
         public virtual void ShouldSerialize()
         {
             var originalCustomFeeList = SpawnCustomFeeListExample();
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
 
             Verifier.Verify(originalCustomFeeList.ToString());
         }
-
+        [Fact]
         public virtual void DeepClone()
         {
             var originalCustomFeeList = SpawnCustomFeeListExample();

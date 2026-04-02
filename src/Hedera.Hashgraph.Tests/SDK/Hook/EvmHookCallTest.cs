@@ -3,8 +3,9 @@ using Hedera.Hashgraph.SDK.Hook;
 
 namespace Hedera.Hashgraph.Tests.SDK.Hook
 {
-    class EvmHookCallTest
+    public class EvmHookCallTest
     {
+        [Fact]
         public virtual void RoundTripProtoAndGettersAndEquality()
         {
             byte[] data = [1,2,3];

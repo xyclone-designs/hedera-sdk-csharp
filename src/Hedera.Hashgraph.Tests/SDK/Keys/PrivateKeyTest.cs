@@ -35,6 +35,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             unusedPrivateKey.SignTransaction(transaction);
         }
 
+        [Fact]
         public virtual void Ecdsa()
         {
             var message = Encoding.UTF8.GetBytes("hello world");

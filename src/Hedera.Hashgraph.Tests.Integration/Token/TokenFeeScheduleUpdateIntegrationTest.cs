@@ -6,8 +6,9 @@ using Hedera.Hashgraph.SDK.Keys;
 
 namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
-    class TokenFeeScheduleUpdateIntegrationTest
+    public class TokenFeeScheduleUpdateIntegrationTest
     {
+        [Fact]
         public virtual void CanUpdateToken()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())
@@ -139,7 +140,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(fractionalCount, 1);
             }
         }
-
+        [Fact]
         public virtual void CannotUpdateWithAnyOtherKey()
         {
             using (var testEnv = new IntegrationTestEnv(1).UseThrowawayAccount())

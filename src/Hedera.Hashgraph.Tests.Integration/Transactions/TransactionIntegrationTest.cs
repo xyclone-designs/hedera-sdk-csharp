@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.NotNull(await transactionId.GetRecordAsync(testEnv.Client));
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeCompareFields()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Throws<InvalidOperationException>(() => _ = accountCreateTransactionDeserialized.TransactionId);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeWithNodeAccountIdsDeserializeCompareFields()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -84,7 +84,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Throws<InvalidOperationException>(() => _ = accountCreateTransactionDeserialized.TransactionId);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeAndExecuteIncompleteTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -109,7 +109,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeAndExecuteIncompleteTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeEditExecuteCompareFields()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -163,7 +163,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeEditExecuteCompareFieldsIncompleteTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -194,7 +194,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanFreezeSignSerializeDeserializeReserializeAndExecute()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -236,7 +236,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.FreezeWith(testEnv.Client).Sign(adminKey).Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanFreezeSerializeDeserializeAddSignatureAndExecute()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -268,7 +268,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 deleteTransaction2.AddSignature(key.GetPublicKey(), sig1).Execute(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanFreezeSignSerializeDeserializeAndCompareFileAppendChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -308,7 +308,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(transactionBytesSerialized, transactionBytesReserialized);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeExecuteFileAppendChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -357,7 +357,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new FileDeleteTransaction { FileId = fileId, }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeExecuteIncompleteFileAppendChunkedTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -408,7 +408,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new FileDeleteTransaction { FileId = fileId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanFreezeSignSerializeDeserializeAndCompareTopicMessageSubmitChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -445,7 +445,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TopicDeleteTransaction { TopicId = topicId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -493,7 +493,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 new TopicDeleteTransaction { TopicId = topicId }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransactionWithNodeAccountIds()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -543,6 +543,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
         // TODO: this test has a bunch of things hard-coded into it, which is kinda
         // dumb, but it's a good idea for a test.
         // Any way to fix it and bring it back?
+        [Fact]
         public virtual void TransactionFromToBytes2()
         {
 			var id = TransactionId.Generate(new AccountId(0, 0, 542348));
@@ -627,7 +628,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				resp.GetReceipt(testEnv.Client);
 			}
 		}
-
+        [Fact]
         public virtual void CanAddSignatureToTransaction()
         {
             using (var testEnv = new IntegrationTestEnv(1))

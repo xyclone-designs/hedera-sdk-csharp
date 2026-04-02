@@ -8,6 +8,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class FileDeleteIntegrationTest
     {
+        [Fact]
         public virtual void CanDeleteFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -39,7 +40,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 }.Execute(testEnv.Client).GetReceipt(testEnv.Client);
             }
         }
-
+        [Fact]
         public virtual void CannotDeleteImmutableFile()
         {
             using (var testEnv = new IntegrationTestEnv(1))

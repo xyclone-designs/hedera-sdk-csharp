@@ -9,7 +9,7 @@ using Hedera.Hashgraph.SDK.HBar;
 
 namespace Hedera.Hashgraph.Tests.SDK.Ethereum
 {
-    class EthereumFlowMockTest
+    public class EthereumFlowMockTest
     {
         static ByteString ETHEREUM_DATA = ByteString.CopyFrom(
             Convert.FromHexString("f864012f83018000947e3a9eaf9bcc39e2ffa38eb30bf7a93feacbc18180827653820277a0f9fbff985d374be4a55f296915002eec11ac96f1ce2df183adf992baa9390b2fa00c1e867cc960d9c74ec2e6a662b7908ec4c8cc9f3091e886bcefbeb2290fb792")
@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
         static ByteString LONG_CALL_DATA = ByteString.CopyFrom(
             Convert.FromHexString(new string('0', 5121 * 2))
         );
-
+        [Fact]
         public virtual void DontTruncateEthereumDataUnnecessarily()
         {
             IList<object> responses1 =
@@ -58,6 +58,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
                 }.Execute(mocker.client).GetReceipt(mocker.client);
             }
         }
+        [Theory]
+        [InlineData("")]
         public virtual void ExtractsCallData(string versionToTest)
         {
             IList<object> responses =

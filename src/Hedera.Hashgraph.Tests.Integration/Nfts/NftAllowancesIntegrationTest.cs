@@ -13,6 +13,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 {
     public class NftAllowancesIntegrationTest
     {
+        [Fact]
         public virtual void CannotTransferWithoutAllowanceApproval()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -81,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotTransferAfterAllowanceRemove()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -188,7 +189,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
 				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
             }
         }
-
+        [Fact]
         public virtual void CannotRemoveSingleSerialWhenAllowanceIsGivenForAll()
         {
             using (var testEnv = new IntegrationTestEnv(1))
@@ -277,7 +278,7 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
                 Assert.Equal(infoNft2[0].AccountId, receiverAccountId);
             }
         }
-
+        [Fact]
         public virtual void AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle()
         {
             using (var testEnv = new IntegrationTestEnv(1))
