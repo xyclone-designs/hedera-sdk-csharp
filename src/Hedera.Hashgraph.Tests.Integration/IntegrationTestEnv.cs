@@ -81,10 +81,11 @@ namespace Hedera.Hashgraph.SDK.Tests.Integration
             else if (!env.Equals(""))
                 try
                 {
-                    return SDK.Client.FromConfigFile(Environment.GetEnvironmentVariable("CONFIG_FILE"));
+                    return Client.FromConfigFile(Environment.GetEnvironmentVariable("CONFIG_FILE"));
                 }
                 catch (Exception exception) { Console.WriteLine(exception.StackTrace); }
-			throw new InvalidOperationException("Failed to construct client for IntegrationTestEnv");
+			
+            throw new InvalidOperationException("Failed to construct client for IntegrationTestEnv");
         }
 
         public virtual IntegrationTestEnv UseThrowawayAccount(Hbar initialBalance)
