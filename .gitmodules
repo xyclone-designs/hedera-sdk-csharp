@@ -1,0 +1,3 @@
+[submodule "src/forks.hedera-sdk-reference"]
+	path = src/forks.hedera-sdk-reference
+	url = https://github.com/xyclone-designs/forks.hedera-sdk-reference
