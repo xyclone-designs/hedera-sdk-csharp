@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Tests", "H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Tests.Integration", "Hedera.Hashgraph.Tests.Integration\Hedera.Hashgraph.Tests.Integration.csproj", "{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.Reference", "forks.hedera-sdk-reference\Hedera.Hashgraph.Forks.Reference.csproj", "{2E9E990D-7EEC-27BA-2874-9081A8B44E33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.Protobufs", "forks.hedera-protobufs\Hedera.Hashgraph.Forks.Protobufs.csproj", "{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

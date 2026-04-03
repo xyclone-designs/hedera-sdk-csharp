@@ -1,3 +1,6 @@
 [submodule "src/forks.hedera-sdk-reference"]
 	path = src/forks.hedera-sdk-reference
 	url = https://github.com/xyclone-designs/forks.hedera-sdk-reference
+[submodule "src/forks.hedera-protobufs"]
+	path = src/forks.hedera-protobufs
+	url = https://github.com/xyclone-designs/forks.hedera-protobufs
