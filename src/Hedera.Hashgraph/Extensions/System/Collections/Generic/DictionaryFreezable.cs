@@ -1,8 +1,4 @@
-﻿
-using Google.Protobuf.WellKnownTypes;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http.Headers;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace System.Collections.Generic
 {

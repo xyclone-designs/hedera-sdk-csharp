@@ -8,31 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
     <PackageReference Include="Google.Protobuf" Version="3.34.1" />
     <PackageReference Include="Grpc" Version="2.46.6" />
     <PackageReference Include="Grpc.Tools" Version="2.80.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Nethereum.ABI" Version="6.1.0" />
-    <PackageReference Include="Nethereum.RLP" Version="6.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <Protobuf Include="Protos/**/*.proto" ProtoRoot="Protos" GrpcServices="Both" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-  </PropertyGroup>
-  
+	
   <ItemGroup>
-    <Compile Remove="Protos\mirror\**" />
-    <EmbeddedResource Remove="Protos\mirror\**" />
-    <None Remove="Protos\mirror\**" />
-    <Protobuf Remove="Protos\mirror\**" />
+    <Compile Remove="Protos\**" />
+    <EmbeddedResource Remove="Protos\**" />
+    <None Remove="Protos\**" />
+    <Protobuf Remove="Protos\**" />
   </ItemGroup>
 
   <ItemGroup>

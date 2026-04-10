@@ -1,6 +1,12 @@
 /src/.vs/
+/src/forks.hedera-protobufs/bin/
+/src/forks.hedera-protobufs/obj/
+/src/forks.hedera-sdk-reference/bin/
+/src/forks.hedera-sdk-reference/obj/
 /src/Hedera.Hashgraph/bin/
 /src/Hedera.Hashgraph/obj/
+/src/Hedera.Hashgraph.SDK/bin/
+/src/Hedera.Hashgraph.SDK/obj/
 /src/Hedera.Hashgraph.Tests/bin/
 /src/Hedera.Hashgraph.Tests/obj/
 /src/Hedera.Hashgraph.Tests.Integration/bin/

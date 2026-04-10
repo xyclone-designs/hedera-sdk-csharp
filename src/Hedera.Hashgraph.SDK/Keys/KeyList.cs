@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Keys
         public List<Key> Keys { get; init; } = [];
 
         /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.Of(System.UInt32,Key[])"]/*' />
-        public static KeyList Of(uint? threshold = null, params Key[] Keys)
+        public static KeyList Of(uint? threshold = null, params Key[] Keys) 
         {
 			return new KeyList
 			{
