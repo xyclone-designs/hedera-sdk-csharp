@@ -19,7 +19,7 @@ using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Systems;
 using Hedera.Hashgraph.SDK.Token;
-using Hedera.Hashgraph.SDK.Topic;
+using Hedera.Hashgraph.SDK.Consensus;
 
 using Org.BouncyCastle.Crypto.Digests;
 

@@ -42,8 +42,11 @@
     <EmbeddedResource Include="Resources\bip39-english.txt" />
     <EmbeddedResource Include="Resources\legacy-english.txt" />
   </ItemGroup>
-  
+	
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Hedera.Hashgraph.SDK</_Parameter1>
+    </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
       <_Parameter1>Hedera.Hashgraph.Tests</_Parameter1>
     </AssemblyAttribute>

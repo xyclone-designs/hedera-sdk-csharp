@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.Queries;
 
 using System;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicInfoQuery.cs.xml" path='docs/member[@name="T:TopicInfoQuery"]/*' />
     public sealed class TopicInfoQuery : Query<TopicInfo, TopicInfoQuery>

@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicMessageQuery.cs.xml" path='docs/member[@name="T:TopicMessageQuery"]/*' />
     public sealed class TopicMessageQuery

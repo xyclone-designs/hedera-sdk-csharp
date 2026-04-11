@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using System;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="T:TopicMessageChunk"]/*' />
     public sealed class TopicMessageChunk

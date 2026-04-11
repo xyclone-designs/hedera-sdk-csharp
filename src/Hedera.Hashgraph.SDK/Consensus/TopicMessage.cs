@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicMessage.cs.xml" path='docs/member[@name="T:TopicMessage"]/*' />
     public sealed class TopicMessage

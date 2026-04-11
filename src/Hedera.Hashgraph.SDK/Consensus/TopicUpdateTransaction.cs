@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction"]/*' />
     public sealed class TopicUpdateTransaction : Transaction<TopicUpdateTransaction>

@@ -4,7 +4,7 @@ using Google.Protobuf;
 using System;
 using System.IO;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicId.cs.xml" path='docs/member[@name="T:TopicId"]/*' />
     public sealed class TopicId : IComparable<TopicId>

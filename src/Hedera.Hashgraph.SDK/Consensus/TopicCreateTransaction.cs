@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="T:TopicCreateTransaction"]/*' />
     public sealed class TopicCreateTransaction : Transaction<TopicCreateTransaction>

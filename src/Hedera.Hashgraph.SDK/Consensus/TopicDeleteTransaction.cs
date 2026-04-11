@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.SDK.Topic
+namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="T:TopicDeleteTransaction"]/*' />
     public sealed class TopicDeleteTransaction : Transaction<TopicDeleteTransaction>
