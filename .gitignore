@@ -3,6 +3,8 @@
 /src/forks.hedera-protobufs/obj/
 /src/forks.hedera-sdk-reference/bin/
 /src/forks.hedera-sdk-reference/obj/
+/src/forks.hiero-consensus-node/bin/
+/src/forks.hiero-consensus-node/obj/
 /src/Hedera.Hashgraph/bin/
 /src/Hedera.Hashgraph/obj/
 /src/Hedera.Hashgraph.SDK/bin/
