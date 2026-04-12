@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Consensus
     {
 		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor"]/*' />
 		public TopicDeleteTransaction() { }
-		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TopicDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TopicDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TopicDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TopicDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -41,9 +41,9 @@ namespace Hedera.Hashgraph.SDK.Consensus
 		}
 
         /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.ToProtobuf"]/*' />
-        public Proto.ConsensusDeleteTopicTransactionBody ToProtobuf()
+        public Proto.Services.ConsensusDeleteTopicTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ConsensusDeleteTopicTransactionBody();
+            var builder = new Proto.Services.ConsensusDeleteTopicTransactionBody();
 
             if (TopicId != null)
 				builder.TopicID = TopicId.ToProtobuf();
@@ -55,25 +55,25 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
 			TopicId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ConsensusDeleteTopic = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.ConsensusDeleteTopic = ToProtobuf();
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.deleteTopic);
+			string methodname = nameof(Proto.Services.ConsensusService.ConsensusServiceClient.deleteTopic);
 
-			return Proto.ConsensusService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ConsensusService.Descriptor.FindMethodByName(methodname);
 		}
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

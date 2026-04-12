@@ -19,19 +19,19 @@ namespace Hedera.Hashgraph.SDK.Fees
 		/// <include file="CustomFee.cs.xml" path='docs/member[@name="P:CustomFee.AllCollectorsAreExempt"]/*' />
 		public virtual bool AllCollectorsAreExempt { get; internal set; }
 
-		/// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FromProtobufInner(Proto.CustomFee)"]/*' />
-		public static CustomFee FromProtobufInner(Proto.CustomFee customFee)
+		/// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FromProtobufInner(Proto.Services.CustomFee)"]/*' />
+		public static CustomFee FromProtobufInner(Proto.Services.CustomFee customFee)
         {
             return customFee.FeeCase switch
             {
-                Proto.CustomFee.FeeOneofCase.FixedFee => CustomFixedFee.FromProtobuf(customFee.FixedFee),
-                Proto.CustomFee.FeeOneofCase.FractionalFee => CustomFractionalFee.FromProtobuf(customFee.FractionalFee),
-                Proto.CustomFee.FeeOneofCase.RoyaltyFee => CustomRoyaltyFee.FromProtobuf(customFee.RoyaltyFee),
+                Proto.Services.CustomFee.FeeOneofCase.FixedFee => CustomFixedFee.FromProtobuf(customFee.FixedFee),
+                Proto.Services.CustomFee.FeeOneofCase.FractionalFee => CustomFractionalFee.FromProtobuf(customFee.FractionalFee),
+                Proto.Services.CustomFee.FeeOneofCase.RoyaltyFee => CustomRoyaltyFee.FromProtobuf(customFee.RoyaltyFee),
 
                 _ => throw new InvalidOperationException("CustomFee#fromProtobuf: unhandled fee case: " + customFee.FeeCase),
             };
         }
-        public static CustomFee FromProtobuf(Proto.CustomFee customFee)
+        public static CustomFee FromProtobuf(Proto.Services.CustomFee customFee)
         {
             var outFee = FromProtobufInner(customFee);
 
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FromBytes(System.Byte[])"]/*' />
         public static CustomFee FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.CustomFee.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.CustomFee.Parser.ParseFrom(bytes));
         }
 
         /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.DeepCloneList(System.Collections.Generic.IList{CustomFee})"]/*' />
@@ -68,8 +68,8 @@ namespace Hedera.Hashgraph.SDK.Fees
             FeeCollectorAccountId?.ValidateChecksum(client);
         }
 
-        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FinishToProtobuf(Proto.CustomFee)"]/*' />
-        protected virtual Proto.CustomFee FinishToProtobuf(Proto.CustomFee customFeeBuilder)
+        /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.FinishToProtobuf(Proto.Services.CustomFee)"]/*' />
+        protected virtual Proto.Services.CustomFee FinishToProtobuf(Proto.Services.CustomFee customFeeBuilder)
         {
             if (FeeCollectorAccountId != null)
 				customFeeBuilder.FeeCollectorAccountId = FeeCollectorAccountId.ToProtobuf();
@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         }
 
         /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.ToProtobuf"]/*' />
-        public abstract Proto.CustomFee ToProtobuf();
+        public abstract Proto.Services.CustomFee ToProtobuf();
         /// <include file="CustomFee.cs.xml" path='docs/member[@name="M:CustomFee.ToBytes"]/*' />
         public virtual byte[] ToBytes()
         {

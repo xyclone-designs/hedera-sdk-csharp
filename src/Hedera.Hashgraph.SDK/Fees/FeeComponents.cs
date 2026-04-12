@@ -14,10 +14,10 @@ namespace Hedera.Hashgraph.SDK.Fees
 		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromBytes(System.Byte[])"]/*' />
 		public static FeeComponents FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.FeeComponents.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.FeeComponents.Parser.ParseFrom(bytes));
 		}
-		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromProtobuf(Proto.FeeComponents)"]/*' />
-		public static FeeComponents FromProtobuf(Proto.FeeComponents feeComponents)
+		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.FromProtobuf(Proto.Services.FeeComponents)"]/*' />
+		public static FeeComponents FromProtobuf(Proto.Services.FeeComponents feeComponents)
         {
             return new FeeComponents
             {
@@ -59,9 +59,9 @@ namespace Hedera.Hashgraph.SDK.Fees
 		public long ResponseDiskByte { get; set; }
 
 		/// <include file="FeeComponents.cs.xml" path='docs/member[@name="M:FeeComponents.ToProtobuf"]/*' />
-		public virtual Proto.FeeComponents ToProtobuf()
+		public virtual Proto.Services.FeeComponents ToProtobuf()
         {
-            return new Proto.FeeComponents
+            return new Proto.Services.FeeComponents
             {
 				Min = Min,
 				Max = Max,

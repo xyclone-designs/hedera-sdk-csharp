@@ -7,6 +7,6 @@ namespace Hedera.Hashgraph.SDK.Hook
     public enum HookExtensionPoint
     {
 		/// <include file="HookExtensionPoint.cs.xml" path='docs/member[@name="T:HookExtensionPoint_2"]/*' />
-		AccountAllowanceHook = Proto.HookExtensionPoint.AccountAllowanceHook,
+		AccountAllowanceHook = Proto.Services.HookExtensionPoint.AccountAllowanceHook,
 	}
 }

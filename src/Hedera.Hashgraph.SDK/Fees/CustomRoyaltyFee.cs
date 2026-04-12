@@ -5,8 +5,8 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="T:CustomRoyaltyFee"]/*' />
     public class CustomRoyaltyFee : CustomFeeBase<CustomRoyaltyFee>
     {
-		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.FromProtobuf(Proto.RoyaltyFee)"]/*' />
-		public static CustomRoyaltyFee FromProtobuf(Proto.RoyaltyFee royaltyFee)
+		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.FromProtobuf(Proto.Services.RoyaltyFee)"]/*' />
+		public static CustomRoyaltyFee FromProtobuf(Proto.Services.RoyaltyFee royaltyFee)
         {
             CustomRoyaltyFee customroyaltyfee = new ()
             {
@@ -44,19 +44,19 @@ namespace Hedera.Hashgraph.SDK.Fees
 			set => field = value?.DeepCloneSubclass();
         }
 
-		public override Proto.CustomFee ToProtobuf()
+		public override Proto.Services.CustomFee ToProtobuf()
 		{
-			return FinishToProtobuf(new Proto.CustomFee
+			return FinishToProtobuf(new Proto.Services.CustomFee
 			{
 				RoyaltyFee = ToRoyaltyFeeProtobuf()
 			});
 		}
 		/// <include file="CustomRoyaltyFee.cs.xml" path='docs/member[@name="M:CustomRoyaltyFee.ToRoyaltyFeeProtobuf"]/*' />
-		public virtual Proto.RoyaltyFee ToRoyaltyFeeProtobuf()
+		public virtual Proto.Services.RoyaltyFee ToRoyaltyFeeProtobuf()
         {
-            Proto.RoyaltyFee proto = new()
+            Proto.Services.RoyaltyFee proto = new()
             { 
-                ExchangeValueFraction = new Proto.Fraction
+                ExchangeValueFraction = new Proto.Services.Fraction
                 {
 					Numerator = Numerator,
 					Denominator = Denominator,
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
 
             if (FallbackFee != null)
-				proto.FallbackFee = FallbackFee.ToFixedFeeProtobuf();
+				Proto.Services.FallbackFee = FallbackFee.ToFixedFeeProtobuf();
 
 			return proto;
         }

@@ -27,9 +27,9 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         {
 			AccountId?.ValidateChecksum(client);
 		}
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.CryptoGetLiveHashQuery
+            var builder = new Proto.Services.CryptoGetLiveHashQuery
             {
                 Header = header
             };
@@ -43,21 +43,21 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
             
             queryBuilder.CryptoGetLiveHash = builder;
         }
-        public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+        public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.CryptoGetLiveHash.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.CryptoGetLiveHash.Header;
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoGetBalance);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.cryptoGetBalance);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
-		public override LiveHash MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+		public override LiveHash MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
 		{
 			return LiveHash.FromProtobuf(response.CryptoGetLiveHash.LiveHash);
 		}

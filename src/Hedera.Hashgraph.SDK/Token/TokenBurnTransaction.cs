@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
 		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor"]/*' />
 		public TokenBurnTransaction() { }
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenBurnTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenBurnTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenBurnTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenBurnTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -43,9 +43,9 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 
 		/// <include file="TokenBurnTransaction.cs.xml" path='docs/member[@name="M:TokenBurnTransaction.ToProtobuf_2"]/*' />
-		public virtual Proto.TokenBurnTransactionBody ToProtobuf()
+		public virtual Proto.Services.TokenBurnTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenBurnTransactionBody
+            var builder = new Proto.Services.TokenBurnTransactionBody
 			{
 				Amount = Amount
 			};
@@ -77,27 +77,27 @@ namespace Hedera.Hashgraph.SDK.Token
         {
 			TokenId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenBurn = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenBurn = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.burnToken);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.burnToken);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

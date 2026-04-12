@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 			{
 				Parent.ChosenQueryPayment = Cost;
 				Parent.PaymentOperator = Operator;
-				Parent.PaymentTransactions = [.. Enumerable.Range(0, Parent.NodeAccountIds.Read.Count).Select<int, Proto.Transaction?>(_ => null)];
+				Parent.PaymentTransactions = [.. Enumerable.Range(0, Parent.NodeAccountIds.Read.Count).Select<int, Proto.Services.Transaction?>(_ => null)];
 			}
 			public bool ShouldError()
 			{

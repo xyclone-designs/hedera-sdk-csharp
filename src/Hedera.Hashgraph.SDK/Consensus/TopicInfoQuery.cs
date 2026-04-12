@@ -18,9 +18,9 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
 			TopicId?.ValidateChecksum(client);
 		}
-		public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+		public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-			queryBuilder.ConsensusGetTopicInfo = new Proto.ConsensusGetTopicInfoQuery
+			queryBuilder.ConsensusGetTopicInfo = new Proto.Services.ConsensusGetTopicInfoQuery
 			{
 				Header = header,
 			};
@@ -28,23 +28,23 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			if (TopicId != null)
 				queryBuilder.ConsensusGetTopicInfo.TopicID = TopicId.ToProtobuf();
 		}
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
 		{
 			throw new NotImplementedException();
 		}
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.ConsensusGetTopicInfo.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.ConsensusGetTopicInfo.Header;
         }
-        public override TopicInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override TopicInfo MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
 			return TopicInfo.FromProtobuf(response.ConsensusGetTopicInfo);
 		}
-        public override Method<Proto.Query, Proto.Response> GetMethod()
+        public override Method<Proto.Services.Query, Proto.Services.Response> GetMethod()
         {
 			throw new NotImplementedException();
         }

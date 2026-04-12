@@ -23,13 +23,13 @@ namespace Hedera.Hashgraph.SDK.Token
             AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
             DefaultMaxTransactionFee = new Hbar(40);
         }
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -164,9 +164,9 @@ namespace Hedera.Hashgraph.SDK.Token
 				CustomFees.Add(CustomFee.FromProtobuf(fee));
 		}
 		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.ToProtobuf"]/*' />
-		public virtual Proto.TokenCreateTransactionBody ToProtobuf()
+		public virtual Proto.Services.TokenCreateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenCreateTransactionBody
+            var builder = new Proto.Services.TokenCreateTransactionBody
 			{
 				Name = TokenName,
 				Symbol = TokenSymbol,
@@ -174,8 +174,8 @@ namespace Hedera.Hashgraph.SDK.Token
 				InitialSupply = InitialSupply,
 				FreezeDefault = FreezeDefault,
 				Memo = TokenMemo,
-				TokenType = (Proto.TokenType)TokenType,
-				SupplyType = (Proto.TokenSupplyType)TokenSupplyType,
+				TokenType = (Proto.Services.TokenType)TokenType,
+				SupplyType = (Proto.Services.TokenSupplyType)TokenSupplyType,
 				MaxSupply = MaxSupply,
 				Metadata = ByteString.CopyFrom(TokenMetadata),
 			};
@@ -233,11 +233,11 @@ namespace Hedera.Hashgraph.SDK.Token
 			TreasuryAccountId?.ValidateChecksum(client);
 			AutoRenewAccountId?.ValidateChecksum(client);
 		}
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenCreation = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenCreation = ToProtobuf();
         }
@@ -253,16 +253,16 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.createToken);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.createToken);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

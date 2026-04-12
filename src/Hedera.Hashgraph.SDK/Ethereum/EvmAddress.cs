@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             return new EvmAddress(bytes);
         }
 
-        public override Proto.Key ToProtobufKey()
+        public override Proto.Services.Key ToProtobufKey()
         {
             throw new NotSupportedException("toProtobufKey() not implemented for EvmAddress");
         }

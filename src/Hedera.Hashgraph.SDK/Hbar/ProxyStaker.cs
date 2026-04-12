@@ -17,8 +17,8 @@ namespace Hedera.Hashgraph.SDK.HBar
             Amount = Hbar.FromTinybars(amount);
         }
 
-        /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="M:ProxyStaker.FromProtobuf(Proto.ProxyStaker)"]/*' />
-        public static ProxyStaker FromProtobuf(Proto.ProxyStaker proxyStaker)
+        /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="M:ProxyStaker.FromProtobuf(Proto.Services.ProxyStaker)"]/*' />
+        public static ProxyStaker FromProtobuf(Proto.Services.ProxyStaker proxyStaker)
         {
             return new ProxyStaker(AccountId.FromProtobuf(proxyStaker.AccountID), proxyStaker.Amount);
         }

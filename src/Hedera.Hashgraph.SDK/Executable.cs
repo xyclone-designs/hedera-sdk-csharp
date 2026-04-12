@@ -151,7 +151,7 @@ namespace Hedera.Hashgraph.SDK
 		public abstract void OnExecute(Client client);
 		public abstract Task OnExecuteAsync(Client client);
 		public abstract TProtoRequest MakeRequest();
-		public abstract ResponseStatus MapResponseStatus(Proto.Response response);
+		public abstract ResponseStatus MapResponseStatus(Proto.Services.Response response);
 		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.MapResponse(TProtoResponse,AccountId,TProtoRequest)"]/*' />
 		public abstract TTransactionResponse MapResponse(TProtoResponse response, AccountId nodeId, TProtoRequest request);
 
@@ -390,7 +390,7 @@ namespace Hedera.Hashgraph.SDK
 					}
 				}
 
-				var status = MapResponseStatus(response as Proto.Response);
+				var status = MapResponseStatus(response as Proto.Services.Response);
 				var executionState = GetExecutionState(status, response);
 
 				grpcRequest.HandleResponse(response, status, executionState, client);
@@ -584,7 +584,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 
 				// Process response status
-				var status = MapResponseStatus(response as Proto.Response);
+				var status = MapResponseStatus(response as Proto.Services.Response);
 				var executionState = GetExecutionState(status, response);
 				grpcRequest.HandleResponse(response, status, executionState, client);
 

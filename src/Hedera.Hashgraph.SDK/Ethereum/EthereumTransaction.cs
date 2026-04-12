@@ -16,11 +16,11 @@ namespace Hedera.Hashgraph.SDK.Ethereum
     public class EthereumTransaction : Transaction<EthereumTransaction>
     {
         public EthereumTransaction() { }
-		internal EthereumTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal EthereumTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		internal EthereumTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal EthereumTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -53,25 +53,25 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 			MaxGasAllowanceHbar = Hbar.FromTinybars(SourceTransactionBody.EthereumTransaction.MaxGasAllowance);
 		}
 
-        private Proto.EthereumTransactionBody ToProtobuf()
+        private Proto.Services.EthereumTransactionBody ToProtobuf()
         {
-			Proto.EthereumTransactionBody proto = new ()
+			Proto.Services.EthereumTransactionBody proto = new ()
             {
                 EthereumData = ByteString.CopyFrom(EthereumData),
                 MaxGasAllowance = MaxGasAllowanceHbar.ToTinybars(),
             };
 
             if (CallDataFileId != null)
-                proto.CallData = CallDataFileId.ToProtobuf();
+                Proto.Services.CallData = CallDataFileId.ToProtobuf();
 
             return proto;
         }
 
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.EthereumTransaction = ToProtobuf();
         }
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule EthereumTransaction");
         }
@@ -86,16 +86,16 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.callEthereum);
+			string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.callEthereum);
 
-			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

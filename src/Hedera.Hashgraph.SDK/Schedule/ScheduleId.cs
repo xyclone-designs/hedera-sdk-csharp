@@ -29,10 +29,10 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromBytes(System.Byte[])"]/*' />
 		public static ScheduleId FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.ScheduleID.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.ScheduleID.Parser.ParseFrom(bytes));
 		}
-		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromProtobuf(Proto.ScheduleID)"]/*' />
-		public static ScheduleId FromProtobuf(Proto.ScheduleID scheduleId)
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromProtobuf(Proto.Services.ScheduleID)"]/*' />
+		public static ScheduleId FromProtobuf(Proto.Services.ScheduleID scheduleId)
         {
             return new ScheduleId(scheduleId.ShardNum, scheduleId.RealmNum, scheduleId.ScheduleNum);
         }
@@ -46,9 +46,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		public string? Checksum { get; }
 
 		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.ToProtobuf"]/*' />
-		public Proto.ScheduleID ToProtobuf()
+		public Proto.Services.ScheduleID ToProtobuf()
         {
-            return new Proto.ScheduleID
+            return new Proto.Services.ScheduleID
             {
 				ShardNum = Shard,
 				RealmNum = Realm,

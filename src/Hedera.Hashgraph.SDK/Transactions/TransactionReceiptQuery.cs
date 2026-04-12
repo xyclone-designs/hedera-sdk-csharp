@@ -12,8 +12,8 @@ namespace Hedera.Hashgraph.SDK.Queries
     /// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery"]/*' />
     public sealed class TransactionReceiptQuery : Query<TransactionReceipt, TransactionReceiptQuery>
     {
-		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="M:TransactionReceiptQuery.MapReceiptList(System.Collections.Generic.IEnumerable{Proto.TransactionReceipt})"]/*' />
-		private static IList<TransactionReceipt> MapReceiptList(IEnumerable<Proto.TransactionReceipt> protoReceiptList)
+		/// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="M:TransactionReceiptQuery.MapReceiptList(System.Collections.Generic.IEnumerable{Proto.Services.TransactionReceipt})"]/*' />
+		private static IList<TransactionReceipt> MapReceiptList(IEnumerable<Proto.Services.TransactionReceipt> protoReceiptList)
 		{
 			return [.. protoReceiptList.Select(_ => TransactionReceipt.FromProtobuf(_))];
 		}
@@ -39,9 +39,9 @@ namespace Hedera.Hashgraph.SDK.Queries
         {
 			TransactionId?.AccountId.ValidateChecksum(client);
 		}
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.TransactionGetReceiptQuery
+            var builder = new Proto.Services.TransactionGetReceiptQuery
             {
                 Header = header,
 				IncludeChildReceipts = IncludeChildren,
@@ -55,11 +55,11 @@ namespace Hedera.Hashgraph.SDK.Queries
 
             queryBuilder.TransactionGetReceipt = builder;
         }
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             return (ResponseStatus)response.TransactionGetReceipt.Header.NodeTransactionPrecheckCode;
         }
-        public override TransactionReceipt MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override TransactionReceipt MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             var receiptResponse = response.TransactionGetReceipt;
 			var children = MapReceiptList(receiptResponse.ChildTransactionReceipts);
@@ -67,21 +67,21 @@ namespace Hedera.Hashgraph.SDK.Queries
 
             return TransactionReceipt.FromProtobuf(response.TransactionGetReceipt.Receipt, duplicates, children, TransactionId);
         }
-        public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+        public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
         {
             return request.TransactionGetReceipt.Header;
         }
-        public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+        public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.TransactionGetReceipt.Header;
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.getTransactionReceipts);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.getTransactionReceipts);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
-		public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Response response)
+		public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Services.Response response)
         {
             switch (status)
             {

@@ -16,9 +16,9 @@ namespace Hedera.Hashgraph.SDK.Queries
 			public override bool IsPaymentRequired => false;
 
 			public override void ValidateChecksums(Client client)  { }
-			public override void OnMakeRequest(Proto.Query query, Proto.QueryHeader header) 
+			public override void OnMakeRequest(Proto.Services.Query query, Proto.Services.QueryHeader header) 
 			{
-				header.ResponseType = Proto.ResponseType.CostAnswer;
+				header.ResponseType = Proto.Services.ResponseType.CostAnswer;
 
 				// COST_ANSWER requires a payment to pass validation but doesn't actually process it
 				// yes, this transaction is completely invalid
@@ -33,18 +33,18 @@ namespace Hedera.Hashgraph.SDK.Queries
 				}.Freeze().MakeRequest();;
 			}
 
-			public override Hbar MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+			public override Hbar MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
 			{
 				return Hbar.FromTinybars((long)MapResponseHeader(response).Cost);
 			}
 
-			public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+			public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
 			{
-				return new Proto.ResponseHeader();
+				return new Proto.Services.ResponseHeader();
 			}
-			public override Proto.QueryHeader MapRequestHeader(Proto.Query request) 
+			public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request) 
 			{
-				return new Proto.QueryHeader();
+				return new Proto.Services.QueryHeader();
 			}
             public override MethodDescriptor GetMethodDescriptor()
             {

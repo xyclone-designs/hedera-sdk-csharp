@@ -16,13 +16,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor"]/*' />
         public TokenFeeScheduleUpdateTransaction() { }
-		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenFeeScheduleUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenFeeScheduleUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenFeeScheduleUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenFeeScheduleUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -54,9 +54,9 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
         /// <include file="TokenFeeScheduleUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenFeeScheduleUpdateTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenFeeScheduleUpdateTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenFeeScheduleUpdateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenFeeScheduleUpdateTransactionBody();
+            var builder = new Proto.Services.TokenFeeScheduleUpdateTransactionBody();
 
             if (TokenId != null)
             {
@@ -80,26 +80,26 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (CustomFee fee in CustomFees)
 				fee.ValidateChecksums(client);
 		}
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenFeeScheduleUpdate = ToProtobuf();
         }
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule TokenFeeScheduleUpdateTransaction");
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.updateTokenFeeSchedule);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.updateTokenFeeSchedule);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

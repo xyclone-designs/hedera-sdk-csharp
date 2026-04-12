@@ -59,9 +59,9 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		}
         
 
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.TokenGetNftInfoQuery
+            var builder = new Proto.Services.TokenGetNftInfoQuery
             {
                 Header = header
             };
@@ -73,24 +73,24 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
             queryBuilder.TokenGetNftInfo = builder;
         }
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.TokenGetInfo.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.TokenGetNftInfo.Header;
         }
-        public override IList<TokenNftInfo> MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override IList<TokenNftInfo> MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return [TokenNftInfo.FromProtobuf(response.TokenGetNftInfo.Nft)];
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.getTokenNftInfo);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.getTokenNftInfo);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 	}
 }

@@ -7,203 +7,203 @@ namespace Hedera.Hashgraph.SDK
     public enum RequestType
     {
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_2"]/*' />
-		None = Proto.HederaFunctionality.None,
+		None = Proto.Services.HederaFunctionality.None,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_3"]/*' />
-		CryptoTransfer = Proto.HederaFunctionality.CryptoTransfer,
+		CryptoTransfer = Proto.Services.HederaFunctionality.CryptoTransfer,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_4"]/*' />
-		CryptoUpdate = Proto.HederaFunctionality.CryptoUpdate,
+		CryptoUpdate = Proto.Services.HederaFunctionality.CryptoUpdate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_5"]/*' />
-		CryptoDelete = Proto.HederaFunctionality.CryptoDelete,
+		CryptoDelete = Proto.Services.HederaFunctionality.CryptoDelete,
         /// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_6"]/*' />
         [Obsolete]
-        CryptoAddLiveHash = Proto.HederaFunctionality.CryptoAddLiveHash,
+        CryptoAddLiveHash = Proto.Services.HederaFunctionality.CryptoAddLiveHash,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_7"]/*' />
 		[Obsolete]
-		CryptoDeleteLiveHash = Proto.HederaFunctionality.CryptoDeleteLiveHash,
+		CryptoDeleteLiveHash = Proto.Services.HederaFunctionality.CryptoDeleteLiveHash,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_8"]/*' />
-		ContractCall = Proto.HederaFunctionality.ContractCall,
+		ContractCall = Proto.Services.HederaFunctionality.ContractCall,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_9"]/*' />
-		ContractCreate = Proto.HederaFunctionality.ContractCreate,
+		ContractCreate = Proto.Services.HederaFunctionality.ContractCreate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_10"]/*' />
-		ContractUpdate = Proto.HederaFunctionality.ContractUpdate,
+		ContractUpdate = Proto.Services.HederaFunctionality.ContractUpdate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_11"]/*' />
-		FileCreate = Proto.HederaFunctionality.FileCreate,
+		FileCreate = Proto.Services.HederaFunctionality.FileCreate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_12"]/*' />
-		FileAppend = Proto.HederaFunctionality.FileAppend,
+		FileAppend = Proto.Services.HederaFunctionality.FileAppend,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_13"]/*' />
-		FileUpdate = Proto.HederaFunctionality.FileUpdate,
+		FileUpdate = Proto.Services.HederaFunctionality.FileUpdate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_14"]/*' />
-		FileDelete = Proto.HederaFunctionality.FileDelete,
+		FileDelete = Proto.Services.HederaFunctionality.FileDelete,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_15"]/*' />
-		CryptoGetAccountBalance = Proto.HederaFunctionality.CryptoGetAccountBalance,
+		CryptoGetAccountBalance = Proto.Services.HederaFunctionality.CryptoGetAccountBalance,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_16"]/*' />
-		CryptoGetAccountRecords = Proto.HederaFunctionality.CryptoGetAccountRecords,
+		CryptoGetAccountRecords = Proto.Services.HederaFunctionality.CryptoGetAccountRecords,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_17"]/*' />
-		CryptoGetInfo = Proto.HederaFunctionality.CryptoGetInfo,
+		CryptoGetInfo = Proto.Services.HederaFunctionality.CryptoGetInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_18"]/*' />
 		// /**
-		ContractCallLocal = Proto.HederaFunctionality.ContractCallLocal,
+		ContractCallLocal = Proto.Services.HederaFunctionality.ContractCallLocal,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_19"]/*' />
-		ContractGetInfo = Proto.HederaFunctionality.ContractGetInfo,
+		ContractGetInfo = Proto.Services.HederaFunctionality.ContractGetInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_20"]/*' />
-		ContractGetBytecode = Proto.HederaFunctionality.ContractGetBytecode,
+		ContractGetBytecode = Proto.Services.HederaFunctionality.ContractGetBytecode,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_21"]/*' />
-		GetBySolidityId = Proto.HederaFunctionality.GetBySolidityId,
+		GetBySolidityId = Proto.Services.HederaFunctionality.GetBySolidityId,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_22"]/*' />
-		GetByKey = Proto.HederaFunctionality.GetByKey,
+		GetByKey = Proto.Services.HederaFunctionality.GetByKey,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_23"]/*' />
 		[Obsolete]
-		CryptoGetLiveHash = Proto.HederaFunctionality.CryptoGetLiveHash,
+		CryptoGetLiveHash = Proto.Services.HederaFunctionality.CryptoGetLiveHash,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_24"]/*' />
 		[Obsolete]
-		CryptoGetStakers = Proto.HederaFunctionality.CryptoGetStakers,
+		CryptoGetStakers = Proto.Services.HederaFunctionality.CryptoGetStakers,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_25"]/*' />
-		FileGetContents = Proto.HederaFunctionality.FileGetContents,
+		FileGetContents = Proto.Services.HederaFunctionality.FileGetContents,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_26"]/*' />
-		FileGetInfo = Proto.HederaFunctionality.FileGetInfo,
+		FileGetInfo = Proto.Services.HederaFunctionality.FileGetInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_27"]/*' />
-		TransactionGetRecord = Proto.HederaFunctionality.TransactionGetRecord,
+		TransactionGetRecord = Proto.Services.HederaFunctionality.TransactionGetRecord,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_28"]/*' />
 		[Obsolete]
-		ContractGetRecords = Proto.HederaFunctionality.ContractGetRecords,
+		ContractGetRecords = Proto.Services.HederaFunctionality.ContractGetRecords,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_29"]/*' />
-		CryptoCreate = Proto.HederaFunctionality.CryptoCreate,
+		CryptoCreate = Proto.Services.HederaFunctionality.CryptoCreate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_30"]/*' />
-		SystemDelete = Proto.HederaFunctionality.SystemDelete,
+		SystemDelete = Proto.Services.HederaFunctionality.SystemDelete,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_31"]/*' />
-		SystemUndelete = Proto.HederaFunctionality.SystemUndelete,
+		SystemUndelete = Proto.Services.HederaFunctionality.SystemUndelete,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_32"]/*' />
-		ContractDelete = Proto.HederaFunctionality.ContractDelete,
+		ContractDelete = Proto.Services.HederaFunctionality.ContractDelete,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_33"]/*' />
-		Freeze = Proto.HederaFunctionality.Freeze,
+		Freeze = Proto.Services.HederaFunctionality.Freeze,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.services(node)"]/*' />
-		CreateTransactionRecord = Proto.HederaFunctionality.CreateTransactionRecord,
+		CreateTransactionRecord = Proto.Services.HederaFunctionality.CreateTransactionRecord,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.services(node)_2"]/*' />
-		CryptoAccountAutoRenew = Proto.HederaFunctionality.CryptoAccountAutoRenew,
+		CryptoAccountAutoRenew = Proto.Services.HederaFunctionality.CryptoAccountAutoRenew,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.services(node)_3"]/*' />
-		ContractAutoRenew = Proto.HederaFunctionality.ContractAutoRenew,
+		ContractAutoRenew = Proto.Services.HederaFunctionality.ContractAutoRenew,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HCS)"]/*' />
-		GetVersionInfo = Proto.HederaFunctionality.GetVersionInfo,
+		GetVersionInfo = Proto.Services.HederaFunctionality.GetVersionInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HCS)_2"]/*' />
-		TransactionGetReceipt = Proto.HederaFunctionality.TransactionGetReceipt,
+		TransactionGetReceipt = Proto.Services.HederaFunctionality.TransactionGetReceipt,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)"]/*' />
-		ConsensusCreateTopic = Proto.HederaFunctionality.ConsensusCreateTopic,
+		ConsensusCreateTopic = Proto.Services.HederaFunctionality.ConsensusCreateTopic,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_2"]/*' />
-		ConsensusUpdateTopic = Proto.HederaFunctionality.ConsensusUpdateTopic,
+		ConsensusUpdateTopic = Proto.Services.HederaFunctionality.ConsensusUpdateTopic,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_3"]/*' />
-		ConsensusDeleteTopic = Proto.HederaFunctionality.ConsensusDeleteTopic,
+		ConsensusDeleteTopic = Proto.Services.HederaFunctionality.ConsensusDeleteTopic,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HTS)"]/*' />
-		ConsensusGetTopicInfo = Proto.HederaFunctionality.ConsensusGetTopicInfo,
+		ConsensusGetTopicInfo = Proto.Services.HederaFunctionality.ConsensusGetTopicInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HTS)_2"]/*' />
-		ConsensusSubmitMessage = Proto.HederaFunctionality.ConsensusSubmitMessage,
+		ConsensusSubmitMessage = Proto.Services.HederaFunctionality.ConsensusSubmitMessage,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Service(HTS)_3"]/*' />
 		// /**
-		UncheckedSubmit = Proto.HederaFunctionality.UncheckedSubmit,
+		UncheckedSubmit = Proto.Services.HederaFunctionality.UncheckedSubmit,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_4"]/*' />
-		TokenCreate = Proto.HederaFunctionality.TokenCreate,
+		TokenCreate = Proto.Services.HederaFunctionality.TokenCreate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_34"]/*' />
-		TokenGetInfo = Proto.HederaFunctionality.TokenGetInfo,
+		TokenGetInfo = Proto.Services.HederaFunctionality.TokenGetInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_35"]/*' />
-		TokenFreezeAccount = Proto.HederaFunctionality.TokenFreezeAccount,
+		TokenFreezeAccount = Proto.Services.HederaFunctionality.TokenFreezeAccount,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_36"]/*' />
-		TokenUnfreezeAccount = Proto.HederaFunctionality.TokenUnfreezeAccount,
+		TokenUnfreezeAccount = Proto.Services.HederaFunctionality.TokenUnfreezeAccount,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_37"]/*' />
-		TokenGrantKycToAccount = Proto.HederaFunctionality.TokenGrantKycToAccount,
+		TokenGrantKycToAccount = Proto.Services.HederaFunctionality.TokenGrantKycToAccount,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_38"]/*' />
-		TokenRevokeKycFromAccount = Proto.HederaFunctionality.TokenRevokeKycFromAccount,
+		TokenRevokeKycFromAccount = Proto.Services.HederaFunctionality.TokenRevokeKycFromAccount,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_39"]/*' />
-		TokenDelete = Proto.HederaFunctionality.TokenDelete,
+		TokenDelete = Proto.Services.HederaFunctionality.TokenDelete,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_40"]/*' />
-		TokenUpdate = Proto.HederaFunctionality.TokenUpdate,
+		TokenUpdate = Proto.Services.HederaFunctionality.TokenUpdate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_41"]/*' />
-		TokenMint = Proto.HederaFunctionality.TokenMint,
+		TokenMint = Proto.Services.HederaFunctionality.TokenMint,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_42"]/*' />
-		TokenBurn = Proto.HederaFunctionality.TokenBurn,
+		TokenBurn = Proto.Services.HederaFunctionality.TokenBurn,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_43"]/*' />
-		TokenAccountWipe = Proto.HederaFunctionality.TokenAccountWipe,
+		TokenAccountWipe = Proto.Services.HederaFunctionality.TokenAccountWipe,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_44"]/*' />
-		TokenAssociateToAccount = Proto.HederaFunctionality.TokenAssociateToAccount,
+		TokenAssociateToAccount = Proto.Services.HederaFunctionality.TokenAssociateToAccount,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_5"]/*' />
-		TokenDissociateFromAccount = Proto.HederaFunctionality.TokenDissociateFromAccount,
+		TokenDissociateFromAccount = Proto.Services.HederaFunctionality.TokenDissociateFromAccount,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_6"]/*' />
-		ScheduleCreate = Proto.HederaFunctionality.ScheduleCreate,
+		ScheduleCreate = Proto.Services.HederaFunctionality.ScheduleCreate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_7"]/*' />
-		ScheduleDelete = Proto.HederaFunctionality.ScheduleDelete,
+		ScheduleDelete = Proto.Services.HederaFunctionality.ScheduleDelete,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_8"]/*' />
-		ScheduleSign = Proto.HederaFunctionality.ScheduleSign,
+		ScheduleSign = Proto.Services.HederaFunctionality.ScheduleSign,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_9"]/*' />
-		ScheduleGetInfo = Proto.HederaFunctionality.ScheduleGetInfo,
+		ScheduleGetInfo = Proto.Services.HederaFunctionality.ScheduleGetInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_10"]/*' />
 		[Obsolete]
-		TokenGetAccountNftInfos = Proto.HederaFunctionality.TokenGetAccountNftInfos,
+		TokenGetAccountNftInfos = Proto.Services.HederaFunctionality.TokenGetAccountNftInfos,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.metadata(information)_11"]/*' />
 		[Obsolete]
-		TokenGetNftInfo = Proto.HederaFunctionality.TokenGetNftInfo,
+		TokenGetNftInfo = Proto.Services.HederaFunctionality.TokenGetNftInfo,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.time(s)"]/*' />
-		TokenGetNftInfos = Proto.HederaFunctionality.TokenGetNftInfos,
+		TokenGetNftInfos = Proto.Services.HederaFunctionality.TokenGetNftInfos,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.time(s)_2"]/*' />
-		TokenFeeScheduleUpdate = Proto.HederaFunctionality.TokenFeeScheduleUpdate,
+		TokenFeeScheduleUpdate = Proto.Services.HederaFunctionality.TokenFeeScheduleUpdate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_45"]/*' />
 		[Obsolete]
-		NetworkGetExecutionTime = Proto.HederaFunctionality.NetworkGetExecutionTime,
+		NetworkGetExecutionTime = Proto.Services.HederaFunctionality.NetworkGetExecutionTime,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Delete(unapprove)"]/*' />
-		TokenPause = Proto.HederaFunctionality.TokenPause,
+		TokenPause = Proto.Services.HederaFunctionality.TokenPause,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Delete(unapprove)_2"]/*' />
-		TokenUnpause = Proto.HederaFunctionality.TokenUnpause,
+		TokenUnpause = Proto.Services.HederaFunctionality.TokenUnpause,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Delete(unapprove)_3"]/*' />
-		CryptoApproveAllowance = Proto.HederaFunctionality.CryptoApproveAllowance,
+		CryptoApproveAllowance = Proto.Services.HederaFunctionality.CryptoApproveAllowance,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Ethereum(EVM)"]/*' />
-		CryptoDeleteAllowance = Proto.HederaFunctionality.CryptoDeleteAllowance,
+		CryptoDeleteAllowance = Proto.Services.HederaFunctionality.CryptoDeleteAllowance,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.Ethereum(EVM)_2"]/*' />
-		GetAccountDetails = Proto.HederaFunctionality.GetAccountDetails,
+		GetAccountDetails = Proto.Services.HederaFunctionality.GetAccountDetails,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_46"]/*' />
-		EthereumTransaction = Proto.HederaFunctionality.EthereumTransaction,
+		EthereumTransaction = Proto.Services.HederaFunctionality.EthereumTransaction,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_47"]/*' />
-		NodeStakeUpdate = Proto.HederaFunctionality.NodeStakeUpdate,
+		NodeStakeUpdate = Proto.Services.HederaFunctionality.NodeStakeUpdate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_48"]/*' />
-		UtilPrng = Proto.HederaFunctionality.UtilPrng,
+		UtilPrng = Proto.Services.HederaFunctionality.UtilPrng,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_49"]/*' />
 		[Obsolete]
-		TransactionGetFastRecord = Proto.HederaFunctionality.TransactionGetFastRecord,
+		TransactionGetFastRecord = Proto.Services.HederaFunctionality.TransactionGetFastRecord,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_50"]/*' />
-		TokenUpdateNfts = Proto.HederaFunctionality.TokenUpdateNfts,
+		TokenUpdateNfts = Proto.Services.HederaFunctionality.TokenUpdateNfts,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_51"]/*' />
-		NodeCreate = Proto.HederaFunctionality.NodeCreate,
+		NodeCreate = Proto.Services.HederaFunctionality.NodeCreate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_52"]/*' />
-		NodeUpdate = Proto.HederaFunctionality.NodeUpdate,
+		NodeUpdate = Proto.Services.HederaFunctionality.NodeUpdate,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.sender(s)"]/*' />
-		NodeDelete = Proto.HederaFunctionality.NodeDelete,
+		NodeDelete = Proto.Services.HederaFunctionality.NodeDelete,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.sender(s)_2"]/*' />
 		// /**
-		TokenReject = Proto.HederaFunctionality.TokenReject,
+		TokenReject = Proto.Services.HederaFunctionality.TokenReject,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="M:RequestType.sender(s)_3"]/*' />
-		TokenAirdrop = Proto.HederaFunctionality.TokenAirdrop,
+		TokenAirdrop = Proto.Services.HederaFunctionality.TokenAirdrop,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_53"]/*' />
 		// /**
-		TokenCancelAirdrop = Proto.HederaFunctionality.TokenCancelAirdrop,
+		TokenCancelAirdrop = Proto.Services.HederaFunctionality.TokenCancelAirdrop,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_54"]/*' />
-		TokenClaimAirdrop = Proto.HederaFunctionality.TokenClaimAirdrop,
+		TokenClaimAirdrop = Proto.Services.HederaFunctionality.TokenClaimAirdrop,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_55"]/*' />
-		StateSignatureTransaction = Proto.HederaFunctionality.StateSignatureTransaction,
+		StateSignatureTransaction = Proto.Services.HederaFunctionality.StateSignatureTransaction,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_56"]/*' />
-		HintsKeyPublication = Proto.HederaFunctionality.HintsKeyPublication,
+		HintsKeyPublication = Proto.Services.HederaFunctionality.HintsKeyPublication,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_57"]/*' />
-		HintsPreprocessingVote = Proto.HederaFunctionality.HintsPreprocessingVote,
+		HintsPreprocessingVote = Proto.Services.HederaFunctionality.HintsPreprocessingVote,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_58"]/*' />
-		HintsPartialSignature = Proto.HederaFunctionality.HintsPartialSignature,
+		HintsPartialSignature = Proto.Services.HederaFunctionality.HintsPartialSignature,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_59"]/*' />
-		HistoryAssemblySignature = Proto.HederaFunctionality.HistoryAssemblySignature,
+		HistoryAssemblySignature = Proto.Services.HederaFunctionality.HistoryAssemblySignature,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_60"]/*' />
-		HistoryProofKeyPublication = Proto.HederaFunctionality.HistoryProofKeyPublication,
+		HistoryProofKeyPublication = Proto.Services.HederaFunctionality.HistoryProofKeyPublication,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_61"]/*' />
-		HistoryProofVote = Proto.HederaFunctionality.HistoryProofVote,
+		HistoryProofVote = Proto.Services.HederaFunctionality.HistoryProofVote,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_62"]/*' />
-		CrsPublication = Proto.HederaFunctionality.CrsPublication,
+		CrsPublication = Proto.Services.HederaFunctionality.CrsPublication,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_63"]/*' />
-		AtomicBatch = Proto.HederaFunctionality.AtomicBatch,
+		AtomicBatch = Proto.Services.HederaFunctionality.AtomicBatch,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_64"]/*' />
-		LambdaSstore = Proto.HederaFunctionality.LambdaSstore,
+		LambdaSstore = Proto.Services.HederaFunctionality.LambdaSstore,
 		/// <include file="RequestType.cs.xml" path='docs/member[@name="T:RequestType_65"]/*' />
-		HookDispatch = Proto.HederaFunctionality.HookDispatch,
+		HookDispatch = Proto.Services.HederaFunctionality.HookDispatch,
 	}
 }

@@ -14,9 +14,9 @@ namespace Hedera.Hashgraph.SDK.Hook
             Value = value?.CopyArray() ?? [];
         }
 
-		public static EvmHookStorageSlot FromProtobuf(Proto.EvmHookStorageSlot proto)
+		public static EvmHookStorageSlot FromProtobuf(Proto.Services.EvmHookStorageSlot proto)
 		{
-			return new EvmHookStorageSlot(proto.Key.ToByteArray(), proto.Value.ToByteArray());
+			return new EvmHookStorageSlot(Proto.Services.Key.ToByteArray(), Proto.Services.Value.ToByteArray());
 		}
 
 		public virtual byte[] Key
@@ -28,11 +28,11 @@ namespace Hedera.Hashgraph.SDK.Hook
             get => field.CopyArray();
         }
 
-        public override Proto.EvmHookStorageUpdate ToProtobuf()
+        public override Proto.Services.EvmHookStorageUpdate ToProtobuf()
         {
-            return new Proto.EvmHookStorageUpdate
+            return new Proto.Services.EvmHookStorageUpdate
             {
-                StorageSlot = new Proto.EvmHookStorageSlot
+                StorageSlot = new Proto.Services.EvmHookStorageSlot
                 {
                     Key = ByteString.CopyFrom(Key),
                     Value = ByteString.CopyFrom(Value),

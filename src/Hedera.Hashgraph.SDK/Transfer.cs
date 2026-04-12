@@ -13,8 +13,8 @@ namespace Hedera.Hashgraph.SDK
             Amount = amount;
         }
 
-		/// <include file="Transfer.cs.xml" path='docs/member[@name="M:Transfer.FromProtobuf(Proto.AccountAmount)"]/*' />
-		public static Transfer FromProtobuf(Proto.AccountAmount accountAmount)
+		/// <include file="Transfer.cs.xml" path='docs/member[@name="M:Transfer.FromProtobuf(Proto.Services.AccountAmount)"]/*' />
+		public static Transfer FromProtobuf(Proto.Services.AccountAmount accountAmount)
 		{
 			return new Transfer(AccountId.FromProtobuf(accountAmount.AccountID), Hbar.FromTinybars(accountAmount.Amount));
 		}
@@ -25,9 +25,9 @@ namespace Hedera.Hashgraph.SDK
 		public AccountId AccountId { get; }
 
         /// <include file="Transfer.cs.xml" path='docs/member[@name="M:Transfer.ToProtobuf"]/*' />
-        public Proto.AccountAmount ToProtobuf()
+        public Proto.Services.AccountAmount ToProtobuf()
         {
-            return new Proto.AccountAmount
+            return new Proto.Services.AccountAmount
             {
 				Amount = Amount.ToTinybars(),
 				AccountID = AccountId.ToProtobuf(),

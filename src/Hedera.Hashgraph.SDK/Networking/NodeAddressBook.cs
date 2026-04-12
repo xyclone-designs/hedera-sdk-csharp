@@ -11,10 +11,10 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromBytes(ByteString)"]/*' />
 		public static NodeAddressBook FromBytes(ByteString bytes)
 		{
-			return FromProtobuf(Proto.NodeAddressBook.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.NodeAddressBook.Parser.ParseFrom(bytes));
 		}
-		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromProtobuf(Proto.NodeAddressBook)"]/*' />
-		public static NodeAddressBook FromProtobuf(Proto.NodeAddressBook book)
+		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.FromProtobuf(Proto.Services.NodeAddressBook)"]/*' />
+		public static NodeAddressBook FromProtobuf(Proto.Services.NodeAddressBook book)
 		{
 			var addresses = new List<NodeAddress>(book.NodeAddress.Count);
 			foreach (var address in book.NodeAddress)
@@ -51,12 +51,12 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return ToProtobuf().ToByteString();
 		}
 		/// <include file="NodeAddressBook.cs.xml" path='docs/member[@name="M:NodeAddressBook.ToProtobuf"]/*' />
-		public virtual Proto.NodeAddressBook ToProtobuf()
+		public virtual Proto.Services.NodeAddressBook ToProtobuf()
         {
-			Proto.NodeAddressBook proto = new ();
+			Proto.Services.NodeAddressBook proto = new ();
 
             foreach (var nodeAdress in NodeAddresses)
-				proto.NodeAddress.Add(nodeAdress.ToProtobuf());
+				Proto.Services.NodeAddress.Add(nodeAdress.ToProtobuf());
 
 			return proto;
         }

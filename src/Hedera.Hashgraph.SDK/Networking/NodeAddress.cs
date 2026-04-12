@@ -11,8 +11,8 @@ namespace Hedera.Hashgraph.SDK.Networking
     /// <include file="NodeAddress.cs.xml" path='docs/member[@name="T:NodeAddress"]/*' />
     public class NodeAddress : ICloneable
     {
-        /// <include file="NodeAddress.cs.xml" path='docs/member[@name="M:NodeAddress.FromProtobuf(Proto.NodeAddress)"]/*' />
-        public static NodeAddress FromProtobuf(Proto.NodeAddress nodeAddress)
+        /// <include file="NodeAddress.cs.xml" path='docs/member[@name="M:NodeAddress.FromProtobuf(Proto.Services.NodeAddress)"]/*' />
+        public static NodeAddress FromProtobuf(Proto.Services.NodeAddress nodeAddress)
         {
 			return new NodeAddress
 			{
@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 				[
 					.. nodeAddress.ServiceEndpoint
 						.Select(_ => Endpoint.FromProtobuf(_))
-						.Prepend(nodeAddress.IpAddress.Length == 0 ? null : Endpoint.FromProtobuf(new Proto.ServiceEndpoint
+						.Prepend(nodeAddress.IpAddress.Length == 0 ? null : Endpoint.FromProtobuf(new Proto.Services.ServiceEndpoint
 						{
 							IpAddressV4 = nodeAddress.IpAddress,
 							Port = nodeAddress.Portno,
@@ -64,26 +64,26 @@ namespace Hedera.Hashgraph.SDK.Networking
 				AccountId = (AccountId?)AccountId?.Clone()
 			};
 		}
-		public virtual Proto.NodeAddress ToProtobuf()
+		public virtual Proto.Services.NodeAddress ToProtobuf()
         {
-            Proto.NodeAddress proto = new()
+            Proto.Services.NodeAddress proto = new()
             {
 				NodeId = NodeId
 			};
 
             if (CertHash != null)
-                proto.NodeCertHash = CertHash;
+                Proto.Services.NodeCertHash = CertHash;
 
             if (PublicKey != null)
-                proto.RSAPubKey = PublicKey;
+                Proto.Services.RSAPubKey = PublicKey;
 
             if (AccountId != null)
-                proto.NodeAccountId = AccountId.ToProtobuf();
+                Proto.Services.NodeAccountId = AccountId.ToProtobuf();
 
             if (Description != null)
-                proto.Description = Description;
+                Proto.Services.Description = Description;
 
-			proto.ServiceEndpoint.AddRange(Addresses.Select(_ => _.ToProtobuf()));
+			Proto.Services.ServiceEndpoint.AddRange(Addresses.Select(_ => _.ToProtobuf()));
 
 			return proto;
         }

@@ -17,13 +17,13 @@ namespace Hedera.Hashgraph.SDK.Hook
         public HookStoreTransaction()
         {
         }
-		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal HookStoreTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal HookStoreTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal HookStoreTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal HookStoreTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
 		{
 			InitFromTransactionBody();
 		}
@@ -46,9 +46,9 @@ namespace Hedera.Hashgraph.SDK.Hook
 		}
 
 		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.ToProtobuf"]/*' />
-		public Proto.HookStoreTransactionBody ToProtobuf()
+		public Proto.Services.HookStoreTransactionBody ToProtobuf()
 		{
-			Proto.HookStoreTransactionBody builder = new ();
+			Proto.Services.HookStoreTransactionBody builder = new ();
 
 			if (HookId != null)
 				builder.HookId = HookId.ToProtobuf();
@@ -61,9 +61,9 @@ namespace Hedera.Hashgraph.SDK.Hook
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.hookStore);
+			string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.hookStore);
 
-			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 		public override void ValidateChecksums(Client client)
 		{
@@ -77,16 +77,16 @@ namespace Hedera.Hashgraph.SDK.Hook
 					entityId.ContractId?.ValidateChecksum(client);
 			}
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
 		{
 			bodyBuilder.HookStore = ToProtobuf();
 		}
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
 		{
 			throw new NotSupportedException("cannot schedule HookStoreTransaction");
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }

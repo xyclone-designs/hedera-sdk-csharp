@@ -13,9 +13,9 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// <include file="StakingInfo.cs.xml" path='docs/member[@name="M:StakingInfo.FromBytes(System.Byte[])"]/*' />
         public static StakingInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.StakingInfo.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.StakingInfo.Parser.ParseFrom(bytes));
 		}
-		public static StakingInfo FromProtobuf(Proto.StakingInfo info)
+		public static StakingInfo FromProtobuf(Proto.Services.StakingInfo info)
         {
             return new StakingInfo(
                 info.DeclineReward,
@@ -44,9 +44,9 @@ namespace Hedera.Hashgraph.SDK.HBar
 		{
 			return ToProtobuf().ToByteArray();
 		}
-		public virtual Proto.StakingInfo ToProtobuf()
+		public virtual Proto.Services.StakingInfo ToProtobuf()
         {
-			Proto.StakingInfo proto = new ()
+			Proto.Services.StakingInfo proto = new ()
             {
 				DeclineReward = DeclineStakingReward,
 				StakePeriodStart = StakePeriodStart.ToProtoTimestamp(),
@@ -55,10 +55,10 @@ namespace Hedera.Hashgraph.SDK.HBar
 			};
 
             if (StakedAccountId is not null)
-				proto.StakedAccountId = StakedAccountId.ToProtobuf();
+				Proto.Services.StakedAccountId = StakedAccountId.ToProtobuf();
 
             if (StakedNodeId is not null)
-				proto.StakedNodeId = StakedNodeId.Value;
+				Proto.Services.StakedNodeId = StakedNodeId.Value;
 
             return proto;
 

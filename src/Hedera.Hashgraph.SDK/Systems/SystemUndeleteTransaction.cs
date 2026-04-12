@@ -18,13 +18,13 @@ namespace Hedera.Hashgraph.SDK.Systems
     {
         /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction"]/*' />
         public SystemUndeleteTransaction() { }
-		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(Proto.TransactionBody)"]/*' />
-		internal SystemUndeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(Proto.Services.TransactionBody)"]/*' />
+		internal SystemUndeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal SystemUndeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:SystemUndeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal SystemUndeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -60,9 +60,9 @@ namespace Hedera.Hashgraph.SDK.Systems
         }
 
         /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
-        public Proto.SystemUndeleteTransactionBody ToProtobuf()
+        public Proto.Services.SystemUndeleteTransactionBody ToProtobuf()
         {
-            var builder = new Proto.SystemUndeleteTransactionBody();
+            var builder = new Proto.Services.SystemUndeleteTransactionBody();
 
             if (FileId is not null) builder.FileID = FileId.ToProtobuf();
             if (ContractId is not null) builder.ContractID = ContractId.ToProtobuf();
@@ -85,11 +85,11 @@ namespace Hedera.Hashgraph.SDK.Systems
 
             return Task.CompletedTask;
         }
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.SystemUndelete = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.SystemUndelete = ToProtobuf();
         }
@@ -98,23 +98,23 @@ namespace Hedera.Hashgraph.SDK.Systems
 		{
 			if (FileId is not null)
 			{
-				string methodname = nameof(Proto.FileService.FileServiceClient.systemUndelete);
+				string methodname = nameof(Proto.Services.FileService.FileServiceClient.systemUndelete);
 
-				return Proto.FileService.Descriptor.FindMethodByName(methodname);
+				return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
 			}
 			else
 			{
-				string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.systemUndelete);
+				string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.systemUndelete);
 
-				return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+				return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 			}
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

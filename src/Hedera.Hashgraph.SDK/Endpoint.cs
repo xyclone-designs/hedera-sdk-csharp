@@ -15,8 +15,8 @@ namespace Hedera.Hashgraph.SDK
         /// <include file="Endpoint.cs.xml" path='docs/member[@name="P:Endpoint.DomainName"]/*' />
         public virtual string DomainName { get; set; } = string.Empty; 
 
-		/// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.FromProtobuf(Proto.ServiceEndpoint)"]/*' />
-		public static Endpoint FromProtobuf(Proto.ServiceEndpoint serviceEndpoint)
+		/// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.FromProtobuf(Proto.Services.ServiceEndpoint)"]/*' />
+		public static Endpoint FromProtobuf(Proto.Services.ServiceEndpoint serviceEndpoint)
         {
             return new Endpoint
             {
@@ -45,16 +45,16 @@ namespace Hedera.Hashgraph.SDK
         }
 
         /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ToProtobuf"]/*' />
-        public virtual Proto.ServiceEndpoint ToProtobuf()
+        public virtual Proto.Services.ServiceEndpoint ToProtobuf()
         {
-            Proto.ServiceEndpoint proto = new()
+            Proto.Services.ServiceEndpoint proto = new()
             {
 				Port = Port,
                 DomainName = DomainName,
             };
 
 			if (Address != null)
-				proto.IpAddressV4 = ByteString.CopyFrom(Address);
+				Proto.Services.IpAddressV4 = ByteString.CopyFrom(Address);
 
 			return proto;
         }

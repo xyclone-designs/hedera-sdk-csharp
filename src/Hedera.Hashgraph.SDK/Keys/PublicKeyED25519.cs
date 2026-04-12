@@ -80,16 +80,16 @@ namespace Hedera.Hashgraph.SDK.Keys
         {
             throw new InvalidOperationException("unsupported operation on Ed25519PublicKey");
         }
-		public override Proto.Key ToProtobufKey()
+		public override Proto.Services.Key ToProtobufKey()
 		{
-			return new Proto.Key
+			return new Proto.Services.Key
 			{
 				Ed25519 = ByteString.CopyFrom(KeyData)
 			};
 		}
-		public override Proto.SignaturePair ToSignaturePairProtobuf(byte[] signature)
+		public override Proto.Services.SignaturePair ToSignaturePairProtobuf(byte[] signature)
 		{
-			return new Proto.SignaturePair
+			return new Proto.Services.SignaturePair
 			{
 				PubKeyPrefix = ByteString.CopyFrom(KeyData),
 				Ed25519 = ByteString.CopyFrom(signature),
@@ -120,7 +120,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 		{
 			return Ed25519.Verify(signature, 0, KeyData, 0, message, 0, message.Length);
 		}
-		public override ByteString ExtractSignatureFromProtobuf(Proto.SignaturePair pair)
+		public override ByteString ExtractSignatureFromProtobuf(Proto.Services.SignaturePair pair)
 		{
 			return pair.Ed25519;
 		}

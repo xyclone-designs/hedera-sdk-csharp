@@ -19,17 +19,17 @@ namespace Hedera.Hashgraph.SDK.HBar
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromBytes(System.Byte[])"]/*' />
 		public static HbarAllowance FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.CryptoAllowance.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.CryptoAllowance.Parser.ParseFrom(bytes));
 		}
-		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.CryptoAllowance)"]/*' />
-		public static HbarAllowance FromProtobuf(Proto.CryptoAllowance allowanceProto)
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.Services.CryptoAllowance)"]/*' />
+		public static HbarAllowance FromProtobuf(Proto.Services.CryptoAllowance allowanceProto)
         {
-            return new HbarAllowance(AccountId.FromProtobuf(allowanceProto.Owner), AccountId.FromProtobuf(allowanceProto.Spender), Hbar.FromTinybars(allowanceProto.Amount));
+            return new HbarAllowance(AccountId.FromProtobuf(allowanceProto.Services.Owner), AccountId.FromProtobuf(allowanceProto.Services.Spender), Hbar.FromTinybars(allowanceProto.Services.Amount));
         }
-		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.GrantedCryptoAllowance)"]/*' />
-		public static HbarAllowance FromProtobuf(Proto.GrantedCryptoAllowance allowanceProto)
+		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.Services.GrantedCryptoAllowance)"]/*' />
+		public static HbarAllowance FromProtobuf(Proto.Services.GrantedCryptoAllowance allowanceProto)
         {
-            return new HbarAllowance(null, AccountId.FromProtobuf(allowanceProto.Spender), Hbar.FromTinybars(allowanceProto.Amount));
+            return new HbarAllowance(null, AccountId.FromProtobuf(allowanceProto.Services.Spender), Hbar.FromTinybars(allowanceProto.Services.Amount));
         }
 
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="P:HbarAllowance.Amount"]/*' />
@@ -52,31 +52,31 @@ namespace Hedera.Hashgraph.SDK.HBar
             return ToProtobuf().ToByteArray();
         }
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.ToProtobuf"]/*' />
-		public virtual Proto.CryptoAllowance ToProtobuf()
+		public virtual Proto.Services.CryptoAllowance ToProtobuf()
 		{
-			Proto.CryptoAllowance proto = new();
+			Proto.Services.CryptoAllowance proto = new();
 
 			if (OwnerAccountId != null)
-				proto.Owner = OwnerAccountId.ToProtobuf();
+				Proto.Services.Owner = OwnerAccountId.ToProtobuf();
 
 			if (Amount != null)
-				proto.Amount = Amount.ToTinybars();
+				Proto.Services.Amount = Amount.ToTinybars();
 
 			if (SpenderAccountId != null)
-				proto.Spender = SpenderAccountId.ToProtobuf();
+				Proto.Services.Spender = SpenderAccountId.ToProtobuf();
 
 			return proto;
 		}
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.ToGrantedProtobuf"]/*' />
-		public virtual Proto.GrantedCryptoAllowance ToGrantedProtobuf()
+		public virtual Proto.Services.GrantedCryptoAllowance ToGrantedProtobuf()
 		{
-			Proto.GrantedCryptoAllowance proto = new();
+			Proto.Services.GrantedCryptoAllowance proto = new();
 
 			if (Amount != null)
-				proto.Amount = Amount.ToTinybars();
+				Proto.Services.Amount = Amount.ToTinybars();
 
 			if (SpenderAccountId != null)
-				proto.Spender = SpenderAccountId.ToProtobuf();
+				Proto.Services.Spender = SpenderAccountId.ToProtobuf();
 
 			return proto;
 		}

@@ -23,18 +23,18 @@ namespace Hedera.Hashgraph.SDK
 		/// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.FromBytes(System.Byte[])"]/*' />
 		public static SemanticVersion FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.SemanticVersion.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.SemanticVersion.Parser.ParseFrom(bytes));
 		}
-		/// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.FromProtobuf(Proto.SemanticVersion)"]/*' />
-		public static SemanticVersion FromProtobuf(Proto.SemanticVersion version)
+		/// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.FromProtobuf(Proto.Services.SemanticVersion)"]/*' />
+		public static SemanticVersion FromProtobuf(Proto.Services.SemanticVersion version)
         {
             return new SemanticVersion(version.Major, version.Minor, version.Patch);
         }
 
         /// <include file="SemanticVersion.cs.xml" path='docs/member[@name="M:SemanticVersion.ToProtobuf"]/*' />
-        public virtual Proto.SemanticVersion ToProtobuf()
+        public virtual Proto.Services.SemanticVersion ToProtobuf()
         {
-            return new Proto.SemanticVersion
+            return new Proto.Services.SemanticVersion
             {
                 Major = Major,
                 Minor = Minor,

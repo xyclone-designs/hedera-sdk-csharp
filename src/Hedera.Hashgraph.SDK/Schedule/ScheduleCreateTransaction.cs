@@ -21,8 +21,8 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-        internal ScheduleCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+        /// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+        internal ScheduleCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			}
 		}
 		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_4"]/*' />
-		public Proto.SchedulableTransactionBody? ScheduledTransactionBody
+		public Proto.Services.SchedulableTransactionBody? ScheduledTransactionBody
 		{
 			get;
 			set
@@ -93,9 +93,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
         } = string.Empty;
 
 		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.ToProtobuf"]/*' />
-		public Proto.ScheduleCreateTransactionBody ToProtobuf()
+		public Proto.Services.ScheduleCreateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ScheduleCreateTransactionBody();
+            var builder = new Proto.Services.ScheduleCreateTransactionBody();
 
             if (PayerAccountId != null)
 				builder.PayerAccountID = PayerAccountId.ToProtobuf();
@@ -133,26 +133,26 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             PayerAccountId?.ValidateChecksum(client);
         }
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ScheduleCreate = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule ScheduleCreateTransaction");
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.createSchedule);
+			string methodname = nameof(Proto.Services.ScheduleService.ScheduleServiceClient.createSchedule);
 
-			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ScheduleService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

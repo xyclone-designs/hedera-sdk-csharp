@@ -20,10 +20,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
     {
 		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor"]/*' />
 		public ChunkedTransaction() : base() { }
-		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal ChunkedTransaction(Proto.TransactionBody txBody) : base(txBody) { }
-		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal ChunkedTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs) { }
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal ChunkedTransaction(Proto.Services.TransactionBody txBody) : base(txBody) { }
+		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal ChunkedTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs) { }
 
 		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.RequireNotFrozen"]/*' />
 		public virtual ByteString Data 
@@ -169,9 +169,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		public override void WipeTransactionLists(int requiredChunks)
 		{
-			SigPairLists = new List<Proto.SignatureMap>(requiredChunks * NodeAccountIds.Count);
-			OuterTransactions = new List<Proto.Transaction>(requiredChunks * NodeAccountIds.Count);
-			InnerSignedTransactions = new List<Proto.SignedTransaction>(requiredChunks * NodeAccountIds.Count);
+			SigPairLists = new List<Proto.Services.SignatureMap>(requiredChunks * NodeAccountIds.Count);
+			OuterTransactions = new List<Proto.Services.Transaction>(requiredChunks * NodeAccountIds.Count);
+			InnerSignedTransactions = new List<Proto.Services.SignedTransaction>(requiredChunks * NodeAccountIds.Count);
 
 			for (int i = 0; i < requiredChunks; i++)
 			{
@@ -192,11 +192,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				// For each node we add a transaction with that node
 				foreach (var nodeId in NodeAccountIds)
 				{
-					SigPairLists.Add(new Proto.SignatureMap());
+					SigPairLists.Add(new Proto.Services.SignatureMap());
 					FrozenBodyBuilder!.NodeAccountID = nodeId.ToProtobuf();
 					FrozenBodyBuilder!.ToByteString();
 					OuterTransactions.Add(null);
-					InnerSignedTransactions.Add(new Proto.SignedTransaction
+					InnerSignedTransactions.Add(new Proto.Services.SignedTransaction
 					{
 						BodyBytes = FrozenBodyBuilder.ToByteString()
 					});
@@ -362,7 +362,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			Utils.ActionHelper.TwoActions(ExecuteAllAsync(client, timeout), onSuccess, onFailure);
 		}
 
-        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.OnFreezeChunk(Proto.TransactionBody,Proto.TransactionID,System.Int32,System.Int32,System.Int32,System.Int32)"]/*' />
-        public abstract void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total);       
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.OnFreezeChunk(Proto.Services.TransactionBody,Proto.Services.TransactionID,System.Int32,System.Int32,System.Int32,System.Int32)"]/*' />
+        public abstract void OnFreezeChunk(Proto.Services.TransactionBody body, Proto.Services.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total);       
     }
 }

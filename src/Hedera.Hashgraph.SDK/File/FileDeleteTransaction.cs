@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.File
     {
         /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor"]/*' />
         public FileDeleteTransaction() { }
-		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal FileDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal FileDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal FileDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal FileDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -45,9 +45,9 @@ namespace Hedera.Hashgraph.SDK.File
         }
 
         /// <include file="FileDeleteTransaction.cs.xml" path='docs/member[@name="M:FileDeleteTransaction.ToProtobuf"]/*' />
-        public Proto.FileDeleteTransactionBody ToProtobuf()
+        public Proto.Services.FileDeleteTransactionBody ToProtobuf()
         {
-            var builder = new Proto.FileDeleteTransactionBody();
+            var builder = new Proto.Services.FileDeleteTransactionBody();
 
             if (FileId != null)
 				builder.FileID = FileId.ToProtobuf();
@@ -57,29 +57,29 @@ namespace Hedera.Hashgraph.SDK.File
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.FileService.FileServiceClient.deleteFile);
+			string methodname = nameof(Proto.Services.FileService.FileServiceClient.deleteFile);
 
-			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void ValidateChecksums(Client client)
         {
 			FileId?.ValidateChecksum(client);
 		}
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.FileDelete = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.FileDelete = ToProtobuf();
         }
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

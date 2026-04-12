@@ -19,13 +19,13 @@ namespace Hedera.Hashgraph.SDK.Consensus
     {
         /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor"]/*' />
         public TopicUpdateTransaction() { }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TopicUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TopicUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TopicUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TopicUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -115,9 +115,9 @@ namespace Hedera.Hashgraph.SDK.Consensus
 		}
 
         /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.ToProtobuf"]/*' />
-        public Proto.ConsensusUpdateTopicTransactionBody ToProtobuf()
+        public Proto.Services.ConsensusUpdateTopicTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ConsensusUpdateTopicTransactionBody();
+            var builder = new Proto.Services.ConsensusUpdateTopicTransactionBody();
 
             if (TopicId != null)
                 builder.TopicID = TopicId?.ToProtobuf();
@@ -148,7 +148,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
             if (FeeExemptKeys != null)
             {
-                var feeExemptKeyList = new Proto.FeeExemptKeyList();
+                var feeExemptKeyList = new Proto.Services.FeeExemptKeyList();
                 
                 foreach (var feeExemptKey in FeeExemptKeys)
                 {
@@ -160,7 +160,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
             if (CustomFees != null)
             {
-                var protoCustomFeeList = new Proto.FixedCustomFeeList();
+                var protoCustomFeeList = new Proto.Services.FixedCustomFeeList();
                 
                 foreach (CustomFixedFee customFee in CustomFees)
                 {
@@ -180,26 +180,26 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			if ((AutoRenewAccountId != null) && !AutoRenewAccountId.Equals(new AccountId(0, 0, 0)))
 				AutoRenewAccountId.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
 		{
 			bodyBuilder.ConsensusUpdateTopic = ToProtobuf();
 		}
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
 		{
 			scheduled.ConsensusUpdateTopic = ToProtobuf();
 		}
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.updateTopic);
+			string methodname = nameof(Proto.Services.ConsensusService.ConsensusServiceClient.updateTopic);
 
-			return Proto.ConsensusService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ConsensusService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

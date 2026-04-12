@@ -24,9 +24,9 @@ namespace Hedera.Hashgraph.SDK.Account
             AccountId?.ValidateChecksum(client);
             ContractId?.ValidateChecksum(client);
         }
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-			Proto.CryptoGetAccountBalanceQuery builder = new ()
+			Proto.Services.CryptoGetAccountBalanceQuery builder = new ()
             {
                 Header = header
             };
@@ -39,23 +39,23 @@ namespace Hedera.Hashgraph.SDK.Account
 
             queryBuilder.CryptogetAccountBalance = builder;
         }
-        public override AccountBalance MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override AccountBalance MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return AccountBalance.FromProtobuf(response.CryptogetAccountBalance);
         }
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.CryptogetAccountBalance.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.CryptogetAccountBalance.Header;
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoGetBalance);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.cryptoGetBalance);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 	}
 }

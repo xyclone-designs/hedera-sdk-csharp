@@ -17,13 +17,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor"]/*' />
         public TokenUpdateTransaction() { }
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -146,13 +146,13 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 
         /// <include file="TokenUpdateTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenUpdateTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenUpdateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenUpdateTransactionBody
+            var builder = new Proto.Services.TokenUpdateTransactionBody
             {
 				Name = TokenName,
 				Symbol = TokenSymbol,
-				KeyVerificationMode = (Proto.TokenKeyValidation)TokenKeyVerificationMode,
+				KeyVerificationMode = (Proto.Services.TokenKeyValidation)TokenKeyVerificationMode,
 			};
 
 			if (TokenId != null)
@@ -212,27 +212,27 @@ namespace Hedera.Hashgraph.SDK.Token
             TreasuryAccountId?.ValidateChecksum(client);
             AutoRenewAccountId?.ValidateChecksum(client);
         }
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenUpdate = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenUpdate = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.updateToken);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.updateToken);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

@@ -53,10 +53,10 @@ namespace Hedera.Hashgraph.SDK.File
         /// <include file="FileId.cs.xml" path='docs/member[@name="M:FileId.FromBytes(System.Byte[])"]/*' />
         public static FileId FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.FileID.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.FileID.Parser.ParseFrom(bytes));
         }
-        /// <include file="FileId.cs.xml" path='docs/member[@name="M:FileId.FromProtobuf(Proto.FileID)"]/*' />
-        public static FileId FromProtobuf(Proto.FileID fileId)
+        /// <include file="FileId.cs.xml" path='docs/member[@name="M:FileId.FromProtobuf(Proto.Services.FileID)"]/*' />
+        public static FileId FromProtobuf(Proto.Services.FileID fileId)
         {
             return new FileId(fileId.ShardNum, fileId.RealmNum, fileId.FileNum);
         }
@@ -124,9 +124,9 @@ namespace Hedera.Hashgraph.SDK.File
 			return Utils.EntityIdHelper.ToSolidityAddress(Shard, Realm, Num);
 		}
 		/// <include file="FileId.cs.xml" path='docs/member[@name="M:FileId.ToProtobuf"]/*' />
-		public Proto.FileID ToProtobuf()
+		public Proto.Services.FileID ToProtobuf()
         {
-			return new Proto.FileID
+			return new Proto.Services.FileID
 			{
 				ShardNum = this.Shard,
 				RealmNum = this.Realm,

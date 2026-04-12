@@ -20,22 +20,22 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             DefaultMaxTransactionFee = new Hbar(1);
         }
-		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenAirdropTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenAirdropTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenAirdropTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
 		/// <include file="TokenAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenAirdropTransaction.ToProtobuf"]/*' />
-		public Proto.TokenAirdropTransactionBody ToProtobuf()
+		public Proto.Services.TokenAirdropTransactionBody ToProtobuf()
 		{
 			var transfers = SortTransfersAndBuild();
-			var builder = new Proto.TokenAirdropTransactionBody();
+			var builder = new Proto.Services.TokenAirdropTransactionBody();
 			foreach (var transfer in transfers)
 			{
 				builder.TokenTransfers.Add(transfer.ToProtobuf());
@@ -78,24 +78,24 @@ namespace Hedera.Hashgraph.SDK.Token
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.airdropTokens);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.airdropTokens);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenAirdrop = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenAirdrop = ToProtobuf();
         }
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

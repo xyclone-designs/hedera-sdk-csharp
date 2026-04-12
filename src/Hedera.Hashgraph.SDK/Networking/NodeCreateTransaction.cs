@@ -20,13 +20,13 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor"]/*' />
 		public NodeCreateTransaction() { }
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal NodeCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal NodeCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal NodeCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal NodeCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -202,9 +202,9 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 		}
 		/// <include file="NodeCreateTransaction.cs.xml" path='docs/member[@name="M:NodeCreateTransaction.ToProtobuf"]/*' />
-		public virtual Proto.NodeCreateTransactionBody ToProtobuf()
+		public virtual Proto.Services.NodeCreateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.NodeCreateTransactionBody();
+            var builder = new Proto.Services.NodeCreateTransactionBody();
 
             if (AccountId != null)
 				builder.AccountId = AccountId.ToProtobuf();
@@ -269,28 +269,28 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.AddressBookService.AddressBookServiceClient.createNode);
+			string methodname = nameof(Proto.Services.AddressBookService.AddressBookServiceClient.createNode);
 
-			return Proto.AddressBookService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.AddressBookService.Descriptor.FindMethodByName(methodname);
 		}
 		public override void ValidateChecksums(Client client)
         {
 			AccountId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.NodeCreate = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.NodeCreate = ToProtobuf();
         }
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

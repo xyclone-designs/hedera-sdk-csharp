@@ -4,3 +4,6 @@
 [submodule "src/forks.hedera-protobufs"]
 	path = src/forks.hedera-protobufs
 	url = https://github.com/xyclone-designs/forks.hedera-protobufs
+[submodule "src/forks.hiero-consensus-node"]
+	path = src/forks.hiero-consensus-node
+	url = https://github.com/xyclone-designs/forks.hiero-consensus-node

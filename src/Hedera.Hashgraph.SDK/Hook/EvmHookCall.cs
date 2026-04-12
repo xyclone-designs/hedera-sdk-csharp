@@ -21,18 +21,18 @@ namespace Hedera.Hashgraph.SDK.Hook
 		public virtual ulong GasLimit { get => field; }
 
 		/// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.ToProtobuf"]/*' />
-		public virtual Proto.EvmHookCall ToProtobuf()
+		public virtual Proto.Services.EvmHookCall ToProtobuf()
         {
-            return new Proto.EvmHookCall
+            return new Proto.Services.EvmHookCall
             {
 				Data = ByteString.CopyFrom(Data),
 				GasLimit = GasLimit,
 			};
         }
-        /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.FromProtobuf(Proto.EvmHookCall)"]/*' />
-        public static EvmHookCall FromProtobuf(Proto.EvmHookCall proto)
+        /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall)"]/*' />
+        public static EvmHookCall FromProtobuf(Proto.Services.EvmHookCall proto)
         {
-            return new EvmHookCall(proto.Data.ToByteArray(), proto.GasLimit);
+            return new EvmHookCall(Proto.Services.Data.ToByteArray(), Proto.Services.GasLimit);
         }
 
         public override bool Equals(object? o)

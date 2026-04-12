@@ -19,13 +19,13 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenAssociateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenAssociateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenAssociateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenAssociateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -51,9 +51,9 @@ namespace Hedera.Hashgraph.SDK.Token
 			}
 		}
 		/// <include file="TokenAssociateTransaction.cs.xml" path='docs/member[@name="M:TokenAssociateTransaction.ToProtobuf"]/*' />
-		public virtual Proto.TokenAssociateTransactionBody ToProtobuf()
+		public virtual Proto.Services.TokenAssociateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenAssociateTransactionBody();
+            var builder = new Proto.Services.TokenAssociateTransactionBody();
 
             if (AccountId != null)
 				builder.Account = AccountId.ToProtobuf();
@@ -72,27 +72,27 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (var token in TokenIds)
 				token?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenAssociate = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenAssociate = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.associateTokens);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.associateTokens);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

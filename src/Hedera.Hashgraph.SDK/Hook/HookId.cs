@@ -9,19 +9,19 @@ namespace Hedera.Hashgraph.SDK.Hook
         public long HookId_ { get; } = hookId;
 
         /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.ToProtobuf"]/*' />
-        public virtual Proto.HookId ToProtobuf()
+        public virtual Proto.Services.HookId ToProtobuf()
         {
-            return new Proto.HookId
+            return new Proto.Services.HookId
             {
 				HookId_ = HookId_,
                 EntityId = EntityId.ToProtobuf()
             };
         }
 
-        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.FromProtobuf(Proto.HookId)"]/*' />
-        public static HookId FromProtobuf(Proto.HookId proto)
+        /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.FromProtobuf(Proto.Services.HookId)"]/*' />
+        public static HookId FromProtobuf(Proto.Services.HookId proto)
         {
-            return new HookId(HookEntityId.FromProtobuf(proto.EntityId), proto.HookId_);
+            return new HookId(HookEntityId.FromProtobuf(Proto.Services.EntityId), Proto.Services.HookId_);
         }
 
         public override bool Equals(object? o)

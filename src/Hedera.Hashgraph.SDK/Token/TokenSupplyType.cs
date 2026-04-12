@@ -6,9 +6,9 @@ namespace Hedera.Hashgraph.SDK.Token
     public enum TokenSupplyType
     {
 		/// <include file="TokenSupplyType.cs.xml" path='docs/member[@name="T:TokenSupplyType_2"]/*' />
-		Infinite = Proto.TokenSupplyType.Infinite,
+		Infinite = Proto.Services.TokenSupplyType.Infinite,
 
         /// <include file="TokenSupplyType.cs.xml" path='docs/member[@name="T:TokenSupplyType_3"]/*' />
-        Finite = Proto.TokenSupplyType.Finite, 
+        Finite = Proto.Services.TokenSupplyType.Finite, 
     }
 }

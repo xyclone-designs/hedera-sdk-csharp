@@ -40,10 +40,10 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <include file="TokenId.cs.xml" path='docs/member[@name="M:TokenId.FromBytes(System.Byte[])"]/*' />
 		public static TokenId FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TokenID.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TokenID.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenId.cs.xml" path='docs/member[@name="M:TokenId.FromProtobuf(Proto.TokenID)"]/*' />
-		public static TokenId FromProtobuf(Proto.TokenID tokenId)
+		/// <include file="TokenId.cs.xml" path='docs/member[@name="M:TokenId.FromProtobuf(Proto.Services.TokenID)"]/*' />
+		public static TokenId FromProtobuf(Proto.Services.TokenID tokenId)
         {
             return new TokenId(tokenId.ShardNum, tokenId.RealmNum, tokenId.TokenNum);
         }
@@ -88,9 +88,9 @@ namespace Hedera.Hashgraph.SDK.Token
             return Utils.EntityIdHelper.ToSolidityAddress(Shard, Realm, Num);
         }
         /// <include file="TokenId.cs.xml" path='docs/member[@name="M:TokenId.ToProtobuf"]/*' />
-        public virtual Proto.TokenID ToProtobuf()
+        public virtual Proto.Services.TokenID ToProtobuf()
         {
-            return new Proto.TokenID
+            return new Proto.Services.TokenID
             {
 				ShardNum = Shard,
 				RealmNum = Realm,

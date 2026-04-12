@@ -18,9 +18,9 @@ namespace Hedera.Hashgraph.SDK.Account
         {
 			AccountId?.ValidateChecksum(client);
 		}
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.CryptoGetAccountRecordsQuery
+            var builder = new Proto.Services.CryptoGetAccountRecordsQuery
             {
                 Header = header,
             };
@@ -30,15 +30,15 @@ namespace Hedera.Hashgraph.SDK.Account
 
 			queryBuilder.CryptoGetAccountRecords = builder;
         }
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.CryptoGetAccountRecords.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.CryptoGetAccountRecords.Header;
         }
-        public override IList<TransactionRecord> MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override IList<TransactionRecord> MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             var rawTransactionRecords = response.CryptoGetAccountRecords.Records;
 
@@ -53,9 +53,9 @@ namespace Hedera.Hashgraph.SDK.Account
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.getAccountRecords);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.getAccountRecords);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 	}
 }

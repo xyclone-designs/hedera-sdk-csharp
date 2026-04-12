@@ -25,24 +25,24 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             DefaultMaxTransactionFee = new Hbar(1);
         }
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TransferTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TransferTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TransferTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TransferTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
-		public static NftHookCall ToNftHook(Proto.HookCall proto, NftHookType type)
+		public static NftHookCall ToNftHook(Proto.Services.HookCall proto, NftHookType type)
 		{
-			return new NftHookCall(proto.HookId, EvmHookCall.FromProtobuf(proto.EvmHookCall), type);
+			return new NftHookCall(Proto.Services.HookId, EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall), type);
 		}
-		public static FungibleHookCall ToFungibleHook(Proto.HookCall proto, FungibleHookType type)
+		public static FungibleHookCall ToFungibleHook(Proto.Services.HookCall proto, FungibleHookType type)
 		{
-			return new FungibleHookCall(proto.HookId, EvmHookCall.FromProtobuf(proto.EvmHookCall), type);
+			return new FungibleHookCall(Proto.Services.HookId, EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall), type);
 		}
 
 		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.InitFromTransactionBody"]/*' />
@@ -92,12 +92,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return transfers;
         }
 		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.ToProtobuf"]/*' />
-		public virtual Proto.CryptoTransferTransactionBody ToProtobuf()
+		public virtual Proto.Services.CryptoTransferTransactionBody ToProtobuf()
 		{
 			var transfers = SortTransfersAndBuild();
-			var builder = new Proto.CryptoTransferTransactionBody();
+			var builder = new Proto.Services.CryptoTransferTransactionBody();
 
-			var hbarTransfersList = new Proto.TransferList();
+			var hbarTransfersList = new Proto.Services.TransferList();
 
 			foreach (var transfer in hbarTransfers.OrderBy(_ => _.AccountId).ThenBy(_ => _.IsApproved))
 			{
@@ -168,27 +168,27 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 transfer.AccountId.ValidateChecksum(client);
             }
         }
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.CryptoTransfer = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.CryptoTransfer = ToProtobuf();
         }
 
         public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoDelete);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.cryptoDelete);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
 		{
 			throw new NotImplementedException();
 		}
-		public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+		public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
 		{
 			throw new NotImplementedException();
 		}

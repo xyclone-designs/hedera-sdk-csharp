@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 			{
 				try
 				{
-					return Key.FromProtobufKey(Proto.Key.Parser.ParseFrom(aliasBytes)) as PublicKey;
+					return Key.FromProtobufKey(Proto.Services.Key.Parser.ParseFrom(aliasBytes)) as PublicKey;
 				}
 				catch (InvalidProtocolBufferException) { }
 			}
@@ -122,9 +122,9 @@ namespace Hedera.Hashgraph.SDK.Keys
 		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.Verify(System.Byte[],System.Byte[])"]/*' />
 		public abstract bool Verify(byte[] message, byte[] signature);
 		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToSignaturePairProtobuf(System.Byte[])"]/*' />
-		public abstract Proto.SignaturePair ToSignaturePairProtobuf(byte[] signature);
-		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ExtractSignatureFromProtobuf(Proto.SignaturePair)"]/*' />
-		public abstract ByteString ExtractSignatureFromProtobuf(Proto.SignaturePair pair);
+		public abstract Proto.Services.SignaturePair ToSignaturePairProtobuf(byte[] signature);
+		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ExtractSignatureFromProtobuf(Proto.Services.SignaturePair)"]/*' />
+		public abstract ByteString ExtractSignatureFromProtobuf(Proto.Services.SignaturePair pair);
 
 		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.ToStringDER"]/*' />
 		public virtual string ToStringDER()

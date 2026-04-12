@@ -72,8 +72,8 @@ namespace Hedera.Hashgraph.SDK.Contract
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress);
             return new ContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress));
         }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.ContractID)"]/*' />
-        public static ContractId FromProtobuf(Proto.ContractID contractId)
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.Services.ContractID)"]/*' />
+        public static ContractId FromProtobuf(Proto.Services.ContractID contractId)
         {
             if (contractId.HasEvmAddress)
             {
@@ -87,7 +87,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromBytes(System.Byte[])"]/*' />
         public new static ContractId FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.ContractID.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.ContractID.Parser.ParseFrom(bytes));
         }
 
 		/// <include file="ContractId.cs.xml" path='docs/member[@name="P:ContractId.Shard"]/*' />
@@ -128,16 +128,16 @@ namespace Hedera.Hashgraph.SDK.Contract
         }
 
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToProtobuf"]/*' />
-        public virtual Proto.ContractID ToProtobuf()
+        public virtual Proto.Services.ContractID ToProtobuf()
         {
-			Proto.ContractID proto = new ()
+			Proto.Services.ContractID proto = new ()
             {
 				ShardNum = Shard,
 				RealmNum = Realm,
                 ContractNum = Num,
 			};
 
-            if (EvmAddress != null) proto.EvmAddress = ByteString.CopyFrom(EvmAddress);
+            if (EvmAddress != null) Proto.Services.EvmAddress = ByteString.CopyFrom(EvmAddress);
 
             return proto;
         }
@@ -168,9 +168,9 @@ namespace Hedera.Hashgraph.SDK.Contract
             Utils.EntityIdHelper.Validate(Shard, Realm, Num, client, Checksum);
         }
 
-        public override Proto.Key ToProtobufKey()
+        public override Proto.Services.Key ToProtobufKey()
         {
-            return new Proto.Key 
+            return new Proto.Services.Key 
             {
                 ContractID = ToProtobuf(),
             };

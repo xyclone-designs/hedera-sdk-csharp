@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor"]/*' />
         public TokenRevokeKycTransaction() { }
-		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenRevokeKycTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenRevokeKycTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenRevokeKycTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenRevokeKycTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -44,9 +44,9 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
         /// <include file="TokenRevokeKycTransaction.cs.xml" path='docs/member[@name="M:TokenRevokeKycTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenRevokeKycTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenRevokeKycTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenRevokeKycTransactionBody();
+            var builder = new Proto.Services.TokenRevokeKycTransactionBody();
 
             if (TokenId != null)
                 builder.Token = TokenId.ToProtobuf();
@@ -62,26 +62,26 @@ namespace Hedera.Hashgraph.SDK.Token
 			TokenId?.ValidateChecksum(client);
 			AccountId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenRevokeKyc = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenRevokeKyc = ToProtobuf();
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.freezeTokenAccount);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

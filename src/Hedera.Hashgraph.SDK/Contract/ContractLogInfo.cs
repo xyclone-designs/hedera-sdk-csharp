@@ -25,8 +25,8 @@ namespace Hedera.Hashgraph.SDK.Contract
             Data = data;
         }
 
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromProtobuf(Proto.ContractLoginfo)"]/*' />
-        public static ContractLogInfo FromProtobuf(Proto.ContractLoginfo logInfo)
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromProtobuf(Proto.Services.ContractLoginfo)"]/*' />
+        public static ContractLogInfo FromProtobuf(Proto.Services.ContractLoginfo logInfo)
         {
             return new ContractLogInfo(ContractId.FromProtobuf(logInfo.ContractID), logInfo.Bloom, logInfo.Topic, logInfo.Data);
         }
@@ -34,20 +34,20 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromBytes(System.Byte[])"]/*' />
         public static ContractLogInfo FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.ContractLoginfo.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.ContractLoginfo.Parser.ParseFrom(bytes));
         }
 
         /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToProtobuf"]/*' />
-        public Proto.ContractLoginfo ToProtobuf()
+        public Proto.Services.ContractLoginfo ToProtobuf()
         {
-            Proto.ContractLoginfo proto = new()
+            Proto.Services.ContractLoginfo proto = new()
             {
 				ContractID = ContractId.ToProtobuf(),
 				Bloom = Bloom,
 			};
 
             foreach (ByteString topic in Topics)
-                proto.Topic.Add(topic);
+                Proto.Services.Topic.Add(topic);
 
             return proto;
         }

@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor"]/*' />
         public TokenMintTransaction() { }
-		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenMintTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenMintTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenMintTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenMintTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -52,9 +52,9 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
         /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenMintTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenMintTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenMintTransactionBody();
+            var builder = new Proto.Services.TokenMintTransactionBody();
 
             if (TokenId != null)
             {
@@ -75,27 +75,27 @@ namespace Hedera.Hashgraph.SDK.Token
         {
 			TokenId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
 		{
 			bodyBuilder.TokenMint = ToProtobuf();
 		}
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
 		{
 			scheduled.TokenMint = ToProtobuf();
 		}
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.mintToken);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.mintToken);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

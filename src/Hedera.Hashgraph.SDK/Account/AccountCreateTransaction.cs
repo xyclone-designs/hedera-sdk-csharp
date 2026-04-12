@@ -36,13 +36,13 @@ namespace Hedera.Hashgraph.SDK.Account
         {
             DefaultMaxTransactionFee = Hbar.From(5);
         }
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(Proto.TransactionBody)"]/*' />
-		internal AccountCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(Proto.Services.TransactionBody)"]/*' />
+		internal AccountCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal AccountCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:AccountCreateTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal AccountCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -131,9 +131,9 @@ namespace Hedera.Hashgraph.SDK.Account
 
 
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf_2"]/*' />
-		public Proto.CryptoCreateTransactionBody ToProtobuf()
+		public Proto.Services.CryptoCreateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.CryptoCreateTransactionBody
+            var builder = new Proto.Services.CryptoCreateTransactionBody
             {
 				InitialBalance = (ulong)InitialBalance.ToTinybars(),
 				ReceiverSigRequired = ReceiverSigRequired,
@@ -220,26 +220,26 @@ namespace Hedera.Hashgraph.SDK.Account
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.createAccount);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.createAccount);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.CryptoCreateAccount = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.CryptoCreateAccount = ToProtobuf();
         }
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
 
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

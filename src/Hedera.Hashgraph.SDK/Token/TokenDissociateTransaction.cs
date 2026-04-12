@@ -19,13 +19,13 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenDissociateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenDissociateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenDissociateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenDissociateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -65,9 +65,9 @@ namespace Hedera.Hashgraph.SDK.Token
                 TokenIds.Add(TokenId.FromProtobuf(token));
         }
         /// <include file="TokenDissociateTransaction.cs.xml" path='docs/member[@name="M:TokenDissociateTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenDissociateTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenDissociateTransactionBody ToProtobuf()
         {
-			Proto.TokenDissociateTransactionBody builder = new ();
+			Proto.Services.TokenDissociateTransactionBody builder = new ();
 
             if (AccountId != null)
 				builder.Account = AccountId.ToProtobuf();
@@ -85,27 +85,27 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (var token in TokenIds)
 				token?.ValidateChecksum(client);
 		}
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenDissociate = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenDissociate = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.dissociateTokens);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.dissociateTokens);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

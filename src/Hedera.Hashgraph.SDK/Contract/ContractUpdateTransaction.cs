@@ -20,13 +20,13 @@ namespace Hedera.Hashgraph.SDK.Contract
     {
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor"]/*' />
 		public ContractUpdateTransaction() { }
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal ContractUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal ContractUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal ContractUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal ContractUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -209,9 +209,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         }
 
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.ToProtobuf"]/*' />
-		public Proto.ContractUpdateTransactionBody ToProtobuf()
+		public Proto.Services.ContractUpdateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ContractUpdateTransactionBody { };
+            var builder = new Proto.Services.ContractUpdateTransactionBody { };
 
             if (ContractId != null)
 				builder.ContractID = ContractId.ToProtobuf();
@@ -252,7 +252,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			if (AutoRenewAccountId != null)
 			{
 				if (AutoRenewAccountId.ToString().Equals("0.0.0"))
-					builder.AutoRenewAccountId = new Proto.AccountID { };
+					builder.AutoRenewAccountId = new Proto.Services.AccountID { };
 				else
 					builder.AutoRenewAccountId = AutoRenewAccountId.ToProtobuf();
 			}
@@ -269,27 +269,27 @@ namespace Hedera.Hashgraph.SDK.Contract
             StakedAccountId?.ValidateChecksum(client);
             AutoRenewAccountId?.ValidateChecksum(client);
         }
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ContractUpdateInstance = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.ContractUpdateInstance = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.updateContract);
+			string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.updateContract);
 
-			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

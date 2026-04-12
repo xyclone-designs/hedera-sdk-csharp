@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Contract
     {
         /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor"]/*' />
         public ContractDeleteTransaction() { }
-		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		public ContractDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		public ContractDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
-        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-        internal ContractDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+        /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+        internal ContractDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
         {
             InitFromTransactionBody();
         }
@@ -86,9 +86,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 		}
 
         /// <include file="ContractDeleteTransaction.cs.xml" path='docs/member[@name="M:ContractDeleteTransaction.ToProtobuf"]/*' />
-        public Proto.ContractDeleteTransactionBody ToProtobuf()
+        public Proto.Services.ContractDeleteTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ContractDeleteTransactionBody();
+            var builder = new Proto.Services.ContractDeleteTransactionBody();
 
             if (ContractId != null) builder.ContractID = ContractId.ToProtobuf();
             if (TransferAccountId != null) builder.TransferAccountID = TransferAccountId.ToProtobuf();
@@ -105,31 +105,31 @@ namespace Hedera.Hashgraph.SDK.Contract
 			TransferContractId?.ValidateChecksum(client);
 			TransferAccountId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ContractDeleteInstance = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.ContractDeleteInstance = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.deleteContract);
+			string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.deleteContract);
 
-			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void OnExecute(Client client)
         {
             throw new NotImplementedException();
         }
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

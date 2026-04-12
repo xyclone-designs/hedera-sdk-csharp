@@ -25,30 +25,30 @@ namespace Hedera.Hashgraph.SDK.Keys
 		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromBytes(System.Byte[])"]/*' />
 		public static Key? FromBytes(byte[] bytes)
 		{
-			return FromProtobufKey(Proto.Key.Parser.ParseFrom(bytes));
+			return FromProtobufKey(Proto.Services.Key.Parser.ParseFrom(bytes));
 		}
-		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromProtobufKey(Proto.Key)"]/*' />
-		public static Key? FromProtobufKey(Proto.Key key)
+		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromProtobufKey(Proto.Services.Key)"]/*' />
+		public static Key? FromProtobufKey(Proto.Services.Key key)
         {
             return key.KeyCase switch
             {
-                Proto.Key.KeyOneofCase.Ed25519 => PublicKeyED25519.FromBytesInternal(key.Ed25519.ToByteArray()),
-                Proto.Key.KeyOneofCase.ECDSASecp256K1 when (key.ECDSASecp256K1.Length == 20) => new EvmAddress(key.ECDSASecp256K1.ToByteArray()),
-                Proto.Key.KeyOneofCase.ECDSASecp256K1 => PublicKeyECDSA.FromBytesInternal(key.ECDSASecp256K1.ToByteArray()),
-                Proto.Key.KeyOneofCase.KeyList => KeyList.FromProtobuf(key.KeyList, null),
-                Proto.Key.KeyOneofCase.ThresholdKey => KeyList.FromProtobuf(key.ThresholdKey.Keys, key.ThresholdKey.Threshold),
-                Proto.Key.KeyOneofCase.ContractID => ContractId.FromProtobuf(key.ContractID),
-                Proto.Key.KeyOneofCase.DelegatableContractId => DelegateContractId.FromProtobuf(key.DelegatableContractId),
-                Proto.Key.KeyOneofCase.None or 
-                Proto.Key.KeyOneofCase.RSA3072 or 
-                Proto.Key.KeyOneofCase.ECDSA384 => null,
+                Proto.Services.Key.KeyOneofCase.Ed25519 => PublicKeyED25519.FromBytesInternal(key.Ed25519.ToByteArray()),
+                Proto.Services.Key.KeyOneofCase.ECDSASecp256K1 when (key.ECDSASecp256K1.Length == 20) => new EvmAddress(key.ECDSASecp256K1.ToByteArray()),
+                Proto.Services.Key.KeyOneofCase.ECDSASecp256K1 => PublicKeyECDSA.FromBytesInternal(key.ECDSASecp256K1.ToByteArray()),
+                Proto.Services.Key.KeyOneofCase.KeyList => KeyList.FromProtobuf(key.KeyList, null),
+                Proto.Services.Key.KeyOneofCase.ThresholdKey => KeyList.FromProtobuf(key.ThresholdKey.Keys, key.ThresholdKey.Threshold),
+                Proto.Services.Key.KeyOneofCase.ContractID => ContractId.FromProtobuf(key.ContractID),
+                Proto.Services.Key.KeyOneofCase.DelegatableContractId => DelegateContractId.FromProtobuf(key.DelegatableContractId),
+                Proto.Services.Key.KeyOneofCase.None or 
+                Proto.Services.Key.KeyOneofCase.RSA3072 or 
+                Proto.Services.Key.KeyOneofCase.ECDSA384 => null,
 
                 _ => throw new InvalidOperationException("Key#fromProtobuf: unhandled key case: " + key.KeyCase),
             };
         }
 
         /// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToProtobufKey"]/*' />
-        public abstract Proto.Key ToProtobufKey();
+        public abstract Proto.Services.Key ToProtobufKey();
 
 		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.ToBytes"]/*' />
 		public virtual byte[] ToBytes()

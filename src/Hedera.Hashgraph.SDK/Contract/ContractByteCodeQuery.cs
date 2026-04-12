@@ -16,9 +16,9 @@ namespace Hedera.Hashgraph.SDK.Queries
         {
             ContractId?.ValidateChecksum(client);
         }
-		public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+		public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
 		{
-			var builder = new Proto.ContractGetBytecodeQuery
+			var builder = new Proto.Services.ContractGetBytecodeQuery
 			{
 				Header = header
 			};
@@ -28,23 +28,23 @@ namespace Hedera.Hashgraph.SDK.Queries
 
 			queryBuilder.ContractGetBytecode = builder;
 		}
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.ContractGetBytecode.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.ContractGetBytecodeResponse.Header;
         }
-        public override ByteString MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override ByteString MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return response.ContractGetBytecodeResponse.Bytecode;
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.ContractGetBytecode);
+			string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.ContractGetBytecode);
 
-			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 	}
 }

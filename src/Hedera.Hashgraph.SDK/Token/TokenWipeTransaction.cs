@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor"]/*' />
         public TokenWipeTransaction() { }
-		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenWipeTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenWipeTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenWipeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenWipeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -57,9 +57,9 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
         /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenWipeAccountTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenWipeAccountTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenWipeAccountTransactionBody
+            var builder = new Proto.Services.TokenWipeAccountTransactionBody
             {
 				Amount = Amount
 			};
@@ -81,27 +81,27 @@ namespace Hedera.Hashgraph.SDK.Token
             TokenId?.ValidateChecksum(client);
             AccountId?.ValidateChecksum(client);
         }
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenWipe = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenWipe = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.wipeTokenAccount);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.wipeTokenAccount);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

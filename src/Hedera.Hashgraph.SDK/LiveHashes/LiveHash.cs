@@ -23,10 +23,10 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromBytes(System.Byte[])"]/*' />
 		public static LiveHash FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.LiveHash.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.LiveHash.Parser.ParseFrom(bytes));
 		}
-		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromProtobuf(Proto.LiveHash)"]/*' />
-		public static LiveHash FromProtobuf(Proto.LiveHash liveHash)
+		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.FromProtobuf(Proto.Services.LiveHash)"]/*' />
+		public static LiveHash FromProtobuf(Proto.Services.LiveHash liveHash)
         {
             return new LiveHash(
                 AccountId.FromProtobuf(liveHash.AccountId), 
@@ -50,9 +50,9 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 			return ToProtobuf().ToByteString();
 		}
 		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToProtobuf"]/*' />
-		public virtual Proto.LiveHash ToProtobuf()
+		public virtual Proto.Services.LiveHash ToProtobuf()
         {
-			return new Proto.LiveHash
+			return new Proto.Services.LiveHash
 			{
 				AccountId = AccountId.ToProtobuf(),
 				Hash = Hash,

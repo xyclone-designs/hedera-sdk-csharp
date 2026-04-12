@@ -6,8 +6,8 @@ namespace Hedera.Hashgraph.SDK.Consensus
     /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="T:TopicMessageChunk"]/*' />
     public sealed class TopicMessageChunk
     {
-        /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="M:TopicMessageChunk.#ctor(Proto.ConsensusTopicResponse)"]/*' />
-        public TopicMessageChunk(Proto.ConsensusTopicResponse response)
+        /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="M:TopicMessageChunk.#ctor(Proto.Mirror.ConsensusTopicResponse)"]/*' />
+        public TopicMessageChunk(Proto.Mirror.ConsensusTopicResponse response)
         {
             ConsensusTimestamp = response.ConsensusTimestamp.ToDateTimeOffset();
             ContentSize = response.Message.Length;

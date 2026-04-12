@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 IsApproved = isApproved;
                 HookCall = hookCall;
             }
-			public static HbarTransfer FromProtobuf(Proto.AccountAmount transfer)
+			public static HbarTransfer FromProtobuf(Proto.Services.AccountAmount transfer)
 			{
 				FungibleHookCall? typedHook = null;
 
@@ -37,9 +37,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				return new HbarTransfer(AccountId.FromProtobuf(transfer.AccountID), Hbar.FromTinybars(transfer.Amount), transfer.IsApproval, typedHook);
 			}
 
-			public virtual Proto.AccountAmount ToProtobuf()
+			public virtual Proto.Services.AccountAmount ToProtobuf()
             {
-				Proto.AccountAmount proto = new ()
+				Proto.Services.AccountAmount proto = new ()
                 {
 					IsApproval = IsApproved,
 					Amount = Amount.ToTinybars(),
@@ -49,10 +49,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				switch (HookCall?.Type)
 				{
 					case FungibleHookType.PreTxAllowanceHook:
-						proto.PreTxAllowanceHook = HookCall.ToProtobuf();
+						Proto.Services.PreTxAllowanceHook = HookCall.ToProtobuf();
 						break;
 					case FungibleHookType.PrePostTxAllowanceHook:
-						proto.PrePostTxAllowanceHook = HookCall.ToProtobuf();
+						Proto.Services.PrePostTxAllowanceHook = HookCall.ToProtobuf();
 						break;
 
                     default: break;

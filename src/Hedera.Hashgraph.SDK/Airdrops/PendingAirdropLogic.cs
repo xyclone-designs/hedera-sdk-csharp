@@ -11,10 +11,10 @@ namespace Hedera.Hashgraph.SDK.Airdrops
     public abstract class PendingAirdropLogic<T> : Transaction<T> where T : PendingAirdropLogic<T>
     {
         protected PendingAirdropLogic() { }
-		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(Proto.TransactionBody)"]/*' />
-		internal PendingAirdropLogic(Proto.TransactionBody txBody) : base(txBody) { }
-		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal PendingAirdropLogic(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs) { }
+		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(Proto.Services.TransactionBody)"]/*' />
+		internal PendingAirdropLogic(Proto.Services.TransactionBody txBody) : base(txBody) { }
+		/// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:PendingAirdropLogic(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal PendingAirdropLogic(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs) { }
 
         /// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
         public virtual IList<PendingAirdropId> PendingAirdropIds

@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
 		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor"]/*' />
 		public TokenUnpauseTransaction() { }
-		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenUnpauseTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenUnpauseTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenUnpauseTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenUnpauseTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -40,9 +40,9 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
         /// <include file="TokenUnpauseTransaction.cs.xml" path='docs/member[@name="M:TokenUnpauseTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenUnpauseTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenUnpauseTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenUnpauseTransactionBody();
+            var builder = new Proto.Services.TokenUnpauseTransactionBody();
 
             if (TokenId != null)
             {
@@ -60,27 +60,27 @@ namespace Hedera.Hashgraph.SDK.Token
 			}
 		}
 
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenUnpause = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenUnpause = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.unpauseToken);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.unpauseToken);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

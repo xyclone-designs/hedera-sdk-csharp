@@ -105,29 +105,29 @@ namespace Hedera.Hashgraph.SDK.Token
             LedgerId = ledgerId;
         }
 
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.KycStatusFromProtobuf(Proto.TokenKycStatus)"]/*' />
-		public static bool KycStatusFromProtobuf(Proto.TokenKycStatus kycStatus)
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.KycStatusFromProtobuf(Proto.Services.TokenKycStatus)"]/*' />
+		public static bool KycStatusFromProtobuf(Proto.Services.TokenKycStatus kycStatus)
         {
-            return kycStatus == Proto.TokenKycStatus.Granted;
+            return kycStatus == Proto.Services.TokenKycStatus.Granted;
         }
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.PauseStatusFromProtobuf(Proto.TokenPauseStatus)"]/*' />
-		public static bool PauseStatusFromProtobuf(Proto.TokenPauseStatus pauseStatus)
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.PauseStatusFromProtobuf(Proto.Services.TokenPauseStatus)"]/*' />
+		public static bool PauseStatusFromProtobuf(Proto.Services.TokenPauseStatus pauseStatus)
 		{
-			return pauseStatus == Proto.TokenPauseStatus.Paused;
+			return pauseStatus == Proto.Services.TokenPauseStatus.Paused;
 		}
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FreezeStatusFromProtobuf(Proto.TokenFreezeStatus)"]/*' />
-		public static bool FreezeStatusFromProtobuf(Proto.TokenFreezeStatus freezeStatus)
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus)"]/*' />
+		public static bool FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus freezeStatus)
 		{
-			return freezeStatus == Proto.TokenFreezeStatus.Frozen;
+			return freezeStatus == Proto.Services.TokenFreezeStatus.Frozen;
 		}
 
 		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FromBytes(System.Byte[])"]/*' />
 		public static TokenInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TokenGetInfoResponse.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TokenGetInfoResponse.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FromProtobuf(Proto.TokenGetInfoResponse)"]/*' />
-		public static TokenInfo FromProtobuf(Proto.TokenGetInfoResponse response)
+		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FromProtobuf(Proto.Services.TokenGetInfoResponse)"]/*' />
+		public static TokenInfo FromProtobuf(Proto.Services.TokenGetInfoResponse response)
         {
 			return new TokenInfo(
                 TokenId.FromProtobuf(response.TokenInfo.TokenId),
@@ -160,8 +160,8 @@ namespace Hedera.Hashgraph.SDK.Token
                 LedgerId.FromByteString(response.TokenInfo.LedgerId));
 		}
 
-        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.CustomFeesFromProto(Proto.TokenInfo)"]/*' />
-        private static IList<CustomFee> CustomFeesFromProto(Proto.TokenInfo info)
+        /// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.CustomFeesFromProto(Proto.Services.TokenInfo)"]/*' />
+        private static IList<CustomFee> CustomFeesFromProto(Proto.Services.TokenInfo info)
         {
             return [.. info.CustomFees.Select(_ => CustomFee.FromProtobuf(_))];
         }
@@ -172,9 +172,9 @@ namespace Hedera.Hashgraph.SDK.Token
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.ToProtobuf"]/*' />
-		public virtual Proto.TokenGetInfoResponse ToProtobuf()
+		public virtual Proto.Services.TokenGetInfoResponse ToProtobuf()
 		{
-            Proto.TokenInfo proto = new()
+            Proto.Services.TokenInfo proto = new()
             {
 				AutoRenewAccount = AutoRenewAccount.ToProtobuf(),
 				AutoRenewPeriod = AutoRenewPeriod.ToProtoDuration(),
@@ -191,50 +191,50 @@ namespace Hedera.Hashgraph.SDK.Token
 				Name = Name,
 				TokenId = TokenId.ToProtobuf(),
 				TotalSupply = TotalSupply,
-				TokenType = (Proto.TokenType)TokenType,
+				TokenType = (Proto.Services.TokenType)TokenType,
 				Treasury = TreasuryAccountId.ToProtobuf(),
-				SupplyType = (Proto.TokenSupplyType)SupplyType,
+				SupplyType = (Proto.Services.TokenSupplyType)SupplyType,
 				Symbol = Symbol,
 			};
 
             if (AdminKey is not null) 
-                proto.AdminKey = AdminKey.ToProtobufKey();
+                Proto.Services.AdminKey = AdminKey.ToProtobufKey();
             if (FeeScheduleKey is not null) 
-                proto.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
+                Proto.Services.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
             if (FreezeKey is not null) 
-                proto.FreezeKey = FreezeKey.ToProtobufKey();
+                Proto.Services.FreezeKey = FreezeKey.ToProtobufKey();
             if (KycKey is not null) 
-                proto.KycKey = KycKey.ToProtobufKey();
+                Proto.Services.KycKey = KycKey.ToProtobufKey();
             if (PauseKey is not null) 
-                proto.PauseKey = PauseKey.ToProtobufKey();
+                Proto.Services.PauseKey = PauseKey.ToProtobufKey();
             if (MetadataKey is not null) 
-                proto.MetadataKey = MetadataKey.ToProtobufKey();
+                Proto.Services.MetadataKey = MetadataKey.ToProtobufKey();
             if (SupplyKey is not null) 
-                proto.SupplyKey = SupplyKey.ToProtobufKey();
+                Proto.Services.SupplyKey = SupplyKey.ToProtobufKey();
             if (WipeKey is not null) 
-                proto.WipeKey = WipeKey.ToProtobufKey();
+                Proto.Services.WipeKey = WipeKey.ToProtobufKey();
 
-			proto.CustomFees.AddRange(CustomFees.Select(_ => _.ToProtobuf()));
+			Proto.Services.CustomFees.AddRange(CustomFees.Select(_ => _.ToProtobuf()));
 
-			return new Proto.TokenGetInfoResponse
+			return new Proto.Services.TokenGetInfoResponse
             {
                 TokenInfo = proto
             };
 		}
 		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.KycStatusToProtobuf(System.Boolean)"]/*' />
-		public static Proto.TokenKycStatus KycStatusToProtobuf(bool kycStatus)
+		public static Proto.Services.TokenKycStatus KycStatusToProtobuf(bool kycStatus)
         {
-            return kycStatus ? Proto.TokenKycStatus.Granted : Proto.TokenKycStatus.Revoked;
+            return kycStatus ? Proto.Services.TokenKycStatus.Granted : Proto.Services.TokenKycStatus.Revoked;
         }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.PauseStatusToProtobuf(System.Boolean)"]/*' />
-        public static Proto.TokenPauseStatus PauseStatusToProtobuf(bool pauseStatus)
+        public static Proto.Services.TokenPauseStatus PauseStatusToProtobuf(bool pauseStatus)
         {
-            return pauseStatus ? Proto.TokenPauseStatus.Paused : Proto.TokenPauseStatus.Unpaused;
+            return pauseStatus ? Proto.Services.TokenPauseStatus.Paused : Proto.Services.TokenPauseStatus.Unpaused;
         }
 		/// <include file="TokenInfo.cs.xml" path='docs/member[@name="M:TokenInfo.FreezeStatusToProtobuf(System.Boolean)"]/*' />
-		public static Proto.TokenFreezeStatus FreezeStatusToProtobuf(bool freezeStatus)
+		public static Proto.Services.TokenFreezeStatus FreezeStatusToProtobuf(bool freezeStatus)
 		{
-			return freezeStatus ? Proto.TokenFreezeStatus.Frozen : Proto.TokenFreezeStatus.Unfrozen;
+			return freezeStatus ? Proto.Services.TokenFreezeStatus.Frozen : Proto.Services.TokenFreezeStatus.Unfrozen;
 		}
     }
 }

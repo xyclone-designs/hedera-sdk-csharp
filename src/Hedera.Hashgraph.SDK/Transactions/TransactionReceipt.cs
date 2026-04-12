@@ -74,8 +74,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
             Children = [ ..children];
         }
 
-        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.TransactionReceipt,System.Collections.Generic.IList{TransactionReceipt},System.Collections.Generic.IList{TransactionReceipt},TransactionId)"]/*' />
-        public static TransactionReceipt FromProtobuf(Proto.TransactionReceipt transactionReceipt, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children, TransactionId? transactionId)
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.Services.TransactionReceipt,System.Collections.Generic.IList{TransactionReceipt},System.Collections.Generic.IList{TransactionReceipt},TransactionId)"]/*' />
+        public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children, TransactionId? transactionId)
         {
             var status = (ResponseStatus)transactionReceipt.Status;
             var rate = transactionReceipt.ExchangeRate;
@@ -97,12 +97,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return new TransactionReceipt(transactionId, status, exchangeRate, nextExchangeRate, accountId, fileId, contractId, topicId, tokenId, topicSequenceNumber, topicRunningHash, totalSupply, scheduleId, scheduledTransactionId, serials, nodeId, duplicates, children);
         }
 
-        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.TransactionReceipt)"]/*' />
-        public static TransactionReceipt FromProtobuf(Proto.TransactionReceipt transactionReceipt)
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.Services.TransactionReceipt)"]/*' />
+        public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt)
         {
             return FromProtobuf(transactionReceipt, [], [], null);
         }
-        public static TransactionReceipt FromProtobuf(Proto.TransactionReceipt transactionReceipt, TransactionId transactionId)
+        public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt, TransactionId transactionId)
         {
             return FromProtobuf(transactionReceipt, [], [], transactionId);
         }
@@ -110,7 +110,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromBytes(System.Byte[])"]/*' />
         public static TransactionReceipt FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.TransactionReceipt.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.TransactionReceipt.Parser.ParseFrom(bytes));
         }
 
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ValidateStatus(System.Boolean)"]/*' />
@@ -125,30 +125,30 @@ namespace Hedera.Hashgraph.SDK.Transactions
         }
 
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ToProtobuf"]/*' />
-        public Proto.TransactionReceipt ToProtobuf()
+        public Proto.Services.TransactionReceipt ToProtobuf()
         {
-            Proto.TransactionReceipt proto = new()
+            Proto.Services.TransactionReceipt proto = new()
             {
 				NodeId = NodeId,
                 NewTotalSupply = TotalSupply,
-				Status = (Proto.ResponseCodeEnum)Status,
+				Status = (Proto.Services.ResponseCodeEnum)Status,
 				TopicSequenceNumber = TopicSequenceNumber,
-				ExchangeRate = new Proto.ExchangeRateSet
+				ExchangeRate = new Proto.Services.ExchangeRateSet
                 {
-                    CurrentRate = new Proto.ExchangeRate
+                    CurrentRate = new Proto.Services.ExchangeRate
                     {
 						HbarEquiv = ExchangeRate.Hbars,
 						CentEquiv = ExchangeRate.Cents,
-                        ExpirationTime = new Proto.TimestampSeconds
+                        ExpirationTime = new Proto.Services.TimestampSeconds
                         {
                             Seconds = ExchangeRate.ExpirationTime.ToUnixTimeSeconds()
                         }
 					},
-                    NextRate = new Proto.ExchangeRate
+                    NextRate = new Proto.Services.ExchangeRate
 					{
 						HbarEquiv = NextExchangeRate.Hbars,
 						CentEquiv = NextExchangeRate.Cents,
-						ExpirationTime = new Proto.TimestampSeconds
+						ExpirationTime = new Proto.Services.TimestampSeconds
 						{
 							Seconds = NextExchangeRate.ExpirationTime.ToUnixTimeSeconds()
 						}
@@ -156,17 +156,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				}
 			};
 
-            if (AccountId != null) proto.AccountID = AccountId.ToProtobuf();
-            if (FileId != null) proto.FileID = FileId.ToProtobuf();
-            if (ContractId != null) proto.ContractID = ContractId.ToProtobuf();
-            if (TopicId != null) proto.TopicID = TopicId.ToProtobuf();
-            if (TokenId != null) proto.TokenID = TokenId.ToProtobuf();
-            if (TopicRunningHash != null) proto.TopicRunningHash = TopicRunningHash;
-            if (ScheduleId != null) proto.ScheduleID = ScheduleId.ToProtobuf();
-            if (ScheduledTransactionId != null) proto.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
+            if (AccountId != null) Proto.Services.AccountID = AccountId.ToProtobuf();
+            if (FileId != null) Proto.Services.FileID = FileId.ToProtobuf();
+            if (ContractId != null) Proto.Services.ContractID = ContractId.ToProtobuf();
+            if (TopicId != null) Proto.Services.TopicID = TopicId.ToProtobuf();
+            if (TokenId != null) Proto.Services.TokenID = TokenId.ToProtobuf();
+            if (TopicRunningHash != null) Proto.Services.TopicRunningHash = TopicRunningHash;
+            if (ScheduleId != null) Proto.Services.ScheduleID = ScheduleId.ToProtobuf();
+            if (ScheduledTransactionId != null) Proto.Services.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
 
             foreach (var serial in Serials)
-				proto.SerialNumbers.Add(serial);
+				Proto.Services.SerialNumbers.Add(serial);
 
 			return proto;
         }

@@ -37,11 +37,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 	public interface ITransaction
 	{
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.OuterTransactions"]/*' />
-		public List<Proto.Transaction> OuterTransactions { get; }
+		public List<Proto.Services.Transaction> OuterTransactions { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.InnerSignedTransactions"]/*' />
-		public List<Proto.SignedTransaction> InnerSignedTransactions { get; }
+		public List<Proto.Services.SignedTransaction> InnerSignedTransactions { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SigPairLists"]/*' />
-		public List<Proto.SignatureMap> SigPairLists { get; }
+		public List<Proto.Services.SignatureMap> SigPairLists { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionIds"]/*' />
 		public ListGuarded<TransactionId> TransactionIds { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.PublicKeys"]/*' />
@@ -55,9 +55,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionValidDuration"]/*' />
 		public TimeSpan TransactionValidDuration { get; set; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SourceTransactionBody"]/*' />
-		public Proto.TransactionBody SourceTransactionBody { get; }
+		public Proto.Services.TransactionBody SourceTransactionBody { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.FrozenBodyBuilder"]/*' />
-		public Proto.TransactionBody? FrozenBodyBuilder { get; }
+		public Proto.Services.TransactionBody? FrozenBodyBuilder { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.BatchKey"]/*' />
 		public Key? BatchKey { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.ShouldRegenerateTransactionId"]/*' />
@@ -68,14 +68,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		bool IsFrozen();
 		string ToString();
 		void ValidateChecksums(Client client);
-		Proto.Transaction MakeRequest();
+		Proto.Services.Transaction MakeRequest();
 
 		public static ITransaction FromBytes(byte[] bytes)
 		{
-			var list = Proto.TransactionList.Parser.ParseFrom(bytes);
-			var txsMap = new DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>>();
+			var list = Proto.Services.TransactionList.Parser.ParseFrom(bytes);
+			var txsMap = new DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>>();
 
-			Proto.TransactionBody.DataOneofCase dataCase;
+			Proto.Services.TransactionBody.DataOneofCase dataCase;
 
 			if (list.TransactionList_.Count != 0)
 				dataCase = Transaction.ProcessTransactionList([.. list.TransactionList_], txsMap);
@@ -83,58 +83,58 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return dataCase switch
 			{
-				Proto.TransactionBody.DataOneofCase.ContractCall => new ContractExecuteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ContractCreateInstance => new ContractCreateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ContractUpdateInstance => new ContractUpdateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ContractDeleteInstance => new ContractDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.EthereumTransaction => new EthereumTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoAddLiveHash => new LiveHashAddTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoCreateAccount => new AccountCreateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoDelete => new AccountDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoDeleteLiveHash => new LiveHashDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoTransfer => new TransferTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoUpdateAccount => new AccountUpdateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.FileAppend => new FileAppendTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.FileCreate => new FileCreateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.FileDelete => new FileDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.FileUpdate => new FileUpdateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.NodeCreate => new NodeCreateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.NodeUpdate => new NodeUpdateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.NodeDelete => new NodeDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.SystemDelete => new SystemDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.SystemUndelete => new SystemUndeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.Freeze => new FreezeTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ConsensusCreateTopic => new TopicCreateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ConsensusUpdateTopic => new TopicUpdateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ConsensusDeleteTopic => new TopicDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ConsensusSubmitMessage => new TopicMessageSubmitTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenAssociate => new TokenAssociateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenBurn => new TokenBurnTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenCreation => new TokenCreateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenDeletion => new TokenDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenDissociate => new TokenDissociateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenFreeze => new TokenFreezeTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenGrantKyc => new TokenGrantKycTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenMint => new TokenMintTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenRevokeKyc => new TokenRevokeKycTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenUnfreeze => new TokenUnfreezeTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenUpdate => new TokenUpdateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenUpdateNfts => new TokenUpdateNftsTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenWipe => new TokenWipeTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenFeeScheduleUpdate => new TokenFeeScheduleUpdateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ScheduleCreate => new ScheduleCreateTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ScheduleDelete => new ScheduleDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.ScheduleSign => new ScheduleSignTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenPause => new TokenPauseTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenUnpause => new TokenUnpauseTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenReject => new TokenRejectTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenAirdrop => new TokenAirdropTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenCancelAirdrop => new TokenCancelAirdropTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.TokenClaimAirdrop => new TokenClaimAirdropTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoApproveAllowance => new AccountAllowanceApproveTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.CryptoDeleteAllowance => new AccountAllowanceDeleteTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.AtomicBatch => new BatchTransaction(txsMap),
-				Proto.TransactionBody.DataOneofCase.HookStore => new HookStoreTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ContractCall => new ContractExecuteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ContractCreateInstance => new ContractCreateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ContractUpdateInstance => new ContractUpdateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ContractDeleteInstance => new ContractDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.EthereumTransaction => new EthereumTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoAddLiveHash => new LiveHashAddTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoCreateAccount => new AccountCreateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoDelete => new AccountDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoDeleteLiveHash => new LiveHashDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoTransfer => new TransferTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoUpdateAccount => new AccountUpdateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.FileAppend => new FileAppendTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.FileCreate => new FileCreateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.FileDelete => new FileDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.FileUpdate => new FileUpdateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.NodeCreate => new NodeCreateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.NodeUpdate => new NodeUpdateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.NodeDelete => new NodeDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.SystemDelete => new SystemDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.SystemUndelete => new SystemUndeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.Freeze => new FreezeTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ConsensusCreateTopic => new TopicCreateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ConsensusUpdateTopic => new TopicUpdateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ConsensusDeleteTopic => new TopicDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ConsensusSubmitMessage => new TopicMessageSubmitTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenAssociate => new TokenAssociateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenBurn => new TokenBurnTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenCreation => new TokenCreateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenDeletion => new TokenDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenDissociate => new TokenDissociateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenFreeze => new TokenFreezeTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenGrantKyc => new TokenGrantKycTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenMint => new TokenMintTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenRevokeKyc => new TokenRevokeKycTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenUnfreeze => new TokenUnfreezeTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenUpdate => new TokenUpdateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenUpdateNfts => new TokenUpdateNftsTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenWipe => new TokenWipeTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenFeeScheduleUpdate => new TokenFeeScheduleUpdateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ScheduleCreate => new ScheduleCreateTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ScheduleDelete => new ScheduleDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.ScheduleSign => new ScheduleSignTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenPause => new TokenPauseTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenUnpause => new TokenUnpauseTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenReject => new TokenRejectTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenAirdrop => new TokenAirdropTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenCancelAirdrop => new TokenCancelAirdropTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.TokenClaimAirdrop => new TokenClaimAirdropTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoApproveAllowance => new AccountAllowanceApproveTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.CryptoDeleteAllowance => new AccountAllowanceDeleteTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.AtomicBatch => new BatchTransaction(txsMap),
+				Proto.Services.TransactionBody.DataOneofCase.HookStore => new HookStoreTransaction(txsMap),
 
 				_ => throw new ArgumentException("parsed transaction body has no data")
 			};

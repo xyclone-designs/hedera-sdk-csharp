@@ -17,13 +17,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor"]/*' />
 		public BatchTransaction() { }
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal BatchTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal BatchTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal BatchTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal BatchTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			foreach (var atomicTransactionBytes in body.Transactions)
 			{
-				var transaction = new Proto.Transaction
+				var transaction = new Proto.Services.Transaction
 				{
 					SignedTransactionBytes = atomicTransactionBytes
 				};
@@ -67,9 +67,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 
 		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.ToProtobuf"]/*' />
-		public Proto.AtomicBatchTransactionBody ToProtobuf()
+		public Proto.Services.AtomicBatchTransactionBody ToProtobuf()
         {
-            var builder = new Proto.AtomicBatchTransactionBody();
+            var builder = new Proto.Services.AtomicBatchTransactionBody();
 
             foreach (var transaction in InnerTransactions)
             {
@@ -84,26 +84,26 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			foreach (ITransaction transaction in InnerTransactions)
 				transaction.ValidateChecksums(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.AtomicBatch = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule Atomic Batch");
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.UtilService.UtilServiceClient.atomicBatch);
+			string methodname = nameof(Proto.Services.UtilService.UtilServiceClient.atomicBatch);
 
-			return Proto.UtilService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.UtilService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

@@ -19,9 +19,9 @@ namespace Hedera.Hashgraph.SDK.Hook
         public virtual EvmHookCall EvmHookCall { get; }
 
         /// <include file="HookCall.cs.xml" path='docs/member[@name="M:HookCall.ToProtobuf"]/*' />
-        public virtual Proto.HookCall ToProtobuf()
+        public virtual Proto.Services.HookCall ToProtobuf()
         {
-            return new Proto.HookCall
+            return new Proto.Services.HookCall
 			{
 				HookId = HookId,
                 EvmHookCall = EvmHookCall.ToProtobuf()

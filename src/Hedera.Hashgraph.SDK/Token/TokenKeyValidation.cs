@@ -6,8 +6,8 @@ namespace Hedera.Hashgraph.SDK.Token
     public enum TokenKeyValidation
     {
         /// <include file="TokenKeyValidation.cs.xml" path='docs/member[@name="T:TokenKeyValidation_2"]/*' />
-        FullValidation = Proto.TokenKeyValidation.FullValidation,
+        FullValidation = Proto.Services.TokenKeyValidation.FullValidation,
         /// <include file="TokenKeyValidation.cs.xml" path='docs/member[@name="T:TokenKeyValidation_3"]/*' />
-        NoValidation = Proto.TokenKeyValidation.NoValidation
+        NoValidation = Proto.Services.TokenKeyValidation.NoValidation
     }
 }

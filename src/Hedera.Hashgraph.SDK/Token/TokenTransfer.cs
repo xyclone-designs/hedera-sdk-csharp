@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Token
             HookCall = hookCall;
         }
 
-        public static IList<TokenTransfer> FromProtobuf(Proto.TokenTransferList tokenTransferList)
+        public static IList<TokenTransfer> FromProtobuf(Proto.Services.TokenTransferList tokenTransferList)
         {
             var token = TokenId.FromProtobuf(tokenTransferList.Token);
             var tokenTransfers = new List<TokenTransfer>();
@@ -71,9 +71,9 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
         /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.ToProtobuf"]/*' />
-        public virtual Proto.AccountAmount ToProtobuf()
+        public virtual Proto.Services.AccountAmount ToProtobuf()
         {
-			Proto.AccountAmount proto = new()
+			Proto.Services.AccountAmount proto = new()
             {
 				Amount = Amount,
 				IsApproval = IsApproved,
@@ -83,10 +83,10 @@ namespace Hedera.Hashgraph.SDK.Token
 			switch (HookCall?.Type)
 			{
 				case FungibleHookType.PreTxAllowanceHook:
-					proto.PreTxAllowanceHook = HookCall.ToProtobuf();
+					Proto.Services.PreTxAllowanceHook = HookCall.ToProtobuf();
 					break;
 				case FungibleHookType.PrePostTxAllowanceHook:
-					proto.PrePostTxAllowanceHook = HookCall.ToProtobuf();
+					Proto.Services.PrePostTxAllowanceHook = HookCall.ToProtobuf();
 					break;
 				default: break;
 			}

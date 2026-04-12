@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 namespace Hedera.Hashgraph.SDK.Transactions
 {	
 	/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction"]/*' />
-	public abstract partial class Transaction<T> : Executable<T, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>
+	public abstract partial class Transaction<T> : Executable<T, Proto.Services.Transaction, Proto.Services.TransactionResponse, TransactionResponse>, ITransaction where T : Transaction<T>
     {		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="T:Transaction_2"]/*' />
 		internal Hbar DefaultMaxTransactionFee = new (2);
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		protected Transaction()
         {
             TransactionValidDuration = Transaction.DEFAULT_TRANSACTION_VALID_DURATION;
-            SourceTransactionBody = new Proto.TransactionBody();
+            SourceTransactionBody = new Proto.Services.TransactionBody();
 			TransactionIds = new ListGuarded<TransactionId>
 			{
 				OnRequireNotFrozen = RequireNotFrozen
@@ -57,8 +57,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		}
 		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal Transaction(Proto.TransactionBody txBody)
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal Transaction(Proto.Services.TransactionBody txBody)
 		{
 			TransactionValidDuration = Transaction.DEFAULT_TRANSACTION_VALID_DURATION;
 			MaxTransactionFee = Hbar.FromTinybars((long)txBody.TransactionFee);
@@ -70,20 +70,20 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 		}
 		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs)
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs)
         {
 			TransactionIds = new ListGuarded<TransactionId>
 			{
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 
-			DictionaryLinked<AccountId, Proto.Transaction> transactionMap = txs.First().Value;
+			DictionaryLinked<AccountId, Proto.Services.Transaction> transactionMap = txs.First().Value;
 
             if (transactionMap.Count != 0 && transactionMap.Keys.First().Equals(Transaction.DUMMY_ACCOUNT_ID) && BatchKey != null)
             {
                 // If the first account ID is a dummy account ID, then only the source TransactionBody needs to be copied.
-                var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(transactionMap.Values.First().SignedTransactionBytes);
+                var signedTransaction = Proto.Services.SignedTransaction.Parser.ParseFrom(transactionMap.Values.First().SignedTransactionBytes);
                 SourceTransactionBody = Transaction.ParseTransactionBody(signedTransaction.BodyBytes);
             }
             else
@@ -93,9 +93,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
                 NodeAccountIds.EnsureCapacity(nodeCount);
                 
-				SigPairLists = new List<Proto.SignatureMap>(nodeCount * txCount);
-                OuterTransactions = new List<Proto.Transaction>(nodeCount * txCount);
-                InnerSignedTransactions = new List<Proto.SignedTransaction>(nodeCount * txCount);
+				SigPairLists = new List<Proto.Services.SignatureMap>(nodeCount * txCount);
+                OuterTransactions = new List<Proto.Services.Transaction>(nodeCount * txCount);
+                InnerSignedTransactions = new List<Proto.Services.SignedTransaction>(nodeCount * txCount);
 
                 TransactionIds.EnsureCapacity(txCount);
 
@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                         if (NodeAccountIds.Count != nodeCount)
 							NodeAccountIds.Add(nodeEntry.Key);
 
-						var transaction = Proto.SignedTransaction.Parser.ParseFrom(nodeEntry.Value.SignedTransactionBytes);
+						var transaction = Proto.Services.SignedTransaction.Parser.ParseFrom(nodeEntry.Value.SignedTransactionBytes);
                         OuterTransactions.Add(nodeEntry.Value);
                         SigPairLists.Add(transaction.SigMap);
                         InnerSignedTransactions.Add(transaction);
@@ -131,7 +131,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 // Verify that transaction bodies match
                 for (int i = 0; i < txCount; i++)
                 {
-                    Proto.TransactionBody? firstTxBody = null;
+                    Proto.Services.TransactionBody? firstTxBody = null;
                     for (int j = 0; j < nodeCount; j++)
                     {
                         int k = i * nodeCount + j;
@@ -193,10 +193,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.SourceTransactionBody"]/*' />
-		public Proto.TransactionBody SourceTransactionBody { get; internal set; }
+		public Proto.Services.TransactionBody SourceTransactionBody { get; internal set; }
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.FrozenBodyBuilder"]/*' />
-		public Proto.TransactionBody? FrozenBodyBuilder { get; internal set; }
+		public Proto.Services.TransactionBody? FrozenBodyBuilder { get; internal set; }
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.RequireNotFrozen_4"]/*' />
 		public Key? BatchKey 
@@ -233,13 +233,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.OuterTransactions"]/*' />
-		public List<Proto.Transaction> OuterTransactions { get; internal set; }
+		public List<Proto.Services.Transaction> OuterTransactions { get; internal set; }
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.InnerSignedTransactions"]/*' />
-		public List<Proto.SignedTransaction> InnerSignedTransactions { get; internal set; }
+		public List<Proto.Services.SignedTransaction> InnerSignedTransactions { get; internal set; }
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.SigPairLists"]/*' />
-		public List<Proto.SignatureMap> SigPairLists { get; internal set; }
+		public List<Proto.Services.SignatureMap> SigPairLists { get; internal set; }
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.TransactionIds"]/*' />
 		public ListGuarded<TransactionId> TransactionIds { get; internal set; }
@@ -256,11 +256,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 
 		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnFreeze(Proto.TransactionBody)"]/*' />
-		public abstract void OnFreeze(Proto.TransactionBody bodyBuilder);
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnFreeze(Proto.Services.TransactionBody)"]/*' />
+		public abstract void OnFreeze(Proto.Services.TransactionBody bodyBuilder);
 		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnScheduled(Proto.SchedulableTransactionBody)"]/*' />
-		public abstract void OnScheduled(Proto.SchedulableTransactionBody scheduled);
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.OnScheduled(Proto.Services.SchedulableTransactionBody)"]/*' />
+		public abstract void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled);
 		public abstract void ValidateChecksums(Client client);
 
 		protected override bool IsBatchedAndNotBatchTransaction()
@@ -269,16 +269,16 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 
 		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.DoSchedule(Proto.TransactionBody)"]/*' />
-		protected virtual ScheduleCreateTransaction DoSchedule(Proto.TransactionBody bodyBuilder)
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.DoSchedule(Proto.Services.TransactionBody)"]/*' />
+		protected virtual ScheduleCreateTransaction DoSchedule(Proto.Services.TransactionBody bodyBuilder)
 		{
-			Proto.SchedulableTransactionBody proto = new ()
+			Proto.Services.SchedulableTransactionBody proto = new ()
 			{
 				TransactionFee = bodyBuilder.TransactionFee,
 				Memo = bodyBuilder.Memo,
 			};
 			
-			proto.MaxCustomFees.AddRange(bodyBuilder.MaxCustomFees);
+			Proto.Services.MaxCustomFees.AddRange(bodyBuilder.MaxCustomFees);
 
 			OnScheduled(proto);
 
@@ -336,9 +336,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			if (NodeAccountIds.Count != 1)
 				throw new InvalidOperationException("transaction did not have exactly one node ID set");
 		}
-		protected virtual Proto.TransactionBody SpawnBodyBuilder(Client? client)
+		protected virtual Proto.Services.TransactionBody SpawnBodyBuilder(Client? client)
 		{
-			var builder = new Proto.TransactionBody
+			var builder = new Proto.Services.TransactionBody
 			{
 				Memo = Memo,
 				TransactionFee = (ulong)(MaxTransactionFee ?? client?.DefaultMaxTransactionFee ?? DefaultMaxTransactionFee).ToTinybars(),
@@ -422,7 +422,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			SignTransaction(index);
 
-            OuterTransactions[index] = new Proto.Transaction
+            OuterTransactions[index] = new Proto.Services.Transaction
 			{
 				SigMap = SigPairLists[index],
 				SignedTransactionBytes = InnerSignedTransactions[index].ToByteString(),
@@ -530,8 +530,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			for (int i = 0; i < InnerSignedTransactions.Count; i++)
 			{
-				Proto.SignedTransaction signableNodeTransactionBodyBytes = InnerSignedTransactions[i];
-				Proto.TransactionBody body = Transaction.ParseTransactionBody(signableNodeTransactionBodyBytes.BodyBytes);
+				Proto.Services.SignedTransaction signableNodeTransactionBodyBytes = InnerSignedTransactions[i];
+				Proto.Services.TransactionBody body = Transaction.ParseTransactionBody(signableNodeTransactionBodyBytes.BodyBytes);
 				
 				AccountId nodeID = AccountId.FromProtobuf(body.NodeAccountID);
 				TransactionId transactionID = TransactionId.FromProtobuf(body.TransactionID);
@@ -632,7 +632,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			return FrozenBodyBuilder != null;
 		}
-		public override TransactionResponse MapResponse(Proto.TransactionResponse transactionResponse, AccountId nodeId, Proto.Transaction request)
+		public override TransactionResponse MapResponse(Proto.Services.TransactionResponse transactionResponse, AccountId nodeId, Proto.Services.Transaction request)
 		{
 			var transactionId = TransactionIdInternal;
 			var hash = Transaction.GenerateHash(request.SignedTransactionBytes.ToByteArray());
@@ -642,7 +642,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return TransactionResponse.Init(nodeId, transactionId, hash, null, this);
 		}
-		public virtual ResponseStatus MapResponseStatus(Proto.TransactionResponse transactionResponse)
+		public virtual ResponseStatus MapResponseStatus(Proto.Services.TransactionResponse transactionResponse)
 		{
 			return (ResponseStatus)transactionResponse.NodeTransactionPrecheckCode;
 		}
@@ -737,7 +737,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
-			var list = new Proto.TransactionList();
+			var list = new Proto.Services.TransactionList();
 
 			// If no nodes have been selected yet,
 			// the new TransactionBody can be used to build a Transaction protobuf object.
@@ -751,9 +751,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 				OnFreeze(bodyBuilder);
 
-				list.TransactionList_.Add(new Proto.Transaction
+				list.TransactionList_.Add(new Proto.Services.Transaction
 				{
-					SignedTransactionBytes = new Proto.SignedTransaction
+					SignedTransactionBytes = new Proto.Services.SignedTransaction
 					{
 						BodyBytes = bodyBuilder.ToByteString()
 
@@ -799,39 +799,39 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			if (TransactionIds.Count != 0)
 				FrozenBodyBuilder.TransactionID = TransactionIdInternal.ToProtobuf();
 
-			OuterTransactions = new List<Proto.Transaction>(NodeAccountIds.Count);
-			SigPairLists = new List<Proto.SignatureMap>(NodeAccountIds.Count);
-			InnerSignedTransactions = new List<Proto.SignedTransaction>(NodeAccountIds.Count);
+			OuterTransactions = new List<Proto.Services.Transaction>(NodeAccountIds.Count);
+			SigPairLists = new List<Proto.Services.SignatureMap>(NodeAccountIds.Count);
+			InnerSignedTransactions = new List<Proto.Services.SignedTransaction>(NodeAccountIds.Count);
 
 			foreach (AccountId nodeId in NodeAccountIds)
 			{
 				FrozenBodyBuilder.NodeAccountID = nodeId.ToProtobuf();
 
-				SigPairLists.Add(new Proto.SignatureMap());
+				SigPairLists.Add(new Proto.Services.SignatureMap());
 				OuterTransactions.Add(null);
-				InnerSignedTransactions.Add(new Proto.SignedTransaction
+				InnerSignedTransactions.Add(new Proto.Services.SignedTransaction
 				{
 					BodyBytes = FrozenBodyBuilder.ToByteString()
 				});
 			}
 		}
 
-		public override Method<Proto.Transaction, Proto.TransactionResponse> GetMethod()
+		public override Method<Proto.Services.Transaction, Proto.Services.TransactionResponse> GetMethod()
 		{
 			MethodDescriptor methoddescriptor = GetMethodDescriptor();
 
 			IMessage input = (IMessage)Activator.CreateInstance(methoddescriptor.InputType.ClrType)!;
 			IMessage output = (IMessage)Activator.CreateInstance(methoddescriptor.OutputType.ClrType)!;
 
-			return new Method<Proto.Transaction, Proto.TransactionResponse>(
+			return new Method<Proto.Services.Transaction, Proto.Services.TransactionResponse>(
 				type: MethodType.Unary,
 				name: methoddescriptor.Name,
 				serviceName: methoddescriptor.Service.FullName,
-				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Transaction.Parser.ParseFrom(data)),
-				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.TransactionResponse.Parser.ParseFrom(data)));
+				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Services.Transaction.Parser.ParseFrom(data)),
+				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Services.TransactionResponse.Parser.ParseFrom(data)));
 		}
 
-		public override ExecutionState GetExecutionState(ResponseStatus status, Proto.TransactionResponse response)
+		public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Services.TransactionResponse response)
 		{
 			if (status == ResponseStatus.TransactionExpired)
 			{
@@ -884,7 +884,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			return Task.CompletedTask;
 		}
-		public override Proto.Transaction MakeRequest()
+		public override Proto.Services.Transaction MakeRequest()
         {
             var index = NodeAccountIds.Index + (TransactionIds.Index * NodeAccountIds.Count);
 
@@ -904,7 +904,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		public override string ToString()
 		{
 			// NOTE: regex is for removing the instance address from the default debug output
-			Proto.TransactionBody body = SpawnBodyBuilder(null);
+			Proto.Services.TransactionBody body = SpawnBodyBuilder(null);
 			
 			if (TransactionIds.Count != 0)
 				body.TransactionID = TransactionIds[0].ToProtobuf();
@@ -940,31 +940,31 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignatureIfNotExists(System.Int32,PublicKey,System.Byte[])"]/*' />
 		private bool AddSignatureIfNotExists(int index, PublicKey publicKey, byte[] signature)
 		{
-			Proto.SignatureMap sigMapBuilder = SigPairLists[index];
+			Proto.Services.SignatureMap sigMapBuilder = SigPairLists[index];
 
 			// Check if the signature is already in the signature map
 			if (IsSignatureAlreadyPresent(sigMapBuilder, publicKey))
 				return false;
 
 			// Add the signature to the signature map
-			Proto.SignaturePair newSigPair = publicKey.ToSignaturePairProtobuf(signature);
+			Proto.Services.SignaturePair newSigPair = publicKey.ToSignaturePairProtobuf(signature);
 			sigMapBuilder.SigPair.Add(newSigPair);
 
 			return true;
 		}
 		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.IsSignatureAlreadyPresent(Proto.SignatureMap,PublicKey)"]/*' />
-		private bool IsSignatureAlreadyPresent(Proto.SignatureMap sigMapBuilder, PublicKey publicKey)
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.IsSignatureAlreadyPresent(Proto.Services.SignatureMap,PublicKey)"]/*' />
+		private bool IsSignatureAlreadyPresent(Proto.Services.SignatureMap sigMapBuilder, PublicKey publicKey)
 		{
-			foreach (Proto.SignaturePair sig in sigMapBuilder.SigPair)
+			foreach (Proto.Services.SignaturePair sig in sigMapBuilder.SigPair)
 				if (Equals(sig.PubKeyPrefix.ToByteArray(), publicKey.ToBytesRaw()))
 					return true;
 
 			return false;
 		}
 		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.MatchesTargetTransactionAndNode(Proto.TransactionBody,TransactionId,AccountId)"]/*' />
-		private bool MatchesTargetTransactionAndNode(Proto.TransactionBody body, TransactionId targetTransactionID, AccountId targetNodeID)
+		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.MatchesTargetTransactionAndNode(Proto.Services.TransactionBody,TransactionId,AccountId)"]/*' />
+		private bool MatchesTargetTransactionAndNode(Proto.Services.TransactionBody body, TransactionId targetTransactionID, AccountId targetNodeID)
         {
             TransactionId bodyTxID = TransactionId.FromProtobuf(body.TransactionID);
             AccountId bodyNodeID = AccountId.FromProtobuf(body.NodeAccountID);
@@ -975,8 +975,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.ProcessedSignatureForTransaction(System.Int32,PublicKey,System.Byte[],TransactionId,AccountId)"]/*' />
 		private bool ProcessedSignatureForTransaction(int index, PublicKey publicKey, byte[] signature, TransactionId transactionID, AccountId nodeID)
 		{
-			Proto.SignedTransaction temp = InnerSignedTransactions[index];
-			Proto.TransactionBody body = Transaction.ParseTransactionBody(temp);
+			Proto.Services.SignedTransaction temp = InnerSignedTransactions[index];
+			Proto.Services.TransactionBody body = Transaction.ParseTransactionBody(temp);
 
 			if (body == null)
 				return false;

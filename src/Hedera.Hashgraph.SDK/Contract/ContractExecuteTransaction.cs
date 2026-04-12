@@ -16,13 +16,13 @@ namespace Hedera.Hashgraph.SDK.Contract
     {
         /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor"]/*' />
         public ContractExecuteTransaction() { }
-		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal ContractExecuteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal ContractExecuteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal ContractExecuteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal ContractExecuteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -97,9 +97,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         }
 
         /// <include file="ContractExecuteTransaction.cs.xml" path='docs/member[@name="M:ContractExecuteTransaction.ToProtobuf"]/*' />
-        public Proto.ContractCallTransactionBody ToProtobuf()
+        public Proto.Services.ContractCallTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ContractCallTransactionBody
+            var builder = new Proto.Services.ContractCallTransactionBody
             {
                 Gas = Gas,
                 Amount = PayableAmount.ToTinybars(),
@@ -116,26 +116,26 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
 			ContractId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ContractCall = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.ContractCall = ToProtobuf();
 		}
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.contractCallMethod);
+			string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.contractCallMethod);
 
-			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

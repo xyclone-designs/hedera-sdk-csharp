@@ -16,12 +16,12 @@ namespace Hedera.Hashgraph.SDK.Nfts
     {
         /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor"]/*' />
         public TokenUpdateNftsTransaction() { }
-		internal TokenUpdateNftsTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal TokenUpdateNftsTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenUpdateNftsTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenUpdateNftsTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -56,9 +56,9 @@ namespace Hedera.Hashgraph.SDK.Nfts
         }
 
         /// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenUpdateNftsTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenUpdateNftsTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenUpdateNftsTransactionBody();
+            var builder = new Proto.Services.TokenUpdateNftsTransactionBody();
 
             if (TokenId != null)
 				builder.Token = TokenId.ToProtobuf();
@@ -76,27 +76,27 @@ namespace Hedera.Hashgraph.SDK.Nfts
         {
 			TokenId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenUpdateNfts = ToProtobuf();
         }
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenUpdateNfts = ToProtobuf();
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.updateNfts);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.updateNfts);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

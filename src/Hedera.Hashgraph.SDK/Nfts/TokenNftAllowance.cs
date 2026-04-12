@@ -43,18 +43,18 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromBytes(System.Byte[])"]/*' />
 		public static TokenNftAllowance FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.NftAllowance.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.NftAllowance.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromProtobuf(Proto.NftAllowance)"]/*' />
-		public static TokenNftAllowance FromProtobuf(Proto.NftAllowance allowanceProto)
+		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.FromProtobuf(Proto.Services.NftAllowance)"]/*' />
+		public static TokenNftAllowance FromProtobuf(Proto.Services.NftAllowance allowanceProto)
         {
             return new TokenNftAllowance(
-                TokenId.FromProtobuf(allowanceProto.TokenId), 
-                AccountId.FromProtobuf(allowanceProto.Owner),
-                AccountId.FromProtobuf(allowanceProto.Spender),
-                AccountId.FromProtobuf(allowanceProto.DelegatingSpender),
-                allowanceProto.SerialNumbers,
-                allowanceProto.ApprovedForAll);
+                TokenId.FromProtobuf(allowanceProto.Services.TokenId), 
+                AccountId.FromProtobuf(allowanceProto.Services.Owner),
+                AccountId.FromProtobuf(allowanceProto.Services.Spender),
+                AccountId.FromProtobuf(allowanceProto.Services.DelegatingSpender),
+                allowanceProto.Services.SerialNumbers,
+                allowanceProto.Services.ApprovedForAll);
         }
 
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToBytes"]/*' />
@@ -63,37 +63,37 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToProtobuf"]/*' />
-		public virtual Proto.NftAllowance ToProtobuf()
+		public virtual Proto.Services.NftAllowance ToProtobuf()
         {
-            Proto.NftAllowance proto = new()
+            Proto.Services.NftAllowance proto = new()
             {
 				ApprovedForAll = AllSerials,
 				TokenId = TokenId.ToProtobuf(),
 			};
 
-			if (OwnerAccountId?.ToProtobuf() is Proto.AccountID owneraccountid)
-				proto.Owner = owneraccountid;
-			if (SpenderAccountId?.ToProtobuf() is Proto.AccountID spenderaccountid)
-				proto.Spender = spenderaccountid;
-			if (DelegatingSpender?.ToProtobuf() is Proto.AccountID delegatingspender)
-				proto.DelegatingSpender = delegatingspender;
+			if (OwnerAccountId?.ToProtobuf() is Proto.Services.AccountID owneraccountid)
+				Proto.Services.Owner = owneraccountid;
+			if (SpenderAccountId?.ToProtobuf() is Proto.Services.AccountID spenderaccountid)
+				Proto.Services.Spender = spenderaccountid;
+			if (DelegatingSpender?.ToProtobuf() is Proto.Services.AccountID delegatingspender)
+				Proto.Services.DelegatingSpender = delegatingspender;
 
-			proto.SerialNumbers.AddRange(SerialNumbers);
+			Proto.Services.SerialNumbers.AddRange(SerialNumbers);
 
             return proto;
         }
         /// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToRemoveProtobuf"]/*' />
-        public virtual Proto.NftRemoveAllowance ToRemoveProtobuf()
+        public virtual Proto.Services.NftRemoveAllowance ToRemoveProtobuf()
         {
-			Proto.NftRemoveAllowance proto = new()
+			Proto.Services.NftRemoveAllowance proto = new()
             {
 				TokenId = TokenId.ToProtobuf(),
 			};
 
-			if (OwnerAccountId?.ToProtobuf() is Proto.AccountID owneraccountid)
-				proto.Owner = owneraccountid;
+			if (OwnerAccountId?.ToProtobuf() is Proto.Services.AccountID owneraccountid)
+				Proto.Services.Owner = owneraccountid;
 
-			proto.SerialNumbers.AddRange(SerialNumbers);
+			Proto.Services.SerialNumbers.AddRange(SerialNumbers);
 			
             return proto;
         }

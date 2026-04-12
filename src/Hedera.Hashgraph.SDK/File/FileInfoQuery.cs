@@ -24,9 +24,9 @@ namespace Hedera.Hashgraph.SDK.File
             }
         }
 
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.FileGetInfoQuery
+            var builder = new Proto.Services.FileGetInfoQuery
             {
                 Header = header
             };
@@ -39,26 +39,26 @@ namespace Hedera.Hashgraph.SDK.File
             queryBuilder.FileGetInfo = builder;
         }
 
-        public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+        public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.FileGetInfo.Header;
         }
 
-        public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+        public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
         {
             return request.FileGetInfo.Header;
         }
 
-        public override FileInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override FileInfo MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return FileInfo.FromProtobuf(response.FileGetInfo.FileInfo);
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.FileService.FileServiceClient.getFileInfo);
+			string methodname = nameof(Proto.Services.FileService.FileServiceClient.getFileInfo);
 
-			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override async Task<Hbar> GetCostAsync(Client client)

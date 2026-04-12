@@ -38,10 +38,10 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.FromBytes(System.Byte[])"]/*' />
 		public static ContractInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.ContractGetInfoResponse.Types.ContractInfo.Parser.ParseFrom(bytes));
 		}
-		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo)"]/*' />
-		public static ContractInfo FromProtobuf(Proto.ContractGetInfoResponse.Types.ContractInfo contractInfo)
+		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.FromProtobuf(Proto.Services.ContractGetInfoResponse.Types.ContractInfo)"]/*' />
+		public static ContractInfo FromProtobuf(Proto.Services.ContractGetInfoResponse.Types.ContractInfo contractInfo)
         {
             return new ContractInfo(
                 ContractId.FromProtobuf(contractInfo.ContractID), 
@@ -98,9 +98,9 @@ namespace Hedera.Hashgraph.SDK.Contract
             return ToProtobuf().ToByteArray();
         }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.ToProtobuf"]/*' />
-		public Proto.ContractGetInfoResponse.Types.ContractInfo ToProtobuf()
+		public Proto.Services.ContractGetInfoResponse.Types.ContractInfo ToProtobuf()
 		{
-			Proto.ContractGetInfoResponse.Types.ContractInfo proto = new()
+			Proto.Services.ContractGetInfoResponse.Types.ContractInfo proto = new()
 			{
 				ContractID = ContractId.ToProtobuf(),
 				AccountID = AccountId.ToProtobuf(),
@@ -114,13 +114,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 
 			if (AdminKey != null)
-				proto.AdminKey = AdminKey.ToProtobufKey();
+				Proto.Services.AdminKey = AdminKey.ToProtobufKey();
 
 			if (StakingInfo != null)
-				proto.StakingInfo = StakingInfo.ToProtobuf();
+				Proto.Services.StakingInfo = StakingInfo.ToProtobuf();
 
 			if (AutoRenewAccountId != null)
-				proto.AutoRenewAccountId = AutoRenewAccountId.ToProtobuf();
+				Proto.Services.AutoRenewAccountId = AutoRenewAccountId.ToProtobuf();
 
 			return proto;
 		}

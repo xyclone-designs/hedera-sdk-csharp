@@ -21,10 +21,10 @@ namespace Hedera.Hashgraph.SDK.Fees
 		/// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.FromBytes(System.Byte[])"]/*' />
 		public static FeeSchedule FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.FeeSchedule.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.FeeSchedule.Parser.ParseFrom(bytes));
 		}
-		/// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.FromProtobuf(Proto.FeeSchedule)"]/*' />
-		public static FeeSchedule FromProtobuf(Proto.FeeSchedule feeSchedule)
+		/// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.FromProtobuf(Proto.Services.FeeSchedule)"]/*' />
+		public static FeeSchedule FromProtobuf(Proto.Services.FeeSchedule feeSchedule)
         {
             return new FeeSchedule
 			{
@@ -58,14 +58,14 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
         }
 		/// <include file="FeeSchedule.cs.xml" path='docs/member[@name="M:FeeSchedule.ToProtobuf"]/*' />
-		public virtual Proto.FeeSchedule ToProtobuf()
+		public virtual Proto.Services.FeeSchedule ToProtobuf()
 		{
-			Proto.FeeSchedule proto = new()
+			Proto.Services.FeeSchedule proto = new()
 			{
 				ExpiryTime = ExpirationTime.ToProtoTimestampSeconds()
 			};
 
-			proto.TransactionFeeSchedule.AddRange(TransactionFeeSchedules.Select(_ => _.ToProtobuf()));
+			Proto.Services.TransactionFeeSchedule.AddRange(TransactionFeeSchedules.Select(_ => _.ToProtobuf()));
 
 			return proto;
 		}

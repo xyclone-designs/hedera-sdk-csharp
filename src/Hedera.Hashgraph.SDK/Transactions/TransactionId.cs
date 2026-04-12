@@ -98,10 +98,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromBytes(System.Byte[])"]/*' />
         public static TransactionId FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.TransactionID.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.TransactionID.Parser.ParseFrom(bytes));
         }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromProtobuf(Proto.TransactionID)"]/*' />
-		public static TransactionId FromProtobuf(Proto.TransactionID transactionID)
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromProtobuf(Proto.Services.TransactionID)"]/*' />
+		public static TransactionId FromProtobuf(Proto.Services.TransactionID transactionID)
 		{
 			return new TransactionId(AccountId.FromProtobuf(transactionID.AccountID), transactionID.TransactionValidStart.ToDateTimeOffset())
 			{
@@ -281,19 +281,19 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return ToProtobuf().ToByteArray();
         }
 		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToProtobuf"]/*' />
-		public Proto.TransactionID ToProtobuf()
+		public Proto.Services.TransactionID ToProtobuf()
 		{
-			Proto.TransactionID proto = new()
+			Proto.Services.TransactionID proto = new()
 			{
 				Scheduled = Scheduled,
 				Nonce = Nonce ?? 0
 			};
 
 			if (AccountId != null)
-				proto.AccountID = AccountId.ToProtobuf();
+				Proto.Services.AccountID = AccountId.ToProtobuf();
 
 			if (ValidStart != null)
-				proto.TransactionValidStart = ValidStart.ToProtoTimestamp();
+				Proto.Services.TransactionValidStart = ValidStart.ToProtoTimestamp();
 
 			return proto;
 		}

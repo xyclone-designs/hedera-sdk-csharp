@@ -23,10 +23,10 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromBytes(System.Byte[])"]/*' />
 		public static TokenAssociation FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TokenAssociation.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TokenAssociation.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromProtobuf(Proto.TokenAssociation)"]/*' />
-		public static TokenAssociation FromProtobuf(Proto.TokenAssociation tokenAssociation)
+		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.FromProtobuf(Proto.Services.TokenAssociation)"]/*' />
+		public static TokenAssociation FromProtobuf(Proto.Services.TokenAssociation tokenAssociation)
         {
             return new TokenAssociation(
 				tokenAssociation.TokenId is not null 
@@ -43,9 +43,9 @@ namespace Hedera.Hashgraph.SDK.Token
             return ToProtobuf().ToByteArray();
         }
 		/// <include file="TokenAssociation.cs.xml" path='docs/member[@name="M:TokenAssociation.ToProtobuf"]/*' />
-		public virtual Proto.TokenAssociation ToProtobuf()
+		public virtual Proto.Services.TokenAssociation ToProtobuf()
 		{
-			return new Proto.TokenAssociation
+			return new Proto.Services.TokenAssociation
 			{
 				TokenId = TokenId.ToProtobuf(),
 				AccountId = AccountId.ToProtobuf(),

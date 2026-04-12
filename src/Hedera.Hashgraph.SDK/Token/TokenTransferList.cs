@@ -29,10 +29,10 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-        public virtual Proto.TokenTransferList ToProtobuf()
+        public virtual Proto.Services.TokenTransferList ToProtobuf()
         {
-            var transfers = new List<Proto.AccountAmount>();
-            var nftTransfers = new List<Proto.NftTransfer>();
+            var transfers = new List<Proto.Services.AccountAmount>();
+            var nftTransfers = new List<Proto.Services.NftTransfer>();
 
             foreach (var transfer in Transfers)
 				transfers.Add(transfer.ToProtobuf());
@@ -40,17 +40,17 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (var nfttransfers in NftTransfers.Select(_ => _.ToProtobuf()))
 				nftTransfers.Add(nfttransfers);
 
-			Proto.TokenTransferList proto = new()
+			Proto.Services.TokenTransferList proto = new()
             {
                 Token = TokenId.ToProtobuf(),
 			};
 
             if (ExpectDecimals.HasValue)
-                proto.ExpectedDecimals = ExpectDecimals;
+                Proto.Services.ExpectedDecimals = ExpectDecimals;
 
 
-			proto.Transfers.AddRange(transfers);
-            proto.NftTransfers.AddRange(nftTransfers);
+			Proto.Services.Transfers.AddRange(transfers);
+            Proto.Services.NftTransfers.AddRange(nftTransfers);
 
             return proto;
         }

@@ -5,8 +5,8 @@ namespace Hedera.Hashgraph.SDK.Fees
     /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="T:CustomFractionalFee"]/*' />
     public class CustomFractionalFee : CustomFeeBase<CustomFractionalFee>
     {
-        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.FromProtobuf(Proto.FractionalFee)"]/*' />
-        public static CustomFractionalFee FromProtobuf(Proto.FractionalFee fractionalFee)
+        /// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.FromProtobuf(Proto.Services.FractionalFee)"]/*' />
+        public static CustomFractionalFee FromProtobuf(Proto.Services.FractionalFee fractionalFee)
         {
 			return new CustomFractionalFee
 			{
@@ -30,11 +30,11 @@ namespace Hedera.Hashgraph.SDK.Fees
         public virtual FeeAssessmentMethod AssessmentMethod { get; set; } = FeeAssessmentMethod.Inclusive;
 
 		/// <include file="CustomFractionalFee.cs.xml" path='docs/member[@name="M:CustomFractionalFee.ToFractionalFeeProtobuf"]/*' />
-		public virtual Proto.FractionalFee ToFractionalFeeProtobuf()
+		public virtual Proto.Services.FractionalFee ToFractionalFeeProtobuf()
         {
-            return new Proto.FractionalFee
+            return new Proto.Services.FractionalFee
             {
-				FractionalAmount = new Proto.Fraction
+				FractionalAmount = new Proto.Services.Fraction
                 {
 					Numerator = Numerator,
 					Denominator = Denominator,
@@ -45,9 +45,9 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
         }
 
-        public override Proto.CustomFee ToProtobuf()
+        public override Proto.Services.CustomFee ToProtobuf()
         {
-            return FinishToProtobuf(new Proto.CustomFee
+            return FinishToProtobuf(new Proto.Services.CustomFee
             {
 				FractionalFee = ToFractionalFeeProtobuf()
 			});

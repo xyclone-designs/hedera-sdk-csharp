@@ -20,12 +20,12 @@ namespace Hedera.Hashgraph.SDK.Hook
 		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.#ctor(HookExtensionPoint,System.Int64,EvmHook)"]/*' />
 		public HookCreationDetails(HookExtensionPoint extensionPoint, long hookId, EvmHook hook) : this(extensionPoint, hookId, hook, null) { }
 
-		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.FromProtobuf(Proto.HookCreationDetails)"]/*' />
-		public static HookCreationDetails FromProtobuf(Proto.HookCreationDetails proto)
+		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.FromProtobuf(Proto.Services.HookCreationDetails)"]/*' />
+		public static HookCreationDetails FromProtobuf(Proto.Services.HookCreationDetails proto)
 		{
-			var adminKey = proto.AdminKey is not null ? Key.FromProtobufKey(proto.AdminKey) : null;
+			var adminKey = Proto.Services.AdminKey is not null ? Key.FromProtobufKey(Proto.Services.AdminKey) : null;
 
-			return new HookCreationDetails((HookExtensionPoint)proto.ExtensionPoint, proto.HookId, EvmHook.FromProtobuf(proto.EvmHook), adminKey);
+			return new HookCreationDetails((HookExtensionPoint)Proto.Services.ExtensionPoint, Proto.Services.HookId, EvmHook.FromProtobuf(Proto.Services.EvmHook), adminKey);
 		}
 
 		public HookExtensionPoint ExtensionPoint { get; }
@@ -35,17 +35,17 @@ namespace Hedera.Hashgraph.SDK.Hook
 		public bool HasAdminKey { get => AdminKey is not null; }
 
 		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.ToProtobuf"]/*' />
-		public virtual Proto.HookCreationDetails ToProtobuf()
+		public virtual Proto.Services.HookCreationDetails ToProtobuf()
         {
-            Proto.HookCreationDetails proto = new()
+            Proto.Services.HookCreationDetails proto = new()
             {
-				ExtensionPoint = (Proto.HookExtensionPoint)ExtensionPoint,
+				ExtensionPoint = (Proto.Services.HookExtensionPoint)ExtensionPoint,
 				HookId = HookId,
 				EvmHook = Hook.ToProtobuf(),
 			};
 
             if (AdminKey != null)
-				proto.AdminKey = AdminKey.ToProtobufKey();
+				Proto.Services.AdminKey = AdminKey.ToProtobufKey();
 
 			return proto;
         }

@@ -27,14 +27,14 @@ namespace Hedera.Hashgraph.SDK
         //  * @param storageChangeProto        the protobuf
         //  * @return                          the new storage charge object
         //  */
-        // static StorageChange fromProtobuf(Proto.StorageChange storageChangeProto) {
+        // static StorageChange fromProtobuf(Proto.Services.StorageChange storageChangeProto) {
         //     return new StorageChange(
-        //         new BigInteger(storageChangeProto.getSlot().toByteArray()),
-        //         new BigInteger(storageChangeProto.getValueRead().toByteArray()),
-        //         storageChangeProto.hasValueWritten() ? (
-        //             storageChangeProto.getValueWritten().getValue().Length == 0 ?
+        //         new BigInteger(storageChangeProto.Services.getSlot().toByteArray()),
+        //         new BigInteger(storageChangeProto.Services.getValueRead().toByteArray()),
+        //         storageChangeProto.Services.hasValueWritten() ? (
+        //             storageChangeProto.Services.getValueWritten().getValue().Length == 0 ?
         //                 BigInteger.Zero :
-        //                 new BigInteger(storageChangeProto.getValueWritten().getValue().toByteArray())
+        //                 new BigInteger(storageChangeProto.Services.getValueWritten().getValue().toByteArray())
         //         ) : null
         //     );
         // }
@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK
         //  * @throws InvalidProtocolBufferException       when there is an issue with the protobuf
         //  */
         // public static StorageChange fromBytes(byte[] bytes) throws InvalidProtocolBufferException {
-        //     return fromProtobuf(Proto.StorageChange.parseFrom(bytes));
+        //     return fromProtobuf(Proto.Services.StorageChange.parseFrom(bytes));
         // }
         //
         // /**
@@ -55,8 +55,8 @@ namespace Hedera.Hashgraph.SDK
         //  *
         //  * @return                          the byte array representation
         //  */
-        // Proto.StorageChange toProtobuf() {
-        //     var builder = Proto.StorageChange.newBuilder()
+        // Proto.Services.StorageChange toProtobuf() {
+        //     var builder = Proto.Services.StorageChange.newBuilder()
         //         .setSlot(ByteString.copyFrom(slot.toByteArray()))
         //         .setValueRead(ByteString.copyFrom(valueRead.toByteArray()));
         //     if (valueWritten != null) {

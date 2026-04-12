@@ -23,13 +23,13 @@ namespace Hedera.Hashgraph.SDK.File
             ExpirationTime = DateTimeOffset.UtcNow.Add(Transaction.DEFAULT_AUTO_RENEW_PERIOD);
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal FileCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal FileCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		public FileCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		public FileCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -117,9 +117,9 @@ namespace Hedera.Hashgraph.SDK.File
 		}
 
 		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.ToProtobuf"]/*' />
-		public Proto.FileCreateTransactionBody ToProtobuf()
+		public Proto.Services.FileCreateTransactionBody ToProtobuf()
 		{
-			var builder = new Proto.FileCreateTransactionBody();
+			var builder = new Proto.Services.FileCreateTransactionBody();
 
 			if (ExpirationTime != null)
 			{
@@ -144,26 +144,26 @@ namespace Hedera.Hashgraph.SDK.File
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.FileService.FileServiceClient.createFile);
+			string methodname = nameof(Proto.Services.FileService.FileServiceClient.createFile);
 
-			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void ValidateChecksums(Client client) { }
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.FileCreate = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.FileCreate = ToProtobuf();
         }
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

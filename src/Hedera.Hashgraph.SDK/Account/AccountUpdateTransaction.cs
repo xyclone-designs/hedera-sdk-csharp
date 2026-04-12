@@ -19,13 +19,13 @@ namespace Hedera.Hashgraph.SDK.Account
     {
 		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor"]/*' />
 		public AccountUpdateTransaction() { }
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal AccountUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal AccountUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal AccountUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal AccountUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -140,75 +140,75 @@ namespace Hedera.Hashgraph.SDK.Account
         }
 
         /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.ToProtobuf"]/*' />
-        public Proto.CryptoUpdateTransactionBody ToProtobuf()
+        public Proto.Services.CryptoUpdateTransactionBody ToProtobuf()
         {
-			Proto.CryptoUpdateTransactionBody proto = new ()
+			Proto.Services.CryptoUpdateTransactionBody proto = new ()
             {
 				ReceiverSigRequiredWrapper = ReceiverSigRequired
 			};
 
             if (AccountId != null)
             {
-                proto.AccountIDToUpdate = AccountId.ToProtobuf();
+                Proto.Services.AccountIDToUpdate = AccountId.ToProtobuf();
             }
 
             if (ProxyAccountId != null)
             {
-                proto.ProxyAccountID = ProxyAccountId.ToProtobuf();
+                Proto.Services.ProxyAccountID = ProxyAccountId.ToProtobuf();
             }
 
             if (Key != null)
             {
-                proto.Key = Key.ToProtobufKey();
+                Proto.Services.Key = Key.ToProtobufKey();
             }
 
             if (ExpirationTime != null)
             {
-                proto.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
+                Proto.Services.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
             }
 
             if (ExpirationTimeDuration != null)
             {
-                proto.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
+                Proto.Services.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
             }
 
             if (AutoRenewPeriod != null)
             {
-                proto.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
+                Proto.Services.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
             }
 
             if (AccountMemo != null)
             {
-                proto.Memo = AccountMemo;
+                Proto.Services.Memo = AccountMemo;
             }
 
             if (MaxAutomaticTokenAssociations != null)
             {
-                proto.MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations;
+                Proto.Services.MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations;
             }
 
             if (StakedAccountId != null)
             {
-                proto.StakedAccountId = StakedAccountId.ToProtobuf();
+                Proto.Services.StakedAccountId = StakedAccountId.ToProtobuf();
             }
             else if (StakedNodeId != null)
             {
-                proto.StakedNodeId = StakedNodeId.Value;
+                Proto.Services.StakedNodeId = StakedNodeId.Value;
             }
 
             if (DeclineStakingReward != null)
             {
-                proto.DeclineReward = DeclineStakingReward;
+                Proto.Services.DeclineReward = DeclineStakingReward;
             }
 
             foreach (HookCreationDetails hookDetails in HookCreationDetails.Read)
             {
-                proto.HookCreationDetails.Add(hookDetails.ToProtobuf());
+                Proto.Services.HookCreationDetails.Add(hookDetails.ToProtobuf());
             }
 
             if (HookIdsToDelete.Read.Count != 0)
             {
-                proto.HookIdsToDelete.AddRange(HookIdsToDelete.Read);
+                Proto.Services.HookIdsToDelete.AddRange(HookIdsToDelete.Read);
             }
 
             return proto;
@@ -216,9 +216,9 @@ namespace Hedera.Hashgraph.SDK.Account
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.updateAccount);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.updateAccount);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 		public override void ValidateChecksums(Client client)
 		{
@@ -226,20 +226,20 @@ namespace Hedera.Hashgraph.SDK.Account
 			ProxyAccountId?.ValidateChecksum(client);
 			StakedAccountId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.CryptoUpdateAccount = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.CryptoUpdateAccount = ToProtobuf();
         }
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

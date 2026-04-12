@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor"]/*' />
         public TokenDeleteTransaction() { }
-		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -39,9 +39,9 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 
         /// <include file="TokenDeleteTransaction.cs.xml" path='docs/member[@name="M:TokenDeleteTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenDeleteTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenDeleteTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenDeleteTransactionBody();
+            var builder = new Proto.Services.TokenDeleteTransactionBody();
 
             if (TokenId != null)
 				builder.Token = TokenId.ToProtobuf();
@@ -53,27 +53,27 @@ namespace Hedera.Hashgraph.SDK.Token
         {
 			TokenId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenDeletion = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenDeletion = ToProtobuf();
         }
 
         public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.deleteToken);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.deleteToken);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

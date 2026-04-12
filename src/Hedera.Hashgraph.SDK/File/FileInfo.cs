@@ -22,8 +22,8 @@ namespace Hedera.Hashgraph.SDK.File
             LedgerId = ledgerId;
         }
 
-        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromProtobuf(Proto.FileGetInfoResponse.Types.FileInfo)"]/*' />
-        public static FileInfo FromProtobuf(Proto.FileGetInfoResponse.Types.FileInfo fileInfo)
+        /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo)"]/*' />
+        public static FileInfo FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo fileInfo)
         {
             return new FileInfo(
 				FileId.FromProtobuf(fileInfo.FileID), 
@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.File
         /// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.FromBytes(System.Byte[])"]/*' />
         public static FileInfo FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.FileGetInfoResponse.Types.FileInfo.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo.Parser.ParseFrom(bytes));
         }
 
 		/// <include file="FileInfo.cs.xml" path='docs/member[@name="P:FileInfo.FileId"]/*' />
@@ -61,9 +61,9 @@ namespace Hedera.Hashgraph.SDK.File
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="FileInfo.cs.xml" path='docs/member[@name="M:FileInfo.ToProtobuf"]/*' />
-		public Proto.FileGetInfoResponse.Types.FileInfo ToProtobuf()
+		public Proto.Services.FileGetInfoResponse.Types.FileInfo ToProtobuf()
         {
-            return new Proto.FileGetInfoResponse.Types.FileInfo
+            return new Proto.Services.FileGetInfoResponse.Types.FileInfo
 			{
 				FileID = FileId.ToProtobuf(),
 				Size = Size,

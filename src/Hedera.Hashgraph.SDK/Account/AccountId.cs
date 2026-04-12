@@ -105,8 +105,8 @@ namespace Hedera.Hashgraph.SDK.Account
                 return FromEvmAddress(address, 0, 0);
             }
         }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromProtobuf(Proto.AccountID)"]/*' />
-		public static AccountId FromProtobuf(Proto.AccountID accountId)
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromProtobuf(Proto.Services.AccountID)"]/*' />
+		public static AccountId FromProtobuf(Proto.Services.AccountID accountId)
         {
             PublicKey? aliasKey = null;
             EvmAddress? evmAddress = null;
@@ -123,7 +123,7 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromBytes(System.Byte[])"]/*' />
 		public static AccountId FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.AccountID.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.AccountID.Parser.ParseFrom(bytes));
         }
 
 		/// <include file="AccountId.cs.xml" path='docs/member[@name="P:AccountId.Shard"]/*' />
@@ -157,19 +157,19 @@ namespace Hedera.Hashgraph.SDK.Account
         }
 
 		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.ToProtobuf"]/*' />
-		public Proto.AccountID ToProtobuf()
+		public Proto.Services.AccountID ToProtobuf()
         {
-            Proto.AccountID proto = new()
+            Proto.Services.AccountID proto = new()
             {
                 ShardNum = Shard,
                 RealmNum = Realm,
             };
 
 			if (AliasKey != null)
-				proto.Alias = AliasKey.ToProtobufKey().ToByteString();
+				Proto.Services.Alias = AliasKey.ToProtobufKey().ToByteString();
 			else if (EvmAddress != null)
-				proto.Alias = ByteString.CopyFrom(EvmAddress.ToBytes());
-			else proto.AccountNum = Num;
+				Proto.Services.Alias = ByteString.CopyFrom(EvmAddress.ToBytes());
+			else Proto.Services.AccountNum = Num;
 
 			return proto;
         }

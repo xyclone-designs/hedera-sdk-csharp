@@ -24,11 +24,11 @@ namespace Hedera.Hashgraph.SDK.Account
         
         /// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceAdjustTransaction"]/*' />
         public AccountAllowanceAdjustTransaction() { }
-		internal AccountAllowanceAdjustTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal AccountAllowanceAdjustTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		internal AccountAllowanceAdjustTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal AccountAllowanceAdjustTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -207,8 +207,8 @@ namespace Hedera.Hashgraph.SDK.Account
 				allowance.ValidateChecksums(client);
 			}
 		}
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder) { }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder) { }
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule AccountAllowanceAdjustTransaction");
         }
@@ -218,11 +218,11 @@ namespace Hedera.Hashgraph.SDK.Account
 			throw new NotSupportedException("Cannot get method descriptor for AccountAllowanceAdjustTransaction");
 		}
 
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

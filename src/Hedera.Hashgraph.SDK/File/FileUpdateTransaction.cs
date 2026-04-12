@@ -16,13 +16,13 @@ namespace Hedera.Hashgraph.SDK.File
     {
 		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor"]/*' />
 		public FileUpdateTransaction() { }
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal FileUpdateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal FileUpdateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal FileUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal FileUpdateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -111,9 +111,9 @@ namespace Hedera.Hashgraph.SDK.File
 		}
 
 		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.ToProtobuf"]/*' />
-		public Proto.FileUpdateTransactionBody ToProtobuf()
+		public Proto.Services.FileUpdateTransactionBody ToProtobuf()
         {
-            var builder = new Proto.FileUpdateTransactionBody
+            var builder = new Proto.Services.FileUpdateTransactionBody
 			{
 				Contents = Contents
 			};
@@ -140,30 +140,30 @@ namespace Hedera.Hashgraph.SDK.File
         {
 			FileId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.FileUpdate = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.FileUpdate = ToProtobuf();
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.FileService.FileServiceClient.updateFile);
+			string methodname = nameof(Proto.Services.FileService.FileServiceClient.updateFile);
 
-			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void OnExecute(Client client)
         {
             throw new NotImplementedException();
         }
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

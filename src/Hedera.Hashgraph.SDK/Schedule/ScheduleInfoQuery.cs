@@ -21,9 +21,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
             ScheduleId?.ValidateChecksum(client);
         }
 
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.ScheduleGetInfoQuery()
+            var builder = new Proto.Services.ScheduleGetInfoQuery()
             {
                 Header = header
             };
@@ -36,26 +36,26 @@ namespace Hedera.Hashgraph.SDK.Schedule
             queryBuilder.ScheduleGetInfo = builder;
         }
 
-        public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+        public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.ScheduleGetInfo.Header;
         }
 
-        public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+        public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
         {
             return request.ScheduleGetInfo.Header;
         }
 
-        public override ScheduleInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override ScheduleInfo MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return ScheduleInfo.FromProtobuf(response.ScheduleGetInfo.ScheduleInfo);
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.getScheduleInfo);
+			string methodname = nameof(Proto.Services.ScheduleService.ScheduleServiceClient.getScheduleInfo);
 
-			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ScheduleService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override async Task<Hbar> GetCostAsync(Client client)

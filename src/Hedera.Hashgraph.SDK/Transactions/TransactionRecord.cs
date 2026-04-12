@@ -133,15 +133,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromBytes(System.Byte[])"]/*' />
 		public static TransactionRecord FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TransactionRecord.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TransactionRecord.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.TransactionRecord)"]/*' />
-		public static TransactionRecord FromProtobuf(Proto.TransactionRecord transactionRecord)
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.Services.TransactionRecord)"]/*' />
+		public static TransactionRecord FromProtobuf(Proto.Services.TransactionRecord transactionRecord)
 		{
 			return FromProtobuf(transactionRecord, [], [], null);
 		}
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.TransactionRecord,System.Collections.Generic.IEnumerable{TransactionRecord},System.Collections.Generic.IEnumerable{TransactionRecord},TransactionId)"]/*' />
-		public static TransactionRecord FromProtobuf(Proto.TransactionRecord transactionRecord, IEnumerable<TransactionRecord> children, IEnumerable<TransactionRecord> duplicates, TransactionId? transactionId)
+		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.FromProtobuf(Proto.Services.TransactionRecord,System.Collections.Generic.IEnumerable{TransactionRecord},System.Collections.Generic.IEnumerable{TransactionRecord},TransactionId)"]/*' />
+		public static TransactionRecord FromProtobuf(Proto.Services.TransactionRecord transactionRecord, IEnumerable<TransactionRecord> children, IEnumerable<TransactionRecord> duplicates, TransactionId? transactionId)
         {
             var transfers = new List<Transfer>(transactionRecord.TransferList.AccountAmounts.Count);
 
@@ -237,9 +237,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToProtobuf"]/*' />
-		public Proto.TransactionRecord ToProtobuf()
+		public Proto.Services.TransactionRecord ToProtobuf()
         {
-			Proto.TransactionRecord proto = new()
+			Proto.Services.TransactionRecord proto = new()
 			{
 				Receipt = Receipt.ToProtobuf(),
                 TransactionHash = TransactionHash,
@@ -247,7 +247,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 TransactionID = TransactionId.ToProtobuf(),
                 Memo = TransactionMemo,
                 TransactionFee = (ulong)TransactionFee.ToTinybars(),
-                TransferList = new Proto.TransferList { },
+                TransferList = new Proto.Services.TransferList { },
                 EthereumHash = EthereumHash,
                 EvmAddress = EvmAddress,
 				PrngNumber = PrngNumber,
@@ -256,42 +256,42 @@ namespace Hedera.Hashgraph.SDK.Transactions
             
             foreach (var tokenEntry in TokenTransfers)
             {
-                Proto.TokenTransferList tokenTransfersList = new()
+                Proto.Services.TokenTransferList tokenTransfersList = new()
 				{
 					Token = tokenEntry.Key.ToProtobuf(),
 				};
 
 				foreach (var aaEntry in tokenEntry.Value)
-					tokenTransfersList.Transfers.Add(new Proto.AccountAmount
+					tokenTransfersList.Transfers.Add(new Proto.Services.AccountAmount
 					{
 						AccountID = aaEntry.Key.ToProtobuf(),
 						Amount = aaEntry.Value
 					});
 
-				proto.TokenTransferLists.Add(tokenTransfersList);
+				Proto.Services.TokenTransferLists.Add(tokenTransfersList);
             }
 
 			foreach (Transfer transfer in Transfers)
-				proto.TransferList.AccountAmounts.Add(transfer.ToProtobuf());
+				Proto.Services.TransferList.AccountAmounts.Add(transfer.ToProtobuf());
 
 			foreach (var fee in AssessedCustomFees)
-				proto.AssessedCustomFees.Add(fee.ToProtobuf());
+				Proto.Services.AssessedCustomFees.Add(fee.ToProtobuf());
 			
             foreach (var tokenAssociation in AutomaticTokenAssociations)
-				proto.AutomaticTokenAssociations.Add(tokenAssociation.ToProtobuf());
+				Proto.Services.AutomaticTokenAssociations.Add(tokenAssociation.ToProtobuf());
 			
             foreach (Transfer reward in PaidStakingRewards)
-				proto.PaidStakingRewards.Add(reward.ToProtobuf());
+				Proto.Services.PaidStakingRewards.Add(reward.ToProtobuf());
 
 			foreach (var nftEntry in TokenNftTransfers)
             {
-				Proto.TokenTransferList nftTransferList = new ()
+				Proto.Services.TokenTransferList nftTransferList = new ()
                 {
 					Token = nftEntry.Key.ToProtobuf(),
 				};
 
                 foreach (var aaEntry in nftEntry.Value)
-					nftTransferList.NftTransfers.Add(new Proto.NftTransfer
+					nftTransferList.NftTransfers.Add(new Proto.Services.NftTransfer
 					{
 						SenderAccountID = aaEntry.Sender.ToProtobuf(),
 						ReceiverAccountID = aaEntry.Receiver.ToProtobuf(),
@@ -299,27 +299,27 @@ namespace Hedera.Hashgraph.SDK.Transactions
 						IsApproval = aaEntry.IsApproved,
 					});
 
-				proto.TokenTransferLists.Add(nftTransferList);
+				Proto.Services.TokenTransferLists.Add(nftTransferList);
             }
 
 			if (PendingAirdropRecords != null)
 				foreach (PendingAirdropRecord pendingAirdropRecord in PendingAirdropRecords)
-					proto.NewPendingAirdrops.Add(pendingAirdropRecord.ToProtobuf());
+					Proto.Services.NewPendingAirdrops.Add(pendingAirdropRecord.ToProtobuf());
 
 			if (ContractFunctionResult != null)
-				proto.ContractCallResult = ContractFunctionResult.ToProtobuf();
+				Proto.Services.ContractCallResult = ContractFunctionResult.ToProtobuf();
 
             if (ScheduleRef != null)
-				proto.ScheduleRef = ScheduleRef.ToProtobuf();
+				Proto.Services.ScheduleRef = ScheduleRef.ToProtobuf();
 
 			if (AliasKey != null)
-				proto.Alias = AliasKey.ToProtobufKey().ToByteString();
+				Proto.Services.Alias = AliasKey.ToProtobufKey().ToByteString();
 
             if (ParentConsensusTimestamp != null)
-				proto.ParentConsensusTimestamp = ParentConsensusTimestamp.ToProtoTimestamp();
+				Proto.Services.ParentConsensusTimestamp = ParentConsensusTimestamp.ToProtoTimestamp();
 
 			if (PrngBytes != null)
-				proto.PrngBytes = PrngBytes;
+				Proto.Services.PrngBytes = PrngBytes;
 
 			return proto;
         }

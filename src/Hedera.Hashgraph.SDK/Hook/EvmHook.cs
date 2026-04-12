@@ -18,31 +18,31 @@ namespace Hedera.Hashgraph.SDK.Hook
             StorageUpdates = [.. storageUpdates];
         }
 
-		/// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.FromProtobuf(Proto.EvmHook)"]/*' />
-		public static EvmHook FromProtobuf(Proto.EvmHook proto)
+		/// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.FromProtobuf(Proto.Services.EvmHook)"]/*' />
+		public static EvmHook FromProtobuf(Proto.Services.EvmHook proto)
 		{
 			var storageUpdates = new List<EvmHookStorageUpdate>();
-			foreach (var protoUpdate in proto.StorageUpdates)
+			foreach (var protoUpdate in Proto.Services.StorageUpdates)
 			{
 				storageUpdates.Add(EvmHookStorageUpdate.FromProtobuf(protoUpdate));
 			}
 
-			return new EvmHook(ContractId.FromProtobuf(proto.Spec.ContractId), storageUpdates);
+			return new EvmHook(ContractId.FromProtobuf(Proto.Services.Spec.ContractId), storageUpdates);
 		}
 
 		/// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.ToProtobuf"]/*' />
-		public virtual Proto.EvmHook ToProtobuf()
+		public virtual Proto.Services.EvmHook ToProtobuf()
 		{
-			Proto.EvmHook proto = new()
+			Proto.Services.EvmHook proto = new()
 			{
-				Spec = new Proto.EvmHookSpec
+				Spec = new Proto.Services.EvmHookSpec
 				{
 					ContractId = ContractId.ToProtobuf(),
 				}
 			};
 
 			foreach (EvmHookStorageUpdate update in StorageUpdates)
-				proto.StorageUpdates.Add(update.ToProtobuf());
+				Proto.Services.StorageUpdates.Add(update.ToProtobuf());
 
 			return proto;
 		}

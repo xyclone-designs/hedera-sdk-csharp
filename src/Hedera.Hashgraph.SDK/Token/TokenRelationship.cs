@@ -32,24 +32,24 @@ namespace Hedera.Hashgraph.SDK.Token
             AutomaticAssociation = automaticAssociation;
         }
 
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.KycStatusFromProtobuf(Proto.TokenKycStatus)"]/*' />
-		public static bool KycStatusFromProtobuf(Proto.TokenKycStatus kycStatus)
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.KycStatusFromProtobuf(Proto.Services.TokenKycStatus)"]/*' />
+		public static bool KycStatusFromProtobuf(Proto.Services.TokenKycStatus kycStatus)
 		{
-			return kycStatus == Proto.TokenKycStatus.Granted;
+			return kycStatus == Proto.Services.TokenKycStatus.Granted;
 		}
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FreezeStatusFromProtobuf(Proto.TokenFreezeStatus)"]/*' />
-		public static bool FreezeStatusFromProtobuf(Proto.TokenFreezeStatus freezeStatus)
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus)"]/*' />
+		public static bool FreezeStatusFromProtobuf(Proto.Services.TokenFreezeStatus freezeStatus)
         {
-            return freezeStatus == Proto.TokenFreezeStatus.Frozen;
+            return freezeStatus == Proto.Services.TokenFreezeStatus.Frozen;
         }
 
 		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FromBytes(System.Byte[])"]/*' />
 		public static TokenRelationship FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TokenRelationship.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TokenRelationship.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FromProtobuf(Proto.TokenRelationship)"]/*' />
-		public static TokenRelationship FromProtobuf(Proto.TokenRelationship tokenRelationship)
+		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FromProtobuf(Proto.Services.TokenRelationship)"]/*' />
+		public static TokenRelationship FromProtobuf(Proto.Services.TokenRelationship tokenRelationship)
         {
             return new TokenRelationship(
                 TokenId.FromProtobuf(tokenRelationship.TokenId), 
@@ -68,9 +68,9 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 
 		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.ToProtobuf"]/*' />
-		public virtual Proto.TokenRelationship ToProtobuf()
+		public virtual Proto.Services.TokenRelationship ToProtobuf()
 		{
-            return new Proto.TokenRelationship
+            return new Proto.Services.TokenRelationship
             {
 				TokenId = TokenId.ToProtobuf(),
 				Symbol = Symbol,
@@ -82,14 +82,14 @@ namespace Hedera.Hashgraph.SDK.Token
 			};
 		}
 		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.KycStatusToProtobuf(System.Boolean)"]/*' />
-		public static Proto.TokenKycStatus KycStatusToProtobuf(bool? kycStatus)
+		public static Proto.Services.TokenKycStatus KycStatusToProtobuf(bool? kycStatus)
 		{
-			return kycStatus == null ? Proto.TokenKycStatus.KycNotApplicable : kycStatus.Value ? Proto.TokenKycStatus.Granted : Proto.TokenKycStatus.Revoked;
+			return kycStatus == null ? Proto.Services.TokenKycStatus.KycNotApplicable : kycStatus.Value ? Proto.Services.TokenKycStatus.Granted : Proto.Services.TokenKycStatus.Revoked;
 		}
 		/// <include file="TokenRelationship.cs.xml" path='docs/member[@name="M:TokenRelationship.FreezeStatusToProtobuf(System.Boolean)"]/*' />
-		public static Proto.TokenFreezeStatus FreezeStatusToProtobuf(bool? freezeStatus)
+		public static Proto.Services.TokenFreezeStatus FreezeStatusToProtobuf(bool? freezeStatus)
         {
-            return freezeStatus == null ? Proto.TokenFreezeStatus.FreezeNotApplicable : freezeStatus.Value ? Proto.TokenFreezeStatus.Frozen : Proto.TokenFreezeStatus.Unfrozen;
+            return freezeStatus == null ? Proto.Services.TokenFreezeStatus.FreezeNotApplicable : freezeStatus.Value ? Proto.Services.TokenFreezeStatus.Frozen : Proto.Services.TokenFreezeStatus.Unfrozen;
         }
     }
 }

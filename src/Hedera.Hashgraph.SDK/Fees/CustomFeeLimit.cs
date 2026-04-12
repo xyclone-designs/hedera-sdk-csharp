@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Fees
         public virtual AccountId? PayerId { get; set; } 
         public virtual List<CustomFixedFee> CustomFees { get; set; } = [];
 
-        public static CustomFeeLimit FromProtobuf(Proto.CustomFeeLimit customFeeLimit)
+        public static CustomFeeLimit FromProtobuf(Proto.Services.CustomFeeLimit customFeeLimit)
         {
             return new CustomFeeLimit
             {
@@ -22,9 +22,9 @@ namespace Hedera.Hashgraph.SDK.Fees
             };
         }
 
-		public virtual Proto.CustomFeeLimit ToProtobuf()
+		public virtual Proto.Services.CustomFeeLimit ToProtobuf()
         {
-			Proto.CustomFeeLimit protobuf = new ()
+			Proto.Services.CustomFeeLimit protobuf = new ()
             {
                 AccountId = PayerId?.ToProtobuf(),
 			};

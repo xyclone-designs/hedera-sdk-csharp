@@ -41,15 +41,15 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
             return Utils.EntityIdHelper.FromSolidityAddress(address, (a, b, c, d) => new TopicId (a, b, c, d));
         }
-        /// <include file="TopicId.cs.xml" path='docs/member[@name="M:TopicId.FromProtobuf(Proto.TopicID)"]/*' />
-        public static TopicId FromProtobuf(Proto.TopicID topicId)
+        /// <include file="TopicId.cs.xml" path='docs/member[@name="M:TopicId.FromProtobuf(Proto.Services.TopicID)"]/*' />
+        public static TopicId FromProtobuf(Proto.Services.TopicID topicId)
         {
             return new TopicId(topicId.ShardNum, topicId.RealmNum, topicId.TopicNum);
         }
         /// <include file="TopicId.cs.xml" path='docs/member[@name="M:TopicId.FromBytes(System.Byte[])"]/*' />
         public static TopicId FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.TopicID.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.TopicID.Parser.ParseFrom(bytes));
         }
 
         /// <include file="TopicId.cs.xml" path='docs/member[@name="M:TopicId.ToSolidityAddress"]/*' />
@@ -85,9 +85,9 @@ namespace Hedera.Hashgraph.SDK.Consensus
         }
 
         /// <include file="TopicId.cs.xml" path='docs/member[@name="M:TopicId.ToProtobuf"]/*' />
-        public Proto.TopicID ToProtobuf()
+        public Proto.Services.TopicID ToProtobuf()
         {
-            return new Proto.TopicID
+            return new Proto.Services.TopicID
             {
 				ShardNum = Shard,
 				RealmNum = Realm,

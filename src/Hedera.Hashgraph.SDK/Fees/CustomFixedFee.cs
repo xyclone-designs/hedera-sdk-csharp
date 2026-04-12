@@ -23,8 +23,8 @@ namespace Hedera.Hashgraph.SDK.Fees
         /// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.#ctor_2"]/*' />
         public CustomFixedFee() { }
 
-		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.FromProtobuf(Proto.FixedFee)"]/*' />
-		public static CustomFixedFee FromProtobuf(Proto.FixedFee fixedFee)
+		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.FromProtobuf(Proto.Services.FixedFee)"]/*' />
+		public static CustomFixedFee FromProtobuf(Proto.Services.FixedFee fixedFee)
         {
 			return new CustomFixedFee
 			{
@@ -33,16 +33,16 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
         }
 
-		public virtual Proto.FixedCustomFee ToTopicFeeProtobuf()
+		public virtual Proto.Services.FixedCustomFee ToTopicFeeProtobuf()
         {
-            Proto.FixedCustomFee proto = new()
+            Proto.Services.FixedCustomFee proto = new()
             {
                 FeeCollectorAccountId = FeeCollectorAccountId?.ToProtobuf(),
-                FixedFee = new Proto.FixedFee { },
+                FixedFee = new Proto.Services.FixedFee { },
             };
 
             if (DenominatingTokenId != null)
-				proto.FixedFee.DenominatingTokenId = DenominatingTokenId.ToProtobuf();
+				Proto.Services.FixedFee.DenominatingTokenId = DenominatingTokenId.ToProtobuf();
 
 			return proto;
         }
@@ -73,26 +73,26 @@ namespace Hedera.Hashgraph.SDK.Fees
 		}
 
 		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.ToFixedFeeProtobuf"]/*' />
-		public virtual Proto.FixedFee ToFixedFeeProtobuf()
+		public virtual Proto.Services.FixedFee ToFixedFeeProtobuf()
         {
-			return new Proto.FixedFee
+			return new Proto.Services.FixedFee
 			{
 				Amount = Amount,
 				DenominatingTokenId = DenominatingTokenId?.ToProtobuf()
 			};
         }
 		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.ToFixedCustomFeeProtobuf"]/*' />
-		public virtual Proto.FixedCustomFee ToFixedCustomFeeProtobuf()
+		public virtual Proto.Services.FixedCustomFee ToFixedCustomFeeProtobuf()
 		{
-			return new Proto.FixedCustomFee
+			return new Proto.Services.FixedCustomFee
 			{
                 FixedFee = ToFixedFeeProtobuf()
 			};
 		}
 
-		public override Proto.CustomFee ToProtobuf()
+		public override Proto.Services.CustomFee ToProtobuf()
         {
-            return FinishToProtobuf(new Proto.CustomFee
+            return FinishToProtobuf(new Proto.Services.CustomFee
             {
 				FixedFee = ToFixedFeeProtobuf()
 			});

@@ -19,13 +19,13 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal ScheduleDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal ScheduleDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal ScheduleDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal ScheduleDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -49,12 +49,12 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		}
 
         /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.ToProtobuf"]/*' />
-        public Proto.ScheduleDeleteTransactionBody ToProtobuf()
+        public Proto.Services.ScheduleDeleteTransactionBody ToProtobuf()
         {
-			Proto.ScheduleDeleteTransactionBody proto =  new ();
+			Proto.Services.ScheduleDeleteTransactionBody proto =  new ();
             
             if (ScheduleId != null)
-				proto.ScheduleID = ScheduleId.ToProtobuf();
+				Proto.Services.ScheduleID = ScheduleId.ToProtobuf();
 
 			return proto;
         }
@@ -63,30 +63,30 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
 			ScheduleId?.ValidateChecksum(client);
 		}
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ScheduleDelete = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.ScheduleDelete = ToProtobuf();
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.deleteSchedule);
+			string methodname = nameof(Proto.Services.ScheduleService.ScheduleServiceClient.deleteSchedule);
 
-			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ScheduleService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void OnExecute(Client client)
         {
             throw new NotImplementedException();
         }
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

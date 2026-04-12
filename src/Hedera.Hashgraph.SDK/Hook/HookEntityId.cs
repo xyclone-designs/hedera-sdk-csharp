@@ -29,23 +29,23 @@ namespace Hedera.Hashgraph.SDK.Hook
         public virtual bool IsContract { get => ContractId is not null; }
 
 		/// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.ToProtobuf"]/*' />
-		public virtual Proto.HookEntityId ToProtobuf()
+		public virtual Proto.Services.HookEntityId ToProtobuf()
         {
-			Proto.HookEntityId proto = new ();
+			Proto.Services.HookEntityId proto = new ();
 
-            if (AccountId is not null) proto.AccountId = AccountId.ToProtobuf();
-            if (ContractId is not null) proto.ContractId = ContractId.ToProtobuf();
+            if (AccountId is not null) Proto.Services.AccountId = AccountId.ToProtobuf();
+            if (ContractId is not null) Proto.Services.ContractId = ContractId.ToProtobuf();
 
             return proto;
         }
 
-        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.FromProtobuf(Proto.HookEntityId)"]/*' />
-        public static HookEntityId FromProtobuf(Proto.HookEntityId proto)
+        /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.FromProtobuf(Proto.Services.HookEntityId)"]/*' />
+        public static HookEntityId FromProtobuf(Proto.Services.HookEntityId proto)
         {
-            if (proto.AccountId is not null)
-				return new HookEntityId(AccountId.FromProtobuf(proto.AccountId));
+            if (Proto.Services.AccountId is not null)
+				return new HookEntityId(AccountId.FromProtobuf(Proto.Services.AccountId));
 
-			else return new HookEntityId(ContractId.FromProtobuf(proto.ContractId));
+			else return new HookEntityId(ContractId.FromProtobuf(Proto.Services.ContractId));
 		}
 
 		public override int GetHashCode()

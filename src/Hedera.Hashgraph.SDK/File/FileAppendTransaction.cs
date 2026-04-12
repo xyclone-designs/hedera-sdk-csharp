@@ -23,13 +23,13 @@ namespace Hedera.Hashgraph.SDK.File
             DefaultMaxTransactionFee = new Hbar(5);
             ChunkSize = 2048;
         }
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal FileAppendTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal FileAppendTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal FileAppendTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal FileAppendTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -76,7 +76,7 @@ namespace Hedera.Hashgraph.SDK.File
 				{
 					for (var i = 0; i < InnerSignedTransactions.Count; i += NodeAccountIds.Count == 0 ? 1 : NodeAccountIds.Count)
 					{
-						Data = Data.Concat(Proto.TransactionBody.Parser.ParseFrom(InnerSignedTransactions[i].BodyBytes).FileAppend.Contents);
+						Data = Data.Concat(Proto.Services.TransactionBody.Parser.ParseFrom(InnerSignedTransactions[i].BodyBytes).FileAppend.Contents);
 					}
 				}
 				catch (InvalidProtocolBufferException exc)
@@ -91,9 +91,9 @@ namespace Hedera.Hashgraph.SDK.File
 		}
 
 		/// <include file="FileAppendTransaction.cs.xml" path='docs/member[@name="M:FileAppendTransaction.ToProtobuf"]/*' />
-		public Proto.FileAppendTransactionBody ToProtobuf()
+		public Proto.Services.FileAppendTransactionBody ToProtobuf()
 		{
-			var builder = new Proto.FileAppendTransactionBody
+			var builder = new Proto.Services.FileAppendTransactionBody
 			{
 				Contents = Data
 			};
@@ -112,16 +112,16 @@ namespace Hedera.Hashgraph.SDK.File
 		{
 			FileId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.FileAppend = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.FileAppend = ToProtobuf();
             scheduled.FileAppend.Contents = Data;
         }
-        public override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total)
+        public override void OnFreezeChunk(Proto.Services.TransactionBody body, Proto.Services.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total)
         {
 			body.FileAppend = ToProtobuf();
 			body.FileAppend.Contents = ByteString.CopyFrom(Data.Span[startIndex..endIndex]);
@@ -129,20 +129,20 @@ namespace Hedera.Hashgraph.SDK.File
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.FileService.FileServiceClient.appendContent);
+			string methodname = nameof(Proto.Services.FileService.FileServiceClient.appendContent);
 
-			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override void OnExecute(Client client)
         {
             throw new NotImplementedException();
         }
-        public override ResponseStatus MapResponseStatus(Proto.Response response)
+        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

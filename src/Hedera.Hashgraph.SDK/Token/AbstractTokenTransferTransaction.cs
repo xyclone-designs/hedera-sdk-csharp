@@ -18,10 +18,10 @@ namespace Hedera.Hashgraph.SDK.Token
         protected List<TokenNftTransfer> nftTransfers = [];
 
         protected AbstractTokenTransferTransaction() { }
-		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AbstractTokenTransferTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal AbstractTokenTransferTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs) { }
-		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AbstractTokenTransferTransaction(Proto.TransactionBody)"]/*' />
-		internal AbstractTokenTransferTransaction(Proto.TransactionBody txBody) : base(txBody) { }
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AbstractTokenTransferTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal AbstractTokenTransferTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs) { }
+		/// <include file="AbstractTokenTransferTransaction.cs.xml" path='docs/member[@name="M:AbstractTokenTransferTransaction(Proto.Services.TransactionBody)"]/*' />
+		internal AbstractTokenTransferTransaction(Proto.Services.TransactionBody txBody) : base(txBody) { }
 
 		protected virtual List<TokenTransferList> SortTransfersAndBuild()
 		{

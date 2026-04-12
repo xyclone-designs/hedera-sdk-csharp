@@ -21,14 +21,14 @@ namespace Hedera.Hashgraph.SDK.Networking
 		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.FromBytes(System.Byte[])"]/*' />
 		public static NetworkVersionInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.NetworkGetVersionInfoResponse.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.NetworkGetVersionInfoResponse.Parser.ParseFrom(bytes));
 		}
-		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.FromProtobuf(Proto.NetworkGetVersionInfoResponse)"]/*' />
-		public static NetworkVersionInfo FromProtobuf(Proto.NetworkGetVersionInfoResponse proto)
+		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.FromProtobuf(Proto.Services.NetworkGetVersionInfoResponse)"]/*' />
+		public static NetworkVersionInfo FromProtobuf(Proto.Services.NetworkGetVersionInfoResponse proto)
         {
             return new NetworkVersionInfo(
-                SemanticVersion.FromProtobuf(proto.HapiProtoVersion), 
-                SemanticVersion.FromProtobuf(proto.HederaServicesVersion));
+                SemanticVersion.FromProtobuf(Proto.Services.HapiProtoVersion), 
+                SemanticVersion.FromProtobuf(Proto.Services.HederaServicesVersion));
         }
 
 		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.ToBytes"]/*' />
@@ -37,9 +37,9 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.ToProtobuf"]/*' />
-		public virtual Proto.NetworkGetVersionInfoResponse ToProtobuf()
+		public virtual Proto.Services.NetworkGetVersionInfoResponse ToProtobuf()
         {
-            return new Proto.NetworkGetVersionInfoResponse
+            return new Proto.Services.NetworkGetVersionInfoResponse
             {
 				HapiProtoVersion = ProtobufVersion.ToProtobuf(),
 				HederaServicesVersion = ServicesVersion.ToProtobuf(),

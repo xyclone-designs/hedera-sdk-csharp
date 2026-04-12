@@ -28,25 +28,25 @@ namespace Hedera.Hashgraph.SDK.Token
 		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromBytes(System.Byte[])"]/*' />
 		public static TokenAllowance FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TokenAllowance.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TokenAllowance.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.TokenAllowance)"]/*' />
-		public static TokenAllowance FromProtobuf(Proto.TokenAllowance allowanceProto)
+		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.TokenAllowance)"]/*' />
+		public static TokenAllowance FromProtobuf(Proto.Services.TokenAllowance allowanceProto)
         {
             return new TokenAllowance(
-                TokenId.FromProtobuf(allowanceProto.TokenId), 
-                AccountId.FromProtobuf(allowanceProto.Owner), 
-                AccountId.FromProtobuf(allowanceProto.Spender), 
-                allowanceProto.Amount);
+                TokenId.FromProtobuf(allowanceProto.Services.TokenId), 
+                AccountId.FromProtobuf(allowanceProto.Services.Owner), 
+                AccountId.FromProtobuf(allowanceProto.Services.Spender), 
+                allowanceProto.Services.Amount);
         }
-        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.GrantedTokenAllowance)"]/*' />
-        public static TokenAllowance FromProtobuf(Proto.GrantedTokenAllowance allowanceProto)
+        /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.GrantedTokenAllowance)"]/*' />
+        public static TokenAllowance FromProtobuf(Proto.Services.GrantedTokenAllowance allowanceProto)
         {
             return new TokenAllowance(
-                TokenId.FromProtobuf(allowanceProto.TokenId), 
+                TokenId.FromProtobuf(allowanceProto.Services.TokenId), 
                 null, 
-                AccountId.FromProtobuf(allowanceProto.Spender), 
-                allowanceProto.Amount);
+                AccountId.FromProtobuf(allowanceProto.Services.Spender), 
+                allowanceProto.Services.Amount);
         }
 
 		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToBytes"]/*' />
@@ -62,33 +62,33 @@ namespace Hedera.Hashgraph.SDK.Token
             SpenderAccountId?.ValidateChecksum(client);
         }
 		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToProtobuf"]/*' />
-		public virtual Proto.TokenAllowance ToProtobuf()
+		public virtual Proto.Services.TokenAllowance ToProtobuf()
         {
-            Proto.TokenAllowance proto = new()
+            Proto.Services.TokenAllowance proto = new()
             {
 				Amount = Amount,
 				TokenId = TokenId.ToProtobuf()
 			};
 
             if (OwnerAccountId != null)
-                proto.Owner = OwnerAccountId.ToProtobuf();
+                Proto.Services.Owner = OwnerAccountId.ToProtobuf();
 
             if (SpenderAccountId != null)
-                proto.Spender = SpenderAccountId.ToProtobuf();
+                Proto.Services.Spender = SpenderAccountId.ToProtobuf();
 
             return proto;
         }
         /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToGrantedProtobuf"]/*' />
-        public virtual Proto.GrantedTokenAllowance ToGrantedProtobuf()
+        public virtual Proto.Services.GrantedTokenAllowance ToGrantedProtobuf()
         {
-			Proto.GrantedTokenAllowance proto = new()
+			Proto.Services.GrantedTokenAllowance proto = new()
             {
 				Amount = Amount,
 				TokenId = TokenId.ToProtobuf()
 			};
                         
             if (SpenderAccountId != null)
-                proto.Spender = SpenderAccountId.ToProtobuf();
+                Proto.Services.Spender = SpenderAccountId.ToProtobuf();
 
             return proto;
         }

@@ -10,30 +10,30 @@ namespace Hedera.Hashgraph.SDK.Networking
     public class NetworkVersionInfoQuery : Query<NetworkVersionInfo, NetworkVersionInfoQuery>
     {
 		public override void ValidateChecksums(Client client) { }
-		public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+		public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            queryBuilder.NetworkGetVersionInfo = new Proto.NetworkGetVersionInfoQuery
+            queryBuilder.NetworkGetVersionInfo = new Proto.Services.NetworkGetVersionInfoQuery
             {
 				Header = header
 			};
         }
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.NetworkGetVersionInfo.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.NetworkGetVersionInfo.Header;
 		}
-		public override NetworkVersionInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+		public override NetworkVersionInfo MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
 		{
 			return NetworkVersionInfo.FromProtobuf(response.NetworkGetVersionInfo);
 		}
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.NetworkService.NetworkServiceClient.getVersionInfo);
+			string methodname = nameof(Proto.Services.NetworkService.NetworkServiceClient.getVersionInfo);
 
-			return Proto.NetworkService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.NetworkService.Descriptor.FindMethodByName(methodname);
 		}
 	}
 }

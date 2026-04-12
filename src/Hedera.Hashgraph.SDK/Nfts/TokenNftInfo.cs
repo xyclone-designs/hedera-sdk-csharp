@@ -39,10 +39,10 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.FromBytes(System.Byte[])"]/*' />
 		public static TokenNftInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TokenNftInfo.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TokenNftInfo.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.FromProtobuf(Proto.TokenNftInfo)"]/*' />
-		public static TokenNftInfo FromProtobuf(Proto.TokenNftInfo info)
+		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.FromProtobuf(Proto.Services.TokenNftInfo)"]/*' />
+		public static TokenNftInfo FromProtobuf(Proto.Services.TokenNftInfo info)
         {
             return new TokenNftInfo(
                 NftId.FromProtobuf(info.NftID), 
@@ -59,9 +59,9 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToProtobuf"]/*' />
-		public virtual Proto.TokenNftInfo ToProtobuf()
+		public virtual Proto.Services.TokenNftInfo ToProtobuf()
         {
-            Proto.TokenNftInfo proto = new()
+            Proto.Services.TokenNftInfo proto = new()
             {
 				NftID = NftId.ToProtobuf(),
 				AccountID = AccountId.ToProtobuf(),
@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			};
                 
             if (SpenderId != null)
-				proto.SpenderId = SpenderId.ToProtobuf();
+				Proto.Services.SpenderId = SpenderId.ToProtobuf();
 
 			return proto;
         }

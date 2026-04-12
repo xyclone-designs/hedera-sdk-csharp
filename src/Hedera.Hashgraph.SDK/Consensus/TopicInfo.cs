@@ -35,10 +35,10 @@ namespace Hedera.Hashgraph.SDK.Consensus
 		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromBytes(System.Byte[])"]/*' />
 		public static TopicInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.ConsensusGetTopicInfoResponse.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromProtobuf(Proto.ConsensusGetTopicInfoResponse)"]/*' />
-		public static TopicInfo FromProtobuf(Proto.ConsensusGetTopicInfoResponse topicInfoResponse)
+		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse)"]/*' />
+		public static TopicInfo FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse topicInfoResponse)
         {
             return new TopicInfo(TopicId.FromProtobuf(
                 topicInfoResponse.TopicID),
@@ -86,12 +86,12 @@ namespace Hedera.Hashgraph.SDK.Consensus
             return ToProtobuf().ToByteArray();
         }
 		/// <include file="TopicInfo.cs.xml" path='docs/member[@name="M:TopicInfo.ToProtobuf"]/*' />
-		public Proto.ConsensusGetTopicInfoResponse ToProtobuf()
+		public Proto.Services.ConsensusGetTopicInfoResponse ToProtobuf()
 		{
-			Proto.ConsensusGetTopicInfoResponse proto = new()
+			Proto.Services.ConsensusGetTopicInfoResponse proto = new()
 			{
 				TopicID = TopicId.ToProtobuf(),
-				TopicInfo = new Proto.ConsensusTopicInfo
+				TopicInfo = new Proto.Services.ConsensusTopicInfo
 				{
 					Memo = TopicMemo,
 					RunningHash = RunningHash,
@@ -104,16 +104,16 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			};
 
 			if (AdminKey is not null)
-				proto.TopicInfo.AdminKey = AdminKey.ToProtobufKey();
+				Proto.Services.TopicInfo.AdminKey = AdminKey.ToProtobufKey();
 
 			if (SubmitKey is not null)
-				proto.TopicInfo.SubmitKey = SubmitKey.ToProtobufKey();
+				Proto.Services.TopicInfo.SubmitKey = SubmitKey.ToProtobufKey();
 
 			if (FeeScheduleKey is not null)
-				proto.TopicInfo.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
+				Proto.Services.TopicInfo.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
 
-			proto.TopicInfo.CustomFees.AddRange(CustomFees.Select(_ => _.ToFixedCustomFeeProtobuf()));
-			proto.TopicInfo.FeeExemptKeyList.AddRange(FeeExemptKeys.Select(_ => _.ToProtobufKey()));
+			Proto.Services.TopicInfo.CustomFees.AddRange(CustomFees.Select(_ => _.ToFixedCustomFeeProtobuf()));
+			Proto.Services.TopicInfo.FeeExemptKeyList.AddRange(FeeExemptKeys.Select(_ => _.ToProtobufKey()));
 
 			return proto;
 		}

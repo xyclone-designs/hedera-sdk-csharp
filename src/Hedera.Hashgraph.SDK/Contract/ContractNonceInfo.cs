@@ -21,18 +21,18 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.FromBytes(System.Byte[])"]/*' />
 		public static ContractNonceInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.ContractNonceInfo.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.ContractNonceInfo.Parser.ParseFrom(bytes));
 		}
-		/// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.FromProtobuf(Proto.ContractNonceInfo)"]/*' />
-		public static ContractNonceInfo FromProtobuf(Proto.ContractNonceInfo contractNonceInfo)
+		/// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.FromProtobuf(Proto.Services.ContractNonceInfo)"]/*' />
+		public static ContractNonceInfo FromProtobuf(Proto.Services.ContractNonceInfo contractNonceInfo)
         {
             return new ContractNonceInfo(ContractId.FromProtobuf(contractNonceInfo.ContractId), contractNonceInfo.Nonce);
         }
 
         /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.ToProtobuf"]/*' />
-        public Proto.ContractNonceInfo ToProtobuf()
+        public Proto.Services.ContractNonceInfo ToProtobuf()
         {
-            return new Proto.ContractNonceInfo
+            return new Proto.Services.ContractNonceInfo
             {
 				Nonce = Nonce,
 				ContractId = ContractId.ToProtobuf()

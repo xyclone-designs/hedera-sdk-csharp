@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Networking
         {
 			return ChannelCredentials.SecureSsl;
 			// TODO
-			//return Proto.TlsChannelCredentials.NewBuilder().TrustManager(new HederaTrustManager(AddressBookEntry.CertHash, VerifyCertificates)).Build();
+			//return Proto.Services.TlsChannelCredentials.NewBuilder().TrustManager(new HederaTrustManager(AddressBookEntry.CertHash, VerifyCertificates)).Build();
 		}
     }
 }

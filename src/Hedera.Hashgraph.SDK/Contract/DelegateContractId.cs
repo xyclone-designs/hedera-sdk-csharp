@@ -33,20 +33,20 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             return new DelegateContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress));
         }
-        /// <include file="DelegateContractId.cs.xml" path='docs/member[@name="M:DelegateContractId.FromProtobuf(Proto.ContractID)"]/*' />
-        public new static DelegateContractId FromProtobuf(Proto.ContractID contractId)
+        /// <include file="DelegateContractId.cs.xml" path='docs/member[@name="M:DelegateContractId.FromProtobuf(Proto.Services.ContractID)"]/*' />
+        public new static DelegateContractId FromProtobuf(Proto.Services.ContractID contractId)
         {
             return new DelegateContractId(contractId.ShardNum, contractId.RealmNum, contractId.ContractNum);
         }
         /// <include file="DelegateContractId.cs.xml" path='docs/member[@name="M:DelegateContractId.FromBytes(System.Byte[])"]/*' />
         public new static DelegateContractId FromBytes(byte[] bytes)
         {
-            return FromProtobuf(Proto.ContractID.Parser.ParseFrom(bytes));
+            return FromProtobuf(Proto.Services.ContractID.Parser.ParseFrom(bytes));
         }
 
-        public override Proto.Key ToProtobufKey()
+        public override Proto.Services.Key ToProtobufKey()
         {
-            return new Proto.Key
+            return new Proto.Services.Key
             {
 				DelegatableContractId = ToProtobuf()
 			};

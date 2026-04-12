@@ -26,18 +26,18 @@ namespace Hedera.Hashgraph.SDK.Queries
 	 * @param <O> The output type of the query.
 	 * @param <T> The type of the query itself. Used to enable chaining.
 	 */
-	public abstract partial class Query<O, T> : Executable<T, Proto.Query, Proto.Response, O> where T : Query<O, T>
+	public abstract partial class Query<O, T> : Executable<T, Proto.Services.Query, Proto.Services.Response, O> where T : Query<O, T>
 	{
-		private readonly Proto.Query _ProtoQuery = new ();
-		private readonly Proto.QueryHeader _ProtoQueryHeader = new ();
+		private readonly Proto.Services.Query _ProtoQuery = new ();
+		private readonly Proto.Services.QueryHeader _ProtoQueryHeader = new ();
 
 		/**
 		 * Constructor.
 		 */
 		protected Query()
 		{
-			_ProtoQuery = new Proto.Query { };
-			_ProtoQueryHeader = new Proto.QueryHeader { };
+			_ProtoQuery = new Proto.Services.Query { };
+			_ProtoQueryHeader = new Proto.Services.QueryHeader { };
 		}
 
 		/**
@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param paymentAmount             the amount
 		 * @return                          the new payment transaction
 		 */
-		private static Proto.Transaction MakePaymentTransaction(TransactionId paymentTransactionId, AccountId nodeId, Client.Operator operator_, Hbar paymentAmount)
+		private static Proto.Services.Transaction MakePaymentTransaction(TransactionId paymentTransactionId, AccountId nodeId, Client.Operator operator_, Hbar paymentAmount)
 		{
 			return new TransferTransaction
 			{
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 		/**
 		 * List of payment transactions
 		 */
-		public List<Proto.Transaction?>? PaymentTransactions { get; internal set; }
+		public List<Proto.Services.Transaction?>? PaymentTransactions { get; internal set; }
 		/**
 		 * Set an explicit payment amount for this query.
 		 * <p>
@@ -159,11 +159,11 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * @param index                     the index
 		 * @return                          the transaction
 		 */
-		private Proto.Transaction GetPaymentTransaction(int index)
+		private Proto.Services.Transaction GetPaymentTransaction(int index)
 		{
 			PaymentTransactionId = TransactionId.Generate(PaymentOperator.AccountId);
 
-			Proto.Transaction newPaymentTx = MakePaymentTransaction(PaymentTransactionId, NodeAccountIds.ElementAt(index), PaymentOperator, ChosenQueryPayment);
+			Proto.Services.Transaction newPaymentTx = MakePaymentTransaction(PaymentTransactionId, NodeAccountIds.ElementAt(index), PaymentOperator, ChosenQueryPayment);
 
 			PaymentTransactions[index] = newPaymentTx;
 
@@ -178,29 +178,29 @@ namespace Hedera.Hashgraph.SDK.Queries
 		 * Called in {@link #makeRequest} just before the query is built. The intent is for the derived
 		 * class to assign their data variant to the query.
 		 */
-		public abstract void OnMakeRequest(Proto.Query query, Proto.QueryHeader header);
+		public abstract void OnMakeRequest(Proto.Services.Query query, Proto.Services.QueryHeader header);
 		/**
 		 * The derived class should access its request header and return.
 		 */
-		public abstract Proto.QueryHeader MapRequestHeader(Proto.Query request);
+		public abstract Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request);
 		/**
 		 * The derived class should access its response header and return.
 		 */
-		public abstract Proto.ResponseHeader MapResponseHeader(Proto.Response response);
+		public abstract Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response);
 
-		public override Method<Proto.Query, Proto.Response> GetMethod()
+		public override Method<Proto.Services.Query, Proto.Services.Response> GetMethod()
 		{
 			MethodDescriptor methoddescriptor = GetMethodDescriptor();
 
 			IMessage input = (IMessage)Activator.CreateInstance(methoddescriptor.InputType.ClrType)!;
 			IMessage output = (IMessage)Activator.CreateInstance(methoddescriptor.OutputType.ClrType)!;
 
-			return new Method<Proto.Query, Proto.Response>(
+			return new Method<Proto.Services.Query, Proto.Services.Response>(
 				type: MethodType.Unary,
 				name: methoddescriptor.Name,
 				serviceName: methoddescriptor.Service.FullName,
-				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Query.Parser.ParseFrom(data)),
-				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Response.Parser.ParseFrom(data)));
+				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Services.Query.Parser.ParseFrom(data)),
+				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Services.Response.Parser.ParseFrom(data)));
 		}
 
 		/**
@@ -306,7 +306,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 			Utils.ActionHelper.TwoActions(GetCostAsync(client, timeout), onSuccess, onFailure);
 		}
 
-		public override Proto.Query MakeRequest()
+		public override Proto.Services.Query MakeRequest()
 		{
 			// If payment is required, set the next payment transaction on the query
 			if (IsPaymentRequired && PaymentTransactions != null)
@@ -317,7 +317,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 			// Delegate to the derived class to apply the header because the common header struct is
 			// within the nested type
 
-			_ProtoQueryHeader.ResponseType = Proto.ResponseType.AnswerOnly;
+			_ProtoQueryHeader.ResponseType = Proto.Services.ResponseType.AnswerOnly;
 
 			OnMakeRequest(_ProtoQuery, _ProtoQueryHeader);
 
@@ -364,7 +364,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 				}
 			}).ContinueWith(_ => grpcCostQuery.Finish());
 		}
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
 		{
 			var preCheckCode = MapResponseHeader(response).NodeTransactionPrecheckCode;
 
@@ -372,9 +372,9 @@ namespace Hedera.Hashgraph.SDK.Queries
 		}
 		public override string ToString()
 		{
-			Proto.Query query = MakeRequest();
+			Proto.Services.Query query = MakeRequest();
 			StringBuilder builder = new (Regex.Replace(query.ToString(), @"^# Proto\.Query.*", "", RegexOptions.Multiline));
-			Proto.QueryHeader queryHeader = MapRequestHeader(query);
+			Proto.Services.QueryHeader queryHeader = MapRequestHeader(query);
 
 			if (queryHeader.Payment is not null)
 			{
@@ -387,8 +387,8 @@ namespace Hedera.Hashgraph.SDK.Queries
 					string transactionbody = Regex.Replace(
 						replacement: string.Empty, 
 						options: RegexOptions.Multiline,
-						pattern: @"(?m)^# Proto.TransactionBuilder.*", 
-						input: Proto.TransactionBody.Parser
+						pattern: @"(?m)^# Proto.Services.TransactionBuilder.*", 
+						input: Proto.Services.TransactionBody.Parser
 							.ParseFrom(queryHeader.Payment.BodyBytes)
 							.ToString());
 

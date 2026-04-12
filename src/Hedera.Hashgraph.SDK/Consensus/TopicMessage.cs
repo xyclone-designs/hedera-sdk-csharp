@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-
+using Hedera.Hashgraph.Proto.Services;
 using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Collections.Generic;
@@ -23,8 +23,8 @@ namespace Hedera.Hashgraph.SDK.Consensus
             TransactionId = transactionId;
         }
 
-        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfSingle(Proto.ConsensusTopicResponse)"]/*' />
-        public static TopicMessage OfSingle(Proto.ConsensusTopicResponse response)
+        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfSingle(Proto.Mirror.ConsensusTopicResponse)"]/*' />
+        public static TopicMessage OfSingle(Proto.Mirror.ConsensusTopicResponse response)
         {
             return new TopicMessage(
                 response.ConsensusTimestamp.ToDateTimeOffset(), 
@@ -34,8 +34,8 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 [new(response)], 
                 TransactionId.FromProtobuf(response.ChunkInfo.InitialTransactionID));
         }
-        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfMany(System.Collections.Generic.IList{Proto.ConsensusTopicResponse})"]/*' />
-        public static TopicMessage OfMany(IList<Proto.ConsensusTopicResponse> responses)
+        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfMany(System.Collections.Generic.IList{Proto.Mirror.ConsensusTopicResponse})"]/*' />
+        public static TopicMessage OfMany(IList<Proto.Mirror.ConsensusTopicResponse> responses)
         {
             // response should be in the order of oldest to newest (not chunk order)
             var chunks = new TopicMessageChunk[responses.Count];
@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             var contents = new ByteString[responses.Count];
             long totalSize = 0;
 
-            foreach (Proto.ConsensusTopicResponse r in responses)
+            foreach (Proto.Mirror.ConsensusTopicResponse r in responses)
             {
                 transactionId ??= TransactionId.FromProtobuf(r.ChunkInfo.InitialTransactionID);
 

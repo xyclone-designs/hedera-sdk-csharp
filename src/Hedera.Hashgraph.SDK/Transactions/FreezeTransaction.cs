@@ -16,11 +16,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
     {
 		/// <include file="FreezeTransaction.cs.xml" path='docs/member[@name="M:FreezeTransaction.#ctor"]/*' />
 		public FreezeTransaction() { }
-		internal FreezeTransaction(Proto.TransactionBody txBody) : base(txBody)
+		internal FreezeTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		internal FreezeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		internal FreezeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
 		{
 			InitFromTransactionBody();
 		}
@@ -83,11 +83,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			}
 		}
 
-		public Proto.FreezeTransactionBody ToProtobuf()
+		public Proto.Services.FreezeTransactionBody ToProtobuf()
 		{
-			var builder = new Proto.FreezeTransactionBody
+			var builder = new Proto.Services.FreezeTransactionBody
 			{
-				FreezeType = (Proto.FreezeType)FreezeType,
+				FreezeType = (Proto.Services.FreezeType)FreezeType,
 				FileHash = ByteString.CopyFrom(FileHash)
 			};
 
@@ -106,26 +106,26 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.FreezeService.FreezeServiceClient.freezeAsync);
+			string methodname = nameof(Proto.Services.FreezeService.FreezeServiceClient.freezeAsync);
 
-			return Proto.FreezeService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.FreezeService.Descriptor.FindMethodByName(methodname);
 		}
 		public override void ValidateChecksums(Client client)
 		{ }
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
 		{
 			bodyBuilder.Freeze = ToProtobuf();
 		}
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
 		{
 			scheduled.Freeze = ToProtobuf();
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

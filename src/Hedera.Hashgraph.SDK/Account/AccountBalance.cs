@@ -21,10 +21,10 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.FromBytes(System.Byte[])"]/*' />
 		public static AccountBalance FromBytes(byte[] data)
 		{
-			return FromProtobuf(Proto.CryptoGetAccountBalanceResponse.Parser.ParseFrom(data));
+			return FromProtobuf(Proto.Services.CryptoGetAccountBalanceResponse.Parser.ParseFrom(data));
 		}
-		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.FromProtobuf(Proto.CryptoGetAccountBalanceResponse)"]/*' />
-		public static AccountBalance FromProtobuf(Proto.CryptoGetAccountBalanceResponse protobuf)
+		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.FromProtobuf(Proto.Services.CryptoGetAccountBalanceResponse)"]/*' />
+		public static AccountBalance FromProtobuf(Proto.Services.CryptoGetAccountBalanceResponse protobuf)
         {
             var balanceList = protobuf.TokenBalances;
 
@@ -52,15 +52,15 @@ namespace Hedera.Hashgraph.SDK.Account
 			return ToProtobuf().ToByteString();
 		}
 		/// <include file="AccountBalance.cs.xml" path='docs/member[@name="M:AccountBalance.ToProtobuf"]/*' />
-		public virtual Proto.CryptoGetAccountBalanceResponse ToProtobuf()
+		public virtual Proto.Services.CryptoGetAccountBalanceResponse ToProtobuf()
         {
-            var protobuf = new Proto.CryptoGetAccountBalanceResponse
+            var protobuf = new Proto.Services.CryptoGetAccountBalanceResponse
             {
                 Balance = (ulong)Hbars.ToTinybars() 
             };
             foreach (var entry in Tokens)
             {
-                protobuf.TokenBalances.Add(new Proto.TokenBalance
+                protobuf.TokenBalances.Add(new Proto.Services.TokenBalance
                 {
                     TokenId = entry.Key.ToProtobuf(),
                     Balance = entry.Value,

@@ -23,12 +23,12 @@ namespace Hedera.Hashgraph.SDK.Contract
         //  * @param stateChangeProto          the protobuf
         //  * @return                          the contract stage change object
         //  */
-        // static ContractStateChange fromProtobuf(Proto.ContractStateChange stateChangeProto) {
-        //     List<StorageChange> storageChanges = new List<>(stateChangeProto.getStorageChangesCount());
-        //     for (var storageChangeProto : stateChangeProto.getStorageChangesList()) {
+        // static ContractStateChange fromProtobuf(Proto.Services.ContractStateChange stateChangeProto) {
+        //     List<StorageChange> storageChanges = new List<>(stateChangeProto.Services.getStorageChangesCount());
+        //     for (var storageChangeProto : stateChangeProto.Services.getStorageChangesList()) {
         //         storageChanges.add(StorageChange.fromProtobuf(storageChangeProto));
         //     }
-        //     return new ContractStateChange(ContractId.fromProtobuf(stateChangeProto.getContractID()), storageChanges);
+        //     return new ContractStateChange(ContractId.fromProtobuf(stateChangeProto.Services.getContractID()), storageChanges);
         // }
         //
         // /**
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         //  * @throws InvalidProtocolBufferException       when there is an issue with the protobuf
         //  */
         // public static ContractStateChange fromBytes(byte[] bytes) throws InvalidProtocolBufferException {
-        //     return fromProtobuf(Proto.ContractStateChange.parseFrom(bytes));
+        //     return fromProtobuf(Proto.Services.ContractStateChange.parseFrom(bytes));
         // }
         //
         // /**
@@ -47,8 +47,8 @@ namespace Hedera.Hashgraph.SDK.Contract
         //  *
         //  * @return                          the protobuf representation
         //  */
-        // Proto.ContractStateChange toProtobuf() {
-        //     var builder = Proto.ContractStateChange.newBuilder()
+        // Proto.Services.ContractStateChange toProtobuf() {
+        //     var builder = Proto.Services.ContractStateChange.newBuilder()
         //         .setContractID(contractId.toProtobuf());
         //     for (var storageChange : storageChanges) {
         //         builder.addStorageChanges(storageChange.toProtobuf());

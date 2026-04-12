@@ -22,10 +22,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromBytes(System.Byte[])"]/*' />
 		public static TransactionFeeSchedule FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.TransactionFeeSchedule.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.TransactionFeeSchedule.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromProtobuf(Proto.TransactionFeeSchedule)"]/*' />
-		public static TransactionFeeSchedule FromProtobuf(Proto.TransactionFeeSchedule transactionFeeSchedule)
+		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromProtobuf(Proto.Services.TransactionFeeSchedule)"]/*' />
+		public static TransactionFeeSchedule FromProtobuf(Proto.Services.TransactionFeeSchedule transactionFeeSchedule)
         {
             var returnFeeSchedule = new TransactionFeeSchedule
             {
@@ -52,17 +52,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.ToProtobuf"]/*' />
-		public virtual Proto.TransactionFeeSchedule ToProtobuf()
+		public virtual Proto.Services.TransactionFeeSchedule ToProtobuf()
         {
-			Proto.TransactionFeeSchedule proto = new ()
+			Proto.Services.TransactionFeeSchedule proto = new ()
             {
-				HederaFunctionality = (Proto.HederaFunctionality)RequestType
+				HederaFunctionality = (Proto.Services.HederaFunctionality)RequestType
 			};
 
-            if (Feedata != null) proto.FeeData = Feedata.ToProtobuf();
+            if (Feedata != null) Proto.Services.FeeData = Feedata.ToProtobuf();
 
             foreach (var fee in Fees)
-				proto.Fees.AddRange(Fees.Select(_ => _.ToProtobuf()));
+				Proto.Services.Fees.AddRange(Fees.Select(_ => _.ToProtobuf()));
 
             return proto;
         }

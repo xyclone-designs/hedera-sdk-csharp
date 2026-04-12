@@ -19,8 +19,8 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             DefaultMaxTransactionFee = new Hbar(5);
         }
-        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-        internal ScheduleSignTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+        /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+        internal ScheduleSignTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -37,9 +37,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		}
 
         /// <include file="ScheduleSignTransaction.cs.xml" path='docs/member[@name="M:ScheduleSignTransaction.ToProtobuf"]/*' />
-        public Proto.ScheduleSignTransactionBody ToProtobuf()
+        public Proto.Services.ScheduleSignTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ScheduleSignTransactionBody();
+            var builder = new Proto.Services.ScheduleSignTransactionBody();
             
             if (ScheduleId != null)
             {
@@ -64,26 +64,26 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
 			ScheduleId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ScheduleSign = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("cannot schedule ScheduleSignTransaction");
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ScheduleService.ScheduleServiceClient.signSchedule);
+			string methodname = nameof(Proto.Services.ScheduleService.ScheduleServiceClient.signSchedule);
 
-			return Proto.ScheduleService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ScheduleService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

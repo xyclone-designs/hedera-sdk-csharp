@@ -21,9 +21,9 @@ namespace Hedera.Hashgraph.SDK.Token
 			TokenId?.ValidateChecksum(client);
 		}
 
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.TokenGetInfoQuery()
+            var builder = new Proto.Services.TokenGetInfoQuery()
             {
                 Header = header
             };
@@ -36,25 +36,25 @@ namespace Hedera.Hashgraph.SDK.Token
             queryBuilder.TokenGetInfo = builder;
         }
 
-        public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+        public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.TokenGetInfo.Header;
         }
 
-        public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+        public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
         {
             return request.TokenGetInfo.Header;
         }
 
-        public override TokenInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override TokenInfo MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return TokenInfo.FromProtobuf(response.TokenGetInfo);
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.getTokenInfo);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.getTokenInfo);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
 		public override async Task<Hbar> GetCostAsync(Client client)

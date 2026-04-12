@@ -18,8 +18,8 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
     {
         /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction"]/*' />
         public LiveHashAddTransaction() { }
-        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-        internal LiveHashAddTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+        /// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:LiveHashAddTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+        internal LiveHashAddTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -58,10 +58,10 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         }
 
 		/// <include file="LiveHashAddTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
-		public Proto.CryptoAddLiveHashTransactionBody ToProtobuf()
+		public Proto.Services.CryptoAddLiveHashTransactionBody ToProtobuf()
         {
-            var builder = new Proto.CryptoAddLiveHashTransactionBody();
-            var hashBuilder = new Proto.LiveHash();
+            var builder = new Proto.Services.CryptoAddLiveHashTransactionBody();
+            var hashBuilder = new Proto.Services.LiveHash();
 
             if (AccountId != null)
             {
@@ -89,27 +89,27 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         {
             AccountId?.ValidateChecksum(client);
         }
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.CryptoAddLiveHash = ToProtobuf();
         }
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             throw new NotSupportedException("Cannot schedule LiveHashAddTransaction");
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.addLiveHash);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.addLiveHash);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

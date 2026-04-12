@@ -19,7 +19,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
     /// <include file="TopicMessageQuery.cs.xml" path='docs/member[@name="T:TopicMessageQuery"]/*' />
     public sealed class TopicMessageQuery
     {
-		private readonly Proto.ConsensusTopicQuery _Proto = new();
+		private readonly Proto.Mirror.ConsensusTopicQuery _Proto = new();
 		private static readonly Logger LOGGER = LoggerFactory.GetLogger(typeof(TopicMessageQuery));
         private long Counter = 0;
         private bool CancelledByClient = false;
@@ -87,10 +87,10 @@ namespace Hedera.Hashgraph.SDK.Consensus
         public SubscriptionHandle Subscribe(Client client, Action<TopicMessage> onNext)
         {
             SubscriptionHandle subscriptionHandle = new ();
-            Dictionary<Proto.TransactionID, List<Proto.ConsensusTopicResponse>> pendingMessages = [];
+            Dictionary<Proto.Services.TransactionID, List<Proto.Mirror.ConsensusTopicResponse>> pendingMessages = [];
             try
             {
-                MakeStreamingCall(client, subscriptionHandle, onNext, 0, null, new AtomicClass<Proto.ConsensusTopicResponse>(default), pendingMessages);
+                MakeStreamingCall(client, subscriptionHandle, onNext, 0, null, new AtomicClass<Proto.Mirror.ConsensusTopicResponse>(default), pendingMessages);
             }
             catch (ThreadInterruptedException e)
             {
@@ -106,8 +106,8 @@ namespace Hedera.Hashgraph.SDK.Consensus
             Action<TopicMessage> onNext,
             int attempt,
             long? counter,
-            AtomicClass<Proto.ConsensusTopicResponse> lastMessage,
-            Dictionary<Proto.TransactionID, List<Proto.ConsensusTopicResponse>> pendingMessages)
+            AtomicClass<Proto.Mirror.ConsensusTopicResponse> lastMessage,
+            Dictionary<Proto.Services.TransactionID, List<Proto.Mirror.ConsensusTopicResponse>> pendingMessages)
         {
             Counter = counter ?? 0;
 
@@ -116,19 +116,19 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 .Channel
                 .CreateCallInvoker();
 
-			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.subscribeTopic);
+			string methodname = nameof(Proto.Services.ConsensusService.ConsensusServiceClient.subscribeTopic);
 
-            MethodDescriptor methoddescriptor = Proto.CryptoService.Descriptor.FindMethodByName(methodname); 
+            MethodDescriptor methoddescriptor = Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname); 
 
 			IMessage input = (IMessage)Activator.CreateInstance(methoddescriptor.InputType.ClrType)!;
 			IMessage output = (IMessage)Activator.CreateInstance(methoddescriptor.OutputType.ClrType)!;
 
-			var method = new Method<Proto.ConsensusTopicQuery, Proto.ConsensusTopicResponse>(
+			var method = new Method<Proto.Mirror.ConsensusTopicQuery, Proto.Mirror.ConsensusTopicResponse>(
 				type: MethodType.Unary,
 				name: methoddescriptor.Name,
 				serviceName: methoddescriptor.Service.FullName,
-				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.ConsensusTopicQuery.Parser.ParseFrom(data)),
-				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.ConsensusTopicResponse.Parser.ParseFrom(data)));
+				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Mirror.ConsensusTopicQuery.Parser.ParseFrom(data)),
+				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Mirror.ConsensusTopicResponse.Parser.ParseFrom(data)));
 
             CancellationTokenSource cts = new();
 
@@ -155,7 +155,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
                 var lastStartTime = lastMessage.Get().ConsensusTimestamp;
 
-                newBuilder.ConsensusStartTime = new Proto.Timestamp
+                newBuilder.ConsensusStartTime = new Proto.Services.Timestamp
                 {
                     Seconds = lastStartTime.Seconds,
                     Nanos = lastStartTime.Nanos + 1
@@ -194,7 +194,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
                         if (!pendingMessages.ContainsKey(initialTransactionId))
                         {
-                            pendingMessages[initialTransactionId] = new List<Proto.ConsensusTopicResponse>();
+                            pendingMessages[initialTransactionId] = new List<Proto.Mirror.ConsensusTopicResponse>();
                         }
 
                         var chunks = pendingMessages[initialTransactionId];

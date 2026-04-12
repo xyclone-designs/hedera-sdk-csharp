@@ -49,8 +49,8 @@ namespace Hedera.Hashgraph.SDK.Contract
                 0xA0  // -96 in Java
             ]);
 
-		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.#ctor(Proto.ContractFunctionResult)"]/*' />
-		internal ContractFunctionResult(Proto.ContractFunctionResult inner)
+		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.#ctor(Proto.Services.ContractFunctionResult)"]/*' />
+		internal ContractFunctionResult(Proto.Services.ContractFunctionResult inner)
 		{
 			ContractId = ContractId.FromProtobuf(inner.ContractID);
 			EvmAddress = new ContractId(ContractId.Shard, ContractId.Realm, inner.EvmAddress.ToByteArray());
@@ -276,9 +276,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         }
 
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.ToProtobuf"]/*' />
-        public Proto.ContractFunctionResult ToProtobuf()
+        public Proto.Services.ContractFunctionResult ToProtobuf()
         {
-			Proto.ContractFunctionResult proto = new()
+			Proto.Services.ContractFunctionResult proto = new()
             {
 				ContractID = ContractId.ToProtobuf(),
 				ContractCallResult = RawResult,
@@ -288,26 +288,26 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 
             if (EvmAddress != null)
-				proto.EvmAddress = ByteString.CopyFrom(EvmAddress.EvmAddress); // BytesValue.Parser.Par SetValue(.Build());
+				Proto.Services.EvmAddress = ByteString.CopyFrom(EvmAddress.EvmAddress); // BytesValue.Parser.Par SetValue(.Build());
 
 			if (ErrorMessage != null)
-				proto.ErrorMessage = ErrorMessage;
+				Proto.Services.ErrorMessage = ErrorMessage;
 
 			foreach (ContractLogInfo log in logs)
-				proto.LogInfo.Add(log.ToProtobuf());
+				Proto.Services.LogInfo.Add(log.ToProtobuf());
 
 			foreach (var contractId in CreatedContractIds)
-				proto.CreatedContractIDs.Add(contractId.ToProtobuf());
+				Proto.Services.CreatedContractIDs.Add(contractId.ToProtobuf());
 
             if (SenderAccountId != null)
-				proto.SenderId = SenderAccountId.ToProtobuf();
+				Proto.Services.SenderId = SenderAccountId.ToProtobuf();
 
 
             // for (var stateChange : stateChanges) {
             //     contractFunctionResult.addStateChanges(stateChange.toProtobuf());
             // }
             foreach (var contractNonce in ContractNonces)
-                proto.ContractNonces.Add(contractNonce.ToProtobuf());
+                Proto.Services.ContractNonces.Add(contractNonce.ToProtobuf());
 
             return proto;
         }		

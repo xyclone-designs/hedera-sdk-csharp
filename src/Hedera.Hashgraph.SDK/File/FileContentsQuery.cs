@@ -33,9 +33,9 @@ namespace Hedera.Hashgraph.SDK.File
         {
             FileId?.ValidateChecksum(client);
         }
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.FileGetContentsQuery
+            var builder = new Proto.Services.FileGetContentsQuery
             {
                 Header = header
             };
@@ -47,23 +47,23 @@ namespace Hedera.Hashgraph.SDK.File
 
             queryBuilder.FileGetContents = builder;
         }
-        public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+        public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.FileGetContents.Header;
         }
-        public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+        public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
         {
             return request.FileGetContents.Header;
         }
-        public override ByteString MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override ByteString MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return response.FileGetContents.FileContents.Contents;
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.FileService.FileServiceClient.getFileContent);
+			string methodname = nameof(Proto.Services.FileService.FileServiceClient.getFileContent);
 
-			return Proto.FileService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
 		}
 	}
 }

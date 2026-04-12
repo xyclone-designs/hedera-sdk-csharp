@@ -24,13 +24,13 @@ namespace Hedera.Hashgraph.SDK.Account
 
 		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor"]/*' />
 		public AccountAllowanceApproveTransaction() { }
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal AccountAllowanceApproveTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal AccountAllowanceApproveTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal AccountAllowanceApproveTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal AccountAllowanceApproveTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -57,17 +57,17 @@ namespace Hedera.Hashgraph.SDK.Account
 
             foreach (var allowanceProto in body.NftAllowances)
             {
-                if (allowanceProto.ApprovedForAll ?? false)
+                if (allowanceProto.Services.ApprovedForAll ?? false)
                 {
                     NftAllowances.Add(TokenNftAllowance.FromProtobuf(allowanceProto));
                 }
                 else
                 {
                     GetNftSerials(
-                        AccountId.FromProtobuf(allowanceProto.Owner), 
-                        AccountId.FromProtobuf(allowanceProto.Spender),
-                        AccountId.FromProtobuf(allowanceProto.DelegatingSpender) , 
-                        TokenId.FromProtobuf(allowanceProto.TokenId)).Concat(allowanceProto.SerialNumbers);
+                        AccountId.FromProtobuf(allowanceProto.Services.Owner), 
+                        AccountId.FromProtobuf(allowanceProto.Services.Spender),
+                        AccountId.FromProtobuf(allowanceProto.Services.DelegatingSpender) , 
+                        TokenId.FromProtobuf(allowanceProto.Services.TokenId)).Concat(allowanceProto.Services.SerialNumbers);
                 }
             }
         }
@@ -212,9 +212,9 @@ namespace Hedera.Hashgraph.SDK.Account
         }
 
         /// <include file="AccountAllowanceApproveTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceApproveTransaction.ToProtobuf"]/*' />
-        public virtual Proto.CryptoApproveAllowanceTransactionBody ToProtobuf()
+        public virtual Proto.Services.CryptoApproveAllowanceTransactionBody ToProtobuf()
         {
-            var builder = new Proto.CryptoApproveAllowanceTransactionBody();
+            var builder = new Proto.Services.CryptoApproveAllowanceTransactionBody();
 
             foreach (var allowance in HbarAllowances)
             {
@@ -251,26 +251,26 @@ namespace Hedera.Hashgraph.SDK.Account
 				allowance.ValidateChecksums(client);
 			}
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.CryptoApproveAllowance = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.CryptoApproveAllowance = ToProtobuf();
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.approveAllowances);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.approveAllowances);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

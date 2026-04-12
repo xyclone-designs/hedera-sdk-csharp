@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 		}
 
 		public virtual FeeEstimateMode Mode { get; set; } = FeeEstimateMode.State;
-		public virtual Proto.Transaction? Transaction { get; set; }
+		public virtual Proto.Services.Transaction? Transaction { get; set; }
         public virtual int MaxAttempts { get; set; } = 10;
         public virtual TimeSpan MaxBackoff
         {

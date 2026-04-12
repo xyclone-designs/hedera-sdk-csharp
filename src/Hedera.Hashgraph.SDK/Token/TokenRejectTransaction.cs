@@ -16,13 +16,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor"]/*' />
         public TokenRejectTransaction() { }
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenRejectTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenRejectTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		public TokenRejectTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		public TokenRejectTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				OwnerId = AccountId.FromProtobuf(body.Owner);
 			}
 
-			foreach (Proto.TokenReference tokenReference in body.Rejections)
+			foreach (Proto.Services.TokenReference tokenReference in body.Rejections)
 			{
 				if (tokenReference.FungibleToken is not null)
 				{
@@ -101,9 +101,9 @@ namespace Hedera.Hashgraph.SDK.Token
 			}
 		}
 		/// <include file="TokenRejectTransaction.cs.xml" path='docs/member[@name="M:TokenRejectTransaction.ToProtobuf"]/*' />
-		public virtual Proto.TokenRejectTransactionBody ToProtobuf()
+		public virtual Proto.Services.TokenRejectTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenRejectTransactionBody();
+            var builder = new Proto.Services.TokenRejectTransactionBody();
 
             if (OwnerId != null)
             {
@@ -112,12 +112,12 @@ namespace Hedera.Hashgraph.SDK.Token
 
             foreach (TokenId tokenId in TokenIds)
             {
-                builder.Rejections.Add(new Proto.TokenReference() { FungibleToken = tokenId.ToProtobuf() });
+                builder.Rejections.Add(new Proto.Services.TokenReference() { FungibleToken = tokenId.ToProtobuf() });
             }
 
             foreach (NftId nftId in NftIds)
             {
-                builder.Rejections.Add(new Proto.TokenReference() { Nft = nftId.ToProtobuf() });
+                builder.Rejections.Add(new Proto.Services.TokenReference() { Nft = nftId.ToProtobuf() });
             }
 
             return builder;
@@ -133,27 +133,27 @@ namespace Hedera.Hashgraph.SDK.Token
 			foreach (var nftId in NftIds)
 				nftId.TokenId.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenReject = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenReject = ToProtobuf();
         }
 	
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.rejectToken);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.rejectToken);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

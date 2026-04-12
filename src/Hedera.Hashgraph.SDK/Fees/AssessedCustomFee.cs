@@ -23,10 +23,10 @@ namespace Hedera.Hashgraph.SDK.Fees
 		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromBytes(System.Byte[])"]/*' />
 		public static AssessedCustomFee FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.AssessedCustomFee.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.AssessedCustomFee.Parser.ParseFrom(bytes));
 		}
-		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromProtobuf(Proto.AssessedCustomFee)"]/*' />
-		public static AssessedCustomFee FromProtobuf(Proto.AssessedCustomFee assessedCustomFee)
+		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.FromProtobuf(Proto.Services.AssessedCustomFee)"]/*' />
+		public static AssessedCustomFee FromProtobuf(Proto.Services.AssessedCustomFee assessedCustomFee)
         {
             return new AssessedCustomFee(
                 assessedCustomFee.Amount, 
@@ -50,20 +50,20 @@ namespace Hedera.Hashgraph.SDK.Fees
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="AssessedCustomFee.cs.xml" path='docs/member[@name="M:AssessedCustomFee.ToProtobuf"]/*' />
-		public virtual Proto.AssessedCustomFee ToProtobuf()
+		public virtual Proto.Services.AssessedCustomFee ToProtobuf()
         {
-            Proto.AssessedCustomFee proto = new()
+            Proto.Services.AssessedCustomFee proto = new()
             {
 				Amount = Amount
 			};
 
             if (TokenId != null)
-                proto.TokenId = TokenId.ToProtobuf();
+                Proto.Services.TokenId = TokenId.ToProtobuf();
 
             if (FeeCollectorAccountId != null)
-                proto.FeeCollectorAccountId = FeeCollectorAccountId.ToProtobuf();
+                Proto.Services.FeeCollectorAccountId = FeeCollectorAccountId.ToProtobuf();
 
-			proto.EffectivePayerAccountId.AddRange(PayerAccountIdList.Select(_ => _.ToProtobuf()));
+			Proto.Services.EffectivePayerAccountId.AddRange(PayerAccountIdList.Select(_ => _.ToProtobuf()));
 
 			return proto;
         }

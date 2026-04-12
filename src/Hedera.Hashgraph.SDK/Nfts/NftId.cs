@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// <include file="NftId.cs.xml" path='docs/member[@name="M:NftId.FromBytes(System.Byte[])"]/*' />
 		public static NftId FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.NftID.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.NftID.Parser.ParseFrom(bytes));
 		}
 		/// <include file="NftId.cs.xml" path='docs/member[@name="M:NftId.FromString(System.String)"]/*' />
 		public static NftId FromString(string id)
@@ -37,16 +37,16 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
             return new NftId(TokenId.FromString(parts[0]), long.Parse(parts[1]));
         }
-		/// <include file="NftId.cs.xml" path='docs/member[@name="M:NftId.FromProtobuf(Proto.NftID)"]/*' />
-		public static NftId FromProtobuf(Proto.NftID nftId)
+		/// <include file="NftId.cs.xml" path='docs/member[@name="M:NftId.FromProtobuf(Proto.Services.NftID)"]/*' />
+		public static NftId FromProtobuf(Proto.Services.NftID nftId)
         {
             return new NftId(TokenId.FromProtobuf(nftId.TokenID), nftId.SerialNumber);
         }
 
         /// <include file="NftId.cs.xml" path='docs/member[@name="M:NftId.ToProtobuf"]/*' />
-        public virtual Proto.NftID ToProtobuf()
+        public virtual Proto.Services.NftID ToProtobuf()
         {
-            return new Proto.NftID
+            return new Proto.Services.NftID
             {
                 TokenID = TokenId.ToProtobuf(),
                 SerialNumber = Serial,

@@ -14,8 +14,8 @@ namespace Hedera.Hashgraph.SDK
             ExchangeRateInCents = (double)cents / (double)hbars;
         }
 
-        /// <include file="ExchangeRate.cs.xml" path='docs/member[@name="M:ExchangeRate.FromProtobuf(Proto.ExchangeRate)"]/*' />
-        public static ExchangeRate FromProtobuf(Proto.ExchangeRate pb)
+        /// <include file="ExchangeRate.cs.xml" path='docs/member[@name="M:ExchangeRate.FromProtobuf(Proto.Services.ExchangeRate)"]/*' />
+        public static ExchangeRate FromProtobuf(Proto.Services.ExchangeRate pb)
         {
             return new ExchangeRate(pb.HbarEquiv, pb.CentEquiv, DateTimeOffset.FromUnixTimeSeconds(pb.ExpirationTime.Seconds));
         }

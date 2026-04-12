@@ -24,13 +24,13 @@ namespace Hedera.Hashgraph.SDK.Consensus
             AutoRenewPeriod = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
             DefaultMaxTransactionFee = new Hbar(25);
         }
-		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TopicCreateTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TopicCreateTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TopicCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TopicCreateTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -111,9 +111,9 @@ namespace Hedera.Hashgraph.SDK.Consensus
         }
 
 		/// <include file="TopicCreateTransaction.cs.xml" path='docs/member[@name="M:TopicCreateTransaction.ToProtobuf"]/*' />
-		public Proto.ConsensusCreateTopicTransactionBody ToProtobuf()
+		public Proto.Services.ConsensusCreateTopicTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ConsensusCreateTopicTransactionBody
+            var builder = new Proto.Services.ConsensusCreateTopicTransactionBody
 			{
 				Memo = TopicMemo
 			};
@@ -146,11 +146,11 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
 			AutoRenewAccountId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ConsensusCreateTopic = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.ConsensusCreateTopic = ToProtobuf();
         }
@@ -166,16 +166,16 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.createTopic);
+			string methodname = nameof(Proto.Services.ConsensusService.ConsensusServiceClient.createTopic);
 
-			return Proto.ConsensusService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ConsensusService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

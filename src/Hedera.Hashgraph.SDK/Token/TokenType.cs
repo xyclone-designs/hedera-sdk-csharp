@@ -6,9 +6,9 @@ namespace Hedera.Hashgraph.SDK.Token
     public enum TokenType
     {
         /// <include file="TokenType.cs.xml" path='docs/member[@name="M:TokenType.properties(e.g. serial)"]/*' />
-        FungibleCommon = Proto.TokenType.FungibleCommon,
+        FungibleCommon = Proto.Services.TokenType.FungibleCommon,
 
 		/// <include file="TokenType.cs.xml" path='docs/member[@name="T:TokenType_2"]/*' />
-		NonFungibleUnique = Proto.TokenType.NonFungibleUnique,
+		NonFungibleUnique = Proto.Services.TokenType.NonFungibleUnique,
     }
 }

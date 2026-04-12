@@ -29,17 +29,17 @@ namespace Hedera.Hashgraph.SDK.Account
 
 			return Hbar.FromTinybars(Math.Max(cost.ToTinybars(), 25));
 		}
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.CryptoGetInfo.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.CryptoGetInfo.Header;
         }
-		public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+		public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
 		{
-			var builder = new Proto.CryptoGetInfoQuery
+			var builder = new Proto.Services.CryptoGetInfoQuery
 			{
 				Header = header,
 			};
@@ -51,16 +51,16 @@ namespace Hedera.Hashgraph.SDK.Account
 
 			queryBuilder.CryptoGetInfo = builder;
 		}
-		public override AccountInfo MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+		public override AccountInfo MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return AccountInfo.FromProtobuf(response.CryptoGetInfo.AccountInfo);
         }
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.getAccountInfo);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.getAccountInfo);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 	}
 }

@@ -20,13 +20,13 @@ namespace Hedera.Hashgraph.SDK.Systems
     {
         /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction"]/*' />
         public SystemDeleteTransaction() { }
-		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(Proto.TransactionBody)"]/*' />
-		internal SystemDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(Proto.Services.TransactionBody)"]/*' />
+		internal SystemDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal SystemDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:SystemDeleteTransaction(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal SystemDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -65,9 +65,9 @@ namespace Hedera.Hashgraph.SDK.Systems
 		}
 
         /// <include file="SystemDeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
-        public Proto.SystemDeleteTransactionBody ToProtobuf()
+        public Proto.Services.SystemDeleteTransactionBody ToProtobuf()
         {
-            var builder = new Proto.SystemDeleteTransactionBody();
+            var builder = new Proto.Services.SystemDeleteTransactionBody();
 
             if (FileId != null)
             {
@@ -112,11 +112,11 @@ namespace Hedera.Hashgraph.SDK.Systems
 
             return Task.CompletedTask;
         }
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.SystemDelete = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
 			scheduled.SystemDelete = ToProtobuf();
 		}
@@ -124,23 +124,23 @@ namespace Hedera.Hashgraph.SDK.Systems
 		{
             if (FileId is not null)
             {
-                string methodname = nameof(Proto.FileService.FileServiceClient.systemDelete);
+                string methodname = nameof(Proto.Services.FileService.FileServiceClient.systemDelete);
 
-                return Proto.FileService.Descriptor.FindMethodByName(methodname);
+                return Proto.Services.FileService.Descriptor.FindMethodByName(methodname);
             }
             else
             {
-				string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.systemDelete);
+				string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.systemDelete);
 
-				return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+				return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 			}
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

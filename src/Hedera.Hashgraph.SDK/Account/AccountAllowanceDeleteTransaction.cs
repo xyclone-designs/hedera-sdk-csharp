@@ -22,13 +22,13 @@ namespace Hedera.Hashgraph.SDK.Account
 
         /// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor"]/*' />
         public AccountAllowanceDeleteTransaction() { }
-		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal AccountAllowanceDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal AccountAllowanceDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal AccountAllowanceDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal AccountAllowanceDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -37,8 +37,8 @@ namespace Hedera.Hashgraph.SDK.Account
         {
             var body = SourceTransactionBody.CryptoDeleteAllowance;
             foreach (var allowanceProto in body.NftAllowances)
-                if (GetNftSerials(AccountId.FromProtobuf(allowanceProto.Owner), TokenId.FromProtobuf(allowanceProto.TokenId)) is IList<long> nftserials)
-                    foreach (long serialnumber in allowanceProto.SerialNumbers)
+                if (GetNftSerials(AccountId.FromProtobuf(allowanceProto.Services.Owner), TokenId.FromProtobuf(allowanceProto.Services.TokenId)) is IList<long> nftserials)
+                    foreach (long serialnumber in allowanceProto.Services.SerialNumbers)
 						nftserials.Add(serialnumber);
 		}
 
@@ -121,9 +121,9 @@ namespace Hedera.Hashgraph.SDK.Account
         }
 
         /// <include file="AccountAllowanceDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountAllowanceDeleteTransaction.ToProtobuf"]/*' />
-        public virtual Proto.CryptoDeleteAllowanceTransactionBody ToProtobuf()
+        public virtual Proto.Services.CryptoDeleteAllowanceTransactionBody ToProtobuf()
         {
-            var builder = new Proto.CryptoDeleteAllowanceTransactionBody();
+            var builder = new Proto.Services.CryptoDeleteAllowanceTransactionBody();
             foreach (var allowance in NftAllowances)
             {
                 builder.NftAllowances.Add(allowance.ToRemoveProtobuf());
@@ -134,9 +134,9 @@ namespace Hedera.Hashgraph.SDK.Account
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.deleteAllowances);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.deleteAllowances);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 		public override void ValidateChecksums(Client client)
 		{
@@ -145,20 +145,20 @@ namespace Hedera.Hashgraph.SDK.Account
 				allowance.ValidateChecksums(client);
 			}
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.CryptoDeleteAllowance = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.CryptoDeleteAllowance = ToProtobuf();
         }
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

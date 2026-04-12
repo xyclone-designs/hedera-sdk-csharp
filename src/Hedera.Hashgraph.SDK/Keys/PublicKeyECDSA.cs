@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             return FromBytesInternal(subjectPublicKeyInfo.PublicKeyData.GetBytes());
         }
 
-        public override ByteString ExtractSignatureFromProtobuf(Proto.SignaturePair pair)
+        public override ByteString ExtractSignatureFromProtobuf(Proto.Services.SignaturePair pair)
         {
             return pair.ECDSA384;
         }
@@ -87,16 +87,16 @@ namespace Hedera.Hashgraph.SDK.Keys
             // Return the last 20 bytes
             return EvmAddress.FromBytes(keccakBytes[12..32]);
         }
-		public override Proto.Key ToProtobufKey()
+		public override Proto.Services.Key ToProtobufKey()
 		{
-			return new Proto.Key
+			return new Proto.Services.Key
 			{
 				ECDSASecp256K1 = ByteString.CopyFrom(KeyData)
 			};
 		}
-		public override Proto.SignaturePair ToSignaturePairProtobuf(byte[] signature)
+		public override Proto.Services.SignaturePair ToSignaturePairProtobuf(byte[] signature)
 		{
-			return new Proto.SignaturePair
+			return new Proto.Services.SignaturePair
 			{
 				PubKeyPrefix = ByteString.CopyFrom(KeyData),
 				ECDSASecp256K1 = ByteString.CopyFrom(signature),

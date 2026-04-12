@@ -55,9 +55,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
 			ContractId?.ValidateChecksum(client);
 		}
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.ContractCallLocalQuery
+            var builder = new Proto.Services.ContractCallLocalQuery
             {
 				Gas = Gas,
 				Header = header,
@@ -72,24 +72,24 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			queryBuilder.ContractCallLocal = builder;
         }
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.ContractCallLocal.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.ContractCallLocal.Header;
         }
-        public override ContractFunctionResult MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+        public override ContractFunctionResult MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
         {
             return new ContractFunctionResult(response.ContractCallLocal.FunctionResult);
         }
 
         public override MethodDescriptor GetMethodDescriptor()
         {
-			string methodname = nameof(Proto.SmartContractService.SmartContractServiceClient.contractCallLocalMethod);
+			string methodname = nameof(Proto.Services.SmartContractService.SmartContractServiceClient.contractCallLocalMethod);
 
-			return Proto.SmartContractService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
     }
 }

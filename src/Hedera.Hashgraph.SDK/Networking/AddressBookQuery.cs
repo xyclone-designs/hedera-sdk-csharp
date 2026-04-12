@@ -146,9 +146,9 @@ namespace Hedera.Hashgraph.SDK.Networking
 		}
 
 		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.BuildProtoQuery"]/*' />
-		public virtual Proto.AddressBookQuery BuildProtoQuery()
+		public virtual Proto.Mirror.AddressBookQuery BuildProtoQuery()
 		{
-			var builder = new Proto.AddressBookQuery();
+			var builder = new Proto.Mirror.AddressBookQuery();
 
 			if (FileId != null)
 				builder.FileId = FileId.ToProtobuf();
@@ -159,20 +159,20 @@ namespace Hedera.Hashgraph.SDK.Networking
 			return builder;
 		}
 
-		private AsyncServerStreamingCall<Proto.NodeAddress> BuildCall(Client client, DateTime deadline)
+		private AsyncServerStreamingCall<Proto.Services.NodeAddress> BuildCall(Client client, DateTime deadline)
 		{
-			string methodname = nameof(Proto.NetworkService.NetworkServiceClient.getNodes);
-			MethodDescriptor methoddescriptor = Proto.NetworkService.Descriptor.FindMethodByName(methodname);
+			string methodname = nameof(Proto.Services.NetworkService.NetworkServiceClient.getNodes);
+			MethodDescriptor methoddescriptor = Proto.Services.NetworkService.Descriptor.FindMethodByName(methodname);
 
 			IMessage input = (IMessage)Activator.CreateInstance(methoddescriptor.InputType.ClrType)!;
 			IMessage output = (IMessage)Activator.CreateInstance(methoddescriptor.OutputType.ClrType)!;
 
-			Method<Proto.AddressBookQuery, Proto.NodeAddress> method = new (
+			Method<Proto.Mirror.AddressBookQuery, Proto.Services.NodeAddress> method = new (
 				type: MethodType.Unary,
 				name: methoddescriptor.Name,
 				serviceName: methoddescriptor.Service.FullName,
-				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.AddressBookQuery.Parser.ParseFrom(data)),
-				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.NodeAddress.Parser.ParseFrom(data)));
+				requestMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Mirror.AddressBookQuery.Parser.ParseFrom(data)),
+				responseMarshaller: Marshallers.Create(r => r.ToByteArray(), data => Proto.Services.NodeAddress.Parser.ParseFrom(data)));
 
 			try
 			{

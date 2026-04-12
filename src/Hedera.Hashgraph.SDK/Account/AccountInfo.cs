@@ -97,10 +97,10 @@ namespace Hedera.Hashgraph.SDK.Account
 		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromBytes(System.Byte[])"]/*' />
 		public static AccountInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo.Parser.ParseFrom(bytes));
 		}
-		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo)"]/*' />
-		public static AccountInfo FromProtobuf(Proto.CryptoGetInfoResponse.Types.AccountInfo accountInfo)
+		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo)"]/*' />
+		public static AccountInfo FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo accountInfo)
         {
             return new AccountInfo(
 				AccountId.FromProtobuf(accountInfo.AccountID), 
@@ -132,9 +132,9 @@ namespace Hedera.Hashgraph.SDK.Account
 			return ToProtobuf().ToByteArray();
 		}
 		/// <include file="AccountInfo.cs.xml" path='docs/member[@name="M:AccountInfo.ToProtobuf"]/*' />
-		public Proto.CryptoGetInfoResponse.Types.AccountInfo ToProtobuf()
+		public Proto.Services.CryptoGetInfoResponse.Types.AccountInfo ToProtobuf()
         {
-			Proto.CryptoGetInfoResponse.Types.AccountInfo proto = new ()
+			Proto.Services.CryptoGetInfoResponse.Types.AccountInfo proto = new ()
             {
 				AccountID = AccountId.ToProtobuf(),
 				Deleted = IsDeleted,
@@ -153,19 +153,19 @@ namespace Hedera.Hashgraph.SDK.Account
 				EthereumNonce = EthereumNonce,
 			};
 
-            proto.LiveHashes.AddRange(LiveHashes.Select(_ => _.ToProtobuf()));
+            Proto.Services.LiveHashes.AddRange(LiveHashes.Select(_ => _.ToProtobuf()));
             
             if (ContractAccountId != null)
-				proto.ContractAccountID = ContractAccountId;
+				Proto.Services.ContractAccountID = ContractAccountId;
 
 			if (ProxyAccountId != null)
-				proto.ProxyAccountID = ProxyAccountId.ToProtobuf();
+				Proto.Services.ProxyAccountID = ProxyAccountId.ToProtobuf();
 
             if (AliasKey != null)
-				proto.Alias = AliasKey.ToProtobufKey().ToByteString();
+				Proto.Services.Alias = AliasKey.ToProtobufKey().ToByteString();
 
             if (StakingInfo != null)
-				proto.StakingInfo = StakingInfo.ToProtobuf();
+				Proto.Services.StakingInfo = StakingInfo.ToProtobuf();
 
             return proto;
         }

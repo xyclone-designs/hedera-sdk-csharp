@@ -229,7 +229,7 @@ namespace Hedera.Hashgraph.SDK.Keys
             return GetPublicKey().ToAccountId(shard, realm);
         }
 
-        public override Proto.Key ToProtobufKey()
+        public override Proto.Services.Key ToProtobufKey()
         {
             // Forward to the corresponding public key.
             return GetPublicKey().ToProtobufKey();

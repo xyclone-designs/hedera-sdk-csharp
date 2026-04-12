@@ -15,13 +15,13 @@ namespace Hedera.Hashgraph.SDK.Token
     {
         /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor"]/*' />
         public TokenUnfreezeTransaction() { }
-		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenUnfreezeTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenUnfreezeTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenUnfreezeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenUnfreezeTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -44,9 +44,9 @@ namespace Hedera.Hashgraph.SDK.Token
 		}
 
         /// <include file="TokenUnfreezeTransaction.cs.xml" path='docs/member[@name="M:TokenUnfreezeTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenUnfreezeAccountTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenUnfreezeAccountTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenUnfreezeAccountTransactionBody();
+            var builder = new Proto.Services.TokenUnfreezeAccountTransactionBody();
 
             if (TokenId != null)
                 builder.Token = TokenId.ToProtobuf();
@@ -62,11 +62,11 @@ namespace Hedera.Hashgraph.SDK.Token
             TokenId?.ValidateChecksum(client);
 			AccountId?.ValidateChecksum(client);
 		}
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.TokenUnfreeze = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenUnfreeze = ToProtobuf();
         }
@@ -74,17 +74,17 @@ namespace Hedera.Hashgraph.SDK.Token
 		public override MethodDescriptor GetMethodDescriptor()
 		{
             // TODO. Check 
-			//string methodname = nameof(Proto.TokenService.TokenServiceClient.unfreezeTokenAccount);
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.freezeTokenAccount);
+			//string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.unfreezeTokenAccount);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.freezeTokenAccount);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

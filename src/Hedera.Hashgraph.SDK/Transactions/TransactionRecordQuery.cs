@@ -15,7 +15,7 @@ namespace Hedera.Hashgraph.SDK.Queries
         /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="M:TransactionRecordQuery.#ctor"]/*' />
         public TransactionRecordQuery() { }
 
-		private List<TransactionRecord> MapRecordList(IEnumerable<Proto.TransactionRecord> protoRecordList)
+		private List<TransactionRecord> MapRecordList(IEnumerable<Proto.Services.TransactionRecord> protoRecordList)
 		{
             return [.. protoRecordList.Select(_ => TransactionRecord.FromProtobuf(_))];
 		}
@@ -37,9 +37,9 @@ namespace Hedera.Hashgraph.SDK.Queries
         {
 			TransactionId?.AccountId?.ValidateChecksum(client);
 		}
-        public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header)
+        public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
-            var builder = new Proto.TransactionGetRecordQuery
+            var builder = new Proto.Services.TransactionGetRecordQuery
             {
                 Header = header,
 				IncludeChildRecords = IncludeChildren,
@@ -53,7 +53,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 
             queryBuilder.TransactionGetRecord = builder;
 		}
-		public override TransactionRecord MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request)
+		public override TransactionRecord MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request)
 		{
 			var recordResponse = response.TransactionGetRecord;
 
@@ -62,23 +62,23 @@ namespace Hedera.Hashgraph.SDK.Queries
 
 			return TransactionRecord.FromProtobuf(recordResponse.TransactionRecord, children, duplicates, TransactionId);
 		}
-		public override Proto.QueryHeader MapRequestHeader(Proto.Query request)
+		public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
 		{
 			return request.TransactionGetRecord.Header;
 		}
-		public override Proto.ResponseHeader MapResponseHeader(Proto.Response response)
+		public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response)
         {
             return response.TransactionGetRecord.Header;
         }
        
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.getTxRecordByTxID);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.getTxRecordByTxID);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Response response)
+		public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Services.Response response)
         {
             var retry = base.GetExecutionState(status, response);
 

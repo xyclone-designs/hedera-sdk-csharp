@@ -20,21 +20,21 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             DefaultMaxTransactionFee = Hbar.From(1);
         }
-		/// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TokenCancelAirdropTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TokenCancelAirdropTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TokenCancelAirdropTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TokenCancelAirdropTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
 
         /// <include file="TokenCancelAirdropTransaction.cs.xml" path='docs/member[@name="M:TokenCancelAirdropTransaction.ToProtobuf"]/*' />
-        public virtual Proto.TokenCancelAirdropTransactionBody ToProtobuf()
+        public virtual Proto.Services.TokenCancelAirdropTransactionBody ToProtobuf()
         {
-            var builder = new Proto.TokenCancelAirdropTransactionBody();
+            var builder = new Proto.Services.TokenCancelAirdropTransactionBody();
 
             foreach (var pendingAirdropId in PendingAirdropIds)
             {
@@ -55,27 +55,27 @@ namespace Hedera.Hashgraph.SDK.Token
             }
         }
 
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
 		{
 			bodyBuilder.TokenCancelAirdrop = ToProtobuf();
 		}
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
 		{
 			scheduled.TokenCancelAirdrop = ToProtobuf();
 		}
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.TokenService.TokenServiceClient.cancelAirdrop);
+			string methodname = nameof(Proto.Services.TokenService.TokenServiceClient.cancelAirdrop);
 
-			return Proto.TokenService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

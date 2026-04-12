@@ -14,13 +14,13 @@ namespace Hedera.Hashgraph.SDK.Account
     {
         /// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor"]/*' />
         public AccountDeleteTransaction() { }
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal AccountDeleteTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal AccountDeleteTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal AccountDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal AccountDeleteTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -43,9 +43,9 @@ namespace Hedera.Hashgraph.SDK.Account
 		}
 
 		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.ToProtobuf"]/*' />
-		public Proto.CryptoDeleteTransactionBody ToProtobuf()
+		public Proto.Services.CryptoDeleteTransactionBody ToProtobuf()
         {
-            var builder = new Proto.CryptoDeleteTransactionBody();
+            var builder = new Proto.Services.CryptoDeleteTransactionBody();
 
             if (AccountId != null)
                 builder.DeleteAccountID = AccountId.ToProtobuf();
@@ -61,26 +61,26 @@ namespace Hedera.Hashgraph.SDK.Account
 			AccountId?.ValidateChecksum(client);
 			TransferAccountId?.ValidateChecksum(client);
 		}
-		public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+		public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.CryptoDelete = ToProtobuf();
         }
-        public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+        public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.CryptoDelete = ToProtobuf();
         }
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.CryptoService.CryptoServiceClient.cryptoDelete);
+			string methodname = nameof(Proto.Services.CryptoService.CryptoServiceClient.cryptoDelete);
 
-			return Proto.CryptoService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

@@ -20,10 +20,10 @@ namespace Hedera.Hashgraph.SDK
 		/// <include file="ExchangeRates.cs.xml" path='docs/member[@name="M:ExchangeRates.FromBytes(System.Byte[])"]/*' />
 		public static ExchangeRates FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.ExchangeRateSet.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.ExchangeRateSet.Parser.ParseFrom(bytes));
 		}
-		/// <include file="ExchangeRates.cs.xml" path='docs/member[@name="M:ExchangeRates.FromProtobuf(Proto.ExchangeRateSet)"]/*' />
-		public static ExchangeRates FromProtobuf(Proto.ExchangeRateSet pb)
+		/// <include file="ExchangeRates.cs.xml" path='docs/member[@name="M:ExchangeRates.FromProtobuf(Proto.Services.ExchangeRateSet)"]/*' />
+		public static ExchangeRates FromProtobuf(Proto.Services.ExchangeRateSet pb)
         {
             return new ExchangeRates(ExchangeRate.FromProtobuf(pb.CurrentRate), ExchangeRate.FromProtobuf(pb.NextRate));
         }

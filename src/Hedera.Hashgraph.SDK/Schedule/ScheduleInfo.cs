@@ -12,12 +12,12 @@ namespace Hedera.Hashgraph.SDK.Schedule
     /// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="T:ScheduleInfo"]/*' />
     public sealed class ScheduleInfo
     {
-        /// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.#ctor(ScheduleId,AccountId,AccountId,Proto.SchedulableTransactionBody,KeyList,Key,TransactionId,System.String,DateTimeOffset,DateTimeOffset,DateTimeOffset,LedgerId,System.Boolean)"]/*' />
+        /// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.#ctor(ScheduleId,AccountId,AccountId,Proto.Services.SchedulableTransactionBody,KeyList,Key,TransactionId,System.String,DateTimeOffset,DateTimeOffset,DateTimeOffset,LedgerId,System.Boolean)"]/*' />
         public ScheduleInfo(
 			ScheduleId scheduleId, 
 			AccountId creatorAccountId, 
 			AccountId payerAccountId, 
-			Proto.SchedulableTransactionBody transactionBody, 
+			Proto.Services.SchedulableTransactionBody transactionBody, 
 			KeyList signers, 
 			Key? adminKey, 
 			TransactionId scheduledTransactionId, 
@@ -46,10 +46,10 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.FromBytes(System.Byte[])"]/*' />
 		public static ScheduleInfo FromBytes(byte[] bytes)
 		{
-			return FromProtobuf(Proto.ScheduleInfo.Parser.ParseFrom(bytes));
+			return FromProtobuf(Proto.Services.ScheduleInfo.Parser.ParseFrom(bytes));
 		}
-		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.FromProtobuf(Proto.ScheduleInfo)"]/*' />
-		public static ScheduleInfo FromProtobuf(Proto.ScheduleInfo info)
+		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.FromProtobuf(Proto.Services.ScheduleInfo)"]/*' />
+		public static ScheduleInfo FromProtobuf(Proto.Services.ScheduleInfo info)
         {
             return new ScheduleInfo(
 				ScheduleId.FromProtobuf(info.ScheduleID), 
@@ -88,16 +88,16 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.DeletedAt"]/*' />
 		public DateTimeOffset? DeletedAt { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.TransactionBody"]/*' />
-		public Proto.SchedulableTransactionBody TransactionBody { get; }
+		public Proto.Services.SchedulableTransactionBody TransactionBody { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.LedgerId"]/*' />
 		public LedgerId LedgerId { get; }
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="P:ScheduleInfo.WaitForExpiry"]/*' />
 		public bool WaitForExpiry { get; }
 
 		/// <include file="ScheduleInfo.cs.xml" path='docs/member[@name="M:ScheduleInfo.ToProtobuf"]/*' />
-		public Proto.ScheduleInfo ToProtobuf()
+		public Proto.Services.ScheduleInfo ToProtobuf()
         {
-			Proto.ScheduleInfo proto = new ()
+			Proto.Services.ScheduleInfo proto = new ()
             {
 				ScheduleID = ScheduleId.ToProtobuf(),
 				CreatorAccountID = CreatorAccountId.ToProtobuf(),
@@ -110,19 +110,19 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			};
 
             if (AdminKey != null)
-                proto.AdminKey = AdminKey.ToProtobufKey();
+                Proto.Services.AdminKey = AdminKey.ToProtobufKey();
 
             if (ScheduledTransactionId != null)
-                proto.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
+                Proto.Services.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
 
             if (ExpirationTime != null)
-                proto.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
+                Proto.Services.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 
             if (ExecutedAt != null)
-                proto.ExecutionTime = ExecutedAt.Value.ToProtoTimestamp();
+                Proto.Services.ExecutionTime = ExecutedAt.Value.ToProtoTimestamp();
 
             if (DeletedAt != null)
-                proto.DeletionTime = DeletedAt.Value.ToProtoTimestamp();
+                Proto.Services.DeletionTime = DeletedAt.Value.ToProtoTimestamp();
 
             return proto;
 		}

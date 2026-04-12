@@ -17,13 +17,13 @@ namespace Hedera.Hashgraph.SDK.Consensus
     {
 		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor"]/*' />
 		public TopicMessageSubmitTransaction() { }
-		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(Proto.TransactionBody)"]/*' />
-		internal TopicMessageSubmitTransaction(Proto.TransactionBody txBody) : base(txBody)
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
+		internal TopicMessageSubmitTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
 			InitFromTransactionBody();
 		}
-		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Transaction}})"]/*' />
-		internal TopicMessageSubmitTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Transaction>> txs) : base(txs)
+		/// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
+		internal TopicMessageSubmitTransaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs)
         {
             InitFromTransactionBody();
         }
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 {
                     for (var i = 0; i < InnerSignedTransactions.Count; i += NodeAccountIds.Count == 0 ? 1 : NodeAccountIds.Count)
                     {
-						Data = Data.Concat(Proto.TransactionBody.Parser.ParseFrom(InnerSignedTransactions[i].BodyBytes).ConsensusSubmitMessage.Message);
+						Data = Data.Concat(Proto.Services.TransactionBody.Parser.ParseFrom(InnerSignedTransactions[i].BodyBytes).ConsensusSubmitMessage.Message);
                     }
                 }
                 catch (InvalidProtocolBufferException exc)
@@ -77,9 +77,9 @@ namespace Hedera.Hashgraph.SDK.Consensus
         }
 
         /// <include file="TopicMessageSubmitTransaction.cs.xml" path='docs/member[@name="M:TopicMessageSubmitTransaction.ToProtobuf"]/*' />
-        public Proto.ConsensusSubmitMessageTransactionBody ToProtobuf()
+        public Proto.Services.ConsensusSubmitMessageTransactionBody ToProtobuf()
         {
-            var builder = new Proto.ConsensusSubmitMessageTransactionBody();
+            var builder = new Proto.Services.ConsensusSubmitMessageTransactionBody();
 
             if (TopicId != null)
 				builder.TopicID = TopicId.ToProtobuf();
@@ -92,16 +92,16 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
             TopicId?.ValidateChecksum(client);
         }
-        public override void OnFreeze(Proto.TransactionBody bodyBuilder)
+        public override void OnFreeze(Proto.Services.TransactionBody bodyBuilder)
         {
             bodyBuilder.ConsensusSubmitMessage = ToProtobuf();
         }
-		public override void OnScheduled(Proto.SchedulableTransactionBody scheduled)
+		public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
 		{
 			scheduled.ConsensusSubmitMessage = ToProtobuf();
 			scheduled.ConsensusSubmitMessage.Message = Data;
 		}
-        public override void OnFreezeChunk(Proto.TransactionBody body, Proto.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total)
+        public override void OnFreezeChunk(Proto.Services.TransactionBody body, Proto.Services.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total)
         {
             if (total == 1)
             {
@@ -112,7 +112,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             {
                 body.ConsensusSubmitMessage = ToProtobuf();
 				body.ConsensusSubmitMessage.Message = Data.Copy(startIndex, endIndex);
-                body.ConsensusSubmitMessage.ChunkInfo = new Proto.ConsensusMessageChunkInfo
+                body.ConsensusSubmitMessage.ChunkInfo = new Proto.Services.ConsensusMessageChunkInfo
                 {
 					InitialTransactionID = initialTransactionId,
 					Number = chunk + 1,
@@ -123,16 +123,16 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
 		public override MethodDescriptor GetMethodDescriptor()
 		{
-			string methodname = nameof(Proto.ConsensusService.ConsensusServiceClient.submitMessage);
+			string methodname = nameof(Proto.Services.ConsensusService.ConsensusServiceClient.submitMessage);
 
-			return Proto.ConsensusService.Descriptor.FindMethodByName(methodname);
+			return Proto.Services.ConsensusService.Descriptor.FindMethodByName(methodname);
 		}
 
-		public override ResponseStatus MapResponseStatus(Proto.Response response)
+		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
         {
             throw new NotImplementedException();
         }
-        public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
         {
             throw new NotImplementedException();
         }

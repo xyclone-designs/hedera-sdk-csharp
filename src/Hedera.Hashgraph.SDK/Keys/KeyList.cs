@@ -20,8 +20,8 @@ namespace Hedera.Hashgraph.SDK.Keys
 				Keys = [.. Keys]
 			};
 		}
-        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.FromProtobuf(Proto.KeyList,System.UInt32)"]/*' />
-        public static KeyList FromProtobuf(Proto.KeyList keyList, uint? threshold)
+        /// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.FromProtobuf(Proto.Services.KeyList,System.UInt32)"]/*' />
+        public static KeyList FromProtobuf(Proto.Services.KeyList keyList, uint? threshold)
         {
             return new KeyList
             {
@@ -42,10 +42,10 @@ namespace Hedera.Hashgraph.SDK.Keys
         public bool IsReadOnly { get => false; }
 
 		/// <include file="KeyList.cs.xml" path='docs/member[@name="M:KeyList.ToProtobuf"]/*' />
-		public Proto.KeyList ToProtobuf()
+		public Proto.Services.KeyList ToProtobuf()
         {
-			Proto.KeyList proto = new ();
-			proto.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
+			Proto.Services.KeyList proto = new ();
+			Proto.Services.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
 
 			return proto;
         }
@@ -83,24 +83,24 @@ namespace Hedera.Hashgraph.SDK.Keys
 
 			return true;
 		}
-		public override Proto.Key ToProtobufKey()
+		public override Proto.Services.Key ToProtobufKey()
 		{
-			Proto.Key proto = new()
+			Proto.Services.Key proto = new()
 			{
-				KeyList = new Proto.KeyList { }
+				KeyList = new Proto.Services.KeyList { }
 			};
 
-			proto.KeyList.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
+			Proto.Services.KeyList.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
 
 			if (Threshold.HasValue)
 			{
-				proto.ThresholdKey = new Proto.ThresholdKey
+				Proto.Services.ThresholdKey = new Proto.Services.ThresholdKey
 				{
 					Threshold = Threshold.Value,
-					Keys = new Proto.KeyList { }
+					Keys = new Proto.Services.KeyList { }
 				};
 
-				proto.ThresholdKey.Keys.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
+				Proto.Services.ThresholdKey.Keys.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
 			}
 
 			return proto;
