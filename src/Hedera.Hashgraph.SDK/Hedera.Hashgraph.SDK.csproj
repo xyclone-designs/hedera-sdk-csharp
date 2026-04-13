@@ -25,8 +25,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\forks.hedera-protobufs\Hedera.Hashgraph.Forks.Protobufs.csproj" />
 	  <ProjectReference Include="..\forks.hedera-sdk-reference\Hedera.Hashgraph.Forks.Reference.csproj" />
+	  <ProjectReference Include="..\forks.hiero-consensus-node\Hedera.Hashgraph.Forks.HieroConsensusNode.csproj" />
 	  <ProjectReference Include="..\Hedera.Hashgraph\Hedera.Hashgraph.csproj" />
 	</ItemGroup>
 

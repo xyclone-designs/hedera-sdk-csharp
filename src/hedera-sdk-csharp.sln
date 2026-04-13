@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Tests.Inte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.Reference", "forks.hedera-sdk-reference\Hedera.Hashgraph.Forks.Reference.csproj", "{2E9E990D-7EEC-27BA-2874-9081A8B44E33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.Protobufs", "forks.hedera-protobufs\Hedera.Hashgraph.Forks.Protobufs.csproj", "{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.SDK", "Hedera.Hashgraph.SDK\Hedera.Hashgraph.SDK.csproj", "{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.HieroConsensusNode", "forks.hiero-consensus-node\Hedera.Hashgraph.Forks.HieroConsensusNode.csproj", "{D2854CB0-E1C1-F689-A066-ED723C6D1F44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,14 +37,14 @@ Global
 		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBA5BE05-4468-0CF6-260E-ADB12AD64F61}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2854CB0-E1C1-F689-A066-ED723C6D1F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2854CB0-E1C1-F689-A066-ED723C6D1F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2854CB0-E1C1-F689-A066-ED723C6D1F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2854CB0-E1C1-F689-A066-ED723C6D1F44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
