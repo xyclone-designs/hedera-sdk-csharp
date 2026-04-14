@@ -1,6 +1,6 @@
 [submodule "src/forks.hedera-sdk-reference"]
 	path = src/forks.hedera-sdk-reference
 	url = https://github.com/xyclone-designs/forks.hedera-sdk-reference
-[submodule "src/forks.hiero-consensus-node"]
+[submodule "src/forks.hiero-ledger.hiero-consensus-node"]
 	path = src/forks.hiero-consensus-node
-	url = https://github.com/xyclone-designs/forks.hiero-consensus-node
+	url = https://github.com/xyclone-designs/forks.hiero-ledger.hiero-consensus-node
