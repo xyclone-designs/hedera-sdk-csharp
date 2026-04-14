@@ -729,57 +729,5 @@ namespace Hedera.Hashgraph.SDK
         AirdropContainsMultipleSendersForAToken = Proto.Services.ResponseCodeEnum.AirdropContainsMultipleSendersForAToken,
         /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_290"]/*' />
         GrpcWebProxyNotSupported = Proto.Services.ResponseCodeEnum.GrpcWebProxyNotSupported,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_291"]/*' />
-        NftTransfersOnlyAllowedForNonFungibleUnique = Proto.Services.ResponseCodeEnum.NftTransfersOnlyAllowedForNonFungibleUnique,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_292"]/*' />
-        InvalidSerializedTxMessageHashAlgorithm = Proto.Services.ResponseCodeEnum.InvalidSerializedTxMessageHashAlgorithm,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_293"]/*' />
-        EvmHookGasThrottled = Proto.Services.ResponseCodeEnum.EvmHookGasThrottled,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_294"]/*' />
-        HookIdInUse = Proto.Services.ResponseCodeEnum.HookIdInUse,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_295"]/*' />
-        BadHookRequest = Proto.Services.ResponseCodeEnum.BadHookRequest,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)"]/*' />
-        RejectedByAccountAllowanceHook = Proto.Services.ResponseCodeEnum.RejectedByAccountAllowanceHook,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_2"]/*' />
-        HookNotFound = Proto.Services.ResponseCodeEnum.HookNotFound,
-		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_3"]/*' />
-		LambdaStorageUpdateBytesTooLong = Proto.Services.ResponseCodeEnum.LambdaStorageUpdateBytesTooLong,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_296"]/*' />
-        LambdaStorageUpdateBytesMustUseMinimalRepresentation = Proto.Services.ResponseCodeEnum.LambdaStorageUpdateBytesMustUseMinimalRepresentation,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_297"]/*' />
-        InvalidHookId = Proto.Services.ResponseCodeEnum.InvalidHookId,
-		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_298"]/*' />
-		EmptyLambdaStorageUpdate = Proto.Services.ResponseCodeEnum.EmptyLambdaStorageUpdate,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_299"]/*' />
-        HookIdRepeatedInCreationDetails = Proto.Services.ResponseCodeEnum.HookIdRepeatedInCreationDetails,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_300"]/*' />
-        HooksNotEnabled = Proto.Services.ResponseCodeEnum.HooksNotEnabled,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_4"]/*' />
-        HookIsNotALambda = Proto.Services.ResponseCodeEnum.HookIsNotALambda,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_5"]/*' />
-        HookDeleted = Proto.Services.ResponseCodeEnum.HookDeleted,
-		/// <include file="ResponseStatus.cs.xml" path='docs/member[@name="M:ResponseStatus.representation(i.e.,no leading)_6"]/*' />
-		TooManyLambdaStorageUpdates = Proto.Services.ResponseCodeEnum.TooManyLambdaStorageUpdates,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_301"]/*' />
-        HookCreationBytesMustUseMinimalRepresentation = Proto.Services.ResponseCodeEnum.HookCreationBytesMustUseMinimalRepresentation,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_302"]/*' />
-        HookCreationBytesTooLong = Proto.Services.ResponseCodeEnum.HookCreationBytesTooLong,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_303"]/*' />
-        InvalidHookCreationSpec = Proto.Services.ResponseCodeEnum.InvalidHookCreationSpec,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_304"]/*' />
-        HookExtensionEmpty = Proto.Services.ResponseCodeEnum.HookExtensionEmpty,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_305"]/*' />
-        InvalidHookAdminKey = Proto.Services.ResponseCodeEnum.InvalidHookAdminKey,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_306"]/*' />
-        HookDeletionRequiresZeroStorageSlots = Proto.Services.ResponseCodeEnum.HookDeletionRequiresZeroStorageSlots,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_307"]/*' />
-        CannotSetHooksAndApproval = Proto.Services.ResponseCodeEnum.CannotSetHooksAndApproval,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_308"]/*' />
-        TransactionRequiresZeroHooks = Proto.Services.ResponseCodeEnum.TransactionRequiresZeroHooks,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_309"]/*' />
-        InvalidHookCall = Proto.Services.ResponseCodeEnum.InvalidHookCall,
-        /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_310"]/*' />
-        HooksAreNotSupportedInAirdrops = Proto.Services.ResponseCodeEnum.HooksAreNotSupportedInAirdrops
     }
 }

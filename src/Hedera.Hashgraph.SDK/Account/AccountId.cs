@@ -166,10 +166,10 @@ namespace Hedera.Hashgraph.SDK.Account
             };
 
 			if (AliasKey != null)
-				Proto.Services.Alias = AliasKey.ToProtobufKey().ToByteString();
+				proto.Alias = AliasKey.ToProtobufKey().ToByteString();
 			else if (EvmAddress != null)
-				Proto.Services.Alias = ByteString.CopyFrom(EvmAddress.ToBytes());
-			else Proto.Services.AccountNum = Num;
+                proto.Alias = ByteString.CopyFrom(EvmAddress.ToBytes());
+			else proto.AccountNum = Num;
 
 			return proto;
         }
