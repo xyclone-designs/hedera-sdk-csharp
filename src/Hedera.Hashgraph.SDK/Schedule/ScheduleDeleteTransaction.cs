@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			Proto.Services.ScheduleDeleteTransactionBody proto =  new ();
             
             if (ScheduleId != null)
-				Proto.Services.ScheduleID = ScheduleId.ToProtobuf();
+                proto.ScheduleID = ScheduleId.ToProtobuf();
 
 			return proto;
         }

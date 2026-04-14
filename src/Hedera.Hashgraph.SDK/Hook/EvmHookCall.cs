@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Hook
         /// <include file="EvmHookCall.cs.xml" path='docs/member[@name="M:EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall)"]/*' />
         public static EvmHookCall FromProtobuf(Proto.Services.EvmHookCall proto)
         {
-            return new EvmHookCall(Proto.Services.Data.ToByteArray(), Proto.Services.GasLimit);
+            return new EvmHookCall(proto.Data.ToByteArray(), proto.GasLimit);
         }
 
         public override bool Equals(object? o)

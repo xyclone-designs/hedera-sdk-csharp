@@ -23,9 +23,9 @@ namespace Hedera.Hashgraph.SDK.Hook
 		/// <include file="HookCreationDetails.cs.xml" path='docs/member[@name="M:HookCreationDetails.FromProtobuf(Proto.Services.HookCreationDetails)"]/*' />
 		public static HookCreationDetails FromProtobuf(Proto.Services.HookCreationDetails proto)
 		{
-			var adminKey = Proto.Services.AdminKey is not null ? Key.FromProtobufKey(Proto.Services.AdminKey) : null;
+			var adminKey = proto.AdminKey is not null ? Key.FromProtobufKey(proto.AdminKey) : null;
 
-			return new HookCreationDetails((HookExtensionPoint)Proto.Services.ExtensionPoint, Proto.Services.HookId, EvmHook.FromProtobuf(Proto.Services.EvmHook), adminKey);
+			return new HookCreationDetails((HookExtensionPoint)proto.ExtensionPoint, proto.HookId, EvmHook.FromProtobuf(proto.EvmHook), adminKey);
 		}
 
 		public HookExtensionPoint ExtensionPoint { get; }
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 			};
 
             if (AdminKey != null)
-				Proto.Services.AdminKey = AdminKey.ToProtobufKey();
+                proto.AdminKey = AdminKey.ToProtobufKey();
 
 			return proto;
         }

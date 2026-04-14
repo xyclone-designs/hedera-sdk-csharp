@@ -27,8 +27,8 @@ namespace Hedera.Hashgraph.SDK.Networking
 		public static NetworkVersionInfo FromProtobuf(Proto.Services.NetworkGetVersionInfoResponse proto)
         {
             return new NetworkVersionInfo(
-                SemanticVersion.FromProtobuf(Proto.Services.HapiProtoVersion), 
-                SemanticVersion.FromProtobuf(Proto.Services.HederaServicesVersion));
+                SemanticVersion.FromProtobuf(proto.HapiProtoVersion), 
+                SemanticVersion.FromProtobuf(proto.HederaServicesVersion));
         }
 
 		/// <include file="NetworkVersionInfo.cs.xml" path='docs/member[@name="M:NetworkVersionInfo.ToBytes"]/*' />

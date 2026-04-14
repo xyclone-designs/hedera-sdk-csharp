@@ -16,7 +16,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 
 		public static EvmHookStorageSlot FromProtobuf(Proto.Services.EvmHookStorageSlot proto)
 		{
-			return new EvmHookStorageSlot(Proto.Services.Key.ToByteArray(), Proto.Services.Value.ToByteArray());
+			return new EvmHookStorageSlot(proto.Key.ToByteArray(), proto.Value.ToByteArray());
 		}
 
 		public virtual byte[] Key

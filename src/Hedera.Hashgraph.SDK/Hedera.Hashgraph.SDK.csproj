@@ -26,6 +26,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\forks.hedera-sdk-reference\Hedera.Hashgraph.Forks.Reference.csproj" />
+	  <ProjectReference Include="..\forks.hiero-ledger.hiero-consensus-node\Hedera.Hashgraph.Forks.HieroConsensusNode.csproj" />
 	  <ProjectReference Include="..\Hedera.Hashgraph\Hedera.Hashgraph.csproj" />
 	</ItemGroup>
 

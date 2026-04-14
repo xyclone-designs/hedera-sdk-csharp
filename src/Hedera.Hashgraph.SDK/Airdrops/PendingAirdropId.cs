@@ -56,10 +56,10 @@ namespace Hedera.Hashgraph.SDK.Airdrops
 			};
 
 			if (TokenId != null)
-				Proto.Services.FungibleTokenType = TokenId.ToProtobuf();
+				proto.FungibleTokenType = TokenId.ToProtobuf();
 
 			if (NftId != null)
-				Proto.Services.NonFungibleToken = NftId.ToProtobuf();
+                proto.NonFungibleToken = NftId.ToProtobuf();
 
 			return proto;
 		}

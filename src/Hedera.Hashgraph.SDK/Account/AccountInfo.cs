@@ -153,19 +153,19 @@ namespace Hedera.Hashgraph.SDK.Account
 				EthereumNonce = EthereumNonce,
 			};
 
-            Proto.Services.LiveHashes.AddRange(LiveHashes.Select(_ => _.ToProtobuf()));
+            proto.LiveHashes.AddRange(LiveHashes.Select(_ => _.ToProtobuf()));
             
             if (ContractAccountId != null)
-				Proto.Services.ContractAccountID = ContractAccountId;
+				proto.ContractAccountID = ContractAccountId;
 
 			if (ProxyAccountId != null)
-				Proto.Services.ProxyAccountID = ProxyAccountId.ToProtobuf();
+				proto.ProxyAccountID = ProxyAccountId.ToProtobuf();
 
             if (AliasKey != null)
-				Proto.Services.Alias = AliasKey.ToProtobufKey().ToByteString();
+				proto.Alias = AliasKey.ToProtobufKey().ToByteString();
 
             if (StakingInfo != null)
-				Proto.Services.StakingInfo = StakingInfo.ToProtobuf();
+				proto.StakingInfo = StakingInfo.ToProtobuf();
 
             return proto;
         }

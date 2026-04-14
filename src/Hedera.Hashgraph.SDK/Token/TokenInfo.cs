@@ -198,23 +198,23 @@ namespace Hedera.Hashgraph.SDK.Token
 			};
 
             if (AdminKey is not null) 
-                Proto.Services.AdminKey = AdminKey.ToProtobufKey();
+                proto.AdminKey = AdminKey.ToProtobufKey();
             if (FeeScheduleKey is not null) 
-                Proto.Services.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
+                proto.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
             if (FreezeKey is not null) 
-                Proto.Services.FreezeKey = FreezeKey.ToProtobufKey();
+                proto.FreezeKey = FreezeKey.ToProtobufKey();
             if (KycKey is not null) 
-                Proto.Services.KycKey = KycKey.ToProtobufKey();
+                proto.KycKey = KycKey.ToProtobufKey();
             if (PauseKey is not null) 
-                Proto.Services.PauseKey = PauseKey.ToProtobufKey();
+                proto.PauseKey = PauseKey.ToProtobufKey();
             if (MetadataKey is not null) 
-                Proto.Services.MetadataKey = MetadataKey.ToProtobufKey();
+                proto.MetadataKey = MetadataKey.ToProtobufKey();
             if (SupplyKey is not null) 
-                Proto.Services.SupplyKey = SupplyKey.ToProtobufKey();
-            if (WipeKey is not null) 
-                Proto.Services.WipeKey = WipeKey.ToProtobufKey();
+                proto.SupplyKey = SupplyKey.ToProtobufKey();
+            if (WipeKey is not null)
+                proto.WipeKey = WipeKey.ToProtobufKey();
 
-			Proto.Services.CustomFees.AddRange(CustomFees.Select(_ => _.ToProtobuf()));
+			proto.CustomFees.AddRange(CustomFees.Select(_ => _.ToProtobuf()));
 
 			return new Proto.Services.TokenGetInfoResponse
             {

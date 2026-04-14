@@ -49,12 +49,12 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		public static TokenNftAllowance FromProtobuf(Proto.Services.NftAllowance allowanceProto)
         {
             return new TokenNftAllowance(
-                TokenId.FromProtobuf(allowanceProto.Services.TokenId), 
-                AccountId.FromProtobuf(allowanceProto.Services.Owner),
-                AccountId.FromProtobuf(allowanceProto.Services.Spender),
-                AccountId.FromProtobuf(allowanceProto.Services.DelegatingSpender),
-                allowanceProto.Services.SerialNumbers,
-                allowanceProto.Services.ApprovedForAll);
+                TokenId.FromProtobuf(allowanceProto.TokenId), 
+                AccountId.FromProtobuf(allowanceProto.Owner),
+                AccountId.FromProtobuf(allowanceProto.Spender),
+                AccountId.FromProtobuf(allowanceProto.DelegatingSpender),
+                allowanceProto.SerialNumbers,
+                allowanceProto.ApprovedForAll);
         }
 
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.ToBytes"]/*' />
@@ -72,13 +72,13 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			};
 
 			if (OwnerAccountId?.ToProtobuf() is Proto.Services.AccountID owneraccountid)
-				Proto.Services.Owner = owneraccountid;
+				proto.Owner = owneraccountid;
 			if (SpenderAccountId?.ToProtobuf() is Proto.Services.AccountID spenderaccountid)
-				Proto.Services.Spender = spenderaccountid;
+				proto.Spender = spenderaccountid;
 			if (DelegatingSpender?.ToProtobuf() is Proto.Services.AccountID delegatingspender)
-				Proto.Services.DelegatingSpender = delegatingspender;
+				proto.DelegatingSpender = delegatingspender;
 
-			Proto.Services.SerialNumbers.AddRange(SerialNumbers);
+            proto.SerialNumbers.AddRange(SerialNumbers);
 
             return proto;
         }
@@ -91,9 +91,9 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			};
 
 			if (OwnerAccountId?.ToProtobuf() is Proto.Services.AccountID owneraccountid)
-				Proto.Services.Owner = owneraccountid;
+				proto.Owner = owneraccountid;
 
-			Proto.Services.SerialNumbers.AddRange(SerialNumbers);
+            proto.SerialNumbers.AddRange(SerialNumbers);
 			
             return proto;
         }

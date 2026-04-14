@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.SDK
             };
 
 			if (Address != null)
-				Proto.Services.IpAddressV4 = ByteString.CopyFrom(Address);
+                proto.IpAddressV4 = ByteString.CopyFrom(Address);
 
 			return proto;
         }

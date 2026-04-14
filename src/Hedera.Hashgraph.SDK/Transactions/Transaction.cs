@@ -277,8 +277,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				TransactionFee = bodyBuilder.TransactionFee,
 				Memo = bodyBuilder.Memo,
 			};
-			
-			Proto.Services.MaxCustomFees.AddRange(bodyBuilder.MaxCustomFees);
+
+            proto.MaxCustomFees.AddRange(bodyBuilder.MaxCustomFees);
 
 			OnScheduled(proto);
 
@@ -737,7 +737,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.ToBytes"]/*' />
 		public virtual byte[] ToBytes()
 		{
-			var list = new Proto.Services.TransactionList();
+			var list = new Proto.SDK.TransactionList();
 
 			// If no nodes have been selected yet,
 			// the new TransactionBody can be used to build a Transaction protobuf object.

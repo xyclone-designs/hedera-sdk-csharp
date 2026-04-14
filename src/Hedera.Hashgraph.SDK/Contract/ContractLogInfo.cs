@@ -47,7 +47,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 
             foreach (ByteString topic in Topics)
-                Proto.Services.Topic.Add(topic);
+                proto.Topic.Add(topic);
 
             return proto;
         }

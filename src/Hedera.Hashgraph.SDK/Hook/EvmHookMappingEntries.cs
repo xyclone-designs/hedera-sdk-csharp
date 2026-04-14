@@ -18,8 +18,8 @@ namespace Hedera.Hashgraph.SDK.Hook
 		public static EvmHookMappingEntries FromProtobuf(Proto.Services.EvmHookMappingEntries proto)
 		{
 			return new EvmHookMappingEntries(
-				Proto.Services.MappingSlot.ToByteArray(),
-				Proto.Services.Entries.Select(_ => EvmHookMappingEntry.FromProtobuf(_)));
+				proto.MappingSlot.ToByteArray(),
+				proto.Entries.Select(_ => EvmHookMappingEntry.FromProtobuf(_)));
 		}
 
 		public virtual byte[] MappingSlot
@@ -38,7 +38,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 				MappingSlot = ByteString.CopyFrom(MappingSlot)
 			};
 			
-			Proto.Services.Entries.AddRange(Entries.Select(_ => _.ToProtobuf()));
+			proto.Entries.AddRange(Entries.Select(_ => _.ToProtobuf()));
 
 			return new Proto.Services.EvmHookStorageUpdate
 			{

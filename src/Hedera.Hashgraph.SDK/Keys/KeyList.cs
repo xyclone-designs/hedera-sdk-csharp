@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Keys
 		public Proto.Services.KeyList ToProtobuf()
         {
 			Proto.Services.KeyList proto = new ();
-			Proto.Services.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
+			proto.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
 
 			return proto;
         }
@@ -90,17 +90,17 @@ namespace Hedera.Hashgraph.SDK.Keys
 				KeyList = new Proto.Services.KeyList { }
 			};
 
-			Proto.Services.KeyList.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
+            proto.KeyList.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
 
 			if (Threshold.HasValue)
 			{
-				Proto.Services.ThresholdKey = new Proto.Services.ThresholdKey
+				proto.ThresholdKey = new Proto.Services.ThresholdKey
 				{
 					Threshold = Threshold.Value,
 					Keys = new Proto.Services.KeyList { }
 				};
 
-				Proto.Services.ThresholdKey.Keys.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
+				proto.ThresholdKey.Keys.Keys.AddRange(Keys.Select(_ => _.ToProtobufKey()));
 			}
 
 			return proto;

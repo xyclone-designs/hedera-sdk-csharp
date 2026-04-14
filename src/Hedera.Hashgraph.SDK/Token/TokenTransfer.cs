@@ -83,10 +83,10 @@ namespace Hedera.Hashgraph.SDK.Token
 			switch (HookCall?.Type)
 			{
 				case FungibleHookType.PreTxAllowanceHook:
-					Proto.Services.PreTxAllowanceHook = HookCall.ToProtobuf();
+					proto.PreTxAllowanceHook = HookCall.ToProtobuf();
 					break;
 				case FungibleHookType.PrePostTxAllowanceHook:
-					Proto.Services.PrePostTxAllowanceHook = HookCall.ToProtobuf();
+                    proto.PrePostTxAllowanceHook = HookCall.ToProtobuf();
 					break;
 				default: break;
 			}

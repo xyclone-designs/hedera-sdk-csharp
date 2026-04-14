@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Fees
             };
 
             if (DenominatingTokenId != null)
-				Proto.Services.FixedFee.DenominatingTokenId = DenominatingTokenId.ToProtobuf();
+                proto.FixedFee.DenominatingTokenId = DenominatingTokenId.ToProtobuf();
 
 			return proto;
         }

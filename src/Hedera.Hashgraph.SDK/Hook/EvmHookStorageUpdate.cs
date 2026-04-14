@@ -9,10 +9,10 @@ namespace Hedera.Hashgraph.SDK.Hook
         public abstract Proto.Services.EvmHookStorageUpdate ToProtobuf();
         public static EvmHookStorageUpdate FromProtobuf(Proto.Services.EvmHookStorageUpdate proto)
         {
-            return Proto.Services.UpdateCase switch
+            return proto.UpdateCase switch
             {
-                Proto.Services.EvmHookStorageUpdate.UpdateOneofCase.StorageSlot => EvmHookStorageSlot.FromProtobuf(Proto.Services.StorageSlot),
-				Proto.Services.EvmHookStorageUpdate.UpdateOneofCase.MappingEntries => EvmHookMappingEntries.FromProtobuf(Proto.Services.MappingEntries),
+                Proto.Services.EvmHookStorageUpdate.UpdateOneofCase.StorageSlot => EvmHookStorageSlot.FromProtobuf(proto.StorageSlot),
+				Proto.Services.EvmHookStorageUpdate.UpdateOneofCase.MappingEntries => EvmHookMappingEntries.FromProtobuf(proto.MappingEntries),
                 Proto.Services.EvmHookStorageUpdate.UpdateOneofCase.None or _ => throw new ArgumentException("EvmHookStorageUpdate must have either storage_slot or mapping_entries set")};
         }
     }

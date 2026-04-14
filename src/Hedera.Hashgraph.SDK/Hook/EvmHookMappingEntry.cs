@@ -28,10 +28,10 @@ namespace Hedera.Hashgraph.SDK.Hook
 		}
 		public static EvmHookMappingEntry FromProtobuf(Proto.Services.EvmHookMappingEntry proto)
 		{
-			return Proto.Services.EntryKeyCase switch
+			return proto.EntryKeyCase switch
 			{
-				Proto.Services.EvmHookMappingEntry.EntryKeyOneofCase.Key => EvmHookMappingEntry.OfKey(Proto.Services.Key.ToByteArray(), Proto.Services.Value.ToByteArray()),
-				Proto.Services.EvmHookMappingEntry.EntryKeyOneofCase.Preimage => EvmHookMappingEntry.WithPreimage(Proto.Services.Preimage.ToByteArray(), Proto.Services.Value.ToByteArray()),
+				Proto.Services.EvmHookMappingEntry.EntryKeyOneofCase.Key => EvmHookMappingEntry.OfKey(proto.Key.ToByteArray(), proto.Value.ToByteArray()),
+				Proto.Services.EvmHookMappingEntry.EntryKeyOneofCase.Preimage => EvmHookMappingEntry.WithPreimage(proto.Preimage.ToByteArray(), proto.Value.ToByteArray()),
 				Proto.Services.EvmHookMappingEntry.EntryKeyOneofCase.None or _ => throw new ArgumentException("EvmHookMappingEntry must have either key or preimage set")
 			};
 		}

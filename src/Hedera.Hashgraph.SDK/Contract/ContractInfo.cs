@@ -114,13 +114,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 
 			if (AdminKey != null)
-				Proto.Services.AdminKey = AdminKey.ToProtobufKey();
+				proto.AdminKey = AdminKey.ToProtobufKey();
 
 			if (StakingInfo != null)
-				Proto.Services.StakingInfo = StakingInfo.ToProtobuf();
+				proto.StakingInfo = StakingInfo.ToProtobuf();
 
 			if (AutoRenewAccountId != null)
-				Proto.Services.AutoRenewAccountId = AutoRenewAccountId.ToProtobuf();
+				proto.AutoRenewAccountId = AutoRenewAccountId.ToProtobuf();
 
 			return proto;
 		}

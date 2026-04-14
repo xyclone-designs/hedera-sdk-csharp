@@ -24,12 +24,12 @@ namespace Hedera.Hashgraph.SDK.HBar
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.Services.CryptoAllowance)"]/*' />
 		public static HbarAllowance FromProtobuf(Proto.Services.CryptoAllowance allowanceProto)
         {
-            return new HbarAllowance(AccountId.FromProtobuf(allowanceProto.Services.Owner), AccountId.FromProtobuf(allowanceProto.Services.Spender), Hbar.FromTinybars(allowanceProto.Services.Amount));
+            return new HbarAllowance(AccountId.FromProtobuf(allowanceProto.Owner), AccountId.FromProtobuf(allowanceProto.Spender), Hbar.FromTinybars(allowanceProto.Amount));
         }
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.Services.GrantedCryptoAllowance)"]/*' />
 		public static HbarAllowance FromProtobuf(Proto.Services.GrantedCryptoAllowance allowanceProto)
         {
-            return new HbarAllowance(null, AccountId.FromProtobuf(allowanceProto.Services.Spender), Hbar.FromTinybars(allowanceProto.Services.Amount));
+            return new HbarAllowance(null, AccountId.FromProtobuf(allowanceProto.Spender), Hbar.FromTinybars(allowanceProto.Amount));
         }
 
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="P:HbarAllowance.Amount"]/*' />
@@ -57,13 +57,13 @@ namespace Hedera.Hashgraph.SDK.HBar
 			Proto.Services.CryptoAllowance proto = new();
 
 			if (OwnerAccountId != null)
-				Proto.Services.Owner = OwnerAccountId.ToProtobuf();
+                proto.Owner = OwnerAccountId.ToProtobuf();
 
 			if (Amount != null)
-				Proto.Services.Amount = Amount.ToTinybars();
+				proto.Amount = Amount.ToTinybars();
 
 			if (SpenderAccountId != null)
-				Proto.Services.Spender = SpenderAccountId.ToProtobuf();
+				proto.Spender = SpenderAccountId.ToProtobuf();
 
 			return proto;
 		}
@@ -73,10 +73,10 @@ namespace Hedera.Hashgraph.SDK.HBar
 			Proto.Services.GrantedCryptoAllowance proto = new();
 
 			if (Amount != null)
-				Proto.Services.Amount = Amount.ToTinybars();
+				proto.Amount = Amount.ToTinybars();
 
 			if (SpenderAccountId != null)
-				Proto.Services.Spender = SpenderAccountId.ToProtobuf();
+				proto.Spender = SpenderAccountId.ToProtobuf();
 
 			return proto;
 		}

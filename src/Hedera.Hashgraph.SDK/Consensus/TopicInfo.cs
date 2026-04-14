@@ -104,16 +104,16 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			};
 
 			if (AdminKey is not null)
-				Proto.Services.TopicInfo.AdminKey = AdminKey.ToProtobufKey();
+				proto.TopicInfo.AdminKey = AdminKey.ToProtobufKey();
 
 			if (SubmitKey is not null)
-				Proto.Services.TopicInfo.SubmitKey = SubmitKey.ToProtobufKey();
+				proto.TopicInfo.SubmitKey = SubmitKey.ToProtobufKey();
 
 			if (FeeScheduleKey is not null)
-				Proto.Services.TopicInfo.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
+				proto.TopicInfo.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
 
-			Proto.Services.TopicInfo.CustomFees.AddRange(CustomFees.Select(_ => _.ToFixedCustomFeeProtobuf()));
-			Proto.Services.TopicInfo.FeeExemptKeyList.AddRange(FeeExemptKeys.Select(_ => _.ToProtobufKey()));
+			proto.TopicInfo.CustomFees.AddRange(CustomFees.Select(_ => _.ToFixedCustomFeeProtobuf()));
+            proto.TopicInfo.FeeExemptKeyList.AddRange(FeeExemptKeys.Select(_ => _.ToProtobufKey()));
 
 			return proto;
 		}

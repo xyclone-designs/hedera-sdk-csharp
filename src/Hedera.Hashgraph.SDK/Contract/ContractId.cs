@@ -137,7 +137,7 @@ namespace Hedera.Hashgraph.SDK.Contract
                 ContractNum = Num,
 			};
 
-            if (EvmAddress != null) Proto.Services.EvmAddress = ByteString.CopyFrom(EvmAddress);
+            if (EvmAddress != null) proto.EvmAddress = ByteString.CopyFrom(EvmAddress);
 
             return proto;
         }

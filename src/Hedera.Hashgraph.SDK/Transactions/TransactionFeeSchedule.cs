@@ -59,10 +59,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				HederaFunctionality = (Proto.Services.HederaFunctionality)RequestType
 			};
 
-            if (Feedata != null) Proto.Services.FeeData = Feedata.ToProtobuf();
+            if (Feedata != null) proto.FeeData = Feedata.ToProtobuf();
 
             foreach (var fee in Fees)
-				Proto.Services.Fees.AddRange(Fees.Select(_ => _.ToProtobuf()));
+                proto.Fees.AddRange(Fees.Select(_ => _.ToProtobuf()));
 
             return proto;
         }

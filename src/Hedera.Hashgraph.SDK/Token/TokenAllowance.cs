@@ -34,19 +34,19 @@ namespace Hedera.Hashgraph.SDK.Token
 		public static TokenAllowance FromProtobuf(Proto.Services.TokenAllowance allowanceProto)
         {
             return new TokenAllowance(
-                TokenId.FromProtobuf(allowanceProto.Services.TokenId), 
-                AccountId.FromProtobuf(allowanceProto.Services.Owner), 
-                AccountId.FromProtobuf(allowanceProto.Services.Spender), 
-                allowanceProto.Services.Amount);
+                TokenId.FromProtobuf(allowanceProto.TokenId), 
+                AccountId.FromProtobuf(allowanceProto.Owner), 
+                AccountId.FromProtobuf(allowanceProto.Spender), 
+                allowanceProto.Amount);
         }
         /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.GrantedTokenAllowance)"]/*' />
         public static TokenAllowance FromProtobuf(Proto.Services.GrantedTokenAllowance allowanceProto)
         {
             return new TokenAllowance(
-                TokenId.FromProtobuf(allowanceProto.Services.TokenId), 
+                TokenId.FromProtobuf(allowanceProto.TokenId), 
                 null, 
-                AccountId.FromProtobuf(allowanceProto.Services.Spender), 
-                allowanceProto.Services.Amount);
+                AccountId.FromProtobuf(allowanceProto.Spender), 
+                allowanceProto.Amount);
         }
 
 		/// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.ToBytes"]/*' />
@@ -71,10 +71,10 @@ namespace Hedera.Hashgraph.SDK.Token
 			};
 
             if (OwnerAccountId != null)
-                Proto.Services.Owner = OwnerAccountId.ToProtobuf();
+                proto.Owner = OwnerAccountId.ToProtobuf();
 
             if (SpenderAccountId != null)
-                Proto.Services.Spender = SpenderAccountId.ToProtobuf();
+                proto.Spender = SpenderAccountId.ToProtobuf();
 
             return proto;
         }
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.SDK.Token
 			};
                         
             if (SpenderAccountId != null)
-                Proto.Services.Spender = SpenderAccountId.ToProtobuf();
+                proto.Spender = SpenderAccountId.ToProtobuf();
 
             return proto;
         }

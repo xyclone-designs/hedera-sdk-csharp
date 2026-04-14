@@ -37,8 +37,8 @@ namespace Hedera.Hashgraph.SDK.Account
         {
             var body = SourceTransactionBody.CryptoDeleteAllowance;
             foreach (var allowanceProto in body.NftAllowances)
-                if (GetNftSerials(AccountId.FromProtobuf(allowanceProto.Services.Owner), TokenId.FromProtobuf(allowanceProto.Services.TokenId)) is IList<long> nftserials)
-                    foreach (long serialnumber in allowanceProto.Services.SerialNumbers)
+                if (GetNftSerials(AccountId.FromProtobuf(allowanceProto.Owner), TokenId.FromProtobuf(allowanceProto.TokenId)) is IList<long> nftserials)
+                    foreach (long serialnumber in allowanceProto.SerialNumbers)
 						nftserials.Add(serialnumber);
 		}
 

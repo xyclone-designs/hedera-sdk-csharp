@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.Reference.Cryptography;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -16,7 +17,7 @@ using System.IO;
 namespace Hedera.Hashgraph.SDK.Keys
 {
     /// <include file="PrivateKey.cs.xml" path='docs/member[@name="T:PrivateKey"]/*' />
-    public abstract class PrivateKey : Key
+    public abstract class PrivateKey : Key, IPrivateKey
     {
         /// <include file="PrivateKey.cs.xml" path='docs/member[@name="F:PrivateKey.publicKey"]/*' />
         protected PublicKey? publicKey = null; // Cache the derivation of the public key

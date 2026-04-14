@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
 
             if (FallbackFee != null)
-				Proto.Services.FallbackFee = FallbackFee.ToFixedFeeProtobuf();
+                proto.FallbackFee = FallbackFee.ToFixedFeeProtobuf();
 
 			return proto;
         }

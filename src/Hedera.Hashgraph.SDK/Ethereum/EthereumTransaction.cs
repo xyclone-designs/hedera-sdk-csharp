@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
             };
 
             if (CallDataFileId != null)
-                Proto.Services.CallData = CallDataFileId.ToProtobuf();
+                proto.CallData = CallDataFileId.ToProtobuf();
 
             return proto;
         }

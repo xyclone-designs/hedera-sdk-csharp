@@ -149,66 +149,66 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (AccountId != null)
             {
-                Proto.Services.AccountIDToUpdate = AccountId.ToProtobuf();
+                proto.AccountIDToUpdate = AccountId.ToProtobuf();
             }
 
             if (ProxyAccountId != null)
             {
-                Proto.Services.ProxyAccountID = ProxyAccountId.ToProtobuf();
+                proto.ProxyAccountID = ProxyAccountId.ToProtobuf();
             }
 
             if (Key != null)
             {
-                Proto.Services.Key = Key.ToProtobufKey();
+                proto.Key = Key.ToProtobufKey();
             }
 
             if (ExpirationTime != null)
             {
-                Proto.Services.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
+                proto.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
             }
 
             if (ExpirationTimeDuration != null)
             {
-                Proto.Services.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
+                proto.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
             }
 
             if (AutoRenewPeriod != null)
             {
-                Proto.Services.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
+                proto.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
             }
 
             if (AccountMemo != null)
             {
-                Proto.Services.Memo = AccountMemo;
+                proto.Memo = AccountMemo;
             }
 
             if (MaxAutomaticTokenAssociations != null)
             {
-                Proto.Services.MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations;
+                proto.MaxAutomaticTokenAssociations = MaxAutomaticTokenAssociations;
             }
 
             if (StakedAccountId != null)
             {
-                Proto.Services.StakedAccountId = StakedAccountId.ToProtobuf();
+                proto.StakedAccountId = StakedAccountId.ToProtobuf();
             }
             else if (StakedNodeId != null)
             {
-                Proto.Services.StakedNodeId = StakedNodeId.Value;
+                proto.StakedNodeId = StakedNodeId.Value;
             }
 
             if (DeclineStakingReward != null)
             {
-                Proto.Services.DeclineReward = DeclineStakingReward;
+                proto.DeclineReward = DeclineStakingReward;
             }
 
             foreach (HookCreationDetails hookDetails in HookCreationDetails.Read)
             {
-                Proto.Services.HookCreationDetails.Add(hookDetails.ToProtobuf());
+                proto.HookCreationDetails.Add(hookDetails.ToProtobuf());
             }
 
             if (HookIdsToDelete.Read.Count != 0)
             {
-                Proto.Services.HookIdsToDelete.AddRange(HookIdsToDelete.Read);
+                proto.HookIdsToDelete.AddRange(HookIdsToDelete.Read);
             }
 
             return proto;

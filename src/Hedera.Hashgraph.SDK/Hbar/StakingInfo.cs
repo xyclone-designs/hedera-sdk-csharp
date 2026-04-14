@@ -55,10 +55,10 @@ namespace Hedera.Hashgraph.SDK.HBar
 			};
 
             if (StakedAccountId is not null)
-				Proto.Services.StakedAccountId = StakedAccountId.ToProtobuf();
+				proto.StakedAccountId = StakedAccountId.ToProtobuf();
 
             if (StakedNodeId is not null)
-				Proto.Services.StakedNodeId = StakedNodeId.Value;
+                proto.StakedNodeId = StakedNodeId.Value;
 
             return proto;
 

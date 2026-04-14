@@ -22,12 +22,12 @@ namespace Hedera.Hashgraph.SDK.Hook
 		public static EvmHook FromProtobuf(Proto.Services.EvmHook proto)
 		{
 			var storageUpdates = new List<EvmHookStorageUpdate>();
-			foreach (var protoUpdate in Proto.Services.StorageUpdates)
+			foreach (var protoUpdate in proto.StorageUpdates)
 			{
 				storageUpdates.Add(EvmHookStorageUpdate.FromProtobuf(protoUpdate));
 			}
 
-			return new EvmHook(ContractId.FromProtobuf(Proto.Services.Spec.ContractId), storageUpdates);
+			return new EvmHook(ContractId.FromProtobuf(proto.Spec.ContractId), storageUpdates);
 		}
 
 		/// <include file="EvmHook.cs.xml" path='docs/member[@name="M:EvmHook.ToProtobuf"]/*' />
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Hook
 			};
 
 			foreach (EvmHookStorageUpdate update in StorageUpdates)
-				Proto.Services.StorageUpdates.Add(update.ToProtobuf());
+				proto.StorageUpdates.Add(update.ToProtobuf());
 
 			return proto;
 		}

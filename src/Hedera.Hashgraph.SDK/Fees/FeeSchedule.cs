@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.Fees
 				ExpiryTime = ExpirationTime.ToProtoTimestampSeconds()
 			};
 
-			Proto.Services.TransactionFeeSchedule.AddRange(TransactionFeeSchedules.Select(_ => _.ToProtobuf()));
+            proto.TransactionFeeSchedule.AddRange(TransactionFeeSchedules.Select(_ => _.ToProtobuf()));
 
 			return proto;
 		}

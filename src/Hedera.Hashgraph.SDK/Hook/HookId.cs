@@ -21,7 +21,7 @@ namespace Hedera.Hashgraph.SDK.Hook
         /// <include file="HookId.cs.xml" path='docs/member[@name="M:HookId.FromProtobuf(Proto.Services.HookId)"]/*' />
         public static HookId FromProtobuf(Proto.Services.HookId proto)
         {
-            return new HookId(HookEntityId.FromProtobuf(Proto.Services.EntityId), Proto.Services.HookId_);
+            return new HookId(HookEntityId.FromProtobuf(proto.EntityId), proto.HookId_);
         }
 
         public override bool Equals(object? o)

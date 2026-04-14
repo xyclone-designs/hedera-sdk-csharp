@@ -290,10 +290,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 
 			if (AccountId != null)
-				Proto.Services.AccountID = AccountId.ToProtobuf();
+				proto.AccountID = AccountId.ToProtobuf();
 
 			if (ValidStart != null)
-				Proto.Services.TransactionValidStart = ValidStart.ToProtoTimestamp();
+                proto.TransactionValidStart = ValidStart.ToProtoTimestamp();
 
 			return proto;
 		}

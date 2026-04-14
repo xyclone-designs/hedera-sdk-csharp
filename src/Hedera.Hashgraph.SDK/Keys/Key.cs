@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Hedera.Hashgraph.Reference.Cryptography;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Ethereum;
 
@@ -14,7 +14,7 @@ using System;
 namespace Hedera.Hashgraph.SDK.Keys
 {
     /// <include file="Key.cs.xml" path='docs/member[@name="T:Key"]/*' />
-    public abstract class Key
+    public abstract class Key : IKey
     {
         internal static readonly DerObjectIdentifier ID_ED25519 = new ("1.3.101.112");
         internal static readonly DerObjectIdentifier ID_ECDSA_SECP256K1 = new ("1.3.132.0.10");

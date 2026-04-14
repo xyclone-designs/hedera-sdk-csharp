@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:FromBytes``1(System.Byte[])"]/*' />
 		public static T FromBytes<T>(byte[] bytes) where T : Transaction<T>
 		{
-			var list = Proto.Services.TransactionList.Parser.ParseFrom(bytes);
+			var list = Proto.SDK.TransactionList.Parser.ParseFrom(bytes);
 			var txsMap = new DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>>();
 
 			Proto.Services.TransactionBody.DataOneofCase dataCase;
@@ -191,188 +191,188 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				TransactionFee = scheduled.TransactionFee,
 			};
 
-			Proto.Services.MaxCustomFees.AddRange(scheduled.MaxCustomFees);
+            proto.MaxCustomFees.AddRange(scheduled.MaxCustomFees);
 			
 			switch (scheduled.DataCase)
 			{
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractCall:
-					Proto.Services.ContractCall = scheduled.ContractCall;
+					proto.ContractCall = scheduled.ContractCall;
 					transaction = new ContractExecuteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractCreateInstance:
-					Proto.Services.ContractCreateInstance = scheduled.ContractCreateInstance;
+					proto.ContractCreateInstance = scheduled.ContractCreateInstance;
 					transaction = new ContractCreateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractUpdateInstance:
-					Proto.Services.ContractUpdateInstance = scheduled.ContractUpdateInstance;
+					proto.ContractUpdateInstance = scheduled.ContractUpdateInstance;
 					transaction = new ContractUpdateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractDeleteInstance:
-					Proto.Services.ContractDeleteInstance = scheduled.ContractDeleteInstance;
+					proto.ContractDeleteInstance = scheduled.ContractDeleteInstance;
 					transaction = new ContractDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoApproveAllowance:
-					Proto.Services.CryptoApproveAllowance = scheduled.CryptoApproveAllowance;
+                    proto.CryptoApproveAllowance = scheduled.CryptoApproveAllowance;
 					transaction = new AccountAllowanceApproveTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoDeleteAllowance:
-					Proto.Services.CryptoDeleteAllowance = scheduled.CryptoDeleteAllowance;
+					proto.CryptoDeleteAllowance = scheduled.CryptoDeleteAllowance;
 					transaction = new AccountAllowanceDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoCreateAccount:
-					Proto.Services.CryptoCreateAccount = scheduled.CryptoCreateAccount;
+					proto.CryptoCreateAccount = scheduled.CryptoCreateAccount;
 					transaction = new AccountCreateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoDelete:
-					Proto.Services.CryptoDelete = scheduled.CryptoDelete;
+					proto.CryptoDelete = scheduled.CryptoDelete;
 					transaction = new AccountDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoTransfer:
-					Proto.Services.CryptoTransfer = scheduled.CryptoTransfer;
+					proto.CryptoTransfer = scheduled.CryptoTransfer;
 					transaction = new TransferTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoUpdateAccount:
-					Proto.Services.CryptoUpdateAccount = scheduled.CryptoUpdateAccount;
+					proto.CryptoUpdateAccount = scheduled.CryptoUpdateAccount;
 					transaction = new AccountUpdateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileAppend:
-					Proto.Services.FileAppend = scheduled.FileAppend;
+					proto.FileAppend = scheduled.FileAppend;
 					transaction = new FileAppendTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileCreate:
-					Proto.Services.FileCreate = scheduled.FileCreate;
+					proto.FileCreate = scheduled.FileCreate;
 					transaction = new FileCreateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileDelete:
-					Proto.Services.FileDelete = scheduled.FileDelete;
+					proto.FileDelete = scheduled.FileDelete;
 					transaction = new FileDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileUpdate:
-					Proto.Services.FileUpdate = scheduled.FileUpdate;
+					proto.FileUpdate = scheduled.FileUpdate;
 					transaction = new FileUpdateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.NodeCreate:
-					Proto.Services.NodeCreate = scheduled.NodeCreate;
+					proto.NodeCreate = scheduled.NodeCreate;
 					transaction = new NodeCreateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.NodeUpdate:
-					Proto.Services.NodeUpdate = scheduled.NodeUpdate;
+					proto.NodeUpdate = scheduled.NodeUpdate;
 					transaction = new NodeUpdateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.NodeDelete:
-					Proto.Services.NodeDelete = scheduled.NodeDelete;
+					proto.NodeDelete = scheduled.NodeDelete;
 					transaction = new NodeDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.SystemDelete:
-					Proto.Services.SystemDelete = scheduled.SystemDelete;
+					proto.SystemDelete = scheduled.SystemDelete;
 					transaction = new SystemDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.SystemUndelete:
-					Proto.Services.SystemUndelete = scheduled.SystemUndelete;
+					proto.SystemUndelete = scheduled.SystemUndelete;
 					transaction = new SystemUndeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.Freeze:
-					Proto.Services.Freeze = scheduled.Freeze;
+					proto.Freeze = scheduled.Freeze;
 					transaction = new FreezeTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusCreateTopic:
-					Proto.Services.ConsensusCreateTopic = scheduled.ConsensusCreateTopic;
+					proto.ConsensusCreateTopic = scheduled.ConsensusCreateTopic;
 					transaction = new TopicCreateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusUpdateTopic:
-					Proto.Services.ConsensusUpdateTopic = scheduled.ConsensusUpdateTopic;
+					proto.ConsensusUpdateTopic = scheduled.ConsensusUpdateTopic;
 					transaction = new TopicUpdateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusDeleteTopic:
-					Proto.Services.ConsensusDeleteTopic = scheduled.ConsensusDeleteTopic;
+					proto.ConsensusDeleteTopic = scheduled.ConsensusDeleteTopic;
 					transaction = new TopicDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusSubmitMessage:
-					Proto.Services.ConsensusSubmitMessage = scheduled.ConsensusSubmitMessage;
+					proto.ConsensusSubmitMessage = scheduled.ConsensusSubmitMessage;
 					transaction = new TopicMessageSubmitTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenCreation:
-					Proto.Services.TokenCreation = scheduled.TokenCreation;
+					proto.TokenCreation = scheduled.TokenCreation;
 					transaction = new TokenCreateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenFreeze:
-					Proto.Services.TokenFreeze = scheduled.TokenFreeze;
+					proto.TokenFreeze = scheduled.TokenFreeze;
 					transaction = new TokenFreezeTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUnfreeze:
-					Proto.Services.TokenUnfreeze = scheduled.TokenUnfreeze;
+					proto.TokenUnfreeze = scheduled.TokenUnfreeze;
 					transaction = new TokenUnfreezeTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenGrantKyc:
-					Proto.Services.TokenGrantKyc = scheduled.TokenGrantKyc;
+					proto.TokenGrantKyc = scheduled.TokenGrantKyc;
 					transaction = new TokenGrantKycTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenRevokeKyc:
-					Proto.Services.TokenRevokeKyc = scheduled.TokenRevokeKyc;
+					proto.TokenRevokeKyc = scheduled.TokenRevokeKyc;
 					transaction = new TokenRevokeKycTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenDeletion:
-					Proto.Services.TokenDeletion = scheduled.TokenDeletion;
+					proto.TokenDeletion = scheduled.TokenDeletion;
 					transaction = new TokenDeleteTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUpdate:
-					Proto.Services.TokenUpdate = scheduled.TokenUpdate;
+					proto.TokenUpdate = scheduled.TokenUpdate;
 					transaction = new TokenUpdateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUpdateNfts:
-					Proto.Services.TokenUpdateNfts = scheduled.TokenUpdateNfts;
+					proto.TokenUpdateNfts = scheduled.TokenUpdateNfts;
 					transaction = new TokenUpdateNftsTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenMint:
-					Proto.Services.TokenMint = scheduled.TokenMint;
+					proto.TokenMint = scheduled.TokenMint;
 					transaction = new TokenMintTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenBurn:
-					Proto.Services.TokenBurn = scheduled.TokenBurn;
+					proto.TokenBurn = scheduled.TokenBurn;
 					transaction = new TokenBurnTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenWipe:
-					Proto.Services.TokenWipe = scheduled.TokenWipe;
+					proto.TokenWipe = scheduled.TokenWipe;
 					transaction = new TokenWipeTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenAssociate:
-					Proto.Services.TokenAssociate = scheduled.TokenAssociate;
+					proto.TokenAssociate = scheduled.TokenAssociate;
 					transaction = new TokenAssociateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenDissociate:
-					Proto.Services.TokenDissociate = scheduled.TokenDissociate;
+					proto.TokenDissociate = scheduled.TokenDissociate;
 					transaction = new TokenDissociateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenFeeScheduleUpdate:
-					Proto.Services.TokenFeeScheduleUpdate = scheduled.TokenFeeScheduleUpdate;
+					proto.TokenFeeScheduleUpdate = scheduled.TokenFeeScheduleUpdate;
 					transaction = new TokenFeeScheduleUpdateTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenPause:
-					Proto.Services.TokenPause = scheduled.TokenPause;
+					proto.TokenPause = scheduled.TokenPause;
 					transaction = new TokenPauseTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUnpause:
-					Proto.Services.TokenUnpause = scheduled.TokenUnpause;
+					proto.TokenUnpause = scheduled.TokenUnpause;
 					transaction = new TokenUnpauseTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenReject:
-					Proto.Services.TokenReject = scheduled.TokenReject;
+					proto.TokenReject = scheduled.TokenReject;
 					transaction = new TokenRejectTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenAirdrop:
-					Proto.Services.TokenAirdrop = scheduled.TokenAirdrop;
+					proto.TokenAirdrop = scheduled.TokenAirdrop;
 					transaction = new TokenAirdropTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenCancelAirdrop:
-					Proto.Services.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
+					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
 					transaction = new TokenCancelAirdropTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenClaimAirdrop:
-					Proto.Services.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
+					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
 					transaction = new TokenClaimAirdropTransaction(proto) as T;
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ScheduleDelete:
-					Proto.Services.ScheduleDelete = scheduled.ScheduleDelete;
+					proto.ScheduleDelete = scheduled.ScheduleDelete;
 					transaction = new ScheduleDeleteTransaction(proto) as T;
 					break;
 
@@ -391,188 +391,188 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				TransactionFee = scheduled.TransactionFee,
 			};
 
-			Proto.Services.MaxCustomFees.AddRange(scheduled.MaxCustomFees);
+            proto.MaxCustomFees.AddRange(scheduled.MaxCustomFees);
 
 			switch (scheduled.DataCase)
 			{
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractCall:
-					Proto.Services.ContractCall = scheduled.ContractCall;
+					proto.ContractCall = scheduled.ContractCall;
 					transaction = new ContractExecuteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractCreateInstance:
-					Proto.Services.ContractCreateInstance = scheduled.ContractCreateInstance;
+					proto.ContractCreateInstance = scheduled.ContractCreateInstance;
 					transaction = new ContractCreateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractUpdateInstance:
-					Proto.Services.ContractUpdateInstance = scheduled.ContractUpdateInstance;
+					proto.ContractUpdateInstance = scheduled.ContractUpdateInstance;
 					transaction = new ContractUpdateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ContractDeleteInstance:
-					Proto.Services.ContractDeleteInstance = scheduled.ContractDeleteInstance;
+					proto.ContractDeleteInstance = scheduled.ContractDeleteInstance;
 					transaction = new ContractDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoApproveAllowance:
-					Proto.Services.CryptoApproveAllowance = scheduled.CryptoApproveAllowance;
+					proto.CryptoApproveAllowance = scheduled.CryptoApproveAllowance;
 					transaction = new AccountAllowanceApproveTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoDeleteAllowance:
-					Proto.Services.CryptoDeleteAllowance = scheduled.CryptoDeleteAllowance;
+					proto.CryptoDeleteAllowance = scheduled.CryptoDeleteAllowance;
 					transaction = new AccountAllowanceDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoCreateAccount:
-					Proto.Services.CryptoCreateAccount = scheduled.CryptoCreateAccount;
+					proto.CryptoCreateAccount = scheduled.CryptoCreateAccount;
 					transaction = new AccountCreateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoDelete:
-					Proto.Services.CryptoDelete = scheduled.CryptoDelete;
+					proto.CryptoDelete = scheduled.CryptoDelete;
 					transaction = new AccountDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoTransfer:
-					Proto.Services.CryptoTransfer = scheduled.CryptoTransfer;
+					proto.CryptoTransfer = scheduled.CryptoTransfer;
 					transaction = new TransferTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.CryptoUpdateAccount:
-					Proto.Services.CryptoUpdateAccount = scheduled.CryptoUpdateAccount;
+					proto.CryptoUpdateAccount = scheduled.CryptoUpdateAccount;
 					transaction = new AccountUpdateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileAppend:
-					Proto.Services.FileAppend = scheduled.FileAppend;
+					proto.FileAppend = scheduled.FileAppend;
 					transaction = new FileAppendTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileCreate:
-					Proto.Services.FileCreate = scheduled.FileCreate;
+					proto.FileCreate = scheduled.FileCreate;
 					transaction = new FileCreateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileDelete:
-					Proto.Services.FileDelete = scheduled.FileDelete;
+					proto.FileDelete = scheduled.FileDelete;
 					transaction = new FileDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.FileUpdate:
-					Proto.Services.FileUpdate = scheduled.FileUpdate;
+					proto.FileUpdate = scheduled.FileUpdate;
 					transaction = new FileUpdateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.NodeCreate:
-					Proto.Services.NodeCreate = scheduled.NodeCreate;
+					proto.NodeCreate = scheduled.NodeCreate;
 					transaction = new NodeCreateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.NodeUpdate:
-					Proto.Services.NodeUpdate = scheduled.NodeUpdate;
+					proto.NodeUpdate = scheduled.NodeUpdate;
 					transaction = new NodeUpdateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.NodeDelete:
-					Proto.Services.NodeDelete = scheduled.NodeDelete;
+					proto.NodeDelete = scheduled.NodeDelete;
 					transaction = new NodeDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.SystemDelete:
-					Proto.Services.SystemDelete = scheduled.SystemDelete;
+					proto.SystemDelete = scheduled.SystemDelete;
 					transaction = new SystemDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.SystemUndelete:
-					Proto.Services.SystemUndelete = scheduled.SystemUndelete;
+					proto.SystemUndelete = scheduled.SystemUndelete;
 					transaction = new SystemUndeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.Freeze:
-					Proto.Services.Freeze = scheduled.Freeze;
+					proto.Freeze = scheduled.Freeze;
 					transaction = new FreezeTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusCreateTopic:
-					Proto.Services.ConsensusCreateTopic = scheduled.ConsensusCreateTopic;
+					proto.ConsensusCreateTopic = scheduled.ConsensusCreateTopic;
 					transaction = new TopicCreateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusUpdateTopic:
-					Proto.Services.ConsensusUpdateTopic = scheduled.ConsensusUpdateTopic;
+					proto.ConsensusUpdateTopic = scheduled.ConsensusUpdateTopic;
 					transaction = new TopicUpdateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusDeleteTopic:
-					Proto.Services.ConsensusDeleteTopic = scheduled.ConsensusDeleteTopic;
+					proto.ConsensusDeleteTopic = scheduled.ConsensusDeleteTopic;
 					transaction = new TopicDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ConsensusSubmitMessage:
-					Proto.Services.ConsensusSubmitMessage = scheduled.ConsensusSubmitMessage;
+					proto.ConsensusSubmitMessage = scheduled.ConsensusSubmitMessage;
 					transaction = new TopicMessageSubmitTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenCreation:
-					Proto.Services.TokenCreation = scheduled.TokenCreation;
+					proto.TokenCreation = scheduled.TokenCreation;
 					transaction = new TokenCreateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenFreeze:
-					Proto.Services.TokenFreeze = scheduled.TokenFreeze;
+					proto.TokenFreeze = scheduled.TokenFreeze;
 					transaction = new TokenFreezeTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUnfreeze:
-					Proto.Services.TokenUnfreeze = scheduled.TokenUnfreeze;
+					proto.TokenUnfreeze = scheduled.TokenUnfreeze;
 					transaction = new TokenUnfreezeTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenGrantKyc:
-					Proto.Services.TokenGrantKyc = scheduled.TokenGrantKyc;
+					proto.TokenGrantKyc = scheduled.TokenGrantKyc;
 					transaction = new TokenGrantKycTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenRevokeKyc:
-					Proto.Services.TokenRevokeKyc = scheduled.TokenRevokeKyc;
+					proto.TokenRevokeKyc = scheduled.TokenRevokeKyc;
 					transaction = new TokenRevokeKycTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenDeletion:
-					Proto.Services.TokenDeletion = scheduled.TokenDeletion;
+					proto.TokenDeletion = scheduled.TokenDeletion;
 					transaction = new TokenDeleteTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUpdate:
-					Proto.Services.TokenUpdate = scheduled.TokenUpdate;
+					proto.TokenUpdate = scheduled.TokenUpdate;
 					transaction = new TokenUpdateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUpdateNfts:
-					Proto.Services.TokenUpdateNfts = scheduled.TokenUpdateNfts;
+					proto.TokenUpdateNfts = scheduled.TokenUpdateNfts;
 					transaction = new TokenUpdateNftsTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenMint:
-					Proto.Services.TokenMint = scheduled.TokenMint;
+					proto.TokenMint = scheduled.TokenMint;
 					transaction = new TokenMintTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenBurn:
-					Proto.Services.TokenBurn = scheduled.TokenBurn;
+					proto.TokenBurn = scheduled.TokenBurn;
 					transaction = new TokenBurnTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenWipe:
-					Proto.Services.TokenWipe = scheduled.TokenWipe;
+					proto.TokenWipe = scheduled.TokenWipe;
 					transaction = new TokenWipeTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenAssociate:
-					Proto.Services.TokenAssociate = scheduled.TokenAssociate;
+					proto.TokenAssociate = scheduled.TokenAssociate;
 					transaction = new TokenAssociateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenDissociate:
-					Proto.Services.TokenDissociate = scheduled.TokenDissociate;
+					proto.TokenDissociate = scheduled.TokenDissociate;
 					transaction = new TokenDissociateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenFeeScheduleUpdate:
-					Proto.Services.TokenFeeScheduleUpdate = scheduled.TokenFeeScheduleUpdate;
+					proto.TokenFeeScheduleUpdate = scheduled.TokenFeeScheduleUpdate;
 					transaction = new TokenFeeScheduleUpdateTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenPause:
-					Proto.Services.TokenPause = scheduled.TokenPause;
+					proto.TokenPause = scheduled.TokenPause;
 					transaction = new TokenPauseTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenUnpause:
-					Proto.Services.TokenUnpause = scheduled.TokenUnpause;
+					proto.TokenUnpause = scheduled.TokenUnpause;
 					transaction = new TokenUnpauseTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenReject:
-					Proto.Services.TokenReject = scheduled.TokenReject;
+					proto.TokenReject = scheduled.TokenReject;
 					transaction = new TokenRejectTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenAirdrop:
-					Proto.Services.TokenAirdrop = scheduled.TokenAirdrop;
+					proto.TokenAirdrop = scheduled.TokenAirdrop;
 					transaction = new TokenAirdropTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenCancelAirdrop:
-					Proto.Services.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
+					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
 					transaction = new TokenCancelAirdropTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.TokenClaimAirdrop:
-					Proto.Services.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
+					proto.TokenCancelAirdrop = scheduled.TokenCancelAirdrop;
 					transaction = new TokenClaimAirdropTransaction(proto);
 					break;
 				case Proto.Services.SchedulableTransactionBody.DataOneofCase.ScheduleDelete:
-					Proto.Services.ScheduleDelete = scheduled.ScheduleDelete;
+					proto.ScheduleDelete = scheduled.ScheduleDelete;
 					transaction = new ScheduleDeleteTransaction(proto);
 					break;
 

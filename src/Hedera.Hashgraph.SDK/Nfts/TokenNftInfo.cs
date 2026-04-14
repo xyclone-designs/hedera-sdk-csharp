@@ -71,7 +71,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			};
                 
             if (SpenderId != null)
-				Proto.Services.SpenderId = SpenderId.ToProtobuf();
+                proto.SpenderId = SpenderId.ToProtobuf();
 
 			return proto;
         }

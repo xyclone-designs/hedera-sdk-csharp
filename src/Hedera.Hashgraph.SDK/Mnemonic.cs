@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.Reference.Cryptography;
+using Hedera.Hashgraph.Reference.Error;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Keys;
 using Hedera.Hashgraph.SDK.Utils;
@@ -18,7 +20,7 @@ using System.Text.RegularExpressions;
 namespace Hedera.Hashgraph.SDK
 {
     /// <include file="Mnemonic.cs.xml" path='docs/member[@name="T:Mnemonic"]/*' />
-    public sealed class Mnemonic
+    public sealed class Mnemonic : IMnemonic
     {
         // by storing our word list in a WeakReference, the GC is free to evict it at its discretion
         // but the implementation is meant to wait until free space is needed
@@ -326,7 +328,7 @@ namespace Hedera.Hashgraph.SDK
 
 			if (unknownIndices.Count == 0)
 			{
-				throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, unknownIndices);
+				throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, unknownIndices.ToArray());
 			}
 
 			if (Words.Count != 22)

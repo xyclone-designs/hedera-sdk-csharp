@@ -268,20 +268,20 @@ namespace Hedera.Hashgraph.SDK.Transactions
 						Amount = aaEntry.Value
 					});
 
-				Proto.Services.TokenTransferLists.Add(tokenTransfersList);
+                proto.TokenTransferLists.Add(tokenTransfersList);
             }
 
 			foreach (Transfer transfer in Transfers)
-				Proto.Services.TransferList.AccountAmounts.Add(transfer.ToProtobuf());
+				proto.TransferList.AccountAmounts.Add(transfer.ToProtobuf());
 
 			foreach (var fee in AssessedCustomFees)
-				Proto.Services.AssessedCustomFees.Add(fee.ToProtobuf());
+				proto.AssessedCustomFees.Add(fee.ToProtobuf());
 			
             foreach (var tokenAssociation in AutomaticTokenAssociations)
-				Proto.Services.AutomaticTokenAssociations.Add(tokenAssociation.ToProtobuf());
+				proto.AutomaticTokenAssociations.Add(tokenAssociation.ToProtobuf());
 			
             foreach (Transfer reward in PaidStakingRewards)
-				Proto.Services.PaidStakingRewards.Add(reward.ToProtobuf());
+				proto.PaidStakingRewards.Add(reward.ToProtobuf());
 
 			foreach (var nftEntry in TokenNftTransfers)
             {
@@ -299,27 +299,27 @@ namespace Hedera.Hashgraph.SDK.Transactions
 						IsApproval = aaEntry.IsApproved,
 					});
 
-				Proto.Services.TokenTransferLists.Add(nftTransferList);
+                proto.TokenTransferLists.Add(nftTransferList);
             }
 
 			if (PendingAirdropRecords != null)
 				foreach (PendingAirdropRecord pendingAirdropRecord in PendingAirdropRecords)
-					Proto.Services.NewPendingAirdrops.Add(pendingAirdropRecord.ToProtobuf());
+                    proto.NewPendingAirdrops.Add(pendingAirdropRecord.ToProtobuf());
 
 			if (ContractFunctionResult != null)
-				Proto.Services.ContractCallResult = ContractFunctionResult.ToProtobuf();
+				proto.ContractCallResult = ContractFunctionResult.ToProtobuf();
 
             if (ScheduleRef != null)
-				Proto.Services.ScheduleRef = ScheduleRef.ToProtobuf();
+				proto.ScheduleRef = ScheduleRef.ToProtobuf();
 
 			if (AliasKey != null)
-				Proto.Services.Alias = AliasKey.ToProtobufKey().ToByteString();
+                proto.Alias = AliasKey.ToProtobufKey().ToByteString();
 
             if (ParentConsensusTimestamp != null)
-				Proto.Services.ParentConsensusTimestamp = ParentConsensusTimestamp.ToProtoTimestamp();
+				proto.ParentConsensusTimestamp = ParentConsensusTimestamp.ToProtoTimestamp();
 
 			if (PrngBytes != null)
-				Proto.Services.PrngBytes = PrngBytes;
+				proto.PrngBytes = PrngBytes;
 
 			return proto;
         }

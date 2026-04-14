@@ -46,11 +46,11 @@ namespace Hedera.Hashgraph.SDK.Token
 			};
 
             if (ExpectDecimals.HasValue)
-                Proto.Services.ExpectedDecimals = ExpectDecimals;
+                proto.ExpectedDecimals = ExpectDecimals;
 
 
-			Proto.Services.Transfers.AddRange(transfers);
-            Proto.Services.NftTransfers.AddRange(nftTransfers);
+			proto.Transfers.AddRange(transfers);
+            proto.NftTransfers.AddRange(nftTransfers);
 
             return proto;
         }

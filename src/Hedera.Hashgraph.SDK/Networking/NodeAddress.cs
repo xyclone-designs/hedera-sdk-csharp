@@ -72,18 +72,18 @@ namespace Hedera.Hashgraph.SDK.Networking
 			};
 
             if (CertHash != null)
-                Proto.Services.NodeCertHash = CertHash;
+                proto.NodeCertHash = CertHash;
 
             if (PublicKey != null)
-                Proto.Services.RSAPubKey = PublicKey;
+                proto.RSAPubKey = PublicKey;
 
             if (AccountId != null)
-                Proto.Services.NodeAccountId = AccountId.ToProtobuf();
+                proto.NodeAccountId = AccountId.ToProtobuf();
 
             if (Description != null)
-                Proto.Services.Description = Description;
+                proto.Description = Description;
 
-			Proto.Services.ServiceEndpoint.AddRange(Addresses.Select(_ => _.ToProtobuf()));
+            proto.ServiceEndpoint.AddRange(Addresses.Select(_ => _.ToProtobuf()));
 
 			return proto;
         }

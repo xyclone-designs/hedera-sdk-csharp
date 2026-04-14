@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		public static ITransaction FromBytes(byte[] bytes)
 		{
-			var list = Proto.Services.TransactionList.Parser.ParseFrom(bytes);
+			var list = Proto.SDK.TransactionList.Parser.ParseFrom(bytes);
 			var txsMap = new DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>>();
 
 			Proto.Services.TransactionBody.DataOneofCase dataCase;

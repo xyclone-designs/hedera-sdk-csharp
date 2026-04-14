@@ -57,17 +57,17 @@ namespace Hedera.Hashgraph.SDK.Account
 
             foreach (var allowanceProto in body.NftAllowances)
             {
-                if (allowanceProto.Services.ApprovedForAll ?? false)
+                if (allowanceProto.ApprovedForAll ?? false)
                 {
                     NftAllowances.Add(TokenNftAllowance.FromProtobuf(allowanceProto));
                 }
                 else
                 {
                     GetNftSerials(
-                        AccountId.FromProtobuf(allowanceProto.Services.Owner), 
-                        AccountId.FromProtobuf(allowanceProto.Services.Spender),
-                        AccountId.FromProtobuf(allowanceProto.Services.DelegatingSpender) , 
-                        TokenId.FromProtobuf(allowanceProto.Services.TokenId)).Concat(allowanceProto.Services.SerialNumbers);
+                        AccountId.FromProtobuf(allowanceProto.Owner), 
+                        AccountId.FromProtobuf(allowanceProto.Spender),
+                        AccountId.FromProtobuf(allowanceProto.DelegatingSpender) , 
+                        TokenId.FromProtobuf(allowanceProto.TokenId)).Concat(allowanceProto.SerialNumbers);
                 }
             }
         }

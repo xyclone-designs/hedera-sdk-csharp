@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 			Proto.Services.NodeAddressBook proto = new ();
 
             foreach (var nodeAdress in NodeAddresses)
-				Proto.Services.NodeAddress.Add(nodeAdress.ToProtobuf());
+                proto.NodeAddress.Add(nodeAdress.ToProtobuf());
 
 			return proto;
         }

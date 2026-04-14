@@ -288,26 +288,26 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 
             if (EvmAddress != null)
-				Proto.Services.EvmAddress = ByteString.CopyFrom(EvmAddress.EvmAddress); // BytesValue.Parser.Par SetValue(.Build());
+				proto.EvmAddress = ByteString.CopyFrom(EvmAddress.EvmAddress); // BytesValue.Parser.Par SetValue(.Build());
 
 			if (ErrorMessage != null)
-				Proto.Services.ErrorMessage = ErrorMessage;
+				proto.ErrorMessage = ErrorMessage;
 
 			foreach (ContractLogInfo log in logs)
-				Proto.Services.LogInfo.Add(log.ToProtobuf());
+				proto.LogInfo.Add(log.ToProtobuf());
 
 			foreach (var contractId in CreatedContractIds)
-				Proto.Services.CreatedContractIDs.Add(contractId.ToProtobuf());
+				proto.CreatedContractIDs.Add(contractId.ToProtobuf());
 
             if (SenderAccountId != null)
-				Proto.Services.SenderId = SenderAccountId.ToProtobuf();
+				proto.SenderId = SenderAccountId.ToProtobuf();
 
 
             // for (var stateChange : stateChanges) {
             //     contractFunctionResult.addStateChanges(stateChange.toProtobuf());
             // }
             foreach (var contractNonce in ContractNonces)
-                Proto.Services.ContractNonces.Add(contractNonce.ToProtobuf());
+                proto.ContractNonces.Add(contractNonce.ToProtobuf());
 
             return proto;
         }		

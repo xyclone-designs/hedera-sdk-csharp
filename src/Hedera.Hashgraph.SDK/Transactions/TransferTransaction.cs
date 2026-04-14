@@ -38,11 +38,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		public static NftHookCall ToNftHook(Proto.Services.HookCall proto, NftHookType type)
 		{
-			return new NftHookCall(Proto.Services.HookId, EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall), type);
+			return new NftHookCall(proto.HookId, EvmHookCall.FromProtobuf(proto.EvmHookCall), type);
 		}
 		public static FungibleHookCall ToFungibleHook(Proto.Services.HookCall proto, FungibleHookType type)
 		{
-			return new FungibleHookCall(Proto.Services.HookId, EvmHookCall.FromProtobuf(Proto.Services.EvmHookCall), type);
+			return new FungibleHookCall(proto.HookId, EvmHookCall.FromProtobuf(proto.EvmHookCall), type);
 		}
 
 		/// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.InitFromTransactionBody"]/*' />

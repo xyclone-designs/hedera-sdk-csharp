@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 				Token = new Proto.Services.TokenID { }
 			};
 
-            Proto.Services.NftTransfers.Add(Proto.Services.NftTransfer.Parser.ParseFrom(bytes));
+            proto.NftTransfers.Add(Proto.Services.NftTransfer.Parser.ParseFrom(bytes));
             
             return FromProtobuf(proto)[0];
         }
@@ -96,10 +96,10 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			switch (SenderHookCall?.Type)
 			{
 				case NftHookType.PreHookSender:
-					Proto.Services.PreTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
+					proto.PreTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
 					break;
 				case NftHookType.PrePostHookSender:
-					Proto.Services.PrePostTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
+					proto.PrePostTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
 					break;
 
 				default: break;
@@ -108,10 +108,10 @@ namespace Hedera.Hashgraph.SDK.Nfts
 			switch (ReceiverHookCall?.Type)
 			{
 				case NftHookType.PreHookReceiver:
-					Proto.Services.PreTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
+					proto.PreTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
 					break;
 				case NftHookType.PrePostHookReceiver:
-					Proto.Services.PrePostTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
+                    proto.PrePostTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
 					break;
 
 				default: break;

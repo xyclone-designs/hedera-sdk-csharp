@@ -110,19 +110,19 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			};
 
             if (AdminKey != null)
-                Proto.Services.AdminKey = AdminKey.ToProtobufKey();
+                proto.AdminKey = AdminKey.ToProtobufKey();
 
             if (ScheduledTransactionId != null)
-                Proto.Services.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
+                proto.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
 
             if (ExpirationTime != null)
-                Proto.Services.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
+                proto.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();
 
             if (ExecutedAt != null)
-                Proto.Services.ExecutionTime = ExecutedAt.Value.ToProtoTimestamp();
+                proto.ExecutionTime = ExecutedAt.Value.ToProtoTimestamp();
 
             if (DeletedAt != null)
-                Proto.Services.DeletionTime = DeletedAt.Value.ToProtoTimestamp();
+                proto.DeletionTime = DeletedAt.Value.ToProtoTimestamp();
 
             return proto;
 		}

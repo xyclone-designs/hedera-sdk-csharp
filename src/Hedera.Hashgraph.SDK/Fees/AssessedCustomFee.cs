@@ -58,12 +58,12 @@ namespace Hedera.Hashgraph.SDK.Fees
 			};
 
             if (TokenId != null)
-                Proto.Services.TokenId = TokenId.ToProtobuf();
+                proto.TokenId = TokenId.ToProtobuf();
 
             if (FeeCollectorAccountId != null)
-                Proto.Services.FeeCollectorAccountId = FeeCollectorAccountId.ToProtobuf();
+                proto.FeeCollectorAccountId = FeeCollectorAccountId.ToProtobuf();
 
-			Proto.Services.EffectivePayerAccountId.AddRange(PayerAccountIdList.Select(_ => _.ToProtobuf()));
+			proto.EffectivePayerAccountId.AddRange(PayerAccountIdList.Select(_ => _.ToProtobuf()));
 
 			return proto;
         }
