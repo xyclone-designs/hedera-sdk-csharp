@@ -242,5 +242,135 @@ namespace Hedera.Hashgraph.SDK.Keys
         public abstract bool IsECDSA();
         /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.GetChainCode"]/*' />
         public abstract KeyParameter GetChainCode();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public IPublicKey PublicKey => throw new NotImplementedException();
+        static IPrivateKey IPrivateKey.FromBytes(byte[] data)
+        {
+            return FromBytes(data);
+        }
+
+        public static IPrivateKey FromBytesDer(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IPrivateKey FromBytesEcdsa(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IPrivateKey FromBytesEd25519(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IPrivateKey FromMnemonic(string mnemonic, string passphrase)
+        {
+            throw new NotImplementedException();
+        }
+
+        static IPrivateKey IPrivateKey.FromPem(string pem)
+        {
+            return PrivateKey.FromPem(pem);
+        }
+
+        static IPrivateKey IPrivateKey.FromSeedECDSAsecp256k1(byte[] seed)
+        {
+            return PrivateKey.FromSeedECDSAsecp256k1(seed);
+        }
+
+        static IPrivateKey IPrivateKey.FromSeedED25519(byte[] seed)
+        {
+            return PrivateKey.FromSeedED25519(seed);
+        }
+
+        static IPrivateKey IPrivateKey.FromString(string text)
+        {
+            return PrivateKey.FromString(text);
+        }
+
+        public static IPrivateKey FromStringDer(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IPrivateKey FromStringEcdsa(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IPrivateKey FromStringEd25519(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IPrivateKey FromKeystore(byte[] data, string passphrase)
+        {
+            throw new NotImplementedException();
+        }
+
+        static IPrivateKey IPrivateKey.Generate()
+        {
+            return PrivateKey.Generate();
+        }
+
+        public static IPrivateKey GenerateEcdsa()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static IPrivateKey GenerateEd25519()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrivateKey Derive(long index)
+        {
+            throw new NotImplementedException();
+        }
+
+        IPrivateKey IPrivateKey.LegacyDerive(long index)
+        {
+            return LegacyDerive(index);
+        }
+
+        public byte[] SignTransaction(Reference.Core.ITransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        Reference.Cryptocurrency.AccountId IPrivateKey.ToAccountId(long shard, long realm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] ToBytesDer()
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] ToKeystore(string passphrase)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string ToStringDer()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

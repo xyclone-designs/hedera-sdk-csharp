@@ -328,7 +328,7 @@ namespace Hedera.Hashgraph.SDK
 
 			if (unknownIndices.Count == 0)
 			{
-				throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, unknownIndices.ToArray());
+				throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, [.. unknownIndices]);
 			}
 
 			if (Words.Count != 22)
@@ -593,6 +593,23 @@ namespace Hedera.Hashgraph.SDK
         {
             int[] derivationPathValues = CalculateDerivationPathValues(derivationPath);
             return ToStandardECDSAsecp256k1PrivateKeyImpl(passphrase, derivationPathValues);
+        }
+
+
+        string[] IMnemonic.Words => throw new NotImplementedException();
+        IPrivateKey IMnemonic.ToPrivateKey(string passphrase)
+        {
+            return ToPrivateKey(passphrase);
+        }
+
+        public IPrivateKey ToStandardECDSAsecp256k1PrivateKey(string passphrase, long index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrivateKey ToStandardEd25519PrivateKey(string passphrase, long index)
+        {
+            throw new NotImplementedException();
         }
     }
 }
