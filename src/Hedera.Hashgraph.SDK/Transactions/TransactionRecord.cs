@@ -208,7 +208,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 TransactionReceipt.FromProtobuf(transactionRecord.Receipt, [], [], transactionId), 
                 transactionRecord.TransactionHash,
                 transactionRecord.ConsensusTimestamp.ToDateTimeOffset(), 
-                TransactionId.FromProtobuf(transactionRecord.TransactionID), 
+                TransactionId.FromProtobuf(transactionRecord.TransactionId), 
                 transactionRecord.Memo, 
                 (long)transactionRecord.TransactionFee, 
                 contractFunctionResult, 
@@ -244,7 +244,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Receipt = Receipt.ToProtobuf(),
                 TransactionHash = TransactionHash,
                 ConsensusTimestamp = ConsensusTimestamp.ToProtoTimestamp(),
-                TransactionID = TransactionId.ToProtobuf(),
+                TransactionId = TransactionId.ToProtobuf(),
                 Memo = TransactionMemo,
                 TransactionFee = (ulong)TransactionFee.ToTinybars(),
                 TransferList = new Proto.Services.TransferList { },
@@ -264,7 +264,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				foreach (var aaEntry in tokenEntry.Value)
 					tokenTransfersList.Transfers.Add(new Proto.Services.AccountAmount
 					{
-						AccountID = aaEntry.Key.ToProtobuf(),
+						AccountId = aaEntry.Key.ToProtobuf(),
 						Amount = aaEntry.Value
 					});
 
@@ -293,8 +293,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 foreach (var aaEntry in nftEntry.Value)
 					nftTransferList.NftTransfers.Add(new Proto.Services.NftTransfer
 					{
-						SenderAccountID = aaEntry.Sender.ToProtobuf(),
-						ReceiverAccountID = aaEntry.Receiver.ToProtobuf(),
+						SenderAccountId = aaEntry.Sender.ToProtobuf(),
+						ReceiverAccountId = aaEntry.Receiver.ToProtobuf(),
 						SerialNumber = aaEntry.Serial,
 						IsApproval = aaEntry.IsApproved,
 					});

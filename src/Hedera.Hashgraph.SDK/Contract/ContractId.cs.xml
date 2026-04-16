@@ -54,7 +54,7 @@
     <param name="evmAddress">the evm address</param>
     <returns>the contract id object</returns>
   </member>
-  <member name="M:ContractId.FromProtobuf(Proto.ContractID)">
+  <member name="M:ContractId.FromProtobuf(Proto.ContractId)">
     <summary>
     Extract a contract id from a protobuf.
     </summary>

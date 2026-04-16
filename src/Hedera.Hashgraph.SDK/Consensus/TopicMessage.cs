@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 response.RunningHash.ToByteArray(), 
                 response.SequenceNumber, 
                 [new(response)], 
-                TransactionId.FromProtobuf(response.ChunkInfo.InitialTransactionID));
+                TransactionId.FromProtobuf(response.ChunkInfo.InitialTransactionId));
         }
         /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfMany(System.Collections.Generic.IList{Proto.Mirror.ConsensusTopicResponse})"]/*' />
         public static TopicMessage OfMany(IList<Proto.Mirror.ConsensusTopicResponse> responses)
@@ -45,7 +45,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
             foreach (Proto.Mirror.ConsensusTopicResponse r in responses)
             {
-                transactionId ??= TransactionId.FromProtobuf(r.ChunkInfo.InitialTransactionID);
+                transactionId ??= TransactionId.FromProtobuf(r.ChunkInfo.InitialTransactionId);
 
 				int index = r.ChunkInfo.Number - 1;
                 chunks[index] = new TopicMessageChunk(r);

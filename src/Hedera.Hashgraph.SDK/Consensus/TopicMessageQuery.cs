@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
         private long Counter = 0;
         private bool CancelledByClient = false;
         
-        public TopicId TopicId { set => _Proto.TopicID = value.ToProtobuf(); }
+        public TopicId TopicId { set => _Proto.TopicId = value.ToProtobuf(); }
 		public DateTimeOffset StartTime { set => _Proto.ConsensusStartTime = value.ToProtoTimestamp(); }
 		public DateTimeOffset EndTime { set => _Proto.ConsensusEndTime  = value.ToProtoTimestamp(); }
 		public ulong Limit { set => _Proto.Limit = value; }
@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             set;
             private get => field ??= () =>
             {
-				LOGGER.Info("Subscription to topic {} complete", TopicId.FromProtobuf(_Proto.TopicID));
+				LOGGER.Info("Subscription to topic {} complete", TopicId.FromProtobuf(_Proto.TopicId));
 			};
         } 
         public Action<Exception, TopicMessage?> ErrorHandler
@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             set;
             private get => field ??= ((exception, topicmessage) =>
             {
-                var topicId = TopicId.FromProtobuf(_Proto.TopicID);
+                var topicId = TopicId.FromProtobuf(_Proto.TopicId);
 
                 if (exception is RpcException rpcexception && rpcexception.Status.Equals(Status.DefaultCancelled))
                     LOGGER.Warn("Call is cancelled for topic {}.", topicId);
@@ -116,7 +116,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 .Channel
                 .CreateCallInvoker();
 
-			string methodname = nameof(Proto.Services.ConsensusService.ConsensusServiceClient.subscribeTopic);
+			string methodname = string.Empty; // TODO: nameof(Proto.Services.ConsensusService.ConsensusServiceClient.subscribeTopic);
 
             MethodDescriptor methoddescriptor = Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname); 
 
@@ -190,7 +190,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
                             continue;
                         }
 
-                        var initialTransactionId = call.ResponseStream.Current.ChunkInfo.InitialTransactionID;
+                        var initialTransactionId = call.ResponseStream.Current.ChunkInfo.InitialTransactionId;
 
                         if (!pendingMessages.ContainsKey(initialTransactionId))
                         {
@@ -233,7 +233,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
                     var delay = Math.Min(500L * (long)Math.Pow(2, attempt), (long)MaxBackoff.TotalMilliseconds);
 
-                    var topicId = TopicId.FromProtobuf(_Proto.TopicID);
+                    var topicId = TopicId.FromProtobuf(_Proto.TopicId);
 
                     LOGGER.Warn(
                         $"Error subscribing to topic {topicId} during attempt #{attempt}. " +

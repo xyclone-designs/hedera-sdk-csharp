@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.SDK.File
         public static FileInfo FromProtobuf(Proto.Services.FileGetInfoResponse.Types.FileInfo fileInfo)
         {
             return new FileInfo(
-				FileId.FromProtobuf(fileInfo.FileID), 
+				FileId.FromProtobuf(fileInfo.FileId), 
 				fileInfo.Size, 
 				fileInfo.ExpirationTime.ToDateTimeOffset(), 
 				fileInfo.Deleted,
@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.File
         {
             return new Proto.Services.FileGetInfoResponse.Types.FileInfo
 			{
-				FileID = FileId.ToProtobuf(),
+				FileId = FileId.ToProtobuf(),
 				Size = Size,
 				ExpirationTime = ExpirationTime.ToProtoTimestamp(),
 				Deleted = IsDeleted,

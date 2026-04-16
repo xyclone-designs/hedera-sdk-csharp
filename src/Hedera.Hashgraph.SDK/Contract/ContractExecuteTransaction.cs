@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             var body = SourceTransactionBody.ContractCall;
 
-			ContractId = ContractId.FromProtobuf(body.ContractID);
+			ContractId = ContractId.FromProtobuf(body.ContractId);
 			Gas = body.Gas;
             PayableAmount = Hbar.FromTinybars(body.Amount);
             FunctionParameters = body.FunctionParameters;
@@ -107,7 +107,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             };
 
             if (ContractId != null)
-				builder.ContractID = ContractId.ToProtobuf();
+				builder.ContractId = ContractId.ToProtobuf();
 
 			return builder;
         }

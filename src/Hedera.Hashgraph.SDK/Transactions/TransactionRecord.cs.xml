@@ -19,7 +19,7 @@
   <member name="F:TransactionRecord.TransactionHash">
     <summary>
     The hash of the Transaction that executed (not the hash of any Transaction that failed for
-    having a duplicate TransactionID).
+    having a duplicate TransactionId).
     </summary>
   </member>
   <member name="F:TransactionRecord.ConsensusTimestamp">

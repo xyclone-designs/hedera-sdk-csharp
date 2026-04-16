@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 
             if (NftId != null)
             {
-                builder.NftID = NftId.ToProtobuf();
+                builder.NftId = NftId.ToProtobuf();
             }
 
             queryBuilder.TokenGetNftInfo = builder;

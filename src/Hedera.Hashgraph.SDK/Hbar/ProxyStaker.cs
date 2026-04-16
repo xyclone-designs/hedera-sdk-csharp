@@ -20,7 +20,7 @@ namespace Hedera.Hashgraph.SDK.HBar
         /// <include file="ProxyStaker.cs.xml" path='docs/member[@name="M:ProxyStaker.FromProtobuf(Proto.Services.ProxyStaker)"]/*' />
         public static ProxyStaker FromProtobuf(Proto.Services.ProxyStaker proxyStaker)
         {
-            return new ProxyStaker(AccountId.FromProtobuf(proxyStaker.AccountID), proxyStaker.Amount);
+            return new ProxyStaker(AccountId.FromProtobuf(proxyStaker.AccountId), proxyStaker.Amount);
         }
     }
 }

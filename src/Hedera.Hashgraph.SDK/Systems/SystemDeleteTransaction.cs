@@ -71,12 +71,12 @@ namespace Hedera.Hashgraph.SDK.Systems
 
             if (FileId != null)
             {
-                builder.FileID = FileId.ToProtobuf();
+                builder.FileId = FileId.ToProtobuf();
             }
 
             if (ContractId != null)
             {
-                builder.ContractID = ContractId.ToProtobuf();
+                builder.ContractId = ContractId.ToProtobuf();
             }
 
             if (ExpirationTime != null)
@@ -92,8 +92,8 @@ namespace Hedera.Hashgraph.SDK.Systems
         {
 			var body = SourceTransactionBody.SystemDelete;
 
-			FileId = FileId.FromProtobuf(body.FileID);
-			ContractId = ContractId.FromProtobuf(body.ContractID);
+			FileId = FileId.FromProtobuf(body.FileId);
+			ContractId = ContractId.FromProtobuf(body.ContractId);
 			ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 		}
 

@@ -55,7 +55,7 @@ namespace Hedera.Hashgraph.SDK.File
         {
             return FromProtobuf(Proto.Services.FileID.Parser.ParseFrom(bytes));
         }
-        /// <include file="FileId.cs.xml" path='docs/member[@name="M:FileId.FromProtobuf(Proto.Services.FileID)"]/*' />
+        /// <include file="FileId.cs.xml" path='docs/member[@name="M:FileId.FromProtobuf(Proto.Services.FileId)"]/*' />
         public static FileId FromProtobuf(Proto.Services.FileID fileId)
         {
             return new FileId(fileId.ShardNum, fileId.RealmNum, fileId.FileNum);

@@ -62,7 +62,7 @@
     <returns>the new token id</returns>
     <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
   </member>
-  <member name="M:TokenId.FromProtobuf(Proto.TokenID)">
+  <member name="M:TokenId.FromProtobuf(Proto.TokenId)">
     <summary>
     Create a token id from a protobuf.
     </summary>

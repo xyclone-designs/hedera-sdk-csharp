@@ -24,7 +24,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 			};
 
 			if (ContractId != null)
-				builder.ContractID = ContractId.ToProtobuf();
+				builder.ContractId = ContractId.ToProtobuf();
 
 			queryBuilder.ContractGetBytecode = builder;
 		}

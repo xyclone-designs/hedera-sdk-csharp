@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		{
 			return FromProtobuf(Proto.Services.ScheduleID.Parser.ParseFrom(bytes));
 		}
-		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromProtobuf(Proto.Services.ScheduleID)"]/*' />
+		/// <include file="ScheduleId.cs.xml" path='docs/member[@name="M:ScheduleId.FromProtobuf(Proto.Services.ScheduleId)"]/*' />
 		public static ScheduleId FromProtobuf(Proto.Services.ScheduleID scheduleId)
         {
             return new ScheduleId(scheduleId.ShardNum, scheduleId.RealmNum, scheduleId.ScheduleNum);

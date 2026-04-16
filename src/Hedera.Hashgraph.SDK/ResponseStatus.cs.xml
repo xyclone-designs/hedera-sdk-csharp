@@ -867,7 +867,7 @@
   </member>
   <member name="T:ResponseStatus_126">
     <summary>
-    A schedule already exists with the same identifying fields of an attempted ScheduleCreate (that Is = Proto.ResponseCodeEnum.Is, all fields other than scheduledPayerAccountID)
+    A schedule already exists with the same identifying fields of an attempted ScheduleCreate (that Is = Proto.ResponseCodeEnum.Is, all fields other than scheduledPayerAccountId)
     </summary>
   </member>
   <member name="T:ResponseStatus_127">

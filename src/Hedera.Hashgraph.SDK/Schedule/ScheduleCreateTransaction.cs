@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
             var builder = new Proto.Services.ScheduleCreateTransactionBody();
 
             if (PayerAccountId != null)
-				builder.PayerAccountID = PayerAccountId.ToProtobuf();
+				builder.PayerAccountId = PayerAccountId.ToProtobuf();
 
 			if (ScheduledTransactionBody != null)
 				builder.ScheduledTransactionBody = ScheduledTransactionBody;
@@ -125,7 +125,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			ScheduleMemo = body.Memo;
 			AdminKey = Key.FromProtobufKey(body.AdminKey);
 			ScheduledTransactionBody = body.ScheduledTransactionBody;
-			PayerAccountId = AccountId.FromProtobuf(body.PayerAccountID);
+			PayerAccountId = AccountId.FromProtobuf(body.PayerAccountId);
 			ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
         }
 

@@ -44,9 +44,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 		public static ContractInfo FromProtobuf(Proto.Services.ContractGetInfoResponse.Types.ContractInfo contractInfo)
         {
             return new ContractInfo(
-                ContractId.FromProtobuf(contractInfo.ContractID), 
-                AccountId.FromProtobuf(contractInfo.AccountID), 
-                contractInfo.ContractAccountID,
+                ContractId.FromProtobuf(contractInfo.ContractId), 
+                AccountId.FromProtobuf(contractInfo.AccountId), 
+                contractInfo.ContractAccountId,
 				Key.FromProtobufKey(contractInfo.AdminKey), 
                 contractInfo.ExpirationTime.ToDateTimeOffset(), 
                 contractInfo.AutoRenewPeriod.ToTimeSpan(), 
@@ -102,9 +102,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 		{
 			Proto.Services.ContractGetInfoResponse.Types.ContractInfo proto = new()
 			{
-				ContractID = ContractId.ToProtobuf(),
-				AccountID = AccountId.ToProtobuf(),
-				ContractAccountID = ContractAccountId,
+				ContractId = ContractId.ToProtobuf(),
+				AccountId = AccountId.ToProtobuf(),
+				ContractAccountId = ContractAccountId,
 				ExpirationTime = ExpirationTime.ToProtoTimestamp(),
 				AutoRenewPeriod = AutoRenewPeriod.ToProtoDuration(),
 				Storage = Storage,

@@ -103,10 +103,10 @@ namespace Hedera.Hashgraph.SDK.Account
 		public static AccountInfo FromProtobuf(Proto.Services.CryptoGetInfoResponse.Types.AccountInfo accountInfo)
         {
             return new AccountInfo(
-				AccountId.FromProtobuf(accountInfo.AccountID), 
-                accountInfo.ContractAccountID, 
+				AccountId.FromProtobuf(accountInfo.AccountId), 
+                accountInfo.ContractAccountId, 
                 accountInfo.Deleted,
-				accountInfo.ProxyAccountID.AccountNum > 0 ? AccountId.FromProtobuf(accountInfo.ProxyAccountID) : null, 
+				accountInfo.ProxyAccountId.AccountNum > 0 ? AccountId.FromProtobuf(accountInfo.ProxyAccountId) : null, 
                 accountInfo.ProxyReceived,
                 Key.FromProtobufKey(accountInfo.Key), 
                 (long)accountInfo.Balance,
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.SDK.Account
         {
 			Proto.Services.CryptoGetInfoResponse.Types.AccountInfo proto = new ()
             {
-				AccountID = AccountId.ToProtobuf(),
+				AccountId = AccountId.ToProtobuf(),
 				Deleted = IsDeleted,
 				ProxyReceived = ProxyReceived.ToTinybars(),
 				Key = Key.ToProtobufKey(),
@@ -156,10 +156,10 @@ namespace Hedera.Hashgraph.SDK.Account
             proto.LiveHashes.AddRange(LiveHashes.Select(_ => _.ToProtobuf()));
             
             if (ContractAccountId != null)
-				proto.ContractAccountID = ContractAccountId;
+				proto.ContractAccountId = ContractAccountId;
 
 			if (ProxyAccountId != null)
-				proto.ProxyAccountID = ProxyAccountId.ToProtobuf();
+				proto.ProxyAccountId = ProxyAccountId.ToProtobuf();
 
             if (AliasKey != null)
 				proto.Alias = AliasKey.ToProtobufKey().ToByteString();

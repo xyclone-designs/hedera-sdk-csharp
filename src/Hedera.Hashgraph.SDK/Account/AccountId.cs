@@ -105,7 +105,7 @@ namespace Hedera.Hashgraph.SDK.Account
                 return FromEvmAddress(address, 0, 0);
             }
         }
-		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromProtobuf(Proto.Services.AccountID)"]/*' />
+		/// <include file="AccountId.cs.xml" path='docs/member[@name="M:AccountId.FromProtobuf(Proto.Services.AccountId)"]/*' />
 		public static AccountId FromProtobuf(Proto.Services.AccountID accountId)
         {
             PublicKey? aliasKey = null;

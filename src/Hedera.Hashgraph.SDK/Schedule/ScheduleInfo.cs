@@ -52,13 +52,13 @@ namespace Hedera.Hashgraph.SDK.Schedule
 		public static ScheduleInfo FromProtobuf(Proto.Services.ScheduleInfo info)
         {
             return new ScheduleInfo(
-				ScheduleId.FromProtobuf(info.ScheduleID), 
-                AccountId.FromProtobuf(info.CreatorAccountID), 
-                AccountId.FromProtobuf(info.PayerAccountID), 
+				ScheduleId.FromProtobuf(info.ScheduleId), 
+                AccountId.FromProtobuf(info.CreatorAccountId), 
+                AccountId.FromProtobuf(info.PayerAccountId), 
                 info.ScheduledTransactionBody,
                 KeyList.FromProtobuf(info.Signers, null),
 				Key.FromProtobufKey(info.AdminKey),
-				TransactionId.FromProtobuf(info.ScheduledTransactionID), 
+				TransactionId.FromProtobuf(info.ScheduledTransactionId), 
                 info.Memo, 
                 info.ExpirationTime.ToDateTimeOffset(),
                 info.ExecutionTime.ToDateTimeOffset(), 
@@ -99,10 +99,10 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
 			Proto.Services.ScheduleInfo proto = new ()
             {
-				ScheduleID = ScheduleId.ToProtobuf(),
-				CreatorAccountID = CreatorAccountId.ToProtobuf(),
+				ScheduleId = ScheduleId.ToProtobuf(),
+				CreatorAccountId = CreatorAccountId.ToProtobuf(),
 				ScheduledTransactionBody = TransactionBody,
-				PayerAccountID = PayerAccountId.ToProtobuf(),
+				PayerAccountId = PayerAccountId.ToProtobuf(),
 				Signers = Signatories.ToProtobuf(),
 				Memo = Memo,
 				LedgerId = LedgerId.ToByteString(),
@@ -113,7 +113,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
                 proto.AdminKey = AdminKey.ToProtobufKey();
 
             if (ScheduledTransactionId != null)
-                proto.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
+                proto.ScheduledTransactionId = ScheduledTransactionId.ToProtobuf();
 
             if (ExpirationTime != null)
                 proto.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();

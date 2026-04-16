@@ -72,14 +72,14 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             var body = SourceTransactionBody.ContractDeleteInstance;
 
-            if (body.ContractID is not null)
-                ContractId = ContractId.FromProtobuf(body.ContractID);
+            if (body.ContractId is not null)
+                ContractId = ContractId.FromProtobuf(body.ContractId);
 
-            if (body.TransferContractID is not null)
-                TransferContractId = ContractId.FromProtobuf(body.TransferContractID);
+            if (body.TransferContractId is not null)
+                TransferContractId = ContractId.FromProtobuf(body.TransferContractId);
 
-            if (body.TransferAccountID is not null)
-                TransferAccountId = AccountId.FromProtobuf(body.TransferAccountID);
+            if (body.TransferAccountId is not null)
+                TransferAccountId = AccountId.FromProtobuf(body.TransferAccountId);
 
             if (body.PermanentRemoval)
 				PermanentRemoval = true;
@@ -90,9 +90,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             var builder = new Proto.Services.ContractDeleteTransactionBody();
 
-            if (ContractId != null) builder.ContractID = ContractId.ToProtobuf();
-            if (TransferAccountId != null) builder.TransferAccountID = TransferAccountId.ToProtobuf();
-            if (TransferContractId != null) builder.TransferContractID = TransferContractId.ToProtobuf();
+            if (ContractId != null) builder.ContractId = ContractId.ToProtobuf();
+            if (TransferAccountId != null) builder.TransferAccountId = TransferAccountId.ToProtobuf();
+            if (TransferContractId != null) builder.TransferContractId = TransferContractId.ToProtobuf();
             if (PermanentRemoval != null) builder.PermanentRemoval = PermanentRemoval.Value;
 
             return builder;

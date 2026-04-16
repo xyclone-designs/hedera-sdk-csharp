@@ -35,11 +35,11 @@ namespace Hedera.Hashgraph.SDK.Account
 		{
 			var body = SourceTransactionBody.CryptoDelete;
 
-			if (body.DeleteAccountID is not null)
-				AccountId = AccountId.FromProtobuf(body.DeleteAccountID);
+			if (body.DeleteAccountId is not null)
+				AccountId = AccountId.FromProtobuf(body.DeleteAccountId);
 
-			if (body.TransferAccountID is not null)
-				TransferAccountId = AccountId.FromProtobuf(body.TransferAccountID);
+			if (body.TransferAccountId is not null)
+				TransferAccountId = AccountId.FromProtobuf(body.TransferAccountId);
 		}
 
 		/// <include file="AccountDeleteTransaction.cs.xml" path='docs/member[@name="M:AccountDeleteTransaction.ToProtobuf"]/*' />
@@ -48,10 +48,10 @@ namespace Hedera.Hashgraph.SDK.Account
             var builder = new Proto.Services.CryptoDeleteTransactionBody();
 
             if (AccountId != null)
-                builder.DeleteAccountID = AccountId.ToProtobuf();
+                builder.DeleteAccountId = AccountId.ToProtobuf();
 
             if (TransferAccountId != null)
-                builder.TransferAccountID = TransferAccountId.ToProtobuf();
+                builder.TransferAccountId = TransferAccountId.ToProtobuf();
 
             return builder;
         }

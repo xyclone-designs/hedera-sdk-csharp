@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		{
 			return FromProtobuf(Proto.Services.TokenID.Parser.ParseFrom(bytes));
 		}
-		/// <include file="TokenId.cs.xml" path='docs/member[@name="M:TokenId.FromProtobuf(Proto.Services.TokenID)"]/*' />
+		/// <include file="TokenId.cs.xml" path='docs/member[@name="M:TokenId.FromProtobuf(Proto.Services.TokenId)"]/*' />
 		public static TokenId FromProtobuf(Proto.Services.TokenID tokenId)
         {
             return new TokenId(tokenId.ShardNum, tokenId.RealmNum, tokenId.TokenNum);

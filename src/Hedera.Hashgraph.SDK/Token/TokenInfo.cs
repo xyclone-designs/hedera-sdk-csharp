@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				Memo = TokenMemo,
 				Metadata = ByteString.CopyFrom(Metadata),
 				Name = Name,
-				TokenId = TokenId.ToProtobuf(),
+                TokenId = TokenId.ToProtobuf(),
 				TotalSupply = TotalSupply,
 				TokenType = (Proto.Services.TokenType)TokenType,
 				Treasury = TreasuryAccountId.ToProtobuf(),

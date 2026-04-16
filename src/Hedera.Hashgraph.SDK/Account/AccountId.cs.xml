@@ -73,7 +73,7 @@
     <returns>the account id object</returns>
     <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(EvmAddress, long, long)} instead.</remarks>
   </member>
-  <member name="M:AccountId.FromProtobuf(Proto.AccountID)">
+  <member name="M:AccountId.FromProtobuf(Proto.AccountId)">
     <summary>
     Retrieve the account id from a protobuf.
     </summary>

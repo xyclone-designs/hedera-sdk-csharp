@@ -38,9 +38,9 @@ namespace Hedera.Hashgraph.SDK.File
         {
             var body = SourceTransactionBody.FileDelete;
 
-            if (body.FileID is not null)
+            if (body.FileId is not null)
             {
-                FileId = FileId.FromProtobuf(body.FileID);
+                FileId = FileId.FromProtobuf(body.FileId);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.File
             var builder = new Proto.Services.FileDeleteTransactionBody();
 
             if (FileId != null)
-				builder.FileID = FileId.ToProtobuf();
+				builder.FileId = FileId.ToProtobuf();
 
 			return builder;
         }

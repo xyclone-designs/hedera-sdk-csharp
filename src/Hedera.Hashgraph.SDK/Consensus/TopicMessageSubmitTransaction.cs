@@ -53,8 +53,8 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
             var body = SourceTransactionBody.ConsensusSubmitMessage;
 
-            if (body.TopicID is not null)
-				TopicId = TopicId.FromProtobuf(body.TopicID);
+            if (body.TopicId is not null)
+				TopicId = TopicId.FromProtobuf(body.TopicId);
 
 			if (InnerSignedTransactions.Count != 0)
             {
@@ -82,7 +82,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             var builder = new Proto.Services.ConsensusSubmitMessageTransactionBody();
 
             if (TopicId != null)
-				builder.TopicID = TopicId.ToProtobuf();
+				builder.TopicId = TopicId.ToProtobuf();
 
 			builder.Message = Data;
             return builder;
@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 				body.ConsensusSubmitMessage.Message = Data.Copy(startIndex, endIndex);
                 body.ConsensusSubmitMessage.ChunkInfo = new Proto.Services.ConsensusMessageChunkInfo
                 {
-					InitialTransactionID = initialTransactionId,
+					InitialTransactionId = initialTransactionId,
 					Number = chunk + 1,
 					Total = total,
 				};

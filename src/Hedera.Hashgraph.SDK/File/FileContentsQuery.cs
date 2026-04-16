@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.File
 
             if (FileId != null)
             {
-                builder.FileID = FileId.ToProtobuf();
+                builder.FileId = FileId.ToProtobuf();
             }
 
             queryBuilder.FileGetContents = builder;

@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.SDK.Token
             Proto.Services.TokenAllowance proto = new()
             {
 				Amount = Amount,
-				TokenId = TokenId.ToProtobuf()
+                TokenId = TokenId.ToProtobuf()
 			};
 
             if (OwnerAccountId != null)

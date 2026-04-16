@@ -100,13 +100,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             return FromProtobuf(Proto.Services.TransactionID.Parser.ParseFrom(bytes));
         }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromProtobuf(Proto.Services.TransactionID)"]/*' />
-		public static TransactionId FromProtobuf(Proto.Services.TransactionID transactionID)
+		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.FromProtobuf(Proto.Services.TransactionId)"]/*' />
+		public static TransactionId FromProtobuf(Proto.Services.TransactionID transactionId)
 		{
-			return new TransactionId(AccountId.FromProtobuf(transactionID.AccountID), transactionID.TransactionValidStart.ToDateTimeOffset())
+			return new TransactionId(AccountId.FromProtobuf(transactionId.AccountId), transactionId.TransactionValidStart.ToDateTimeOffset())
 			{
-				Scheduled = transactionID.Scheduled,
-				Nonce = transactionID.Nonce != 0 ? transactionID.Nonce : null
+				Scheduled = transactionId.Scheduled,
+				Nonce = transactionId.Nonce != 0 ? transactionId.Nonce : null
 			};
 		}
 
@@ -290,7 +290,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			};
 
 			if (AccountId != null)
-				proto.AccountID = AccountId.ToProtobuf();
+				proto.AccountId = AccountId.ToProtobuf();
 
 			if (ValidStart != null)
                 proto.TransactionValidStart = ValidStart.ToProtoTimestamp();

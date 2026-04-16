@@ -145,7 +145,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (ProxyAccountId != null)
             {
-                builder.ProxyAccountID = ProxyAccountId.ToProtobuf();
+                builder.ProxyAccountId = ProxyAccountId.ToProtobuf();
             }
 
             if (Key != null)
@@ -186,9 +186,9 @@ namespace Hedera.Hashgraph.SDK.Account
         {
             var body = SourceTransactionBody.CryptoCreateAccount;
 
-            if (body.ProxyAccountID is not null)
+            if (body.ProxyAccountId is not null)
             {
-                ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
+                ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountId);
             }
 
             if (body.Key is not null)

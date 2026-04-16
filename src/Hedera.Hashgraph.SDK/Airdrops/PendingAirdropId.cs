@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.SDK.Airdrops
             TokenId = null;
         }
 
-		public static PendingAirdropId FromProtobuf(Proto.Services.PendingAirdropId pendingAirdropId)
+		public static PendingAirdropId FromProtobuf(Proto.Services.PendingAirdropID pendingAirdropId)
 		{
 			if (pendingAirdropId.FungibleTokenType is Proto.Services.TokenID tokenid)
 				return new PendingAirdropId(
@@ -47,9 +47,9 @@ namespace Hedera.Hashgraph.SDK.Airdrops
 		public virtual TokenId? TokenId { get; set; }
 		public virtual NftId? NftId { get; set; }
 
-		public virtual Proto.Services.PendingAirdropId ToProtobuf()
+		public virtual Proto.Services.PendingAirdropID ToProtobuf()
 		{
-			Proto.Services.PendingAirdropId proto = new()
+			Proto.Services.PendingAirdropID proto = new()
 			{
 				SenderId = Sender.ToProtobuf(),
 				ReceiverId = Receiver.ToProtobuf(),

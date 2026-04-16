@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Contract
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress);
             return new ContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress));
         }
-        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.Services.ContractID)"]/*' />
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.Services.ContractId)"]/*' />
         public static ContractId FromProtobuf(Proto.Services.ContractID contractId)
         {
             if (contractId.HasEvmAddress)
@@ -172,7 +172,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             return new Proto.Services.Key 
             {
-                ContractID = ToProtobuf(),
+                ContractId = ToProtobuf(),
             };
         }
 

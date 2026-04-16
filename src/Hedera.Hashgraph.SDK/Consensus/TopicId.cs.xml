@@ -61,7 +61,7 @@
     <returns>the topic id object</returns>
     <remarks>@deprecatedThis method is deprecated. Use {@link #fromEvmAddress(long, long, String)} instead.</remarks>
   </member>
-  <member name="M:TopicId.FromProtobuf(Proto.TopicID)">
+  <member name="M:TopicId.FromProtobuf(Proto.TopicId)">
     <summary>
     Create a topic id from a protobuf.
     </summary>

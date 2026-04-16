@@ -119,7 +119,7 @@ namespace Hedera.Hashgraph.SDK.File
 			};
 
             if (FileId != null)
-				builder.FileID = FileId.ToProtobuf();
+				builder.FileId = FileId.ToProtobuf();
 
 			if (Keys != null)
 				builder.Keys = Keys.ToProtobuf();
@@ -173,8 +173,8 @@ namespace Hedera.Hashgraph.SDK.File
 		{
 			var body = SourceTransactionBody.FileUpdate;
 
-			if (body.FileID is not null)
-				FileId = FileId.FromProtobuf(body.FileID);
+			if (body.FileId is not null)
+				FileId = FileId.FromProtobuf(body.FileId);
 
 			if (body.Keys is not null)
 				Keys = KeyList.FromProtobuf(body.Keys, null);

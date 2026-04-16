@@ -85,7 +85,7 @@
     <returns>the file id object</returns>
     <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
   </member>
-  <member name="M:FileId.FromProtobuf(Proto.FileID)">
+  <member name="M:FileId.FromProtobuf(Proto.FileId)">
     <summary>
     Create a file id object from a protobuf.
     </summary>

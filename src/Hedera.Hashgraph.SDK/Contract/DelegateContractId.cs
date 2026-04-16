@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             return new DelegateContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress));
         }
-        /// <include file="DelegateContractId.cs.xml" path='docs/member[@name="M:DelegateContractId.FromProtobuf(Proto.Services.ContractID)"]/*' />
+        /// <include file="DelegateContractId.cs.xml" path='docs/member[@name="M:DelegateContractId.FromProtobuf(Proto.Services.ContractId)"]/*' />
         public new static DelegateContractId FromProtobuf(Proto.Services.ContractID contractId)
         {
             return new DelegateContractId(contractId.ShardNum, contractId.RealmNum, contractId.ContractNum);

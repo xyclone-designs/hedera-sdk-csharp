@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.#ctor(Proto.Services.ContractFunctionResult)"]/*' />
 		internal ContractFunctionResult(Proto.Services.ContractFunctionResult inner)
 		{
-			ContractId = ContractId.FromProtobuf(inner.ContractID);
+			ContractId = ContractId.FromProtobuf(inner.ContractId);
 			EvmAddress = new ContractId(ContractId.Shard, ContractId.Realm, inner.EvmAddress.ToByteArray());
 			string errMsg = inner.ErrorMessage;
 			ErrorMessage = errMsg.Length > 0 ? errMsg : null;
@@ -280,7 +280,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
 			Proto.Services.ContractFunctionResult proto = new()
             {
-				ContractID = ContractId.ToProtobuf(),
+				ContractId = ContractId.ToProtobuf(),
 				ContractCallResult = RawResult,
 				Bloom = Bloom,
 				GasUsed = GasUsed,

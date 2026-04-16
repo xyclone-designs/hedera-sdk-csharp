@@ -45,8 +45,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		public static TokenNftInfo FromProtobuf(Proto.Services.TokenNftInfo info)
         {
             return new TokenNftInfo(
-                NftId.FromProtobuf(info.NftID), 
-                AccountId.FromProtobuf(info.AccountID), 
+                NftId.FromProtobuf(info.NftId), 
+                AccountId.FromProtobuf(info.AccountId), 
                 info.CreationTime.ToDateTimeOffset(), 
                 info.Metadata.ToByteArray(), 
                 LedgerId.FromByteString(info.LedgerId), 
@@ -63,8 +63,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
         {
             Proto.Services.TokenNftInfo proto = new()
             {
-				NftID = NftId.ToProtobuf(),
-				AccountID = AccountId.ToProtobuf(),
+				NftId = NftId.ToProtobuf(),
+				AccountId = AccountId.ToProtobuf(),
 				CreationTime = CreationTime.ToProtoTimestamp(),
 				Metadata = ByteString.CopyFrom(Metadata),
 				LedgerId = LedgerId.ToByteString(),

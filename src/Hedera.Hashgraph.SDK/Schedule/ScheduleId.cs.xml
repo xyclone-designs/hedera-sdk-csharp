@@ -47,7 +47,7 @@
     <returns>the new schedule id</returns>
     <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
   </member>
-  <member name="M:ScheduleId.FromProtobuf(Proto.ScheduleID)">
+  <member name="M:ScheduleId.FromProtobuf(Proto.ScheduleId)">
     <summary>
     Create a schedule id from a protobuf.
     </summary>

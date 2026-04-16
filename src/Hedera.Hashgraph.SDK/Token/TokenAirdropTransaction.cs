@@ -56,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Token
 				{
 					tokenTransfers.Add(new TokenTransfer(
 						token,
-						AccountId.FromProtobuf(transfer.AccountID),
+						AccountId.FromProtobuf(transfer.AccountId),
 						transfer.Amount,
 						tokenTransferList.ExpectedDecimals,
 						transfer.IsApproval));
@@ -66,8 +66,8 @@ namespace Hedera.Hashgraph.SDK.Token
 				{
 					nftTransfers.Add(new TokenNftTransfer(
 						token,
-						AccountId.FromProtobuf(transfer.SenderAccountID),
-						AccountId.FromProtobuf(transfer.ReceiverAccountID),
+						AccountId.FromProtobuf(transfer.SenderAccountId),
+						AccountId.FromProtobuf(transfer.ReceiverAccountId),
 						transfer.SerialNumber,
 						transfer.IsApproval,
 						null,

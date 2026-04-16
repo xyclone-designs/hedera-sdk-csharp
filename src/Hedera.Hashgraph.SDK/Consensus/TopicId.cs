@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
             return Utils.EntityIdHelper.FromSolidityAddress(address, (a, b, c, d) => new TopicId (a, b, c, d));
         }
-        /// <include file="TopicId.cs.xml" path='docs/member[@name="M:TopicId.FromProtobuf(Proto.Services.TopicID)"]/*' />
+        /// <include file="TopicId.cs.xml" path='docs/member[@name="M:TopicId.FromProtobuf(Proto.Services.TopicId)"]/*' />
         public static TopicId FromProtobuf(Proto.Services.TopicID topicId)
         {
             return new TopicId(topicId.ShardNum, topicId.RealmNum, topicId.TopicNum);

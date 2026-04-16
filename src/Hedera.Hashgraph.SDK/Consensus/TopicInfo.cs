@@ -41,7 +41,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 		public static TopicInfo FromProtobuf(Proto.Services.ConsensusGetTopicInfoResponse topicInfoResponse)
         {
             return new TopicInfo(TopicId.FromProtobuf(
-                topicInfoResponse.TopicID),
+                topicInfoResponse.TopicId),
 				topicInfoResponse.TopicInfo.Memo, 
                 topicInfoResponse.TopicInfo.RunningHash, 
                 topicInfoResponse.TopicInfo.SequenceNumber,
@@ -90,7 +90,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 		{
 			Proto.Services.ConsensusGetTopicInfoResponse proto = new()
 			{
-				TopicID = TopicId.ToProtobuf(),
+				TopicId = TopicId.ToProtobuf(),
 				TopicInfo = new Proto.Services.ConsensusTopicInfo
 				{
 					Memo = TopicMemo,

@@ -48,7 +48,7 @@ namespace Hedera.Hashgraph.SDK.Queries
 
             if (TransactionId != null)
             {
-                builder.TransactionID = TransactionId.ToProtobuf();
+                builder.TransactionId = TransactionId.ToProtobuf();
             }
 
             queryBuilder.TransactionGetRecord = builder;

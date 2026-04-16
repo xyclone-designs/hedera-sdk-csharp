@@ -49,7 +49,7 @@
     <returns>the new transaction id</returns>
     <exception cref="InvalidProtocolBufferException">when there is an issue with the protobuf</exception>
   </member>
-  <member name="M:TransactionId.FromProtobuf(Proto.TransactionID)">
+  <member name="M:TransactionId.FromProtobuf(Proto.TransactionId)">
     <summary>
     Create a transaction id from a protobuf.
     </summary>

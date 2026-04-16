@@ -184,7 +184,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 						endIndex = Data.Length;
 					}
 
-					FrozenBodyBuilder!.TransactionID = TransactionIds[i].ToProtobuf();
+					FrozenBodyBuilder!.TransactionId = TransactionIds[i].ToProtobuf();
 
 					OnFreezeChunk(FrozenBodyBuilder, TransactionIds[0].ToProtobuf(), startIndex, endIndex, i, requiredChunks);
 				}
@@ -193,7 +193,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				foreach (var nodeId in NodeAccountIds)
 				{
 					SigPairLists.Add(new Proto.Services.SignatureMap());
-					FrozenBodyBuilder!.NodeAccountID = nodeId.ToProtobuf();
+					FrozenBodyBuilder!.NodeAccountId = nodeId.ToProtobuf();
 					FrozenBodyBuilder!.ToByteString();
 					OuterTransactions.Add(null);
 					InnerSignedTransactions.Add(new Proto.Services.SignedTransaction

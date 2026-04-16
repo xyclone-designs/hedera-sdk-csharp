@@ -60,8 +60,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 else if (transfer.PrePostTxReceiverAllowanceHook is not null)
                     receiverHookCall = TransferTransaction.ToNftHook(transfer.PrePostTxReceiverAllowanceHook, NftHookType.PrePostHookReceiver);
 
-				AccountId sender = AccountId.FromProtobuf(transfer.SenderAccountID);
-                AccountId receiver = AccountId.FromProtobuf(transfer.ReceiverAccountID);
+				AccountId sender = AccountId.FromProtobuf(transfer.SenderAccountId);
+                AccountId receiver = AccountId.FromProtobuf(transfer.ReceiverAccountId);
 
                 nftTransfers.Add(new TokenNftTransfer(token, sender, receiver, transfer.SerialNumber, transfer.IsApproval, senderHookCall, receiverHookCall));
             }
@@ -87,8 +87,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
         {
             Proto.Services.NftTransfer proto = new()
             {
-                SenderAccountID = Sender.ToProtobuf(),
-                ReceiverAccountID = Receiver.ToProtobuf(),
+                SenderAccountId = Sender.ToProtobuf(),
+                ReceiverAccountId = Receiver.ToProtobuf(),
                 SerialNumber = Serial,
                 IsApproval = IsApproved,
             };

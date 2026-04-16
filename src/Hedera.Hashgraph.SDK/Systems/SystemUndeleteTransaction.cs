@@ -55,8 +55,8 @@ namespace Hedera.Hashgraph.SDK.Systems
         {
             var body = SourceTransactionBody.SystemUndelete;
 
-            FileId = FileId.FromProtobuf(body.FileID);
-            ContractId = ContractId.FromProtobuf(body.ContractID);
+            FileId = FileId.FromProtobuf(body.FileId);
+            ContractId = ContractId.FromProtobuf(body.ContractId);
         }
 
         /// <include file="SystemUndeleteTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
@@ -64,8 +64,8 @@ namespace Hedera.Hashgraph.SDK.Systems
         {
             var builder = new Proto.Services.SystemUndeleteTransactionBody();
 
-            if (FileId is not null) builder.FileID = FileId.ToProtobuf();
-            if (ContractId is not null) builder.ContractID = ContractId.ToProtobuf();
+            if (FileId is not null) builder.FileId = FileId.ToProtobuf();
+            if (ContractId is not null) builder.ContractId = ContractId.ToProtobuf();
 
             return builder;
         }

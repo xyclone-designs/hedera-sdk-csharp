@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.SDK.Token
 		{
             return new Proto.Services.TokenRelationship
             {
-				TokenId = TokenId.ToProtobuf(),
+                TokenId = TokenId.ToProtobuf(),
 				Symbol = Symbol,
 				Balance = Balance,
 				KycStatus = KycStatusToProtobuf(KycStatus),

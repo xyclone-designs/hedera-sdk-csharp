@@ -185,8 +185,8 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             var body = SourceTransactionBody.ContractUpdateInstance;
 
-            ContractId = ContractId.FromProtobuf(body.ContractID);
-            ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
+            ContractId = ContractId.FromProtobuf(body.ContractId);
+            ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountId);
             ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 
             if (body.AdminKey is not null)
@@ -214,10 +214,10 @@ namespace Hedera.Hashgraph.SDK.Contract
             var builder = new Proto.Services.ContractUpdateTransactionBody { };
 
             if (ContractId != null)
-				builder.ContractID = ContractId.ToProtobuf();
+				builder.ContractId = ContractId.ToProtobuf();
 
             if (ProxyAccountId != null)
-				builder.ProxyAccountID = ProxyAccountId.ToProtobuf();
+				builder.ProxyAccountId = ProxyAccountId.ToProtobuf();
 
             if (ExpirationTime != null)
 				builder.ExpirationTime = ExpirationTime.Value.ToProtoTimestamp();

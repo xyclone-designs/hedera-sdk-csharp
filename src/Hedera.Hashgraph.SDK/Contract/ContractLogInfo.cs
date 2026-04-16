@@ -28,7 +28,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromProtobuf(Proto.Services.ContractLoginfo)"]/*' />
         public static ContractLogInfo FromProtobuf(Proto.Services.ContractLoginfo logInfo)
         {
-            return new ContractLogInfo(ContractId.FromProtobuf(logInfo.ContractID), logInfo.Bloom, logInfo.Topic, logInfo.Data);
+            return new ContractLogInfo(ContractId.FromProtobuf(logInfo.ContractId), logInfo.Bloom, logInfo.Topic, logInfo.Data);
         }
 
         /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromBytes(System.Byte[])"]/*' />
@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             Proto.Services.ContractLoginfo proto = new()
             {
-				ContractID = ContractId.ToProtobuf(),
+				ContractId = ContractId.ToProtobuf(),
 				Bloom = Bloom,
 			};
 

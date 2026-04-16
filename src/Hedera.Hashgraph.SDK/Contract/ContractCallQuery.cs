@@ -65,7 +65,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			};
 
 			if (ContractId != null)
-                builder.ContractID = ContractId.ToProtobuf();
+                builder.ContractId = ContractId.ToProtobuf();
 
             if (SenderAccountId != null)
 				builder.SenderId = SenderAccountId.ToProtobuf();

@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Token
 
                 tokenTransfers.Add(new TokenTransfer(
                     token,
-					AccountId.FromProtobuf(transfer.AccountID), 
+					AccountId.FromProtobuf(transfer.AccountId), 
                     transfer.Amount, 
                     tokenTransferList.ExpectedDecimals, 
                     transfer.IsApproval, 
@@ -77,7 +77,7 @@ namespace Hedera.Hashgraph.SDK.Token
             {
 				Amount = Amount,
 				IsApproval = IsApproved,
-				AccountID = AccountId.ToProtobuf(),
+				AccountId = AccountId.ToProtobuf(),
 			};
 
 			switch (HookCall?.Type)

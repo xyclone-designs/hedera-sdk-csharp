@@ -32,10 +32,10 @@ namespace Hedera.Hashgraph.SDK.Account
             };
 
             if (AccountId != null)
-                builder.AccountID = AccountId.ToProtobuf();
+                builder.AccountId = AccountId.ToProtobuf();
 
             if (ContractId != null)
-                builder.ContractID = ContractId.ToProtobuf();
+                builder.ContractId = ContractId.ToProtobuf();
 
             queryBuilder.CryptogetAccountBalance = builder;
         }

@@ -74,8 +74,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:AddTransactionToMap(Proto.Services.Transaction,Proto.Services.TransactionBody,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
 		internal static void AddTransactionToMap(Proto.Services.Transaction transaction, Proto.Services.TransactionBody txBody, DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txsMap)
 		{
-			var account = txBody.NodeAccountID is not null ? AccountId.FromProtobuf(txBody.NodeAccountID) : DUMMY_ACCOUNT_ID;
-			var transactionId = txBody.TransactionID is not null ? TransactionId.FromProtobuf(txBody.TransactionID) : DUMMY_TRANSACTION_ID;
+			var account = txBody.NodeAccountId is not null ? AccountId.FromProtobuf(txBody.NodeAccountId) : DUMMY_ACCOUNT_ID;
+			var transactionId = txBody.TransactionId is not null ? TransactionId.FromProtobuf(txBody.TransactionId) : DUMMY_TRANSACTION_ID;
 			var linked = txsMap.ContainsKey(transactionId) ? txsMap[transactionId] : new DictionaryLinked<AccountId, Proto.Services.Transaction>();
 
 			linked.Add(account, transaction);

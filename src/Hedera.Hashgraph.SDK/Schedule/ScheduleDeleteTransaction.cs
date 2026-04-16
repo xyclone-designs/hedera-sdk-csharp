@@ -44,8 +44,8 @@ namespace Hedera.Hashgraph.SDK.Schedule
         /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.InitFromTransactionBody"]/*' />
         private void InitFromTransactionBody()
         {
-            if (SourceTransactionBody.ScheduleDelete.ScheduleID is not null)
-				ScheduleId = ScheduleId.FromProtobuf(SourceTransactionBody.ScheduleDelete.ScheduleID);
+            if (SourceTransactionBody.ScheduleDelete.ScheduleId is not null)
+				ScheduleId = ScheduleId.FromProtobuf(SourceTransactionBody.ScheduleDelete.ScheduleId);
 		}
 
         /// <include file="ScheduleDeleteTransaction.cs.xml" path='docs/member[@name="M:ScheduleDeleteTransaction.ToProtobuf"]/*' />
@@ -54,7 +54,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			Proto.Services.ScheduleDeleteTransactionBody proto =  new ();
             
             if (ScheduleId != null)
-                proto.ScheduleID = ScheduleId.ToProtobuf();
+                proto.ScheduleId = ScheduleId.ToProtobuf();
 
 			return proto;
         }

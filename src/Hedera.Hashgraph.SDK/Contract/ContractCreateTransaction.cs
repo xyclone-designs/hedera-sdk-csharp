@@ -211,13 +211,13 @@ namespace Hedera.Hashgraph.SDK.Contract
             var builder = new Proto.Services.ContractCreateTransactionBody();
             
             if (BytecodeFileId != null)
-				builder.FileID = BytecodeFileId.ToProtobuf();
+				builder.FileId = BytecodeFileId.ToProtobuf();
 
 			if (Bytecode != null)
 				builder.Initcode = ByteString.CopyFrom(Bytecode);
 
 			if (ProxyAccountId != null)
-				builder.ProxyAccountID = ProxyAccountId.ToProtobuf();
+				builder.ProxyAccountId = ProxyAccountId.ToProtobuf();
 
 			if (AdminKey != null)
 				builder.AdminKey = AdminKey.ToProtobufKey();
@@ -260,9 +260,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             var body = SourceTransactionBody.ContractCreateInstance;
 
-			BytecodeFileId = FileId.FromProtobuf(body.FileID);
+			BytecodeFileId = FileId.FromProtobuf(body.FileId);
 			Bytecode = body.Initcode.ToByteArray();
-			ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
+			ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountId);
 			AdminKey = Key.FromProtobufKey(body.AdminKey);
 
 			MaxAutomaticTokenAssociations = body.MaxAutomaticTokenAssociations;

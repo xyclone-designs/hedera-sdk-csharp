@@ -43,7 +43,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
             
             if (ScheduleId != null)
             {
-                builder.ScheduleID = ScheduleId.ToProtobuf();
+                builder.ScheduleId = ScheduleId.ToProtobuf();
             }
 
             return builder;
@@ -54,9 +54,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             var body = SourceTransactionBody.ScheduleSign;
 
-            if (body.ScheduleID is not null)
+            if (body.ScheduleId is not null)
             {
-                ScheduleId = ScheduleId.FromProtobuf(body.ScheduleID);
+                ScheduleId = ScheduleId.FromProtobuf(body.ScheduleId);
             }
         }
 

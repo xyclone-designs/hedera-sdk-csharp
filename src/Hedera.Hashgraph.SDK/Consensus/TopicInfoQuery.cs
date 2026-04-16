@@ -26,7 +26,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 			};
 
 			if (TopicId != null)
-				queryBuilder.ConsensusGetTopicInfo.TopicID = TopicId.ToProtobuf();
+				queryBuilder.ConsensusGetTopicInfo.TopicId = TopicId.ToProtobuf();
 		}
 		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
 		{

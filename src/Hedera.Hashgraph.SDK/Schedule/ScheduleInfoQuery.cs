@@ -30,7 +30,7 @@ namespace Hedera.Hashgraph.SDK.Schedule
 
             if (ScheduleId != null)
             {
-                builder.ScheduleID = ScheduleId.ToProtobuf();
+                builder.ScheduleId = ScheduleId.ToProtobuf();
             }
 
             queryBuilder.ScheduleGetInfo = builder;

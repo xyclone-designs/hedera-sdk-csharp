@@ -37,7 +37,7 @@
     <param name="id">the string representation</param>
     <returns>the new nft id</returns>
   </member>
-  <member name="M:NftId.FromProtobuf(Proto.NftID)">
+  <member name="M:NftId.FromProtobuf(Proto.NftId)">
     <summary>
     Create a new ntf id from a protobuf.
     </summary>

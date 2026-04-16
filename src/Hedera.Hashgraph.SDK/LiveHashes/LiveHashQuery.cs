@@ -36,7 +36,7 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 
             if (AccountId != null)
             {
-                builder.AccountID = AccountId.ToProtobuf();
+                builder.AccountId = AccountId.ToProtobuf();
             }
 
             builder.Hash = ByteString.CopyFrom(Hash);

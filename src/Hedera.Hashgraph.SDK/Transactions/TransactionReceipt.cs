@@ -81,16 +81,16 @@ namespace Hedera.Hashgraph.SDK.Transactions
             var rate = transactionReceipt.ExchangeRate;
             var exchangeRate = ExchangeRate.FromProtobuf(rate.CurrentRate);
             var nextExchangeRate = ExchangeRate.FromProtobuf(rate.NextRate);
-            var accountId = AccountId.FromProtobuf(transactionReceipt.AccountID);
-            var fileId = FileId.FromProtobuf(transactionReceipt.FileID);
-            var contractId = ContractId.FromProtobuf(transactionReceipt.ContractID);
-            var topicId = TopicId.FromProtobuf(transactionReceipt.TopicID);
-            var tokenId = TokenId.FromProtobuf(transactionReceipt.TokenID);
+            var accountId = AccountId.FromProtobuf(transactionReceipt.AccountId);
+            var fileId = FileId.FromProtobuf(transactionReceipt.FileId);
+            var contractId = ContractId.FromProtobuf(transactionReceipt.ContractId);
+            var topicId = TopicId.FromProtobuf(transactionReceipt.TopicId);
+            var tokenId = TokenId.FromProtobuf(transactionReceipt.TokenId);
             var topicSequenceNumber = transactionReceipt.TopicSequenceNumber;
             var topicRunningHash = transactionReceipt.TopicRunningHash.Length == 0 ? null : transactionReceipt.TopicRunningHash;
             var totalSupply = transactionReceipt.NewTotalSupply;
-            var scheduleId = ScheduleId.FromProtobuf(transactionReceipt.ScheduleID);
-            var scheduledTransactionId = TransactionId.FromProtobuf(transactionReceipt.ScheduledTransactionID);
+            var scheduleId = ScheduleId.FromProtobuf(transactionReceipt.ScheduleId);
+            var scheduledTransactionId = TransactionId.FromProtobuf(transactionReceipt.ScheduledTransactionId);
             var serials = transactionReceipt.SerialNumbers;
             var nodeId = transactionReceipt.NodeId;
 
@@ -156,14 +156,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				}
 			};
 
-            if (AccountId != null) proto.AccountID = AccountId.ToProtobuf();
-            if (FileId != null) proto.FileID = FileId.ToProtobuf();
-            if (ContractId != null) proto.ContractID = ContractId.ToProtobuf();
-            if (TopicId != null) proto.TopicID = TopicId.ToProtobuf();
-            if (TokenId != null) proto.TokenID = TokenId.ToProtobuf();
+            if (AccountId != null) proto.AccountId = AccountId.ToProtobuf();
+            if (FileId != null) proto.FileId = FileId.ToProtobuf();
+            if (ContractId != null) proto.ContractId = ContractId.ToProtobuf();
+            if (TopicId != null) proto.TopicId = TopicId.ToProtobuf();
+            if (TokenId != null) proto.TokenId = TokenId.ToProtobuf();
             if (TopicRunningHash != null) proto.TopicRunningHash = TopicRunningHash;
-            if (ScheduleId != null) proto.ScheduleID = ScheduleId.ToProtobuf();
-            if (ScheduledTransactionId != null) proto.ScheduledTransactionID = ScheduledTransactionId.ToProtobuf();
+            if (ScheduleId != null) proto.ScheduleId = ScheduleId.ToProtobuf();
+            if (ScheduledTransactionId != null) proto.ScheduledTransactionId = ScheduledTransactionId.ToProtobuf();
 
             foreach (var serial in Serials)
                 proto.SerialNumbers.Add(serial);

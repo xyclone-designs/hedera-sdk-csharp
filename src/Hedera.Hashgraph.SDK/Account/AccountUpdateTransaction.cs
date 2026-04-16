@@ -84,9 +84,9 @@ namespace Hedera.Hashgraph.SDK.Account
                 AccountId = AccountId.FromProtobuf(body.AccountIDToUpdate);
             }
 
-            if (body.ProxyAccountID is not null)
+            if (body.ProxyAccountId is not null)
             {
-                ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountID);
+                ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountId);
             }
 
             if (body.Key is not null)
@@ -154,7 +154,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
             if (ProxyAccountId != null)
             {
-                proto.ProxyAccountID = ProxyAccountId.ToProtobuf();
+                proto.ProxyAccountId = ProxyAccountId.ToProtobuf();
             }
 
             if (Key != null)

@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Account
 
 			if (AccountId != null)
 			{
-				builder.AccountID = AccountId.ToProtobuf();
+				builder.AccountId = AccountId.ToProtobuf();
 			}
 
 			queryBuilder.CryptoGetInfo = builder;

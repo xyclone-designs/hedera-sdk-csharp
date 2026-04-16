@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
         {
             var body = SourceTransactionBody.ConsensusDeleteTopic;
 
-			TopicId = TopicId.FromProtobuf(body.TopicID);
+			TopicId = TopicId.FromProtobuf(body.TopicId);
 		}
 
         /// <include file="TopicDeleteTransaction.cs.xml" path='docs/member[@name="M:TopicDeleteTransaction.ToProtobuf"]/*' />
@@ -46,7 +46,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             var builder = new Proto.Services.ConsensusDeleteTopicTransactionBody();
 
             if (TopicId != null)
-				builder.TopicID = TopicId.ToProtobuf();
+				builder.TopicId = TopicId.ToProtobuf();
 
 			return builder;
         }

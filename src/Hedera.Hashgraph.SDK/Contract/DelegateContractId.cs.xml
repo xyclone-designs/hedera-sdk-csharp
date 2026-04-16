@@ -54,7 +54,7 @@
     <param name="evmAddress">the evm address</param>
     <returns>the contract id object</returns>
   </member>
-  <member name="M:DelegateContractId.FromProtobuf(Proto.ContractID)">
+  <member name="M:DelegateContractId.FromProtobuf(Proto.ContractId)">
     <summary>
     Create a delegate contract id from a string.
     </summary>

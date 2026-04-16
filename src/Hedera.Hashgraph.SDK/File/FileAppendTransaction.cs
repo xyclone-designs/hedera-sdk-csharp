@@ -65,9 +65,9 @@ namespace Hedera.Hashgraph.SDK.File
 		private void InitFromTransactionBody()
 		{
 			var body = SourceTransactionBody.FileAppend;
-			if (body.FileID is not null)
+			if (body.FileId is not null)
 			{
-				FileId = FileId.FromProtobuf(body.FileID);
+				FileId = FileId.FromProtobuf(body.FileId);
 			}
 
 			if (InnerSignedTransactions.Count > 0)
@@ -99,7 +99,7 @@ namespace Hedera.Hashgraph.SDK.File
 			};
 
             if (FileId != null)
-				builder.FileID = FileId.ToProtobuf();
+				builder.FileId = FileId.ToProtobuf();
 
             return builder;
         }
