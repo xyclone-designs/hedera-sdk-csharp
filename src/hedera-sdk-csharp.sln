@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.SDK", "Hed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.HieroConsensusNode", "forks.hiero-ledger.hiero-consensus-node\Hedera.Hashgraph.Forks.HieroConsensusNode.csproj", "{BDD44ABB-09A9-4A6D-A8BC-B2A7326E0B41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.HieroSDKTCK", "forks.hiero-ledger.hiero-sdk-tck\Hedera.Hashgraph.Forks.HieroSDKTCK.csproj", "{0A367FBB-9CD6-728B-F93B-1921D2CEB434}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.HieroTCK", "forks.hiero-ledger.hiero-sdk-tck\Hedera.Hashgraph.Forks.HieroTCK.csproj", "{0A367FBB-9CD6-728B-F93B-1921D2CEB434}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
