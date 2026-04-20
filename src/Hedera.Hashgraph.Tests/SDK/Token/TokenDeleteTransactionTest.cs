@@ -73,7 +73,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             {
                 Token = tokenId.ToProtobuf()
             };
-            var txBody = new Proto.TransactionBody
+            var txBody = new Proto.Services.TransactionBody
             {
                 TokenDeletion = transactionBody
             };

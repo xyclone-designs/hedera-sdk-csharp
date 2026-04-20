@@ -83,7 +83,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                     Seconds = validStart.ToUnixTimeSeconds() 
                 }
 			};
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				Freeze = transactionBody
 			};

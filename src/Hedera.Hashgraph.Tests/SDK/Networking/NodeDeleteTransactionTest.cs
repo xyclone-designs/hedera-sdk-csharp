@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
         {
             var transactionBodyBuilder = new Proto.NodeDeleteTransactionBody();
             transactionBodyBuilder.NodeId = TEST_NODE_ID;
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				NodeDelete = transactionBodyBuilder
 			};

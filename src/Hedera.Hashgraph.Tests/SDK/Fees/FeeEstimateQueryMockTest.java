@@ -20,8 +20,8 @@ import org.junit.jupiter.api.Test;
 
 class FeeEstimateQueryMockTest {
 
-    private static final Proto.Transaction DUMMY_TRANSACTION =
-            Proto.Transaction.newBuilder()
+    private static final Proto.Services.Transaction DUMMY_TRANSACTION =
+            Proto.Services.Transaction.newBuilder()
                     .setSignedTransactionBytes(ByteString.copyFromUtf8("dummy"))
                     .build();
 

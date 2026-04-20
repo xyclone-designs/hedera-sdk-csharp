@@ -179,7 +179,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				Memo = testTokenMemo,
 				Metadata = ByteString.CopyFrom(testMetadata),
 			};
-            var tx = new Proto.TransactionBody { TokenCreation = transactionBody };
+            var tx = new Proto.Services.TransactionBody { TokenCreation = transactionBody };
             var tokenCreateTransaction = new TokenCreateTransaction(tx);
 
             Assert.Equal(tokenCreateTransaction.FeeScheduleKey, testFeeScheduleKey);
@@ -226,7 +226,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 Name = testTokenName,
                 Memo = testTokenMemo
             };
-            var tx = new Proto.TransactionBody { TokenCreation = transactionBody };
+            var tx = new Proto.Services.TransactionBody { TokenCreation = transactionBody };
             var tokenCreateTransaction = new TokenCreateTransaction(tx);
             Assert.Equal(tokenCreateTransaction.FeeScheduleKey, testFeeScheduleKey);
             Assert.Equal(tokenCreateTransaction.SupplyKey, testSupplyKey);

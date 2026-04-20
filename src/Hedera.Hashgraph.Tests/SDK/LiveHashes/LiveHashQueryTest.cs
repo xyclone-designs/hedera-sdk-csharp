@@ -14,13 +14,13 @@ namespace Hedera.Hashgraph.Tests.SDK.LiveHashes
 
         public virtual void ShouldSerialize()
         {
-            var builder = new Proto.Query();
+            var builder = new Proto.Services.Query();
             new LiveHashQuery
             {
                 Hash = hash,
 				AccountId = AccountId.FromString("0.0.100"),
 
-			}.OnMakeRequest(builder, new Proto.QueryHeader());
+			}.OnMakeRequest(builder, new Proto.Services.QueryHeader());
 
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }

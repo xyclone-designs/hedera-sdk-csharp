@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.True(list.Any((a) => a.PrePostTxAllowanceHook is not null));
 
             // Round-trip
-            var rebuilt = new TransferTransaction(new Proto.TransactionBody { CryptoTransfer = body });
+            var rebuilt = new TransferTransaction(new Proto.Services.TransactionBody { CryptoTransfer = body });
             
             Assert.Equal(rebuilt.GetHbarTransfers()[accountId], Hbar.FromTinybars(1));
         }
@@ -64,7 +64,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Hook
             Assert.True(anyPrePost);
 
             // Round-trip parse back
-            var rebuilt = new TransferTransaction(new Proto.TransactionBody { CryptoTransfer = body });
+            var rebuilt = new TransferTransaction(new Proto.Services.TransactionBody { CryptoTransfer = body });
             var tokenTransfers = rebuilt.GetTokenTransfers();
             
             Assert.Equal(tokenTransfers[token][sender], -100);

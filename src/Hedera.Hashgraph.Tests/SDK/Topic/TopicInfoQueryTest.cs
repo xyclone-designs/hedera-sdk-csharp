@@ -11,12 +11,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
     {
         public virtual void ShouldSerialize()
         {
-            var builder = new Proto.Query();
+            var builder = new Proto.Services.Query();
             new TopicInfoQuery()
             {
                 TopicId = TopicId.FromString("0.0.5005")
 
-			}.OnMakeRequest(builder, new Proto.QueryHeader());
+			}.OnMakeRequest(builder, new Proto.Services.QueryHeader());
 
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }

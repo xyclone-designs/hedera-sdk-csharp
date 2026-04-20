@@ -67,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void TokenAssociateTransactionFromTransactionBodyBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody { };
-            var transactionBodyProto = new Proto.TransactionBody { TokenAssociate = tokenAssociateTransactionBodyProto };
+            var transactionBodyProto = new Proto.Services.TransactionBody { TokenAssociate = tokenAssociateTransactionBodyProto };
             TokenAssociateTransaction tokenAssociateTransaction = SpawnTestTransaction(transactionBodyProto);
             var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
@@ -76,9 +76,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         public virtual void TokenAssociateTransactionFromSignedTransactionBytes()
         {
             var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody { };
-            var transactionBodyProto = new Proto.TransactionBody { TokenAssociate = tokenAssociateTransactionBodyProto };
+            var transactionBodyProto = new Proto.Services.TransactionBody { TokenAssociate = tokenAssociateTransactionBodyProto };
             var signedTransactionProto = new Proto.SignedTransaction { BodyBytes = transactionBodyProto.ToByteString() };
-            var signedTransactionBodyProto = Proto.TransactionBody.Parser.ParseFrom(signedTransactionProto.BodyBytes);
+            var signedTransactionBodyProto = Proto.Services.TransactionBody.Parser.ParseFrom(signedTransactionProto.BodyBytes);
             TokenAssociateTransaction tokenAssociateTransaction = SpawnTestTransaction(signedTransactionBodyProto);
             var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
@@ -88,7 +88,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var tokenAssociateTransactionBodyProto = new Proto.TokenAssociateTransactionBody
             { };
-            var transactionBodyProto = new Proto.TransactionBody
+            var transactionBodyProto = new Proto.Services.TransactionBody
             {
                 TokenAssociate = tokenAssociateTransactionBodyProto
             };
@@ -96,18 +96,18 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 BodyBytes = transactionBodyProto.ToByteString()
             };
-            var signedTransactionBodyProto = Proto.TransactionBody.Parser.ParseFrom(signedTransactionProto.BodyBytes);
-            var transactionSignedProto = new Proto.Transaction
+            var signedTransactionBodyProto = Proto.Services.TransactionBody.Parser.ParseFrom(signedTransactionProto.BodyBytes);
+            var transactionSignedProto = new Proto.Services.Transaction
             {
                 SignedTransactionBytes = signedTransactionBodyProto.ToByteString()
             };
-            var transactionSignedBodyProto = Proto.TransactionBody.Parser.ParseFrom(transactionSignedProto.SignedTransactionBytes);
+            var transactionSignedBodyProto = Proto.Services.TransactionBody.Parser.ParseFrom(transactionSignedProto.SignedTransactionBytes);
             TokenAssociateTransaction tokenAssociateTransaction = SpawnTestTransaction(transactionSignedBodyProto);
             var tokenAssociateTransactionFromBytes = ITransaction.FromBytes(tokenAssociateTransaction.ToBytes());
             Assert.IsType<TokenAssociateTransaction>(tokenAssociateTransactionFromBytes);
         }
 
-        private TokenAssociateTransaction SpawnTestTransaction(Proto.TransactionBody txBody)
+        private TokenAssociateTransaction SpawnTestTransaction(Proto.Services.TransactionBody txBody)
         {
             return new TokenAssociateTransaction(txBody)
             {
@@ -483,7 +483,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             .AddHbarTransfer(AccountId.FromString("0.0.3"), Hbar.From(1))
             .FreezeWith(client);
             List<Transaction.SignableNodeTransactionBodyBytes> list = tx.GetSignableNodeBodyBytesList();
-            Proto.TransactionBody body = Proto.TransactionBody.Parser.ParseFrom(list[0].Body);
+            Proto.Services.TransactionBody body = Proto.Services.TransactionBody.Parser.ParseFrom(list[0].Body);
             Assert.NotNull(body.CryptoTransfer);
             Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), nodeAccountID1.ToString());
             Assert.Equal(TransactionId.FromProtobuf(body.TransactionID).ToString(), testTransactionID.ToString());
@@ -509,7 +509,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 Assert.NotEmpty(list[i].Body);
 
                 // Verify body contents
-                Proto.TransactionBody body = Proto.TransactionBody.Parser.ParseFrom(list[i].Body);
+                Proto.Services.TransactionBody body = Proto.Services.TransactionBody.Parser.ParseFrom(list[i].Body);
                 Assert.NotNull(body.CryptoTransfer);
                 Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), nodeID.ToString());
             }
@@ -553,7 +553,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
                 // Each transaction ID should appear exactly once per node
                 Assert.False(txIDsByNode[nodeIDStr].ContainsKey(txIDStr), "Duplicate transaction ID found for the same node");
                 txIDsByNode[nodeIDStr].Add(txIDStr, true);
-                Proto.TransactionBody body = Proto.TransactionBody.Parser.ParseFrom(list[i].Body);
+                Proto.Services.TransactionBody body = Proto.Services.TransactionBody.Parser.ParseFrom(list[i].Body);
                 Assert.NotNull(body.FileAppend);
                 Assert.Equal(AccountId.FromProtobuf(body.NodeAccountID).ToString(), list[i].NodeID.ToString());
             }

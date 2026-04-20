@@ -102,7 +102,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				Amount = (ulong)testAmount,
                 Metadata = { testMetadataByteString }
             };
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				TokenMint = transactionBody
 			};

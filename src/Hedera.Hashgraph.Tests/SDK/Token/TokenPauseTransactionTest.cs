@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             {
 				Token = testTokenId.ToProtobuf()
 			};
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				TokenPause = transactionBody
 			};

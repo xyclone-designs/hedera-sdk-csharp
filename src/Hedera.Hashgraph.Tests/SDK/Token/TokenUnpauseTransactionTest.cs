@@ -61,7 +61,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         [Fact]
         public virtual void ConstructTokenUnpauseTransactionFromTransactionBodyProtobuf()
         {
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				TokenUnpause = new Proto.TokenUnpauseTransactionBody
 				{

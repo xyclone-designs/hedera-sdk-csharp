@@ -175,7 +175,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 				transactionBodyBuilder.ServiceEndpoint.Add(serviceEndpoint.ToProtobuf());
 
             var nodeUpdateTransaction = new NodeUpdateTransaction(
-				new Proto.TransactionBody
+				new Proto.Services.TransactionBody
 				{
 					NodeUpdate = transactionBodyBuilder
 				});

@@ -20,8 +20,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         
         public virtual void ShouldSerialize()
         {
-            var builder = new Proto.Query();
-            SpawnQuery().OnMakeRequest(builder, new Proto.QueryHeader());
+            var builder = new Proto.Services.Query();
+            SpawnQuery().OnMakeRequest(builder, new Proto.Services.QueryHeader());
 
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }

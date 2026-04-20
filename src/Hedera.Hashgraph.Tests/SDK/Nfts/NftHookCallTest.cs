@@ -37,7 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             Assert.True(hasReceiverPrePost);
 
             // Round-trip parse back
-            var rebuilt = new TransferTransaction(new Proto.TransactionBody { CryptoTransfer = body });
+            var rebuilt = new TransferTransaction(new Proto.Services.TransactionBody { CryptoTransfer = body });
             var rebuiltNfts = rebuilt.GetTokenNftTransfers();
             Assert.Single(rebuiltNfts[token]);
         }

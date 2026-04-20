@@ -134,7 +134,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 KeyVerificationMode = Proto.TokenKeyValidation.NoValidation
             };
             
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
                 TokenUpdate = transactionBody
             };

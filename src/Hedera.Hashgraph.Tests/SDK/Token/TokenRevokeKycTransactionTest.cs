@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				Account = testAccountId.ToProtobuf(),
 				Token = testTokenId.ToProtobuf()
 			};
-            var tx = new Proto.TransactionBody { TokenRevokeKyc = transactionBody };
+            var tx = new Proto.Services.TransactionBody { TokenRevokeKyc = transactionBody };
             var tokenRevokeKycTransaction = new TokenRevokeKycTransaction(tx);
 
             Assert.Equal(tokenRevokeKycTransaction.TokenId, testTokenId);

@@ -93,7 +93,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 					Nft = nftId.ToProtobuf()
 				});
 
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				TokenReject = transactionBodyBuilder
 			};

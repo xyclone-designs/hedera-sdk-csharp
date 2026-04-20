@@ -14,13 +14,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         
         public virtual void ShouldSerialize()
         {
-            var builder = new Proto.Query();
+            var builder = new Proto.Services.Query();
             new TokenInfoQuery
             {
 				TokenId = testTokenId,
 				MaxQueryPayment = Hbar.FromTinybars(100000)
 
-			}.OnMakeRequest(builder, new Proto.QueryHeader());
+			}.OnMakeRequest(builder, new Proto.Services.QueryHeader());
             
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }

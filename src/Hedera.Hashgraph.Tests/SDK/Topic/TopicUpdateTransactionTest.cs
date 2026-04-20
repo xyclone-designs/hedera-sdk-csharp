@@ -98,7 +98,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 AutoRenewPeriod = new Proto.Duration { Seconds = (long)testAutoRenewPeriod.TotalSeconds },
                 AutoRenewAccount = testAutoRenewAccountId.ToProtobuf()
             };
-            var tx = new Proto.TransactionBody { ConsensusUpdateTopic = transactionBody };
+            var tx = new Proto.Services.TransactionBody { ConsensusUpdateTopic = transactionBody };
             var topicUpdateTransaction = new TopicUpdateTransaction(tx);
 
             Assert.Equal(topicUpdateTransaction.TopicId, testTopicId);
@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         public virtual void ConstructTopicUpdateTransactionFromWrongTransactionBodyProtobuf()
         {
             var transactionBody = new Proto.CryptoDeleteTransactionBody { };
-            var tx = new Proto.TransactionBody { CryptoDelete = transactionBody };
+            var tx = new Proto.Services.TransactionBody { CryptoDelete = transactionBody };
             new TopicUpdateTransaction(tx);
         }
         [Fact]

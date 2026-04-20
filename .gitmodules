@@ -4,3 +4,6 @@
 [submodule "src/forks.hiero-ledger.hiero-consensus-node"]
 	path = src/forks.hiero-ledger.hiero-consensus-node
 	url = https://github.com/xyclone-designs/forks.hiero-ledger.hiero-consensus-node
+[submodule "src/forks.hiero-ledger.hiero-sdk-tck"]
+	path = src/forks.hiero-ledger.hiero-sdk-tck
+	url = https://github.com/xyclone-designs/forks.hiero-ledger.hiero-sdk-tck

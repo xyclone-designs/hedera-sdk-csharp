@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         [Fact]
         public virtual void ConstructWithArgs()
         {
-            var consensusTopicResponse = new Proto.ConsensusTopicResponse
+            var consensusTopicResponse = new Proto.Services.ConsensusTopicResponse
             {
                 Message = ByteString.CopyFrom(testContents),
                 RunningHash = ByteString.CopyFrom(testRunningHash),

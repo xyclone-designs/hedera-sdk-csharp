@@ -17,12 +17,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
 			int count = 0;
 			HashSet<TransactionId> transactionIds = [];
-            List<Proto.TransactionResponse>  responses = 
+            List<Proto.Services.TransactionResponse>  responses = 
             [
-				new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.TransactionExpired },
-				new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.TransactionExpired }, 
-                new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.TransactionExpired }, 
-                new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok }
+				new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.TransactionExpired },
+				new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.TransactionExpired }, 
+                new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.TransactionExpired }, 
+                new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.Ok }
             ];
 
 			//Func<object, object> call = (o) =>
@@ -31,7 +31,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
    //             {
    //                 var transaction = (ITransaction)o;
    //                 var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(transaction.SignedTransactionBytes);
-   //                 var transactionBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
+   //                 var transactionBody = Proto.Services.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
    //                 var transactionId = TransactionId.FromProtobuf(transactionBody.TransactionID);
    //                 if (transactionIds.Contains(transactionId))
    //                 {

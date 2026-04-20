@@ -20,12 +20,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 
         public virtual void ShouldSerialize()
         {
-            var builder = new Proto.Query();
+            var builder = new Proto.Services.Query();
             new TransactionReceiptQuery
             {
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5005"), validStart)
 
-			}.OnMakeRequest(builder, new Proto.QueryHeader());
+			}.OnMakeRequest(builder, new Proto.Services.QueryHeader());
 
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }

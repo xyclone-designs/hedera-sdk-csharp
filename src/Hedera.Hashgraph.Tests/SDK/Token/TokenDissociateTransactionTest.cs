@@ -75,7 +75,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             };
             transactionBody.Tokens.AddRange(testTokenIds.Select(_ => _.ToProtobuf()));
 
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				TokenDissociate = transactionBody
 			};

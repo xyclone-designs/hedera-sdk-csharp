@@ -32,6 +32,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\Hedera.Hashgraph.SDK\Hedera.Hashgraph.SDK.csproj" />
     <ProjectReference Include="..\Hedera.Hashgraph\Hedera.Hashgraph.csproj" />
   </ItemGroup>
 

@@ -72,7 +72,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				Account = testAccountId.ToProtobuf(),
 				Token = testTokenId.ToProtobuf(),
 			};
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				TokenGrantKyc = transactionBody
 			};

@@ -364,7 +364,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Networking
 
 
 
-			var nodeCreateTransaction = new NodeCreateTransaction(new Proto.TransactionBody
+			var nodeCreateTransaction = new NodeCreateTransaction(new Proto.Services.TransactionBody
 			{
 				NodeCreate = transactionBodyBuilder
 			});

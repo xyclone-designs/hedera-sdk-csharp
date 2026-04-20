@@ -259,7 +259,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
             };
 
-            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok };
+            var txResp = new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.Ok };
             tx.BlockingUnaryCall = (grpcRequest) => txResp;
 
             TransactionResponse resp = (TransactionResponse)tx.Execute(client);
@@ -277,7 +277,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 _now = now;
             }
 
-            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+            public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
             {
                 return new TransactionResponse(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), _now), new byte[] { 1, 2, 3 }, null, null)
                 {
@@ -299,7 +299,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
             };
-            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok };
+            var txResp = new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.Ok };
             tx.BlockingUnaryCall = (grpcRequest) => txResp;
 
             TransactionResponse resp = (TransactionResponse)tx.Execute(client);
@@ -318,7 +318,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 _now = now;
             }
 
-            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+            public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
             {
                 return new TransactionResponse(new AccountId(0, 0, 4), TransactionId.WithValidStart(new AccountId(0, 0, 4), _now), new byte[] { 1, 2, 3 }, null, null);
             }
@@ -350,7 +350,7 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
             };
-            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.Ok };
+            var txResp = new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.Ok };
             tx.BlockingUnaryCall = (grpcRequest) => txResp;
 
             TransactionResponse resp = (TransactionResponse)tx.Execute(client);
@@ -371,7 +371,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 _now = now;
             }
 
-            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request)
+            public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
             {
                 return new TransactionResponse(new AccountId(0, 0, 3), TransactionId.WithValidStart(new AccountId(0, 0, 3), _now), new byte[] { 1, 2, 3 }, null, null);
             }
@@ -454,9 +454,9 @@ namespace Hedera.Hashgraph.Tests.SDK
                 NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
             };
 
-            var receipt = new Proto.TransactionReceipt { Status = Proto.ResponseCodeEnum.Ok };
-            var receiptResp = new Proto.TransactionGetReceiptResponse { Receipt = receipt };
-            var resp = new Proto.Response { TransactionGetReceipt = receiptResp };
+            var receipt = new Proto.Services.TransactionReceipt { Status = Proto.Services.ResponseCodeEnum.Ok };
+            var receiptResp = new Proto.Services.TransactionGetReceiptResponse { Receipt = receipt };
+            var resp = new Proto.Services.Response { TransactionGetReceipt = receiptResp };
             tx.BlockingUnaryCall = (grpcRequest) => resp;
             tx.Execute(client);
 
@@ -474,11 +474,11 @@ namespace Hedera.Hashgraph.Tests.SDK
                 _i = i;
             }
 
-            public override ResponseStatus MapResponseStatus(Proto.Response response)
+            public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
             {
                 return ResponseStatus.ReceiptNotFound;
             }
-            public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Response response)
+            public override ExecutionState GetExecutionState(ResponseStatus status, Proto.Services.Response response)
             {
                 return Interlocked.Increment(ref _i) == 1 ? ExecutionState.Retry : ExecutionState.Success;
             }
@@ -493,7 +493,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
             };
 
-            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.AccountDeleted };
+            var txResp = new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.AccountDeleted };
             tx.BlockingUnaryCall = (grpcRequest) => txResp;
             PrecheckStatusException exception = Assert.Throws<PrecheckStatusException>(() => tx.Execute(client));
 
@@ -502,7 +502,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         private sealed class AnonymousDummyTransaction3 : DummyTransaction
         {
-            public override ResponseStatus MapResponseStatus(Proto.Response response)
+            public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
             {
                 return ResponseStatus.AccountDeleted;
             }
@@ -544,7 +544,7 @@ namespace Hedera.Hashgraph.Tests.SDK
                 NodeAccountIds = [new AccountId(0, 0, 3), new AccountId(0, 0, 4), new AccountId(0, 0, 5)]
             };
 
-            var txResp = new Proto.TransactionResponse { NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.InvalidNodeAccount };
+            var txResp = new Proto.Services.TransactionResponse { NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.InvalidNodeAccount };
             tx.BlockingUnaryCall = (grpcRequest) => txResp;
 
             // INVALID_NODE_ACCOUNT maps to RETRY, so it retries on the same node (doesn't advance)
@@ -556,7 +556,7 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         private sealed class AnonymousDummyTransaction4 : DummyTransaction
         {
-            public override ResponseStatus MapResponseStatus(Proto.Response response)
+            public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
             {
                 return ResponseStatus.InvalidNodeAccount;
             }
@@ -571,9 +571,9 @@ namespace Hedera.Hashgraph.Tests.SDK
             {
                 NodeAccountIds = [new AccountId(0, 0, 3)]
             };
-            var txResp = new Proto.TransactionResponse
+            var txResp = new Proto.Services.TransactionResponse
             {
-                NodeTransactionPrecheckCode = Proto.ResponseCodeEnum.InvalidNodeAccount
+                NodeTransactionPrecheckCode = Proto.Services.ResponseCodeEnum.InvalidNodeAccount
             };
             tx.BlockingUnaryCall = (grpcRequest) => txResp;
 
@@ -588,33 +588,33 @@ namespace Hedera.Hashgraph.Tests.SDK
 
         private sealed class AnonymousDummyTransaction5 : DummyTransaction
         {
-            public override ResponseStatus MapResponseStatus(Proto.Response response)
+            public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
             {
                 return ResponseStatus.InvalidNodeAccount;
             }
         }
 
-        class DummyTransaction : Executable<object, Proto.Transaction, Proto.TransactionResponse, TransactionResponse>
+        class DummyTransaction : Executable<object, Proto.Services.Transaction, Proto.Services.TransactionResponse, TransactionResponse>
         {
             public override TransactionId TransactionIdInternal => null;
             public override void OnExecute(Client client) { }
             public override Task OnExecuteAsync(Client client) { return Task.CompletedTask; }
-            public override Proto.Transaction MakeRequest() { return null; }
-            public override TransactionResponse MapResponse(Proto.TransactionResponse response, AccountId nodeId, Proto.Transaction request) { return null; }
+            public override Proto.Services.Transaction MakeRequest() { return null; }
+            public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request) { return null; }
             public override MethodDescriptor GetMethodDescriptor() { return null; }
-            public override ResponseStatus MapResponseStatus(Proto.Response response) { return ResponseStatus.Ok; }
-            public override Method<Proto.Transaction, Proto.TransactionResponse> GetMethod() { return null; }
+            public override ResponseStatus MapResponseStatus(Proto.Services.Response response) { return ResponseStatus.Ok; }
+            public override Method<Proto.Services.Transaction, Proto.Services.TransactionResponse> GetMethod() { return null; }
         }
 
         class DummyQuery : Query<TransactionReceipt, TransactionReceiptQuery>
         {
             public override void OnExecute(Client client) { }
-            public override TransactionReceipt MapResponse(Proto.Response response, AccountId nodeId, Proto.Query request) { return null; }
+            public override TransactionReceipt MapResponse(Proto.Services.Response response, AccountId nodeId, Proto.Services.Query request) { return null; }
             public override MethodDescriptor GetMethodDescriptor() { return null; }
-            public override void OnMakeRequest(Proto.Query queryBuilder, Proto.QueryHeader header) { }
-            public override Proto.ResponseHeader MapResponseHeader(Proto.Response response) { return null; }
-            public override Proto.QueryHeader MapRequestHeader(Proto.Query request) { return null; }
-            public override ResponseStatus MapResponseStatus(Proto.Response response) { return ResponseStatus.Ok; }
+            public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header) { }
+            public override Proto.Services.ResponseHeader MapResponseHeader(Proto.Services.Response response) { return null; }
+            public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request) { return null; }
+            public override ResponseStatus MapResponseStatus(Proto.Services.Response response) { return ResponseStatus.Ok; }
             public override void ValidateChecksums(Client client) { }
         }
     }

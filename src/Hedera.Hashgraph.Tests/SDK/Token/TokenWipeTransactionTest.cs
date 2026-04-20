@@ -106,7 +106,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 Amount = testAmount,
                 SerialNumbers = { testSerialNumbers }
             };
-            var txBody = new Proto.TransactionBody
+            var txBody = new Proto.Services.TransactionBody
             {
 				TokenWipe = transactionBody
 			};

@@ -103,12 +103,12 @@ namespace Hedera.Hashgraph.Tests.SDK.System
                 ContractID = testContractId.ToProtobuf(),
                 ExpirationTime = new Proto.TimestampSeconds { Seconds = validStart.ToUnixTimeSeconds() }
             };
-            var txWithFileId = new Proto.TransactionBody
+            var txWithFileId = new Proto.Services.TransactionBody
             {
                 SystemDelete = transactionBodyWithFileId
             };
             var systemDeleteTransactionWithFileId = new SystemDeleteTransaction(txWithFileId);
-            var txWithContractId = new Proto.TransactionBody
+            var txWithContractId = new Proto.Services.TransactionBody
             {
                 SystemDelete = transactionBodyWithContractId
             };

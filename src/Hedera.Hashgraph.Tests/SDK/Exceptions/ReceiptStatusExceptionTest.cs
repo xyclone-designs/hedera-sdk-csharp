@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Exceptions
         {
             var validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
             var txId = new TransactionId(new AccountId(0, 0, 100), validStart);
-            var txReceipt = TransactionReceipt.FromProtobuf(new Proto.TransactionReceipt { Status = Proto.ResponseCodeEnum.InsufficientTxFee });
+            var txReceipt = TransactionReceipt.FromProtobuf(new Proto.Services.TransactionReceipt { Status = Proto.Services.ResponseCodeEnum.InsufficientTxFee });
             var e = new ReceiptStatusException(txId, txReceipt);
 
             Assert.Equal(e.Message, "receipt for transaction 0.0.100@1554158542.000000000 raised status INSUFFICIENT_TX_FEE");

@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         [Fact]
         public virtual void TestOnFreeze()
         {
-            var bodyBuilder = new Proto.TransactionBody();
+            var bodyBuilder = new Proto.Services.TransactionBody();
             
             transaction.OnFreeze(bodyBuilder);
 

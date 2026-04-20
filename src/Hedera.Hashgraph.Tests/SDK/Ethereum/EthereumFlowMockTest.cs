@@ -25,25 +25,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
                 (Func<object, object>)
                 (_ =>
                 {
-                    var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(((Proto.Transaction)_).SignedTransactionBytes);
-                    var transactionBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
+                    var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(((Proto.Services.Transaction)_).SignedTransactionBytes);
+                    var transactionBody = Proto.Services.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
                     
-                    Assert.Equal(transactionBody.DataCase, Proto.TransactionBody.DataOneofCase.EthereumTransaction);
+                    Assert.Equal(transactionBody.DataCase, Proto.Services.TransactionBody.DataOneofCase.EthereumTransaction);
                     Assert.True(transactionBody.EthereumTransaction is not null);
                     Assert.Equal(transactionBody.EthereumTransaction.EthereumData, ETHEREUM_DATA);
                 
-                    return new Proto.TransactionResponse
+                    return new Proto.Services.TransactionResponse
                     {
                         NodeTransactionPrecheckCode = 0
                     };
                 }),
-                new Proto.Response
+                new Proto.Services.Response
                 {
-                    TransactionGetReceipt = new Proto.TransactionGetReceiptResponse
+                    TransactionGetReceipt = new Proto.Services.TransactionGetReceiptResponse
                     {
-                        Receipt = new Proto.TransactionReceipt
+                        Receipt = new Proto.Services.TransactionReceipt
                         {
-                            Status = Proto.ResponseCodeEnum.Success
+                            Status = Proto.Services.ResponseCodeEnum.Success
                         }
                     }
                 }
@@ -67,25 +67,25 @@ namespace Hedera.Hashgraph.Tests.SDK.Ethereum
                 (Func<object, object>)
                 (_ =>
                 {
-                    var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(((Proto.Transaction)_).SignedTransactionBytes);
-                    var transactionBody = Proto.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
+                    var signedTransaction = Proto.SignedTransaction.Parser.ParseFrom(((Proto.Services.Transaction)_).SignedTransactionBytes);
+                    var transactionBody = Proto.Services.TransactionBody.Parser.ParseFrom(signedTransaction.BodyBytes);
 
-                    Assert.Equal(transactionBody.DataCase, Proto.TransactionBody.DataOneofCase.EthereumTransaction);
+                    Assert.Equal(transactionBody.DataCase, Proto.Services.TransactionBody.DataOneofCase.EthereumTransaction);
                     Assert.True(transactionBody.EthereumTransaction is not null);
                     Assert.Equal(EthereumTransactionData.FromBytes(transactionBody.EthereumTransaction.EthereumData.ToByteArray()).CallData, LONG_CALL_DATA.ToByteArray());
 
-                    return new Proto.TransactionResponse
+                    return new Proto.Services.TransactionResponse
                     {
                         NodeTransactionPrecheckCode = 0
                     };
                 }),
-                new Proto.Response
+                new Proto.Services.Response
                 {
-                    TransactionGetReceipt = new Proto.TransactionGetReceiptResponse
+                    TransactionGetReceipt = new Proto.Services.TransactionGetReceiptResponse
                     {
-                        Receipt = new Proto.TransactionReceipt
+                        Receipt = new Proto.Services.TransactionReceipt
                         {
-                            Status = Proto.ResponseCodeEnum.Success
+                            Status = Proto.Services.ResponseCodeEnum.Success
                         }
                     }
                 }

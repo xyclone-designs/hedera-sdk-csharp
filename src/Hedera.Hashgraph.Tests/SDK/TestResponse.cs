@@ -8,10 +8,10 @@ namespace Hedera.Hashgraph.Tests.SDK
 {
     public class TestResponse
     {
-        public readonly Proto.TransactionResponse transactionResponse;
-        public readonly Proto.Response queryResponse;
+        public readonly Proto.Services.TransactionResponse transactionResponse;
+        public readonly Proto.Services.Response queryResponse;
         public readonly RpcException errorResponse;
-        private TestResponse(Proto.TransactionResponse transactionResponse, Proto.Response queryResponse, RpcException errorResponse)
+        private TestResponse(Proto.Services.TransactionResponse transactionResponse, Proto.Services.Response queryResponse, RpcException errorResponse)
         {
             this.transactionResponse = transactionResponse;
             this.queryResponse = queryResponse;
@@ -38,18 +38,18 @@ namespace Hedera.Hashgraph.Tests.SDK
             return TransactionOk(new Hbar(1));
         }
 
-        public static TestResponse Query(Proto.Response queryResponse)
+        public static TestResponse Query(Proto.Services.Response queryResponse)
         {
             return new TestResponse(null, queryResponse, null);
         }
 
         public static TestResponse Receipt(Status status)
         {
-            var response = new Proto.Response
+            var response = new Proto.Services.Response
             {
-                TransactionGetReceipt = new Proto.TransactionGetReceiptResponse
+                TransactionGetReceipt = new Proto.Services.TransactionGetReceiptResponse
                 {
-                    Receipt = new Proto.TransactionReceipt { Status = (Proto.ResponseCodeEnum)status.StatusCode }
+                    Receipt = new Proto.Services.TransactionReceipt { Status = (Proto.Services.ResponseCodeEnum)status.StatusCode }
                 }
             };
             return new TestResponse(null, response, null);
@@ -65,11 +65,11 @@ namespace Hedera.Hashgraph.Tests.SDK
             return new TestResponse(null, null, exception);
         }
 
-        public static Proto.TransactionResponse BuildTransactionResponse(Status status, Hbar cost)
+        public static Proto.Services.TransactionResponse BuildTransactionResponse(Status status, Hbar cost)
         {
-            return new Proto.TransactionResponse
+            return new Proto.Services.TransactionResponse
             {
-                NodeTransactionPrecheckCode = (Proto.ResponseCodeEnum)status.StatusCode,
+                NodeTransactionPrecheckCode = (Proto.Services.ResponseCodeEnum)status.StatusCode,
                 Cost = (ulong)cost.ToTinybars()
             };
         }

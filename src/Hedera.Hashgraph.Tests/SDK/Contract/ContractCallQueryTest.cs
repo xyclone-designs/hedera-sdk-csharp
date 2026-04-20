@@ -17,7 +17,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         
         public virtual void ShouldSerialize()
         {
-            var builder = new Proto.Query();
+            var builder = new Proto.Services.Query();
             new ContractCallQuery()
 			{
 				ContractId = ContractId.FromString("0.0.5005"),
@@ -25,13 +25,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 				SenderAccountId = AccountId.FromString("1.2.3"),
 			}
             .SetFunction("foo", new ContractFunctionParameters().AddString("Hello").AddString("world!"))
-            .OnMakeRequest(builder, new Proto.QueryHeader());
+            .OnMakeRequest(builder, new Proto.Services.QueryHeader());
             
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }
         public virtual void SetFunctionParameters()
         {
-            var builder = new Proto.Query();
+            var builder = new Proto.Services.Query();
             new ContractCallQuery()
             {
 				ContractId = ContractId.FromString("0.0.5005"),
@@ -39,7 +39,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 				SenderAccountId = AccountId.FromString("1.2.3"),
 				FunctionParameters = new ContractFunctionParameters().AddString("Hello").AddString("world!").ToBytes(null).ToByteArray()
 
-			}.OnMakeRequest(builder, new Proto.QueryHeader());
+			}.OnMakeRequest(builder, new Proto.Services.QueryHeader());
             
             Verifier.Verify(Regex.Replace(builder.ToString(), "@[A-Za-z0-9]+", ""));
         }

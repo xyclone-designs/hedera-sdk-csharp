@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 TopicID = testTopicId.ToProtobuf(),
                 Message = ByteString.CopyFrom(testMessageBytes),
             };
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
                 ConsensusSubmitMessage = transactionBody
             };

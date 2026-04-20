@@ -342,7 +342,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
                 {
                     Number = (int)sequenceNumber,
                     Total = total,
-                    InitialTransactionID = new Proto.TransactionID
+                    InitialTransactionID = new Proto.Services.TransactionID
                     {
                         AccountID = new Proto.AccountID { AccountNum = 3 },
                         TransactionValidStart = START_TIME.ToProtoTimestamp(),

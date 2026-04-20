@@ -79,7 +79,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 
             transactionBody.SerialNumbers.AddRange(testSerialNumbers);
                 
-            var tx = new Proto.TransactionBody
+            var tx = new Proto.Services.TransactionBody
             {
 				TokenUpdateNfts = transactionBody
 			};
