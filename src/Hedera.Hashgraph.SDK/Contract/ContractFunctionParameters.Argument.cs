@@ -12,6 +12,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			public readonly bool IsDynamic;
 			public readonly ByteString Value;
 
+			public Argument(string type, string value, bool isDynamic) : this(type, ByteString.CopyFromUtf8(value), isDynamic) { }
 			public Argument(string type, ByteString value, bool isDynamic)
 			{
 				Type = type;
