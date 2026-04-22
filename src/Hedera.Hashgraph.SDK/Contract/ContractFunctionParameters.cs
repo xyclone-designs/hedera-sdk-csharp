@@ -52,7 +52,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 		private readonly List<Argument> args = [];
 
-		private static byte[] DecodeAddress(string address)
+		internal static byte[] DecodeAddress(string address)
 		{
 			address = address.StartsWith("0x") ? address.Substring(2) : address;
 
@@ -70,7 +70,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				throw new ArgumentException("failed to decode Solidity Address as hex", e);
 			}
 		}
-		private static byte[] GetTruncatedBytes(BigInteger bigInt, int bitWidth)
+		internal static byte[] GetTruncatedBytes(BigInteger bigInt, int bitWidth)
 		{
 			byte[] bytes = bigInt.ToByteArray();
 			int expectedBytes = bitWidth / 8;
@@ -78,17 +78,17 @@ namespace Hedera.Hashgraph.SDK.Contract
 					? bytes
 					: bytes[(bytes.Length - expectedBytes)..bytes.Length].CopyArray();
 		}
-		private static ByteString EncodeString(string str)
+		internal static ByteString EncodeString(string str)
 		{
 			ByteString strBytes = ByteString.CopyFromUtf8(str);
 			// prepend the size of the string in UTF-8 bytes
 			return Int256(strBytes.Length, 32).Concat(RightPad32(strBytes));
 		}
-		private static ByteString EncodeBytes(byte[] bytes)
+		internal static ByteString EncodeBytes(byte[] bytes)
 		{
 			return Int256(bytes.Length, 32).Concat(RightPad32(ByteString.CopyFrom(bytes)));
 		}
-		private static ByteString EncodeBytes4(byte[] bytes)
+		internal static ByteString EncodeBytes4(byte[] bytes)
 		{
 			if (bytes.Length > 4)
 			{
@@ -96,7 +96,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			}
 			return RightPad32(ByteString.CopyFrom(bytes));
 		}
-		private static ByteString EncodeBytes32(byte[] bytes)
+		internal static ByteString EncodeBytes32(byte[] bytes)
 		{
 			if (bytes.Length > 32)
 			{
@@ -105,17 +105,17 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return RightPad32(ByteString.CopyFrom(bytes));
 		}
-		private static ByteString EncodeBool(bool val)
+		internal static ByteString EncodeBool(bool val)
 		{
 			return Int256(val ? 1 : 0, 8);
 		}
-		private static ByteString EncodeArray(IEnumerable<ByteString> elements)
+		internal static ByteString EncodeArray(IEnumerable<ByteString> elements)
 		{
 			byte[] bytearray = [.. elements.SelectMany(_ => _.ToByteArray())];
 
 			return Int256(bytearray.Length, 32).Concat(ByteString.CopyFrom(bytearray));
 		}
-		private static ByteString EncodeDynArr(IEnumerable<ByteString> elements)
+		internal static ByteString EncodeDynArr(IEnumerable<ByteString> elements)
 		{
 			int offsetsLen = elements.Count();
 
@@ -138,11 +138,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 				.CopyFrom([.. head.SelectMany(_ => _.ToByteArray())])
 				.Concat(ByteString.CopyFrom([.. elements.SelectMany(_ => _.ToByteArray())]));
 		}
-		private static ByteString Int256(long val, int bitWidth)
+		internal static ByteString Int256(long val, int bitWidth)
 		{
 			return Int256(val, bitWidth, true);
 		}
-		private static ByteString Int256(long val, int bitWidth, bool signed)
+		internal static ByteString Int256(long val, int bitWidth, bool signed)
 		{
 			// don't try to Get wider than a `long` as it should just be filled with padding
 			bitWidth = Math.Min(bitWidth, 64);
@@ -160,15 +160,15 @@ namespace Hedera.Hashgraph.SDK.Contract
 			// byte padding will sign-extend appropriately
 			return LeftPad32(ByteString.CopyFrom(output), signed && val < 0);
 		}
-		private static ByteString Int256(BigInteger bigInt, int bitWidth)
+		internal static ByteString Int256(BigInteger bigInt, int bitWidth)
 		{
 			return LeftPad32(GetTruncatedBytes(bigInt, bitWidth), bigInt.Sign < 0);
 		}
-		private static ByteString Uint256(long val, int bitWidth)
+		internal static ByteString Uint256(long val, int bitWidth)
 		{
 			return Int256(val, bitWidth, false);
 		}
-		private static ByteString Uint256(BigInteger bigInt, int bitWidth)
+		internal static ByteString Uint256(BigInteger bigInt, int bitWidth)
 		{
 			if (bigInt.Sign < 0)
 			{
@@ -176,11 +176,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 			}
 			return LeftPad32(GetTruncatedBytes(bigInt, bitWidth), false);
 		}
-		private static ByteString LeftPad32(ByteString input)
+		internal static ByteString LeftPad32(ByteString input)
 		{
 			return LeftPad32(input, false);
 		}
-		private static ByteString LeftPad32(ByteString input, bool negative)
+		internal static ByteString LeftPad32(ByteString input, bool negative)
 		{
 			int rem = 32 - input.Length % 32;
 
@@ -192,11 +192,11 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return bytestring.Concat(input);
 		}
-		private static ByteString LeftPad32(byte[] input, bool negative)
+		internal static ByteString LeftPad32(byte[] input, bool negative)
 		{
 			return LeftPad32(ByteString.CopyFrom(input), negative);
 		}
-		private static ByteString RightPad32(ByteString input)
+		internal static ByteString RightPad32(ByteString input)
 		{
 			int rem = 32 - input.Length % 32;
 			ByteString bytestring = ByteString.CopyFromUtf8(padding.ToStringUtf8()[.. rem]);

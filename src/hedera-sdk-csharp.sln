@@ -5,10 +5,6 @@ VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph", "Hedera.Hashgraph\Hedera.Hashgraph.csproj", "{72614977-63FD-CF38-3BB3-F6628DFCE599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Tests", "Hedera.Hashgraph.Tests\Hedera.Hashgraph.Tests.csproj", "{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Tests.Integration", "Hedera.Hashgraph.Tests.Integration\Hedera.Hashgraph.Tests.Integration.csproj", "{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.Reference", "forks.hedera-sdk-reference\Hedera.Hashgraph.Forks.Reference.csproj", "{2E9E990D-7EEC-27BA-2874-9081A8B44E33}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.SDK", "Hedera.Hashgraph.SDK\Hedera.Hashgraph.SDK.csproj", "{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}"
@@ -27,14 +23,6 @@ Global
 		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62F4291D-A440-8A8C-0927-A5A4CB5CB6EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E5D0244-22AE-4CCF-8C92-62F3B24CBE1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
