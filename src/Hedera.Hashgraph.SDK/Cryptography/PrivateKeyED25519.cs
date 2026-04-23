@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Unicode;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="T:PrivateKeyED25519"]/*' />
     class PrivateKeyED25519 : PrivateKey

@@ -6,7 +6,7 @@ using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Account;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;

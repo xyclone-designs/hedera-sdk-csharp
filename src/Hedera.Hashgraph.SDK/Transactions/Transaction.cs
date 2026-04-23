@@ -12,7 +12,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.LiveHashes;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Nfts;

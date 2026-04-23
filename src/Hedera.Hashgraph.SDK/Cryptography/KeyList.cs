@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="KeyList.cs.xml" path='docs/member[@name="T:KeyList"]/*' />
     public sealed class KeyList : Key, IList<Key>

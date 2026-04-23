@@ -10,7 +10,7 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PublicKey.cs.xml" path='docs/member[@name="T:PublicKey"]/*' />
     public abstract class PublicKey : Key

@@ -2,7 +2,7 @@
 using Hedera.Hashgraph.Reference.Cryptography;
 using Hedera.Hashgraph.Reference.Error;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Utils;
 
 using Org.BouncyCastle.Crypto.Digests;

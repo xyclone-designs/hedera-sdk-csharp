@@ -14,7 +14,7 @@ using Org.BouncyCastle.Utilities.IO.Pem;
 using System;
 using System.IO;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PrivateKey.cs.xml" path='docs/member[@name="T:PrivateKey"]/*' />
     public abstract class PrivateKey : Key, IPrivateKey<PrivateKey>

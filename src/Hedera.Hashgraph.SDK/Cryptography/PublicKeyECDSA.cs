@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using Hedera.Hashgraph.SDK.Ethereum;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="T:PublicKeyECDSA"]/*' />
     public class PublicKeyECDSA : PublicKey

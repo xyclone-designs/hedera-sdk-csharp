@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Fees;
 using Hedera.Hashgraph.SDK.HBar;
-using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Token;

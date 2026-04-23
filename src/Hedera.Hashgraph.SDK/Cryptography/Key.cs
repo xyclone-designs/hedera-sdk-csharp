@@ -11,7 +11,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 
 using System;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="Key.cs.xml" path='docs/member[@name="T:Key"]/*' />
     public abstract class Key : IKey

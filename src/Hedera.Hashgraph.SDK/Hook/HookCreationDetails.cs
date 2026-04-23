@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 // Using fully qualified names to avoid conflicts with generated classes
-using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Cryptography;
 
 using System;
 

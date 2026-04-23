@@ -18,7 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="T:PrivateKeyECDSA"]/*' />
     public class PrivateKeyECDSA : PrivateKey

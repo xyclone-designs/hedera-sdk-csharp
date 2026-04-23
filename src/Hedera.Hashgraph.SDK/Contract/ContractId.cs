@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.Keys;
+using Hedera.Hashgraph.SDK.Cryptography;
 
 using Org.BouncyCastle.Utilities.Encoders;
 

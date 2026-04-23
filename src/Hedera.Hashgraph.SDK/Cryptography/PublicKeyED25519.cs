@@ -10,7 +10,7 @@ using Org.BouncyCastle.Math.EC.Rfc8032;
 using System;
 using System.IO;
 
-namespace Hedera.Hashgraph.SDK.Keys
+namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="T:PublicKeyED25519"]/*' />
     class PublicKeyED25519 : PublicKey
