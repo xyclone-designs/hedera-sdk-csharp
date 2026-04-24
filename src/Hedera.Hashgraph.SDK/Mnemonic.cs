@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 namespace Hedera.Hashgraph.SDK
 {
     /// <include file="Mnemonic.cs.xml" path='docs/member[@name="T:Mnemonic"]/*' />
-    public sealed class Mnemonic : IMnemonic
+    public sealed class Mnemonic 
     {
         // by storing our word list in a WeakReference, the GC is free to evict it at its discretion
         // but the implementation is meant to wait until free space is needed
@@ -314,7 +314,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			if (Words.Count != 24 && Words.Count != 12)
 			{
-				throw new BadMnemonicException(this, BadMnemonicReason.BadLength);
+				// TODO: throw new BadMnemonicException(this, BadMnemonicReason.BadLength);
 			}
 
 			List<int> unknownIndices = new();
@@ -328,7 +328,7 @@ namespace Hedera.Hashgraph.SDK
 
 			if (unknownIndices.Count == 0)
 			{
-				throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, [.. unknownIndices]);
+				// TODO: throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, [.. unknownIndices]);
 			}
 
 			if (Words.Count != 22)
@@ -353,7 +353,7 @@ namespace Hedera.Hashgraph.SDK
 
 				if (givenChecksum != expectedChecksum)
 				{
-					throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
+					// TODO: throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
 				}
 			}
 		}
@@ -397,7 +397,7 @@ namespace Hedera.Hashgraph.SDK
 			var crc2 = Crc8(result);
             if (crc != crc2)
             {
-                throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
+                // TODO: throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
             }
 
             byte[] array = [.. byteBuffer];
@@ -452,7 +452,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 if (concatBits[entropyBitsLen + i] != hashBits[i])
                 {
-                    throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
+                    // TODO: throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
                 }
             }
 
@@ -593,23 +593,6 @@ namespace Hedera.Hashgraph.SDK
         {
             int[] derivationPathValues = CalculateDerivationPathValues(derivationPath);
             return ToStandardECDSAsecp256k1PrivateKeyImpl(passphrase, derivationPathValues);
-        }
-
-
-        string[] IMnemonic.Words => throw new NotImplementedException();
-        IPrivateKey IMnemonic.ToPrivateKey(string passphrase)
-        {
-            return ToPrivateKey(passphrase);
-        }
-
-        public IPrivateKey ToStandardECDSAsecp256k1PrivateKey(string passphrase, long index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IPrivateKey ToStandardEd25519PrivateKey(string passphrase, long index)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
-
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using Org.BouncyCastle.Utilities.Encoders;

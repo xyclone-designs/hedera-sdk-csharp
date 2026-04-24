@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 
-using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Transactions;

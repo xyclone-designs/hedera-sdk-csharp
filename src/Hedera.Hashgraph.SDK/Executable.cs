@@ -4,7 +4,7 @@ using Google.Protobuf.Reflection;
 
 using Grpc.Core;
 
-using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Networking;

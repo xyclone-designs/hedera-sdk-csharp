@@ -1,5 +1,4 @@
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Networking;
 using System.Linq;
 

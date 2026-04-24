@@ -7,7 +7,7 @@ using System.IO;
 namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicId.cs.xml" path='docs/member[@name="T:TopicId"]/*' />
-    public sealed class TopicId : Reference.Consensus.ITopicId<TopicId>, IComparable<TopicId>
+    public sealed class TopicId : IComparable<TopicId>
     {
         private string? Checksum { get; }
 

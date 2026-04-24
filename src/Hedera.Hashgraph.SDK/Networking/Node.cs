@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Grpc.Core;
 
-using Hedera.Hashgraph.SDK.Account;
+using Hedera.Hashgraph.SDK.Cryptocurrency;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Hedera.Hashgraph.SDK.Networking
