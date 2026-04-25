@@ -11,7 +11,6 @@ using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.File;
-using Hedera.Hashgraph.SDK.HBar;
 using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.LiveHashes;
