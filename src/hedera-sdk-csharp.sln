@@ -5,8 +5,6 @@ VisualStudioVersion = 18.1.11312.151
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph", "Hedera.Hashgraph\Hedera.Hashgraph.csproj", "{72614977-63FD-CF38-3BB3-F6628DFCE599}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.Reference", "forks.hedera-sdk-reference\Hedera.Hashgraph.Forks.Reference.csproj", "{2E9E990D-7EEC-27BA-2874-9081A8B44E33}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.SDK", "Hedera.Hashgraph.SDK\Hedera.Hashgraph.SDK.csproj", "{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.HieroConsensusNode", "forks.hiero-ledger.hiero-consensus-node\Hedera.Hashgraph.Forks.HieroConsensusNode.csproj", "{BDD44ABB-09A9-4A6D-A8BC-B2A7326E0B41}"
@@ -16,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Tests.Integration", "Hedera.Hashgraph.Tests.Integration\Hedera.Hashgraph.Tests.Integration.csproj", "{47C0AF9B-C329-EFBD-FAC3-DDEC88883125}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.HieroSDKTCK", "forks.hiero-ledger.hiero-sdk-tck\Hedera.Hashgraph.Forks.HieroSDKTCK.csproj", "{0A367FBB-9CD6-728B-F93B-1921D2CEB434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hedera.Hashgraph.Forks.HederaSDKReference", "forks.hashgraph.hedera-sdk-reference\Hedera.Hashgraph.Forks.HederaSDKReference.csproj", "{CBC8F393-0275-801F-D543-B86B777FAC81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +27,6 @@ Global
 		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72614977-63FD-CF38-3BB3-F6628DFCE599}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E9E990D-7EEC-27BA-2874-9081A8B44E33}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4773B00-40D1-E019-B2F3-A601BC8BA3C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{0A367FBB-9CD6-728B-F93B-1921D2CEB434}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A367FBB-9CD6-728B-F93B-1921D2CEB434}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A367FBB-9CD6-728B-F93B-1921D2CEB434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBC8F393-0275-801F-D543-B86B777FAC81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBC8F393-0275-801F-D543-B86B777FAC81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBC8F393-0275-801F-D543-B86B777FAC81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBC8F393-0275-801F-D543-B86B777FAC81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
