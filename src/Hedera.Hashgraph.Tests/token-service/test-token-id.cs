@@ -1,0 +1,158 @@
+// SPDX-License-Identifier: Apache-2.0
+using System;
+
+using Org.BouncyCastle.Utilities.Encoders;
+
+using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Token;
+
+using VerifyXunit;
+
+namespace Hedera.Hashgraph.Tests.SDK.Token
+{
+    public class TokenIdTest
+    {
+        public virtual void ShouldSerializeFromString()
+        {
+            Verifier.Verify(TokenId.FromString("0.0.5005").ToString());
+        }
+
+        public virtual void ToBytes()
+        {
+            Verifier.Verify(Hex.ToHexString(new TokenId(0, 0, 5005).ToBytes()));
+        }
+
+        public virtual void FromBytes()
+        {
+            Verifier.Verify(TokenId.FromBytes(new TokenId(0, 0, 5005).ToBytes()).ToString());
+        }
+
+        public virtual void FromSolidityAddress()
+        {
+            Verifier.Verify(TokenId.FromSolidityAddress("000000000000000000000000000000000000138D").ToString());
+        }
+
+        public virtual void ToSolidityAddress()
+        {
+            Verifier.Verify(new TokenId(0, 0, 5005).ToSolidityAddress());
+        }
+        [Fact]
+        public virtual void UnitTokenIdFromString()
+        {
+            TokenId tokenId = new (1, 2, 3);
+            TokenId tokenIdFromString = TokenId.FromString(tokenId.ToString());
+
+            Assert.Equal(tokenId, tokenIdFromString);
+        }
+        [Fact]
+        public virtual void UnitTokenIdChecksumFromString()
+        {
+            TokenId tokenId = TokenId.FromString("0.0.123");
+            Client client = Client.ForTestnet();
+            tokenId.ToStringWithChecksum(client);
+            string sol = tokenId.ToSolidityAddress();
+            TokenId.FromEvmAddress(0, 0, sol);
+            tokenId.Validate(client);
+
+            // Test protobuf conversion
+            var pb = tokenId.ToProtobuf();
+            TokenId.FromProtobuf(pb);
+
+            // Test bytes conversion
+            byte[] idBytes = tokenId.ToBytes();
+            TokenId.FromBytes(idBytes);
+
+            // Test comparison
+            tokenId.CompareTo(new TokenId(0, 0, 32));
+            Assert.Equal(123, tokenId.Num);
+        }
+        [Fact]
+        public virtual void UnitTokenIdChecksumToString()
+        {
+            TokenId id = new TokenId(50, 150, 520);
+            Assert.Equal("50.150.520", id.ToString());
+        }
+        [Fact]
+        public virtual void UnitTokenIdFromStringEVM()
+        {
+            TokenId id = TokenId.FromString("0.0.434");
+            Assert.Equal("0.0.434", id.ToString());
+        }
+        [Fact]
+        public virtual void UnitTokenIdProtobuf()
+        {
+            TokenId tokenId = TokenId.FromString("0.0.434");
+
+            var pb = tokenId.ToProtobuf();
+
+            Assert.Equal(0, pb.ShardNum);
+            Assert.Equal(0, pb.RealmNum);
+            Assert.Equal(434, pb.TokenNum);
+            
+            TokenId pbFrom = TokenId.FromProtobuf(pb);
+
+            Assert.Equal(tokenId, pbFrom);
+        }
+        [Fact]
+        public virtual void TestTokenIdFromEvmAddressIncorrectAddress()
+        {
+
+            // Test with an EVM address that's too short
+            ArgumentException exception1 = Assert.Throws<ArgumentException>(() =>
+            {
+                TokenId.FromEvmAddress(0, 0, "abc123");
+            });
+            Assert.True(exception1.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+
+            // Test with an EVM address that's too long
+            ArgumentException exception2 = Assert.Throws<ArgumentException>(() =>
+            {
+                TokenId.FromEvmAddress(0, 0, "0123456789abcdef0123456789abcdef0123456789abcdef");
+            });
+            Assert.True(exception2.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+
+            // Test with a 0x prefix that gets removed but then is too short
+            ArgumentException exception3 = Assert.Throws<ArgumentException>(() =>
+            {
+                TokenId.FromEvmAddress(0, 0, "0xabc123");
+            });
+            Assert.True(exception3.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+
+            // Test with non-long-zero address
+            ArgumentException exception4 = Assert.Throws<ArgumentException>(() =>
+            {
+                TokenId.FromEvmAddress(0, 0, "742d35Cc6634C0532925a3b844Bc454e4438f44e");
+            });
+            Assert.True(exception4.Message.Contains("EVM address is not a correct long zero address"));
+        }
+        [Fact]
+        public virtual void TestTokenIdFromEvmAddress()
+        {
+            // Test with a long zero address representing token 1234
+            string evmAddress = "00000000000000000000000000000000000004d2";
+            TokenId tokenId = TokenId.FromEvmAddress(0, 0, evmAddress);
+            
+            Assert.Equal(0, tokenId.Shard);
+            Assert.Equal(0, tokenId.Realm);
+            Assert.Equal(1234, tokenId.Num);
+
+            // Test with a different shard and realm
+            tokenId = TokenId.FromEvmAddress(1, 1, evmAddress);
+
+            Assert.Equal(1, tokenId.Shard);
+            Assert.Equal(1, tokenId.Realm);
+            Assert.Equal(1234, tokenId.Num);
+        }
+        [Fact]
+        public virtual void TestTokenIdToEvmAddress()
+        {
+            // Test with a normal token ID
+            TokenId id = new TokenId(0, 0, 123);
+            Assert.Equal("000000000000000000000000000000000000007b", id.ToEvmAddress());
+
+            // Test with a different shard and realm
+            id = new TokenId(1, 1, 123);
+            Assert.Equal("000000000000000000000000000000000000007b", id.ToEvmAddress());
+        }
+    }
+}

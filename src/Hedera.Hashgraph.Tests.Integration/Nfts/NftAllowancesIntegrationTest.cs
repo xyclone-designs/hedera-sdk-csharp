@@ -1,0 +1,408 @@
+// SPDX-License-Identifier: Apache-2.0
+using System.Text;
+
+using Hedera.Hashgraph.SDK.Cryptography;
+using Hedera.Hashgraph.SDK.Cryptocurrency;
+using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.SDK.Nfts;
+using Hedera.Hashgraph.SDK;
+
+namespace Hedera.Hashgraph.SDK.Tests.Integration
+{
+    public class NftAllowancesIntegrationTest
+    {
+        [Fact]
+        public virtual void CannotTransferWithoutAllowanceApproval()
+        {
+            using (var testEnv = new IntegrationTestEnv(1))
+            {
+                var spenderKey = PrivateKey.GenerateED25519();
+                var spenderAccountId = new AccountCreateTransaction
+                {
+					InitialBalance = new Hbar(2),
+					Key = spenderKey,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+                var receiverKey = PrivateKey.GenerateED25519();
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					MaxAutomaticTokenAssociations = 10,
+					Key = receiverKey,
+				}
+                .Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                
+                TokenId nftTokenId = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey
+                }
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                
+                new TokenAssociateTransaction
+                {
+					AccountId = spenderAccountId,
+					TokenIds = [nftTokenId],
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(spenderKey)
+                .Execute(testEnv.Client);
+
+                var serials = new TokenMintTransaction
+                {
+					TokenId = nftTokenId,
+                    Metadata = [Encoding.UTF8.GetBytes("asd")]
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).Serials;
+                
+                var nft1 = new NftId(nftTokenId, serials[0]);
+                var onBehalfOfTransactionId = TransactionId.Generate(spenderAccountId);
+
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    return new TransferTransaction
+                    {
+                        TransactionId = onBehalfOfTransactionId
+                    }
+                    .AddApprovedNftTransfer(nft1, testEnv.OperatorId, receiverAccountId)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(spenderKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
+            }
+        }
+        [Fact]
+        public virtual void CannotTransferAfterAllowanceRemove()
+        {
+            using (var testEnv = new IntegrationTestEnv(1))
+            {
+                var spenderKey = PrivateKey.GenerateED25519();
+                var spenderAccountId = new AccountCreateTransaction
+                {
+					InitialBalance = new Hbar(2),
+                    Key = spenderKey,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+
+                var receiverKey = PrivateKey.GenerateED25519();
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverKey,
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).AccountId;
+
+                TokenId nftTokenId = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                }
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+
+                new TokenAssociateTransaction
+                {
+					AccountId = spenderAccountId,
+					TokenIds = [nftTokenId],
+				}
+                .FreezeWith(testEnv.Client)
+                .Sign(spenderKey)
+                .Execute(testEnv.Client);
+
+                new TokenAssociateTransaction
+                {
+                    AccountId = receiverAccountId,
+                    TokenIds = [ nftTokenId ],
+                }
+                .FreezeWith(testEnv.Client)
+                .Sign(receiverKey)
+                .Execute(testEnv.Client);
+
+                var serials = new TokenMintTransaction
+                {
+					TokenId = nftTokenId,
+                    Metadata = 
+                    [
+						Encoding.UTF8.GetBytes("asd1"),
+						Encoding.UTF8.GetBytes("asd2"),
+					]
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).Serials;
+
+                var nft1 = new NftId(nftTokenId, serials[0]);
+                var nft2 = new NftId(nftTokenId, serials[1]);
+                new AccountAllowanceApproveTransaction()
+                    .ApproveTokenNftAllowance(nft1, testEnv.OperatorId, spenderAccountId)
+                    .ApproveTokenNftAllowance(nft2, testEnv.OperatorId, spenderAccountId)
+                    .Execute(testEnv.Client);
+                new AccountAllowanceDeleteTransaction().DeleteAllTokenNftAllowances(nft2, testEnv.OperatorId).Execute(testEnv.Client);
+                var onBehalfOfTransactionId = TransactionId.Generate(spenderAccountId);
+                new TransferTransaction 
+                { 
+                    TransactionId = onBehalfOfTransactionId 
+                }
+                .AddApprovedNftTransfer(nft1, testEnv.OperatorId, receiverAccountId)
+                .FreezeWith(testEnv.Client)
+                .Sign(spenderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                var info = new TokenNftInfoQuery 
+                { 
+                    NftId = nft1 
+                
+                }.Execute(testEnv.Client);
+                
+                Assert.Equal(info[0].AccountId, receiverAccountId);
+
+                var onBehalfOfTransactionId2 = TransactionId.Generate(spenderAccountId);
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() => 
+                {
+                    return new TransferTransaction
+                    {
+                        TransactionId = onBehalfOfTransactionId2
+                    }
+                    .AddApprovedNftTransfer(nft2, testEnv.OperatorId, receiverAccountId)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(spenderKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
+            }
+        }
+        [Fact]
+        public virtual void CannotRemoveSingleSerialWhenAllowanceIsGivenForAll()
+        {
+            using (var testEnv = new IntegrationTestEnv(1))
+            {
+                var spenderKey = PrivateKey.GenerateED25519();
+                var spenderAccountId = new AccountCreateTransaction
+                {
+					Key = spenderKey,
+					InitialBalance = new Hbar(2)
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverKey = PrivateKey.GenerateED25519();
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverKey,
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                TokenId nftTokenId = new TokenCreateTransaction
+                {
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique,
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                }
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+                
+                new TokenAssociateTransaction { AccountId = spenderAccountId, TokenIds = [nftTokenId] }.FreezeWith(testEnv.Client).Sign(spenderKey).Execute(testEnv.Client);
+                new TokenAssociateTransaction { AccountId = receiverAccountId, TokenIds = [nftTokenId] }.FreezeWith(testEnv.Client).Sign(receiverKey).Execute(testEnv.Client);
+
+                var serials = new TokenMintTransaction
+                {
+					TokenId = nftTokenId,
+                    Metadata =
+                    [
+						Encoding.UTF8.GetBytes("asd1"),
+						Encoding.UTF8.GetBytes("asd2"),
+					]
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).Serials;
+                
+                var nft1 = new NftId(nftTokenId, serials[0]);
+                var nft2 = new NftId(nftTokenId, serials[1]);
+
+                new AccountAllowanceApproveTransaction()
+                    .ApproveTokenNftAllowanceAllSerials(nftTokenId, testEnv.OperatorId, spenderAccountId)
+                    .Execute(testEnv.Client);
+                var onBehalfOfTransactionId = TransactionId.Generate(spenderAccountId);
+                new TransferTransaction 
+                { 
+                    TransactionId = onBehalfOfTransactionId 
+                }
+                .AddApprovedNftTransfer(nft1, testEnv.OperatorId, receiverAccountId)
+                .FreezeWith(testEnv.Client)
+                .Sign(spenderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+
+                // hopefully in the future this should end up with a precheck error provided from services
+                new AccountAllowanceDeleteTransaction().DeleteAllTokenNftAllowances(nft2, testEnv.OperatorId).Execute(testEnv.Client);
+                var onBehalfOfTransactionId2 = TransactionId.Generate(spenderAccountId);
+                new TransferTransaction 
+                { 
+                    TransactionId = onBehalfOfTransactionId2 
+                }
+                .AddApprovedNftTransfer(nft2, testEnv.OperatorId, receiverAccountId)
+                .FreezeWith(testEnv.Client)
+                .Sign(spenderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+                var infoNft1 = new TokenNftInfoQuery 
+                { 
+                    NftId = nft1 
+                
+                }.Execute(testEnv.Client);
+                var infoNft2 = new TokenNftInfoQuery 
+                { 
+                    NftId = nft2 
+                
+                }.Execute(testEnv.Client);
+
+                Assert.Equal(infoNft1[0].AccountId, receiverAccountId);
+                Assert.Equal(infoNft2[0].AccountId, receiverAccountId);
+            }
+        }
+        [Fact]
+        public virtual void AccountGivenAllowanceForAllShouldBeAbleToGiveAllowanceForSingle()
+        {
+            using (var testEnv = new IntegrationTestEnv(1))
+            {
+                var delegatingSpenderKey = PrivateKey.GenerateED25519();
+                var delegatingSpenderAccountId = new AccountCreateTransaction
+                {
+					Key = delegatingSpenderKey,
+					InitialBalance = new Hbar(2),
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var spenderKey = PrivateKey.GenerateED25519();
+                var spenderAccountId = new AccountCreateTransaction
+                {
+					Key = spenderKey,
+					InitialBalance = new Hbar(2),
+
+				}.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+                var receiverKey = PrivateKey.GenerateED25519();
+                var receiverAccountId = new AccountCreateTransaction
+                {
+					Key = receiverKey,
+				
+                }.Execute(testEnv.Client).GetReceipt(testEnv.Client).AccountId;
+
+                TokenId nftTokenId = new TokenCreateTransaction
+                { 
+                    TokenName = "ffff",
+                    TokenSymbol = "F",
+                    TokenType = TokenType.NonFungibleUnique, 
+                    TreasuryAccountId = testEnv.OperatorId,
+                    AdminKey = testEnv.OperatorKey,
+                    SupplyKey = testEnv.OperatorKey,
+                }
+                .FreezeWith(testEnv.Client)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).TokenId;
+
+                new TokenAssociateTransaction
+                {
+					AccountId = delegatingSpenderAccountId,
+					TokenIds = [nftTokenId],
+				}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(spenderKey)
+                    .Execute(testEnv.Client);
+                new TokenAssociateTransaction
+                {
+					AccountId = receiverAccountId,
+					TokenIds = [nftTokenId],
+				}
+                    .FreezeWith(testEnv.Client)
+                    .Sign(receiverKey)
+                    .Execute(testEnv.Client);
+                var serials = new TokenMintTransaction
+                {
+					TokenId = nftTokenId,
+                    Metadata = 
+                    [
+						Encoding.UTF8.GetBytes("asd1"),
+						Encoding.UTF8.GetBytes("asd2"),
+					]
+				}
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client).Serials;
+                
+                var nft1 = new NftId(nftTokenId, serials[0]);
+                var nft2 = new NftId(nftTokenId, serials[1]);
+
+                new AccountAllowanceApproveTransaction()
+                    .ApproveTokenNftAllowanceAllSerials(nftTokenId, testEnv.OperatorId, delegatingSpenderAccountId)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+                new AccountAllowanceApproveTransaction()
+                    .ApproveTokenNftAllowance(nft1, testEnv.OperatorId, spenderAccountId, delegatingSpenderAccountId)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(delegatingSpenderKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+                var onBehalfOfTransactionId = TransactionId.Generate(spenderAccountId);
+
+                new TransferTransaction 
+                { 
+                    TransactionId = onBehalfOfTransactionId 
+                }
+                .AddApprovedNftTransfer(nft1, testEnv.OperatorId, receiverAccountId)
+                .FreezeWith(testEnv.Client)
+                .Sign(spenderKey)
+                .Execute(testEnv.Client)
+                .GetReceipt(testEnv.Client);
+
+                var onBehalfOfTransactionId2 = TransactionId.Generate(spenderAccountId);
+                
+                ReceiptStatusException exception = Assert.Throws<ReceiptStatusException>(() =>
+                {
+                    return new TransferTransaction
+                    {
+                        TransactionId = onBehalfOfTransactionId2
+                    }
+                    .AddApprovedNftTransfer(nft2, testEnv.OperatorId, receiverAccountId)
+                    .FreezeWith(testEnv.Client)
+                    .Sign(spenderKey)
+                    .Execute(testEnv.Client)
+                    .GetReceipt(testEnv.Client);
+
+
+				}); Assert.Contains(ResponseStatus.SpenderDoesNotHaveAllowance.ToString(), exception.Message);
+                
+                var infoNft1 = new TokenNftInfoQuery 
+                { 
+                    NftId = nft1 
+                
+                }.Execute(testEnv.Client);
+
+                var infoNft2 = new TokenNftInfoQuery 
+                { 
+                    NftId = nft2 
+                
+                }.Execute(testEnv.Client);
+                
+                Assert.Equal(infoNft1[0].AccountId, receiverAccountId);
+                Assert.Equal(infoNft2[0].AccountId, testEnv.OperatorId);
+            }
+        }
+    }
+}

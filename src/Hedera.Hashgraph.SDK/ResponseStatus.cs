@@ -729,5 +729,8 @@ namespace Hedera.Hashgraph.SDK
         AirdropContainsMultipleSendersForAToken = Proto.Services.ResponseCodeEnum.AirdropContainsMultipleSendersForAToken,
         /// <include file="ResponseStatus.cs.xml" path='docs/member[@name="T:ResponseStatus_290"]/*' />
         GrpcWebProxyNotSupported = Proto.Services.ResponseCodeEnum.GrpcWebProxyNotSupported,
+        HookIdInUse = Proto.Services.ResponseCodeEnum.HookIdInUse,
+        HookIdRepeatedInCreationDetails = Proto.Services.ResponseCodeEnum.HookIdRepeatedInCreationDetails,
+        HookNotFound = Proto.Services.ResponseCodeEnum.HookNotFound,
     }
 }

@@ -1,0 +1,345 @@
+// SPDX-License-Identifier: Apache-2.0
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Cryptocurrency;
+using Hedera.Hashgraph.SDK.Cryptography;
+using Hedera.Hashgraph.SDK.Ethereum;
+using Hedera.Hashgraph.SDK;
+
+using VerifyXunit;
+
+namespace Hedera.Hashgraph.Tests.SDK.Transactions
+{
+    public class BatchTransactionTest
+    {
+        private static readonly PrivateKey privateKeyED25519 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
+        private static readonly PrivateKey privateKeyECDSA = PrivateKey.FromStringECDSA("7f109a9e3b0d8ecfba9cc23a3614433ce0fa7ddcc80f2a8f10b222179a5a80d6");
+        private static readonly DateTimeOffset validStart = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
+        private static readonly List<ITransaction> INNER_TRANSACTIONS = [SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate()];
+        private static AccountCreateTransaction SpawnTestTransactionAccountCreate()
+        {
+            return new AccountCreateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				ReceiverSigRequired = true,
+				AutoRenewPeriod = TimeSpan.FromHours(10),
+				StakedAccountId = AccountId.FromString("0.0.3"),
+				Alias = EvmAddress.FromString("0x5c562e90feaf0eebd33ea75d21024f249d451417"),
+				MaxAutomaticTokenAssociations = 100,
+				MaxTransactionFee = Hbar.FromTinybars(100000),
+				BatchKey = privateKeyECDSA,
+				Key = privateKeyED25519,
+				InitialBalance = Hbar.FromTinybars(450),
+				AccountMemo = "some memo",
+			}
+            .SetKeyWithAlias(privateKeyECDSA)
+            .SetKeyWithAlias(privateKeyED25519, privateKeyECDSA)
+            .Freeze()
+            .Sign(privateKeyED25519);
+        }
+
+        private BatchTransaction SpawnTestTransaction()
+        {
+            var batchKey = PrivateKey.GenerateECDSA();
+            
+            return new BatchTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				InnerTransactions = [.. INNER_TRANSACTIONS],
+			}
+            .Freeze()
+            .Sign(batchKey);
+        }
+
+        public virtual void ShouldSerialize()
+        {
+            Verifier.Verify(SpawnTestTransaction().ToString());
+        }
+        [Fact]
+        public virtual void ShouldBytes()
+        {
+            var tx = SpawnTestTransaction();
+            var tx2 = Transaction.FromBytes<BatchTransaction>(tx.ToBytes());
+
+            Assert.Equal(tx2.ToString(), tx.ToString());
+        }
+        [Fact]
+        public virtual void ShouldBytesNoSetters()
+        {
+            var tx = new BatchTransaction();
+            var tx2 = Transaction.FromBytes<BatchTransaction>(tx.ToBytes());
+
+            Assert.Equal(tx2.ToString(), tx.ToString());
+        }
+        [Fact]
+        public virtual void GetInnerTransactionsShouldReturnCorrectTransactions()
+        {
+            var batchTransaction = SpawnTestTransaction();
+
+			Assert.Equal(batchTransaction.InnerTransactions.Count, 3);
+			Assert.Equal(batchTransaction.InnerTransactions[0], INNER_TRANSACTIONS[0]);
+			Assert.Equal(batchTransaction.InnerTransactions[1], INNER_TRANSACTIONS[1]);
+			Assert.Equal(batchTransaction.InnerTransactions[2], INNER_TRANSACTIONS[2]);
+		}
+        [Fact]
+        public virtual void SetInnerTransactionsShouldUpdateTransactions()
+        {
+            var batchTransaction = new BatchTransaction();
+            IList<ITransaction> newInnerTransactions = [ SpawnTestTransactionAccountCreate(), SpawnTestTransactionAccountCreate() ];
+            batchTransaction.InnerTransactions.ClearAndSet(newInnerTransactions);
+            
+			Assert.Equal(batchTransaction.InnerTransactions.Count, 2);
+			Assert.Equal(batchTransaction.InnerTransactions[0], newInnerTransactions[0]);
+			Assert.Equal(batchTransaction.InnerTransactions[1], newInnerTransactions[1]);
+		}
+        [Fact]
+        public virtual void InnerTransactionsAddShouldAppendTransaction()
+        {
+            var batchTransaction = new BatchTransaction();
+            var newTransaction = SpawnTestTransactionAccountCreate();
+            batchTransaction.InnerTransactions.Add(newTransaction);
+
+            Assert.Equal(batchTransaction.InnerTransactions.Count, 1);
+            Assert.Equal(batchTransaction.InnerTransactions[0], newTransaction);
+        }
+        [Fact]
+        public virtual void GetInnerTransactionIdsShouldReturnCorrectIds()
+        {
+            var batchTransaction = SpawnTestTransaction();
+            var expectedTransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart);
+            var transactionIds = batchTransaction.InnerTransactions.Select(_ => _.TransactionId);
+            
+            Assert.Equal(transactionIds.Count(), 3);
+            Assert.All(transactionIds, (id) => Equals(id, expectedTransactionId));
+        }
+        [Fact]
+        public virtual void ShouldAllowChainedSetters()
+        {
+            var batchTransaction = new BatchTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+                InnerTransactions = [SpawnTestTransactionAccountCreate()],
+
+			} .Freeze();
+            
+            Assert.Single(batchTransaction.InnerTransactions);
+            Assert.Single(batchTransaction.NodeAccountIds);
+            Assert.NotNull(batchTransaction.TransactionId);
+        }
+        [Fact]
+        public virtual void ShouldRejectFreezeTransaction()
+        {
+            var batchTransaction = new BatchTransaction();
+            var freezeTransaction = new FreezeTransaction
+            {
+				StartTime = DateTimeOffset.UtcNow,
+				FreezeType = FreezeType.FreezeOnly,
+				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+
+			}.Freeze();
+
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() =>
+            {
+                batchTransaction.InnerTransactions.Add(freezeTransaction);
+            });
+            Assert.Contains(exception.Message, "FreezeTransaction is not allowed in a batch transaction");
+		}
+        [Fact]
+        public virtual void ShouldRejectBatchTransaction()
+        {
+            var batchTransaction = new BatchTransaction();
+            var innerBatchTransaction = new BatchTransaction
+            {
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")]
+
+			}.Freeze();
+
+			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(innerBatchTransaction));
+            Assert.Contains(exception.Message, "BatchTransaction is not allowed in a batch transaction");
+		}
+        [Fact]
+        public virtual void ShouldRejectBlacklistedTransactionInList()
+        {
+            var batchTransaction = new BatchTransaction();
+            var validTransaction = SpawnTestTransactionAccountCreate();
+            var freezeTransaction = new FreezeTransaction
+            {
+				StartTime = DateTimeOffset.UtcNow,
+				FreezeType = FreezeType.FreezeOnly,
+				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+			
+            }.Freeze();
+			
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.AddRange(validTransaction, freezeTransaction));
+            Assert.Contains(exception.Message, "FreezeTransaction is not allowed in a batch transaction");
+		}
+        [Fact]
+        public virtual void ShouldRejectUnfrozenTransaction()
+        {
+            var batchTransaction = new BatchTransaction();
+            var unfrozenTransaction = new AccountCreateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+			};
+
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransaction));
+			Assert.Contains(exception.Message, "Inner transaction should be frozen");
+		}
+        [Fact]
+        public virtual void ShouldRejectTransactionAfterFreeze()
+        {
+            var batchTransaction = new BatchTransaction
+            {
+				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+			
+            }.Freeze();
+            
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(SpawnTestTransactionAccountCreate()));
+            Assert.Contains(exception.Message, "transaction is immutable");
+		}
+        [Fact]
+        public virtual void ShouldRejectTransactionListAfterFreeze()
+        {
+            var batchTransaction = new BatchTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+			
+            }.Freeze();
+            
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.AddRange(INNER_TRANSACTIONS));
+			Assert.Contains(exception.Message, "transaction is immutable");
+		}
+        [Fact]
+        public virtual void ShouldPreserveTransactionOrder()
+        {
+            var batchTransaction = new BatchTransaction();
+            var transaction1 = SpawnTestTransactionAccountCreate();
+            var transaction2 = SpawnTestTransactionAccountCreate();
+            var transaction3 = SpawnTestTransactionAccountCreate();
+            
+            IList<ITransaction> transactions = [transaction1, transaction2, transaction3];
+            batchTransaction.InnerTransactions.ClearAndSet(transactions);
+            
+            Assert.Equal(batchTransaction.InnerTransactions, [transaction1, transaction2, transaction3]);
+        }
+        [Fact]
+        public virtual void ShouldCreateDefensiveCopyOfTransactionList()
+        {
+            var batchTransaction = new BatchTransaction();
+            List<ITransaction> mutableList = [.. INNER_TRANSACTIONS];
+            batchTransaction.InnerTransactions.ClearAndSet(mutableList);
+            mutableList.Clear();
+
+            Assert.Equal(batchTransaction.InnerTransactions, INNER_TRANSACTIONS);
+        }
+        [Fact]
+        public virtual void ShouldRejectTransactionWithoutBatchKey()
+        {
+            var batchTransaction = new BatchTransaction();
+            var transactionWithoutBatchKey = new AccountCreateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+			
+            }.Freeze();
+            
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(transactionWithoutBatchKey));
+			Assert.Contains(exception.Message, "Batch key needs to be set");
+		}
+        [Fact]
+        public virtual void ShouldValidateAllTransactionsInList()
+        {
+            var batchTransaction = new BatchTransaction();
+            var validTransaction = SpawnTestTransactionAccountCreate();
+            var transactionWithoutBatchKey = new AccountCreateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+
+			}.Freeze();
+            
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.ClearAndSet(validTransaction, transactionWithoutBatchKey));
+			Assert.Contains(exception.Message, "Batch key needs to be set");
+		}
+        [Fact]
+        public virtual void ShouldValidateMultipleConditions()
+        {
+            var batchTransaction = new BatchTransaction();
+
+            // Test unfrozen transaction with no batch key
+            var unfrozenTransactionWithoutBatchKey = new AccountCreateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+			};
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransactionWithoutBatchKey));
+            Assert.Contains(exception.Message, "Inner transaction should be frozen");
+
+			// Test frozen transaction with no batch key
+			var frozenTransactionWithoutBatchKey = unfrozenTransactionWithoutBatchKey.Freeze();
+            InvalidOperationException exception1 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(frozenTransactionWithoutBatchKey));
+            Assert.Contains(exception1.Message, "Batch key needs to be set");
+
+			// Test blacklisted transaction with batch key
+			var blacklistedTransaction = new FreezeTransaction
+            {
+				StartTime = DateTimeOffset.UtcNow,
+				FreezeType = FreezeType.FreezeOnly,
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				BatchKey = privateKeyECDSA
+			
+            }.Freeze();
+
+            InvalidOperationException exception2 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(blacklistedTransaction));
+            Assert.Contains(exception2.Message, "FreezeTransaction is not allowed in a batch transaction");
+		}
+        [Fact]
+        public virtual void ShouldAcceptValidTransaction()
+        {
+            var batchTransaction = new BatchTransaction();
+            var validTransaction = new AccountCreateTransaction
+            {
+				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
+				BatchKey = privateKeyECDSA,
+
+			}.Freeze();
+            
+            batchTransaction.InnerTransactions.Add(validTransaction);
+
+            Assert.Equal(batchTransaction.InnerTransactions, [validTransaction]);
+        }
+        [Fact]
+        public virtual void ShouldValidateTransactionStateInOrder()
+        {
+            var batchTransaction = new BatchTransaction();
+            var transaction = new AccountCreateTransaction
+            {
+                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+                TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart)
+            };
+
+            // First check should be for frozen state
+            InvalidOperationException exception1 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(transaction));
+			Assert.Contains(exception1.Message, "Inner transaction should be frozen");
+
+			// After freezing, next check should be for batch key
+			var frozenTransaction = transaction.Freeze();
+            InvalidOperationException exception2 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(frozenTransaction));
+            Assert.Contains(exception2.Message, "Batch key needs to be set");
+        }
+    }
+}
