@@ -309,12 +309,12 @@ namespace Hedera.Hashgraph.SDK
 		}
 		
         /// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client)"]/*' />
-        public virtual TTransactionResponse Execute(Client client)
+        public virtual TTransactionResponse Execute(Client client, Action<TTransactionResponse>? onResponse = null)
         {
-            return Execute(client, client.RequestTimeout);
+            return Execute(client, client.RequestTimeout, onResponse);
         }
 		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.Execute(Client,System.TimeSpan)"]/*' />
-		public virtual TTransactionResponse Execute(Client client, TimeSpan timeout)
+		public virtual TTransactionResponse Execute(Client client, TimeSpan timeout, Action<TTransactionResponse>? onResponse = null)
 		{
 			Exception? lastException = null;
 
@@ -429,7 +429,9 @@ namespace Hedera.Hashgraph.SDK
 
 					case ExecutionState.Success:
 					default:
-						return grpcRequest.MapResponse();
+						TTransactionResponse _response = grpcRequest.MapResponse();
+						onResponse?.Invoke(_response);
+                        return _response;
 				}
 			}
 		}

@@ -232,7 +232,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			OnFreezeChunk(bodyBuilder, null, 0, Data.Length, 1, 1);
 			return DoSchedule(bodyBuilder);
 		}
-		public override TransactionResponse Execute(Client client, TimeSpan timeoutPerChunk)
+		public override TransactionResponse Execute(Client client, TimeSpan timeoutPerChunk, Action<TransactionResponse>? onResponse = null)
         {
             return ExecuteAll(client, timeoutPerChunk)[0];
         }

@@ -23,7 +23,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
         } = [];
 		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.MaXResultSize"]/*' />
-		public long MaXResultSize { get; set; }
+		public long MaxResultSize { get; set; }
 		/// <include file="ContractCallQuery.cs.xml" path='docs/member[@name="P:ContractCallQuery.SenderAccountId"]/*' />
 		public AccountId? SenderAccountId { get; set; }
 

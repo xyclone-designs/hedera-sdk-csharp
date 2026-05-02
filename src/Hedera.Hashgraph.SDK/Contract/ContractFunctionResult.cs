@@ -68,7 +68,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			Bloom = inner.Bloom;
 			GasUsed = inner.GasUsed;
-			logs = inner.LogInfo.Select(_ => ContractLogInfo.FromProtobuf(_)).ToList();
+			Logs = inner.LogInfo.Select(_ => ContractLogInfo.FromProtobuf(_)).ToList();
 			CreatedContractIds = inner.CreatedContractIDs.Select(_ => ContractId.FromProtobuf(_)).ToList();
 			StateChanges = [];
 
@@ -94,7 +94,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.GasUsed"]/*' />
         public readonly ulong GasUsed;
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.logs"]/*' />
-        public readonly List<ContractLogInfo> logs;
+        public readonly List<ContractLogInfo> Logs;
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.CreatedContractIds"]/*' />
         public readonly List<ContractId> CreatedContractIds;
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.StateChanges"]/*' />
@@ -291,7 +291,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 			if (ErrorMessage != null)
 				proto.ErrorMessage = ErrorMessage;
 
-			foreach (ContractLogInfo log in logs)
+			foreach (ContractLogInfo log in Logs)
 				proto.LogInfo.Add(log.ToProtobuf());
 
 			foreach (var contractId in CreatedContractIds)
