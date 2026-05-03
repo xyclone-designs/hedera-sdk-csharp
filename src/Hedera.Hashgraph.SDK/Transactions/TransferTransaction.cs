@@ -127,6 +127,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             return DoAddHbarTransfer(accountId, value, true, null);
         }
+        /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddApprovedHbarTransfer(EvmAddress,Hbar)"]/*' />
+        public virtual TransferTransaction AddApprovedHbarTransfer(EvmAddress evmAddress, Hbar value)
+        {
+            AccountId accountId = AccountId.FromEvmAddress(evmAddress, 0, 0);
+            return DoAddHbarTransfer(accountId, value, true, null);
+        }
         /// <include file="TransferTransaction.cs.xml" path='docs/member[@name="M:TransferTransaction.AddTokenTransferWithHook(TokenId,AccountId,System.Int64,FungibleHookCall)"]/*' />
         public virtual TransferTransaction AddTokenTransferWithHook(TokenId tokenId, AccountId accountId, long value, FungibleHookCall? hookCall)
         {
