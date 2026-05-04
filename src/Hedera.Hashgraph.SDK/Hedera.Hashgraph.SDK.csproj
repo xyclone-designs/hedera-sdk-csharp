@@ -1,11 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<LangVersion>14</LangVersion>
 		<Nullable>enable</Nullable>
 		<TargetFramework>net10.0</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DocumentationFile>../../docs/buildoutput.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,7 +18,7 @@
 		<PackageReference Include="Nethereum.RLP" Version="6.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
 			<_Parameter1>Hedera.Hashgraph.Forks.HieroSDKTCK</_Parameter1>
@@ -29,7 +33,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\forks.hashgraph.hedera-sdk-reference\Hedera.Hashgraph.Forks.HederaSDKReference.csproj" />
-	  <ProjectReference Include="..\forks.hedera-sdk-reference\Hedera.Hashgraph.Forks.Reference.csproj" />
 	  <ProjectReference Include="..\forks.hiero-ledger.hiero-consensus-node\Hedera.Hashgraph.Forks.HieroConsensusNode.csproj" />
 	  <ProjectReference Include="..\Hedera.Hashgraph\Hedera.Hashgraph.csproj" />
 	</ItemGroup>
