@@ -15,7 +15,6 @@ namespace Hedera.Hashgraph.SDK.Hook
             AccountId = accountId;
             ContractId = null;
         }
-
         /// <include file="HookEntityId.cs.xml" path='docs/member[@name="M:HookEntityId.#ctor(ContractId)"]/*' />
         public HookEntityId(ContractId contractId)
         {

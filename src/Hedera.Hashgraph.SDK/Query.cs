@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK
 {
 	/**
 	 * Base class for all queries that can be submitted to Hedera.

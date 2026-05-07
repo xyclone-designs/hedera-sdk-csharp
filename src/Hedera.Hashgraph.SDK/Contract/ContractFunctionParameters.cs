@@ -24,17 +24,14 @@ namespace Hedera.Hashgraph.SDK.Contract
 		 * The length of a Solidity Address in bytes.
 		 */
 		public static readonly int ADDRESS_LEN = Utils.EntityIdHelper.SOLIDITY_ADDRESS_LEN;
-
 		/**
 		 * The length of a hexadecimal-encoded Solidity Address, in ASCII characters (bytes).
 		 */
 		public static readonly int ADDRESS_LEN_HEX = Utils.EntityIdHelper.SOLIDITY_ADDRESS_LEN_HEX;
-
 		/**
 		 * Function selector length in bytes
 		 */
 		public static readonly int SELECTOR_LEN = 4;
-
 		/**
 		 * Function selector length in hex characters
 		 */

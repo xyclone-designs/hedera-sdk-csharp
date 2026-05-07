@@ -52,14 +52,26 @@ namespace Hedera.Hashgraph.SDK.Networking
 			}
 
 		} = TimeSpan.FromSeconds(8);
-
 		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.Limit"]/*' />
 		public virtual int? Limit { get; set; }
 		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="P:AddressBookQuery.MaxAttempts"]/*' />
 		public virtual int MaxAttempts { get; set; } = 10;
 
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client)"]/*' />
-		public virtual NodeAddressBook Execute(Client client)
+        /// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.BuildProtoQuery"]/*' />
+        public virtual Proto.Mirror.AddressBookQuery BuildProtoQuery()
+        {
+            var builder = new Proto.Mirror.AddressBookQuery();
+
+            if (FileId != null)
+                builder.FileId = FileId.ToProtobuf();
+
+            if (Limit != null)
+                builder.Limit = Limit.Value;
+
+            return builder;
+        }
+        /// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.Execute(Client)"]/*' />
+        public virtual NodeAddressBook Execute(Client client)
 		{
 			return Execute(client, client.RequestTimeout);
 		}
@@ -113,51 +125,6 @@ namespace Hedera.Hashgraph.SDK.Networking
 
 			return tcs.Task;
 		}
-		private async Task ExecuteAsync(Client client, DateTime deadline, TaskCompletionSource<NodeAddressBook> tcs, int attempt)
-		{
-			var addresses = new List<NodeAddress>();
-
-			try
-			{
-				var call = BuildCall(client, deadline);
-				var streamingCall = call.ResponseStream;
-
-				while (await streamingCall.MoveNext(CancellationToken.None).ConfigureAwait(false))
-				{
-					addresses.Add(NodeAddress.FromProtobuf(streamingCall.Current));
-				}
-
-				tcs.TrySetResult(new NodeAddressBook { NodeAddresses = addresses });
-			}
-			catch (Exception error)
-			{
-				if (attempt >= MaxAttempts || !ShouldRetry(error))
-				{
-					LOGGER.Error("Error attempting to get address book at FileId {}", FileId, error);
-					tcs.TrySetException(error);
-					return;
-				}
-
-				WarnAndDelayAsync(attempt, error);
-				addresses.Clear();
-
-				await ExecuteAsync(client, deadline, tcs, attempt + 1).ConfigureAwait(false);
-			}
-		}
-
-		/// <include file="AddressBookQuery.cs.xml" path='docs/member[@name="M:AddressBookQuery.BuildProtoQuery"]/*' />
-		public virtual Proto.Mirror.AddressBookQuery BuildProtoQuery()
-		{
-			var builder = new Proto.Mirror.AddressBookQuery();
-
-			if (FileId != null)
-				builder.FileId = FileId.ToProtobuf();
-
-			if (Limit != null)
-				builder.Limit = Limit.Value;
-
-			return builder;
-		}
 
 		private AsyncServerStreamingCall<Proto.Services.NodeAddress> BuildCall(Client client, DateTime deadline)
 		{
@@ -191,8 +158,38 @@ namespace Hedera.Hashgraph.SDK.Networking
 				throw new Exception("Call was cancelled.", e);
 			}
 		}
+        private async Task ExecuteAsync(Client client, DateTime deadline, TaskCompletionSource<NodeAddressBook> tcs, int attempt)
+        {
+            var addresses = new List<NodeAddress>();
 
-		private void WarnAndDelay(int attempt, Exception error)
+            try
+            {
+                var call = BuildCall(client, deadline);
+                var streamingCall = call.ResponseStream;
+
+                while (await streamingCall.MoveNext(CancellationToken.None).ConfigureAwait(false))
+                {
+                    addresses.Add(NodeAddress.FromProtobuf(streamingCall.Current));
+                }
+
+                tcs.TrySetResult(new NodeAddressBook { NodeAddresses = addresses });
+            }
+            catch (Exception error)
+            {
+                if (attempt >= MaxAttempts || !ShouldRetry(error))
+                {
+                    LOGGER.Error("Error attempting to get address book at FileId {}", FileId, error);
+                    tcs.TrySetException(error);
+                    return;
+                }
+
+                WarnAndDelayAsync(attempt, error);
+                addresses.Clear();
+
+                await ExecuteAsync(client, deadline, tcs, attempt + 1).ConfigureAwait(false);
+            }
+        }
+        private void WarnAndDelay(int attempt, Exception error)
 		{
 			var delay = (int)Math.Min(500L * (long)Math.Pow(2, attempt), (long)MaxBackoff.TotalMilliseconds);
 			LOGGER.Warn(
@@ -209,7 +206,6 @@ namespace Hedera.Hashgraph.SDK.Networking
 				Thread.CurrentThread.Interrupt();
 			}
 		}
-
 		private async void WarnAndDelayAsync(int attempt, Exception error)
 		{
 			var delay = (int)Math.Min(500L * (long)Math.Pow(2, attempt), (long)MaxBackoff.TotalMilliseconds);

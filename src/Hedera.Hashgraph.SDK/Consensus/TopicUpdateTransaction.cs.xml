@@ -81,6 +81,23 @@
     &lt;returns&gt;{@code this}&lt;/returns&gt;</summary>
   </member>
   <member name="M:TopicUpdateTransaction.RequireNotFrozen_5">
+  <member name="M:TopicUpdateTransaction.AutoRenewPeriod">
+	<summary>
+    An updated value for the number of seconds by which the topic expiration
+    will be automatically extended upon expiration, if it has a valid
+    auto-renew account.
+    &lt;p&gt;
+    If this value is set, the current `adminKey` for the topic MUST sign
+    this transaction.&lt;br/&gt;
+    This value, if set, MUST be greater than the
+    configured MIN_AUTORENEW_PERIOD.&lt;br/&gt;
+    This value, if set, MUST be less than the
+    configured MAX_AUTORENEW_PERIOD.
+    &lt;/p&gt;
+    @param autoRenewPeriod The TimeSpan to be set for auto renewal
+    @return {@code this}
+	</summary>
+  </member>
     <summary>&lt;summary&gt;
     An updated ID for the account to be charged renewal fees at the topic's
     `expirationTime` to extend the lifetime of the topic.

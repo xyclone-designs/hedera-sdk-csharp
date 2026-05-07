@@ -23,17 +23,17 @@ namespace Hedera.Hashgraph.SDK.Nfts
         }
 
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.TokenId"]/*' />
-		public readonly TokenId TokenId;
+		public TokenId TokenId { get; }
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.OwnerAccountId"]/*' />
-		public readonly AccountId? OwnerAccountId;
+		public AccountId? OwnerAccountId { get; }
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SpenderAccountId"]/*' />
-		public readonly AccountId? SpenderAccountId;
+		public AccountId? SpenderAccountId { get; }
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.DelegatingSpender"]/*' />
-		public readonly AccountId? DelegatingSpender;
+		public AccountId? DelegatingSpender { get; }
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.SerialNumbers"]/*' />
-		public readonly List<long> SerialNumbers;
+		public List<long> SerialNumbers { get; }
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="F:TokenNftAllowance.AllSerials"]/*' />
-		public readonly bool? AllSerials;
+		public bool? AllSerials { get; }
 
 		/// <include file="TokenNftAllowance.cs.xml" path='docs/member[@name="M:TokenNftAllowance.CopyFrom(TokenNftAllowance)"]/*' />
 		public static TokenNftAllowance CopyFrom(TokenNftAllowance allowance)

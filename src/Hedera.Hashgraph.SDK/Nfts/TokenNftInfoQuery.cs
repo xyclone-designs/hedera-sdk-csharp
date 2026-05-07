@@ -19,10 +19,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		public virtual TokenId? TokenId { get; set; }
 		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.AccountId"]/*' />
 		public virtual AccountId? AccountId { get; set; }
-
 		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.Start"]/*' />
 		public virtual long Start { get; set; }
-
 		/// <include file="TokenNftInfoQuery.cs.xml" path='docs/member[@name="P:TokenNftInfoQuery.End"]/*' />
 		public virtual long End { get; set; }
 

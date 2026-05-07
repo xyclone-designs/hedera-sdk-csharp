@@ -11,6 +11,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		internal static readonly int PORT_MIRROR_TLS = 443;
 		internal static readonly int PORT_NODE_PLAIN = 50211;
 		internal static readonly int PORT_NODE_TLS = 50212;
+
 		private static readonly Regex HOST_AND_PORT = new ("^(\\S+):(\\d+)$");
         private static readonly Regex IN_PROCESS = new ("^in-process:(\\S+)$");
 
@@ -30,21 +31,23 @@ namespace Hedera.Hashgraph.SDK.Networking
         /// <include file="BaseNodeAddress.cs.xml" path='docs/member[@name="M:BaseNodeAddress.FromString(string @)"]/*' />
         public static BaseNodeAddress FromString(string @string)
         {
-			MatchCollection hostAndPortMatcher = HOST_AND_PORT.Matches(@string);
-            MatchCollection inProcessMatcher = IN_PROCESS.Matches(@string);
+			Match hostAndPortMatcher = HOST_AND_PORT.Match(@string);
+            Match inProcessMatcher = IN_PROCESS.Match(@string);
 
-            if (hostAndPortMatcher.Count != 0 && hostAndPortMatcher.Count == 2)
+            if (hostAndPortMatcher.Success && hostAndPortMatcher.Groups.Count == 3)
             {
-				Match address = hostAndPortMatcher.ElementAt(1);
-                Match port = hostAndPortMatcher.ElementAt(2);
+                string address = hostAndPortMatcher.Groups[1].Value;
+                string port = hostAndPortMatcher.Groups[2].Value;
 
-                return new BaseNodeAddress(null, address.Value, int.Parse(port.Value));
+                return new BaseNodeAddress(null, address, int.Parse(port));
             }
-            else if (inProcessMatcher.Count != 0 && inProcessMatcher.Count == 1)
-			{
-				Match address = hostAndPortMatcher.ElementAt(1);
-
-				return new BaseNodeAddress(address.Value, null, 0);
+            else if (inProcessMatcher.Success && inProcessMatcher.Groups.Count == 2)
+            {
+                return new BaseNodeAddress(
+                    inProcessMatcher.Groups[1].Value,
+                    null,
+                    0
+                );
             }
             else
             {

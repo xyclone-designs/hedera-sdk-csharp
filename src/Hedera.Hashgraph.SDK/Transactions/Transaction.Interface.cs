@@ -33,7 +33,7 @@ using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
-	public interface ITransaction
+	public interface ITransaction : IExecutable
 	{
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.OuterTransactions"]/*' />
 		public List<Proto.Services.Transaction> OuterTransactions { get; }
@@ -62,7 +62,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.ShouldRegenerateTransactionId"]/*' />
 		public bool ShouldRegenerateTransactionId { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionId"]/*' />
-		public TransactionId TransactionId { get; }
+		public TransactionId TransactionId { get; set; }
 
 		bool IsFrozen();
 		string ToString();

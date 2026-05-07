@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
-using Hedera.Hashgraph.Proto.Services;
+
 using Hedera.Hashgraph.SDK.Transactions;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +10,9 @@ using System.Linq;
 namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicMessage.cs.xml" path='docs/member[@name="T:TopicMessage"]/*' />
-    public sealed class TopicMessage
+    /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.#ctor(DateTimeOffset,System.Byte[],System.Byte[],System.UInt64,TopicMessageChunk[],TransactionId)"]/*' />
+    public sealed class TopicMessage(DateTimeOffset lastConsensusTimestamp, byte[] message, byte[] lastRunningHash, ulong lastSequenceNumber, TopicMessageChunk[] chunks, TransactionId? transactionId)
     {
-        /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.#ctor(DateTimeOffset,System.Byte[],System.Byte[],System.UInt64,TopicMessageChunk[],TransactionId)"]/*' />
-        public TopicMessage(DateTimeOffset lastConsensusTimestamp, byte[] message, byte[] lastRunningHash, ulong lastSequenceNumber, TopicMessageChunk[] chunks, TransactionId? transactionId)
-        {
-            ConsensusTimestamp = lastConsensusTimestamp;
-            Contents = message;
-            RunningHash = lastRunningHash;
-            SequenceNumber = lastSequenceNumber;
-            Chunks = chunks;
-            TransactionId = transactionId;
-        }
-
         /// <include file="TopicMessage.cs.xml" path='docs/member[@name="M:TopicMessage.OfSingle(Proto.Mirror.ConsensusTopicResponse)"]/*' />
         public static TopicMessage OfSingle(Proto.Mirror.ConsensusTopicResponse response)
         {
@@ -66,16 +56,16 @@ namespace Hedera.Hashgraph.SDK.Consensus
         }
 
 		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.ConsensusTimestamp"]/*' />
-		public DateTimeOffset ConsensusTimestamp { get; }
+		public DateTimeOffset ConsensusTimestamp { get; } = lastConsensusTimestamp;
 		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Contents"]/*' />
-		public byte[] Contents { get; }
+		public byte[] Contents { get; } = message;
 		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.RunningHash"]/*' />
-		public byte[] RunningHash { get; }
+		public byte[] RunningHash { get; } = lastRunningHash;
 		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.SequenceNumber"]/*' />
-		public ulong SequenceNumber { get; }
+		public ulong SequenceNumber { get; } = lastSequenceNumber;
 		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.Chunks"]/*' />
-		public TopicMessageChunk[] Chunks { get; }
+		public TopicMessageChunk[] Chunks { get; } = chunks;
 		/// <include file="TopicMessage.cs.xml" path='docs/member[@name="P:TopicMessage.TransactionId"]/*' />
-		public TransactionId? TransactionId { get; }
-	}
+		public TransactionId? TransactionId { get; } = transactionId;
+    }
 }

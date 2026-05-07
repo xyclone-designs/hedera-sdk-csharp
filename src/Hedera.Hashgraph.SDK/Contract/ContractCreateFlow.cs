@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -16,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Contract
 {
     /// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="T:that"]/*' />
     // Re-use the WithExecute interface that was generated for Executable
@@ -241,13 +239,15 @@ namespace Hedera.Hashgraph.SDK
 		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SetConstructorParameters(System.Byte[])"]/*' />
 		public virtual ContractCreateFlow SetConstructorParameters(byte[] constructorParameters)
 		{
-			constructorParameters = constructorParameters.CopyArray();
+			ConstructorParameters = constructorParameters.CopyArray();
+			
 			return this;
 		}
 		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SetConstructorParameters(ContractFunctionParameters)"]/*' />
 		public virtual ContractCreateFlow SetConstructorParameters(ContractFunctionParameters constructorParameters)
 		{
 			ArgumentNullException.ThrowIfNull(constructorParameters);
+
 			return SetConstructorParameters(constructorParameters.ToBytes(null).ToByteArray());
 		}
 		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.Sign(PrivateKey)"]/*' />
@@ -256,6 +256,7 @@ namespace Hedera.Hashgraph.SDK
 			SignPrivateKey = privateKey;
 			SignPublicKey = null;
 			TransactionSigner = null;
+			
 			return this;
 		}
 		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SignWith(PublicKey,System.Func{System.Byte[],System.Byte[]})"]/*' />
@@ -264,6 +265,7 @@ namespace Hedera.Hashgraph.SDK
 			SignPublicKey = publicKey;
 			TransactionSigner = transactionSigner;
 			SignPrivateKey = null;
+
 			return this;
 		}
 		/// <include file="ContractCreateFlow.cs.xml" path='docs/member[@name="M:that.SignWithOperator(Client)"]/*' />

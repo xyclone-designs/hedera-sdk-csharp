@@ -54,14 +54,13 @@ namespace Hedera.Hashgraph.SDK.Fee
 
         } = TimeSpan.FromSeconds(8);
 
-		public virtual FeeEstimateQuery SetTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
-		{
-			Transaction = transaction.MakeRequest();
+        public virtual HttpRequestMessage BuildRequest(Client client, FeeEstimateMode resolvedMode)
+        {
+            string url = BuildUrl(client, resolvedMode);
 
-			return this;
-		}
-
-		public virtual FeeEstimateResponse Execute(Client client)
+            return BuildHttpRequest(url, GetRequestPayload());
+        }
+        public virtual FeeEstimateResponse Execute(Client client)
         {
             return Execute(client, client.RequestTimeout);
         }
@@ -89,7 +88,57 @@ namespace Hedera.Hashgraph.SDK.Fee
 
 			throw new HttpIOException(HttpRequestError.InvalidResponse, "Failed to fetch fee estimate after " + MaxAttempts + " attempts");
         }
+        public virtual TaskCompletionSource<FeeEstimateResponse> ExecuteAsync(Client client)
+        {
+            return ExecuteAsync(client, client.RequestTimeout);
+        }
+        public virtual TaskCompletionSource<FeeEstimateResponse> ExecuteAsync(Client client, TimeSpan timeout)
+        {
+            TaskCompletionSource<FeeEstimateResponse> returnFuture = new();
+            ExecuteAsync(client, timeout, Mode, returnFuture, 1);
+            return returnFuture;
+        }
+        public virtual FeeEstimateQuery SetTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
+        {
+            Transaction = transaction.MakeRequest();
 
+            return this;
+        }
+
+        public virtual async void ExecuteAsync(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt)
+        {
+            var requestPayload = GetRequestPayload();
+            var url = BuildUrl(client, resolvedMode);
+
+            HttpResponseMessage httpresponsemessage;
+
+            try
+            {
+                HTTP_CLIENT.Timeout = timeout;
+                httpresponsemessage = await HTTP_CLIENT.SendAsync(BuildHttpRequest(url, requestPayload));
+            }
+            catch (Exception exception)
+            {
+                HandleAsyncError(client, timeout, resolvedMode, returnFuture, attempt, exception);
+
+                return;
+            }
+
+            HandleAsyncResponse(client, timeout, resolvedMode, returnFuture, attempt, httpresponsemessage);
+        }
+
+        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleError(System.Exception,System.Int32)"]/*' />
+        private void HandleError(Exception error, int attempt)
+        {
+            if (!ShouldRetry(error) || attempt >= MaxAttempts)
+            {
+                LOGGER.Error("Error attempting to get fee estimate", error);
+
+                throw new InvalidOperationException(null, error);
+            }
+
+            WarnAndDelay(attempt, error);
+        }
         /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleResponse(HttpResponseMessage,FeeEstimateMode,System.Int32)"]/*' />
         private FeeEstimateResponse? HandleResponse(HttpResponseMessage response, FeeEstimateMode resolvedMode, int attempt)
         {
@@ -108,53 +157,6 @@ namespace Hedera.Hashgraph.SDK.Fee
             return null;
         }
 
-        /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleError(System.Exception,System.Int32)"]/*' />
-        private void HandleError(Exception error, int attempt)
-        {
-            if (!ShouldRetry(error) || attempt >= MaxAttempts)
-            {
-                LOGGER.Error("Error attempting to get fee estimate", error);
-                
-                throw new InvalidOperationException(null, error);
-            }
-
-            WarnAndDelay(attempt, error);
-        }
-
-        public virtual TaskCompletionSource<FeeEstimateResponse> ExecuteAsync(Client client)
-        {
-            return ExecuteAsync(client, client.RequestTimeout);
-        }
-
-        public virtual TaskCompletionSource<FeeEstimateResponse> ExecuteAsync(Client client, TimeSpan timeout)
-        {
-            TaskCompletionSource<FeeEstimateResponse> returnFuture = new ();
-            ExecuteAsync(client, timeout, Mode, returnFuture, 1);
-            return returnFuture;
-        }
-
-        public virtual async void ExecuteAsync(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt)
-        {
-            var requestPayload = GetRequestPayload();
-            var url = BuildUrl(client, resolvedMode);
-
-        	HttpResponseMessage httpresponsemessage;
-
-            try
-            {
-                HTTP_CLIENT.Timeout = timeout;
-				httpresponsemessage = await HTTP_CLIENT.SendAsync(BuildHttpRequest(url, requestPayload));
-            }
-            catch (Exception exception) 
-            {
-				HandleAsyncError(client, timeout, resolvedMode, returnFuture, attempt, exception);
-			
-                return;
-			}
-
-            HandleAsyncResponse(client, timeout, resolvedMode, returnFuture, attempt, httpresponsemessage);
-		}
-
         /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncError(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,System.Exception)"]/*' />
         private void HandleAsyncError(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, Exception error)
         {
@@ -168,7 +170,6 @@ namespace Hedera.Hashgraph.SDK.Fee
             WarnAndDelay(attempt, error);
             ExecuteAsync(client, timeout, resolvedMode, returnFuture, attempt + 1);
         }
-
         /// <include file="FeeEstimateQuery.cs.xml" path='docs/member[@name="M:HandleAsyncResponse(Client,System.TimeSpan,FeeEstimateMode,TaskCompletionSource{FeeEstimateResponse},System.Int32,HttpResponseMessage)"]/*' />
         private async void HandleAsyncResponse(Client client, TimeSpan timeout, FeeEstimateMode resolvedMode, TaskCompletionSource<FeeEstimateResponse> returnFuture, int attempt, HttpResponseMessage response)
         {
@@ -189,30 +190,9 @@ namespace Hedera.Hashgraph.SDK.Fee
             ExecuteAsync(client, timeout, resolvedMode, returnFuture, attempt + 1);
         }
 
-        public virtual HttpRequestMessage BuildRequest(Client client, FeeEstimateMode resolvedMode)
-        {
-            string url = BuildUrl(client, resolvedMode);
-
-            return BuildHttpRequest(url, GetRequestPayload());
-        }
-
-        private byte[] GetRequestPayload()
-        {
-            if (Transaction == null)
-				throw new InvalidOperationException("transaction must be set before executing fee estimate");
-
-			return Transaction.ToByteArray();
-        }
-
-        private string BuildUrl(Client client, FeeEstimateMode resolvedMode)
-        {
-            // Keep Mode casing consistent with JS SDK (uppercase)
-            return client.MirrorRestBaseUrl + "/network/fees?Mode=" + resolvedMode.ToString();
-        }
-
         private HttpRequestMessage BuildHttpRequest(string url, byte[] payload)
         {
-			HttpRequestMessage httprequestmessage = new ()
+            HttpRequestMessage httprequestmessage = new()
             {
                 Method = HttpMethod.Post,
                 Content = new ByteArrayContent(payload),
@@ -224,6 +204,18 @@ namespace Hedera.Hashgraph.SDK.Fee
             return httprequestmessage;
         }
 
+        private byte[] GetRequestPayload()
+        {
+            if (Transaction == null)
+				throw new InvalidOperationException("transaction must be set before executing fee estimate");
+
+			return Transaction.ToByteArray();
+        }
+        private string BuildUrl(Client client, FeeEstimateMode resolvedMode)
+        {
+            // Keep Mode casing consistent with JS SDK (uppercase)
+            return client.MirrorRestBaseUrl + "/network/fees?Mode=" + resolvedMode.ToString();
+        }
         private void WarnAndDelay(int attempt, Exception error)
         {
             var delay = Math.Min(500 * Math.Pow(2, attempt), MaxBackoff.TotalMilliseconds);

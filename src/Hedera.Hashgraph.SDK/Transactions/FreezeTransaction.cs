@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.File;
@@ -88,17 +87,13 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			var builder = new Proto.Services.FreezeTransactionBody
 			{
 				FreezeType = (Proto.Services.FreezeType)FreezeType,
-				FileHash = ByteString.CopyFrom(FileHash)
-			};
+				FileHash = ByteString.CopyFrom(FileHash),
+                StartTime = StartTime.ToProtoTimestamp(),
+            };
 
 			if (FileId != null)
 			{
 				builder.UpdateFile = FileId.ToProtobuf();
-			}
-
-			if (StartTime != null)
-			{
-				builder.StartTime = StartTime.ToProtoTimestamp();
 			}
 
 			return builder;
@@ -120,14 +115,5 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			scheduled.Freeze = ToProtobuf();
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

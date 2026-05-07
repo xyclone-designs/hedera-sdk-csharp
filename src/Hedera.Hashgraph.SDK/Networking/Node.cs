@@ -2,7 +2,6 @@
 using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Hedera.Hashgraph.SDK.Networking
 {

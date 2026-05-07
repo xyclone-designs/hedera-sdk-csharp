@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Ethereum;
 using Hedera.Hashgraph.SDK.Exceptions;
@@ -87,27 +86,71 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
         }
 
         /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
-        public Hbar InitialBalance { get; set { RequireNotFrozen(); field = value; } } = new(0);
+        public Hbar InitialBalance 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        } = new(0);
         /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_2"]/*' />
-        public bool ReceiverSigRequired { get; set { RequireNotFrozen(); field = value; } }
+        public bool ReceiverSigRequired 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_3"]/*' />
-		public Key? Key { get; set { RequireNotFrozen(); field = value; } }
+		public Key? Key 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_4"]/*' />
-		public AccountId? ProxyAccountId { get; set { RequireNotFrozen(); field = value; } }
+		public AccountId? ProxyAccountId 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_5"]/*' />
-		public TimeSpan AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } } = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
+		public TimeSpan AutoRenewPeriod 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        } = Transaction.DEFAULT_AUTO_RENEW_PERIOD;
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_6"]/*' />
-		public int MaxAutomaticTokenAssociations { get; set { RequireNotFrozen(); field = value; } }
+		public int MaxAutomaticTokenAssociations 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_7"]/*' />
-		public string AccountMemo { get; set { RequireNotFrozen(); field = value; } } = string.Empty;
+		public string AccountMemo 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        } = string.Empty;
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_8"]/*' />
-		public AccountId? StakedAccountId { get; set { RequireNotFrozen(); field = value; } }
+		public AccountId? StakedAccountId 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_9"]/*' />
-		public long? StakedNodeId { get; set { RequireNotFrozen(); field = value; } }
+		public long? StakedNodeId 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_10"]/*' />
-		public bool DeclineStakingReward { get; set { RequireNotFrozen(); field = value; } }
+		public bool DeclineStakingReward 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:RequireNotFrozen_11"]/*' />
-		public EvmAddress? Alias { get; set { RequireNotFrozen(); field = value; } }
+		public EvmAddress? Alias 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="T:Unknown"]/*' />
 		public string Alias_String 
         { 
@@ -231,16 +274,6 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
         public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.CryptoCreateAccount = ToProtobuf();
-        }
-
-        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
         }
     }
 }

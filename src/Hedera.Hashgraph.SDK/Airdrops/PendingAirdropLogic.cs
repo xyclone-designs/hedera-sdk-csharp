@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
-
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -17,11 +15,13 @@ namespace Hedera.Hashgraph.SDK.Airdrops
 		internal PendingAirdropLogic(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs) : base(txs) { }
 
         /// <include file="PendingAirdropLogic.cs.xml" path='docs/member[@name="M:RequireNotFrozen"]/*' />
-        public virtual IList<PendingAirdropId> PendingAirdropIds
+        public virtual ListGuarded<PendingAirdropId> PendingAirdropIds
         {
-            get { RequireNotFrozen(); return field; }
-            set { RequireNotFrozen(); field = value; }
-        } = [];
+            init; get => field ??= new ListGuarded<PendingAirdropId>
+            {
+                OnRequireNotFrozen = RequireNotFrozen
+            };
+        }
 
         public override void ValidateChecksums(Client client)
         {

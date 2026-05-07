@@ -3,13 +3,8 @@
 namespace Hedera.Hashgraph.SDK.Hook
 {
     /// <include file="FungibleHookCall.cs.xml" path='docs/member[@name="T:FungibleHookCall"]/*' />
-    public class FungibleHookCall : HookCall
+    public class FungibleHookCall(long hookId, EvmHookCall evmHookCall, FungibleHookType type) : HookCall(hookId, evmHookCall)
     {
-        public FungibleHookCall(long hookId, EvmHookCall evmHookCall, FungibleHookType type) : base(hookId, evmHookCall)
-        {
-            Type = type;
-        }
-
-        public virtual FungibleHookType Type { get; }
+        public virtual FungibleHookType Type { get; } = type;
     }
 }

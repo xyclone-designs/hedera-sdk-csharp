@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Logging;
-using Hedera.Hashgraph.SDK.Utils;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,10 +21,22 @@ namespace Hedera.Hashgraph.SDK.Consensus
         private long Counter = 0;
         private bool CancelledByClient = false;
         
-        public TopicId TopicId { set => _Proto.TopicId = value.ToProtobuf(); }
-		public DateTimeOffset StartTime { set => _Proto.ConsensusStartTime = value.ToProtoTimestamp(); }
-		public DateTimeOffset EndTime { set => _Proto.ConsensusEndTime  = value.ToProtoTimestamp(); }
-		public ulong Limit { set => _Proto.Limit = value; }
+        public TopicId TopicId 
+        {
+            set => _Proto.TopicId = value.ToProtobuf(); 
+        }
+		public DateTimeOffset StartTime 
+        {
+            set => _Proto.ConsensusStartTime = value.ToProtoTimestamp(); 
+        }
+		public DateTimeOffset EndTime 
+        {
+            set => _Proto.ConsensusEndTime  = value.ToProtoTimestamp(); 
+        }
+		public ulong Limit 
+        {
+            set => _Proto.Limit = value; 
+        }
         public Action CompletionHandler 
         { 
             set;
@@ -74,11 +83,10 @@ namespace Hedera.Hashgraph.SDK.Consensus
                         (rpcexception.StatusCode == StatusCode.NotFound) ||
                         (rpcexception.StatusCode == StatusCode.Unavailable) || 
                         (rpcexception.StatusCode == StatusCode.ResourceExhausted) || 
-                        (rpcexception.StatusCode == StatusCode.Internal && description != null && Executable.RST_STREAM.Matches(description).Any());
+                        (rpcexception.StatusCode == StatusCode.Internal && description != null && Executable.RST_STREAM.Matches(description).Count > 0);
 				}
 
 				return false;
-
 			});
         }
 
@@ -90,7 +98,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
             Dictionary<Proto.Services.TransactionID, List<Proto.Mirror.ConsensusTopicResponse>> pendingMessages = [];
             try
             {
-                MakeStreamingCall(client, subscriptionHandle, onNext, 0, null, new AtomicClass<Proto.Mirror.ConsensusTopicResponse>(default), pendingMessages);
+                MakeStreamingCall(client, subscriptionHandle, onNext, 0, null, new AtomicClass<Proto.Mirror.ConsensusTopicResponse>(new Proto.Mirror.ConsensusTopicResponse()), pendingMessages);
             }
             catch (ThreadInterruptedException e)
             {
@@ -194,7 +202,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
                         if (!pendingMessages.ContainsKey(initialTransactionId))
                         {
-                            pendingMessages[initialTransactionId] = new List<Proto.Mirror.ConsensusTopicResponse>();
+                            pendingMessages[initialTransactionId] = [];
                         }
 
                         var chunks = pendingMessages[initialTransactionId];

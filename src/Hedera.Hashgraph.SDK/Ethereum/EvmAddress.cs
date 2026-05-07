@@ -38,7 +38,6 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 
 			return null;
         }
-
         /// <include file="EvmAddress.cs.xml" path='docs/member[@name="M:EvmAddress.FromBytes(System.Byte[])"]/*' />
         public new static EvmAddress FromBytes(byte[] bytes)
         {

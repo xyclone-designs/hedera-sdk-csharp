@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Networking;
-using Hedera.Hashgraph.SDK.Utils;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,62 +16,62 @@ namespace Hedera.Hashgraph.SDK.Token
     public class TokenInfo
     {
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenId"]/*' />
-        public readonly TokenId TokenId;
+        public TokenId TokenId { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Name"]/*' />
-        public readonly string Name;
+        public string Name { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Symbol"]/*' />
-        public readonly string Symbol;
+        public string Symbol { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Decimals"]/*' />
-        public readonly uint Decimals;
+        public uint Decimals { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TotalSupply"]/*' />
-        public readonly ulong TotalSupply;
+        public ulong TotalSupply { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TreasuryAccountId"]/*' />
-        public readonly AccountId TreasuryAccountId;
+        public AccountId TreasuryAccountId { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AdminKey"]/*' />
-        public readonly Key? AdminKey;
+        public Key? AdminKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.KycKey"]/*' />
-        public readonly Key? KycKey;
+        public Key? KycKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.FreezeKey"]/*' />
-        public readonly Key? FreezeKey;
+        public Key? FreezeKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.WipeKey"]/*' />
-        public readonly Key? WipeKey;
+        public Key? WipeKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.SupplyKey"]/*' />
-        public readonly Key? SupplyKey;
+        public Key? SupplyKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.FeeScheduleKey"]/*' />
-        public readonly Key? FeeScheduleKey;
+        public Key? FeeScheduleKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.DefaultFreezeStatus"]/*' />
-        public readonly bool DefaultFreezeStatus;
+        public bool DefaultFreezeStatus { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.DefaultKycStatus"]/*' />
-        public readonly bool DefaultKycStatus;
+        public bool DefaultKycStatus { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.IsDeleted"]/*' />
-        public readonly bool IsDeleted;
+        public bool IsDeleted { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AutoRenewAccount"]/*' />
-        public readonly AccountId AutoRenewAccount;
+        public AccountId AutoRenewAccount { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.AutoRenewPeriod"]/*' />
-        public readonly TimeSpan AutoRenewPeriod;
+        public TimeSpan AutoRenewPeriod { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.ExpirationTime"]/*' />
-        public readonly DateTimeOffset ExpirationTime;
+        public DateTimeOffset ExpirationTime { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenMemo"]/*' />
-        public readonly string TokenMemo;
+        public string TokenMemo { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.CustomFees"]/*' />
-        public readonly IList<CustomFee> CustomFees;
+        public IList<CustomFee> CustomFees { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.TokenType"]/*' />
-        public readonly TokenType TokenType;
+        public TokenType TokenType { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.SupplyType"]/*' />
-        public readonly TokenSupplyType SupplyType;
+        public TokenSupplyType SupplyType { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.MaxSupply"]/*' />
-        public readonly long MaxSupply;
+        public long MaxSupply { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.PauseKey"]/*' />
-        public readonly Key? PauseKey;
+        public Key? PauseKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.PauseStatus"]/*' />
-        public readonly bool PauseStatus;
+        public bool PauseStatus;
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.Metadata"]/*' />
-        public byte[] Metadata = [];
+        public byte[] Metadata { get; } = []; 
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.MetadataKey"]/*' />
-        public readonly Key? MetadataKey;
+        public Key? MetadataKey { get; }
         /// <include file="TokenInfo.cs.xml" path='docs/member[@name="F:TokenInfo.LedgerId"]/*' />
-        public readonly LedgerId LedgerId;
-        
+        public LedgerId LedgerId { get; }
+
         internal TokenInfo(TokenId tokenId, string name, string symbol, uint decimals, ulong totalSupply, AccountId treasuryAccountId, Key? adminKey, Key? kycKey, Key? freezeKey, Key? wipeKey, Key? supplyKey, Key? feeScheduleKey, bool defaultFreezeStatus, bool defaultKycStatus, bool isDeleted, AccountId autoRenewAccount, TimeSpan autoRenewPeriod, DateTimeOffset expirationTime, string tokenMemo, IEnumerable<CustomFee> customFees, TokenType tokenType, TokenSupplyType supplyType, long maxSupply, Key? pauseKey, bool pauseStatus, byte[] metadata, Key? metadataKey, LedgerId ledgerId)
         {
             TokenId = tokenId;

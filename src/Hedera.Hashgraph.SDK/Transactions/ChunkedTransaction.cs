@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -10,7 +9,6 @@ using Hedera.Hashgraph.SDK.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
@@ -90,8 +88,11 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			}
 		}
 
-		/// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.GetAllTransactionHashesPerNode"]/*' />
-		public List<IDictionary<AccountId, byte[]>> GetAllTransactionHashesPerNode()
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.OnFreezeChunk(Proto.Services.TransactionBody,Proto.Services.TransactionID,System.Int32,System.Int32,System.Int32,System.Int32)"]/*' />
+        public abstract void OnFreezeChunk(Proto.Services.TransactionBody body, Proto.Services.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total);
+
+        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.GetAllTransactionHashesPerNode"]/*' />
+        public List<IDictionary<AccountId, byte[]>> GetAllTransactionHashesPerNode()
 		{
 			if (!IsFrozen())
 			{
@@ -360,9 +361,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public virtual async void ExecuteAllAsync(Client client, TimeSpan timeout, Action<IList<TransactionResponse>> onSuccess, Action<Exception> onFailure)
         {
 			Utils.ActionHelper.TwoActions(ExecuteAllAsync(client, timeout), onSuccess, onFailure);
-		}
-
-        /// <include file="ChunkedTransaction.cs.xml" path='docs/member[@name="M:ChunkedTransaction.OnFreezeChunk(Proto.Services.TransactionBody,Proto.Services.TransactionID,System.Int32,System.Int32,System.Int32,System.Int32)"]/*' />
-        public abstract void OnFreezeChunk(Proto.Services.TransactionBody body, Proto.Services.TransactionID? initialTransactionId, int startIndex, int endIndex, int chunk, int total);       
+		}      
     }
 }

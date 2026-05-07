@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
@@ -104,14 +103,5 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
 
 			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

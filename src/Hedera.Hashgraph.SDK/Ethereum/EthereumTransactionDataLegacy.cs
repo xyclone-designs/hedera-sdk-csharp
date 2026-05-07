@@ -10,28 +10,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
     /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="T:EthereumTransactionDataLegacy"]/*' />
     public class EthereumTransactionDataLegacy : EthereumTransactionData
     {
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.ChainId"]/*' />
-        public byte[] ChainId = [];
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.Nonce"]/*' />
-        public byte[] Nonce;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.GasPrice"]/*' />
-        public byte[] GasPrice;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.GasLimit"]/*' />
-        public byte[] GasLimit;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.To"]/*' />
-        public byte[] To;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.Value"]/*' />
-        public byte[] Value;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])"]/*' />
-        public byte[] V;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_2"]/*' />
-        public int RecoveryId;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_3"]/*' />
-        public byte[] R;
-        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_4"]/*' />
-        public byte[] S;
-
-        public EthereumTransactionDataLegacy(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] v, byte[] r, byte[] s) : base(callData)
+		public EthereumTransactionDataLegacy(byte[] nonce, byte[] gasPrice, byte[] gasLimit, byte[] to, byte[] value, byte[] callData, byte[] v, byte[] r, byte[] s) : base(callData)
         {
             Nonce = nonce;
             GasPrice = gasPrice;
@@ -74,7 +53,28 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 		    );
 	    }
 
-		public override byte[] ToBytes()
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.ChainId"]/*' />
+        public byte[] ChainId { get; } = [];
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.Nonce"]/*' />
+        public byte[] Nonce { get; }
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.GasPrice"]/*' />
+        public byte[] GasPrice { get; }
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.GasLimit"]/*' />
+        public byte[] GasLimit { get; }
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.To"]/*' />
+        public byte[] To { get; }
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="F:EthereumTransactionDataLegacy.Value"]/*' />
+        public byte[] Value { get; }
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])"]/*' />
+        public byte[] V { get; }
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_2"]/*' />
+        public int RecoveryId;
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_3"]/*' />
+        public byte[] R { get; }
+        /// <include file="EthereumTransactionDataLegacy.cs.xml" path='docs/member[@name="M:EthereumTransactionDataLegacy.#ctor(System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[],System.Byte[])_4"]/*' />
+        public byte[] S { get; }
+
+        public override byte[] ToBytes()
 		{
 			return RLP.EncodeList(
 				RLP.EncodeElement(Nonce),

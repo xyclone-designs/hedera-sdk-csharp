@@ -2,16 +2,16 @@
 
 namespace Hedera.Hashgraph.SDK.Airdrops
 {
-    public class PendingAirdropRecord
+    public class PendingAirdropRecord(PendingAirdropId pendingAirdropId, ulong pendingAirdropAmount)
     {
-        public PendingAirdropRecord(PendingAirdropId pendingAirdropId, ulong pendingAirdropAmount)
+        public static PendingAirdropRecord FromProtobuf(Proto.Services.PendingAirdropRecord pendingAirdropRecord)
         {
-            PendingAirdropId = pendingAirdropId;
-            PendingAirdropAmount = pendingAirdropAmount;
+            return new PendingAirdropRecord(PendingAirdropId.FromProtobuf(pendingAirdropRecord.PendingAirdropId), pendingAirdropRecord.PendingAirdropValue.Amount);
         }
 
-		public virtual ulong PendingAirdropAmount { get; }
-		public virtual PendingAirdropId PendingAirdropId { get; }
+        public virtual ulong PendingAirdropAmount { get; } = pendingAirdropAmount;
+        public virtual PendingAirdropId PendingAirdropId { get; } = pendingAirdropId;
+
 		public virtual Proto.Services.PendingAirdropRecord ToProtobuf()
         {
             return new Proto.Services.PendingAirdropRecord
@@ -22,11 +22,6 @@ namespace Hedera.Hashgraph.SDK.Airdrops
                     Amount = PendingAirdropAmount
 				},
 			};
-        }
-
-        public static PendingAirdropRecord FromProtobuf(Proto.Services.PendingAirdropRecord pendingAirdropRecord)
-        {
-            return new PendingAirdropRecord(PendingAirdropId.FromProtobuf(pendingAirdropRecord.PendingAirdropId), pendingAirdropRecord.PendingAirdropValue.Amount);
         }
     }
 }

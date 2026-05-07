@@ -5,7 +5,6 @@ using Google.Protobuf.Reflection;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
 
-using System;
 using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
@@ -27,11 +26,23 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
         /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen"]/*' />
-        public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
+        public virtual TokenId? TokenId 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen_2"]/*' />
-		public virtual long Amount { get; set { RequireNotFrozen(); field = value; } }
+		public virtual long Amount 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
         /// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.RequireNotFrozen_3"]/*' />
-        public virtual List<byte[]> Metadata { get; set { RequireNotFrozen(); field = [.. value]; } } = [];
+        public virtual List<byte[]> Metadata 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = [.. value]; } 
+        } = [];
 
 		/// <include file="TokenMintTransaction.cs.xml" path='docs/member[@name="M:TokenMintTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()
@@ -90,14 +101,5 @@ namespace Hedera.Hashgraph.SDK.Token
 
 			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.Reference.Cryptography;
-using Hedera.Hashgraph.Reference.Error;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Utils;
@@ -497,7 +495,7 @@ namespace Hedera.Hashgraph.SDK
 
 			if (offset != 0) buffer.Add((byte)(scratch << offset));
 
-			return buffer.ToArray();
+			return [.. buffer];
 		}
 		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.CalculateDerivationPathValues(System.String)"]/*' />
 		internal int[] CalculateDerivationPathValues(string derivationPath)
@@ -506,7 +504,6 @@ namespace Hedera.Hashgraph.SDK
 			{
 				throw new ArgumentException("Derivation path cannot be null or empty");
 			}
-
 
 			// Parse the derivation path from string into values
 			Regex pattern = new("m/(\\d+'?)/(\\d+'?)/(\\d+'?)/(\\d+'?)/(\\d+'?)");
@@ -564,12 +561,8 @@ namespace Hedera.Hashgraph.SDK
                 0,
                 0,
                 index
-            }
 
-            )
-            {
-                derivedKey = derivedKey.Derive(i);
-            }
+            }) derivedKey = derivedKey.Derive(i);
 
             return derivedKey;
         }

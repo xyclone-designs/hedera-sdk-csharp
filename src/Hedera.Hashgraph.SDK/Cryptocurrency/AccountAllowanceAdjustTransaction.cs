@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -40,7 +41,6 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
         {
             throw new NotSupportedException("Cannot construct AccountAllowanceAdjustTransaction from bytes");
         }
-
         private AccountAllowanceAdjustTransaction AdjustHbarAllowance(AccountId? ownerAccountId, AccountId spenderAccountId, Hbar amount)
         {
             RequireNotFrozen();
@@ -53,7 +53,6 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 			TokenAllowances.Add(new TokenAllowance(tokenId, ownerAccountId, spenderAccountId, amount));
 			return this;
 		}
-
 
 
 		/// <include file="AccountAllowanceAdjustTransaction.cs.xml" path='docs/member[@name="M:AddHbarAllowance(AccountId,Hbar)"]/*' />
@@ -215,14 +214,5 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 		{
 			throw new NotSupportedException("Cannot get method descriptor for AccountAllowanceAdjustTransaction");
 		}
-
-        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

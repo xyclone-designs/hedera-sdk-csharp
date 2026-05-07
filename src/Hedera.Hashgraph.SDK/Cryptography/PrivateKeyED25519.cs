@@ -14,14 +14,12 @@ using Org.BouncyCastle.Math.EC.Rfc8032;
 using System;
 using System.Buffers.Binary;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Text.Unicode;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="T:PrivateKeyED25519"]/*' />
-    class PrivateKeyED25519 : PrivateKey
+    public class PrivateKeyED25519 : PrivateKey
     {
         private readonly byte[] KeyData;
         private readonly KeyParameter? ChainCode;
@@ -40,6 +38,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			hmacSha512.BlockUpdate(seed, 0, seed.Length);
 			var derivedState = new byte[hmacSha512.GetMacSize()];
 			hmacSha512.DoFinal(derivedState, 0);
+
 			return PrivateKeyED25519.DerivableKeyED25519(derivedState);
 		}
 		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.FromBytesInternal(System.Byte[])"]/*' />
@@ -60,6 +59,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             try
             {
                 var privateKey = (Asn1OctetString)privateKeyInfo.ParsePrivateKey();
+
                 return new PrivateKeyED25519(privateKey.GetOctets(), null);
             }
             catch (IOException e)
@@ -71,7 +71,6 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 		/// <include file="PrivateKeyED25519.cs.xml" path='docs/member[@name="M:PrivateKeyED25519.GenerateInternal"]/*' />
 		public static PrivateKeyED25519 GenerateInternal()
 		{
-
 			// extra 32 bytes for chain code
 			byte[] data = new byte[Ed25519.SecretKeySize + 32];
 			ThreadLocalSecureRandom.Current().NextBytes(data);

@@ -3,9 +3,9 @@ using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Contract;
+using Hedera.Hashgraph.SDK.Queries;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK.Contract
 {
     /// <include file="ContractByteCodeQuery.cs.xml" path='docs/member[@name="T:ContractByteCodeQuery"]/*' />
     public sealed class ContractByteCodeQuery : Query<ByteString, ContractByteCodeQuery>

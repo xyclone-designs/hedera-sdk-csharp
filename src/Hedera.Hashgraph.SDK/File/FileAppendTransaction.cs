@@ -137,13 +137,5 @@ namespace Hedera.Hashgraph.SDK.File
         {
             throw new NotImplementedException();
         }
-        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

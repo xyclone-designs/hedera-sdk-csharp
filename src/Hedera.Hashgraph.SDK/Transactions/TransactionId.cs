@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Queries;
 
 using System;
 using System.Threading;
@@ -13,24 +11,16 @@ using System.Threading.Tasks;
 namespace Hedera.Hashgraph.SDK.Transactions
 {
     /// <include file="TransactionId.cs.xml" path='docs/member[@name="T:TransactionId"]/*' />
-    public sealed class TransactionId : IComparable<TransactionId>
+    /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]/*' />
+    public sealed class TransactionId(AccountId accountId, DateTimeOffset? validStart) : IComparable<TransactionId>
     {
 		private static readonly long NANOSECONDS_PER_MILLISECOND = 1000000;
 		private static readonly long TIMESTAMP_INCREMENT_NANOSECONDS = 1000;
 		private static readonly long NANOSECONDS_TO_REMOVE = 10000000000;
 		private static long monotonicTime = -1;
 
-        
-        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]/*' />
-        public TransactionId(AccountId accountId, DateTimeOffset? validStart)
-        {
-            AccountId = accountId;
-            ValidStart = validStart ?? DateTimeOffset.UtcNow;
-            Scheduled = false;
-        }
-
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.Generate(AccountId)"]/*' />
-		public static TransactionId Generate(AccountId accountId)
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.Generate(AccountId)"]/*' />
+        public static TransactionId Generate(AccountId accountId)
 		{
 			long currentTime;
 			long lastTime;
@@ -112,14 +102,14 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Nonce"]/*' />
 		public int? Nonce { get; set; }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Scheduled"]/*' />
-		public bool Scheduled { get; set; }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.AccountId"]/*' />
-		public AccountId AccountId { get; }
-		/// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.ValidStart"]/*' />
-		public DateTimeOffset ValidStart { get; }
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Scheduled"]/*' />
+        public bool Scheduled { get; set; } = false;
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.AccountId"]/*' />
+        public AccountId AccountId { get; } = accountId;
+        /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.ValidStart"]/*' />
+        public DateTimeOffset ValidStart { get; } = validStart ?? DateTimeOffset.UtcNow;
 
-		private string ToStringPostfix()
+        private string ToStringPostfix()
 		{
 			return "@" + ValidStart.ToUnixTimeSeconds() + "." + ValidStart.Nanosecond + (Scheduled ? "?scheduled" : "") + (Nonce != null ? "/" + Nonce : "");
 		}
@@ -239,40 +229,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		public int CompareTo(TransactionId? o)
 		{
-			if (Scheduled != o?.Scheduled)
-			{
-				return Scheduled ? 1 : -1;
-			}
+            if (o is null)
+                return 1;
 
-			var thisAccountIdIsNull = (AccountId == null);
-			var otherAccountIdIsNull = (o?.AccountId == null);
-			if (thisAccountIdIsNull != otherAccountIdIsNull)
-			{
-				return thisAccountIdIsNull ? -1 : 1;
-			}
+			if (Scheduled != o.Scheduled)
+                return Scheduled ? 1 : -1;
 
-			if (!thisAccountIdIsNull)
-			{
-				int accountIdComparison = AccountId!.CompareTo(o?.AccountId);
-				if (accountIdComparison != 0)
-				{
-					return accountIdComparison;
-				}
-			}
+            int accountIdComparison = AccountId.CompareTo(o.AccountId);
 
-			var thisStartIsNull = (ValidStart == null);
-			var otherStartIsNull = (o?.ValidStart == null);
-			if (thisStartIsNull != otherStartIsNull)
-			{
-				return thisAccountIdIsNull ? -1 : 1;
-			}
+            if (accountIdComparison != 0) return accountIdComparison;
 
-			if (!thisStartIsNull)
-			{
-				return ValidStart!.CompareTo(o.ValidStart);
-			}
-
-			return 0;
+            return ValidStart.CompareTo(o.ValidStart);
 		}
 
 		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToBytes"]/*' />
@@ -283,32 +250,19 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToProtobuf"]/*' />
 		public Proto.Services.TransactionID ToProtobuf()
 		{
-			Proto.Services.TransactionID proto = new()
-			{
-				Scheduled = Scheduled,
-				Nonce = Nonce ?? 0
-			};
-
-			if (AccountId != null)
-				proto.AccountId = AccountId.ToProtobuf();
-
-			if (ValidStart != null)
-                proto.TransactionValidStart = ValidStart.ToProtoTimestamp();
-
-			return proto;
-		}
+			return new Proto.Services.TransactionID
+            {
+                AccountId = AccountId.ToProtobuf(),
+                Scheduled = Scheduled,
+                Nonce = Nonce ?? 0,
+                TransactionValidStart = ValidStart.ToProtoTimestamp()
+            };
+        }
 		/// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.ToStringWithChecksum(Client)"]/*' />
 		public string ToStringWithChecksum(Client client)
 		{
-			if (AccountId != null && ValidStart != null)
-			{
-				return "" + AccountId.ToStringWithChecksum(client) + ToStringPostfix();
-			}
-			else
-			{
-				throw new InvalidOperationException("`TransactionId.toStringWithChecksum()` is non-exhaustive");
-			}
-		}
+            return "" + AccountId.ToStringWithChecksum(client) + ToStringPostfix();
+        }
 
 		public override int GetHashCode()
 		{
@@ -316,30 +270,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		}
 		public override string ToString()
 		{
-			if (AccountId != null && ValidStart != null)
-			{
-				return "" + AccountId + ToStringPostfix();
-			}
-			else
-			{
-				throw new InvalidOperationException("`TransactionId.toString()` is non-exhaustive");
-			}
-		}
+            return "" + AccountId + ToStringPostfix();
+        }
 		public override bool Equals(object? @object)
         {
-            if (@object is not TransactionId id)
-            {
-                return false;
-            }
-
-            if (AccountId != null && ValidStart != null && id.AccountId != null && id.ValidStart != null)
-            {
-                return id.AccountId.Equals(AccountId) && id.ValidStart.Equals(ValidStart) && Scheduled == id.Scheduled;
-            }
-            else
-            {
-                return false;
-            }
+            return 
+                @object is TransactionId id && 
+                id.AccountId.Equals(AccountId) && 
+                id.ValidStart.Equals(ValidStart) && 
+                Scheduled == id.Scheduled;
         }        
     }
 }

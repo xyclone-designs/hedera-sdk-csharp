@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Hedera.Hashgraph.Reference;
-using Org.BouncyCastle.Bcpg;
+
 using System;
 using System.Numerics;
 using System.Text.RegularExpressions;
@@ -144,7 +144,5 @@ namespace Hedera.Hashgraph.SDK
 
             return To(HbarUnit.HBAR).ToString() + " " + HbarUnit.HBAR.Symbol;
         }
-
-        
     }
 }

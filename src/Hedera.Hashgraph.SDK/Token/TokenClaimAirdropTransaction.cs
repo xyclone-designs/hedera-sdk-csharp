@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.Transactions;
 
-using System;
 using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
@@ -68,15 +66,6 @@ namespace Hedera.Hashgraph.SDK.Token
         public override void OnScheduled(Proto.Services.SchedulableTransactionBody scheduled)
         {
             scheduled.TokenClaimAirdrop = ToProtobuf();
-        }
-
-        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
         }
     }
 }

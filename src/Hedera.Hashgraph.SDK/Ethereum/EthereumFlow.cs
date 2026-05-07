@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Transactions;
@@ -102,7 +102,6 @@ namespace Hedera.Hashgraph.SDK.Ethereum
         public virtual Hbar? MaxGasAllowance { get; set; }
         public virtual FileId? CallDataFileId { get; set; }
 
-
         /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:Execute(Client)"]/*' />
         public virtual TransactionResponse Execute(Client client)
         {
@@ -133,7 +132,6 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 
             return ethereumTransaction.Execute(client, timeoutPerTransaction);
         }
-
         /// <include file="EthereumFlow.cs.xml" path='docs/member[@name="M:ExecuteAsync(Client)"]/*' />
         public virtual Task<TransactionResponse> ExecuteAsync(Client client)
         {

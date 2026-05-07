@@ -75,14 +75,5 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 
 			return Proto.Services.CryptoService.Descriptor.FindMethodByName(methodname);
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

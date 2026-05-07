@@ -43,7 +43,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
         private string Memo = "";
         protected IList<CustomFeeLimit> customFeeLimits = [];
 
-		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor_2"]/*' />
 		protected Transaction()
         {
@@ -68,7 +67,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
-		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
 		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs)
         {
@@ -114,14 +112,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
                         OuterTransactions.Add(nodeEntry.Value);
                         SigPairLists.Add(transaction.SigMap);
                         InnerSignedTransactions.Add(transaction);
-                        if (PublicKeys.Count == 0)
-                        {
+                        if (PublicKeys.Count == 0 && transaction.SigMap is not null)
                             foreach (var sigPair in transaction.SigMap.SigPair)
                             {
                                 PublicKeys.Add(PublicKey.FromBytes(sigPair.PubKeyPrefix.ToByteArray()));
                                 Signers.Add(null);
                             }
-                        }
                     }
                 }
 
@@ -242,12 +238,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.TransactionIds"]/*' />
 		public ListGuarded<TransactionId> TransactionIds { get; internal set; }
-		
+
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="P:Transaction.PublicKeys"]/*' />
-		public IList<PublicKey> PublicKeys { get; internal set; }
-		
+		public IList<PublicKey> PublicKeys { get; internal set; } = [];
+
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.freezeWith(Client)"]/*' />
-		public List<Func<byte[], byte[]>?> Signers { get; internal set; }
+		public List<Func<byte[], byte[]>?> Signers { get; internal set; } = [];
 
 		public override TransactionId TransactionIdInternal
 		{
@@ -640,11 +636,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			TransactionIds.Advance();
 
 			return TransactionResponse.Init(nodeId, transactionId, hash, null, this);
-		}
-		public virtual ResponseStatus MapResponseStatus(Proto.Services.TransactionResponse transactionResponse)
+		}		
+		public override ResponseStatus MapResponseStatus(Proto.Services.TransactionResponse transactionResponse)
 		{
 			return (ResponseStatus)transactionResponse.NodeTransactionPrecheckCode;
 		}
+
 		public virtual Transaction<T> RegenerateTransactionId(Client client)
 		{
 			ArgumentNullException.ThrowIfNull(client.OperatorAccountId);

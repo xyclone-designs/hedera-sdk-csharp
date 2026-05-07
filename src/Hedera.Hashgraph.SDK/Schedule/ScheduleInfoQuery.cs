@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Queries;
 
@@ -38,7 +39,6 @@ namespace Hedera.Hashgraph.SDK.Schedule
         {
             return response.ScheduleGetInfo.Header;
         }
-
         public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
         {
             return request.ScheduleGetInfo.Header;

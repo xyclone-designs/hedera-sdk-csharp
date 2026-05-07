@@ -4,13 +4,8 @@ using Nethereum.RLP;
 namespace Hedera.Hashgraph.SDK.Ethereum
 {
     /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="T:EthereumTransactionData"]/*' />
-    public abstract class EthereumTransactionData
+    public abstract class EthereumTransactionData(byte[] callData)
     {
-        public EthereumTransactionData(byte[] callData)
-        {
-            CallData = callData;
-        }
-
         public static EthereumTransactionData FromBytes(byte[] bytes)
         {
 			IRLPElement decoded = RLP.Decode(bytes);
@@ -22,7 +17,7 @@ namespace Hedera.Hashgraph.SDK.Ethereum
 		}
 
 		/// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="P:EthereumTransactionData.CallData"]/*' />
-		public byte[] CallData { get; }
+		public byte[] CallData { get; } = callData;
 
         /// <include file="EthereumTransactionData.cs.xml" path='docs/member[@name="M:EthereumTransactionData.ToBytes"]/*' />
         public abstract byte[] ToBytes();

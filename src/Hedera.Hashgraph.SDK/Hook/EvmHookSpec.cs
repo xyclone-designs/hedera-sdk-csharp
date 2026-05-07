@@ -7,16 +7,11 @@ using System;
 namespace Hedera.Hashgraph.SDK.Hook
 {
     /// <include file="EvmHookSpec.cs.xml" path='docs/member[@name="T:EvmHookSpec"]/*' />
-    public abstract class EvmHookSpec
+    /// <include file="EvmHookSpec.cs.xml" path='docs/member[@name="M:EvmHookSpec.#ctor(ContractId)"]/*' />
+    public abstract class EvmHookSpec(ContractId contractId)
     {
-        /// <include file="EvmHookSpec.cs.xml" path='docs/member[@name="M:EvmHookSpec.#ctor(ContractId)"]/*' />
-        protected EvmHookSpec(ContractId contractId)
-        {
-            ContractId = contractId;
-        }
-
         /// <include file="EvmHookSpec.cs.xml" path='docs/member[@name="P:EvmHookSpec.ContractId"]/*' />
-        public virtual ContractId ContractId { get; }
+        public virtual ContractId ContractId { get; } = contractId;
 
         public override bool Equals(object? o)
         {

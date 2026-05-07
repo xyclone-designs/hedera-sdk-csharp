@@ -36,13 +36,13 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         }
 
 		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.AccountId"]/*' />
-		public readonly AccountId AccountId;
+		public AccountId AccountId { get; }
 		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Hash"]/*' />
-		public readonly ByteString Hash;
+		public ByteString Hash { get; }
 		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Keys"]/*' />
-		public readonly KeyList Keys;
+		public KeyList Keys { get; }
 		/// <include file="LiveHash.cs.xml" path='docs/member[@name="F:LiveHash.Duration"]/*' />
-		public readonly TimeSpan Duration;
+		public TimeSpan Duration { get; }
 
 		/// <include file="LiveHash.cs.xml" path='docs/member[@name="M:LiveHash.ToBytes"]/*' />
 		public virtual ByteString ToBytes()

@@ -14,66 +14,77 @@ using System.Collections.Generic;
 namespace Hedera.Hashgraph.SDK.Transactions
 {
     /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="T:TransactionReceipt"]/*' />
-    public sealed class TransactionReceipt
+    public sealed class TransactionReceipt(
+        TransactionId? transactionId, 
+        ResponseStatus status, 
+        ExchangeRate exchangeRate, 
+        ExchangeRate nextExchangeRate, 
+        AccountId accountId, 
+        FileId fileId, 
+        ContractId contractId, 
+        TopicId topicId, 
+        TokenId tokenId,
+        ulong topicSequenceNumber, 
+        ByteString? topicRunningHash, 
+        ulong totalSupply, 
+        ScheduleId scheduleId, 
+        TransactionId scheduledTransactionId, 
+        IEnumerable<long> serials, 
+        ulong nodeId, 
+        IEnumerable<TransactionReceipt> duplicates, 
+        IEnumerable<TransactionReceipt> children)
     {
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TransactionId"]/*' />
-        public readonly TransactionId? TransactionId;
+        public TransactionId? TransactionId { get; } = transactionId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="P:TransactionReceipt.Status"]/*' />
-        public ResponseStatus Status { get; }
+        public ResponseStatus Status { get; } = status;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ExchangeRate"]/*' />
-        public readonly ExchangeRate ExchangeRate;
+        public ExchangeRate ExchangeRate { get; } = exchangeRate;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.NextExchangeRate"]/*' />
-        public readonly ExchangeRate NextExchangeRate;
+        public ExchangeRate NextExchangeRate { get; } = nextExchangeRate;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.AccountId"]/*' />
-        public readonly AccountId AccountId;
+        public AccountId AccountId { get; } = accountId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.FileId"]/*' />
-        public readonly FileId FileId;
+        public FileId FileId { get; } = fileId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ContractId"]/*' />
-        public readonly ContractId ContractId;
+        public ContractId ContractId { get; } = contractId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TopicId"]/*' />
-        public readonly TopicId TopicId;
+        public TopicId TopicId { get; } = topicId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TokenId"]/*' />
-        public readonly TokenId TokenId;
+        public TokenId TokenId { get; } = tokenId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TopicSequenceNumber"]/*' />
-        public readonly ulong TopicSequenceNumber;
+        public ulong TopicSequenceNumber { get; } = topicSequenceNumber;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TopicRunningHash"]/*' />
-        public readonly ByteString? TopicRunningHash;
+        public ByteString? TopicRunningHash { get; } = topicRunningHash;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.TotalSupply"]/*' />
-        public readonly ulong TotalSupply;
+        public ulong TotalSupply { get; } = totalSupply;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ScheduleId"]/*' />
-        public readonly ScheduleId ScheduleId;
+        public ScheduleId ScheduleId { get; } = scheduleId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.ScheduledTransactionId"]/*' />
-        public readonly TransactionId ScheduledTransactionId;
+        public TransactionId ScheduledTransactionId { get; } = scheduledTransactionId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.Serials"]/*' />
-        public readonly List<long> Serials;
+        public List<long> Serials { get; } = [.. serials];
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.NodeId"]/*' />
-        public readonly ulong NodeId;
+        public ulong NodeId { get; } = nodeId;
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="F:TransactionReceipt.Duplicates"]/*' />
-        public readonly List<TransactionReceipt> Duplicates;
+        public List<TransactionReceipt> Duplicates { get; } = [.. duplicates];
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.#ctor(TransactionId,ResponseStatus,ExchangeRate,ExchangeRate,AccountId,FileId,ContractId,TopicId,TokenId,System.UInt64,ByteString,System.UInt64,ScheduleId,TransactionId,System.Collections.Generic.IEnumerable{System.Int64},System.UInt64,System.Collections.Generic.IEnumerable{TransactionReceipt},System.Collections.Generic.IEnumerable{TransactionReceipt})"]/*' />
-        public readonly List<TransactionReceipt> Children;
-        public TransactionReceipt(TransactionId? transactionId, ResponseStatus status, ExchangeRate exchangeRate, ExchangeRate nextExchangeRate, AccountId accountId, FileId fileId, ContractId contractId, TopicId topicId, TokenId tokenId, ulong topicSequenceNumber, ByteString? topicRunningHash, ulong totalSupply, ScheduleId scheduleId, TransactionId scheduledTransactionId, IEnumerable<long> serials, ulong nodeId, IEnumerable<TransactionReceipt> duplicates, IEnumerable<TransactionReceipt> children)
-        {
-            TransactionId = transactionId;
-            Status = status;
-            ExchangeRate = exchangeRate;
-            NextExchangeRate = nextExchangeRate;
-            AccountId = accountId;
-            FileId = fileId;
-            ContractId = contractId;
-            TopicId = topicId;
-            TokenId = tokenId;
-            TopicSequenceNumber = topicSequenceNumber;
-            TopicRunningHash = topicRunningHash;
-            TotalSupply = totalSupply;
-            ScheduleId = scheduleId;
-            ScheduledTransactionId = scheduledTransactionId;
-            Serials = [.. serials];
-            NodeId = nodeId;
-            Duplicates = [ ..duplicates];
-            Children = [ ..children];
-        }
+        public List<TransactionReceipt> Children { get; } = [.. children];
 
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromBytes(System.Byte[])"]/*' />
+        public static TransactionReceipt FromBytes(byte[] bytes)
+        {
+            return FromProtobuf(Proto.Services.TransactionReceipt.Parser.ParseFrom(bytes));
+        }
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.Services.TransactionReceipt)"]/*' />
+        public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt)
+        {
+            return FromProtobuf(transactionReceipt, [], [], null);
+        }
+        public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt, TransactionId transactionId)
+        {
+            return FromProtobuf(transactionReceipt, [], [], transactionId);
+        }
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.Services.TransactionReceipt,System.Collections.Generic.IList{TransactionReceipt},System.Collections.Generic.IList{TransactionReceipt},TransactionId)"]/*' />
         public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt, IList<TransactionReceipt> duplicates, IList<TransactionReceipt> children, TransactionId? transactionId)
         {
@@ -97,64 +108,42 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return new TransactionReceipt(transactionId, status, exchangeRate, nextExchangeRate, accountId, fileId, contractId, topicId, tokenId, topicSequenceNumber, topicRunningHash, totalSupply, scheduleId, scheduledTransactionId, serials, nodeId, duplicates, children);
         }
 
-        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromProtobuf(Proto.Services.TransactionReceipt)"]/*' />
-        public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt)
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ToBytes"]/*' />
+        public byte[] ToBytes()
         {
-            return FromProtobuf(transactionReceipt, [], [], null);
+            return ToProtobuf().ToByteArray();
         }
-        public static TransactionReceipt FromProtobuf(Proto.Services.TransactionReceipt transactionReceipt, TransactionId transactionId)
-        {
-            return FromProtobuf(transactionReceipt, [], [], transactionId);
-        }
-
-        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.FromBytes(System.Byte[])"]/*' />
-        public static TransactionReceipt FromBytes(byte[] bytes)
-        {
-            return FromProtobuf(Proto.Services.TransactionReceipt.Parser.ParseFrom(bytes));
-        }
-
-        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ValidateStatus(System.Boolean)"]/*' />
-        public TransactionReceipt ValidateStatus(bool shouldValidate)
-        {
-            if (shouldValidate && Status != ResponseStatus.Success && Status != ResponseStatus.FeeScheduleFilePartUploaded)
-            {
-                throw new ReceiptStatusException(TransactionId, this);
-            }
-
-            return this;
-        }
-
         /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ToProtobuf"]/*' />
         public Proto.Services.TransactionReceipt ToProtobuf()
         {
             Proto.Services.TransactionReceipt proto = new()
             {
-				NodeId = NodeId,
+                NodeId = NodeId,
                 NewTotalSupply = TotalSupply,
-				Status = (Proto.Services.ResponseCodeEnum)Status,
-				TopicSequenceNumber = TopicSequenceNumber,
-				ExchangeRate = new Proto.Services.ExchangeRateSet
+                Status = (Proto.Services.ResponseCodeEnum)Status,
+                TopicSequenceNumber = TopicSequenceNumber,
+                ExchangeRate = new Proto.Services.ExchangeRateSet
                 {
                     CurrentRate = new Proto.Services.ExchangeRate
                     {
-						HbarEquiv = ExchangeRate.Hbars,
-						CentEquiv = ExchangeRate.Cents,
+                        HbarEquiv = ExchangeRate.Hbars,
+                        CentEquiv = ExchangeRate.Cents,
                         ExpirationTime = new Proto.Services.TimestampSeconds
                         {
                             Seconds = ExchangeRate.ExpirationTime.ToUnixTimeSeconds()
                         }
-					},
+                    },
                     NextRate = new Proto.Services.ExchangeRate
-					{
-						HbarEquiv = NextExchangeRate.Hbars,
-						CentEquiv = NextExchangeRate.Cents,
-						ExpirationTime = new Proto.Services.TimestampSeconds
-						{
-							Seconds = NextExchangeRate.ExpirationTime.ToUnixTimeSeconds()
-						}
-					},
-				}
-			};
+                    {
+                        HbarEquiv = NextExchangeRate.Hbars,
+                        CentEquiv = NextExchangeRate.Cents,
+                        ExpirationTime = new Proto.Services.TimestampSeconds
+                        {
+                            Seconds = NextExchangeRate.ExpirationTime.ToUnixTimeSeconds()
+                        }
+                    },
+                }
+            };
 
             if (AccountId != null) proto.AccountId = AccountId.ToProtobuf();
             if (FileId != null) proto.FileId = FileId.ToProtobuf();
@@ -168,13 +157,18 @@ namespace Hedera.Hashgraph.SDK.Transactions
             foreach (var serial in Serials)
                 proto.SerialNumbers.Add(serial);
 
-			return proto;
+            return proto;
         }
 
-        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ToBytes"]/*' />
-        public byte[] ToBytes()
+        /// <include file="TransactionReceipt.cs.xml" path='docs/member[@name="M:TransactionReceipt.ValidateStatus(System.Boolean)"]/*' />
+        public TransactionReceipt ValidateStatus(bool shouldValidate)
         {
-            return ToProtobuf().ToByteArray();
+            if (shouldValidate && Status != ResponseStatus.Success && Status != ResponseStatus.FeeScheduleFilePartUploaded)
+            {
+                throw new ReceiptStatusException(TransactionId, this);
+            }
+
+            return this;
         }
     }
 }

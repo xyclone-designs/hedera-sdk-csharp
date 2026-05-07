@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.SDK.Ethereum;
+
 using Hedera.Hashgraph.SDK.Cryptography;
 
 using Org.BouncyCastle.Utilities.Encoders;
@@ -46,43 +46,32 @@ namespace Hedera.Hashgraph.SDK.Contract
             MatchCollection match = EVM_ADDRESS_REGEX.Matches(id);
 
             if (match.Count == 0)
-            {
                 return new ContractId(long.Parse(match.ElementAt(1).Value), long.Parse(match.ElementAt(2).Value), Hex.Decode(match.ElementAt(3).Value));
-            }
             else
-            {
                 return Utils.EntityIdHelper.FromString(id, (a, b, c, d) => new ContractId(a, b, c, d));
-            }
         }
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromSolidityAddress(System.String)"]/*' />
         public static ContractId FromSolidityAddress(string address)
         {
             if (Utils.EntityIdHelper.IsLongZeroAddress(Utils.EntityIdHelper.DecodeEvmAddress(address)))
-            {
                 return Utils.EntityIdHelper.FromSolidityAddress(address, (a, b, c, d) => new ContractId(a, b, c, d));
-            }
             else
-            {
                 return FromEvmAddress(0, 0, address);
-            }
         }
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromEvmAddress(System.Int64,System.Int64,System.String)"]/*' />
         public static ContractId FromEvmAddress(long shard, long realm, string evmAddress)
         {
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress);
+
             return new ContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress));
         }
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.Services.ContractId)"]/*' />
         public static ContractId FromProtobuf(Proto.Services.ContractID contractId)
         {
             if (contractId.HasEvmAddress)
-            {
                 return new ContractId(contractId.ShardNum, contractId.RealmNum, contractId.EvmAddress.ToByteArray());
-            }
             else
-            {
                 return new ContractId(contractId.ShardNum, contractId.RealmNum, contractId.ContractNum);
-            }
         }
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromBytes(System.Byte[])"]/*' />
         public new static ContractId FromBytes(byte[] bytes)
@@ -118,13 +107,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         public virtual string ToEvmAddress()
         {
             if (EvmAddress != null)
-            {
                 return Hex.ToHexString(EvmAddress);
-            }
-            else
-            {
+            else 
                 return Utils.EntityIdHelper.ToSolidityAddress(0, 0, Num);
-            }
         }
 
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToProtobuf"]/*' />
@@ -184,13 +169,9 @@ namespace Hedera.Hashgraph.SDK.Contract
         public override string ToString()
         {
             if (EvmAddress != null)
-            {
-                return "" + Shard + "." + Realm + "." + Hex.ToHexString(EvmAddress);
-            }
+                return string.Format("{0}.{1}.{2}", Shard, Realm, Hex.ToHexString(EvmAddress));
             else
-            {
                 return Utils.EntityIdHelper.ToString(Shard, Realm, Num);
-            }
         }
 
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.ToStringWithChecksum(Client)"]/*' />
@@ -214,16 +195,11 @@ namespace Hedera.Hashgraph.SDK.Contract
         public override bool Equals(object? o)
         {
             if (this == o)
-            {
                 return true;
-            }
 
-            if (!(o is ContractId))
-            {
+            if (o is not ContractId otherId)
                 return false;
-            }
 
-            ContractId otherId = (ContractId)o;
             return Shard == otherId.Shard && Realm == otherId.Realm && Num == otherId.Num && EvmAddressMatches(otherId);
         }
 
@@ -238,7 +214,6 @@ namespace Hedera.Hashgraph.SDK.Contract
             {
                 return Equals(EvmAddress, otherId.EvmAddress);
             }
-
 
             // both are null
             return true;
@@ -279,7 +254,6 @@ namespace Hedera.Hashgraph.SDK.Contract
             {
                 return Hex.ToHexString(EvmAddress).CompareTo(Hex.ToHexString(o?.EvmAddress));
             }
-
 
             // both are null
             return 0;

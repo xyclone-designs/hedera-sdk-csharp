@@ -4,20 +4,12 @@ using System;
 namespace Hedera.Hashgraph.SDK.Consensus
 {
     /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="T:TopicMessageChunk"]/*' />
-    public sealed class TopicMessageChunk
+    /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="M:TopicMessageChunk.#ctor(Proto.Mirror.ConsensusTopicResponse)"]/*' />
+    public sealed class TopicMessageChunk(Proto.Mirror.ConsensusTopicResponse response)
     {
-        /// <include file="TopicMessageChunk.cs.xml" path='docs/member[@name="M:TopicMessageChunk.#ctor(Proto.Mirror.ConsensusTopicResponse)"]/*' />
-        public TopicMessageChunk(Proto.Mirror.ConsensusTopicResponse response)
-        {
-            ConsensusTimestamp = response.ConsensusTimestamp.ToDateTimeOffset();
-            ContentSize = response.Message.Length;
-            RunningHash = response.RunningHash.ToByteArray();
-            SequenceNumber = response.SequenceNumber;
-        }
-
-		public DateTimeOffset ConsensusTimestamp { get; }
-		public long ContentSize { get; }
-		public byte[] RunningHash { get; }
-		public ulong SequenceNumber { get; }
-	}
+		public DateTimeOffset ConsensusTimestamp { get; } = response.ConsensusTimestamp.ToDateTimeOffset();
+		public long ContentSize { get; } = response.Message.Length;
+		public byte[] RunningHash { get; } = response.RunningHash.ToByteArray();
+		public ulong SequenceNumber { get; } = response.SequenceNumber;
+    }
 }

@@ -159,14 +159,6 @@ namespace Hedera.Hashgraph.SDK.File
         {
             throw new NotImplementedException();
         }
-        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
 
 		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.InitFromTransactionBody"]/*' />
 		private void InitFromTransactionBody()

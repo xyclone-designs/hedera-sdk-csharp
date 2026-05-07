@@ -76,15 +76,5 @@ namespace Hedera.Hashgraph.SDK.LiveHashes
         {
             throw new NotSupportedException("Cannot schedule LiveHashDeleteTransaction");
         }
-
-        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

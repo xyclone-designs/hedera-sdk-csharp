@@ -72,39 +72,25 @@ namespace Hedera.Hashgraph.SDK.Consensus
             var body = SourceTransactionBody.ConsensusCreateTopic;
 
             if (body.AutoRenewAccount is not null)
-            {
-                AutoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccount);
-            }
+				AutoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccount);
 
             if (body.AdminKey is not null)
-            {
-                AdminKey = Key.FromProtobufKey(body.AdminKey);
-            }
+				AdminKey = Key.FromProtobufKey(body.AdminKey);
 
             if (body.SubmitKey is not null)
-            {
-                SubmitKey = Key.FromProtobufKey(body.SubmitKey);
-            }
+				SubmitKey = Key.FromProtobufKey(body.SubmitKey);
 
             if (body.AutoRenewPeriod is not null)
-            {
-                AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
-            }
+				AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
 
             if (body.FeeScheduleKey is not null)
-            {
                 FeeScheduleKey = Key.FromProtobufKey(body.FeeScheduleKey);
-            }
 
             if (body.FeeExemptKeyList is not null)
-            {
-                FeeExemptKeys.ClearAndSet(body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
-            }
+				FeeExemptKeys.ClearAndSet(body.FeeExemptKeyList.Select(_ => Key.FromProtobufKey(_)).OfType<Key>());
 
             if (body.CustomFees is not null)
-            {
-                CustomFees.ClearAndSet(body.CustomFees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
-            }
+				CustomFees.ClearAndSet(body.CustomFees.Select((x) => CustomFixedFee.FromProtobuf(x.FixedFee)));
 
             TopicMemo = body.Memo;
         }
@@ -155,7 +141,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
         }
         public override TopicCreateTransaction FreezeWith(Client? client)
         {
-            if (client.OperatorAccountId != null && AutoRenewAccountId == null)
+            if (client?.OperatorAccountId != null && AutoRenewAccountId == null)
             {
 				AutoRenewAccountId = TransactionIds != null && TransactionIds.Count != 0 && TransactionIds.Current != null ? TransactionIds.Current.AccountId : client.OperatorAccountId;
             }
@@ -169,14 +155,5 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
 			return Proto.Services.ConsensusService.Descriptor.FindMethodByName(methodname);
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

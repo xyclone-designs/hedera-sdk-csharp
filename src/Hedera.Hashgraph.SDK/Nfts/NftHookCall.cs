@@ -4,13 +4,8 @@ using Hedera.Hashgraph.SDK.Hook;
 namespace Hedera.Hashgraph.SDK.Nfts
 {
     /// <include file="NftHookCall.cs.xml" path='docs/member[@name="T:NftHookCall"]/*' />
-    public class NftHookCall : HookCall
+    public class NftHookCall(long hookId, EvmHookCall evmHookCall, NftHookType type) : HookCall(hookId, evmHookCall)
     {
-        public NftHookCall(long hookId, EvmHookCall evmHookCall, NftHookType type) : base(hookId, evmHookCall)
-        {
-            Type = type;
-        }
-
-        public virtual NftHookType Type { get; }
+        public virtual NftHookType Type { get; } = type;
     }
 }

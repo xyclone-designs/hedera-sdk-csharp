@@ -1,18 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
-
-using Grpc.Core;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Ethereum;
-using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.LiveHashes;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK.Nfts;
@@ -26,10 +19,6 @@ using Org.BouncyCastle.Crypto.Digests;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
@@ -644,10 +633,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			if (aIsNull) return;
 
-			var protoAClass = protoA.GetType();
-			var protoBClass = protoB.GetType();
+			var protoAClass = protoA?.GetType();
+			var protoBClass = protoB?.GetType();
 
-			if (!protoAClass.Equals(protoBClass))
+			if (protoAClass is not null && protoAClass.Equals(protoBClass) is false)
 				ThrowProtoMatchException(thisFieldName, "of class " + protoAClass, "of class " + protoBClass);
 
 			if (protoA is bool || protoA is int || protoA is long || protoA is float || protoA is Double || protoA is string || protoA is ByteString)

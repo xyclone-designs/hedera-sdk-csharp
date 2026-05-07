@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Networking;
@@ -12,19 +11,6 @@ namespace Hedera.Hashgraph.SDK.Nfts
 	/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="T:TokenNftInfo"]/*' />
 	public class TokenNftInfo
     {
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.NftId"]/*' />
-        public NftId NftId;
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.AccountId"]/*' />
-        public AccountId AccountId;
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.CreationTime"]/*' />
-        public DateTimeOffset CreationTime;
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.Metadata"]/*' />
-        public byte[] Metadata;
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.LedgerId"]/*' />
-        public LedgerId LedgerId;
-        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.SpenderId"]/*' />
-        public AccountId SpenderId;
-
         /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.#ctor(NftId,AccountId,DateTimeOffset,System.Byte[],LedgerId,AccountId)"]/*' />
         internal TokenNftInfo(NftId nftId, AccountId accountId, DateTimeOffset creationTime, byte[] metadata, LedgerId ledgerId, AccountId spenderId)
         {
@@ -53,8 +39,21 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 AccountId.FromProtobuf(info.SpenderId));
         }
 
-		/// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToBytes"]/*' />
-		public virtual byte[] ToBytes()
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.NftId"]/*' />
+        public NftId NftId { get; }
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.AccountId"]/*' />
+        public AccountId AccountId { get; }
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.CreationTime"]/*' />
+        public DateTimeOffset CreationTime { get; }
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.Metadata"]/*' />
+        public byte[] Metadata { get; }
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.LedgerId"]/*' />
+        public LedgerId LedgerId { get; }
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.SpenderId"]/*' />
+        public AccountId SpenderId { get; }
+
+        /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToBytes"]/*' />
+        public virtual byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}

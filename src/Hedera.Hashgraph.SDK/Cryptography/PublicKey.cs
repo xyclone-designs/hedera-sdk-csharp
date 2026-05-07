@@ -81,7 +81,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			{
 				try
 				{
-					return Key.FromProtobufKey(Proto.Services.Key.Parser.ParseFrom(aliasBytes)) as PublicKey;
+					return FromProtobufKey(Proto.Services.Key.Parser.ParseFrom(aliasBytes)) as PublicKey;
 				}
 				catch (InvalidProtocolBufferException) { }
 			}
@@ -91,7 +91,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.UnusableKey"]/*' />
 		public static PublicKey UnusableKey()
 		{
-			return PublicKey.FromStringED25519("0000000000000000000000000000000000000000000000000000000000000000");
+			return FromStringED25519("0000000000000000000000000000000000000000000000000000000000000000");
 		}
 
 		/// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo)"]/*' />

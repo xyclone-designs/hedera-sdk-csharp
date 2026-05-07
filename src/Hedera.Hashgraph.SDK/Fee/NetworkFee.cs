@@ -6,14 +6,10 @@ namespace Hedera.Hashgraph.SDK.Fee
 {
     public sealed class NetworkFee
     {
-        /// <include file="NetworkFee.cs.xml" path='docs/member[@name="P:.Multiplier"]/*' />
-        public int Multiplier { get; }
-        public long Subtotal { get; }
-
-		internal NetworkFee(int multiplier, long subtotal)
+        internal NetworkFee(int multiplier, long subtotal)
         {
-            this.Multiplier = multiplier;
-            this.Subtotal = subtotal;
+            Multiplier = multiplier;
+            Subtotal = subtotal;
         }
 
         internal static NetworkFee FromJson(string json)
@@ -26,5 +22,9 @@ namespace Hedera.Hashgraph.SDK.Fee
 				jsonnode["multiplier"]?.GetValue<int>() ?? throw new ArgumentException(null, "multiplier"),
 				jsonnode["subtotal"]?.GetValue<long>() ?? throw new ArgumentException(null, "subtotal"));
         }
+
+        /// <include file="NetworkFee.cs.xml" path='docs/member[@name="P:.Multiplier"]/*' />
+        public int Multiplier { get; }
+        public long Subtotal { get; }
     }
 }

@@ -25,18 +25,22 @@ namespace Hedera.Hashgraph.SDK.Contract
             Data = data;
         }
 
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromBytes(System.Byte[])"]/*' />
+        public static ContractLogInfo FromBytes(byte[] bytes)
+        {
+            return FromProtobuf(Proto.Services.ContractLoginfo.Parser.ParseFrom(bytes));
+        }
         /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromProtobuf(Proto.Services.ContractLoginfo)"]/*' />
         public static ContractLogInfo FromProtobuf(Proto.Services.ContractLoginfo logInfo)
         {
             return new ContractLogInfo(ContractId.FromProtobuf(logInfo.ContractId), logInfo.Bloom, logInfo.Topic, logInfo.Data);
         }
 
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.FromBytes(System.Byte[])"]/*' />
-        public static ContractLogInfo FromBytes(byte[] bytes)
+        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToBytes"]/*' />
+        public byte[] ToBytes()
         {
-            return FromProtobuf(Proto.Services.ContractLoginfo.Parser.ParseFrom(bytes));
+            return ToProtobuf().ToByteArray();
         }
-
         /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToProtobuf"]/*' />
         public Proto.Services.ContractLoginfo ToProtobuf()
         {
@@ -50,12 +54,6 @@ namespace Hedera.Hashgraph.SDK.Contract
                 proto.Topic.Add(topic);
 
             return proto;
-        }
-
-        /// <include file="ContractLogInfo.cs.xml" path='docs/member[@name="M:ContractLogInfo.ToBytes"]/*' />
-        public byte[] ToBytes()
-        {
-            return ToProtobuf().ToByteArray();
         }
     }
 }

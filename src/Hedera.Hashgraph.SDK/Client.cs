@@ -469,11 +469,11 @@ namespace Hedera.Hashgraph.SDK
 
 					//logger.Info("Address book update completed successfully");
 				}
-				catch (TimeoutException e)
+				catch (TimeoutException)
 				{
 					//logger.Warn("Failed to fetch address book: {}", e.Message);
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					//logger.Warn("Failed to update address book", e);
 				}

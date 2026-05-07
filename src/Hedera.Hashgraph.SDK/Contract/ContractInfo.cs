@@ -18,20 +18,20 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.#ctor(ContractId,AccountId,System.String,Key,DateTimeOffset,System.TimeSpan,AccountId,System.Int64,System.String,Hbar,System.Boolean,System.Collections.Generic.Dictionary{TokenId,TokenRelationship},LedgerId,StakingInfo)"]/*' />
         private ContractInfo(ContractId contractId, AccountId accountId, string contractAccountId, Key? adminKey, DateTimeOffset expirationTime, TimeSpan autoRenewPeriod, AccountId autoRenewAccountId, long storage, string contractMemo, Hbar balance, bool isDeleted, Dictionary<TokenId, TokenRelationship> tokenRelationships, LedgerId ledgerId, StakingInfo stakingInfo)
         {
-            this.ContractId = contractId;
-            this.AccountId = accountId;
-            this.ContractAccountId = contractAccountId;
-            this.AdminKey = adminKey;
-            this.ExpirationTime = expirationTime;
-            this.AutoRenewPeriod = autoRenewPeriod;
-            this.AutoRenewAccountId = autoRenewAccountId;
-            this.Storage = storage;
-            this.ContractMemo = contractMemo;
-            this.Balance = balance;
-            this.IsDeleted = isDeleted;
-            this.TokenRelationships = tokenRelationships;
-            this.LedgerId = ledgerId;
-            this.StakingInfo = stakingInfo;
+            ContractId = contractId;
+            AccountId = accountId;
+            ContractAccountId = contractAccountId;
+            AdminKey = adminKey;
+            ExpirationTime = expirationTime;
+            AutoRenewPeriod = autoRenewPeriod;
+            AutoRenewAccountId = autoRenewAccountId;
+            Storage = storage;
+            ContractMemo = contractMemo;
+            Balance = balance;
+            IsDeleted = isDeleted;
+            TokenRelationships = tokenRelationships;
+            LedgerId = ledgerId;
+            StakingInfo = stakingInfo;
         }
 
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.FromBytes(System.Byte[])"]/*' />
@@ -62,34 +62,33 @@ namespace Hedera.Hashgraph.SDK.Contract
         }
 
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ContractId"]/*' />
-		public readonly ContractId ContractId;
+		public ContractId ContractId { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AccountId"]/*' />
-		public readonly AccountId AccountId;
+		public AccountId AccountId { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ContractAccountId"]/*' />
-		public readonly string ContractAccountId;
+		public string ContractAccountId { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AdminKey"]/*' />
-		public readonly Key? AdminKey;
+		public Key? AdminKey { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ExpirationTime"]/*' />
-		public readonly DateTimeOffset ExpirationTime;
+		public DateTimeOffset ExpirationTime { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AutoRenewPeriod"]/*' />
-		public readonly TimeSpan AutoRenewPeriod;
+		public TimeSpan AutoRenewPeriod { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.AutoRenewAccountId"]/*' />
-		public readonly AccountId AutoRenewAccountId;
+		public AccountId AutoRenewAccountId { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.Storage"]/*' />
-		public readonly long Storage;
+		public long Storage { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.ContractMemo"]/*' />
-		public readonly string ContractMemo;
+		public string ContractMemo { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.Balance"]/*' />
-		public readonly Hbar Balance;
+		public Hbar Balance { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.IsDeleted"]/*' />
-		public readonly bool IsDeleted;
+		public bool IsDeleted { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="T:ContractInfo_2"]/*' />
-		public readonly Dictionary<TokenId, TokenRelationship> TokenRelationships;
+		public Dictionary<TokenId, TokenRelationship> TokenRelationships { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.LedgerId"]/*' />
-		public readonly LedgerId LedgerId;
+		public LedgerId LedgerId { get; }
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="F:ContractInfo.StakingInfo"]/*' />
-		public readonly StakingInfo StakingInfo;
-
+		public StakingInfo StakingInfo { get; }
 
 		/// <include file="ContractInfo.cs.xml" path='docs/member[@name="M:ContractInfo.ToBytes"]/*' />
 		public byte[] ToBytes()

@@ -4,7 +4,7 @@ using Org.BouncyCastle.Crypto.Digests;
 using System;
 using System.Text;
 
-namespace Hedera.Hashgraph.SDK
+namespace Hedera.Hashgraph.SDK.Contract
 {
 	/// <include file="ContractFunctionSelector.cs.xml" path='docs/member[@name="T:ContractFunctionSelector"]/*' />
 	public sealed class ContractFunctionSelector

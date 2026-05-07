@@ -2,7 +2,6 @@
 using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		{
 			try
 			{
-				using Stream stream = typeof(Network).Assembly.GetManifestResourceStream("Resources.AddressBook." + fileName) ?? throw new ArgumentNullException(null, "ReadAddressBookResource.[stream]");
+				using Stream stream = Resources.AddressBook.StreamFromFileName(fileName);
 				
 				ByteString contents = ByteString.FromStream(stream);
 
@@ -57,7 +56,7 @@ namespace Hedera.Hashgraph.SDK.Networking
 		}
 		internal static Dictionary<AccountId, NodeAddress>? GetAddressBookForLedger(LedgerId? ledgerId)
 		{
-			return (ledgerId == null || !ledgerId.IsKnownNetwork) ? null : ReadAddressBookResource("addressbook/" + ledgerId + ".pb");
+			return (ledgerId == null || !ledgerId.IsKnownNetwork) ? null : ReadAddressBookResource(ledgerId + ".pb");
 		}
 		internal static Dictionary<string, AccountId> AddressBookToNetwork(IEnumerable<NodeAddress> addressBook)
 		{
@@ -100,6 +99,15 @@ namespace Hedera.Hashgraph.SDK.Networking
 		{
 			return new Network(executor, network);
 		}
+
+		protected override Node CreateNodeFromNetworkEntry(KeyValuePair<string, AccountId> entry)
+        {
+			return new Node(entry.Value, entry.Key, Executor)
+			{
+				//AddressBookEntry = AddressBook[entry.Value],
+				VerifyCertificates = VerifyCertificates,
+			};
+        }
 
 		public override LedgerId? LedgerId 
 		{
@@ -179,15 +187,6 @@ namespace Hedera.Hashgraph.SDK.Networking
 				node.AddressBookEntry = addressBook[node.AccountId];
 
 			return this;
-        }
-        
-        protected override Node CreateNodeFromNetworkEntry(KeyValuePair<string, AccountId> entry)
-        {
-			return new Node(entry.Value, entry.Key, Executor)
-			{
-				AddressBookEntry = AddressBook[entry.Value],
-				VerifyCertificates = VerifyCertificates,
-			};
         }
         
 		/// <include file="Network.cs.xml" path='docs/member[@name="M:Network.GetNetwork"]/*' />

@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.File;
@@ -30,9 +28,6 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             InitFromTransactionBody();
         }
-
-		private List<HookCreationDetails> _HookCreationDetails = [];
-		private List<long> _HookIdsToDelete = [];
 
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.RequireNotFrozen"]/*' />
 		public ContractId? ContractId
@@ -201,11 +196,8 @@ namespace Hedera.Hashgraph.SDK.Contract
 
             AutoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccountId);
 
-			_HookCreationDetails.Clear();
-			_HookCreationDetails.AddRange(body.HookCreationDetails.Select(_ => HookCreationDetails.FromProtobuf(_)));
-
-			_HookIdsToDelete.Clear();
-            _HookIdsToDelete.AddRange(body.HookIdsToDelete);
+			HookCreationDetails_.ClearAndSet(body.HookCreationDetails.Select(_ => HookCreationDetails.FromProtobuf(_)));
+			HookIdsToDelete.ClearAndSet(body.HookIdsToDelete);
         }
 
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.ToProtobuf"]/*' />
@@ -284,14 +276,5 @@ namespace Hedera.Hashgraph.SDK.Contract
 
 			return Proto.Services.SmartContractService.Descriptor.FindMethodByName(methodname);
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

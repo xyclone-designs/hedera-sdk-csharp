@@ -1,7 +1,7 @@
 ﻿
 namespace System.Collections.Generic
 {
-	public class ListGuarded<T> : IList<T> 
+	public class ListGuarded<T> : IList<T>
     {
 		internal ListGuarded() : this(_ => { }) { }
         internal ListGuarded(Action<ListGuarded<T>> oninit)

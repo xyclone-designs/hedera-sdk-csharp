@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Airdrops;
@@ -10,6 +9,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Schedule;
 using Hedera.Hashgraph.SDK.Token;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,61 +19,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
     /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord"]/*' />
     public sealed class TransactionRecord
     {
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Receipt"]/*' />
-        public readonly TransactionReceipt Receipt;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionHash"]/*' />
-        public readonly ByteString TransactionHash;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ConsensusTimestamp"]/*' />
-        public readonly DateTimeOffset ConsensusTimestamp;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionId"]/*' />
-        public readonly TransactionId TransactionId;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionMemo"]/*' />
-        public readonly string TransactionMemo;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionFee"]/*' />
-        public readonly Hbar TransactionFee;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ContractFunctionResult"]/*' />
-        public readonly ContractFunctionResult? ContractFunctionResult;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Transfers"]/*' />
-        public readonly List<Transfer> Transfers;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_2"]/*' />
-        public readonly Dictionary<TokenId, Dictionary<AccountId, long>> TokenTransfers;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenTransferList"]/*' />
-        public readonly List<TokenTransfer> TokenTransferList;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_3"]/*' />
-        public readonly Dictionary<TokenId, List<TokenNftTransfer>> TokenNftTransfers;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ScheduleRef"]/*' />
-        public readonly ScheduleId ScheduleRef;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AssessedCustomFees"]/*' />
-        public readonly List<AssessedCustomFee> AssessedCustomFees;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AutomaticTokenAssociations"]/*' />
-        public readonly List<TokenAssociation> AutomaticTokenAssociations;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AliasKey"]/*' />
-        public readonly PublicKey? AliasKey;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Children"]/*' />
-        public readonly List<TransactionRecord> Children;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Duplicates"]/*' />
-        public readonly List<TransactionRecord> Duplicates;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ParentConsensusTimestamp"]/*' />
-        public readonly DateTimeOffset ParentConsensusTimestamp;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EthereumHash"]/*' />
-        public readonly ByteString EthereumHash;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.HbarAllowanceAdjustments"]/*' />
-        public readonly List<HbarAllowance> HbarAllowanceAdjustments;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenAllowanceAdjustments"]/*' />
-        public readonly List<TokenAllowance> TokenAllowanceAdjustments;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenNftAllowanceAdjustments"]/*' />
-        public readonly List<TokenNftAllowance> TokenNftAllowanceAdjustments;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PaidStakingRewards"]/*' />
-        public readonly List<Transfer> PaidStakingRewards;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngBytes"]/*' />
-        public readonly ByteString PrngBytes;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngNumber"]/*' />
-        public readonly int PrngNumber;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EvmAddress"]/*' />
-        public readonly ByteString EvmAddress;
-        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PendingAirdropRecords"]/*' />
-        public readonly List<PendingAirdropRecord> PendingAirdropRecords;
-
         internal TransactionRecord(
             TransactionReceipt transactionReceipt, 
             ByteString transactionHash, 
@@ -181,7 +126,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 fees.Add(AssessedCustomFee.FromProtobuf(fee));
             }
 
-
             // HACK: This is a bit bad, any takers to clean this up
             var contractFunctionResult = transactionRecord.ContractCallResult is not null 
                 ? new ContractFunctionResult(transactionRecord.ContractCallResult) 
@@ -230,8 +174,63 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 [.. transactionRecord.NewPendingAirdrops.Select(_ => PendingAirdropRecord.FromProtobuf(_))]);
         }
 
-		/// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToBytes"]/*' />
-		public byte[] ToBytes()
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Receipt"]/*' />
+        public TransactionReceipt Receipt { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionHash"]/*' />
+        public ByteString TransactionHash { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ConsensusTimestamp"]/*' />
+        public DateTimeOffset ConsensusTimestamp { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionId"]/*' />
+        public TransactionId TransactionId { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionMemo"]/*' />
+        public string TransactionMemo { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TransactionFee"]/*' />
+        public Hbar TransactionFee { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ContractFunctionResult"]/*' />
+        public ContractFunctionResult? ContractFunctionResult { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Transfers"]/*' />
+        public List<Transfer> Transfers { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_2"]/*' />
+        public Dictionary<TokenId, Dictionary<AccountId, long>> TokenTransfers { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenTransferList"]/*' />
+        public List<TokenTransfer> TokenTransferList { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="T:TransactionRecord_3"]/*' />
+        public Dictionary<TokenId, List<TokenNftTransfer>> TokenNftTransfers { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ScheduleRef"]/*' />
+        public ScheduleId ScheduleRef { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AssessedCustomFees"]/*' />
+        public List<AssessedCustomFee> AssessedCustomFees { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AutomaticTokenAssociations"]/*' />
+        public List<TokenAssociation> AutomaticTokenAssociations { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.AliasKey"]/*' />
+        public PublicKey? AliasKey { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Children"]/*' />
+        public List<TransactionRecord> Children { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.Duplicates"]/*' />
+        public List<TransactionRecord> Duplicates { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.ParentConsensusTimestamp"]/*' />
+        public DateTimeOffset ParentConsensusTimestamp { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EthereumHash"]/*' />
+        public ByteString EthereumHash { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.HbarAllowanceAdjustments"]/*' />
+        public List<HbarAllowance> HbarAllowanceAdjustments { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenAllowanceAdjustments"]/*' />
+        public List<TokenAllowance> TokenAllowanceAdjustments { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.TokenNftAllowanceAdjustments"]/*' />
+        public List<TokenNftAllowance> TokenNftAllowanceAdjustments { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PaidStakingRewards"]/*' />
+        public List<Transfer> PaidStakingRewards { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngBytes"]/*' />
+        public ByteString PrngBytes { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PrngNumber"]/*' />
+        public int PrngNumber { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.EvmAddress"]/*' />
+        public ByteString EvmAddress { get; }
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="F:TransactionRecord.PendingAirdropRecords"]/*' />
+        public List<PendingAirdropRecord> PendingAirdropRecords { get; }
+
+        /// <include file="TransactionRecord.cs.xml" path='docs/member[@name="M:TransactionRecord.ToBytes"]/*' />
+        public byte[] ToBytes()
 		{
 			return ToProtobuf().ToByteArray();
 		}
@@ -243,6 +242,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				Receipt = Receipt.ToProtobuf(),
                 TransactionHash = TransactionHash,
                 ConsensusTimestamp = ConsensusTimestamp.ToProtoTimestamp(),
+                ParentConsensusTimestamp = ParentConsensusTimestamp.ToProtoTimestamp(),
                 TransactionId = TransactionId.ToProtobuf(),
                 Memo = TransactionMemo,
                 TransactionFee = (ulong)TransactionFee.ToTinybars(),
@@ -250,9 +250,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
                 EthereumHash = EthereumHash,
                 EvmAddress = EvmAddress,
 				PrngNumber = PrngNumber,
-			};
-                
-            
+                PrngBytes = PrngBytes,
+                ScheduleRef = ScheduleRef.ToProtobuf(),
+            };
+
             foreach (var tokenEntry in TokenTransfers)
             {
                 Proto.Services.TokenTransferList tokenTransfersList = new()
@@ -308,17 +309,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			if (ContractFunctionResult != null)
 				proto.ContractCallResult = ContractFunctionResult.ToProtobuf();
 
-            if (ScheduleRef != null)
-				proto.ScheduleRef = ScheduleRef.ToProtobuf();
-
-			if (AliasKey != null)
+            if (AliasKey != null)
                 proto.Alias = AliasKey.ToProtobufKey().ToByteString();
-
-            if (ParentConsensusTimestamp != null)
-				proto.ParentConsensusTimestamp = ParentConsensusTimestamp.ToProtoTimestamp();
-
-			if (PrngBytes != null)
-				proto.PrngBytes = PrngBytes;
 
 			return proto;
         }

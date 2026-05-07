@@ -31,36 +31,58 @@ namespace Hedera.Hashgraph.SDK.Consensus
         }
 
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen"]/*' />
-		public TopicId? TopicId { get; set { RequireNotFrozen(); field = value; } }
+		public TopicId? TopicId 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_2"]/*' />
-		public string? TopicMemo { get; set { RequireNotFrozen(); field = value; } }
+		public string? TopicMemo 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_3"]/*' />
-		public Key? AdminKey { get; set { RequireNotFrozen(); field = value; } }
+		public Key? AdminKey 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_4"]/*' />
-		public Key? SubmitKey { get; set { RequireNotFrozen(); field = value; } }
-		/*
-         * An updated value for the number of seconds by which the topic expiration
-         * will be automatically extended upon expiration, if it has a valid
-         * auto-renew account.
-         * <p>
-         * If this value is set, the current `adminKey` for the topic MUST sign
-         * this transaction.<br/>
-         * This value, if set, MUST be greater than the
-         * configured MIN_AUTORENEW_PERIOD.<br/>
-         * This value, if set, MUST be less than the
-         * configured MAX_AUTORENEW_PERIOD.
-         *
-         * @param autoRenewPeriod The TimeSpan to be set for auto renewal
-         * @return {@code this}
-         */
-		public TimeSpan? AutoRenewPeriod { get; set { RequireNotFrozen(); field = value; } }
+		public Key? SubmitKey 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.AutoRenewPeriod"]/*' />
+        public TimeSpan? AutoRenewPeriod 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_5"]/*' />
-		public AccountId? AutoRenewAccountId { get; set { RequireNotFrozen(); field = value; } }
+		public AccountId? AutoRenewAccountId 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_6"]/*' />
-		public DateTimeOffset? ExpirationTime { get; set { RequireNotFrozen(); field = value; ExpirationTimeDuration = null; } }
-		public TimeSpan? ExpirationTimeDuration { get; set { RequireNotFrozen(); field = value; ExpirationTime = null; } }
+		public DateTimeOffset? ExpirationTime 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; ExpirationTimeDuration = null; } 
+        }
+		public TimeSpan? ExpirationTimeDuration 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; ExpirationTime = null; } 
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_7"]/*' />
-		public Key? FeeScheduleKey { get; set { RequireNotFrozen(); field = value; } }
+		public Key? FeeScheduleKey 
+        { 
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction_2"]/*' />
 		public ListGuarded<Key> FeeExemptKeys
 		{
@@ -77,7 +99,6 @@ namespace Hedera.Hashgraph.SDK.Consensus
 				OnRequireNotFrozen = RequireNotFrozen
 			};
 		}
-
 
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody_2"]/*' />
 		void InitFromTransactionBody()
@@ -120,16 +141,16 @@ namespace Hedera.Hashgraph.SDK.Consensus
             var builder = new Proto.Services.ConsensusUpdateTopicTransactionBody();
 
             if (TopicId != null)
-                builder.TopicId = TopicId?.ToProtobuf();
+                builder.TopicId = TopicId.ToProtobuf();
 
             if (AutoRenewAccountId != null)
-                builder.AutoRenewAccount = AutoRenewAccountId?.ToProtobuf();
+                builder.AutoRenewAccount = AutoRenewAccountId.ToProtobuf();
 
             if (AdminKey != null)
-                builder.AdminKey = AdminKey?.ToProtobufKey();
+                builder.AdminKey = AdminKey.ToProtobufKey();
 
             if (SubmitKey != null)
-                builder.SubmitKey = SubmitKey?.ToProtobufKey();
+                builder.SubmitKey = SubmitKey.ToProtobufKey();
 
             if (AutoRenewPeriod != null)
                 builder.AutoRenewPeriod = AutoRenewPeriod.Value.ToProtoDuration();
@@ -144,7 +165,7 @@ namespace Hedera.Hashgraph.SDK.Consensus
                 builder.ExpirationTime = ExpirationTimeDuration.Value.ToProtoTimestamp();
 
             if (FeeScheduleKey != null)
-                builder.FeeScheduleKey = FeeScheduleKey?.ToProtobufKey();
+                builder.FeeScheduleKey = FeeScheduleKey.ToProtobufKey();
 
             if (FeeExemptKeys != null)
             {
@@ -194,14 +215,5 @@ namespace Hedera.Hashgraph.SDK.Consensus
 
 			return Proto.Services.ConsensusService.Descriptor.FindMethodByName(methodname);
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

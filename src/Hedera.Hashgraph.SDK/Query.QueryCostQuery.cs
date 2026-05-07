@@ -1,11 +1,11 @@
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
 
 using System;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK
 {
 	public abstract partial class Query<O, T> 
 	{

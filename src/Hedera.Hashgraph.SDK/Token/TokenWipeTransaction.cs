@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
 
-using System;
 using System.Collections.Generic;
 
 namespace Hedera.Hashgraph.SDK.Token
@@ -27,11 +25,23 @@ namespace Hedera.Hashgraph.SDK.Token
         }
 
 		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen"]/*' />
-		public virtual TokenId? TokenId { get; set { RequireNotFrozen(); field = value; } }
+		public virtual TokenId? TokenId 
+        {
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
         /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen_2"]/*' />
-        public virtual AccountId? AccountId { get; set { RequireNotFrozen(); field = value; } }
+        public virtual AccountId? AccountId 
+        {
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
 		/// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.RequireNotFrozen_3"]/*' />
-		public virtual ulong Amount { get; set { RequireNotFrozen(); field = value; } }
+		public virtual ulong Amount 
+        {
+            get; 
+            set { RequireNotFrozen(); field = value; } 
+        }
         /// <include file="TokenWipeTransaction.cs.xml" path='docs/member[@name="M:TokenWipeTransaction.InitFromTransactionBody"]/*' />
         public virtual ListGuarded<long> Serials
 		{
@@ -96,14 +106,5 @@ namespace Hedera.Hashgraph.SDK.Token
 
 			return Proto.Services.TokenService.Descriptor.FindMethodByName(methodname);
 		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

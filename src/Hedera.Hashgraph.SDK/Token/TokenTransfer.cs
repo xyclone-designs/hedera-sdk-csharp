@@ -10,12 +10,12 @@ namespace Hedera.Hashgraph.SDK.Token
     /// <include file="TokenTransfer.cs.xml" path='docs/member[@name="T:TokenTransfer"]/*' />
     public class TokenTransfer
     {
-        public readonly TokenId TokenId;
-        public readonly AccountId AccountId;
-        public uint? ExpectedDecimals;
-        public long Amount;
-        public bool IsApproved;
-        public FungibleHookCall? HookCall;
+        public TokenId TokenId { get; }
+        public AccountId AccountId { get; }
+        public uint? ExpectedDecimals { get; set; }
+        public long Amount { get; set; }
+        public bool IsApproved { get; set; }
+        public FungibleHookCall? HookCall { get; set; }
 
 		/// <include file="TokenTransfer.cs.xml" path='docs/member[@name="M:TokenTransfer.#ctor(TokenId,AccountId,System.Int64,System.Boolean)"]/*' />
 		public TokenTransfer(TokenId tokenId, AccountId accountId, long amount, bool isApproved) : this(tokenId, accountId, amount, null, isApproved) { }

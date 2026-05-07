@@ -3,10 +3,7 @@ using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Contract;
-using Hedera.Hashgraph.SDK.Logging;
 using Hedera.Hashgraph.SDK.Utils;
-using Org.BouncyCastle.Asn1;
-using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 using System.Globalization;
@@ -207,8 +204,6 @@ namespace Hedera.Hashgraph.SDK.Networking
 		protected virtual T Self()
 		{
 			return (T)this;
-		}
-    /// <include file="MirrorNodeContractQuery.cs.xml" path='docs/member[@name="T:MirrorNodeContractQuery_2"]/*' />
-		
+		}		
     }
 }

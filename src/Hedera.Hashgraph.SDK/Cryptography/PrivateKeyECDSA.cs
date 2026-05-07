@@ -25,15 +25,32 @@ namespace Hedera.Hashgraph.SDK.Cryptography
     {
         private readonly BigInteger KeyData;
         private readonly KeyParameter? ChainCode;
+
         /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.PrivateKeyECDSA(BigInteger,KeyParameter)"]/*' />
-        PrivateKeyECDSA(BigInteger keyData, KeyParameter? chainCode)
+        private PrivateKeyECDSA(BigInteger keyData, KeyParameter? chainCode)
         {
             KeyData = keyData;
             ChainCode = chainCode;
         }
 
-		/// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.GenerateInternal"]/*' />
-		internal static PrivateKeyECDSA GenerateInternal()
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.BigIntTo32Bytes(BigInteger)"]/*' />
+        private static byte[] BigIntTo32Bytes(BigInteger n)
+        {
+            byte[] bytes = n.ToByteArray();
+            byte[] bytes32 = new byte[32];
+            Array.Copy(bytes, Math.Max(0, bytes.Length - 32), bytes32, Math.Max(0, 32 - bytes.Length), Math.Min(32, bytes.Length));
+            return bytes32;
+        }
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.DerivableKeyECDSA(System.Byte[])"]/*' />
+        private static PrivateKeyECDSA DerivableKeyECDSA(byte[] deriveData)
+        {
+            var keyData = deriveData.CopyArray(0, 32);
+            var chainCode = new KeyParameter(deriveData, 32, 32);
+            return new PrivateKeyECDSA(new BigInteger(1, keyData), chainCode);
+        }
+
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.GenerateInternal"]/*' />
+        internal static PrivateKeyECDSA GenerateInternal()
         {
             var generator = new ECKeyPairGenerator();
             var keygenParams = new ECKeyGenerationParameters(ECDSA_SECP256K1_DOMAIN, ThreadLocalSecureRandom.Current());
@@ -86,52 +103,6 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             return FromECPrivateKeyInternal(ECPrivateKeyStructure.GetInstance(privateKey));
         }
 
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.LegacyDeriveChildKey(System.Byte[],System.Int64)"]/*' />
-        public static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
-        {
-            throw new InvalidOperationException("ECDSA secp256k1 keys do not currently support derivation");
-        }
-
-        public override PrivateKey LegacyDerive(long index)
-        {
-            throw new InvalidOperationException("ECDSA secp256k1 keys do not currently support derivation");
-        }
-
-        public override bool IsDerivable()
-        {
-            return ChainCode != null;
-        }
-
-        public override PrivateKey Derive(int index)
-        {
-            if (!IsDerivable())
-            {
-                throw new InvalidOperationException("this private key does not support derivation");
-            }
-
-            byte[] dataArray = new byte[37];
-			bool isHardened = Bip32Utils.IsHardenedIndex(index);
-
-            if (isHardened)
-            {
-                byte[] bytes33 = new byte[33];
-                byte[] priv = ToBytesRaw();
-                Array.Copy(priv, 0, bytes33, 33 - priv.Length, priv.Length);
-                dataArray = [.. bytes33, (byte)index];
-            }
-            else dataArray = [.. GetPublicKey().ToBytesRaw(), (byte)index];
-
-            HMac hmacSha512 = new (new Sha512Digest());
-            hmacSha512.Init(new KeyParameter(ChainCode!.GetKey())); // IsDerivable above validates CshainCode
-			hmacSha512.BlockUpdate(dataArray, 0, dataArray.Length);
-            byte[] i = new byte[64];
-            hmacSha512.DoFinal(i, 0);
-            var il = i.CopyArray(0, 32);
-            var ir = i.CopyArray(32, 64);
-            var ki = KeyData.Add(new BigInteger(1, il)).Mod(ECDSA_SECP256K1_CURVE.N);
-            return new PrivateKeyECDSA(ki, new KeyParameter(ir));
-        }
-
         /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.FromSeed(System.Byte[])"]/*' />
         public static PrivateKey FromSeed(byte[] seed)
         {
@@ -142,42 +113,10 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             hmacSha512.DoFinal(derivedState, 0);
             return DerivableKeyECDSA(derivedState);
         }
-
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.DerivableKeyECDSA(System.Byte[])"]/*' />
-        static PrivateKeyECDSA DerivableKeyECDSA(byte[] deriveData)
+        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.LegacyDeriveChildKey(System.Byte[],System.Int64)"]/*' />
+        public static byte[] LegacyDeriveChildKey(byte[] entropy, long index)
         {
-            var keyData = deriveData.CopyArray(0, 32);
-            var chainCode = new KeyParameter(deriveData, 32, 32);
-            return new PrivateKeyECDSA(new BigInteger(1, keyData), chainCode);
-        }
-
-        public override PublicKey GetPublicKey()
-        {
-            if (publicKey != null)
-            {
-                return publicKey;
-            }
-
-            var q = ECDSA_SECP256K1_DOMAIN.G.Multiply(KeyData);
-            var publicParams = new ECPublicKeyParameters(q, ECDSA_SECP256K1_DOMAIN);
-            publicKey = PublicKeyECDSA.FromBytesInternal(publicParams.Q.GetEncoded(true));
-            return publicKey;
-        }
-
-        public override KeyParameter GetChainCode()
-        {
-            return ChainCode;
-        }
-
-        public override byte[] Sign(byte[] message)
-        {
-            var hash = Crypto.CalcKeccak256(message);
-            var signer = new ECDsaSigner(new HMacDsaKCalculator(new Sha256Digest()));
-            signer.Init(true, new ECPrivateKeyParameters(KeyData, ECDSA_SECP256K1_DOMAIN));
-            BigInteger[] bigSig = signer.GenerateSignature(hash);
-            byte[] sigBytes = [.. BigIntTo32Bytes(bigSig[0]), .. Enumerable.Repeat((byte)0, 32) ];
-            Array.Copy(BigIntTo32Bytes(bigSig[1]), 0, sigBytes, 32, 32);
-            return sigBytes;
+            throw new InvalidOperationException("ECDSA secp256k1 keys do not currently support derivation");
         }
 
         public virtual int GetRecoveryId(byte[] r, byte[] s, byte[] message)
@@ -206,25 +145,88 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             return recId;
         }
 
+        public override PrivateKey Derive(int index)
+        {
+            if (!IsDerivable())
+            {
+                throw new InvalidOperationException("this private key does not support derivation");
+            }
+
+            byte[] dataArray = new byte[37];
+            bool isHardened = Bip32Utils.IsHardenedIndex(index);
+
+            if (isHardened)
+            {
+                byte[] bytes33 = new byte[33];
+                byte[] priv = ToBytesRaw();
+                Array.Copy(priv, 0, bytes33, 33 - priv.Length, priv.Length);
+                dataArray = [.. bytes33, (byte)index];
+            }
+            else dataArray = [.. GetPublicKey().ToBytesRaw(), (byte)index];
+
+            HMac hmacSha512 = new(new Sha512Digest());
+            hmacSha512.Init(new KeyParameter(ChainCode!.GetKey())); // IsDerivable above validates CshainCode
+            hmacSha512.BlockUpdate(dataArray, 0, dataArray.Length);
+            byte[] i = new byte[64];
+            hmacSha512.DoFinal(i, 0);
+            var il = i.CopyArray(0, 32);
+            var ir = i.CopyArray(32, 64);
+            var ki = KeyData.Add(new BigInteger(1, il)).Mod(ECDSA_SECP256K1_CURVE.N);
+            return new PrivateKeyECDSA(ki, new KeyParameter(ir));
+        }
+        public override PublicKey GetPublicKey()
+        {
+            if (publicKey != null)
+            {
+                return publicKey;
+            }
+
+            var q = ECDSA_SECP256K1_DOMAIN.G.Multiply(KeyData);
+            var publicParams = new ECPublicKeyParameters(q, ECDSA_SECP256K1_DOMAIN);
+            publicKey = PublicKeyECDSA.FromBytesInternal(publicParams.Q.GetEncoded(true));
+            return publicKey;
+        }
+        public override KeyParameter GetChainCode()
+        {
+            return ChainCode;
+        }
+        public override PrivateKey LegacyDerive(long index)
+        {
+            throw new InvalidOperationException("ECDSA secp256k1 keys do not currently support derivation");
+        }
+
+        public override byte[] Sign(byte[] message)
+        {
+            var hash = Crypto.CalcKeccak256(message);
+            var signer = new ECDsaSigner(new HMacDsaKCalculator(new Sha256Digest()));
+            signer.Init(true, new ECPrivateKeyParameters(KeyData, ECDSA_SECP256K1_DOMAIN));
+            BigInteger[] bigSig = signer.GenerateSignature(hash);
+            byte[] sigBytes = [.. BigIntTo32Bytes(bigSig[0]), .. Enumerable.Repeat((byte)0, 32) ];
+            Array.Copy(BigIntTo32Bytes(bigSig[1]), 0, sigBytes, 32, 32);
+            return sigBytes;
+        }
+
+        public override bool IsED25519()
+        {
+            return false;
+        }
+        public override bool IsECDSA()
+        {
+            return true;
+        }
+        public override bool IsDerivable()
+        {
+            return ChainCode != null;
+        }
+
         public override byte[] ToBytes()
         {
             return ToBytesDER();
         }
-
-        /// <include file="PrivateKeyECDSA.cs.xml" path='docs/member[@name="M:PrivateKeyECDSA.BigIntTo32Bytes(BigInteger)"]/*' />
-        private static byte[] BigIntTo32Bytes(BigInteger n)
-        {
-            byte[] bytes = n.ToByteArray();
-            byte[] bytes32 = new byte[32];
-            Array.Copy(bytes, Math.Max(0, bytes.Length - 32), bytes32, Math.Max(0, 32 - bytes.Length), Math.Min(32, bytes.Length));
-            return bytes32;
-        }
-
         public override byte[] ToBytesRaw()
         {
             return BigIntTo32Bytes(KeyData);
         }
-
         public override byte[] ToBytesDER()
         {
             try
@@ -241,16 +243,6 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             {
                 throw new Exception(string.Empty, e);
             }
-        }
-
-        public override bool IsED25519()
-        {
-            return false;
-        }
-
-        public override bool IsECDSA()
-        {
-            return true;
         }
     }
 }

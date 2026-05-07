@@ -2,12 +2,12 @@
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Queries;
 
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK.Transactions
 {
     /// <include file="TransactionReceiptQuery.cs.xml" path='docs/member[@name="T:TransactionReceiptQuery"]/*' />
     public sealed class TransactionReceiptQuery : Query<TransactionReceipt, TransactionReceiptQuery>

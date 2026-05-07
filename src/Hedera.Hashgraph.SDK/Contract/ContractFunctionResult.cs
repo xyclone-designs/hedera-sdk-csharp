@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
+
 using Hedera.Hashgraph.SDK.Cryptocurrency;
+
 using Nethereum.ABI.FunctionEncoding;
 using Nethereum.ABI.Model;
+
 using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
-using System.IO.Pipelines;
 using System.Linq;
 using System.Numerics;
 
@@ -38,14 +39,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 			return [.. types];
 		}
 		// Java Source => (Byte are signed) private static readonly ByteString errorPrefix = ByteString.CopyFrom(new byte[] { 8, -61, 121, -96 });
-		private static readonly ByteString errorPrefix =
-            ByteString.CopyFrom(
-            [
-                0x08,
-                0xC3, // -61 in Java
-                0x79,
-                0xA0  // -96 in Java
-            ]);
+		private static readonly ByteString errorPrefix = ByteString.CopyFrom(
+        [
+            0x08,
+            0xC3, // -61 in Java
+            0x79,
+            0xA0  // -96 in Java
+        ]);
 
 		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.#ctor(Proto.Services.ContractFunctionResult)"]/*' />
 		internal ContractFunctionResult(Proto.Services.ContractFunctionResult inner)
@@ -84,33 +84,33 @@ namespace Hedera.Hashgraph.SDK.Contract
 		}
 
 		/// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractId"]/*' />
-		public readonly ContractId ContractId;
+		public ContractId ContractId { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.EvmAddress"]/*' />
-        public readonly ContractId EvmAddress;
+        public ContractId EvmAddress { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ErrorMessage"]/*' />
-        public readonly string? ErrorMessage;
+        public string? ErrorMessage { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.Bloom"]/*' />
-        public readonly ByteString Bloom;
+        public ByteString Bloom { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.GasUsed"]/*' />
-        public readonly ulong GasUsed;
+        public ulong GasUsed { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.logs"]/*' />
-        public readonly List<ContractLogInfo> Logs;
+        public List<ContractLogInfo> Logs { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.CreatedContractIds"]/*' />
-        public readonly List<ContractId> CreatedContractIds;
+        public List<ContractId> CreatedContractIds { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.StateChanges"]/*' />
-        public readonly List<ContractStateChange> StateChanges;
+        public List<ContractStateChange> StateChanges { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.Gas"]/*' />
-        public readonly long Gas;
+        public long Gas { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.HbarAmount"]/*' />
-        public readonly Hbar HbarAmount;
+        public Hbar HbarAmount { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractFunctionParametersBytes"]/*' />
-        public readonly byte[] ContractFunctionParametersBytes;
+        public byte[] ContractFunctionParametersBytes { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.SenderAccountId"]/*' />
-        public readonly AccountId SenderAccountId;
+        public AccountId SenderAccountId { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.ContractNonces"]/*' />
-        public readonly List<ContractNonceInfo> ContractNonces;
+        public List<ContractNonceInfo> ContractNonces { get; }
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="F:ContractFunctionResult.SignerNonce"]/*' />
-        public readonly long SignerNonce;
+        public long SignerNonce { get; }
         private readonly ByteString RawResult;
 
         /// <include file="ContractFunctionResult.cs.xml" path='docs/member[@name="M:ContractFunctionResult.AsBytes"]/*' />

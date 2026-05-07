@@ -6,17 +6,12 @@ using System;
 namespace Hedera.Hashgraph.SDK.Contract
 {
     /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="T:ContractNonceInfo"]/*' />
-    public sealed class ContractNonceInfo
+    public sealed class ContractNonceInfo(ContractId contractId, long nonce)
     {
         /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.#ctor(ContractId,System.Int64)"]/*' />
-        public readonly ContractId ContractId;
+        public ContractId ContractId { get; } = contractId;
         /// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.#ctor(ContractId,System.Int64)_2"]/*' />
-        public readonly long Nonce;
-        public ContractNonceInfo(ContractId contractId, long nonce)
-        {
-            ContractId = contractId;
-            Nonce = nonce;
-        }
+        public long Nonce { get; } = nonce;
 
 		/// <include file="ContractNonceInfo.cs.xml" path='docs/member[@name="M:ContractNonceInfo.FromBytes(System.Byte[])"]/*' />
 		public static ContractNonceInfo FromBytes(byte[] bytes)
@@ -46,14 +41,10 @@ namespace Hedera.Hashgraph.SDK.Contract
         public override bool Equals(object? o)
         {
             if (this == o)
-            {
                 return true;
-            }
 
             if (o is not ContractNonceInfo otherInfo)
-            {
                 return false;
-            }
 
             return ContractId.Equals(otherInfo.ContractId) && Nonce.Equals(otherInfo.Nonce);
         }

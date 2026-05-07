@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
@@ -14,9 +13,7 @@ namespace Hedera.Hashgraph.SDK.Hook
     /// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="T:HookStoreTransaction"]/*' />
     public class HookStoreTransaction : Transaction<HookStoreTransaction>
     {
-        public HookStoreTransaction()
-        {
-        }
+		public HookStoreTransaction() { }
 		/// <include file="HookStoreTransaction.cs.xml" path='docs/member[@name="M:HookStoreTransaction.#ctor(Proto.Services.TransactionBody)"]/*' />
 		internal HookStoreTransaction(Proto.Services.TransactionBody txBody) : base(txBody)
 		{
@@ -85,10 +82,5 @@ namespace Hedera.Hashgraph.SDK.Hook
 		{
 			throw new NotSupportedException("cannot schedule HookStoreTransaction");
 		}
-
-        public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

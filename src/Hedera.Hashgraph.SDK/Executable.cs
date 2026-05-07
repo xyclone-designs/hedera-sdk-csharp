@@ -21,13 +21,83 @@ using System.Threading.Tasks;
 namespace Hedera.Hashgraph.SDK
 {
 	/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable"]/*' />
-	public abstract partial class Executable
+	public abstract partial class Executable : IExecutable
 	{
 		internal static readonly Regex RST_STREAM = new(".*\\brst[^0-9a-zA-Z]stream\\b.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-	}
 
-    public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> : Executable where TProtoRequest : class, IMessage where TProtoResponse : class, IMessage
-	{
+        /// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.GrpcDeadline"]/*' />
+        public TimeSpan GrpcDeadline { get; set; }
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_3"]/*' />
+        public TimeSpan MaxBackoff
+        {
+            get => field;
+            set
+            {
+                if (field.Nanoseconds < 0)
+                {
+                    throw new ArgumentException("maxBackoff must be a positive duration");
+                }
+                else if (field.CompareTo(MinBackoff) < 0)
+                {
+                    throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
+                }
+
+                field = value;
+            }
+
+        } = Client.DEFAULT_MAX_BACKOFF;
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_4"]/*' />
+        public TimeSpan MinBackoff
+        {
+            get => field;
+            set
+            {
+                if (value.Nanoseconds < 0)
+                {
+                    throw new ArgumentException("minBackoff must be a positive duration");
+                }
+                else if (value.CompareTo(MaxBackoff) > 0)
+                {
+                    throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
+                }
+
+                field = value;
+            }
+
+        } = Client.DEFAULT_MIN_BACKOFF;
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_5"]/*' />
+        public int MaxAttempts
+        {
+            get;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("MaxAttempts must be greater than zero");
+
+                field = value;
+            }
+        } = Client.DEFAULT_MAX_ATTEMPTS;
+        public int MaxRetry
+        {
+            get => MaxAttempts;
+            set => MaxAttempts = value;
+        }
+        /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_6"]/*' />
+        public ListGuarded<AccountId> NodeAccountIds
+        {
+            get => field ??= [];
+            set
+            {
+                field = value;
+            }
+        }
+
+        public abstract void OnExecute(Client client);
+        public abstract Task OnExecuteAsync(Client client);
+    }
+
+    public abstract partial class Executable<TSdkRequest, TProtoRequest, TProtoResponse, TTransactionResponse> : Executable, IExecutable<TProtoRequest, TProtoResponse> where TProtoRequest : class, IMessage where TProtoResponse : class, IMessage
+    {
         protected static readonly Random random = new ();
 
 		internal Func<GrpcRequest, TProtoResponse> BlockingUnaryCall 
@@ -54,72 +124,6 @@ namespace Hedera.Hashgraph.SDK
 
 		/// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.AttemptedAllNodes"]/*' />
 		public bool AttemptedAllNodes { get; protected set; }
-		/// <include file="Executable.cs.xml" path='docs/member[@name="P:Executable.GrpcDeadline"]/*' />
-		public TimeSpan GrpcDeadline { get; set; }
-		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_3"]/*' />
-		public TimeSpan MaxBackoff
-		{
-			get => field;
-			set
-			{
-				if (field.Nanoseconds < 0)
-				{
-					throw new ArgumentException("maxBackoff must be a positive duration");
-				}
-				else if (field.CompareTo(MinBackoff) < 0)
-				{
-					throw new ArgumentException("maxBackoff must be greater than or equal to minBackoff");
-				}
-
-				field = value;
-			}
-
-		} = Client.DEFAULT_MAX_BACKOFF;
-		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_4"]/*' />
-		public TimeSpan MinBackoff
-		{
-			get => field;
-			set
-			{
-				if (value.Nanoseconds < 0)
-				{
-					throw new ArgumentException("minBackoff must be a positive duration");
-				}
-				else if (value.CompareTo(MaxBackoff) > 0)
-				{
-					throw new ArgumentException("minBackoff must be less than or equal to maxBackoff");
-				}
-
-				field = value;
-			}
-
-		} = Client.DEFAULT_MIN_BACKOFF;
-		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_5"]/*' />
-		public int MaxAttempts
-        {
-            get;
-            set
-            {
-                if (value <= 0)
-					throw new ArgumentException("MaxAttempts must be greater than zero");
-
-				field = value;
-            }
-        } = Client.DEFAULT_MAX_ATTEMPTS;
-        public int MaxRetry
-        {
-            get => MaxAttempts;
-            set => MaxAttempts = value;
-        }
-		/// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_6"]/*' />
-		public ListGuarded<AccountId> NodeAccountIds
-        {
-            get => field ??= [];
-            set
-            {
-                field = value;
-            }
-        }
         /// <include file="Executable.cs.xml" path='docs/member[@name="T:Executable_7"]/*' />
         public Func<TProtoRequest, TProtoRequest> RequestListener
 		{
@@ -148,10 +152,9 @@ namespace Hedera.Hashgraph.SDK
 		public abstract Method<TProtoRequest, TProtoResponse> GetMethod();
 		public abstract MethodDescriptor GetMethodDescriptor();
 		public abstract TransactionId TransactionIdInternal { get; }
-		public abstract void OnExecute(Client client);
-		public abstract Task OnExecuteAsync(Client client);
+
 		public abstract TProtoRequest MakeRequest();
-		public abstract ResponseStatus MapResponseStatus(Proto.Services.Response response);
+		public abstract ResponseStatus MapResponseStatus(TProtoResponse response);
 		/// <include file="Executable.cs.xml" path='docs/member[@name="M:Executable.MapResponse(TProtoResponse,AccountId,TProtoRequest)"]/*' />
 		public abstract TTransactionResponse MapResponse(TProtoResponse response, AccountId nodeId, TProtoRequest request);
 
@@ -390,7 +393,7 @@ namespace Hedera.Hashgraph.SDK
 					}
 				}
 
-				var status = MapResponseStatus(response as Proto.Services.Response);
+				var status = MapResponseStatus(response as TProtoResponse);
 				var executionState = GetExecutionState(status, response);
 
 				grpcRequest.HandleResponse(response, status, executionState, client);
@@ -586,7 +589,7 @@ namespace Hedera.Hashgraph.SDK
 				}
 
 				// Process response status
-				var status = MapResponseStatus(response as Proto.Services.Response);
+				var status = MapResponseStatus(response as TProtoResponse);
 				var executionState = GetExecutionState(status, response);
 				grpcRequest.HandleResponse(response, status, executionState, client);
 

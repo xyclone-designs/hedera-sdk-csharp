@@ -97,17 +97,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			string methodname = nameof(Proto.Services.UtilService.UtilServiceClient.atomicBatch);
 
 			return Proto.Services.UtilService.Descriptor.FindMethodByName(methodname);
-		}
-
-		public override ResponseStatus MapResponseStatus(Proto.Services.Response response)
-        {
-            throw new NotImplementedException();
-        }
-        public override TransactionResponse MapResponse(Proto.Services.TransactionResponse response, AccountId nodeId, Proto.Services.Transaction request)
-        {
-            throw new NotImplementedException();
-        }
-
-		
+		}	
     }
 }

@@ -21,23 +21,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
         private static readonly long INITIAL_BACKOFF_MS = 250;
         /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="F:TransactionResponse.MAX_BACKOFF_MS"]/*' />
         private static readonly long MAX_BACKOFF_MS = 8000;
-        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="F:TransactionResponse.NodeId"]/*' />
-        public readonly AccountId NodeId;
-        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="F:TransactionResponse.TransactionHash"]/*' />
-        public readonly byte[] TransactionHash;
-        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})"]/*' />
-        public readonly TransactionId TransactionId;
-        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})_2"]/*' />
-        public readonly TransactionId? ScheduledTransactionId;
 
         /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})_3"]/*' />
-        internal TransactionResponse(AccountId nodeId, TransactionId transactionId, byte[] transactionHash, TransactionId scheduledTransactionId, Func<Client, TransactionResponse, TransactionReceipt> onretry)
+        internal TransactionResponse(AccountId nodeId, TransactionId transactionId, byte[] transactionHash, TransactionId? scheduledTransactionId, Func<Client, TransactionResponse, TransactionReceipt> onretry)
         {
-            this.NodeId = nodeId;
-			this.TransactionId = transactionId;
-            this.TransactionHash = transactionHash;
-            this.ScheduledTransactionId = scheduledTransactionId;
-            this.OnRetry = onretry;
+            NodeId = nodeId;
+			TransactionId = transactionId;
+            TransactionHash = transactionHash;
+            ScheduledTransactionId = scheduledTransactionId;
+            OnRetry = onretry;
 
 		}
 
@@ -64,7 +56,16 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 		/// <include file="TransactionResponse.cs.xml" path='docs/member[@name="P:TransactionResponse.ValidateStatus"]/*' />
 		public bool ValidateStatus { get; set; } = true;
-		public Func<Client, TransactionResponse, TransactionReceipt> OnRetry { get; set; }
+        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="F:TransactionResponse.NodeId"]/*' />
+        public AccountId NodeId { get; }
+        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="F:TransactionResponse.TransactionHash"]/*' />
+        public byte[] TransactionHash { get; }
+        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})"]/*' />
+        public TransactionId TransactionId { get; }
+        /// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.#ctor(AccountId,TransactionId,System.Byte[],TransactionId,System.Func{Client,TransactionResponse,TransactionReceipt})_2"]/*' />
+        public TransactionId? ScheduledTransactionId { get; }
+
+        public Func<Client, TransactionResponse, TransactionReceipt> OnRetry { get; set; }
 
 		/// <include file="TransactionResponse.cs.xml" path='docs/member[@name="M:TransactionResponse.GetReceipt(Client)"]/*' />
 		public TransactionReceipt GetReceipt(Client client)

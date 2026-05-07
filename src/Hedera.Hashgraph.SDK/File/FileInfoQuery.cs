@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Queries;
 
@@ -16,12 +17,8 @@ namespace Hedera.Hashgraph.SDK.File
 
 		public override void ValidateChecksums(Client client)
         {
-            if (FileId != null)
-            {
-                FileId.ValidateChecksum(client);
-            }
+            FileId?.ValidateChecksum(client);
         }
-
         public override void OnMakeRequest(Proto.Services.Query queryBuilder, Proto.Services.QueryHeader header)
         {
             var builder = new Proto.Services.FileGetInfoQuery
@@ -30,9 +27,7 @@ namespace Hedera.Hashgraph.SDK.File
             };
 
             if (FileId != null)
-            {
                 builder.FileId = FileId.ToProtobuf();
-            }
 
             queryBuilder.FileGetInfo = builder;
         }
@@ -41,7 +36,6 @@ namespace Hedera.Hashgraph.SDK.File
         {
             return response.FileGetInfo.Header;
         }
-
         public override Proto.Services.QueryHeader MapRequestHeader(Proto.Services.Query request)
         {
             return request.FileGetInfo.Header;

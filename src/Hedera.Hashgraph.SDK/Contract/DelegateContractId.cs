@@ -14,7 +14,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         public DelegateContractId(long shard, long realm, long num) : base(shard, realm, num) { }
         public DelegateContractId(long shard, long realm, byte[] evmAddress) : base(shard, realm, evmAddress) { }
 		/// <include file="DelegateContractId.cs.xml" path='docs/member[@name="M:DelegateContractId.DelegateContractId(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
-		DelegateContractId(long shard, long realm, long num, string? checksum) : base(shard, realm, num, checksum) { }
+		private DelegateContractId(long shard, long realm, long num, string? checksum) : base(shard, realm, num, checksum) { }
 
 		/// <include file="DelegateContractId.cs.xml" path='docs/member[@name="M:DelegateContractId.FromString(System.String)"]/*' />
 		public new static DelegateContractId FromString(string id)
@@ -51,6 +51,7 @@ namespace Hedera.Hashgraph.SDK.Contract
 				DelegatableContractId = ToProtobuf()
 			};
         }
+
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
@@ -58,22 +59,13 @@ namespace Hedera.Hashgraph.SDK.Contract
 		public override bool Equals(object? o)
         {
             if (this == o)
-            {
                 return true;
-            }
-
-            if (o is DelegateContractId otherId)
-            {
+            else if (o is DelegateContractId otherId)
                 return Shard == otherId.Shard && Realm == otherId.Realm && Num == otherId.Num;
-            }
             else if (o is ContractId _otherId)
-			{
                 return Shard == _otherId.Shard && Realm == _otherId.Realm && Num == _otherId.Num;
-            }
             else
-            {
                 return false;
-            }
         }
     }
 }

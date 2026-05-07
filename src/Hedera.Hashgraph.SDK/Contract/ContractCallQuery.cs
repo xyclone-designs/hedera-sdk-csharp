@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
+
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Queries;
+
 using System;
 using System.Threading.Tasks;
 
@@ -47,7 +48,6 @@ namespace Hedera.Hashgraph.SDK.Contract
 			Hbar cost = await base.GetCostAsync(client);
 
 			return Hbar.FromTinybars((long)(cost.ToTinybars() * 1.1));
-
 		}
 
 		public override void ValidateChecksums(Client client)

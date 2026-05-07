@@ -2,25 +2,19 @@
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Transactions;
+using Hedera.Hashgraph.SDK.Queries;
 
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK.Transactions
 {
     /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="T:TransactionRecordQuery"]/*' />
     public sealed class TransactionRecordQuery : Query<TransactionRecord, TransactionRecordQuery>
     {
         /// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="M:TransactionRecordQuery.#ctor"]/*' />
         public TransactionRecordQuery() { }
-
-		private List<TransactionRecord> MapRecordList(IEnumerable<Proto.Services.TransactionRecord> protoRecordList)
-		{
-            return [.. protoRecordList.Select(_ => TransactionRecord.FromProtobuf(_))];
-		}
-
-
+		
 		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.IncludeChildren"]/*' />
 		public bool IncludeChildren { get; set; }
 		/// <include file="TransactionRecordQuery.cs.xml" path='docs/member[@name="P:TransactionRecordQuery.IncludeDuplicates"]/*' />
@@ -57,8 +51,8 @@ namespace Hedera.Hashgraph.SDK.Queries
 		{
 			var recordResponse = response.TransactionGetRecord;
 
-			IList<TransactionRecord> children = MapRecordList(recordResponse.ChildTransactionRecords);
-			IList<TransactionRecord> duplicates = MapRecordList(recordResponse.DuplicateTransactionRecords);
+			IEnumerable<TransactionRecord> children = recordResponse.ChildTransactionRecords.Select(TransactionRecord.FromProtobuf);
+			IEnumerable<TransactionRecord> duplicates = recordResponse.DuplicateTransactionRecords.Select(TransactionRecord.FromProtobuf);
 
 			return TransactionRecord.FromProtobuf(recordResponse.TransactionRecord, children, duplicates, TransactionId);
 		}

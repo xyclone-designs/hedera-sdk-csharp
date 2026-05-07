@@ -2,7 +2,6 @@
 
 namespace Hedera.Hashgraph.SDK.Hook
 {
-    // Using fully qualified names to avoid conflicts with generated classes
     /// <include file="HookExtensionPoint.cs.xml" path='docs/member[@name="T:HookExtensionPoint"]/*' />
     public enum HookExtensionPoint
     {

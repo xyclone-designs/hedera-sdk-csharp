@@ -13,7 +13,7 @@ using System.IO;
 namespace Hedera.Hashgraph.SDK.Cryptography
 {
     /// <include file="PublicKeyED25519.cs.xml" path='docs/member[@name="T:PublicKeyED25519"]/*' />
-    class PublicKeyED25519 : PublicKey
+    public class PublicKeyED25519 : PublicKey
     {
         private readonly byte[] KeyData;
 

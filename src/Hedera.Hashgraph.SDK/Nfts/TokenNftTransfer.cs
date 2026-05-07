@@ -13,20 +13,6 @@ namespace Hedera.Hashgraph.SDK.Nfts
 	/// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="T:TokenNftTransfer"]/*' />
 	public class TokenNftTransfer : IComparable<TokenNftTransfer>
     {
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.TokenId"]/*' />
-        public readonly TokenId TokenId;
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Sender"]/*' />
-        public readonly AccountId Sender;
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Receiver"]/*' />
-        public readonly AccountId Receiver;
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Serial"]/*' />
-        public readonly long Serial;
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.IsApproved"]/*' />
-        public bool IsApproved;
-        // Optional typed hook calls for sender/receiver
-        public NftHookCall? SenderHookCall;
-        public NftHookCall? ReceiverHookCall;
-
         /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.#ctor(TokenId,AccountId,AccountId,System.Int64,System.Boolean,NftHookCall,NftHookCall)"]/*' />
         public TokenNftTransfer(TokenId tokenId, AccountId sender, AccountId receiver, long serial, bool isApproved, NftHookCall? senderHookCall, NftHookCall? receiverHookCall)
         {
@@ -39,6 +25,18 @@ namespace Hedera.Hashgraph.SDK.Nfts
             ReceiverHookCall = receiverHookCall;
         }
 
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.FromBytes(System.Byte[])"]/*' />
+        public static TokenNftTransfer FromBytes(byte[] bytes)
+        {
+            Proto.Services.TokenTransferList proto = new()
+            {
+                Token = new Proto.Services.TokenID { }
+            };
+
+            proto.NftTransfers.Add(Proto.Services.NftTransfer.Parser.ParseFrom(bytes));
+
+            return FromProtobuf(proto)[0];
+        }
         public static IList<TokenNftTransfer> FromProtobuf(Proto.Services.TokenTransferList tokenTransferList)
         {
             TokenId token = TokenId.FromProtobuf(tokenTransferList.Token);
@@ -69,19 +67,41 @@ namespace Hedera.Hashgraph.SDK.Nfts
             return nftTransfers;
         }
 
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.FromBytes(System.Byte[])"]/*' />
-        public static TokenNftTransfer FromBytes(byte[] bytes)
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.TokenId"]/*' />
+        public TokenId TokenId { get; set; }
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Sender"]/*' />
+        public AccountId Sender { get; set; }
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Receiver"]/*' />
+        public AccountId Receiver { get; set; }
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.Serial"]/*' />
+        public long Serial { get; set; }
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="F:TokenNftTransfer.IsApproved"]/*' />
+        public bool IsApproved { get; set; }
+        // Optional typed hook calls for sender/receiver
+        public NftHookCall? SenderHookCall { get; }
+        public NftHookCall? ReceiverHookCall { get; }
+
+        public virtual int CompareTo(TokenNftTransfer? o)
         {
-            Proto.Services.TokenTransferList proto = new()
+            int senderComparison = Sender.CompareTo(o?.Sender);
+            if (senderComparison != 0)
             {
-				Token = new Proto.Services.TokenID { }
-			};
+                return senderComparison;
+            }
 
-            proto.NftTransfers.Add(Proto.Services.NftTransfer.Parser.ParseFrom(bytes));
-            
-            return FromProtobuf(proto)[0];
+            int receiverComparison = Receiver.CompareTo(o?.Receiver);
+            if (receiverComparison != 0)
+            {
+                return receiverComparison;
+            }
+
+            return Serial.CompareTo(o?.Serial);
         }
-
+        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToBytes"]/*' />
+        public virtual byte[] ToBytes()
+        {
+            return ToProtobuf().ToByteArray();
+        }
         /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToProtobuf"]/*' />
         public virtual Proto.Services.NftTransfer ToProtobuf()
         {
@@ -93,55 +113,34 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 IsApproval = IsApproved,
             };
 
-			switch (SenderHookCall?.Type)
-			{
-				case NftHookType.PreHookSender:
-					proto.PreTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
-					break;
-				case NftHookType.PrePostHookSender:
-					proto.PrePostTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
-					break;
+            switch (SenderHookCall?.Type)
+            {
+                case NftHookType.PreHookSender:
+                    proto.PreTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
+                    break;
+                case NftHookType.PrePostHookSender:
+                    proto.PrePostTxReceiverAllowanceHook = SenderHookCall.ToProtobuf();
+                    break;
 
-				default: break;
-			}
+                default: break;
+            }
 
-			switch (ReceiverHookCall?.Type)
-			{
-				case NftHookType.PreHookReceiver:
-					proto.PreTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
-					break;
-				case NftHookType.PrePostHookReceiver:
+            switch (ReceiverHookCall?.Type)
+            {
+                case NftHookType.PreHookReceiver:
+                    proto.PreTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
+                    break;
+                case NftHookType.PrePostHookReceiver:
                     proto.PrePostTxReceiverAllowanceHook = ReceiverHookCall.ToProtobuf();
-					break;
+                    break;
 
-				default: break;
-			}
+                default: break;
+            }
 
             return proto;
         }
 
-        /// <include file="TokenNftTransfer.cs.xml" path='docs/member[@name="M:TokenNftTransfer.ToBytes"]/*' />
-        public virtual byte[] ToBytes()
-        {
-            return ToProtobuf().ToByteArray();
-        }
-		public virtual int CompareTo(TokenNftTransfer? o)
-		{
-			int senderComparison = Sender.CompareTo(o?.Sender);
-			if (senderComparison != 0)
-			{
-				return senderComparison;
-			}
-
-			int receiverComparison = Receiver.CompareTo(o?.Receiver);
-			if (receiverComparison != 0)
-			{
-				return receiverComparison;
-			}
-
-			return Serial.CompareTo(o?.Serial);
-		}
-		public override int GetHashCode()
+        public override int GetHashCode()
 		{
 			return HashCode.Combine(TokenId, Sender, Receiver, Serial, IsApproved);
 		}

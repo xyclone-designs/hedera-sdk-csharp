@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
+
 using Hedera.Hashgraph.SDK.Nfts;
+
 using System;
 using System.IO;
 

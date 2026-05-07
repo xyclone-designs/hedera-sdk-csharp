@@ -1,8 +1,8 @@
 using Hedera.Hashgraph.SDK.Exceptions;
-using Hedera.Hashgraph.SDK.Networking;
+
 using System.Linq;
 
-namespace Hedera.Hashgraph.SDK.Queries
+namespace Hedera.Hashgraph.SDK
 {
 	public abstract partial class Query<O, T> 
 	{

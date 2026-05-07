@@ -9,9 +9,6 @@ namespace Hedera.Hashgraph.SDK.Fee
         /// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.#ctor"]/*' />
         public FeeSchedules() { }
 
-		private FeeSchedule? _Current;
-		private FeeSchedule? _Next;
-
 		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.FromBytes(System.Byte[])"]/*' />
 		public static FeeSchedules FromBytes(byte[] bytes)
 		{
@@ -29,13 +26,13 @@ namespace Hedera.Hashgraph.SDK.Fee
 
 		public virtual FeeSchedule? Current
 		{
-			get => _Current?.Clone() as FeeSchedule;
-			set => _Current = value?.Clone() as FeeSchedule;
+			get => field?.Clone() as FeeSchedule;
+			set => field = value?.Clone() as FeeSchedule;
 		}
 		public virtual FeeSchedule? Next
 		{
-			get => _Next?.Clone() as FeeSchedule;
-			set => _Next = value?.Clone() as FeeSchedule;
+			get => field?.Clone() as FeeSchedule;
+			set => field = value?.Clone() as FeeSchedule;
 		}
 
 		/// <include file="FeeSchedules.cs.xml" path='docs/member[@name="M:FeeSchedules.ToBytes"]/*' />
@@ -48,8 +45,8 @@ namespace Hedera.Hashgraph.SDK.Fee
         {
 			Proto.Services.CurrentAndNextFeeSchedule protobuf = new ();
 
-            if (_Current != null) protobuf.CurrentFeeSchedule = _Current.ToProtobuf();
-            if (_Next != null) protobuf.NextFeeSchedule = _Next.ToProtobuf();
+            if (Current != null) protobuf.CurrentFeeSchedule = Current.ToProtobuf();
+            if (Next != null) protobuf.NextFeeSchedule = Next.ToProtobuf();
 
             return protobuf;
         }

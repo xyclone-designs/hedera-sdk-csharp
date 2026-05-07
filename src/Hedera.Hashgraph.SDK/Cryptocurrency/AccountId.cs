@@ -54,17 +54,17 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             }
             catch (ArgumentException)
             {
-                MatchCollection matches = ALIAS_ID_REGEX.Matches(id);
+                Match matches = ALIAS_ID_REGEX.Match(id);
 
-                if (matches.Count == 0)
+                if (matches.Length <= 1)
 					throw new ArgumentException("Invalid Account ID \"" + id + "\": format should look like 0.0.123 or 0.0.123-vfmkw or 0.0.1337BEEF (where 1337BEEF is a hex-encoded, DER-format public key)");
 
-				byte[] aliasBytes = Hex.Decode(matches.ElementAt(3).Value);
+				byte[] aliasBytes = Hex.Decode(matches.Groups[3].Value);
 				bool isEvmAddress = aliasBytes.Length == 20;
 				
                 return new AccountId(
-                    long.Parse(matches.ElementAt(1).Value),
-                    long.Parse(matches.ElementAt(2).Value),
+                    long.Parse(matches.Groups[1].Value),
+                    long.Parse(matches.Groups[2].Value),
                     0, 
                     null, 
                     isEvmAddress ? null : PublicKey.FromBytesDER(aliasBytes), 

@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.Reference.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Transactions;
 
@@ -170,25 +169,38 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 			return ReadPem(new PemReader(new StringReader(encodedPem)), password);
 		}
 
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.Derive(System.Int32)"]/*' />
+        public abstract PrivateKey Derive(int index);
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.GetChainCode"]/*' />
+        public abstract KeyParameter GetChainCode();
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.GetPublicKey"]/*' />
+        public abstract PublicKey GetPublicKey();
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.IsED25519"]/*' />
+        public abstract bool IsED25519();
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.IsECDSA"]/*' />
+        public abstract bool IsECDSA();
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.IsDerivable"]/*' />
+        public abstract bool IsDerivable();
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.LegacyDerive(System.Int64)"]/*' />
+        public abstract PrivateKey LegacyDerive(long index);
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.Sign(System.Byte[])"]/*' />
+        public abstract byte[] Sign(byte[] message);
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToBytesDER"]/*' />
+        public abstract byte[] ToBytesDER();
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToBytesRaw"]/*' />
+        public abstract byte[] ToBytesRaw();
+        public abstract override byte[] ToBytes();
+
+        
+
         /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.LegacyDerive(System.Int32)"]/*' />
         public virtual PrivateKey LegacyDerive(int index)
         {
             return LegacyDerive((long)index);
         }
-
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.LegacyDerive(System.Int64)"]/*' />
-        public abstract PrivateKey LegacyDerive(long index);
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.IsDerivable"]/*' />
-        public abstract bool IsDerivable();
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.Derive(System.Int32)"]/*' />
-        public abstract PrivateKey Derive(int index);
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.GetPublicKey"]/*' />
-        public abstract PublicKey GetPublicKey();
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.Sign(System.Byte[])"]/*' />
-        public abstract byte[] Sign(byte[] message);
         /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.SignTransaction``1(Transaction{``0})"]/*' />
         public virtual byte[] SignTransaction<T>(Transaction<T> transaction) where T : Transaction<T>
-		{
+        {
             transaction.RequireOneNodeAccountId();
 
             if (!transaction.IsFrozen())
@@ -201,46 +213,30 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             transaction.AddSignature(GetPublicKey(), signature);
             return signature;
         }
-
-        public abstract override byte[] ToBytes();
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToBytesDER"]/*' />
-        public abstract byte[] ToBytesDER();
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToBytesRaw"]/*' />
-        public abstract byte[] ToBytesRaw();
-        public override string ToString()
+        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToAccountId(System.Int64,System.Int64)"]/*' />
+        public virtual AccountId ToAccountId(long shard, long realm)
         {
-            return ToStringDER();
+            return GetPublicKey().ToAccountId(shard, realm);
         }
-
         /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToStringDER"]/*' />
         public virtual string ToStringDER()
         {
             return Hex.ToHexString(ToBytesDER());
         }
-
         /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToStringRaw"]/*' />
         public virtual string ToStringRaw()
         {
             return Hex.ToHexString(ToBytesRaw());
         }
 
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.ToAccountId(System.Int64,System.Int64)"]/*' />
-        public virtual AccountId ToAccountId(long shard, long realm)
+        public override string ToString()
         {
-            return GetPublicKey().ToAccountId(shard, realm);
+            return ToStringDER();
         }
-
         public override Proto.Services.Key ToProtobufKey()
         {
             // Forward to the corresponding public key.
             return GetPublicKey().ToProtobufKey();
         }
-
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.IsED25519"]/*' />
-        public abstract bool IsED25519();
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.IsECDSA"]/*' />
-        public abstract bool IsECDSA();
-        /// <include file="PrivateKey.cs.xml" path='docs/member[@name="M:PrivateKey.GetChainCode"]/*' />
-        public abstract KeyParameter GetChainCode();
     }
 }

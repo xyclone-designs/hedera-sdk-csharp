@@ -2,8 +2,8 @@
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Queries;
+
 using System;
 using System.Threading.Tasks;
 
