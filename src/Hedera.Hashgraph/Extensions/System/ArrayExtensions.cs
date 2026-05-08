@@ -7,7 +7,7 @@ namespace System
 	{
         public static T[] CopyArray<T>(this T[] ts)
         {
-			T[] _out = [];
+			T[] _out = new T[ts.Length];
 			ts.CopyTo(_out);
 			return _out;
         }

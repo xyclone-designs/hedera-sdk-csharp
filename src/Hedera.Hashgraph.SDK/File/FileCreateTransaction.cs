@@ -32,26 +32,29 @@ namespace Hedera.Hashgraph.SDK.File
             InitFromTransactionBody();
         }
 
-		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.RequireNotFrozen"]/*' />
-		public DateTimeOffset? ExpirationTime
+        private DateTimeOffset? _ExpirationTime = null;
+		private TimeSpan? _ExpirationTimeDuration = null;
+
+        /// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.RequireNotFrozen"]/*' />
+        public DateTimeOffset? ExpirationTime
 		{
-			get;
+			get => _ExpirationTime;
 			set
 			{
 				RequireNotFrozen();
-				field = value;
-				ExpirationTimeDuration = null;
+                _ExpirationTime = value;
+                _ExpirationTimeDuration = null;
 			}
 		}
 		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.RequireNotFrozen_2"]/*' />
 		public TimeSpan? ExpirationTimeDuration
 		{
-			get;
+			get => _ExpirationTimeDuration;
 			set
 			{
 				RequireNotFrozen();
-                ExpirationTime = null;
-				field = value;
+                _ExpirationTime = null;
+                _ExpirationTimeDuration = value;
 			}
 		}
 		/// <include file="FileCreateTransaction.cs.xml" path='docs/member[@name="M:FileCreateTransaction.Of(null,value)"]/*' />

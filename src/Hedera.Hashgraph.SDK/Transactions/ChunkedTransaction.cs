@@ -3,7 +3,6 @@ using Google.Protobuf;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
-using Hedera.Hashgraph.SDK.Queries;
 using Hedera.Hashgraph.SDK.Schedule;
 
 using System;

@@ -42,7 +42,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
         /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesDER(System.Byte[])"]/*' />
         public static PublicKey FromBytesDER(byte[] publicKey)
         {
-            return PublicKey.FromSubjectKeyInfo(SubjectPublicKeyInfo.GetInstance(publicKey));
+            return FromSubjectKeyInfo(SubjectPublicKeyInfo.GetInstance(publicKey));
         }
         /// <include file="PublicKey.cs.xml" path='docs/member[@name="M:PublicKey.FromBytesED25519(System.Byte[])"]/*' />
         public static PublicKey FromBytesED25519(byte[] publicKey)
@@ -103,7 +103,6 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             }
             else
             {
-
                 // assume ECDSA
                 return PublicKeyECDSA.FromSubjectKeyInfoInternal(subjectPublicKeyInfo);
             }

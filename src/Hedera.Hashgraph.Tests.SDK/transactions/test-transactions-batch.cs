@@ -132,7 +132,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             {
                 batchTransaction.InnerTransactions.Add(freezeTransaction);
             });
-            Assert.Contains(exception.Message, "FreezeTransaction is not allowed in a batch transaction");
+            Assert.Contains("Transaction type FreezeTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
         public virtual void ShouldRejectBatchTransaction()
@@ -146,7 +146,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			}.Freeze();
 
 			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(innerBatchTransaction));
-            Assert.Contains(exception.Message, "BatchTransaction is not allowed in a batch transaction");
+            Assert.Contains("Transaction type BatchTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
         public virtual void ShouldRejectBlacklistedTransactionInList()
@@ -163,7 +163,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
 			
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.AddRange(validTransaction, freezeTransaction));
-            Assert.Contains(exception.Message, "FreezeTransaction is not allowed in a batch transaction");
+            Assert.Contains("Transaction type FreezeTransaction is not allowed in a batch transaction", exception.Message);
 		}
         [Fact]
         public virtual void ShouldRejectUnfrozenTransaction()
@@ -176,8 +176,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			};
 
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransaction));
-			Assert.Contains(exception.Message, "Inner transaction should be frozen");
-		}
+			Assert.Contains("Inner transaction should be frozen", exception.Message);
+        }
         [Fact]
         public virtual void ShouldRejectTransactionAfterFreeze()
         {
@@ -189,7 +189,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(SpawnTestTransactionAccountCreate()));
-            Assert.Contains(exception.Message, "transaction is immutable");
+            Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
         public virtual void ShouldRejectTransactionListAfterFreeze()
@@ -202,7 +202,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.AddRange(INNER_TRANSACTIONS));
-			Assert.Contains(exception.Message, "transaction is immutable");
+			Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
         public virtual void ShouldPreserveTransactionOrder()
@@ -239,7 +239,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
             
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(transactionWithoutBatchKey));
-			Assert.Contains(exception.Message, "Batch key needs to be set");
+			Assert.Contains("Batch key needs to be set", exception.Message);
 		}
         [Fact]
         public virtual void ShouldValidateAllTransactionsInList()
@@ -254,7 +254,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 			}.Freeze();
             
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.ClearAndSet(validTransaction, transactionWithoutBatchKey));
-			Assert.Contains(exception.Message, "Batch key needs to be set");
+			Assert.Contains("Batch key needs to be set", exception.Message);
 		}
         [Fact]
         public virtual void ShouldValidateMultipleConditions()
@@ -268,12 +268,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			};
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(unfrozenTransactionWithoutBatchKey));
-            Assert.Contains(exception.Message, "Inner transaction should be frozen");
+            Assert.Contains("Inner transaction should be frozen", exception.Message);
 
 			// Test frozen transaction with no batch key
 			var frozenTransactionWithoutBatchKey = unfrozenTransactionWithoutBatchKey.Freeze();
             InvalidOperationException exception1 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(frozenTransactionWithoutBatchKey));
-            Assert.Contains(exception1.Message, "Batch key needs to be set");
+            Assert.Contains("Batch key needs to be set", exception1.Message);
 
 			// Test blacklisted transaction with batch key
 			var blacklistedTransaction = new FreezeTransaction
@@ -287,7 +287,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             }.Freeze();
 
             InvalidOperationException exception2 = Assert.Throws<InvalidOperationException>(() => batchTransaction.InnerTransactions.Add(blacklistedTransaction));
-            Assert.Contains(exception2.Message, "FreezeTransaction is not allowed in a batch transaction");
+            Assert.Contains("FreezeTransaction is not allowed in a batch transaction", exception2.Message);
 		}
         [Fact]
         public virtual void ShouldAcceptValidTransaction()

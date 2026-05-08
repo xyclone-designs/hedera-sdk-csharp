@@ -19,6 +19,7 @@ using Org.BouncyCastle.Crypto.Digests;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Hedera.Hashgraph.SDK.Transactions
 {
@@ -64,10 +65,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		{
 			var account = txBody.NodeAccountId is not null ? AccountId.FromProtobuf(txBody.NodeAccountId) : DUMMY_ACCOUNT_ID;
 			var transactionId = txBody.TransactionId is not null ? TransactionId.FromProtobuf(txBody.TransactionId) : DUMMY_TRANSACTION_ID;
-			var linked = txsMap.ContainsKey(transactionId) ? txsMap[transactionId] : new DictionaryLinked<AccountId, Proto.Services.Transaction>();
+			var linked = txsMap.TryGetValue(transactionId, out DictionaryLinked<AccountId, Proto.Services.Transaction>? value) ? value : [];
 
-			linked.Add(account, transaction);
-			txsMap.Add(transactionId, linked);
+			linked.AddOrReplace(account, transaction);
+			txsMap.AddOrReplace(transactionId, linked);
 		}
 
 		/// <include file="Transaction.Statics.cs.xml" path='docs/member[@name="M:CreateTransactionFromDataCase``1(Proto.Services.TransactionBody.DataOneofCase,DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
@@ -631,10 +632,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			if (aIsNull != bIsNull)
 				ThrowProtoMatchException(thisFieldName, aIsNull ? "null" : "not null", bIsNull ? "null" : "not null");
 
-			if (aIsNull) return;
+			if (protoA == null || protoB == null) return;
 
-			var protoAClass = protoA?.GetType();
-			var protoBClass = protoB?.GetType();
+			var protoAClass = protoA.GetType();
+			var protoBClass = protoB.GetType();
 
 			if (protoAClass is not null && protoAClass.Equals(protoBClass) is false)
 				ThrowProtoMatchException(thisFieldName, "of class " + protoAClass, "of class " + protoBClass);
@@ -644,7 +645,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				// System.out.println("values A = " + protoA.toString() + ", B = " + protoB.toString());
 				if (!protoA.Equals(protoB))
 				{
-					ThrowProtoMatchException(thisFieldName, protoA.ToString(), protoB.ToString());
+					ThrowProtoMatchException(thisFieldName, protoA.ToString() ?? string.Empty, protoB.ToString() ?? string.Empty);
 				}
 			}
 
@@ -667,7 +668,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				}
 
 				var isList = methodName.EndsWith("List") && typeof(IList).IsAssignableFrom(method.ReturnType);
-				var methodFieldName = methodName.Substring(3, methodName.Length - (isList ? 4 : 0));
+				var methodFieldName = methodName[3..^(isList ? 4 : 0)];
 				if (ignoreSet.Contains(methodFieldName) || methodFieldName.Equals("DefaultInstance"))
 				{
 					continue;
@@ -677,9 +678,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				{
 					try
 					{
-						var hasMethod = protoAClass.GetMethod("has" + methodFieldName);
-						bool hasA = (bool)hasMethod.Invoke(protoA, null)!;
-						bool hasB = (bool)hasMethod.Invoke(protoB, null)!;
+                        var hasMethod = protoAClass.GetMethod("has" + methodFieldName);
+						bool hasA = (bool)hasMethod?.Invoke(protoA, null)!;
+						bool hasB = (bool)hasMethod?.Invoke(protoB, null)!;
 
 						if (!hasA.Equals(hasB))
 							ThrowProtoMatchException(methodFieldName, hasA ? "present" : "not present", hasB ? "present" : "not present");

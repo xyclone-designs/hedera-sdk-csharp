@@ -32,7 +32,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         private AccountId nodeAccountID2;
         private List<AccountId> nodeAccountIDs;
         private byte[] mockSignature;
-        public virtual void SetUp()
+        public TransactionTest()
         {
             client = Client.ForTestnet();
             client.OperatorSet(testAccountId, mockPrivateKey);
@@ -194,8 +194,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         [Fact]
         public virtual void MultiChunkTransactionShouldReturnArrayOfBodySizes()
         {
+            var size = 3;
             var chunkSize = 1024;
-            byte[] content = new byte[chunkSize * 3];
+            byte[] content = new byte[chunkSize * size];
             Array.Fill(content, (byte)'a');
             var fileAppentTx = new FileAppendTransaction
             {
@@ -209,7 +210,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
  
             var objects = fileAppentTx.BodySizeAllChunks();
             Assert.NotNull(objects);
-            Assert.Equal(2, objects.Count);
+            Assert.Equal(size, objects.Count);
         }
         [Fact]
         public virtual void SingleChunkTransactionShouldReturnArrayOfOneSize()

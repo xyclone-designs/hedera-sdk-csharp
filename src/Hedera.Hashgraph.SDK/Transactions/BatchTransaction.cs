@@ -57,7 +57,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		private void ValidateInnerTransaction(ITransaction transaction) 
 		{
 			if (BLACKLISTED_TRANSACTIONS.Contains(transaction.GetType()))
-				throw new ArgumentException("Transaction type " + transaction.GetType().Name + " is not allowed in a batch transaction");
+				throw new InvalidOperationException("Transaction type " + transaction.GetType().Name + " is not allowed in a batch transaction");
 
 			if (!transaction.IsFrozen())
 				throw new InvalidOperationException("Inner transaction should be frozen");

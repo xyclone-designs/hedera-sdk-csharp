@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.SDK.Contract;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
@@ -49,7 +49,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             var signature = new ContractFunctionSelector("testFunction").AddAddress();
             
             signature.Finish();
-            Assert.Throws(typeof(InvalidOperationException), () => signature.AddStringArray());
+            Assert.Throws<InvalidOperationException>(() => signature.AddStringArray());
 
 			signature.Finish();
         }

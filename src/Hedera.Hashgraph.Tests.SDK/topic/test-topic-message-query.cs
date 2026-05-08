@@ -25,7 +25,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Topic
         private Server server;
         private TopicMessageQuery topicMessageQuery;
 
-        public virtual void Setup()
+        public TopicMessageQueryTest()
         {
             client = Client.ForNetwork(new Dictionary<string, AccountId>());
             client.MirrorNetwork_.Network = new[] { "in-process:test" };

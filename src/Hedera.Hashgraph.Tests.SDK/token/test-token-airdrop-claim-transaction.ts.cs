@@ -33,7 +33,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
 				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 				MaxTransactionFee = Hbar.FromTinybars(100000),
-				PendingAirdropIds = pendingAirdropIds,
+				PendingAirdropIds = [.. pendingAirdropIds],
 			
             }.Freeze().Sign(privateKey);
         }
@@ -68,14 +68,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123)),
                 new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123)),
             ];
-            transaction.PendingAirdropIds = pendingAirdropIds;
+            transaction.PendingAirdropIds.ClearAndSet(pendingAirdropIds);
 
             Assert.Equal(pendingAirdropIds, transaction.PendingAirdropIds);
-        }
-        [Fact]
-        public virtual void TestSetPendingAirdropIdsNullThrowsException()
-        {
-            Assert.Throws<NullReferenceException>(() => transaction.PendingAirdropIds = null);
         }
         [Fact]
         public virtual void TestClearPendingAirdropIds()
@@ -83,7 +78,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             IList<PendingAirdropId> pendingAirdropIds = [];
             PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
             pendingAirdropIds.Add(pendingAirdropId);
-            transaction.PendingAirdropIds = pendingAirdropIds;
+            transaction.PendingAirdropIds.ClearAndSet(pendingAirdropIds);
             transaction.PendingAirdropIds.Clear();
             Assert.True(transaction.PendingAirdropIds.Count == 0);
         }

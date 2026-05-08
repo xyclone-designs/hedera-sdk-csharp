@@ -28,22 +28,19 @@ namespace Hedera.Hashgraph.SDK.Utils
         public static readonly int SOLIDITY_ADDRESS_LEN_HEX = SOLIDITY_ADDRESS_LEN * 2;
         private static readonly Regex ENTITY_ID_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-([a-z]{5}))?$");
         public static readonly TimeSpan MIRROR_NODE_CONNECTION_TIMEOUT = TimeSpan.FromSeconds(30);
-        /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.#ctor"]/*' />
-        private EntityIdHelper()
-        {
-        }
-
+		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.#ctor"]/*' />
+		private EntityIdHelper() { }
         /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromString``1(System.String,WithIdNums{``0})"]/*' />
         public static R FromString<R>(string idString, WithIdNums<R> constructObjectWithIdNums)
         {
-            MatchCollection match = ENTITY_ID_REGEX.Matches(idString);
+            Match match = ENTITY_ID_REGEX.Match(idString);
 
-            if (match.Count == 0)
+            if (match.Length <= 1)
             {
                 throw new ArgumentException("Invalid ID \"" + idString + "\": format should look like 0.0.123 or 0.0.123-vfmkw");
             }
 
-            return constructObjectWithIdNums.Invoke(long.Parse(match[1].Value), long.Parse(match[2].Value), long.Parse(match[3].Value), match[4]?.Value);
+            return constructObjectWithIdNums.Invoke(long.Parse(match.Groups[1].Value), long.Parse(match.Groups[2].Value), long.Parse(match.Groups[3].Value), string.IsNullOrWhiteSpace(match.Groups[4]?.Value) ? null : match.Groups[4].Value);
         }
         /// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.FromSolidityAddress``1(System.String,WithIdNums{``0})"]/*' />
         public static R FromSolidityAddress<R>(string address, WithIdNums<R> withAddress)

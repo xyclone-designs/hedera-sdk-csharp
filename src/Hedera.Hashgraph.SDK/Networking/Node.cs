@@ -34,7 +34,7 @@ namespace Hedera.Hashgraph.SDK.Networking
             return new Node(this, Address.ToInsecure());
         }
 
-        public override AccountId Key { get; }
+        public override AccountId Key { get => AccountId; }
 
 		/// <include file="Node.cs.xml" path='docs/member[@name="P:Node.AccountId"]/*' />
 		public virtual AccountId AccountId { get; }

@@ -48,12 +48,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             TransactionValidDuration = Transaction.DEFAULT_TRANSACTION_VALID_DURATION;
             SourceTransactionBody = new Proto.Services.TransactionBody();
-			TransactionIds = new ListGuarded<TransactionId>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-
-		}
+            TransactionIds = [];
+        }
 		
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(Proto.Services.TransactionBody)"]/*' />
 		internal Transaction(Proto.Services.TransactionBody txBody)
@@ -62,18 +58,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			MaxTransactionFee = Hbar.FromTinybars((long)txBody.TransactionFee);
 			TransactionMemo = txBody.Memo;
 			SourceTransactionBody = txBody;
-			TransactionIds = new ListGuarded<TransactionId>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-		}
+            TransactionIds = [];
+        }
 		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.#ctor(DictionaryLinked{TransactionId,DictionaryLinked{AccountId,Proto.Services.Transaction}})"]/*' />
 		internal Transaction(DictionaryLinked<TransactionId, DictionaryLinked<AccountId, Proto.Services.Transaction>> txs)
         {
-			TransactionIds = new ListGuarded<TransactionId>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
+			TransactionIds = [];
 
 			DictionaryLinked<AccountId, Proto.Services.Transaction> transactionMap = txs.First().Value;
 
@@ -150,7 +140,6 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			// The presence of signatures implies the Transaction should be frozen.
 			if (PublicKeys.Count != 0)
 				FrozenBodyBuilder = SourceTransactionBody;
-
 		}
 
         
@@ -331,7 +320,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 			if (NodeAccountIds.Count != 1)
 				throw new InvalidOperationException("transaction did not have exactly one node ID set");
 		}
-		protected virtual Proto.Services.TransactionBody SpawnBodyBuilder(Client? client)
+		protected virtual Proto.Services.TransactionBody SpawnBodyBuilder(Client? client, Action<Proto.Services.TransactionBody>? oninit = null)
 		{
 			var builder = new Proto.Services.TransactionBody
 			{
@@ -345,7 +334,9 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			builder.MaxCustomFees.AddRange(customFeeLimits.Select(_ => _.ToProtobuf()));
 
-			return builder;
+			oninit?.Invoke(builder);
+
+            return builder;
 		}
 
 		
@@ -480,12 +471,15 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				}
 			}
 
-			FrozenBodyBuilder = SpawnBodyBuilder(client);
-			FrozenBodyBuilder.TransactionId = TransactionIds[0].ToProtobuf();
+            FrozenBodyBuilder = SpawnBodyBuilder(client, builder =>
+			{
+				builder.TransactionId = TransactionIds[0].ToProtobuf();
+            });
+
+			OnFreeze(FrozenBodyBuilder);
 
 			int requiredChunks = GetRequiredChunks();
 			
-			OnFreeze(FrozenBodyBuilder);
 			GenerateTransactionIds(TransactionIds[0], requiredChunks);
 			WipeTransactionLists(requiredChunks);
 

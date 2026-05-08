@@ -2,7 +2,6 @@
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-using Hedera.Hashgraph.SDK.Queries;
 
 using System.Collections.Generic;
 using System.Linq;

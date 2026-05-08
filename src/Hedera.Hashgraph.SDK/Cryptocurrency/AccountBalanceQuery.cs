@@ -2,7 +2,6 @@
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Contract;
-using Hedera.Hashgraph.SDK.Queries;
 
 namespace Hedera.Hashgraph.SDK.Cryptocurrency
 {

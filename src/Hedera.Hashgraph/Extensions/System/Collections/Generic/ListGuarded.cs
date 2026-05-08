@@ -16,12 +16,7 @@ namespace System.Collections.Generic
 
 		public T this[int index] 
         {
-            get
-            {
-                OnRequireNotFrozen?.Invoke();
-				OnRequireNotLocked?.Invoke();
-                return list[index];
-            }
+            get => list[index];
             set
             {
                 OnRequireNotFrozen?.Invoke();

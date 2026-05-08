@@ -30,6 +30,8 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 		/// <include file="Key.cs.xml" path='docs/member[@name="M:Key.FromProtobufKey(Proto.Services.Key)"]/*' />
 		public static Key? FromProtobufKey(Proto.Services.Key key)
         {
+            if (key is null) return null; 
+
             return key.KeyCase switch
             {
                 Proto.Services.Key.KeyOneofCase.Ed25519 => PublicKeyED25519.FromBytesInternal(key.Ed25519.ToByteArray()),

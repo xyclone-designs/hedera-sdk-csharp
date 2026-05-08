@@ -60,7 +60,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         {
             var parts = s.Split("/", 2);
             int? nonce = (parts.Length == 2) ? int.Parse(parts[1]) : null;
-            parts = parts[0].Split("\\?", 2);
+            parts = parts[0].Split("?", 2);
             var scheduled = parts.Length == 2 && parts[1].Equals("scheduled");
             parts = parts[0].Split("@", 2);
             if (parts.Length != 2)
@@ -69,7 +69,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             }
 
             AccountId accountId = AccountId.FromString(parts[0]);
-            var ValidStartParts = parts[1].Split("\\.", 2);
+            var ValidStartParts = parts[1].Split(".", 2);
             if (ValidStartParts.Length != 2)
             {
                 throw new ArgumentException("expecting {account}@{seconds}.{nanos}");
