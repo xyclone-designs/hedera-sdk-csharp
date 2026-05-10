@@ -20,6 +20,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         private static readonly List<CustomFixedFee> TEST_FEES = [TEST_CUSTOM_FIXED_FEE];
         // Instead of using a constructor, we initialize via fromProtobuf()
         private static readonly CustomFeeLimit TEST_CUSTOM_FEE_LIMIT;
+        
         static CustomFeeLimitTest()
         {
             try
@@ -66,7 +67,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Fees
         [Fact]
         public virtual void TestGetCustomFees()
         {
-            Assert.Equal(TEST_FEES, TEST_CUSTOM_FEE_LIMIT.CustomFees);
+            Assert.Same(TEST_FEES, TEST_CUSTOM_FEE_LIMIT.CustomFees);
         }
         [Fact]
         public virtual void TestSetCustomFees()

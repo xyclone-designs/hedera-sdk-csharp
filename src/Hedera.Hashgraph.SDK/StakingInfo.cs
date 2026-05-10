@@ -22,7 +22,7 @@ namespace Hedera.Hashgraph.SDK
                 info.StakePeriodStart.ToDateTimeOffset(),
                 Hbar.FromTinybars(info.PendingReward),
                 Hbar.FromTinybars(info.StakedToMe),
-                AccountId.FromProtobuf(info.StakedAccountId),
+                info.StakedAccountId is null ? null : AccountId.FromProtobuf(info.StakedAccountId),
                 info.StakedNodeId);
         }
 

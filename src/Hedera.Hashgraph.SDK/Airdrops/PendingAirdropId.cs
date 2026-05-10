@@ -4,6 +4,8 @@ using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK.Token;
 
 using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Hedera.Hashgraph.SDK.Airdrops
 {
@@ -63,5 +65,10 @@ namespace Hedera.Hashgraph.SDK.Airdrops
 
 			return proto;
 		}
+
+        public override string ToString()
+        {
+			return Utils.JsonHelper.ToJsonString(this);
+        }
     }
 }

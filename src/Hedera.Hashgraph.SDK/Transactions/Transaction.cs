@@ -339,9 +339,16 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return builder;
 		}
 
-		
-		/// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignature(PublicKey,System.Byte[])"]/*' />
-		public virtual T AddSignature(PublicKey publicKey, byte[] signature)
+        protected ListGuarded<TType> GenerateListGuarded<TType>(ListGuarded<TType>? list = null)
+        {
+			list ??= [];
+			list.OnRequireNotFrozen = RequireNotFrozen;
+
+			return list;
+        }
+
+        /// <include file="Transaction.cs.xml" path='docs/member[@name="M:Transaction.AddSignature(PublicKey,System.Byte[])"]/*' />
+        public virtual T AddSignature(PublicKey publicKey, byte[] signature)
 		{
 			RequireOneNodeAccountId();
 

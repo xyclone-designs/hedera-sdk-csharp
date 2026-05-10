@@ -25,11 +25,12 @@ namespace Hedera.Hashgraph.SDK.Fee
 		/// <include file="CustomFixedFee.cs.xml" path='docs/member[@name="M:CustomFixedFee.FromProtobuf(Proto.Services.FixedFee)"]/*' />
 		public static CustomFixedFee FromProtobuf(Proto.Services.FixedFee fixedFee)
         {
-			return new CustomFixedFee
-			{
-				Amount = fixedFee.Amount,
-				DenominatingTokenId = TokenId.FromProtobuf(fixedFee.DenominatingTokenId)
-			};
+            CustomFixedFee fee = new() { Amount = fixedFee.Amount, };
+
+            if (fixedFee.DenominatingTokenId is not null)
+                fee.DenominatingTokenId = TokenId.FromProtobuf(fixedFee.DenominatingTokenId);
+            
+            return fee;
         }
 
 		public virtual Proto.Services.FixedCustomFee ToTopicFeeProtobuf()

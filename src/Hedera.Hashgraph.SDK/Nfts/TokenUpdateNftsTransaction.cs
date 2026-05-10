@@ -33,10 +33,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="T:TokenUpdateNftsTransaction_2"]/*' />
 		public virtual ListGuarded<long> Serials
 		{
-			init; get => field ??= new ListGuarded<long>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
+			init => field = GenerateListGuarded(value); 
+			get => field ??= GenerateListGuarded<long>();
 		}
 		/// <include file="TokenUpdateNftsTransaction.cs.xml" path='docs/member[@name="M:TokenUpdateNftsTransaction.RequireNotFrozen_2"]/*' />
 		public virtual byte[]? Metadata { get; set { RequireNotFrozen(); field = value; } } = [];

@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: Apache-2.0
-using System;
+using Hedera.Hashgraph.Reference;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK;
+
+using System;
 using System.Numerics;
-using Hedera.Hashgraph.Reference;
 
 namespace Hedera.Hashgraph.Tests.SDK.Keys
 {
@@ -21,6 +22,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             }.Freeze();
             var key = PrivateKey.FromStringECDSA("8776c6b831a1b61ac10dac0304a2843de4716f54b1919bb91a2685d0fe3f3048");
             key.SignTransaction(transaction);
+
             Assert.True(key.GetPublicKey().VerifyTransaction(transaction));
         }
         [Fact]
@@ -30,6 +32,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             byte[] key1Bytes = key1.ToBytes();
             PublicKey key2 = PublicKey.FromBytes(key1Bytes);
             byte[] key2Bytes = key2.ToBytes();
+
             Assert.Equal(key2Bytes, key1Bytes);
         }
         [Fact]

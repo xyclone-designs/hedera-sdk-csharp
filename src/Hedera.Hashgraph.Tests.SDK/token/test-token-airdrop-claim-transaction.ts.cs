@@ -51,7 +51,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
-        public virtual void SetUp()
+        public TokenClaimAirdropTransactionTest()
         {
             transaction = new TokenClaimAirdropTransaction();
         }

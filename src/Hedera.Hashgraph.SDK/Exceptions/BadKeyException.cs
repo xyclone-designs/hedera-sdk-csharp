@@ -9,5 +9,6 @@ namespace Hedera.Hashgraph.SDK.Exceptions
     {
         public BadKeyException(string message) : base(message) { }
         public BadKeyException(Exception exception) : base(exception.Message, exception) { }
+        public BadKeyException(string message, Exception exception) : base(message, exception) { }
     }
 }

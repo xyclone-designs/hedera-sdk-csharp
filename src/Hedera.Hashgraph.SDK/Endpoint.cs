@@ -29,19 +29,8 @@ namespace Hedera.Hashgraph.SDK
         /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ValidateNoIpAndDomain(Endpoint)"]/*' />
         public static void ValidateNoIpAndDomain(Endpoint endpoint)
         {
-            if (endpoint == null)
-            {
-                return;
-            }
-
-            if (endpoint.Address != null)
-            {
-                var dn = endpoint.DomainName;
-                if (dn != null && dn.Length == 0)
-                {
-                    throw new ArgumentException("Endpoint must not contain both ipAddressV4 and domainName");
-                }
-            }
+            if (endpoint.Address is not null && string.IsNullOrWhiteSpace(endpoint.DomainName) is false)
+                throw new ArgumentException("Endpoint must not contain both ipAddressV4 and domainName");
         }
 
         /// <include file="Endpoint.cs.xml" path='docs/member[@name="M:Endpoint.ToProtobuf"]/*' />

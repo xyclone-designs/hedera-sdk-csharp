@@ -14,10 +14,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
         [Fact]
         public virtual void ConstructorWithNumericIdAndType()
         {
-            var evm = new EvmHookCall(new byte[] { }, 25000);
+            var evm = new EvmHookCall([], 25000);
             var call = new NftHookCall(2, evm, NftHookType.PreHookSender);
             
-            Assert.Equal(call.Type, NftHookType.PreHookSender);
+            Assert.Equal(NftHookType.PreHookSender, call.Type);
         }
         [Fact]
         public virtual void NftTransferSerializesSenderAndReceiverHooksByType()
@@ -27,8 +27,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
             var nftId = new NftId(token, 1);
             var sender = new AccountId(0, 0, 8001);
             var receiver = new AccountId(0, 0, 8002);
-            var senderHook = new NftHookCall(2, new EvmHookCall(new byte[] { }, 10), NftHookType.PreHookSender);
-            var receiverHook = new NftHookCall(3, new EvmHookCall(new byte[] { }, 10), NftHookType.PrePostHookReceiver);
+            var senderHook = new NftHookCall(2, new EvmHookCall([], 10), NftHookType.PreHookSender);
+            var receiverHook = new NftHookCall(3, new EvmHookCall([], 10), NftHookType.PrePostHookReceiver);
             tx.AddNftTransferWithHook(nftId, sender, receiver, senderHook, receiverHook);
             var body = tx.ToProtobuf();
             var hasSenderPre = body.TokenTransfers.SelectMany(_ => _.NftTransfers).Any(_ => _.PreTxSenderAllowanceHook is not null);

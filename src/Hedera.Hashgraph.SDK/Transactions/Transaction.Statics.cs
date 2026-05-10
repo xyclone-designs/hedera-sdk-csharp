@@ -634,10 +634,10 @@ namespace Hedera.Hashgraph.SDK.Transactions
 
 			if (protoA == null || protoB == null) return;
 
-			var protoAClass = protoA.GetType();
-			var protoBClass = protoB.GetType();
+			Type protoAClass = protoA.GetType();
+			Type protoBClass = protoB.GetType();
 
-			if (protoAClass is not null && protoAClass.Equals(protoBClass) is false)
+			if (protoAClass.Equals(protoBClass) is false)
 				ThrowProtoMatchException(thisFieldName, "of class " + protoAClass, "of class " + protoBClass);
 
 			if (protoA is bool || protoA is int || protoA is long || protoA is float || protoA is Double || protoA is string || protoA is ByteString)
@@ -679,8 +679,8 @@ namespace Hedera.Hashgraph.SDK.Transactions
 					try
 					{
                         var hasMethod = protoAClass.GetMethod("has" + methodFieldName);
-						bool hasA = (bool)hasMethod?.Invoke(protoA, null)!;
-						bool hasB = (bool)hasMethod?.Invoke(protoB, null)!;
+						bool hasA = hasMethod?.Invoke(protoA, null) as bool? ?? false;
+						bool hasB = hasMethod?.Invoke(protoB, null) as bool? ?? false;
 
 						if (!hasA.Equals(hasB))
 							ThrowProtoMatchException(methodFieldName, hasA ? "present" : "not present", hasB ? "present" : "not present");

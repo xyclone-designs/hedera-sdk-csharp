@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-using Hedera.Hashgraph.Forks.HieroTCK.src.tests;
+
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Ethereum;
+
 using System;
 using System.Collections.Generic;
 

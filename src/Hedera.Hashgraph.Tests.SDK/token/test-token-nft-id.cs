@@ -45,6 +45,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Nfts
 		{
 			var id1 = NftId.FromString(TestData.DEFAULT_ENTITY_ID + "@1234");
 			var id2 = NftId.FromString(id1.ToString());
+
 			Assert.Equal(id2.ToString(), id1.ToString());
 		}
     }

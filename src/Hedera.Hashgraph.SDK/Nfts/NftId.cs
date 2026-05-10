@@ -29,7 +29,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		/// <include file="NftId.cs.xml" path='docs/member[@name="M:NftId.FromString(System.String)"]/*' />
 		public static NftId FromString(string id)
         {
-            var parts = id.Split("[/@]");
+            var parts = id.Split([ "/", "@"], StringSplitOptions.None);
             if (parts.Length != 2)
             {
                 throw new ArgumentException("Expecting {shardNum}.{realmNum}.{idNum}-{checksum}/{serialNum}");

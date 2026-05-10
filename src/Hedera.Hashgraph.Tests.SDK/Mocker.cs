@@ -11,20 +11,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace Hedera.Hashgraph.Forks.HieroTCK.src.tests
+namespace Hedera.Hashgraph.Tests.SDK
 {
     public class Mocker : IDisposable
     {
         private static readonly PrivateKey PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420d45e1557156908c967804615af59a000be88c7aa7058bfcbe0f46b16c28f887d");
         public readonly Client client;
-        private readonly List<ServiceDescriptor> services =
-        [
-            Proto.Services.CryptoService.Descriptor,
-            Proto.Services.FileService.Descriptor,
-            Proto.Services.SmartContractService.Descriptor,
-            Proto.Services.ConsensusService.Descriptor,
-            Proto.Services.TokenService.Descriptor
-        ];
         private readonly List<List<object>> responses;
         private readonly List<Server> servers = [];
 

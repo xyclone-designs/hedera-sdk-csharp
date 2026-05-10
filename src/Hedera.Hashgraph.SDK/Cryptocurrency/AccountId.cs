@@ -111,7 +111,7 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             PublicKey? aliasKey = null;
             EvmAddress? evmAddress = null;
 
-            if (accountId.HasAlias)
+            if (accountId.HasAlias && accountId.Alias is not null)
             {
                 if (accountId.Alias.Length == 20)
                     evmAddress = EvmAddress.FromAliasBytes(accountId.Alias);

@@ -114,7 +114,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
                 FileId.FromEvmAddress(0, 0, "abc123");
             });
             
-            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.Contains("Solidity addresses must be 20 bytes or 40 hex chars", exception.Message);
 
             // Test with an EVM address that's too long
             exception = Assert.Throws<ArgumentException>(() =>
@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
                 FileId.FromEvmAddress(0, 0, "0123456789abcdef0123456789abcdef0123456789abcdef");
             });
             
-            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.Contains("Solidity addresses must be 20 bytes or 40 hex chars", exception.Message);
 
             // Test with a 0x prefix that gets removed but then is too short
             exception = Assert.Throws<ArgumentException>(() =>
@@ -130,7 +130,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
                 FileId.FromEvmAddress(0, 0, "0xabc123");
             });
             
-            Assert.True(exception.Message.Contains("Solidity addresses must be 20 bytes or 40 hex chars"));
+            Assert.Contains("Solidity addresses must be 20 bytes or 40 hex chars", exception.Message);
 
             // Test with non-long-zero address
             exception = Assert.Throws<ArgumentException>(() =>
@@ -138,7 +138,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
                 FileId.FromEvmAddress(0, 0, "742d35Cc6634C0532925a3b844Bc454e4438f44e");
             });
 
-            Assert.True(exception.Message.Contains("EVM address is not a correct long zero address"));
+            Assert.Contains("EVM address is not a correct long zero address", exception.Message);
         }
         [Fact]
         public virtual void TestFileIdFromEvmAddress()
@@ -160,7 +160,7 @@ namespace Hedera.Hashgraph.Tests.SDK.File
         public virtual void TestFileIdToEvmAddress()
         {
             // Test with a normal file ID
-            FileId id = new FileId(0, 0, 123);
+            FileId id = new (0, 0, 123);
             Assert.Equal("000000000000000000000000000000000000007b", id.ToEvmAddress());
 
             // Test with a different shard and realm

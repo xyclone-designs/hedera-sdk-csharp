@@ -27,16 +27,12 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="M:TransactionFeeSchedule.FromProtobuf(Proto.Services.TransactionFeeSchedule)"]/*' />
 		public static TransactionFeeSchedule FromProtobuf(Proto.Services.TransactionFeeSchedule transactionFeeSchedule)
         {
-            var returnFeeSchedule = new TransactionFeeSchedule
+            return new TransactionFeeSchedule
             {
 				RequestType = (RequestType)transactionFeeSchedule.HederaFunctionality,
-				Feedata = FeeData.FromProtobuf(transactionFeeSchedule.FeeData),
+                Fees = [.. transactionFeeSchedule.Fees.Select(_ => FeeData.FromProtobuf(_))],
+                Feedata = transactionFeeSchedule.FeeData is null ? null : FeeData.FromProtobuf(transactionFeeSchedule.FeeData),
 			};
-
-			foreach (FeeData fee in transactionFeeSchedule.Fees.Select(_ => FeeData.FromProtobuf(_)))
-				returnFeeSchedule.Fees.Add(fee);
-
-			return returnFeeSchedule;
         }
 
         /// <include file="TransactionFeeSchedule.cs.xml" path='docs/member[@name="P:TransactionFeeSchedule.RequestType"]/*' />

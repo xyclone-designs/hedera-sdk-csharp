@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
         private AccountId receiver;
         private TokenId tokenId;
         private NftId nftId;
-        public virtual void SetUp()
+        public PendingAirdropIdTest()
         {
             sender = new AccountId(0, 0, 1001);
             receiver = new AccountId(0, 0, 1002);
@@ -68,8 +68,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
 			{
 				SenderId = sender.ToProtobuf(),
 				ReceiverId = receiver.ToProtobuf(),
-				NonFungibleToken = nftId.ToProtobuf()
-			};
+                FungibleTokenType = tokenId.ToProtobuf(),
+            };
 
 			PendingAirdropId pendingAirdropId = PendingAirdropId.FromProtobuf(proto);
             
@@ -102,10 +102,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Airdrops
             PendingAirdropId pendingAirdropId = new (sender, receiver, tokenId);
             string result = pendingAirdropId.ToString();
             
-            Assert.True(result.Contains("sender"));
-            Assert.True(result.Contains("receiver"));
-            Assert.True(result.Contains("tokenId"));
-            Assert.True(result.Contains("nftId"));
+            Assert.Contains("sender", result);
+            Assert.Contains("receiver", result);
+            Assert.Contains("tokenId", result);
+            Assert.Contains("nftId", result);
         }
     }
 }

@@ -8,6 +8,7 @@ using Org.BouncyCastle.Crypto.Signers;
 
 using System;
 using System.IO;
+using System.Linq;
 using Hedera.Hashgraph.SDK.Ethereum;
 
 namespace Hedera.Hashgraph.SDK.Cryptography
@@ -27,14 +28,12 @@ namespace Hedera.Hashgraph.SDK.Cryptography
         /// <include file="PublicKeyECDSA.cs.xml" path='docs/member[@name="M:PublicKeyECDSA.FromBytesInternal(System.Byte[])"]/*' />
         public static PublicKeyECDSA FromBytesInternal(byte[] publicKey)
         {
-
             // Validate the key if it's not all zero public key, see HIP-540
-            if (Equals(publicKey, new byte[33]))
+            if (publicKey.Length == 33 && publicKey.All(_ => _ == 0x0))
 				return new PublicKeyECDSA(publicKey);
 
-			if (publicKey.Length == 33 || publicKey.Length == 65)
+            if (publicKey.Length == 33 || publicKey.Length == 65)
 				return new PublicKeyECDSA(ECDSA_SECP256K1_CURVE.Curve.DecodePoint(publicKey).GetEncoded(true));
-
 
 			// Assume a DER-encoded public key descriptor
 			return FromSubjectKeyInfoInternal(SubjectPublicKeyInfo.GetInstance(publicKey));
@@ -101,17 +100,7 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 				PubKeyPrefix = ByteString.CopyFrom(KeyData),
 				ECDSASecp256K1 = ByteString.CopyFrom(signature),
 			};
-		}
-
-		public override bool Verify(byte[] message, byte[] signature)
-		{
-			byte[] hash = Crypto.CalcKeccak256(message);
-			ECDsaSigner signer = new();
-			signer.Init(false, new ECPublicKeyParameters(ECDSA_SECP256K1_CURVE.Curve.DecodePoint(KeyData), ECDSA_SECP256K1_DOMAIN));
-			BigInteger r = new(1, signature[0..32]);
-			BigInteger s = new(1, signature[32..64]);
-			return signer.VerifySignature(hash, r, s);
-		}
+		}		
 
 		public override int GetHashCode()
 		{
@@ -132,6 +121,15 @@ namespace Hedera.Hashgraph.SDK.Cryptography
             PublicKeyECDSA publicKey = (PublicKeyECDSA)o;
 
             return Equals(KeyData, publicKey.KeyData);
+        }
+        public override bool Verify(byte[] message, byte[] signature)
+        {
+            byte[] hash = Crypto.CalcKeccak256(message);
+            ECDsaSigner signer = new();
+            signer.Init(false, new ECPublicKeyParameters(ECDSA_SECP256K1_CURVE.Curve.DecodePoint(KeyData), ECDSA_SECP256K1_DOMAIN));
+            BigInteger r = new(1, signature[0..32]);
+            BigInteger s = new(1, signature[32..64]);
+            return signer.VerifySignature(hash, r, s);
         }
     }
 }

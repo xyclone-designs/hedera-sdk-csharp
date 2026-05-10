@@ -58,11 +58,11 @@ namespace Hedera.Hashgraph.SDK
 				if (e.Message != null && e.Message.Contains("password", StringComparison.OrdinalIgnoreCase))
 					throw new BadKeyException("PEM file contained an encrypted private key but no passphrase was provided");
 
-				throw new Exception("Failed to decode PKCS#8 private key", e);
+				throw new BadKeyException("Failed to decode PKCS#8 private key", e);
 			}
 			catch (IOException e)
 			{
-				throw new Exception("Failed to read PEM file", e);
+				throw new BadKeyException("Failed to read PEM file", e);
 			}
 		}
 		public static void WriteEncryptedPrivateKey(PrivateKeyInfo pkInfo, PemWriter @out, string passphrase)

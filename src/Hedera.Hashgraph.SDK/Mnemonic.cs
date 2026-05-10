@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.Reference.Cryptography;
+using Hedera.Hashgraph.Reference.Error;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Utils;
@@ -18,7 +20,7 @@ using System.Text.RegularExpressions;
 namespace Hedera.Hashgraph.SDK
 {
     /// <include file="Mnemonic.cs.xml" path='docs/member[@name="T:Mnemonic"]/*' />
-    public sealed class Mnemonic 
+    public sealed class Mnemonic : IMnemonic<Mnemonic>
     {
         // by storing our word list in a WeakReference, the GC is free to evict it at its discretion
         // but the implementation is meant to wait until free space is needed
@@ -28,7 +30,7 @@ namespace Hedera.Hashgraph.SDK
         private string? AsString = null;
 
 		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.#ctor(System.String[])"]/*' />
-		public readonly IReadOnlyList<string> Words;
+		public IReadOnlyList<string> Words { get; }
 
         private Mnemonic(string[] words)  
         {
@@ -61,15 +63,14 @@ namespace Hedera.Hashgraph.SDK
 			return Mnemonic.FromWords(toLowerCase.Split(" "));
 		}
 		/// <include file="Mnemonic.cs.xml" path='docs/member[@name="M:Mnemonic.FromWords(System.Collections.Generic.IList{System.String})"]/*' />
-		public static Mnemonic FromWords(IList<string> words)
+		public static Mnemonic FromWords(IEnumerable<string> words)
 		{
 			Mnemonic mnemonic = new(words);
-			if (words.Count != 22)
-			{
-				mnemonic.Validate();
-			}
 
-			return mnemonic;
+			if (words.Count() != 22)
+                mnemonic.Validate();
+
+            return mnemonic;
 		}
 
 		internal static int Crc8(int[] data)
@@ -88,7 +89,7 @@ namespace Hedera.Hashgraph.SDK
 		}
 		internal static byte Checksum(byte[] entropy)
 		{
-			Sha256Digest digest = new Sha256Digest();
+			Sha256Digest digest = new ();
 
 			// hash the first
 			if (entropy.Length == 17 || entropy.Length == 16)
@@ -169,23 +170,22 @@ namespace Hedera.Hashgraph.SDK
             if (entropy.Length == 16)
             {
                 wordList = GetWordList(false);
-                bytes = entropy.CopyArray(17);
+                bytes = [.. entropy.CopyArray(0, 16), 0];
                 bytes[16] = (byte)(Checksum(entropy) & 0xF0);
                 words = new (12);
             }
             else
             {
                 wordList = GetWordList(false);
-                bytes = entropy.CopyArray(33);
+                bytes = [.. entropy.CopyArray(0, 32), 0];
                 bytes[32] = Checksum(entropy);
                 words = new (24);
             }
 
             var scratch = 0;
             var offset = 0;
-            foreach (var b in bytes)
+            foreach (byte b in bytes)
             {
-
                 // shift `bytes` into `scratch`, popping off 11-bit indices when we can
                 scratch <<= 8;
 
@@ -194,7 +194,6 @@ namespace Hedera.Hashgraph.SDK
                 offset += 8;
                 if (offset >= 11)
                 {
-
                     // pop 11 bits off the end of `scratch` and into `index`
                     var index = (scratch >> (offset - 11)) & 0x7FF;
                     offset -= 11;
@@ -312,7 +311,7 @@ namespace Hedera.Hashgraph.SDK
 		{
 			if (Words.Count != 24 && Words.Count != 12)
 			{
-				// TODO: throw new BadMnemonicException(this, BadMnemonicReason.BadLength);
+				throw new BadMnemonicException(this, BadMnemonicReason.BadLength);
 			}
 
 			List<int> unknownIndices = new();
@@ -326,7 +325,7 @@ namespace Hedera.Hashgraph.SDK
 
 			if (unknownIndices.Count == 0)
 			{
-				// TODO: throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, [.. unknownIndices]);
+				throw new BadMnemonicException(this, BadMnemonicReason.UnknownWords, [.. unknownIndices]);
 			}
 
 			if (Words.Count != 22)
@@ -351,7 +350,7 @@ namespace Hedera.Hashgraph.SDK
 
 				if (givenChecksum != expectedChecksum)
 				{
-					// TODO: throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
+					throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
 				}
 			}
 		}
@@ -395,7 +394,7 @@ namespace Hedera.Hashgraph.SDK
 			var crc2 = Crc8(result);
             if (crc != crc2)
             {
-                // TODO: throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
+                throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
             }
 
             byte[] array = [.. byteBuffer];
@@ -450,7 +449,7 @@ namespace Hedera.Hashgraph.SDK
             {
                 if (concatBits[entropyBitsLen + i] != hashBits[i])
                 {
-                    // TODO: throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
+                    throw new BadMnemonicException(this, BadMnemonicReason.ChecksumMismatch);
                 }
             }
 
@@ -473,7 +472,6 @@ namespace Hedera.Hashgraph.SDK
 				int index = GetWordIndex(word, false);
 				if (index < 0)
 				{
-
 					// should also be checked in `validate()`
 					throw new InvalidOperationException("(BUG) word not in word list: " + word);
 				}
@@ -586,6 +584,20 @@ namespace Hedera.Hashgraph.SDK
         {
             int[] derivationPathValues = CalculateDerivationPathValues(derivationPath);
             return ToStandardECDSAsecp256k1PrivateKeyImpl(passphrase, derivationPathValues);
+        }
+
+        IPrivateKey IMnemonic.ToPrivateKey(string passphrase)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPrivateKey ToStandardEd25519PrivateKey(string passphrase, long index)
+        {
+            throw new NotImplementedException();
+        }
+        public IPrivateKey ToStandardECDSAsecp256k1PrivateKey(string passphrase, long index)
+        {
+            throw new NotImplementedException();
         }
     }
 }

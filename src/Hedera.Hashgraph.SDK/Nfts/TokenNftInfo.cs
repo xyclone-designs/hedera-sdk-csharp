@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
 	public class TokenNftInfo
     {
         /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.#ctor(NftId,AccountId,DateTimeOffset,System.Byte[],LedgerId,AccountId)"]/*' />
-        internal TokenNftInfo(NftId nftId, AccountId accountId, DateTimeOffset creationTime, byte[] metadata, LedgerId ledgerId, AccountId spenderId)
+        internal TokenNftInfo(NftId nftId, AccountId accountId, DateTimeOffset creationTime, byte[] metadata, LedgerId ledgerId, AccountId? spenderId)
         {
             NftId = nftId;
             AccountId = accountId;
@@ -35,8 +35,8 @@ namespace Hedera.Hashgraph.SDK.Nfts
                 AccountId.FromProtobuf(info.AccountId), 
                 info.CreationTime.ToDateTimeOffset(), 
                 info.Metadata.ToByteArray(), 
-                LedgerId.FromByteString(info.LedgerId), 
-                AccountId.FromProtobuf(info.SpenderId));
+                LedgerId.FromByteString(info.LedgerId),
+                info.SpenderId is null ? null : AccountId.FromProtobuf(info.SpenderId));
         }
 
         /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.NftId"]/*' />
@@ -50,7 +50,7 @@ namespace Hedera.Hashgraph.SDK.Nfts
         /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.LedgerId"]/*' />
         public LedgerId LedgerId { get; }
         /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="F:TokenNftInfo.SpenderId"]/*' />
-        public AccountId SpenderId { get; }
+        public AccountId? SpenderId { get; }
 
         /// <include file="TokenNftInfo.cs.xml" path='docs/member[@name="M:TokenNftInfo.ToBytes"]/*' />
         public virtual byte[] ToBytes()
