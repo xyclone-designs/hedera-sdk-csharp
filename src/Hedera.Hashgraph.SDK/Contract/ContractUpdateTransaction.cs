@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf.Reflection;
-
+using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
+using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Hook;
-using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Transactions;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +46,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 			{
 				RequireNotFrozen();
 				field = value;
-				ExpirationTimeDuration = null;
-			}
+                if (field == null && ExpirationTimeDuration is not null)
+                    ExpirationTimeDuration = null;
+            }
 		}
 		public TimeSpan? ExpirationTimeDuration
 		{
@@ -57,8 +57,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 			{
 				RequireNotFrozen();
 				field = value;
-				ExpirationTime = null;
-			}
+                if (field == null && ExpirationTime is not null)
+                    ExpirationTime = null;
+            }
 		}
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction_2"]/*' />
 		public Key? AdminKey
@@ -160,28 +161,23 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="T:ContractUpdateTransaction_3"]/*' />
 		public ListGuarded<HookCreationDetails> HookCreationDetails_
 		{
-			init; get => field ??= new ListGuarded<HookCreationDetails>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
+			init => field = GenerateListGuarded(value);
+			get => field ??= GenerateListGuarded<HookCreationDetails>();
 		}
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.InitFromTransactionBody"]/*' />
 		public ListGuarded<long> HookIdsToDelete
 		{
-			init; get => field ??= new ListGuarded<long>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-		}
-
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<long>();
+        }
 
 		/// <include file="ContractUpdateTransaction.cs.xml" path='docs/member[@name="M:ContractUpdateTransaction.InitFromTransactionBody_2"]/*' />
 		void InitFromTransactionBody()
         {
             var body = SourceTransactionBody.ContractUpdateInstance;
 
-            ContractId = ContractId.FromProtobuf(body.ContractId);
-            ProxyAccountId = AccountId.FromProtobuf(body.ProxyAccountId);
+            ContractId = body.ContractId is null? null : ContractId.FromProtobuf(body.ContractId);
+            ProxyAccountId = body.ProxyAccountId is null ? null: AccountId.FromProtobuf(body.ProxyAccountId);
             ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
 
             if (body.AdminKey is not null)
@@ -191,10 +187,10 @@ namespace Hedera.Hashgraph.SDK.Contract
             AutoRenewPeriod = body.AutoRenewPeriod.ToTimeSpan();
             ContractMemo = body.MemoWrapper;
             DeclineStakingReward = body.DeclineReward;
-            StakedAccountId = AccountId.FromProtobuf(body.StakedAccountId);
+            StakedAccountId = body.StakedAccountId is null ? null : AccountId.FromProtobuf(body.StakedAccountId);
             StakedNodeId = body.StakedNodeId;
 
-            AutoRenewAccountId = AccountId.FromProtobuf(body.AutoRenewAccountId);
+            AutoRenewAccountId = body.AutoRenewAccountId is null ? null : AccountId.FromProtobuf(body.AutoRenewAccountId);
 
 			HookCreationDetails_.ClearAndSet(body.HookCreationDetails.Select(_ => HookCreationDetails.FromProtobuf(_)));
 			HookIdsToDelete.ClearAndSet(body.HookIdsToDelete);

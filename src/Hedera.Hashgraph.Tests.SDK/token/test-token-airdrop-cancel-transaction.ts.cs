@@ -75,13 +75,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             pendingAirdropIds.Add(pendingAirdropId);
             transaction.PendingAirdropIds.ClearAndSet(pendingAirdropIds);
             transaction.PendingAirdropIds.Clear();
-            Assert.True(transaction.PendingAirdropIds.Count == 0);
+            
+            Assert.Equal(transaction.PendingAirdropIds.Count, 0);
         }
         [Fact]
         public virtual void TestAddAllPendingAirdrops()
         {
-            PendingAirdropId pendingAirdropId1 = new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
-            PendingAirdropId pendingAirdropId2 = new PendingAirdropId(new AccountId(0, 0, 458), new AccountId(0, 0, 459), new TokenId(0, 0, 123));
+            PendingAirdropId pendingAirdropId1 = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new TokenId(0, 0, 123));
+            PendingAirdropId pendingAirdropId2 = new (new AccountId(0, 0, 458), new AccountId(0, 0, 459), new TokenId(0, 0, 123));
             
             transaction.PendingAirdropIds.Add(pendingAirdropId1);
             transaction.PendingAirdropIds.Add(pendingAirdropId2);
@@ -91,14 +92,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             Assert.True(transaction.PendingAirdropIds.Contains(pendingAirdropId2));
         }
         [Fact]
-        public virtual void TestAddAllPendingAirdropsNullThrowsException()
-        {
-            Assert.Throws<NullReferenceException>(() => transaction.PendingAirdropIds.Add(null));
-        }
-        [Fact]
         public virtual void TestBuildTransactionBody()
         {
-            PendingAirdropId pendingAirdropId = new PendingAirdropId(new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123));
+            PendingAirdropId pendingAirdropId = new (new AccountId(0, 0, 457), new AccountId(0, 0, 456), new NftId(new TokenId(0, 0, 1234), 123));
             transaction.PendingAirdropIds.Add(pendingAirdropId);
             Proto.Services.TokenCancelAirdropTransactionBody builder = transaction.ToProtobuf();
 

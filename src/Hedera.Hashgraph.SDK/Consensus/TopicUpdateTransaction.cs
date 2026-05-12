@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Google.Protobuf.WellKnownTypes;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Fee;
@@ -66,19 +64,33 @@ namespace Hedera.Hashgraph.SDK.Consensus
             get; 
             set { RequireNotFrozen(); field = value; } 
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_6"]/*' />
-		public DateTimeOffset? ExpirationTime 
-        { 
-            get; 
-            set { RequireNotFrozen(); field = value; ExpirationTimeDuration = null; } 
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_6"]/*' />
+        public DateTimeOffset? ExpirationTime
+        {
+            get;
+            set
+            {
+                RequireNotFrozen();
+                field = value;
+
+                if (field == null && ExpirationTimeDuration is not null)
+                    ExpirationTimeDuration = null;
+            }
         }
-		public TimeSpan? ExpirationTimeDuration 
-        { 
-            get; 
-            set { RequireNotFrozen(); field = value; ExpirationTime = null; } 
+        public TimeSpan? ExpirationTimeDuration
+        {
+            get;
+            set
+            {
+                RequireNotFrozen();
+                field = value;
+
+                if (field == null && ExpirationTime is not null)
+                    ExpirationTime = null;
+            }
         }
-		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_7"]/*' />
-		public Key? FeeScheduleKey 
+        /// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.RequireNotFrozen_7"]/*' />
+        public Key? FeeScheduleKey 
         { 
             get; 
             set { RequireNotFrozen(); field = value; } 
@@ -86,19 +98,15 @@ namespace Hedera.Hashgraph.SDK.Consensus
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="T:TopicUpdateTransaction_2"]/*' />
 		public ListGuarded<Key> FeeExemptKeys
 		{
-			init; get => field ??= new ListGuarded<Key>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-		}
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<Key>();
+        }
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody"]/*' />
 		public ListGuarded<CustomFixedFee> CustomFees
 		{
-			init; get => field ??= new ListGuarded<CustomFixedFee>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-		}
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<CustomFixedFee>();
+        }
 
 		/// <include file="TopicUpdateTransaction.cs.xml" path='docs/member[@name="M:TopicUpdateTransaction.InitFromTransactionBody_2"]/*' />
 		void InitFromTransactionBody()

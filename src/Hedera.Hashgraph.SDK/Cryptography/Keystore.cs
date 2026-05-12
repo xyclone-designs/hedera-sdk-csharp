@@ -7,7 +7,6 @@ using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 
 namespace Hedera.Hashgraph.SDK.Cryptography

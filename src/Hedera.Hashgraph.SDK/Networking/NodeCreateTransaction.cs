@@ -124,9 +124,11 @@ namespace Hedera.Hashgraph.SDK.Networking
 			set
 			{
 				RequireNotFrozen();
-				if (value != null && value.Length > 0 && value.Length != 48)
+				if (value is not null && value.Length == 0)
+				//if (value != null && value.Length > 0 && value.Length != 48)
 				{
-					throw new ArgumentException("gRPC certificate hash must be exactly 48 bytes (SHA-384)");
+					throw new ArgumentException("gRPC certificate must not be null or empty");
+					//throw new ArgumentException("gRPC certificate hash must be exactly 48 bytes (SHA-384)");
 				}
 				field = value;
 			}

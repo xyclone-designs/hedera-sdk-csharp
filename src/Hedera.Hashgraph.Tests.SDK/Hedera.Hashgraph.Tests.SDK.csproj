@@ -9,6 +9,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="_resources\addressbook\mainnet.pb" />
+	  <None Remove="_resources\addressbook\previewnet.pb" />
+	  <None Remove="_resources\addressbook\testnet.pb" />
+	  <None Remove="_resources\client-config-with-operator.json" />
+	  <None Remove="_resources\client-config-with-shard-realm.json" />
+	  <None Remove="_resources\client-config.json" />
+	  <None Remove="_resources\test-keystore.bin" />
+	  <None Remove="_resources\test-keystore2.bin" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="_resources\client-config-with-operator.json" />
+	  <EmbeddedResource Include="_resources\client-config-with-shard-realm.json" />
+	  <EmbeddedResource Include="_resources\client-config.json" />
+	  <EmbeddedResource Include="_resources\test-keystore.bin" />
+	  <EmbeddedResource Include="_resources\test-keystore2.bin" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="8.0.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,6 +44,12 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Hedera.Hashgraph.SDK\Hedera.Hashgraph.SDK.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="_resources\addressbook\mainnet.pb" />
+	  <Resource Include="_resources\addressbook\previewnet.pb" />
+	  <Resource Include="_resources\addressbook\testnet.pb" />
 	</ItemGroup>
 
 	<ItemGroup>

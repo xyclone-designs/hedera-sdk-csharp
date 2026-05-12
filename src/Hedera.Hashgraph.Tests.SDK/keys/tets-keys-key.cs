@@ -173,9 +173,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var key2 = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
             Assert.Equal(key2.ToString(), key1.ToString());
             Assert.Equal(key2.GetPublicKey(), key1.GetPublicKey());
-            Assert.NotEqual(key1.GetPublicKey().ToString(), "random string");
-            Assert.NotEqual(key1.GetPublicKey().ToStringDER(), "random string");
-            Assert.NotEqual(key1.GetPublicKey().ToStringRaw(), "random string");
+            Assert.NotEqual("random string", key1.GetPublicKey().ToString());
+            Assert.NotEqual("random string", key1.GetPublicKey().ToStringDER());
+            Assert.NotEqual("random string", key1.GetPublicKey().ToStringRaw());
         }
         [Fact]
         public virtual void KeyHash()
@@ -193,34 +193,29 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             keyList.Add(key1);
             keyList.Add(key2);
             keyList.Add(key3);
-            Assert.False(keyList.Count == 0);
-            Assert.Equal(keyList.Count, 3);
-            Assert.True(keyList.Contains(key1));
-            Assert.True(keyList.Contains(key2));
-            Assert.True(keyList.Contains(key3));
+            Assert.NotEmpty(keyList);
+            Assert.Equal(3, keyList.Count);
+            Assert.Contains(key1, keyList);
+            Assert.Contains(key2, keyList);
+            Assert.Contains(key3, keyList);
             var arr = keyList.ToArray();
             Assert.Equal(arr[0], key1);
             Assert.Equal(arr[1], key2);
             Assert.Equal(arr[2], key3);
-            arr = new Key[]
-            {
-                null,
-                null,
-                null
-            };
+            arr = [ null, null, null ];
             keyList.CopyTo(arr, 0);
             Assert.Equal(arr[0], key1);
             Assert.Equal(arr[1], key2);
             Assert.Equal(arr[2], key3);
             keyList.Remove(key2);
-            Assert.Equal(keyList.Count, 2);
+            Assert.Equal(2, keyList.Count);
             keyList.Clear();
             keyList.Add(key1);
             keyList.Add(key2);
             keyList.Add(key3);
-            Assert.Equal(keyList.Count, 3);
+            Assert.Equal(3, keyList.Count);
             keyList = [key2, key3];
-            Assert.Equal(keyList.Count, 2);
+            Assert.Equal(2, keyList.Count);
             Assert.Equal(keyList.Keys, [key2, key3]);
             keyList.Remove(key2);
             keyList.Remove(key3);
@@ -262,10 +257,10 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var protoKey = new Proto.Services.Key { KeyList = protoKeyList };
             var bytes = protoKey.ToByteArray();
             var cut = KeyList.FromBytes(bytes);
-            Assert.Equal(cut.GetType(), typeof(KeyList));
+            Assert.IsType<KeyList>(cut.GetType());
             var keyList = (KeyList)cut;
             var actual = keyList.ToProtobufKey().KeyList;
-            Assert.Equal(actual.Keys.Count, 2);
+            Assert.Equal(2, actual.Keys.Count);
             Assert.Same(actual.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
             Assert.Same(actual.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }
@@ -290,11 +285,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Keys
             var protoKey = new Proto.Services.Key { ThresholdKey = protoThresholdKey };
             var bytes = protoKey.ToByteArray();
             var cut = KeyList.FromBytes(bytes);
-            Assert.Equal(cut.GetType(), typeof(KeyList));
+            Assert.IsType<KeyList>(cut.GetType());
             var thresholdKey = (KeyList)cut;
             var actual = thresholdKey.ToProtobufKey().ThresholdKey;
-            Assert.Equal(actual.Threshold, (uint)1);
-            Assert.Equal(actual.Keys.Keys.Count, 2);
+            Assert.Equal((uint)1, actual.Threshold);
+            Assert.Equal(2, actual.Keys.Keys.Count);
             Assert.Same(actual.Keys.Keys[0].Ed25519.ToByteArray(), keyBytes[0]);
             Assert.Same(actual.Keys.Keys[1].Ed25519.ToByteArray(), keyBytes[1]);
         }

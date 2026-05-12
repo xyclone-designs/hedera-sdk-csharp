@@ -49,10 +49,10 @@ namespace Hedera.Hashgraph.SDK.Nfts
 		public static TokenNftAllowance FromProtobuf(Proto.Services.NftAllowance allowanceProto)
         {
             return new TokenNftAllowance(
-                TokenId.FromProtobuf(allowanceProto.TokenId), 
-                AccountId.FromProtobuf(allowanceProto.Owner),
-                AccountId.FromProtobuf(allowanceProto.Spender),
-                AccountId.FromProtobuf(allowanceProto.DelegatingSpender),
+                TokenId.FromProtobuf(allowanceProto.TokenId),
+                allowanceProto.Owner is null ? null : AccountId.FromProtobuf(allowanceProto.Owner),
+                allowanceProto.Spender is null ? null : AccountId.FromProtobuf(allowanceProto.Spender),
+                allowanceProto.DelegatingSpender is null ? null : AccountId.FromProtobuf(allowanceProto.DelegatingSpender),
                 allowanceProto.SerialNumbers,
                 allowanceProto.ApprovedForAll);
         }

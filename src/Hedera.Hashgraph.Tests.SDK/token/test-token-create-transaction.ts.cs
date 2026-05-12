@@ -97,7 +97,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
                 CustomFees = testCustomFees,
                 MaxTransactionFee = new Hbar(1),
                 TokenMetadata = testMetadata
-
+            
             }.Freeze().Sign(unusedPrivateKey);
         }
         [Fact]

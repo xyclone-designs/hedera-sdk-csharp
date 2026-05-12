@@ -30,6 +30,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
         {
             var tx = new ContractUpdateTransaction();
             var tx2 = ITransaction.FromBytes(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
         }
 
@@ -111,7 +112,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
 
             // When expiration is set via Duration, DateTimeOffset getter should be null
             Assert.Null(tx.ExpirationTime);
+            
             var tx2 = Transaction.FromBytes<ContractUpdateTransaction>(tx.ToBytes());
+
             Assert.Equal(tx2.ToString(), tx.ToString());
             Assert.Equal(tx2.ExpirationTime, DateTimeOffset.FromUnixTimeMilliseconds(1234));
         }
@@ -130,6 +133,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Contract
             {
 				ExpirationTime = instant
 			};
+
             Assert.Equal(tx.ExpirationTime, instant);
         }
         [Fact]

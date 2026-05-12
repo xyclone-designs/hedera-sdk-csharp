@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
+using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
@@ -7,7 +8,6 @@ using Hedera.Hashgraph.SDK.Transactions;
 using System;
 
 using VerifyXunit;
-using Hedera.Hashgraph.SDK;
 
 namespace Hedera.Hashgraph.Tests.SDK.Account
 {
@@ -19,9 +19,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
         public virtual AccountAllowanceDeleteTransaction SpawnTestTransaction()
         {
             var ownerId = AccountId.FromString("5.6.7");
+
             return new AccountAllowanceDeleteTransaction
             {
 				MaxTransactionFee = Hbar.FromTinybars(100000),
+                NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
                 TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), validStart),
 			}
             .DeleteAllHbarAllowances(ownerId)

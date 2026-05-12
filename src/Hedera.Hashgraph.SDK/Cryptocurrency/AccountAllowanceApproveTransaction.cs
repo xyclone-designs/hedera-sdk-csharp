@@ -62,10 +62,11 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
                 else
                 {
                     GetNftSerials(
-                        AccountId.FromProtobuf(allowanceProto.Owner), 
+                        allowanceProto.Owner is null ? null : AccountId.FromProtobuf(allowanceProto.Owner), 
                         AccountId.FromProtobuf(allowanceProto.Spender),
-                        AccountId.FromProtobuf(allowanceProto.DelegatingSpender) , 
-                        TokenId.FromProtobuf(allowanceProto.TokenId)).Concat(allowanceProto.SerialNumbers);
+                        allowanceProto.DelegatingSpender is null ? null : AccountId.FromProtobuf(allowanceProto.DelegatingSpender), 
+                        TokenId.FromProtobuf(allowanceProto.TokenId))
+					.AddRange(allowanceProto.SerialNumbers);
                 }
             }
         }

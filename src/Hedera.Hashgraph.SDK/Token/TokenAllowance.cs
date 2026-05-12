@@ -34,9 +34,9 @@ namespace Hedera.Hashgraph.SDK.Token
 		public static TokenAllowance FromProtobuf(Proto.Services.TokenAllowance allowanceProto)
         {
             return new TokenAllowance(
-                TokenId.FromProtobuf(allowanceProto.TokenId), 
-                AccountId.FromProtobuf(allowanceProto.Owner), 
-                AccountId.FromProtobuf(allowanceProto.Spender), 
+                TokenId.FromProtobuf(allowanceProto.TokenId),
+                allowanceProto.Owner is null ? null : AccountId.FromProtobuf(allowanceProto.Owner), 
+                allowanceProto.Spender is null ? null : AccountId.FromProtobuf(allowanceProto.Spender), 
                 allowanceProto.Amount);
         }
         /// <include file="TokenAllowance.cs.xml" path='docs/member[@name="M:TokenAllowance.FromProtobuf(Proto.Services.GrantedTokenAllowance)"]/*' />
@@ -44,8 +44,8 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             return new TokenAllowance(
                 TokenId.FromProtobuf(allowanceProto.TokenId), 
-                null, 
-                AccountId.FromProtobuf(allowanceProto.Spender), 
+                null,
+                allowanceProto.Spender is null ? null : AccountId.FromProtobuf(allowanceProto.Spender), 
                 allowanceProto.Amount);
         }
 

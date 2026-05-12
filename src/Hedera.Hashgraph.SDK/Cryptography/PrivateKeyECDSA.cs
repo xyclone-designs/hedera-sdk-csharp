@@ -137,7 +137,6 @@ namespace Hedera.Hashgraph.SDK.Cryptography
 
             if (recId == -1)
             {
-
                 // this should never happen
                 throw new InvalidOperationException("Unexpected error - could not construct a recoverable key.");
             }

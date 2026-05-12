@@ -20,25 +20,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         private static readonly PrivateKey TEST_PRIVATE_KEY = PrivateKey.FromString("302e020100300506032b657004220420db484b828e64b2d8f12ce3c0a0e93a0b8cce7af1bb8f39c97732394482538e10");
         private static readonly AccountId TEST_ACCOUNT_ID = AccountId.FromString("0.6.9");
         private static readonly string TEST_DESCRIPTION = "Test description";
-        private static readonly List<Endpoint> TEST_GOSSIP_ENDPOINTS = [ SpawnTestEndpoint((byte)0), SpawnTestEndpoint((byte)1), SpawnTestEndpoint((byte)2) ];
-        private static readonly List<Endpoint> TEST_SERVICE_ENDPOINTS = [ SpawnTestEndpoint((byte)3), SpawnTestEndpoint((byte)4), SpawnTestEndpoint((byte)5), SpawnTestEndpoint((byte)6) ];
-        private static readonly Endpoint TEST_GRPC_WEB_PROXY_ENDPOINT = SpawnTestEndpoint((byte)3);
-        private static readonly byte[] TEST_GOSSIP_CA_CERTIFICATE = new byte[]
-        {
-            0,
-            1,
-            2,
-            3,
-            4
-        };
-        private static readonly byte[] TEST_GRPC_CERTIFICATE_HASH = new byte[]
-        {
-            5,
-            6,
-            7,
-            8,
-            9
-        };
+        private static readonly List<Endpoint> TEST_GOSSIP_ENDPOINTS = [ SpawnTestEndpoint(0), SpawnTestEndpoint(1), SpawnTestEndpoint(2) ];
+        private static readonly List<Endpoint> TEST_SERVICE_ENDPOINTS = [ SpawnTestEndpoint(3), SpawnTestEndpoint(4), SpawnTestEndpoint(5), SpawnTestEndpoint(6) ];
+        private static readonly Endpoint TEST_GRPC_WEB_PROXY_ENDPOINT = SpawnTestEndpoint(3);
+        private static readonly byte[] TEST_GOSSIP_CA_CERTIFICATE = [ 0, 1, 2, 3, 4 ];
+        private static readonly byte[] TEST_GRPC_CERTIFICATE_HASH = [ 5, 6, 7, 8, 9 ];
         private static readonly PublicKey TEST_ADMIN_KEY = PrivateKey.FromString("302e020100300506032b65700422042062c4b69e9f45a554e5424fb5a6fe5e6ac1f19ead31dc7718c2d980fd1f998d4b").GetPublicKey();
         readonly DateTimeOffset TEST_VALID_START = DateTimeOffset.FromUnixTimeMilliseconds(1554158542);
 
@@ -61,19 +47,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
         {
             return new NodeCreateTransaction
             {
-				AccountId = TEST_ACCOUNT_ID,
+                AdminKey = TEST_ADMIN_KEY,
+                AccountId = TEST_ACCOUNT_ID,
 				Description = TEST_DESCRIPTION,
 				GossipEndpoints = TEST_GOSSIP_ENDPOINTS,
 				ServiceEndpoints = TEST_SERVICE_ENDPOINTS,
 				GossipCaCertificate = TEST_GOSSIP_CA_CERTIFICATE,
 				GrpcCertificateHash = TEST_GRPC_CERTIFICATE_HASH,
+                GrpcWebProxyEndpoint = TEST_GRPC_WEB_PROXY_ENDPOINT,
 
-				AdminKey = TEST_ADMIN_KEY,
 				MaxTransactionFee = new Hbar(1),
 				DeclineReward = false,
-				GrpcWebProxyEndpoint = TEST_GRPC_WEB_PROXY_ENDPOINT,
 
-				NodeAccountIds = [AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006")],
+				NodeAccountIds = [ AccountId.FromString("0.0.5005"), AccountId.FromString("0.0.5006") ],
 				TransactionId = TransactionId.WithValidStart(AccountId.FromString("0.0.5006"), TEST_VALID_START),
 			}
             .Freeze()
@@ -297,12 +283,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
                 2
             };
 
-			Endpoint gossipIpOnly = new Endpoint
+			Endpoint gossipIpOnly = new ()
 			{
 				Address = originalIp,
 				Port = 50212
 			};
-			Endpoint serviceIpOnly = new Endpoint
+			Endpoint serviceIpOnly = new ()
 			{
 				Address = serviceIp,
 				Port = 50211
@@ -320,12 +306,12 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 		[Fact]
         public virtual void BuildDoesNotRewriteWhenNoServiceIpAvailable()
         {
-            Endpoint gossipFqdnOnly = new Endpoint
+            Endpoint gossipFqdnOnly = new ()
             {
                 DomainName = "fqdn.example.com",
                 Port = 50213 
             };
-            Endpoint serviceFqdnOnly = new Endpoint
+            Endpoint serviceFqdnOnly = new ()
             {
                 DomainName = "svc.example.com",
                 Port = 50211 
@@ -387,6 +373,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Node
 		public virtual void GetSetAccountIdFrozen()
 		{
 			var tx = SpawnTestTransaction();
+
 			Assert.Throws<InvalidOperationException>(() => tx.AccountId = TEST_ACCOUNT_ID);
 		}
 		[Fact]

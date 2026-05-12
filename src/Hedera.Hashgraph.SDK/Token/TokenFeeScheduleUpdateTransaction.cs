@@ -44,7 +44,8 @@ namespace Hedera.Hashgraph.SDK.Token
         {
             var body = SourceTransactionBody.TokenFeeScheduleUpdate;
 
-            TokenId = TokenId.FromProtobuf(body.TokenId);
+            if (body.TokenId is not null)
+                TokenId = TokenId.FromProtobuf(body.TokenId);
 
 			foreach (var fee in body.CustomFees)
             {

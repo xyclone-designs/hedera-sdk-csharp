@@ -165,11 +165,9 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
         /// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf"]/*' />
         public ListGuarded<HookCreationDetails> HookCreationDetails
 		{
-			init; get => field ??= new ListGuarded<HookCreationDetails>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-		}
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<HookCreationDetails>();
+        }
 
 
 		/// <include file="AccountCreateTransaction.cs.xml" path='docs/member[@name="M:ToProtobuf_2"]/*' />

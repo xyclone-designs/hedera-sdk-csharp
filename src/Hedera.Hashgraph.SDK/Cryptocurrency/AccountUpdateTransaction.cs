@@ -53,15 +53,30 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
             set { RequireNotFrozen(); field = value; } 
         }
 		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_5"]/*' />
-		public DateTimeOffset? ExpirationTime 
+		public DateTimeOffset? ExpirationTime
         {
-            get; 
-            set { RequireNotFrozen(); field = value; } 
+            get;
+            set
+            {
+                RequireNotFrozen();
+                field = value;
+
+                if (field == null && ExpirationTimeDuration is not null)
+                    ExpirationTimeDuration = null;
+            }
         }
-		public TimeSpan? ExpirationTimeDuration 
+        public TimeSpan? ExpirationTimeDuration 
         {
             get; 
-            set { RequireNotFrozen(); field = value; ExpirationTime = null; } }
+            set 
+            { 
+                RequireNotFrozen(); 
+                field = value;
+
+                if (field == null && ExpirationTime is not null)
+                    ExpirationTime = null;
+            } 
+        }
         /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.RequireNotFrozen_6"]/*' />
         public TimeSpan? AutoRenewPeriod 
         {
@@ -105,18 +120,14 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="T:AccountUpdateTransaction_2"]/*' />
 		public ListGuarded<HookCreationDetails> HookCreationDetails
 		{
-			init; get => field ??= new ListGuarded<HookCreationDetails>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-		}
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<HookCreationDetails>();
+        }
 		/// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.InitFromTransactionBody"]/*' />
 		public ListGuarded<long> HookIdsToDelete
         {
-            init; get => field ??= new ListGuarded<long>
-            {
-                OnRequireNotFrozen = RequireNotFrozen
-            };
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<long>();
         }
 
         /// <include file="AccountUpdateTransaction.cs.xml" path='docs/member[@name="M:AccountUpdateTransaction.InitFromTransactionBody_2"]/*' />

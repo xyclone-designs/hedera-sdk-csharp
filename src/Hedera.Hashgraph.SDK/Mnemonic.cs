@@ -505,19 +505,18 @@ namespace Hedera.Hashgraph.SDK
 
 			// Parse the derivation path from string into values
 			Regex pattern = new("m/(\\d+'?)/(\\d+'?)/(\\d+'?)/(\\d+'?)/(\\d+'?)");
-			MatchCollection matcher = pattern.Matches(derivationPath);
-			if (matcher.Count == 0)
+			Match matcher = pattern.Match(derivationPath);
+			if (matcher.Length == 0)
 				throw new ArgumentException("Invalid derivation path format");
 
 			int[] numbers = new int[5];
 			bool[] isHardened = new bool[5];
 			try
 			{
-
 				// Extract numbers and use apostrophe to select if is hardened
 				for (int i = 1; i <= 5; i++)
 				{
-					string value = matcher.ElementAt(i).Value;
+					string value = matcher.Groups[i+1].Value;
 					if (value.EndsWith('\''))
 					{
 						isHardened[i - 1] = true;

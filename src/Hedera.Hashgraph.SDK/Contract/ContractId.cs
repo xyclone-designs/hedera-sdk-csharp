@@ -15,23 +15,23 @@ namespace Hedera.Hashgraph.SDK.Contract
     /// <include file="ContractId.cs.xml" path='docs/member[@name="T:ContractId"]/*' />
     public class ContractId : Key, IComparable<ContractId>
     {
-        public static readonly Regex EVM_ADDRESS_REGEX = new ("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.([a-fA-F0-9]{40}$)");
+        public static readonly Regex EVM_ADDRESS_REGEX = new("(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.([a-fA-F0-9]{40}$)");
 
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64)"]/*' />
         public ContractId(long num) : this(0, 0, num) { }
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64)"]/*' />
         public ContractId(long shard, long realm, long num) : this(shard, realm, num, null) { }
 
-		internal ContractId(long shard, long realm, byte[] evmAddress)
-		{
-			Shard = shard;
-			Realm = realm;
-			EvmAddress = evmAddress;
-			Num = 0;
-			Checksum = null;
-		}
-		/// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
-		internal ContractId(long shard, long realm, long num, string? checksum)
+        internal ContractId(long shard, long realm, byte[] evmAddress)
+        {
+            Shard = shard;
+            Realm = realm;
+            EvmAddress = evmAddress;
+            Num = 0;
+            Checksum = null;
+        }
+        /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.#ctor(System.Int64,System.Int64,System.Int64,System.String)"]/*' />
+        internal ContractId(long shard, long realm, long num, string? checksum)
         {
             Shard = shard;
             Realm = realm;
@@ -43,10 +43,10 @@ namespace Hedera.Hashgraph.SDK.Contract
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromString(System.String)"]/*' />
         public static ContractId FromString(string id)
         {
-            MatchCollection match = EVM_ADDRESS_REGEX.Matches(id);
+            Match match = EVM_ADDRESS_REGEX.Match(id);
 
-            if (match.Count == 0)
-                return new ContractId(long.Parse(match.ElementAt(1).Value), long.Parse(match.ElementAt(2).Value), Hex.Decode(match.ElementAt(3).Value));
+            if (match.Length > 0)
+                return new ContractId(long.Parse(match.Groups[0].Value), long.Parse(match.Groups[1].Value), Hex.Decode(match.Groups[2].Value));
             else
                 return Utils.EntityIdHelper.FromString(id, (a, b, c, d) => new ContractId(a, b, c, d));
         }
@@ -63,7 +63,7 @@ namespace Hedera.Hashgraph.SDK.Contract
         {
             Utils.EntityIdHelper.DecodeEvmAddress(evmAddress);
 
-            return new ContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress.Substring(2) : evmAddress));
+            return new ContractId(shard, realm, Hex.Decode(evmAddress.StartsWith("0x") ? evmAddress[2..] : evmAddress));
         }
         /// <include file="ContractId.cs.xml" path='docs/member[@name="M:ContractId.FromProtobuf(Proto.Services.ContractId)"]/*' />
         public static ContractId FromProtobuf(Proto.Services.ContractID contractId)

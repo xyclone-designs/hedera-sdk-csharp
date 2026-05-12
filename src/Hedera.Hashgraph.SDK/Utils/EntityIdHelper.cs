@@ -107,7 +107,6 @@ namespace Hedera.Hashgraph.SDK.Utils
 
 			foreach (byte b in h)
 			{
-
 				// byte is signed in java, have to fake it to make bytes act like they're unsigned
 				sh = (w * sh + (b < 0 ? 256 + b : b)) % p5;
 			}
@@ -125,7 +124,7 @@ namespace Hedera.Hashgraph.SDK.Utils
 		/// <include file="EntityIdHelper.cs.xml" path='docs/member[@name="M:EntityIdHelper.DecodeEvmAddress(System.String)"]/*' />
 		public static byte[] DecodeEvmAddress(string address)
         {
-            address = address.StartsWith("0x") ? address.Substring(2) : address;
+            address = address.StartsWith("0x") ? address[2..] : address;
 
             if (address.Length != SOLIDITY_ADDRESS_LEN_HEX)
 				throw new ArgumentException("Solidity addresses must be 20 bytes or 40 hex chars");

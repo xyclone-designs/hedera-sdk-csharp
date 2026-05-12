@@ -22,7 +22,10 @@ namespace Hedera.Hashgraph.SDK.Cryptocurrency
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.Services.CryptoAllowance)"]/*' />
 		public static HbarAllowance FromProtobuf(Proto.Services.CryptoAllowance allowanceProto)
         {
-            return new HbarAllowance(AccountId.FromProtobuf(allowanceProto.Owner), AccountId.FromProtobuf(allowanceProto.Spender), Hbar.FromTinybars(allowanceProto.Amount));
+			AccountId? owner = allowanceProto.Owner is null ? null : AccountId.FromProtobuf(allowanceProto.Owner);
+			AccountId? spender = allowanceProto.Spender is null ? null : AccountId.FromProtobuf(allowanceProto.Spender);
+
+            return new HbarAllowance(owner, spender, Hbar.FromTinybars(allowanceProto.Amount));
         }
 		/// <include file="HbarAllowance.cs.xml" path='docs/member[@name="M:HbarAllowance.FromProtobuf(Proto.Services.GrantedCryptoAllowance)"]/*' />
 		public static HbarAllowance FromProtobuf(Proto.Services.GrantedCryptoAllowance allowanceProto)

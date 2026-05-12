@@ -3,7 +3,7 @@ using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
 using Hedera.Hashgraph.SDK.Cryptocurrency;
-
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 
@@ -31,12 +31,17 @@ namespace Hedera.Hashgraph.SDK.Transactions
 		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody"]/*' />
 		public ListGuarded<ITransaction> InnerTransactions 
 		{
-			init; get => field ??= new ListGuarded<ITransaction>
-			{
-				OnRequireNotFrozen = RequireNotFrozen,
-				OnValidate = ValidateInnerTransaction
-			};
-		} 
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<ITransaction>();
+		}
+
+        internal ListGuarded<ITransaction> GenerateListGuarded(ListGuarded<ITransaction>? list = null)
+        {
+            list = base.GenerateListGuarded(list);
+			list.OnValidate = ValidateInnerTransaction;
+
+            return list;
+        }
 
 		/// <include file="BatchTransaction.cs.xml" path='docs/member[@name="M:BatchTransaction.InitFromTransactionBody_2"]/*' />
 		private void InitFromTransactionBody()

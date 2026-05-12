@@ -13,7 +13,8 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         [Fact]
         public virtual void ConstructWithTokenIdOwnerSpenderAmount()
         {
-            TokenAllowance tokenAllowance = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount);
+            TokenAllowance tokenAllowance = new (testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount);
+
             Assert.Equal(tokenAllowance.TokenId, testTokenId);
             Assert.Equal(tokenAllowance.OwnerAccountId, testOwnerAccountId);
             Assert.Equal(tokenAllowance.SpenderAccountId, testSpenderAccountId);
@@ -25,6 +26,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var tokenAllowanceProtobuf = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount).ToProtobuf();
             var tokenAllowance = TokenAllowance.FromProtobuf(tokenAllowanceProtobuf);
+
             Assert.Equal(tokenAllowance.TokenId, testTokenId);
             Assert.Equal(tokenAllowance.OwnerAccountId, testOwnerAccountId);
             Assert.Equal(tokenAllowance.SpenderAccountId, testSpenderAccountId);
@@ -35,6 +37,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         public virtual void ToProtobuf()
         {
             var tokenAllowanceProtobuf = new TokenAllowance(testTokenId, testOwnerAccountId, testSpenderAccountId, testAmount).ToProtobuf();
+
             Assert.True(tokenAllowanceProtobuf.TokenId is not null);
             Assert.Equal(TokenId.FromProtobuf(tokenAllowanceProtobuf.TokenId), testTokenId);
             Assert.True(tokenAllowanceProtobuf.Owner is not null);

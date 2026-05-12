@@ -12,7 +12,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 {
     /// <include file="TransactionId.cs.xml" path='docs/member[@name="T:TransactionId"]/*' />
     /// <include file="TransactionId.cs.xml" path='docs/member[@name="M:TransactionId.#ctor(AccountId,DateTimeOffset)"]/*' />
-    public sealed class TransactionId(AccountId accountId, DateTimeOffset? validStart) : IComparable<TransactionId>
+    public sealed class TransactionId(AccountId? accountId, DateTimeOffset? validStart) : IComparable<TransactionId>
     {
 		private static readonly long NANOSECONDS_PER_MILLISECOND = 1000000;
 		private static readonly long TIMESTAMP_INCREMENT_NANOSECONDS = 1000;
@@ -59,25 +59,26 @@ namespace Hedera.Hashgraph.SDK.Transactions
         public static TransactionId FromString(string s)
         {
             var parts = s.Split("/", 2);
+            
             int? nonce = (parts.Length == 2) ? int.Parse(parts[1]) : null;
             parts = parts[0].Split("?", 2);
+            
             var scheduled = parts.Length == 2 && parts[1].Equals("scheduled");
             parts = parts[0].Split("@", 2);
+
             if (parts.Length != 2)
-            {
                 throw new ArgumentException("expecting {account}@{seconds}.{nanos}[?scheduled][/nonce]");
-            }
 
-            AccountId accountId = AccountId.FromString(parts[0]);
-            var ValidStartParts = parts[1].Split(".", 2);
-            if (ValidStartParts.Length != 2)
-            {
+            AccountId? accountId = AccountId.FromString(parts[0]);
+
+            var validStartParts = parts[1].Split(".", 2);
+
+            if (validStartParts.Length != 2)
                 throw new ArgumentException("expecting {account}@{seconds}.{nanos}");
-            }
 
-			DateTimeOffset validStart = DateTimeOffset.UtcNow
-				.AddSeconds(long.Parse(ValidStartParts[0]))
-				.AddNanoseconds(long.Parse(ValidStartParts[1]));
+            DateTimeOffset validStart = DateTimeOffset
+                .FromUnixTimeSeconds(long.Parse(validStartParts[0]))
+				.AddNanoseconds(long.Parse(validStartParts[1]));
 
             return new TransactionId(accountId, validStart)
             {
@@ -105,7 +106,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
         /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.Scheduled"]/*' />
         public bool Scheduled { get; set; } = false;
         /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.AccountId"]/*' />
-        public AccountId AccountId { get; } = accountId;
+        public AccountId? AccountId { get; } = accountId;
         /// <include file="TransactionId.cs.xml" path='docs/member[@name="P:TransactionId.ValidStart"]/*' />
         public DateTimeOffset ValidStart { get; } = validStart ?? DateTimeOffset.UtcNow;
 

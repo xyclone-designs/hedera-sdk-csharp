@@ -75,7 +75,9 @@ namespace Hedera.Hashgraph.SDK.Token
 				RequireNotFrozen();
 				field = value;
 				AutoRenewPeriod = null;
-				ExpirationTimeDuration = null;
+
+				if (field == null && ExpirationTimeDuration is not null) 
+					ExpirationTimeDuration = null;
 
 			}
 		}
@@ -87,9 +89,11 @@ namespace Hedera.Hashgraph.SDK.Token
 				RequireNotFrozen();
 				field = value;
 				AutoRenewPeriod = null;
-				ExpirationTime = null;
 
-			}
+                if (field == null && ExpirationTime is not null)
+                    ExpirationTime = null;
+
+            }
 		}
 		/// <include file="TokenCreateTransaction.cs.xml" path='docs/member[@name="M:TokenCreateTransaction.RequireNotFrozen_16"]/*' />
 		public virtual AccountId? AutoRenewAccountId { get; set { RequireNotFrozen(); field = value; } }

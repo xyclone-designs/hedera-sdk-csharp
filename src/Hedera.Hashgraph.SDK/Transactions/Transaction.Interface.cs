@@ -36,33 +36,33 @@ namespace Hedera.Hashgraph.SDK.Transactions
 	public interface ITransaction : IExecutable
 	{
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.OuterTransactions"]/*' />
-		public List<Proto.Services.Transaction> OuterTransactions { get; }
+		List<Proto.Services.Transaction> OuterTransactions { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.InnerSignedTransactions"]/*' />
-		public List<Proto.Services.SignedTransaction> InnerSignedTransactions { get; }
+		List<Proto.Services.SignedTransaction> InnerSignedTransactions { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SigPairLists"]/*' />
-		public List<Proto.Services.SignatureMap> SigPairLists { get; }
+		List<Proto.Services.SignatureMap> SigPairLists { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionIds"]/*' />
-		public ListGuarded<TransactionId> TransactionIds { get; }
+		ListGuarded<TransactionId> TransactionIds { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.PublicKeys"]/*' />
-		public IList<PublicKey> PublicKeys { get; }
+		IList<PublicKey> PublicKeys { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="M:operator(paying)"]/*' />
-		public List<Func<byte[], byte[]>?> Signers { get; }
+		List<Func<byte[], byte[]>?> Signers { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.MaxTransactionFee"]/*' />
-		public Hbar? MaxTransactionFee { get; set; }
+		Hbar? MaxTransactionFee { get; set; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionMemo"]/*' />
-		public string TransactionMemo { get; set; }
+		string TransactionMemo { get; set; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionValidDuration"]/*' />
-		public TimeSpan TransactionValidDuration { get; set; }
+		TimeSpan TransactionValidDuration { get; set; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.SourceTransactionBody"]/*' />
-		public Proto.Services.TransactionBody SourceTransactionBody { get; }
+		Proto.Services.TransactionBody SourceTransactionBody { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.FrozenBodyBuilder"]/*' />
-		public Proto.Services.TransactionBody? FrozenBodyBuilder { get; }
+		Proto.Services.TransactionBody? FrozenBodyBuilder { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.BatchKey"]/*' />
-		public Key? BatchKey { get; }
+		Key? BatchKey { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.ShouldRegenerateTransactionId"]/*' />
-		public bool ShouldRegenerateTransactionId { get; }
+		bool ShouldRegenerateTransactionId { get; }
 		/// <include file="Transaction.Interface.cs.xml" path='docs/member[@name="P:.TransactionId"]/*' />
-		public TransactionId TransactionId { get; set; }
+		TransactionId TransactionId { get; set; }
 
 		bool IsFrozen();
 		string ToString();

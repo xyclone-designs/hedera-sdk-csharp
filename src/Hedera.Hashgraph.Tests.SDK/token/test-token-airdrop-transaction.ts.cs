@@ -84,11 +84,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         {
             var tx = new TokenAirdropTransaction();
             
-            Assert.Null(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")]);
+            Assert.False(tx.GetTokenIdDecimals().TryGetValue(TokenId.FromString("0.0.5"), out _));
             
             tx.AddTokenTransfer(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.8"), 100);
-            
-            Assert.Null(tx.GetTokenIdDecimals()[TokenId.FromString("0.0.5")]);
+
+            Assert.False(tx.GetTokenIdDecimals().TryGetValue(TokenId.FromString("0.0.5"), out _));
             
             tx.AddTokenTransferWithDecimals(TokenId.FromString("0.0.5"), AccountId.FromString("0.0.7"), -100, 5);
             
@@ -120,8 +120,9 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
             TokenId tokenId = new (0, 0, 123);
             AccountId accountId = new (0, 0, 456);
             long value = 1000;
-            transaction
-                .AddTokenTransfer(tokenId, accountId, value);
+            
+            transaction.AddTokenTransfer(tokenId, accountId, value);
+
             Dictionary<TokenId, Dictionary<AccountId, long>> tokenTransfers = transaction.GetTokenTransfers();
             Assert.True(tokenTransfers.ContainsKey(tokenId));
             Assert.Equal(1, tokenTransfers[tokenId].Count);
@@ -146,7 +147,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Token
         [Fact]
         public virtual void TestAddNftTransfer()
         {
-            NftId nftId = new NftId(new TokenId(0, 0, 123), 1);
+            NftId nftId = new (new TokenId(0, 0, 123), 1);
             AccountId sender = new (0, 0, 456);
             AccountId receiver = new (0, 0, 789);
             

@@ -198,11 +198,9 @@ namespace Hedera.Hashgraph.SDK.Contract
 		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.ToProtobuf"]/*' />
 		public ListGuarded<HookCreationDetails> HookCreationDetails_
 		{
-			init; get => field ??= new ListGuarded<HookCreationDetails>
-			{
-				OnRequireNotFrozen = RequireNotFrozen
-			};
-		}
+            init => field = GenerateListGuarded(value);
+            get => field ??= GenerateListGuarded<HookCreationDetails>();
+        }
 
 		/// <include file="ContractCreateTransaction.cs.xml" path='docs/member[@name="M:ContractCreateTransaction.ToProtobuf_2"]/*' />
 		public Proto.Services.ContractCreateTransactionBody ToProtobuf()

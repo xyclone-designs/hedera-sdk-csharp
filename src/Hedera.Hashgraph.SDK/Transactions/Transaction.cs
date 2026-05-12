@@ -339,7 +339,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
             return builder;
 		}
 
-        protected ListGuarded<TType> GenerateListGuarded<TType>(ListGuarded<TType>? list = null)
+        protected virtual ListGuarded<TType> GenerateListGuarded<TType>(ListGuarded<TType>? list = null)
         {
 			list ??= [];
 			list.OnRequireNotFrozen = RequireNotFrozen;
@@ -509,7 +509,7 @@ namespace Hedera.Hashgraph.SDK.Transactions
 				throw new InvalidOperationException("Transaction must be frozen in order to have signatures.");
 
 			if (PublicKeys.Count == 0)
-				return new Dictionary<AccountId, Dictionary<PublicKey, byte[]>>();
+				return [];
 
 			BuildAllTransactions();
 

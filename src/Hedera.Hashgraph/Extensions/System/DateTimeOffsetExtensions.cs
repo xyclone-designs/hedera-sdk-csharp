@@ -7,9 +7,7 @@ namespace System
 
 		public static DateTimeOffset AddNanoseconds(this DateTimeOffset value, long nanoseconds)
 		{
-			long ticksToAdd = nanoseconds / NanosecondsPerTick;
-
-			return value.AddTicks(ticksToAdd);
+			return value.AddTicks(nanoseconds / NanosecondsPerTick);
 		}
 	}
 }

@@ -48,10 +48,11 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325");
             var accountId = transactionId.AccountId;
             var validStart = transactionId.ValidStart;
-            Assert.Equal(accountId.Shard, 0);
-            Assert.Equal(accountId.Num, 23847);
-            Assert.Equal(validStart.ToUnixTimeSeconds(), 1588539964);
-            Assert.Equal(validStart.Nanosecond, 632521325);
+
+            Assert.Equal(0, accountId?.Shard);
+            Assert.Equal(23847, accountId?.Num);
+            Assert.Equal(1588539964, validStart.ToUnixTimeSeconds());
+            Assert.Equal(632521325, validStart.Nanosecond);
         }
         [Fact]
         public virtual void ShouldParseScheduled()
@@ -59,13 +60,14 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled");
             var accountId = transactionId.AccountId;
             var validStart = transactionId.ValidStart;
-            Assert.Equal(accountId.Shard, 0);
-            Assert.Equal(accountId.Num, 23847);
-            Assert.Equal(validStart.ToUnixTimeSeconds(), 1588539964);
-            Assert.Equal(validStart.Nanosecond, 632521325);
+
+            Assert.Equal(0, accountId?.Shard);
+            Assert.Equal(23847, accountId?.Num);
+            Assert.Equal(1588539964, validStart.ToUnixTimeSeconds());
+            Assert.Equal(632521325, validStart.Nanosecond);
             Assert.True(transactionId.Scheduled);
             Assert.Null(transactionId.Nonce);
-            Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325?scheduled");
+            Assert.Equal("0.0.23847@1588539964.632521325?scheduled", transactionId.ToString());
         }
         [Fact]
         public virtual void ShouldParseNonce()
@@ -73,13 +75,13 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             var transactionId = TransactionId.FromString("0.0.23847@1588539964.632521325/4");
             var accountId = transactionId.AccountId;
             var validStart = transactionId.ValidStart;
-            Assert.Equal(accountId.Shard, 0);
-            Assert.Equal(accountId.Num, 23847);
-            Assert.Equal(validStart.ToUnixTimeSeconds(), 1588539964);
-            Assert.Equal(validStart.Nanosecond, 632521325);
+            Assert.Equal(0, accountId?.Shard);
+            Assert.Equal(23847, accountId?.Num);
+            Assert.Equal(1588539964, validStart.ToUnixTimeSeconds());
+            Assert.Equal(632521325, validStart.Nanosecond);
             Assert.False(transactionId.Scheduled);
             Assert.Equal(transactionId.Nonce, 4);
-            Assert.Equal(transactionId.ToString(), "0.0.23847@1588539964.632521325/4");
+            Assert.Equal("0.0.23847@1588539964.632521325/4", transactionId.ToString());
         }
         [Fact]
         public virtual void Compare()
@@ -87,45 +89,52 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
             // Compare when only one of the txs is schedules
             var transactionId1 = TransactionId.FromString("0.0.23847@1588539964.632521325");
             var transactionId2 = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled");
-            Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
+            Assert.Equal(-1, transactionId1.CompareTo(transactionId2));
+
             transactionId1 = TransactionId.FromString("0.0.23847@1588539964.632521325?scheduled");
             transactionId2 = TransactionId.FromString("0.0.23847@1588539964.632521325");
-            Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
+            Assert.Equal(1, transactionId1.CompareTo(transactionId2));
+
 
             // Compare when only one of the txs has accountId
             transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             transactionId2 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
-            Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
+            Assert.Equal(-1, transactionId1.CompareTo(transactionId2));
             transactionId1 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
-            Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
+            Assert.Equal(1, transactionId1.CompareTo(transactionId2));
 
             // Compare the AccountIds
             transactionId1 = TransactionId.FromString("0.0.23847@1588539964.632521325");
             transactionId2 = TransactionId.FromString("0.0.23847@1588539964.632521325");
             Assert.Equal(transactionId1, transactionId2);
+      
             transactionId1 = TransactionId.FromString("0.0.23848@1588539964.632521325");
             transactionId2 = TransactionId.FromString("0.0.23847@1588539964.632521325");
-            Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
+            Assert.Equal(1, transactionId1.CompareTo(transactionId2));
+
             transactionId1 = TransactionId.FromString("0.0.23847@1588539964.632521325");
             transactionId2 = TransactionId.FromString("0.0.23848@1588539964.632521325");
-            Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
+            Assert.Equal(-1, transactionId1.CompareTo(transactionId2));
+
 
             // Compare when only one of the txs has valid start
             transactionId1 = new TransactionId(null, null);
             transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
-            Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
+            Assert.Equal(-1, transactionId1.CompareTo(transactionId2));
             transactionId1 = new TransactionId(AccountId.FromString("0.0.23847"), DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             transactionId2 = new TransactionId(null, null);
-            Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
+            Assert.Equal(1, transactionId1.CompareTo(transactionId2));
 
             // Compare the validStarts
             transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539965));
             transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
-            Assert.Equal(transactionId1.CompareTo(transactionId2), 1);
+            Assert.Equal(1, transactionId1.CompareTo(transactionId2));
+            
             transactionId1 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539964));
             transactionId2 = new TransactionId(null, DateTimeOffset.FromUnixTimeMilliseconds(1588539965));
-            Assert.Equal(transactionId1.CompareTo(transactionId2), -1);
+            Assert.Equal(-1, transactionId1.CompareTo(transactionId2));
+
             transactionId1 = new TransactionId(null, null);
             transactionId2 = new TransactionId(null, null);
             Assert.Equal(transactionId1, transactionId2);
@@ -141,16 +150,19 @@ namespace Hedera.Hashgraph.Tests.SDK.Transactions
         {
             var txIdString = "0.0.4163533@1681876267.054802581";
             var txId = TransactionId.FromString(txIdString);
+
             Assert.Equal(txId.ToString(), txIdString);
         }
         [Fact]
         public virtual void EqualsHashCodeContractWithNonce()
         {
-            AccountId accountId = new AccountId(0, 0, 1000);
+            AccountId accountId = new (0, 0, 1000);
             DateTimeOffset now = DateTimeOffset.UtcNow;
             TransactionId txnId1 = TransactionId.WithValidStart(accountId, now);
             TransactionId txnId2 = TransactionId.WithValidStart(accountId, now);
+            
             txnId2.Nonce = 0;
+
             Assert.False(txnId1.Equals(txnId2) && txnId1.GetHashCode() != txnId2.GetHashCode(), "equals/hashCode contract violation: equal objects must have same hashCode");
         }
     }

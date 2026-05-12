@@ -104,7 +104,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
             
 			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookCreationDetails.Add(hookDetails));
 
-			Assert.Contains(exception.Message, "transaction is immutable");
+			Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
         public virtual void ShouldThrowWhenSettingHooksAfterFreeze()
@@ -122,7 +122,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
 			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookCreationDetails.ClearAndSet(hookDetails));
 
-			Assert.Contains(exception.Message, "transaction is immutable");
+			Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
         public virtual void ShouldThrowWhenDeletingHookAfterFreeze()
@@ -136,7 +136,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookIdsToDelete.Add(123));
 
-			Assert.Contains(exception.Message, "transaction is immutable");
+			Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
         public virtual void ShouldThrowWhenDeletingHooksAfterFreeze()
@@ -150,7 +150,7 @@ namespace Hedera.Hashgraph.Tests.SDK.Account
 
 			InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() => tx.HookIdsToDelete.AddRange([123, 456]));
 
-			Assert.Contains(exception.Message, "transaction is immutable");
+			Assert.Contains("transaction is immutable", exception.Message);
 		}
         [Fact]
         public virtual void ShouldSerializeHooksInBuild()

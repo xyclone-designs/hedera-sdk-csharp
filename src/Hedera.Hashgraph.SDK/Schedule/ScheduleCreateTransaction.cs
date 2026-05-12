@@ -34,8 +34,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
             {
 				RequireNotFrozen();
 				field = value;
-				ExpirationTimeDuration = null;
-			}
+                if (field == null && ExpirationTimeDuration is not null)
+                    ExpirationTimeDuration = null;
+            }
         }
 		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="M:ScheduleCreateTransaction.RequireNotFrozen_2"]/*' />
 		public TimeSpan? ExpirationTimeDuration
@@ -45,8 +46,9 @@ namespace Hedera.Hashgraph.SDK.Schedule
 			{
 				RequireNotFrozen();
 				field = value;
-				ExpirationTime = null;
-			}
+                if (field == null && ExpirationTime is not null)
+                    ExpirationTime = null;
+            }
 		}
 		/// <include file="ScheduleCreateTransaction.cs.xml" path='docs/member[@name="P:ScheduleCreateTransaction.WaitForExpiry"]/*' />
 		public bool WaitForExpiry { get; set; }
@@ -122,10 +124,10 @@ namespace Hedera.Hashgraph.SDK.Schedule
             var body = SourceTransactionBody.ScheduleCreate;
 
 			ScheduleMemo = body.Memo;
-			AdminKey = Key.FromProtobufKey(body.AdminKey);
+			AdminKey = body.AdminKey is null ? null : Key.FromProtobufKey(body.AdminKey);
 			ScheduledTransactionBody = body.ScheduledTransactionBody;
-			PayerAccountId = AccountId.FromProtobuf(body.PayerAccountId);
-			ExpirationTime = body.ExpirationTime.ToDateTimeOffset();
+			PayerAccountId = body.PayerAccountId is null ? null : AccountId.FromProtobuf(body.PayerAccountId);
+			ExpirationTime = body.ExpirationTime?.ToDateTimeOffset();
         }
 
         public override void ValidateChecksums(Client client)

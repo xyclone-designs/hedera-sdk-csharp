@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 using Google.Protobuf;
-
+using Grpc.Core.Logging;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Networking;
@@ -57,12 +57,12 @@ namespace Hedera.Hashgraph.SDK.Schedule
                 AccountId.FromProtobuf(info.PayerAccountId), 
                 info.ScheduledTransactionBody,
                 KeyList.FromProtobuf(info.Signers, null),
-				Key.FromProtobufKey(info.AdminKey),
+                info.AdminKey is null ? null : Key.FromProtobufKey(info.AdminKey),
 				TransactionId.FromProtobuf(info.ScheduledTransactionId), 
                 info.Memo, 
-                info.ExpirationTime.ToDateTimeOffset(),
-                info.ExecutionTime.ToDateTimeOffset(), 
-                info.DeletionTime.ToDateTimeOffset(), 
+                info.ExpirationTime?.ToDateTimeOffset(),
+                info.ExecutionTime?.ToDateTimeOffset(), 
+                info.DeletionTime?.ToDateTimeOffset(), 
                 LedgerId.FromByteString(info.LedgerId), 
                 info.WaitForExpiry);
         }

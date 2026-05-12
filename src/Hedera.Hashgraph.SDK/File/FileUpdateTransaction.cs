@@ -96,8 +96,9 @@ namespace Hedera.Hashgraph.SDK.File
 			{
 				RequireNotFrozen();
 				field = value;
-				ExpirationTimeDuration = null;
-			}
+                if (field == null && ExpirationTimeDuration is not null)
+                    ExpirationTimeDuration = null;
+            }
 		}
 		public TimeSpan? ExpirationTimeDuration
 		{
@@ -106,8 +107,9 @@ namespace Hedera.Hashgraph.SDK.File
 			{
 				RequireNotFrozen();
 				field = value;
-				ExpirationTime = null;
-			}
+                if (field == null && ExpirationTime is not null)
+                    ExpirationTime = null;
+            }
 		}
 
 		/// <include file="FileUpdateTransaction.cs.xml" path='docs/member[@name="M:FileUpdateTransaction.ToProtobuf"]/*' />

@@ -160,9 +160,9 @@ namespace Hedera.Hashgraph.SDK.Token
             Dictionary<TokenId, Dictionary<AccountId, long>> transfers = [];
             foreach (var transfer in tokenTransfers)
             {
-                var current = transfers[transfer.TokenId] != null ? transfers[transfer.TokenId] : new Dictionary<AccountId, long>();
+                var current = transfers.TryGetValue(transfer.TokenId, out Dictionary<AccountId, long>? _transfers) ? _transfers ?? [] : [];
                 current.Add(transfer.AccountId, transfer.Amount);
-                transfers.Add(transfer.TokenId, current);
+                transfers.AddOrReplace(transfer.TokenId, current);
             }
 
             return transfers;
@@ -173,9 +173,9 @@ namespace Hedera.Hashgraph.SDK.Token
 			Dictionary<TokenId, IList<TokenNftTransfer>> transfers = [];
 			foreach (var transfer in nftTransfers)
 			{
-				var current = transfers[transfer.TokenId] != null ? transfers[transfer.TokenId] : new List<TokenNftTransfer>();
+				var current = transfers.TryGetValue(transfer.TokenId, out IList<TokenNftTransfer>? _transfers) ? _transfers ?? [] : [];
 				current.Add(transfer);
-				transfers.Add(transfer.TokenId, current);
+				transfers.AddOrReplace(transfer.TokenId, current);
 			}
 
 			return transfers;
