@@ -8,7 +8,7 @@ using System;
 using System.Text;
 using System.Threading;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Topic
 {
     /// <include file="TopicMessageIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TopicMessageIntegrationTest"]' />
     public class TopicMessageIntegrationTest

@@ -9,7 +9,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Nfts;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Nfts
 {
     /// <include file="NftAllowancesIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.NftAllowancesIntegrationTest"]' />
     public class NftAllowancesIntegrationTest

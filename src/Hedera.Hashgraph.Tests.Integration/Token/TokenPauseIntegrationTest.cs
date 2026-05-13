@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenPauseIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenPauseIntegrationTest"]' />
     public class TokenPauseIntegrationTest

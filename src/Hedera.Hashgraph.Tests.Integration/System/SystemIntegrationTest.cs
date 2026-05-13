@@ -11,7 +11,7 @@ using System.Text;
 using Google.Protobuf.WellKnownTypes;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.System
 {
     /// <include file="SystemIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.SystemIntegrationTest"]' />
     public class SystemIntegrationTest

@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Transactions;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenTransferIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenTransferIntegrationTest"]' />
     public class TokenTransferIntegrationTest

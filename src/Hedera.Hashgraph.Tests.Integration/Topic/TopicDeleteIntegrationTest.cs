@@ -4,7 +4,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Consensus;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Topic
 {
     /// <include file="TopicDeleteIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TopicDeleteIntegrationTest"]' />
     public class TopicDeleteIntegrationTest

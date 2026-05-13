@@ -13,7 +13,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 using System;
 using System.Threading;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Schedule
 {
     /// <include file="ScheduleCreateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ScheduleCreateIntegrationTest"]' />
     public class ScheduleCreateIntegrationTest

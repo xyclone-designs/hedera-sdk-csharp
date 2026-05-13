@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Nfts
 {
     /// <include file="TokenNftTransferIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenNftTransferIntegrationTest"]' />
     public class TokenNftTransferIntegrationTest

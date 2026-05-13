@@ -10,7 +10,7 @@ using System.Threading;
 using Google.Protobuf;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.File
 {
     /// <include file="FileAppendIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileAppendIntegrationTest"]' />
     public class FileAppendIntegrationTest

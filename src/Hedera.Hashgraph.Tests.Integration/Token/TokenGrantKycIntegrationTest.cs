@@ -5,7 +5,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenGrantKycIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenGrantKycIntegrationTest"]' />
     public class TokenGrantKycIntegrationTest

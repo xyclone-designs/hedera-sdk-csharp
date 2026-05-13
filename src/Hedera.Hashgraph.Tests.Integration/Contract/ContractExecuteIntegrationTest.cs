@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.Networking;
 using System.Text;
 using System.Threading;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractExecuteIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractExecuteIntegrationTest"]' />
     public class ContractExecuteIntegrationTest

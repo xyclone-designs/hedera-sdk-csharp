@@ -5,8 +5,9 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Exceptions;
+using Hedera.Hashgraph.Tests.Integration.Nfts;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenWipeIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenWipeIntegrationTest"]' />
     public class TokenWipeIntegrationTest

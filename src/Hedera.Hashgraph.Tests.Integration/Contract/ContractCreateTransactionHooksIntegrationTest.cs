@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using System.Text;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractCreateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractCreateTransactionHooksIntegrationTest"]' />
     public class ContractCreateTransactionHooksIntegrationTest

@@ -9,7 +9,7 @@ using Hedera.Hashgraph.SDK;
 using System.Numerics;
 using Google.Protobuf;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractFunctionParametersIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractFunctionParametersIntegrationTest"]' />
     public class ContractFunctionParametersIntegrationTest

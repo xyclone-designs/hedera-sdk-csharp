@@ -14,7 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Transactions
 {
     /// <include file="TransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TransactionIntegrationTest"]' />
     public class TransactionIntegrationTest

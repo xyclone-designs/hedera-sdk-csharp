@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.File;
 
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractBytecodeIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractBytecodeIntegrationTest"]' />
 	public class ContractBytecodeIntegrationTest

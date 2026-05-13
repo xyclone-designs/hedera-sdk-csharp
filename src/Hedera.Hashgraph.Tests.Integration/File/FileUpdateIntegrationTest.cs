@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Google.Protobuf;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.File
 {
     /// <include file="FileUpdateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileUpdateIntegrationTest"]' />
     public class FileUpdateIntegrationTest

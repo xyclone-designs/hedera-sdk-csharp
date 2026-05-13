@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using System.Threading;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Account
 {
     /// <include file="AccountIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountIdPopulationIntegrationTest"]' />
     public class AccountIdPopulationIntegrationTest

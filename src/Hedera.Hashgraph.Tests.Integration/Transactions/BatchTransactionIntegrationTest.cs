@@ -14,7 +14,7 @@ using Org.BouncyCastle.Utilities.Encoders;
 using Google.Protobuf;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Transactions
 {
     /// <include file="BatchTransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.BatchTransactionIntegrationTest"]' />
     public class BatchTransactionIntegrationTest

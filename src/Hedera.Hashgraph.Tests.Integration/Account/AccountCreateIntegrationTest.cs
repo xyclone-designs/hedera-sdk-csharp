@@ -11,7 +11,7 @@ using Org.BouncyCastle.Utilities.Encoders;
 
 using System;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Account
 {
     /// <include file="AccountCreateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountCreateIntegrationTest"]' />
     public class AccountCreateIntegrationTest

@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.Hook;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Account
 {
     /// <include file="AccountUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountUpdateTransactionHooksIntegrationTest"]' />
     public class AccountUpdateTransactionHooksIntegrationTest

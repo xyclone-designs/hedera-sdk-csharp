@@ -5,7 +5,7 @@ using Hedera.Hashgraph.SDK;
 
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.File
 {
     /// <include file="FileInfoIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileInfoIntegrationTest"]' />
     public class FileInfoIntegrationTest

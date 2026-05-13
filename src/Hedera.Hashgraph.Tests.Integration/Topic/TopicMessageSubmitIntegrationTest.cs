@@ -11,7 +11,7 @@ using System;
 using System.Threading;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Topic
 {
     /// <include file="TopicMessageSubmitIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TopicMessageSubmitIntegrationTest"]' />
     public class TopicMessageSubmitIntegrationTest

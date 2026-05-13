@@ -8,8 +8,9 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Airdrops;
+using Hedera.Hashgraph.Tests.Integration.Nfts;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenAirdropClaimIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenAirdropClaimIntegrationTest"]' />
     public class TokenAirdropClaimIntegrationTest

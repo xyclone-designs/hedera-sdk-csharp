@@ -3,7 +3,7 @@ using System.Text;
 
 using Hedera.Hashgraph.SDK.File;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.File
 {
     /// <include file="FileCreateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileCreateIntegrationTest"]' />
     public class FileCreateIntegrationTest

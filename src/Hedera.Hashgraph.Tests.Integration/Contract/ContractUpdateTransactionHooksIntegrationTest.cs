@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.File;
 
 using Google.Protobuf;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractUpdateTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractUpdateTransactionHooksIntegrationTest"]' />
     public class ContractUpdateTransactionHooksIntegrationTest

@@ -4,7 +4,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Contract;
 using Hedera.Hashgraph.SDK.Cryptography;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractCreateFlowIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractCreateFlowIntegrationTest"]' />
     public class ContractCreateFlowIntegrationTest

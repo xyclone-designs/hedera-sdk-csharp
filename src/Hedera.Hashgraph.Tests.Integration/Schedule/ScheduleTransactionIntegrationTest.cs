@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Token;
 using Google.Protobuf;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Schedule
 {
     /// <include file="ScheduleTransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ScheduleTransactionIntegrationTest"]' />
     public class ScheduleTransactionIntegrationTest

@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 
 using System;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Account
 {
     /// <include file="AccountDeleteIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountDeleteIntegrationTest"]' />
     public class AccountDeleteIntegrationTest

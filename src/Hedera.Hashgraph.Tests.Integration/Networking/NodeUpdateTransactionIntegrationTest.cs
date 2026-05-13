@@ -10,7 +10,7 @@ using Hedera.Hashgraph.SDK;
 using System.Linq;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Networking
 {
     /// <include file="NodeUpdateTransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.NodeUpdateTransactionIntegrationTest"]' />
     public class NodeUpdateTransactionIntegrationTest

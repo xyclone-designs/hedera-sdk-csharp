@@ -11,7 +11,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Networking
 {
     /// <include file="MirrorNodeContractQueryIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.MirrorNodeContractQueryIntegrationTest"]' />
     public class MirrorNodeContractQueryIntegrationTest

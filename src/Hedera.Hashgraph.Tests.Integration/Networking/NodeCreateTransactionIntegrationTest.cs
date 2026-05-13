@@ -9,7 +9,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Networking;
 using Hedera.Hashgraph.SDK;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Networking
 {
     /// <include file="NodeCreateTransactionIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.NodeCreateTransactionIntegrationTest"]' />
     public class NodeCreateTransactionIntegrationTest

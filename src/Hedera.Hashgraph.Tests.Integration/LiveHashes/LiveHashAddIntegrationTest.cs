@@ -11,7 +11,7 @@ using Hedera.Hashgraph.SDK.LiveHashes;
 
 using Google.Protobuf.WellKnownTypes;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.LiveHashes
 {
     /// <include file="LiveHashAddIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.LiveHashAddIntegrationTest"]' />
     public class LiveHashAddIntegrationTest

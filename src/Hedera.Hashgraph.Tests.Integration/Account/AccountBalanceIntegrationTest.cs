@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.Token;
 using Hedera.Hashgraph.SDK.Exceptions;
 using System.Linq;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Account
 {
     /// <include file="AccountBalanceIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountBalanceIntegrationTest"]' />
     public class AccountBalanceIntegrationTest

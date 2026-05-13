@@ -7,7 +7,7 @@ using Hedera.Hashgraph.SDK.LiveHashes;
 
 using Org.BouncyCastle.Utilities.Encoders;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.LiveHashes
 {
     /// <include file="LiveHashDeleteIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.LiveHashDeleteIntegrationTest"]' />
     public class LiveHashDeleteIntegrationTest

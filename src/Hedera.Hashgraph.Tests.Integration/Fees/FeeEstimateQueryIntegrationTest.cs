@@ -15,7 +15,7 @@ using Hedera.Hashgraph.SDK.Fee;
 using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Contract;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Fees
 {
     /// <include file="FeeEstimateQueryIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FeeEstimateQueryIntegrationTest"]' />
     public class FeeEstimateQueryIntegrationTest

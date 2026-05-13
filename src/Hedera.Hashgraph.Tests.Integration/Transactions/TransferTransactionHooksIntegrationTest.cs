@@ -12,7 +12,7 @@ using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK.Nfts;
 using System.Collections.Generic;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Transactions
 {
     /// <include file="TransferTransactionHooksIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TransferTransactionHooksIntegrationTest"]' />
     public class TransferTransactionHooksIntegrationTest

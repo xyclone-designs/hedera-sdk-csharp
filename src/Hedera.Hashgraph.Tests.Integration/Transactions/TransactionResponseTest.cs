@@ -2,7 +2,7 @@
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Transactions
 {
     /// <include file="TransactionResponseTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TransactionResponseTest"]' />
     public class TransactionResponseTest

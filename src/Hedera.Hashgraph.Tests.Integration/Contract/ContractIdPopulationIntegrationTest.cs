@@ -4,7 +4,7 @@ using Hedera.Hashgraph.SDK.Contract;
 using System.Threading;
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractIdPopulationIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractIdPopulationIntegrationTest"]' />
     public class ContractIdPopulationIntegrationTest

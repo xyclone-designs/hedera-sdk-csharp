@@ -8,7 +8,7 @@ using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Networking
 {
     /// <include file="ClientIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ClientIntegrationTest"]' />
     public class ClientIntegrationTest

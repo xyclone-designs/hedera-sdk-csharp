@@ -6,7 +6,7 @@ using Hedera.Hashgraph.SDK.Cryptography;
 
 using System;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Account
 {
     /// <include file="AccountUpdateIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.AccountUpdateIntegrationTest"]' />
     public class AccountUpdateIntegrationTest

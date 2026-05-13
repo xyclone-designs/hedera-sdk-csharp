@@ -5,7 +5,7 @@ using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Cryptography;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenFreezeIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenFreezeIntegrationTest"]' />
     public class TokenFreezeIntegrationTest

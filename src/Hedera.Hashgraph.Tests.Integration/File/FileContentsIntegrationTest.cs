@@ -5,7 +5,7 @@ using Hedera.Hashgraph.SDK.File;
 using Hedera.Hashgraph.SDK;
 using Hedera.Hashgraph.SDK.Exceptions;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.File
 {
     /// <include file="FileContentsIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FileContentsIntegrationTest"]' />
 	public class FileContentsIntegrationTest

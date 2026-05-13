@@ -9,8 +9,9 @@ using Hedera.Hashgraph.SDK.Exceptions;
 using Hedera.Hashgraph.SDK.Airdrops;
 using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK;
+using Hedera.Hashgraph.Tests.Integration.Nfts;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenAirdropCancelIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenAirdropCancelIntegrationTest"]' />
     public class TokenAirdropCancelIntegrationTest

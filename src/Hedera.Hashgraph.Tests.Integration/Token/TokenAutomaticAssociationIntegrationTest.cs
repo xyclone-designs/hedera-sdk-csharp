@@ -5,8 +5,9 @@ using Hedera.Hashgraph.SDK.Transactions;
 using Hedera.Hashgraph.SDK.Cryptocurrency;
 using Hedera.Hashgraph.SDK.Cryptography;
 using Hedera.Hashgraph.SDK.Token;
+using Hedera.Hashgraph.Tests.Integration.Nfts;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Token
 {
     /// <include file="TokenAutomaticAssociationIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.TokenAutomaticAssociationIntegrationTest"]' />
     public class TokenAutomaticAssociationIntegrationTest

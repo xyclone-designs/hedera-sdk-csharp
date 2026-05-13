@@ -5,7 +5,7 @@ using Hedera.Hashgraph.SDK.File;
 using System.Linq;
 using System.Text;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Contract
 {
     /// <include file="ContractNonceInfoIntegrationTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.ContractNonceInfoIntegrationTest"]' />
     public class ContractNonceInfoIntegrationTest

@@ -4,7 +4,7 @@ using Hedera.Hashgraph.SDK.Fee;
 
 using Google.Protobuf;
 
-namespace Hedera.Hashgraph.Tests.Integration
+namespace Hedera.Hashgraph.Tests.Integration.Fees
 {
     /// <include file="FeeSchedulesTest.cs.xml" path='docs/member[@name="T:Hedera.Hashgraph.Tests.Integration.FeeSchedulesTest"]' />
     public class FeeSchedulesTest
