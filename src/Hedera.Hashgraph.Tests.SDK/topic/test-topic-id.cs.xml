@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest">
+    <summary>TODO: Describe TopicIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdFromEvmAddressIncorrectAddress">
+    <summary>TODO: Describe TestTopicIdFromEvmAddressIncorrectAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdFromEvmAddress">
+    <summary>TODO: Describe TestTopicIdFromEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicIdTest.TestTopicIdToEvmAddress">
+    <summary>TODO: Describe TestTopicIdToEvmAddress.</summary>
+  </member>
+</docs>

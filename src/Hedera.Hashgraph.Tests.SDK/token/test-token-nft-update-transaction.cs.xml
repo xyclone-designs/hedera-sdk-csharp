@@ -1,0 +1,35 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest">
+    <summary>TODO: Describe TokenUpdateNftsTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.ConstructTokenUpdateTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenUpdateTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetTokenId">
+    <summary>TODO: Describe GetSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetTokenIdFrozen">
+    <summary>TODO: Describe GetSetTokenIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetMetadata">
+    <summary>TODO: Describe GetSetMetadata.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetMetadataFrozen">
+    <summary>TODO: Describe GetSetMetadataFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetSerialNumbers">
+    <summary>TODO: Describe GetSetSerialNumbers.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.TokenUpdateNftsTransactionTest.GetSetSerialNumbersFrozen">
+    <summary>TODO: Describe GetSetSerialNumbersFrozen.</summary>
+  </member>
+</docs>

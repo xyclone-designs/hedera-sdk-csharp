@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest">
+    <summary>TODO: Describe EvmHookStorageUpdateTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookStorageSlotConstructsAndDefensiveCopies">
+    <summary>TODO: Describe EvmHookStorageSlotConstructsAndDefensiveCopies.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookStorageSlotProtobufRoundTrip">
+    <summary>TODO: Describe EvmHookStorageSlotProtobufRoundTrip.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesConstructsValidatesAndCopies">
+    <summary>TODO: Describe EvmHookMappingEntriesConstructsValidatesAndCopies.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesValidation">
+    <summary>TODO: Describe EvmHookMappingEntriesValidation.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.EvmHookMappingEntriesProtobufRoundTrip">
+    <summary>TODO: Describe EvmHookMappingEntriesProtobufRoundTrip.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookStorageUpdateTest.FromProtobufWithoutUpdateThrows">
+    <summary>TODO: Describe FromProtobufWithoutUpdateThrows.</summary>
+  </member>
+</docs>

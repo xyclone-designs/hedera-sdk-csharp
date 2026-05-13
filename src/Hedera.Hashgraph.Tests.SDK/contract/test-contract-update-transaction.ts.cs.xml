@@ -1,0 +1,26 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest">
+    <summary>TODO: Describe ContractUpdateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest.ShouldBytes2">
+    <summary>TODO: Describe ShouldBytes2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest.ShouldSupportExpirationTimeDurationBytesRoundTrip">
+    <summary>TODO: Describe ShouldSupportExpirationTimeDurationBytesRoundTrip.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest.SetExpirationTimeDurationOnFrozenTransactionShouldThrow">
+    <summary>TODO: Describe SetExpirationTimeDurationOnFrozenTransactionShouldThrow.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest.GetSetExpirationTimeDateTime">
+    <summary>TODO: Describe GetSetExpirationTimeDateTime.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+</docs>

@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.NetworkVersionInfoIntegrationTest">
+    <summary>TODO: Describe NetworkVersionInfoIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NetworkVersionInfoIntegrationTest.CannotQueryNetworkVersionInfo">
+    <summary>TODO: Describe CannotQueryNetworkVersionInfo.</summary>
+  </member>
+</docs>

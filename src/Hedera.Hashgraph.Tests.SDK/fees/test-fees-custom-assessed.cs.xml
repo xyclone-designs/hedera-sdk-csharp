@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Fees.AssessedCustomFeeTest">
+    <summary>TODO: Describe AssessedCustomFeeTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.AssessedCustomFeeTest.ShouldSerialize">
+    <summary>TODO: Describe ShouldSerialize.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.AssessedCustomFeeTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+</docs>

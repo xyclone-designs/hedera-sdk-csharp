@@ -1,0 +1,53 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest">
+    <summary>TODO: Describe TransactionIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeCompareFields">
+    <summary>TODO: Describe CanSerializeDeserializeCompareFields.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeWithNodeAccountIdsDeserializeCompareFields">
+    <summary>TODO: Describe CanSerializeWithNodeAccountIdsDeserializeCompareFields.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeAndExecuteIncompleteTransaction">
+    <summary>TODO: Describe CanSerializeDeserializeAndExecuteIncompleteTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeAndExecuteIncompleteTransactionWithNodeAccountIds">
+    <summary>TODO: Describe CanSerializeDeserializeAndExecuteIncompleteTransactionWithNodeAccountIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeEditExecuteCompareFields">
+    <summary>TODO: Describe CanSerializeDeserializeEditExecuteCompareFields.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeEditExecuteCompareFieldsIncompleteTransactionWithNodeAccountIds">
+    <summary>TODO: Describe CanSerializeDeserializeEditExecuteCompareFieldsIncompleteTransactionWithNodeAccountIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeReserializeAndExecute">
+    <summary>TODO: Describe CanFreezeSignSerializeDeserializeReserializeAndExecute.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSerializeDeserializeAddSignatureAndExecute">
+    <summary>TODO: Describe CanFreezeSerializeDeserializeAddSignatureAndExecute.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeAndCompareFileAppendChunkedTransaction">
+    <summary>TODO: Describe CanFreezeSignSerializeDeserializeAndCompareFileAppendChunkedTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteFileAppendChunkedTransaction">
+    <summary>TODO: Describe CanSerializeDeserializeExecuteFileAppendChunkedTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteFileAppendChunkedTransactionWithNodeAccountIds">
+    <summary>TODO: Describe CanSerializeDeserializeExecuteIncompleteFileAppendChunkedTransactionWithNodeAccountIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanFreezeSignSerializeDeserializeAndCompareTopicMessageSubmitChunkedTransaction">
+    <summary>TODO: Describe CanFreezeSignSerializeDeserializeAndCompareTopicMessageSubmitChunkedTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransaction">
+    <summary>TODO: Describe CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransactionWithNodeAccountIds">
+    <summary>TODO: Describe CanSerializeDeserializeExecuteIncompleteTopicMessageSubmitChunkedTransactionWithNodeAccountIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.TransactionFromToBytes2">
+    <summary>TODO: Describe TransactionFromToBytes2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TransactionIntegrationTest.CanAddSignatureToTransaction">
+    <summary>TODO: Describe CanAddSignatureToTransaction.</summary>
+  </member>
+</docs>

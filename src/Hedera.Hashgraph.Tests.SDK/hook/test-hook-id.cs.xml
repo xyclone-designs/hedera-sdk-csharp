@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookIdTest">
+    <summary>TODO: Describe HookIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookIdTest.ToFromProtoAndEquality">
+    <summary>TODO: Describe ToFromProtoAndEquality.</summary>
+  </member>
+</docs>

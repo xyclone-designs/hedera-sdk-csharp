@@ -1,0 +1,12 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest">
+    <summary>TODO: Describe EthereumFlowMockTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest.DontTruncateEthereumDataUnnecessarily">
+    <summary>TODO: Describe DontTruncateEthereumDataUnnecessarily.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumFlowMockTest.ExtractsCallData(System.String)">
+    <summary>TODO: Describe ExtractsCallData.</summary>
+    <param name="versionToTest">TODO</param>
+  </member>
+</docs>

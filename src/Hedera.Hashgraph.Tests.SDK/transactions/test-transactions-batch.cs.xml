@@ -1,0 +1,65 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest">
+    <summary>TODO: Describe BatchTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.GetInnerTransactionsShouldReturnCorrectTransactions">
+    <summary>TODO: Describe GetInnerTransactionsShouldReturnCorrectTransactions.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.SetInnerTransactionsShouldUpdateTransactions">
+    <summary>TODO: Describe SetInnerTransactionsShouldUpdateTransactions.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.InnerTransactionsAddShouldAppendTransaction">
+    <summary>TODO: Describe InnerTransactionsAddShouldAppendTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.GetInnerTransactionIdsShouldReturnCorrectIds">
+    <summary>TODO: Describe GetInnerTransactionIdsShouldReturnCorrectIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldAllowChainedSetters">
+    <summary>TODO: Describe ShouldAllowChainedSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectFreezeTransaction">
+    <summary>TODO: Describe ShouldRejectFreezeTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectBatchTransaction">
+    <summary>TODO: Describe ShouldRejectBatchTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectBlacklistedTransactionInList">
+    <summary>TODO: Describe ShouldRejectBlacklistedTransactionInList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectUnfrozenTransaction">
+    <summary>TODO: Describe ShouldRejectUnfrozenTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionAfterFreeze">
+    <summary>TODO: Describe ShouldRejectTransactionAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionListAfterFreeze">
+    <summary>TODO: Describe ShouldRejectTransactionListAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldPreserveTransactionOrder">
+    <summary>TODO: Describe ShouldPreserveTransactionOrder.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldCreateDefensiveCopyOfTransactionList">
+    <summary>TODO: Describe ShouldCreateDefensiveCopyOfTransactionList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldRejectTransactionWithoutBatchKey">
+    <summary>TODO: Describe ShouldRejectTransactionWithoutBatchKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateAllTransactionsInList">
+    <summary>TODO: Describe ShouldValidateAllTransactionsInList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateMultipleConditions">
+    <summary>TODO: Describe ShouldValidateMultipleConditions.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldAcceptValidTransaction">
+    <summary>TODO: Describe ShouldAcceptValidTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.BatchTransactionTest.ShouldValidateTransactionStateInOrder">
+    <summary>TODO: Describe ShouldValidateTransactionStateInOrder.</summary>
+  </member>
+</docs>

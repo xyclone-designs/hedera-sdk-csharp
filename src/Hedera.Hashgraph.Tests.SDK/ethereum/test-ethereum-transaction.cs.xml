@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest">
+    <summary>TODO: Describe EthereumTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionTest.ShouldBytesNft">
+    <summary>TODO: Describe ShouldBytesNft.</summary>
+  </member>
+</docs>

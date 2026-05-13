@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest">
+    <summary>TODO: Describe ScheduleDeleteTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleDeleteTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+</docs>

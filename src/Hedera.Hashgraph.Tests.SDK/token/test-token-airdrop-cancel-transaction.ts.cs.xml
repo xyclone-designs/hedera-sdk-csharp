@@ -1,0 +1,32 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest">
+    <summary>TODO: Describe TokenCancelAirdropTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestConstructorSetsDefaultMaxTransactionFee">
+    <summary>TODO: Describe TestConstructorSetsDefaultMaxTransactionFee.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestGetAndSetPendingAirdropIds">
+    <summary>TODO: Describe TestGetAndSetPendingAirdropIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestClearPendingAirdropIds">
+    <summary>TODO: Describe TestClearPendingAirdropIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestAddAllPendingAirdrops">
+    <summary>TODO: Describe TestAddAllPendingAirdrops.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestBuildTransactionBody">
+    <summary>TODO: Describe TestBuildTransactionBody.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestGetMethodDescriptor">
+    <summary>TODO: Describe TestGetMethodDescriptor.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestOnFreeze">
+    <summary>TODO: Describe TestOnFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCancelAirdropTransactionTest.TestOnScheduled">
+    <summary>TODO: Describe TestOnScheduled.</summary>
+  </member>
+</docs>

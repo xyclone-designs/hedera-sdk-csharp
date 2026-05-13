@@ -1,0 +1,44 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest">
+    <summary>TODO: Describe TokenAirdropTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.DecimalsMustBeConsistent">
+    <summary>TODO: Describe DecimalsMustBeConsistent.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.CanGetDecimals">
+    <summary>TODO: Describe CanGetDecimals.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestDefaultMaxTransactionFeeIsSet">
+    <summary>TODO: Describe TestDefaultMaxTransactionFeeIsSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddTokenTransfer">
+    <summary>TODO: Describe TestAddTokenTransfer.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddApprovedTokenTransfer">
+    <summary>TODO: Describe TestAddApprovedTokenTransfer.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddNftTransfer">
+    <summary>TODO: Describe TestAddNftTransfer.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestAddApprovedNftTransfer">
+    <summary>TODO: Describe TestAddApprovedNftTransfer.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestGetTokenIdDecimals">
+    <summary>TODO: Describe TestGetTokenIdDecimals.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestBuildTransactionBody">
+    <summary>TODO: Describe TestBuildTransactionBody.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAirdropTransactionTest.TestGetMethodDescriptor">
+    <summary>TODO: Describe TestGetMethodDescriptor.</summary>
+  </member>
+</docs>

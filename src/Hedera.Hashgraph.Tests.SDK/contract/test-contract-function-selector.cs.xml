@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionSelectorTest">
+    <summary>TODO: Describe ContractFunctionSelectorTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionSelectorTest.Selector">
+    <summary>TODO: Describe Selector.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionSelectorTest.SelectorError">
+    <summary>TODO: Describe SelectorError.</summary>
+  </member>
+</docs>

@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenUnpauseTransactionTest">
+    <summary>TODO: Describe TokenUnpauseTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUnpauseTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUnpauseTransactionTest.ShouldBytesNft">
+    <summary>TODO: Describe ShouldBytesNft.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUnpauseTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUnpauseTransactionTest.ConstructTokenUnpauseTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenUnpauseTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUnpauseTransactionTest.GetSetTokenId">
+    <summary>TODO: Describe GetSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenUnpauseTransactionTest.GetSetTokenIdFrozen">
+    <summary>TODO: Describe GetSetTokenIdFrozen.</summary>
+  </member>
+</docs>

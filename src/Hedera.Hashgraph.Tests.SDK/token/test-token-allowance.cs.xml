@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest">
+    <summary>TODO: Describe TokenAllowanceTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.ConstructWithTokenIdOwnerSpenderAmount">
+    <summary>TODO: Describe ConstructWithTokenIdOwnerSpenderAmount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.FromProtobuf">
+    <summary>TODO: Describe FromProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenAllowanceTest.ToProtobuf">
+    <summary>TODO: Describe ToProtobuf.</summary>
+  </member>
+</docs>

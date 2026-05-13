@@ -1,0 +1,20 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest">
+    <summary>TODO: Describe MirrorNodeContractQueryIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.CanSimulateTransaction">
+    <summary>TODO: Describe CanSimulateTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.ReturnsDefaultValuesWhenContractIsNotDeployed">
+    <summary>TODO: Describe ReturnsDefaultValuesWhenContractIsNotDeployed.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.FailsWhenGasLimitIsLow">
+    <summary>TODO: Describe FailsWhenGasLimitIsLow.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.FailsWhenSenderIsNotSet">
+    <summary>TODO: Describe FailsWhenSenderIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.MirrorNodeContractQueryIntegrationTest.CanSimulateWithSenderSet">
+    <summary>TODO: Describe CanSimulateWithSenderSet.</summary>
+  </member>
+</docs>

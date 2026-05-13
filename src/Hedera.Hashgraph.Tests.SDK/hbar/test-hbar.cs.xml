@@ -1,0 +1,43 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest">
+    <summary>TODO: Describe HbarTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldConstruct">
+    <summary>TODO: Describe ShouldConstruct.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldNotConstruct">
+    <summary>TODO: Describe ShouldNotConstruct.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldDisplay">
+    <summary>TODO: Describe ShouldDisplay.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldConvert(BigDecimal,HbarUnit)">
+    <summary>TODO: Describe ShouldConvert.</summary>
+    <param name="value">TODO</param>
+    <param name="unit">TODO</param>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ShouldCompare">
+    <summary>TODO: Describe ShouldCompare.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.ConstructorWorks">
+    <summary>TODO: Describe ConstructorWorks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.FromString">
+    <summary>TODO: Describe FromString.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.FromStringUnit">
+    <summary>TODO: Describe FromStringUnit.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.From">
+    <summary>TODO: Describe From.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.FromUnit">
+    <summary>TODO: Describe FromUnit.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.GetValue">
+    <summary>TODO: Describe GetValue.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.HBar.HbarTest.HasHashCode">
+    <summary>TODO: Describe HasHashCode.</summary>
+  </member>
+</docs>

@@ -1,0 +1,44 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest">
+    <summary>TODO: Describe ECDSAPrivateKeyTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeyGenerates">
+    <summary>TODO: Describe KeyGenerates.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeySerialization">
+    <summary>TODO: Describe KeySerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeySerialization2">
+    <summary>TODO: Describe KeySerialization2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeySerialization3">
+    <summary>TODO: Describe KeySerialization3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeyStringification">
+    <summary>TODO: Describe KeyStringification.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeyStringification2">
+    <summary>TODO: Describe KeyStringification2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeyStringification3">
+    <summary>TODO: Describe KeyStringification3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeyIsECDSA">
+    <summary>TODO: Describe KeyIsECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.KeyIsNotEd25519">
+    <summary>TODO: Describe KeyIsNotEd25519.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.Slip10TestVector1">
+    <summary>TODO: Describe Slip10TestVector1.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.Slip10TestVector2">
+    <summary>TODO: Describe Slip10TestVector2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.PEMImportTestVectors">
+    <summary>TODO: Describe PEMImportTestVectors.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPrivateKeyTest.DERImportTestVectors">
+    <summary>TODO: Describe DERImportTestVectors.</summary>
+  </member>
+</docs>

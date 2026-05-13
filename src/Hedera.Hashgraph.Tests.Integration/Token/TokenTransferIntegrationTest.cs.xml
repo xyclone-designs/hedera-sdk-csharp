@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenTransferIntegrationTest">
+    <summary>TODO: Describe TokenTransferIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenTransferIntegrationTest.TokenTransferTest">
+    <summary>TODO: Describe TokenTransferTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenTransferIntegrationTest.InsufficientBalanceForFee">
+    <summary>TODO: Describe InsufficientBalanceForFee.</summary>
+  </member>
+</docs>

@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookEntityIdTest">
+    <summary>TODO: Describe HookEntityIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookEntityIdTest.AccountVariantToFromProto">
+    <summary>TODO: Describe AccountVariantToFromProto.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookEntityIdTest.ContractVariantToFromProto">
+    <summary>TODO: Describe ContractVariantToFromProto.</summary>
+  </member>
+</docs>

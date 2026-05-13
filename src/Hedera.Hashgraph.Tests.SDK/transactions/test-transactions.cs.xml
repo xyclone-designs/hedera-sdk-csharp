@@ -1,0 +1,77 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest">
+    <summary>TODO: Describe TransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionFromBytesWorksWithProtobufTransactionBytes">
+    <summary>TODO: Describe TransactionFromBytesWorksWithProtobufTransactionBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromTransactionBodyBytes">
+    <summary>TODO: Describe TokenAssociateTransactionFromTransactionBodyBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromSignedTransactionBytes">
+    <summary>TODO: Describe TokenAssociateTransactionFromSignedTransactionBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TokenAssociateTransactionFromTransactionBytes">
+    <summary>TODO: Describe TokenAssociateTransactionFromTransactionBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SameSizeForIdenticalTransactions">
+    <summary>TODO: Describe SameSizeForIdenticalTransactions.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SignedTransactionShouldHaveLargerSize">
+    <summary>TODO: Describe SignedTransactionShouldHaveLargerSize.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithLargerContentShouldHaveLargerTransactionBody">
+    <summary>TODO: Describe TransactionWithLargerContentShouldHaveLargerTransactionBody.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithoutOptionalFieldsShouldHaveSmallerTransactionBody">
+    <summary>TODO: Describe TransactionWithoutOptionalFieldsShouldHaveSmallerTransactionBody.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.MultiChunkTransactionShouldReturnArrayOfBodySizes">
+    <summary>TODO: Describe MultiChunkTransactionShouldReturnArrayOfBodySizes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.SingleChunkTransactionShouldReturnArrayOfOneSize">
+    <summary>TODO: Describe SingleChunkTransactionShouldReturnArrayOfOneSize.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TransactionWithNoContentShouldReturnSingleBodyChunk">
+    <summary>TODO: Describe TransactionWithNoContentShouldReturnSingleBodyChunk.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.ChunkedFileAppendTransactionShouldReturnProperSizes">
+    <summary>TODO: Describe ChunkedFileAppendTransactionShouldReturnProperSizes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2SingleNodeSingleChunk">
+    <summary>TODO: Describe TestAddSignatureV2SingleNodeSingleChunk.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2MultipleNodesSingleChunk">
+    <summary>TODO: Describe TestAddSignatureV2MultipleNodesSingleChunk.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2MultipleNodesMultipleChunks">
+    <summary>TODO: Describe TestAddSignatureV2MultipleNodesMultipleChunks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WrongNodeID">
+    <summary>TODO: Describe TestAddSignatureV2WrongNodeID.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WrongTransactionID">
+    <summary>TODO: Describe TestAddSignatureV2WrongTransactionID.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2SameSignatureTwice">
+    <summary>TODO: Describe TestAddSignatureV2SameSignatureTwice.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestAddSignatureV2WithEmptyInnerSignedTransactions">
+    <summary>TODO: Describe TestAddSignatureV2WithEmptyInnerSignedTransactions.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListUnfrozen">
+    <summary>TODO: Describe TestGetSignableNodeBodyBytesListUnfrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListBasic">
+    <summary>TODO: Describe TestGetSignableNodeBodyBytesListBasic.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListContents">
+    <summary>TODO: Describe TestGetSignableNodeBodyBytesListContents.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListMultipleNodeIDs">
+    <summary>TODO: Describe TestGetSignableNodeBodyBytesListMultipleNodeIDs.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionTest.TestGetSignableNodeBodyBytesListFileAppendMultipleChunks">
+    <summary>TODO: Describe TestGetSignableNodeBodyBytesListFileAppendMultipleChunks.</summary>
+  </member>
+</docs>

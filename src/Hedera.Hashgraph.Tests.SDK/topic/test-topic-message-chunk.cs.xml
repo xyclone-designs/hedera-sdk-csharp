@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageChunkTest">
+    <summary>TODO: Describe TopicMessageChunkTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageChunkTest.ConstructWithArgs">
+    <summary>TODO: Describe ConstructWithArgs.</summary>
+  </member>
+</docs>

@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.File.FileIdTest">
+    <summary>TODO: Describe FileIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.GetAddressBookFileIdForReturnsCorrectFileId">
+    <summary>TODO: Describe GetAddressBookFileIdForReturnsCorrectFileId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.GetFeeScheduleFileIdForReturnsCorrectFileId">
+    <summary>TODO: Describe GetFeeScheduleFileIdForReturnsCorrectFileId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.GetExchangeRatesFileIdForReturnsCorrectFileId">
+    <summary>TODO: Describe GetExchangeRatesFileIdForReturnsCorrectFileId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.TestFileIdFromEvmAddressIncorrectAddress">
+    <summary>TODO: Describe TestFileIdFromEvmAddressIncorrectAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.TestFileIdFromEvmAddress">
+    <summary>TODO: Describe TestFileIdFromEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.File.FileIdTest.TestFileIdToEvmAddress">
+    <summary>TODO: Describe TestFileIdToEvmAddress.</summary>
+  </member>
+</docs>

@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleInfoTest">
+    <summary>TODO: Describe ScheduleInfoTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleInfoTest.ShouldSerialize">
+    <summary>TODO: Describe ShouldSerialize.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleInfoTest.ShouldSerializeDeleted">
+    <summary>TODO: Describe ShouldSerializeDeleted.</summary>
+  </member>
+</docs>

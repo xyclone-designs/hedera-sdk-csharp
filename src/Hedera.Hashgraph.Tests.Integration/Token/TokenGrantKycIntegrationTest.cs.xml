@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest">
+    <summary>TODO: Describe TokenGrantKycIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CanGrantKycAccountWithToken">
+    <summary>TODO: Describe CanGrantKycAccountWithToken.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenTokenIDIsNotSet">
+    <summary>TODO: Describe CannotGrantKycToAccountOnTokenWhenTokenIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenAccountIDIsNotSet">
+    <summary>TODO: Describe CannotGrantKycToAccountOnTokenWhenAccountIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenGrantKycIntegrationTest.CannotGrantKycToAccountOnTokenWhenAccountWasNotAssociatedWith">
+    <summary>TODO: Describe CannotGrantKycToAccountOnTokenWhenAccountWasNotAssociatedWith.</summary>
+  </member>
+</docs>

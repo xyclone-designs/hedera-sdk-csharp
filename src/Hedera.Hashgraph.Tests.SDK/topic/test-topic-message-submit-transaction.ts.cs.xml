@@ -1,0 +1,35 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest">
+    <summary>TODO: Describe TopicMessageSubmitTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.ConstructTopicMessageSubmitTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTopicMessageSubmitTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.GetSetTopicId">
+    <summary>TODO: Describe GetSetTopicId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.GetSetTopicIdFrozen">
+    <summary>TODO: Describe GetSetTopicIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.GetSetMessage">
+    <summary>TODO: Describe GetSetMessage.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.GetSetMessageFrozen">
+    <summary>TODO: Describe GetSetMessageFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.ShouldSetCustomFeeLimits">
+    <summary>TODO: Describe ShouldSetCustomFeeLimits.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.ShouldAddCustomFeeLimitToList">
+    <summary>TODO: Describe ShouldAddCustomFeeLimitToList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageSubmitTransactionTest.ShouldAddCustomFeeLimitToEmptyList">
+    <summary>TODO: Describe ShouldAddCustomFeeLimitToEmptyList.</summary>
+  </member>
+</docs>

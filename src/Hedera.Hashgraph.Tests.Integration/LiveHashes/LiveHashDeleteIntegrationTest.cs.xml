@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashDeleteIntegrationTest">
+    <summary>TODO: Describe LiveHashDeleteIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashDeleteIntegrationTest.CannotDeleteLiveHashBecauseItsNotSupported">
+    <summary>TODO: Describe CannotDeleteLiveHashBecauseItsNotSupported.</summary>
+  </member>
+</docs>

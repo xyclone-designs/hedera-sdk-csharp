@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest">
+    <summary>TODO: Describe TokenUnpauseIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest.CanExecuteTokenUnpauseTransaction">
+    <summary>TODO: Describe CanExecuteTokenUnpauseTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenUnpauseIntegrationTest.CannotUnpauseWithNoTokenId">
+    <summary>TODO: Describe CannotUnpauseWithNoTokenId.</summary>
+  </member>
+</docs>

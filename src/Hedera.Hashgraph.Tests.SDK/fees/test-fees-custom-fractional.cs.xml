@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest">
+    <summary>TODO: Describe CustomFractionalFeeTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.DeepCloneSubclass">
+    <summary>TODO: Describe DeepCloneSubclass.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetNumerator">
+    <summary>TODO: Describe GetSetNumerator.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetDenominator">
+    <summary>TODO: Describe GetSetDenominator.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetMinimumAmount">
+    <summary>TODO: Describe GetSetMinimumAmount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetMaximumAmount">
+    <summary>TODO: Describe GetSetMaximumAmount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFractionalFeeTest.GetSetAssessmentMethod">
+    <summary>TODO: Describe GetSetAssessmentMethod.</summary>
+  </member>
+</docs>

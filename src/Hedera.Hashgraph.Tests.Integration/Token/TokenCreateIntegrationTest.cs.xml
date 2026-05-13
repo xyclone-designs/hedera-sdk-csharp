@@ -1,0 +1,80 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest">
+    <summary>TODO: Describe TokenCreateIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithOperatorAsAllKeys">
+    <summary>TODO: Describe CanCreateTokenWithOperatorAsAllKeys.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithMinimalPropertiesSet">
+    <summary>TODO: Describe CanCreateTokenWithMinimalPropertiesSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenNameIsNotSet">
+    <summary>TODO: Describe CannotCreateTokenWhenTokenNameIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenSymbolIsNotSet">
+    <summary>TODO: Describe CannotCreateTokenWhenTokenSymbolIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenTreasuryAccountIDIsNotSet">
+    <summary>TODO: Describe CannotCreateTokenWhenTokenTreasuryAccountIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenTokenTreasuryAccountIDDoesNotSignTransaction">
+    <summary>TODO: Describe CannotCreateTokenWhenTokenTreasuryAccountIDDoesNotSignTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateTokenWhenAdminKeyDoesNotSignTransaction">
+    <summary>TODO: Describe CannotCreateTokenWhenAdminKeyDoesNotSignTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithCustomFees">
+    <summary>TODO: Describe CanCreateTokenWithCustomFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateMoreThanTenCustomFees">
+    <summary>TODO: Describe CannotCreateMoreThanTenCustomFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTenFixedFees">
+    <summary>TODO: Describe CanCreateTenFixedFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTenFractionalFees">
+    <summary>TODO: Describe CanCreateTenFractionalFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateMinGreaterThanMax">
+    <summary>TODO: Describe CannotCreateMinGreaterThanMax.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateInvalidFeeCollector">
+    <summary>TODO: Describe CannotCreateInvalidFeeCollector.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateNegativeFee">
+    <summary>TODO: Describe CannotCreateNegativeFee.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CannotCreateZeroDenominator">
+    <summary>TODO: Describe CannotCreateZeroDenominator.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateNfts">
+    <summary>TODO: Describe CanCreateNfts.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateRoyaltyFee">
+    <summary>TODO: Describe CanCreateRoyaltyFee.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithMinimalPropertiesSetAutoRenewAccountShouldBeAutomaticallySet">
+    <summary>TODO: Describe CanCreateTokenWithMinimalPropertiesSetAutoRenewAccountShouldBeAutomaticallySet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanSetAutoRenewPeriod">
+    <summary>TODO: Describe CanSetAutoRenewPeriod.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanSetExpirationTime">
+    <summary>TODO: Describe CanSetExpirationTime.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.WhenTransactionIdIsSetAutoRenewAccountIdShouldBeEqualToAccountId">
+    <summary>TODO: Describe WhenTransactionIdIsSetAutoRenewAccountIdShouldBeEqualToAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithDecimalAdjustmentForSupplyValues">
+    <summary>TODO: Describe CanCreateTokenWithDecimalAdjustmentForSupplyValues.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateNftWithZeroDecimalsAndZeroInitialSupply">
+    <summary>TODO: Describe CanCreateNftWithZeroDecimalsAndZeroInitialSupply.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWithDifferentDecimalPrecisionValues">
+    <summary>TODO: Describe CanCreateTokenWithDifferentDecimalPrecisionValues.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenCreateIntegrationTest.CanCreateTokenWhenAutoRenewPeriodIsNull">
+    <summary>TODO: Describe CanCreateTokenWhenAutoRenewPeriodIsNull.</summary>
+  </member>
+</docs>

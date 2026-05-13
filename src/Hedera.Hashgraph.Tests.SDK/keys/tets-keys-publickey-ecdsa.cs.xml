@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest">
+    <summary>TODO: Describe ECDSAPublicKeyTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyByteSerialization">
+    <summary>TODO: Describe KeyByteSerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyByteSerialization2">
+    <summary>TODO: Describe KeyByteSerialization2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyByteValidation">
+    <summary>TODO: Describe KeyByteValidation.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyByteSerialization3">
+    <summary>TODO: Describe KeyByteSerialization3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyByteSerializationThroughTransaction">
+    <summary>TODO: Describe KeyByteSerializationThroughTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyStringSerialization">
+    <summary>TODO: Describe KeyStringSerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyStringSerialization2">
+    <summary>TODO: Describe KeyStringSerialization2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyStringSerialization3">
+    <summary>TODO: Describe KeyStringSerialization3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyIsECDSA">
+    <summary>TODO: Describe KeyIsECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.KeyIsNotEd25519">
+    <summary>TODO: Describe KeyIsNotEd25519.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.ToEvmAddress">
+    <summary>TODO: Describe ToEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.ECDSAPublicKeyTest.DERImportTestVectors">
+    <summary>TODO: Describe DERImportTestVectors.</summary>
+  </member>
+</docs>

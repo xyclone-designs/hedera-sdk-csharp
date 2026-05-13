@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest">
+    <summary>TODO: Describe FileContentsIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.CanQueryFileContents">
+    <summary>TODO: Describe CanQueryFileContents.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.CanQueryEmptyFileContents">
+    <summary>TODO: Describe CanQueryEmptyFileContents.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.CannotQueryFileContentsWhenFileIDIsNotSet">
+    <summary>TODO: Describe CannotQueryFileContentsWhenFileIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.GetCostBigMaxQueryFileContents">
+    <summary>TODO: Describe GetCostBigMaxQueryFileContents.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.GetCostSmallMaxQueryFileContents">
+    <summary>TODO: Describe GetCostSmallMaxQueryFileContents.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileContentsIntegrationTest.GetCostInsufficientTxFeeQueryFileContents">
+    <summary>TODO: Describe GetCostInsufficientTxFeeQueryFileContents.</summary>
+  </member>
+</docs>

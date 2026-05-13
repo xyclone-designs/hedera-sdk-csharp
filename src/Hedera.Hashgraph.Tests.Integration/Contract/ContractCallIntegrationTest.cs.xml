@@ -1,0 +1,26 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest">
+    <summary>TODO: Describe ContractCallIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest.CanCallContractFunction">
+    <summary>TODO: Describe CanCallContractFunction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest.CannotCallContractFunctionWhenContractFunctionIsNotSet">
+    <summary>TODO: Describe CannotCallContractFunctionWhenContractFunctionIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest.CannotCallContractFunctionWhenGasIsNotSet">
+    <summary>TODO: Describe CannotCallContractFunctionWhenGasIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest.CannotCallContractFunctionWhenContractIDIsNotSet">
+    <summary>TODO: Describe CannotCallContractFunctionWhenContractIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest.GetCostBigMaxContractCallFunction">
+    <summary>TODO: Describe GetCostBigMaxContractCallFunction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest.GetCostSmallMaxContractCallFunction">
+    <summary>TODO: Describe GetCostSmallMaxContractCallFunction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractCallIntegrationTest.GetCostInsufficientTxFeeContractCallFunction">
+    <summary>TODO: Describe GetCostInsufficientTxFeeContractCallFunction.</summary>
+  </member>
+</docs>

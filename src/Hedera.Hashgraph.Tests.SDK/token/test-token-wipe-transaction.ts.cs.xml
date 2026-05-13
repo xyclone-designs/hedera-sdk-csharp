@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest">
+    <summary>TODO: Describe TokenWipeTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesFungible">
+    <summary>TODO: Describe ShouldBytesFungible.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ShouldBytesNft">
+    <summary>TODO: Describe ShouldBytesNft.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.ConstructTokenWipeTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenWipeTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetTokenId">
+    <summary>TODO: Describe GetSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAccountId">
+    <summary>TODO: Describe GetSetAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAccountIdFrozen">
+    <summary>TODO: Describe GetSetAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAmount">
+    <summary>TODO: Describe GetSetAmount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetAmountFrozen">
+    <summary>TODO: Describe GetSetAmountFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetSerialNumbers">
+    <summary>TODO: Describe GetSetSerialNumbers.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenWipeTransactionTest.GetSetSerialNumbersFrozen">
+    <summary>TODO: Describe GetSetSerialNumbersFrozen.</summary>
+  </member>
+</docs>

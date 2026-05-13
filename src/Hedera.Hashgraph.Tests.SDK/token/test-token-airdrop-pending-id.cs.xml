@@ -1,0 +1,26 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest">
+    <summary>TODO: Describe PendingAirdropIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest.TestConstructorWithTokenId">
+    <summary>TODO: Describe TestConstructorWithTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest.TestConstructorWithNftId">
+    <summary>TODO: Describe TestConstructorWithNftId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest.TestToProtobufWithTokenId">
+    <summary>TODO: Describe TestToProtobufWithTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest.TestToProtobufWithNftId">
+    <summary>TODO: Describe TestToProtobufWithNftId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest.TestFromProtobufWithTokenId">
+    <summary>TODO: Describe TestFromProtobufWithTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest.TestFromProtobufWithNftId">
+    <summary>TODO: Describe TestFromProtobufWithNftId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Airdrops.PendingAirdropIdTest.TestToString">
+    <summary>TODO: Describe TestToString.</summary>
+  </member>
+</docs>

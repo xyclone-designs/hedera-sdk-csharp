@@ -1,0 +1,29 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest">
+    <summary>TODO: Describe TokenGrantKycTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.ConstructTokenGrantKycTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenGrantKycTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.GetSetAccountId">
+    <summary>TODO: Describe GetSetAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.GetSetAccountIdFrozen">
+    <summary>TODO: Describe GetSetAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.GetSetTokenId">
+    <summary>TODO: Describe GetSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenGrantKycTransactionTest.GetSetTokenIdFrozen">
+    <summary>TODO: Describe GetSetTokenIdFrozen.</summary>
+  </member>
+</docs>

@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.NodeCreateTransactionIntegrationTest">
+    <summary>TODO: Describe NodeCreateTransactionIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeCreateTransactionIntegrationTest.CanCreateNewNetworkNode">
+    <summary>TODO: Describe CanCreateNewNetworkNode.</summary>
+  </member>
+</docs>

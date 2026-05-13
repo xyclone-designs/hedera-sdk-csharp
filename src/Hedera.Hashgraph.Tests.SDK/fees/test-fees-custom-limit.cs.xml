@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest">
+    <summary>TODO: Describe CustomFeeLimitTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestGetPayerId">
+    <summary>TODO: Describe TestGetPayerId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestSetPayerId">
+    <summary>TODO: Describe TestSetPayerId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestGetCustomFees">
+    <summary>TODO: Describe TestGetCustomFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestSetCustomFees">
+    <summary>TODO: Describe TestSetCustomFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestToProtobuf">
+    <summary>TODO: Describe TestToProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFeeLimitTest.TestFromProtobuf">
+    <summary>TODO: Describe TestFromProtobuf.</summary>
+  </member>
+</docs>

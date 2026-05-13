@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest">
+    <summary>TODO: Describe AccountCreateTransactionHooksTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionWithHooks">
+    <summary>TODO: Describe TestAccountCreateTransactionWithHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionSetHooks">
+    <summary>TODO: Describe TestAccountCreateTransactionSetHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionHookValidation">
+    <summary>TODO: Describe TestAccountCreateTransactionHookValidation.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionProtobufSerialization">
+    <summary>TODO: Describe TestAccountCreateTransactionProtobufSerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionEmptyHooks">
+    <summary>TODO: Describe TestAccountCreateTransactionEmptyHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountCreateTransactionHooksTest.TestAccountCreateTransactionHooksPersistThroughBytesRoundTrip">
+    <summary>TODO: Describe TestAccountCreateTransactionHooksPersistThroughBytesRoundTrip.</summary>
+  </member>
+</docs>

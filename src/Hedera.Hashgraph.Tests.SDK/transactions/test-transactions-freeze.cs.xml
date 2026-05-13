@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest">
+    <summary>TODO: Describe FreezeTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.ConstructFreezeTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructFreezeTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetFileId">
+    <summary>TODO: Describe GetSetFileId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetFileIdFrozen">
+    <summary>TODO: Describe GetSetFileIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetFileHash">
+    <summary>TODO: Describe GetSetFileHash.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetFileHashFrozen">
+    <summary>TODO: Describe GetSetFileHashFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetStartTime">
+    <summary>TODO: Describe GetSetStartTime.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetStartTimeFrozen">
+    <summary>TODO: Describe GetSetStartTimeFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetFreezeType">
+    <summary>TODO: Describe GetSetFreezeType.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.FreezeTransactionTest.GetSetFreezeTypeFrozen">
+    <summary>TODO: Describe GetSetFreezeTypeFrozen.</summary>
+  </member>
+</docs>

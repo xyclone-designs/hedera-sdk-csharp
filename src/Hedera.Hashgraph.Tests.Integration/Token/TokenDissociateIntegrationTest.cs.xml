@@ -1,0 +1,20 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest">
+    <summary>TODO: Describe TokenDissociateIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CanAssociateAccountWithToken">
+    <summary>TODO: Describe CanAssociateAccountWithToken.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CanExecuteTokenDissociateTransactionEvenWhenTokenIDsAreNotSet">
+    <summary>TODO: Describe CanExecuteTokenDissociateTransactionEvenWhenTokenIDsAreNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountWithTokensWhenAccountIDIsNotSet">
+    <summary>TODO: Describe CannotDissociateAccountWithTokensWhenAccountIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountWhenAccountDoesNotSignTransaction">
+    <summary>TODO: Describe CannotDissociateAccountWhenAccountDoesNotSignTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenDissociateIntegrationTest.CannotDissociateAccountFromTokenWhenAccountWasNotAssociatedWith">
+    <summary>TODO: Describe CannotDissociateAccountFromTokenWhenAccountWasNotAssociatedWith.</summary>
+  </member>
+</docs>

@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest">
+    <summary>TODO: Describe TopicCreateIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanCreateTopic">
+    <summary>TODO: Describe CanCreateTopic.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanCreateTopicWithNoFieldsSet">
+    <summary>TODO: Describe CanCreateTopicWithNoFieldsSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CreatesAndUpdatesRevenueGeneratingTopic">
+    <summary>TODO: Describe CreatesAndUpdatesRevenueGeneratingTopic.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.FailsToCreateRevenueGeneratingTopicWithInvalidFeeExemptKey">
+    <summary>TODO: Describe FailsToCreateRevenueGeneratingTopicWithInvalidFeeExemptKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.FailsToUpdateFeeScheduleKeyWithoutPermissions">
+    <summary>TODO: Describe FailsToUpdateFeeScheduleKeyWithoutPermissions.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.FailsToUpdateCustomFeesWithoutFeeScheduleKey">
+    <summary>TODO: Describe FailsToUpdateCustomFeesWithoutFeeScheduleKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.ChargesHbarFeesWithLimitsApplied">
+    <summary>TODO: Describe ChargesHbarFeesWithLimitsApplied.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.ExemptsFeeExemptKeysFromHbarFees">
+    <summary>TODO: Describe ExemptsFeeExemptKeysFromHbarFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CreateTopicTransactionShouldAssignAutomaticallyAutoRenewAccountId">
+    <summary>TODO: Describe CreateTopicTransactionShouldAssignAutomaticallyAutoRenewAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CreateTopicTransactionWithTransactionIdShouldAssignAutoRenewAccountIdToTransactionIdAccountId">
+    <summary>TODO: Describe CreateTopicTransactionWithTransactionIdShouldAssignAutoRenewAccountIdToTransactionIdAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanClearCustomFeesListAndFeeExemptKeysList">
+    <summary>TODO: Describe CanClearCustomFeesListAndFeeExemptKeysList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicCreateIntegrationTest.CanUpdateTopicWithoutSpecifyingAnythingTopicShouldHaveTheSameValues">
+    <summary>TODO: Describe CanUpdateTopicWithoutSpecifyingAnythingTopicShouldHaveTheSameValues.</summary>
+  </member>
+</docs>

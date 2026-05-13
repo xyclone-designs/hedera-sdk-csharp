@@ -1,0 +1,38 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest">
+    <summary>TODO: Describe NodeUpdateTransactionIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.CanExecuteNodeUpdateTransaction">
+    <summary>TODO: Describe CanExecuteNodeUpdateTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.CanDeleteGrpcWebProxyEndpoint">
+    <summary>TODO: Describe CanDeleteGrpcWebProxyEndpoint.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.ShouldSucceedWhenUpdatingNodeAccountIdWithProperSignatures">
+    <summary>TODO: Describe ShouldSucceedWhenUpdatingNodeAccountIdWithProperSignatures.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionCanChangeToSameAccount">
+    <summary>TODO: Describe TestNodeUpdateTransactionCanChangeToSameAccount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionCanChangeNodeAccountUpdateAddressbookAndRetry">
+    <summary>TODO: Describe TestNodeUpdateTransactionCanChangeNodeAccountUpdateAddressbookAndRetry.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingNodeAdminSignature">
+    <summary>TODO: Describe TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingNodeAdminSignature.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingAccountIdSignature">
+    <summary>TODO: Describe TestNodeUpdateTransactionFailsWithInvalidSignatureWhenMissingAccountIdSignature.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithInvalidAccountIdForNonExistentAccount">
+    <summary>TODO: Describe TestNodeUpdateTransactionFailsWithInvalidAccountIdForNonExistentAccount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestNodeUpdateTransactionFailsWithAccountDeletedForDeletedAccount">
+    <summary>TODO: Describe TestNodeUpdateTransactionFailsWithAccountDeletedForDeletedAccount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestSubsequentTransactionWithNewNodeAccountIdSucceeds">
+    <summary>TODO: Describe TestSubsequentTransactionWithNewNodeAccountIdSucceeds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.NodeUpdateTransactionIntegrationTest.TestSdkUpdatesNetworkConfigurationOnInvalidNodeAccount">
+    <summary>TODO: Describe TestSdkUpdatesNetworkConfigurationOnInvalidNodeAccount.</summary>
+  </member>
+</docs>

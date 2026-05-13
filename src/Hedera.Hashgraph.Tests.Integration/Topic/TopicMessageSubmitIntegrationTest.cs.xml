@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest">
+    <summary>TODO: Describe TopicMessageSubmitIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.CanSubmitATopicMessage">
+    <summary>TODO: Describe CanSubmitATopicMessage.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.CanSubmitALargeTopicMessage">
+    <summary>TODO: Describe CanSubmitALargeTopicMessage.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.CannotSubmitMessageWhenTopicIDIsNotSet">
+    <summary>TODO: Describe CannotSubmitMessageWhenTopicIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicMessageSubmitIntegrationTest.DecodeHexRegressionTest">
+    <summary>TODO: Describe DecodeHexRegressionTest.</summary>
+  </member>
+</docs>

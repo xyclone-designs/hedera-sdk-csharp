@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicUpdateIntegrationTest">
+    <summary>TODO: Describe TopicUpdateIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicUpdateIntegrationTest.CanUpdateTopic">
+    <summary>TODO: Describe CanUpdateTopic.</summary>
+  </member>
+</docs>

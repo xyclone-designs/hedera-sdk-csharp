@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Exceptions.ReceiptStatusExceptionTest">
+    <summary>TODO: Describe ReceiptStatusExceptionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Exceptions.ReceiptStatusExceptionTest.ShouldHaveMessage">
+    <summary>TODO: Describe ShouldHaveMessage.</summary>
+  </member>
+</docs>

@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest">
+    <summary>TODO: Describe TokenRevokeKycIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CanRevokeKycAccountWithToken">
+    <summary>TODO: Describe CanRevokeKycAccountWithToken.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CannotRevokeKycToAccountOnTokenWhenTokenIDIsNotSet">
+    <summary>TODO: Describe CannotRevokeKycToAccountOnTokenWhenTokenIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CannotRevokeKycToAccountOnTokenWhenAccountIDIsNotSet">
+    <summary>TODO: Describe CannotRevokeKycToAccountOnTokenWhenAccountIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRevokeKycIntegrationTest.CannotRevokeKycToAccountOnTokenWhenAccountWasNotAssociatedWith">
+    <summary>TODO: Describe CannotRevokeKycToAccountOnTokenWhenAccountWasNotAssociatedWith.</summary>
+  </member>
+</docs>

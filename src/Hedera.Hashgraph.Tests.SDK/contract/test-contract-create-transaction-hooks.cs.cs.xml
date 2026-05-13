@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest">
+    <summary>TODO: Describe ContractCreateTransactionHooksTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionWithHooks">
+    <summary>TODO: Describe TestContractCreateTransactionWithHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionSetHooks">
+    <summary>TODO: Describe TestContractCreateTransactionSetHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionHookValidationDuplicateIdsNotBlockedClientSide">
+    <summary>TODO: Describe TestContractCreateTransactionHookValidationDuplicateIdsNotBlockedClientSide.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionProtobufSerialization">
+    <summary>TODO: Describe TestContractCreateTransactionProtobufSerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionEmptyHooks">
+    <summary>TODO: Describe TestContractCreateTransactionEmptyHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionHooksTest.TestContractCreateTransactionHooksPersistThroughBytesRoundTrip">
+    <summary>TODO: Describe TestContractCreateTransactionHooksPersistThroughBytesRoundTrip.</summary>
+  </member>
+</docs>

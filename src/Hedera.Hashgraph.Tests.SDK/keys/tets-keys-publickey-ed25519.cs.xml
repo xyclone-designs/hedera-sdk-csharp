@@ -1,0 +1,48 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest">
+    <summary>TODO: Describe Ed25519PublicKeyTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.VerifyTransaction">
+    <summary>TODO: Describe VerifyTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteValidation">
+    <summary>TODO: Describe KeyByteValidation.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerialization">
+    <summary>TODO: Describe KeyByteSerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerialization2">
+    <summary>TODO: Describe KeyByteSerialization2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerialization3">
+    <summary>TODO: Describe KeyByteSerialization3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyByteSerializationThroughTransaction">
+    <summary>TODO: Describe KeyByteSerializationThroughTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyStringSerialization">
+    <summary>TODO: Describe KeyStringSerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyStringSerialization2">
+    <summary>TODO: Describe KeyStringSerialization2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyStringSerialization3">
+    <summary>TODO: Describe KeyStringSerialization3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.ExternalKeyDeserialize(System.String)">
+    <summary>TODO: Describe ExternalKeyDeserialize.</summary>
+    <param name="keyStr">TODO</param>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyToString">
+    <summary>TODO: Describe KeyToString.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyIsECDSA">
+    <summary>TODO: Describe KeyIsECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.KeyIsNotEd25519">
+    <summary>TODO: Describe KeyIsNotEd25519.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PublicKeyTest.DERImportTestVectors">
+    <summary>TODO: Describe DERImportTestVectors.</summary>
+  </member>
+</docs>

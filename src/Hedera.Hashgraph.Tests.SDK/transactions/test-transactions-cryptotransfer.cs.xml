@@ -1,0 +1,20 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest">
+    <summary>TODO: Describe CryptoTransferTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.CanGetDecimals">
+    <summary>TODO: Describe CanGetDecimals.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.TransactionBodiesMustMatch">
+    <summary>TODO: Describe TransactionBodiesMustMatch.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.CryptoTransferTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+</docs>

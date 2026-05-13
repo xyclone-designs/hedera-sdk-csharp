@@ -1,0 +1,35 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest">
+    <summary>TODO: Describe TokenAirdropClaimIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokens">
+    <summary>TODO: Describe CanClaimTokens.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokensToMultipleReceivers">
+    <summary>TODO: Describe CanClaimTokensToMultipleReceivers.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CanClaimTokensFromMultipleAirdropTxns">
+    <summary>TODO: Describe CanClaimTokensFromMultipleAirdropTxns.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensForNonExistingAirdrop">
+    <summary>TODO: Describe CannotClaimTokensForNonExistingAirdrop.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensForAlreadyClaimedAirdrop">
+    <summary>TODO: Describe CannotClaimTokensForAlreadyClaimedAirdrop.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimWithEmptyPendingAirdropsList">
+    <summary>TODO: Describe CannotClaimWithEmptyPendingAirdropsList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWithDuplicateEntries">
+    <summary>TODO: Describe CannotClaimTokensWithDuplicateEntries.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsPaused">
+    <summary>TODO: Describe CannotClaimTokensWhenTokenIsPaused.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsDeleted">
+    <summary>TODO: Describe CannotClaimTokensWhenTokenIsDeleted.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropClaimIntegrationTest.CannotClaimTokensWhenTokenIsFrozen">
+    <summary>TODO: Describe CannotClaimTokensWhenTokenIsFrozen.</summary>
+  </member>
+</docs>

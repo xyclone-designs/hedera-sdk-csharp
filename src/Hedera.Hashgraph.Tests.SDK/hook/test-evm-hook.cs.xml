@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest">
+    <summary>TODO: Describe EvmHookTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.GettersReturnExpectedAndStorageUpdatesAreImmutable">
+    <summary>TODO: Describe GettersReturnExpectedAndStorageUpdatesAreImmutable.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.ProtobufRoundTripPreservesData">
+    <summary>TODO: Describe ProtobufRoundTripPreservesData.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.EqualsAndHashCodeDependOnSpecAndUpdates">
+    <summary>TODO: Describe EqualsAndHashCodeDependOnSpecAndUpdates.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookTest.ToStringContainsSpecAndUpdates">
+    <summary>TODO: Describe ToStringContainsSpecAndUpdates.</summary>
+  </member>
+</docs>

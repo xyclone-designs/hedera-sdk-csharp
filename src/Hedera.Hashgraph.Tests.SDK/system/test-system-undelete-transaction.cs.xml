@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.System.SystemUndeleteTransactionTest">
+    <summary>TODO: Describe SystemUndeleteTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemUndeleteTransactionTest.ShouldBytesContract">
+    <summary>TODO: Describe ShouldBytesContract.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemUndeleteTransactionTest.ShouldBytesFile">
+    <summary>TODO: Describe ShouldBytesFile.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemUndeleteTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+</docs>

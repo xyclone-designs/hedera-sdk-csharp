@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest">
+    <summary>TODO: Describe CustomRoyaltyFeeTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.DeepCloneSubclass">
+    <summary>TODO: Describe DeepCloneSubclass.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.GetSetNumerator">
+    <summary>TODO: Describe GetSetNumerator.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.GetSetDenominator">
+    <summary>TODO: Describe GetSetDenominator.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomRoyaltyFeeTest.GetSetFallbackFee">
+    <summary>TODO: Describe GetSetFallbackFee.</summary>
+  </member>
+</docs>

@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest">
+    <summary>TODO: Describe FungibleHookCallTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.ConstructorWithNumericIdAndType">
+    <summary>TODO: Describe ConstructorWithNumericIdAndType.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.HbarTransferSerializesHookByType">
+    <summary>TODO: Describe HbarTransferSerializesHookByType.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.FungibleHookCallTest.TokenTransferSerializesHookByType">
+    <summary>TODO: Describe TokenTransferSerializesHookByType.</summary>
+  </member>
+</docs>

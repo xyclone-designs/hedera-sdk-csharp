@@ -1,0 +1,107 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest">
+    <summary>TODO: Describe TopicUpdateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ConstructTopicUpdateTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTopicUpdateTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetTopicId">
+    <summary>TODO: Describe GetSetTopicId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetTopicIdFrozen">
+    <summary>TODO: Describe GetSetTopicIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetTopicMemo">
+    <summary>TODO: Describe GetSetTopicMemo.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetTopicMemoFrozen">
+    <summary>TODO: Describe GetSetTopicMemoFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearTopicMemo">
+    <summary>TODO: Describe ClearTopicMemo.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearTopicMemoFrozen">
+    <summary>TODO: Describe ClearTopicMemoFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetExpirationTime">
+    <summary>TODO: Describe GetSetExpirationTime.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetExpirationTimeFrozen">
+    <summary>TODO: Describe GetSetExpirationTimeFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetAdminKey">
+    <summary>TODO: Describe GetSetAdminKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetAdminKeyFrozen">
+    <summary>TODO: Describe GetSetAdminKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearAdminKey">
+    <summary>TODO: Describe ClearAdminKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearAdminKeyFrozen">
+    <summary>TODO: Describe ClearAdminKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetSubmitKey">
+    <summary>TODO: Describe GetSetSubmitKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetSubmitKeyFrozen">
+    <summary>TODO: Describe GetSetSubmitKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearSubmitKey">
+    <summary>TODO: Describe ClearSubmitKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearSubmitKeyFrozen">
+    <summary>TODO: Describe ClearSubmitKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetAutoRenewPeriod">
+    <summary>TODO: Describe GetSetAutoRenewPeriod.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetAutoRenewPeriodFrozen">
+    <summary>TODO: Describe GetSetAutoRenewPeriodFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetAutoRenewAccountId">
+    <summary>TODO: Describe GetSetAutoRenewAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.GetSetAutoRenewAccountIdFrozen">
+    <summary>TODO: Describe GetSetAutoRenewAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearAutoRenewAccountId">
+    <summary>TODO: Describe ClearAutoRenewAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ClearAutoRenewAccountIdFrozen">
+    <summary>TODO: Describe ClearAutoRenewAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldSetFeeScheduleKey">
+    <summary>TODO: Describe ShouldSetFeeScheduleKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldSetFeeExemptKeys">
+    <summary>TODO: Describe ShouldSetFeeExemptKeys.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldAddFeeExemptKeyToEmptyList">
+    <summary>TODO: Describe ShouldAddFeeExemptKeyToEmptyList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldAddFeeExemptKeyToList">
+    <summary>TODO: Describe ShouldAddFeeExemptKeyToList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldSetCustomFees">
+    <summary>TODO: Describe ShouldSetCustomFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldAddCustomFeeToList">
+    <summary>TODO: Describe ShouldAddCustomFeeToList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldAddCustomFeeToEmptyList">
+    <summary>TODO: Describe ShouldAddCustomFeeToEmptyList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicUpdateTransactionTest.ShouldClearCustomFees">
+    <summary>TODO: Describe ShouldClearCustomFees.</summary>
+  </member>
+</docs>

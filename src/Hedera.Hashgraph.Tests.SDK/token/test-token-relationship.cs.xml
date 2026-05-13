@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenRelationshipTest">
+    <summary>TODO: Describe TokenRelationshipTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRelationshipTest.ShouldSerializeTokenRelationship">
+    <summary>TODO: Describe ShouldSerializeTokenRelationship.</summary>
+  </member>
+</docs>

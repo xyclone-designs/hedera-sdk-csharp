@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionRecordTest">
+    <summary>TODO: Describe TransactionRecordTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionRecordTest.ShouldSerialize">
+    <summary>TODO: Describe ShouldSerialize.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionRecordTest.ShouldSerialize2">
+    <summary>TODO: Describe ShouldSerialize2.</summary>
+  </member>
+</docs>

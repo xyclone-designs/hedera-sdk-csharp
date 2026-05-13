@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileDeleteIntegrationTest">
+    <summary>TODO: Describe FileDeleteIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileDeleteIntegrationTest.CanDeleteFile">
+    <summary>TODO: Describe CanDeleteFile.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileDeleteIntegrationTest.CannotDeleteImmutableFile">
+    <summary>TODO: Describe CannotDeleteImmutableFile.</summary>
+  </member>
+</docs>

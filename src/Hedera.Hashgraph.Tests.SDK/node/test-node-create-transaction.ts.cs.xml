@@ -1,0 +1,113 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest">
+    <summary>TODO: Describe NodeCreateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.TestUnrecognizedServicePort">
+    <summary>TODO: Describe TestUnrecognizedServicePort.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.TestSetNull">
+    <summary>TODO: Describe TestSetNull.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetDescriptionRejectsOver100Utf8Bytes">
+    <summary>TODO: Describe SetDescriptionRejectsOver100Utf8Bytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetDescriptionAcceptsExactly100Utf8Bytes">
+    <summary>TODO: Describe SetDescriptionAcceptsExactly100Utf8Bytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGossipEndpointsRejectsMoreThan10">
+    <summary>TODO: Describe SetGossipEndpointsRejectsMoreThan10.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.AddGossipEndpointRejectsMoreThan10">
+    <summary>TODO: Describe AddGossipEndpointRejectsMoreThan10.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGossipEndpointsRejectsIpAndDomainTogether">
+    <summary>TODO: Describe SetGossipEndpointsRejectsIpAndDomainTogether.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetServiceEndpointsRejectsMoreThan8">
+    <summary>TODO: Describe SetServiceEndpointsRejectsMoreThan8.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.AddServiceEndpointRejectsMoreThan8">
+    <summary>TODO: Describe AddServiceEndpointRejectsMoreThan8.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetServiceEndpointsRejectsIpAndDomainTogether">
+    <summary>TODO: Describe SetServiceEndpointsRejectsIpAndDomainTogether.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGossipCaCertificateRejectsEmpty">
+    <summary>TODO: Describe SetGossipCaCertificateRejectsEmpty.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.BuildRewritesGossipFqdnWithServiceIpFallback">
+    <summary>TODO: Describe BuildRewritesGossipFqdnWithServiceIpFallback.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.BuildDoesNotRewriteGossipWhenIpPresent">
+    <summary>TODO: Describe BuildDoesNotRewriteGossipWhenIpPresent.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.BuildDoesNotRewriteWhenNoServiceIpAvailable">
+    <summary>TODO: Describe BuildDoesNotRewriteWhenNoServiceIpAvailable.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.ConstructNodeCreateTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructNodeCreateTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAccountId">
+    <summary>TODO: Describe GetSetAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAccountIdFrozen">
+    <summary>TODO: Describe GetSetAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDescription">
+    <summary>TODO: Describe GetSetDescription.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDescriptionFrozen">
+    <summary>TODO: Describe GetSetDescriptionFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGossipEndpoints">
+    <summary>TODO: Describe GetSetGossipEndpoints.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetTestGossipEndpointsFrozen">
+    <summary>TODO: Describe SetTestGossipEndpointsFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetServiceEndpoints">
+    <summary>TODO: Describe GetSetServiceEndpoints.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetServiceEndpointsFrozen">
+    <summary>TODO: Describe GetSetServiceEndpointsFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGossipCaCertificate">
+    <summary>TODO: Describe GetSetGossipCaCertificate.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGossipCaCertificateFrozen">
+    <summary>TODO: Describe GetSetGossipCaCertificateFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGrpcCertificateHash">
+    <summary>TODO: Describe GetSetGrpcCertificateHash.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetGrpcCertificateHashFrozen">
+    <summary>TODO: Describe GetSetGrpcCertificateHashFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAdminKey">
+    <summary>TODO: Describe GetSetAdminKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetAdminKeyFrozen">
+    <summary>TODO: Describe GetSetAdminKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDeclineReward">
+    <summary>TODO: Describe GetSetDeclineReward.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetSetDeclineRewardFrozen">
+    <summary>TODO: Describe GetSetDeclineRewardFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.GetGrpcWebProxyEndpoint">
+    <summary>TODO: Describe GetGrpcWebProxyEndpoint.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeCreateTransactionTest.SetGrpcWebProxyEndpointRequiresFrozen">
+    <summary>TODO: Describe SetGrpcWebProxyEndpointRequiresFrozen.</summary>
+  </member>
+</docs>

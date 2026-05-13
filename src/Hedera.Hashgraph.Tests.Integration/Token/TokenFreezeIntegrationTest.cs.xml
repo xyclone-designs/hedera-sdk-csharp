@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest">
+    <summary>TODO: Describe TokenFreezeIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CanFreezeAccountWithToken">
+    <summary>TODO: Describe CanFreezeAccountWithToken.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenTokenIDIsNotSet">
+    <summary>TODO: Describe CannotFreezeAccountOnTokenWhenTokenIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenAccountIDIsNotSet">
+    <summary>TODO: Describe CannotFreezeAccountOnTokenWhenAccountIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenFreezeIntegrationTest.CannotFreezeAccountOnTokenWhenAccountWasNotAssociatedWith">
+    <summary>TODO: Describe CannotFreezeAccountOnTokenWhenAccountWasNotAssociatedWith.</summary>
+  </member>
+</docs>

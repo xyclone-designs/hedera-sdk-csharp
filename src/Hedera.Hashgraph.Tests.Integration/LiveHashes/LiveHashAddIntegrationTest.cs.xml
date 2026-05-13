@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashAddIntegrationTest">
+    <summary>TODO: Describe LiveHashAddIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.LiveHashAddIntegrationTest.CannotCreateLiveHashBecauseItsNotSupported">
+    <summary>TODO: Describe CannotCreateLiveHashBecauseItsNotSupported.</summary>
+  </member>
+</docs>

@@ -1,0 +1,149 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest">
+    <summary>TODO: Describe TokenCreateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.ShouldBytesFungible">
+    <summary>TODO: Describe ShouldBytesFungible.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.ShouldBytesNft">
+    <summary>TODO: Describe ShouldBytesNft.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.ConstructTokenCreateTransactionFungibleFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenCreateTransactionFungibleFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.ConstructTokenCreateTransactionNftFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenCreateTransactionNftFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetName">
+    <summary>TODO: Describe GetSetName.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetNameFrozen">
+    <summary>TODO: Describe GetSetNameFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetSymbol">
+    <summary>TODO: Describe GetSetSymbol.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetSymbolFrozen">
+    <summary>TODO: Describe GetSetSymbolFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetDecimals">
+    <summary>TODO: Describe GetSetDecimals.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetDecimalsFrozen">
+    <summary>TODO: Describe GetSetDecimalsFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetInitialSupply">
+    <summary>TODO: Describe GetSetInitialSupply.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetInitialSupplyFrozen">
+    <summary>TODO: Describe GetSetInitialSupplyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetTreasuryAccountId">
+    <summary>TODO: Describe GetSetTreasuryAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetTreasuryAccountIdFrozen">
+    <summary>TODO: Describe GetSetTreasuryAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetAdminKey">
+    <summary>TODO: Describe GetSetAdminKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetAdminKeyFrozen">
+    <summary>TODO: Describe GetSetAdminKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetKycKey">
+    <summary>TODO: Describe GetSetKycKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetKycKeyFrozen">
+    <summary>TODO: Describe GetSetKycKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetFreezeKey">
+    <summary>TODO: Describe GetSetFreezeKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetFreezeKeyFrozen">
+    <summary>TODO: Describe GetSetFreezeKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetWipeKey">
+    <summary>TODO: Describe GetSetWipeKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetWipeKeyFrozen">
+    <summary>TODO: Describe GetSetWipeKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetSupplyKey">
+    <summary>TODO: Describe GetSetSupplyKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetSupplyKeyFrozen">
+    <summary>TODO: Describe GetSetSupplyKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetFeeScheduleKey">
+    <summary>TODO: Describe GetSetFeeScheduleKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetFeeScheduleKeyFrozen">
+    <summary>TODO: Describe GetSetFeeScheduleKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetPauseKey">
+    <summary>TODO: Describe GetSetPauseKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetPauseKeyFrozen">
+    <summary>TODO: Describe GetSetPauseKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetMetadataKey">
+    <summary>TODO: Describe GetSetMetadataKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetMetadataKeyFrozen">
+    <summary>TODO: Describe GetSetMetadataKeyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetExpirationTime">
+    <summary>TODO: Describe GetSetExpirationTime.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetExpirationTimeFrozen">
+    <summary>TODO: Describe GetSetExpirationTimeFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetAutoRenewAccountId">
+    <summary>TODO: Describe GetSetAutoRenewAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetAutoRenewAccountIdFrozen">
+    <summary>TODO: Describe GetSetAutoRenewAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetAutoRenewPeriod">
+    <summary>TODO: Describe GetSetAutoRenewPeriod.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetAutoRenewPeriodFrozen">
+    <summary>TODO: Describe GetSetAutoRenewPeriodFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetTokenMemo">
+    <summary>TODO: Describe GetSetTokenMemo.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetTokenMemoFrozen">
+    <summary>TODO: Describe GetSetTokenMemoFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetTokenType">
+    <summary>TODO: Describe GetSetTokenType.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetTokenTypeFrozen">
+    <summary>TODO: Describe GetSetTokenTypeFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetSupplyType">
+    <summary>TODO: Describe GetSetSupplyType.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetSupplyTypeFrozen">
+    <summary>TODO: Describe GetSetSupplyTypeFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetMaxSupply">
+    <summary>TODO: Describe GetSetMaxSupply.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetMaxSupplyFrozen">
+    <summary>TODO: Describe GetSetMaxSupplyFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetMetadata">
+    <summary>TODO: Describe GetSetMetadata.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenCreateTransactionTest.GetSetMetadataFrozen">
+    <summary>TODO: Describe GetSetMetadataFrozen.</summary>
+  </member>
+</docs>

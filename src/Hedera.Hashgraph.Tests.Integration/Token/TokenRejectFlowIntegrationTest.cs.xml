@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest">
+    <summary>TODO: Describe TokenRejectFlowIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForFungibleToken">
+    <summary>TODO: Describe CanExecuteTokenRejectFlowForFungibleToken.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForFungibleTokenAsync">
+    <summary>TODO: Describe CanExecuteTokenRejectFlowForFungibleTokenAsync.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForNft">
+    <summary>TODO: Describe CanExecuteTokenRejectFlowForNft.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectFlowIntegrationTest.CanExecuteTokenRejectFlowForNftWhenRejectingOnlyPartOfOwnedNFTs">
+    <summary>TODO: Describe CanExecuteTokenRejectFlowForNftWhenRejectingOnlyPartOfOwnedNFTs.</summary>
+  </member>
+</docs>

@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateIntegrationTest">
+    <summary>TODO: Describe ContractUpdateIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateIntegrationTest.CanUpdateContract">
+    <summary>TODO: Describe CanUpdateContract.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateIntegrationTest.CannotUpdateContractWhenContractIDIsNotSet">
+    <summary>TODO: Describe CannotUpdateContractWhenContractIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateIntegrationTest.CannotUpdateContractThatIsImmutable">
+    <summary>TODO: Describe CannotUpdateContractThatIsImmutable.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractUpdateIntegrationTest.SettingAutoRenewAccountIdToDefaultClearsField">
+    <summary>TODO: Describe SettingAutoRenewAccountIdToDefaultClearsField.</summary>
+  </member>
+</docs>

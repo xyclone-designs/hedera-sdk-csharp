@@ -1,0 +1,48 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest">
+    <summary>TODO: Describe TopicMessageQueryTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.Subscribe">
+    <summary>TODO: Describe Subscribe.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.SubscribeChunked">
+    <summary>TODO: Describe SubscribeChunked.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.SubscribeNoResponse">
+    <summary>TODO: Describe SubscribeNoResponse.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.ErrorDuringOnNext">
+    <summary>TODO: Describe ErrorDuringOnNext.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.RetryRecovers(StatusCode,System.String)">
+    <summary>TODO: Describe RetryRecovers.</summary>
+    <param name="code">TODO</param>
+    <param name="description">TODO</param>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.NoRetry(StatusCode,System.String)">
+    <summary>TODO: Describe NoRetry.</summary>
+    <param name="code">TODO</param>
+    <param name="description">TODO</param>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.CustomRetry">
+    <summary>TODO: Describe CustomRetry.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.RetryWithLimit">
+    <summary>TODO: Describe RetryWithLimit.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.RetriesExhausted">
+    <summary>TODO: Describe RetriesExhausted.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.ErrorWhenCallIsCancelled">
+    <summary>TODO: Describe ErrorWhenCallIsCancelled.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.UnsubscribeDoesNotInvokeErrorOrRetry">
+    <summary>TODO: Describe UnsubscribeDoesNotInvokeErrorOrRetry.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.ServerCancelledRetriesWhenCustomRetryAllows">
+    <summary>TODO: Describe ServerCancelledRetriesWhenCustomRetryAllows.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageQueryTest.UnsubscribeThenResubscribeResetsClientCancelFlagAllowsRetryOnCancelled">
+    <summary>TODO: Describe UnsubscribeThenResubscribeResetsClientCancelFlagAllowsRetryOnCancelled.</summary>
+  </member>
+</docs>

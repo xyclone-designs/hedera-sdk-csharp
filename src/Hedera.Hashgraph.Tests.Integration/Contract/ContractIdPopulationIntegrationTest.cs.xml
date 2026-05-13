@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest">
+    <summary>TODO: Describe ContractIdPopulationIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumSync">
+    <summary>TODO: Describe CanPopulateContractIdNumSync.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractIdPopulationIntegrationTest.CanPopulateContractIdNumAsync">
+    <summary>TODO: Describe CanPopulateContractIdNumAsync.</summary>
+  </member>
+</docs>

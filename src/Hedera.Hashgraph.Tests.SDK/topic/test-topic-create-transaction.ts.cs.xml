@@ -1,0 +1,35 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest">
+    <summary>TODO: Describe TopicCreateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldSetFeeScheduleKey">
+    <summary>TODO: Describe ShouldSetFeeScheduleKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldSetFeeExemptKeys">
+    <summary>TODO: Describe ShouldSetFeeExemptKeys.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldAddFeeExemptKeyToEmptyList">
+    <summary>TODO: Describe ShouldAddFeeExemptKeyToEmptyList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldAddFeeExemptKeyToList">
+    <summary>TODO: Describe ShouldAddFeeExemptKeyToList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldSetTopicCustomFees">
+    <summary>TODO: Describe ShouldSetTopicCustomFees.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldAddTopicCustomFeeToList">
+    <summary>TODO: Describe ShouldAddTopicCustomFeeToList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicCreateTransactionTest.ShouldAddTopicCustomFeeToEmptyList">
+    <summary>TODO: Describe ShouldAddTopicCustomFeeToEmptyList.</summary>
+  </member>
+</docs>

@@ -1,0 +1,56 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest">
+    <summary>TODO: Describe KeyTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.SignatureVerified">
+    <summary>TODO: Describe SignatureVerified.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.SignatureVerifiedECDSA">
+    <summary>TODO: Describe SignatureVerifiedECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.CalculateRecoveryIdECDSA">
+    <summary>TODO: Describe CalculateRecoveryIdECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FailToCalculateRecoveryIdWithIllegalInputDataECDSA">
+    <summary>TODO: Describe FailToCalculateRecoveryIdWithIllegalInputDataECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyEd25519">
+    <summary>TODO: Describe FromProtoKeyEd25519.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyECDSA">
+    <summary>TODO: Describe FromProtoKeyECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyKeyList">
+    <summary>TODO: Describe FromProtoKeyKeyList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromProtoKeyThresholdKey">
+    <summary>TODO: Describe FromProtoKeyThresholdKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.ThrowsUnsupportedKey">
+    <summary>TODO: Describe ThrowsUnsupportedKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyEquals">
+    <summary>TODO: Describe KeyEquals.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyHash">
+    <summary>TODO: Describe KeyHash.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.KeyListMethods">
+    <summary>TODO: Describe KeyListMethods.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesEd25519">
+    <summary>TODO: Describe FromBytesEd25519.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesECDSA">
+    <summary>TODO: Describe FromBytesECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesKeyList">
+    <summary>TODO: Describe FromBytesKeyList.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.FromBytesThresholdKey">
+    <summary>TODO: Describe FromBytesThresholdKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.KeyTest.ThrowsUnsupportedKeyFromBytes">
+    <summary>TODO: Describe ThrowsUnsupportedKeyFromBytes.</summary>
+  </member>
+</docs>

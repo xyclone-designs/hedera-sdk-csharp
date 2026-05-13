@@ -1,0 +1,26 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest">
+    <summary>TODO: Describe TransferTransactionHooksTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldAddHbarTransferWithPreTxAllowanceHook">
+    <summary>TODO: Describe ShouldAddHbarTransferWithPreTxAllowanceHook.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldAddHbarTransferWithPrePostTxAllowanceHook">
+    <summary>TODO: Describe ShouldAddHbarTransferWithPrePostTxAllowanceHook.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldNotAllowNullHookTypeRemovedByTypedAPI">
+    <summary>TODO: Describe ShouldNotAllowNullHookTypeRemovedByTypedAPI.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldUpdateExistingTransferWithHook">
+    <summary>TODO: Describe ShouldUpdateExistingTransferWithHook.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldCreateNewTransferWhenExistingTransferHasHook">
+    <summary>TODO: Describe ShouldCreateNewTransferWhenExistingTransferHasHook.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldHandleMultipleAccountsWithHooks">
+    <summary>TODO: Describe ShouldHandleMultipleAccountsWithHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransferTransactionHooksTest.ShouldThrowExceptionWhenFrozen">
+    <summary>TODO: Describe ShouldThrowExceptionWhenFrozen.</summary>
+  </member>
+</docs>

@@ -1,0 +1,32 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest">
+    <summary>TODO: Describe TokenAirdropTransactionIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropAssociatedTokens">
+    <summary>TODO: Describe CanAirdropAssociatedTokens.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropNonAssociatedTokens">
+    <summary>TODO: Describe CanAirdropNonAssociatedTokens.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropToAlias">
+    <summary>TODO: Describe CanAirdropToAlias.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropWithCustomFee">
+    <summary>TODO: Describe CanAirdropWithCustomFee.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropTokensWithReceiverSigRequiredFungible">
+    <summary>TODO: Describe CanAirdropTokensWithReceiverSigRequiredFungible.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CanAirdropTokensWithReceiverSigRequiredNFT">
+    <summary>TODO: Describe CanAirdropTokensWithReceiverSigRequiredNFT.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CannotAirdropTokensWithAllowanceAndWithoutBalanceFungible">
+    <summary>TODO: Describe CannotAirdropTokensWithAllowanceAndWithoutBalanceFungible.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CannotAirdropTokensWithAllowanceAndWithoutBalanceNFT">
+    <summary>TODO: Describe CannotAirdropTokensWithAllowanceAndWithoutBalanceNFT.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAirdropTransactionIntegrationTest.CannotAirdropTokensWithInvalidBody">
+    <summary>TODO: Describe CannotAirdropTokensWithInvalidBody.</summary>
+  </member>
+</docs>

@@ -1,0 +1,29 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest">
+    <summary>TODO: Describe TokenDissociateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.ConstructTokenDissociateTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenDissociateTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetAccountId">
+    <summary>TODO: Describe GetSetAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetAccountIdFrozen">
+    <summary>TODO: Describe GetSetAccountIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetTokenIds">
+    <summary>TODO: Describe GetSetTokenIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDissociateTransactionTest.GetSetTokenIdsFrozen">
+    <summary>TODO: Describe GetSetTokenIdsFrozen.</summary>
+  </member>
+</docs>

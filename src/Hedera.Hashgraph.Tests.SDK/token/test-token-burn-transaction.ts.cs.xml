@@ -1,0 +1,38 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest">
+    <summary>TODO: Describe TokenBurnTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.ShouldBytesFungible">
+    <summary>TODO: Describe ShouldBytesFungible.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.ShouldBytesNft">
+    <summary>TODO: Describe ShouldBytesNft.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.ConstructTokenBurnTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenBurnTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.GetSetTokenId">
+    <summary>TODO: Describe GetSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.GetSetTokenIdFrozen">
+    <summary>TODO: Describe GetSetTokenIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.GetSetAmount">
+    <summary>TODO: Describe GetSetAmount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.GetSetAmountFrozen">
+    <summary>TODO: Describe GetSetAmountFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.GetSetSerials">
+    <summary>TODO: Describe GetSetSerials.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenBurnTransactionTest.GetSetSerialsFrozen">
+    <summary>TODO: Describe GetSetSerialsFrozen.</summary>
+  </member>
+</docs>

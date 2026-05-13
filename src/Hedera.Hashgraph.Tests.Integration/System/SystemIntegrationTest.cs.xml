@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.SystemIntegrationTest">
+    <summary>TODO: Describe SystemIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.SystemIntegrationTest.AllSystemTransactionsAreNotSupported">
+    <summary>TODO: Describe AllSystemTransactionsAreNotSupported.</summary>
+  </member>
+</docs>

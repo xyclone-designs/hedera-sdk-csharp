@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest">
+    <summary>TODO: Describe ScheduleTransactionIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldChargeHbarsWithLimitUsingScheduledTransaction">
+    <summary>TODO: Describe ShouldChargeHbarsWithLimitUsingScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction">
+    <summary>TODO: Describe ShouldNotChargeHbarsWithLowerLimitUsingScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ScheduleTransactionIntegrationTest.ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction">
+    <summary>TODO: Describe ShouldNotChargeTokensWithLowerLimitUsingScheduledTransaction.</summary>
+  </member>
+</docs>

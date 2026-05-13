@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Nfts.NftIdTest">
+    <summary>TODO: Describe NftIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Nfts.NftIdTest.ToFromString">
+    <summary>TODO: Describe ToFromString.</summary>
+  </member>
+</docs>

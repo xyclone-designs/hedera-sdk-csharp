@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookCallTest">
+    <summary>TODO: Describe EvmHookCallTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookCallTest.RoundTripProtoAndGettersAndEquality">
+    <summary>TODO: Describe RoundTripProtoAndGettersAndEquality.</summary>
+  </member>
+</docs>

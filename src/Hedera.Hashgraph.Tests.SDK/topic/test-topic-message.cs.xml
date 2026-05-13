@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest">
+    <summary>TODO: Describe TopicMessageTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.ConstructWithArgs">
+    <summary>TODO: Describe ConstructWithArgs.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.OfSingle">
+    <summary>TODO: Describe OfSingle.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Topic.TopicMessageTest.OfMany">
+    <summary>TODO: Describe OfMany.</summary>
+  </member>
+</docs>

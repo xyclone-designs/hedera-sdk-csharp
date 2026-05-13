@@ -1,0 +1,20 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractDeleteTransactionTest">
+    <summary>TODO: Describe ContractDeleteTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractDeleteTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractDeleteTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractDeleteTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractDeleteTransactionTest.SetsPermanentRemovalInProtobufBody">
+    <summary>TODO: Describe SetsPermanentRemovalInProtobufBody.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractDeleteTransactionTest.ShouldSupportPermanentRemovalBytesRoundTrip">
+    <summary>TODO: Describe ShouldSupportPermanentRemovalBytesRoundTrip.</summary>
+  </member>
+</docs>

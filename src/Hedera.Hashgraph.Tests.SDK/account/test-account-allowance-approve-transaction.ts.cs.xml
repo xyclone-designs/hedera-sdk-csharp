@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest">
+    <summary>TODO: Describe AccountAllowanceApproveTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.PropertiesTest">
+    <summary>TODO: Describe PropertiesTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.DeleteNftAllowanceAllSerials">
+    <summary>TODO: Describe DeleteNftAllowanceAllSerials.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountAllowanceApproveTransactionTest.DeleteNftAllowanceAllSerialsFrozen">
+    <summary>TODO: Describe DeleteNftAllowanceAllSerialsFrozen.</summary>
+  </member>
+</docs>

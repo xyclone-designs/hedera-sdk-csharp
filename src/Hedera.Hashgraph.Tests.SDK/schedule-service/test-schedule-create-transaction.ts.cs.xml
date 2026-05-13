@@ -1,0 +1,20 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest">
+    <summary>TODO: Describe ScheduleCreateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.ShouldSupportExpirationTimeDurationBytesRoundTrip">
+    <summary>TODO: Describe ShouldSupportExpirationTimeDurationBytesRoundTrip.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.SetExpirationTimeDurationOnFrozenTransactionShouldThrow">
+    <summary>TODO: Describe SetExpirationTimeDurationOnFrozenTransactionShouldThrow.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Schedule.ScheduleCreateTransactionTest.GetSetExpirationTimeDateTime">
+    <summary>TODO: Describe GetSetExpirationTimeDateTime.</summary>
+  </member>
+</docs>

@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest">
+    <summary>TODO: Describe SystemDeleteTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesContract">
+    <summary>TODO: Describe ShouldBytesContract.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ShouldBytesFile">
+    <summary>TODO: Describe ShouldBytesFile.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ConstructSystemDeleteTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructSystemDeleteTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetFileId">
+    <summary>TODO: Describe GetSetFileId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetFileIdFrozen">
+    <summary>TODO: Describe GetSetFileIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetContractId">
+    <summary>TODO: Describe GetSetContractId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetExpirationTime">
+    <summary>TODO: Describe GetSetExpirationTime.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.GetSetExpirationTimeFrozen">
+    <summary>TODO: Describe GetSetExpirationTimeFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ResetFileId">
+    <summary>TODO: Describe ResetFileId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.System.SystemDeleteTransactionTest.ResetContractId">
+    <summary>TODO: Describe ResetContractId.</summary>
+  </member>
+</docs>

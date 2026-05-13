@@ -1,0 +1,47 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest">
+    <summary>TODO: Describe ContractUpdateTransactionHooksTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldAddHookToCreate">
+    <summary>TODO: Describe ShouldAddHookToCreate.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldSetHooksToCreate">
+    <summary>TODO: Describe ShouldSetHooksToCreate.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldAddHookToDelete">
+    <summary>TODO: Describe ShouldAddHookToDelete.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldAddHooksToDelete">
+    <summary>TODO: Describe ShouldAddHooksToDelete.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldGetHooksToCreate">
+    <summary>TODO: Describe ShouldGetHooksToCreate.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldGetHooksToDelete">
+    <summary>TODO: Describe ShouldGetHooksToDelete.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldThrowWhenAddingHookAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenAddingHookAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldThrowWhenSettingHooksAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenSettingHooksAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldThrowWhenDeletingHookAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenDeletingHookAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldThrowWhenDeletingHooksAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenDeletingHooksAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldSerializeHooksInToProtobuf">
+    <summary>TODO: Describe ShouldSerializeHooksInToProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldDeserializeHooksFromTransactionBody">
+    <summary>TODO: Describe ShouldDeserializeHooksFromTransactionBody.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldHandleEmptyHooks">
+    <summary>TODO: Describe ShouldHandleEmptyHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractUpdateTransactionHooksTest.ShouldSupportMultipleHooks">
+    <summary>TODO: Describe ShouldSupportMultipleHooks.</summary>
+  </member>
+</docs>

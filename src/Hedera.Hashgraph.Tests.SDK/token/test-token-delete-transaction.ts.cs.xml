@@ -1,0 +1,26 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest">
+    <summary>TODO: Describe TokenDeleteTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest.ConstructTokenDeleteTransaction">
+    <summary>TODO: Describe ConstructTokenDeleteTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest.ConstructTokenDeleteTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenDeleteTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest.GetSetTokenId">
+    <summary>TODO: Describe GetSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenDeleteTransactionTest.GetSetTokenIdFrozen">
+    <summary>TODO: Describe GetSetTokenIdFrozen.</summary>
+  </member>
+</docs>

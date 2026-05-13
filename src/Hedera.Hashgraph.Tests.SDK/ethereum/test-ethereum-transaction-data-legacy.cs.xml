@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest">
+    <summary>TODO: Describe EthereumTransactionDataLegacyTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest.LegacyToFromBytes">
+    <summary>TODO: Describe LegacyToFromBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Ethereum.EthereumTransactionDataLegacyTest.Eip1559ToFromBytes">
+    <summary>TODO: Describe Eip1559ToFromBytes.</summary>
+  </member>
+</docs>

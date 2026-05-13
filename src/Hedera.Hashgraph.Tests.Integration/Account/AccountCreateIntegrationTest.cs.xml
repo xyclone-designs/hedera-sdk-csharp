@@ -1,0 +1,62 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest">
+    <summary>TODO: Describe AccountCreateIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanCreateAccountWithOnlyInitialBalanceAndKey">
+    <summary>TODO: Describe CanCreateAccountWithOnlyInitialBalanceAndKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanCreateAccountWithNoInitialBalance">
+    <summary>TODO: Describe CanCreateAccountWithNoInitialBalance.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanNotCreateAccountWithNoKey">
+    <summary>TODO: Describe CanNotCreateAccountWithNoKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CanCreateWithAliasKey">
+    <summary>TODO: Describe CanCreateWithAliasKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.ManagesExpiration">
+    <summary>TODO: Describe ManagesExpiration.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAliasFromAdminKey">
+    <summary>TODO: Describe CreateAccountWithAliasFromAdminKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAliasFromAdminKeyWithReceiverSigRequired">
+    <summary>TODO: Describe CreateAccountWithAliasFromAdminKeyWithReceiverSigRequired.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasFromAdminKeyWithReceiverSigRequiredAndNoSignature">
+    <summary>TODO: Describe CannotCreateAccountWithAliasFromAdminKeyWithReceiverSigRequiredAndNoSignature.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAlias">
+    <summary>TODO: Describe CreateAccountWithAlias.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasWithoutSignature">
+    <summary>TODO: Describe CannotCreateAccountWithAliasWithoutSignature.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountWithAliasWithReceiverSigRequired">
+    <summary>TODO: Describe CreateAccountWithAliasWithReceiverSigRequired.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasWithReceiverSigRequiredWithoutSignature">
+    <summary>TODO: Describe CannotCreateAccountWithAliasWithReceiverSigRequiredWithoutSignature.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CannotCreateAccountWithAliasWithoutBothKeySignatures">
+    <summary>TODO: Describe CannotCreateAccountWithAliasWithoutBothKeySignatures.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasAccountShouldHaveSameKeyAndSameKeysAlias">
+    <summary>TODO: Describe CreateAccountUsingSetKeyWithAliasAccountShouldHaveSameKeyAndSameKeysAlias.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasAccountShouldHaveKeyAsKeyAndECDSAKEyAsAlias">
+    <summary>TODO: Describe CreateAccountUsingSetKeyWithAliasAccountShouldHaveKeyAsKeyAndECDSAKEyAsAlias.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithoutAliasAccountShouldHaveKeyAsKeyAndNoAlias">
+    <summary>TODO: Describe CreateAccountUsingSetKeyWithoutAliasAccountShouldHaveKeyAsKeyAndNoAlias.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasWithED25519KeyShouldThrowAnException">
+    <summary>TODO: Describe CreateAccountUsingSetKeyWithAliasWithED25519KeyShouldThrowAnException.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasWithPublicKeyShouldHavePublicKeyAndDerivedAlias">
+    <summary>TODO: Describe CreateAccountUsingSetKeyWithAliasWithPublicKeyShouldHavePublicKeyAndDerivedAlias.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateIntegrationTest.CreateAccountUsingSetKeyWithAliasWithED25519KeyAndPublicECDSAKeyShouldHaveED25519KeyAndDerivedAlias">
+    <summary>TODO: Describe CreateAccountUsingSetKeyWithAliasWithED25519KeyAndPublicECDSAKeyShouldHaveED25519KeyAndDerivedAlias.</summary>
+  </member>
+</docs>

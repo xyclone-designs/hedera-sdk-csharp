@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest">
+    <summary>TODO: Describe ContractCreateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.ShouldBytes2">
+    <summary>TODO: Describe ShouldBytes2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.SetGasShouldRejectNegativeValues">
+    <summary>TODO: Describe SetGasShouldRejectNegativeValues.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractCreateTransactionTest.SetGasShouldAcceptZeroAndPositiveValues">
+    <summary>TODO: Describe SetGasShouldAcceptZeroAndPositiveValues.</summary>
+  </member>
+</docs>

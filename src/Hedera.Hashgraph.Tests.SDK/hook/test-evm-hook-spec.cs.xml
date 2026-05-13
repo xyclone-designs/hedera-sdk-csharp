@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest">
+    <summary>TODO: Describe EvmHookSpecTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest.GetContractIdReturnsProvidedValue">
+    <summary>TODO: Describe GetContractIdReturnsProvidedValue.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest.EqualsAndHashCodeDependOnContractId">
+    <summary>TODO: Describe EqualsAndHashCodeDependOnContractId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookSpecTest.ToStringContainsContractId">
+    <summary>TODO: Describe ToStringContainsContractId.</summary>
+  </member>
+</docs>

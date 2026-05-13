@@ -1,0 +1,35 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest">
+    <summary>TODO: Describe TransactionIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldToBytes">
+    <summary>TODO: Describe ShouldToBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldToBytes2">
+    <summary>TODO: Describe ShouldToBytes2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldFromBytes">
+    <summary>TODO: Describe ShouldFromBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParse">
+    <summary>TODO: Describe ShouldParse.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParseScheduled">
+    <summary>TODO: Describe ShouldParseScheduled.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldParseNonce">
+    <summary>TODO: Describe ShouldParseNonce.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.Compare">
+    <summary>TODO: Describe Compare.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldFail">
+    <summary>TODO: Describe ShouldFail.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.ShouldAddTrailingZeroesToNanoseconds">
+    <summary>TODO: Describe ShouldAddTrailingZeroesToNanoseconds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.TransactionIdTest.EqualsHashCodeContractWithNonce">
+    <summary>TODO: Describe EqualsHashCodeContractWithNonce.</summary>
+  </member>
+</docs>

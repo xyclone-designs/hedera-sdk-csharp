@@ -1,0 +1,29 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest">
+    <summary>TODO: Describe TokenRejectTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.ConstructTokenRejectTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenRejectTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetOwnerId">
+    <summary>TODO: Describe GetSetOwnerId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetOwnerIdFrozen">
+    <summary>TODO: Describe GetSetOwnerIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetTokenIds">
+    <summary>TODO: Describe GetSetTokenIds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenRejectTransactionTest.GetSetNftIds">
+    <summary>TODO: Describe GetSetNftIds.</summary>
+  </member>
+</docs>

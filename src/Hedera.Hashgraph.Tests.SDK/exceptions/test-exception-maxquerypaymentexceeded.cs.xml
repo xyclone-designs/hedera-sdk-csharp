@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Exceptions.MaxQueryPaymentExceededExceptionTest">
+    <summary>TODO: Describe MaxQueryPaymentExceededExceptionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Exceptions.MaxQueryPaymentExceededExceptionTest.ShouldHaveMessage">
+    <summary>TODO: Describe ShouldHaveMessage.</summary>
+  </member>
+</docs>

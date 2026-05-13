@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenSupplyTypeTest">
+    <summary>TODO: Describe TokenSupplyTypeTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenSupplyTypeTest.TokenSupplyTestToString">
+    <summary>TODO: Describe TokenSupplyTestToString.</summary>
+  </member>
+</docs>

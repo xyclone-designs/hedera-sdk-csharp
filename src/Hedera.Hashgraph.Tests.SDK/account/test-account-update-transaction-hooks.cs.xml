@@ -1,0 +1,47 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest">
+    <summary>TODO: Describe AccountUpdateTransactionHooksTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldAddHookToCreate">
+    <summary>TODO: Describe ShouldAddHookToCreate.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldSetHooksToCreate">
+    <summary>TODO: Describe ShouldSetHooksToCreate.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldAddHookToDelete">
+    <summary>TODO: Describe ShouldAddHookToDelete.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldAddHooksToDelete">
+    <summary>TODO: Describe ShouldAddHooksToDelete.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.HooksToCreate">
+    <summary>TODO: Describe HooksToCreate.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldGetHooksToDelete">
+    <summary>TODO: Describe ShouldGetHooksToDelete.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldThrowWhenAddingHookAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenAddingHookAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldThrowWhenSettingHooksAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenSettingHooksAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldThrowWhenDeletingHookAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenDeletingHookAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldThrowWhenDeletingHooksAfterFreeze">
+    <summary>TODO: Describe ShouldThrowWhenDeletingHooksAfterFreeze.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldSerializeHooksInBuild">
+    <summary>TODO: Describe ShouldSerializeHooksInBuild.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldDeserializeHooksFromTransactionBody">
+    <summary>TODO: Describe ShouldDeserializeHooksFromTransactionBody.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldHandleEmptyHooks">
+    <summary>TODO: Describe ShouldHandleEmptyHooks.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountUpdateTransactionHooksTest.ShouldSupportMultipleHooks">
+    <summary>TODO: Describe ShouldSupportMultipleHooks.</summary>
+  </member>
+</docs>

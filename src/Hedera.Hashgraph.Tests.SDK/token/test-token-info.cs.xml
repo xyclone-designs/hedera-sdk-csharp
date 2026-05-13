@@ -1,0 +1,20 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest">
+    <summary>TODO: Describe TokenInfoTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.ShouldSerialize">
+    <summary>TODO: Describe ShouldSerialize.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.FromProtobuf">
+    <summary>TODO: Describe FromProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.FromBytes">
+    <summary>TODO: Describe FromBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.ToProtobuf">
+    <summary>TODO: Describe ToProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenInfoTest.ToBytes">
+    <summary>TODO: Describe ToBytes.</summary>
+  </member>
+</docs>

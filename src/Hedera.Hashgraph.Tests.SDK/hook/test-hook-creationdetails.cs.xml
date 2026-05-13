@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest">
+    <summary>TODO: Describe HookCreationDetailsTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.GettersAndHasAdminKeyWork">
+    <summary>TODO: Describe GettersAndHasAdminKeyWork.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.ProtobufRoundTripPreservesValues">
+    <summary>TODO: Describe ProtobufRoundTripPreservesValues.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.EqualsAndHashCodeVaryByFields">
+    <summary>TODO: Describe EqualsAndHashCodeVaryByFields.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookCreationDetailsTest.ToStringContainsKeyFields">
+    <summary>TODO: Describe ToStringContainsKeyFields.</summary>
+  </member>
+</docs>

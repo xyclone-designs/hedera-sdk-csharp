@@ -1,0 +1,74 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest">
+    <summary>TODO: Describe AccountIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.BadChecksumOnPreviewnet">
+    <summary>TODO: Describe BadChecksumOnPreviewnet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdString">
+    <summary>TODO: Describe MalformedIdString.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdChecksum">
+    <summary>TODO: Describe MalformedIdChecksum.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedIdChecksum2">
+    <summary>TODO: Describe MalformedIdChecksum2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey">
+    <summary>TODO: Describe MalformedAliasKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey2">
+    <summary>TODO: Describe MalformedAliasKey2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.MalformedAliasKey3">
+    <summary>TODO: Describe MalformedAliasKey3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobuf">
+    <summary>TODO: Describe ToFromProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufAliasKey">
+    <summary>TODO: Describe ToFromProtobufAliasKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufEcdsaAliasKey">
+    <summary>TODO: Describe ToFromProtobufEcdsaAliasKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufEvmAddress">
+    <summary>TODO: Describe ToFromProtobufEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToFromProtobufRawEvmAddress">
+    <summary>TODO: Describe ToFromProtobufRawEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddress">
+    <summary>TODO: Describe FromEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressWithPrefix">
+    <summary>TODO: Describe FromEvmAddressWithPrefix.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressNormalAddress">
+    <summary>TODO: Describe FromEvmAddressNormalAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressWithDifferentShardAndRealm">
+    <summary>TODO: Describe FromEvmAddressWithDifferentShardAndRealm.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressLongZeroAddress">
+    <summary>TODO: Describe FromEvmAddressLongZeroAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.FromEvmAddressLongZeroAddressWithShardAndRealm">
+    <summary>TODO: Describe FromEvmAddressLongZeroAddressWithShardAndRealm.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalAccountId">
+    <summary>TODO: Describe ToEvmAddressNormalAccountId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressWithDifferentShardAndRealm">
+    <summary>TODO: Describe ToEvmAddressWithDifferentShardAndRealm.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressLongZeroAddress">
+    <summary>TODO: Describe ToEvmAddressLongZeroAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalEvmAddress">
+    <summary>TODO: Describe ToEvmAddressNormalEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Account.AccountIdTest.ToEvmAddressNormalEvmAddressWithShardAndRealm">
+    <summary>TODO: Describe ToEvmAddressNormalEvmAddressWithShardAndRealm.</summary>
+  </member>
+</docs>

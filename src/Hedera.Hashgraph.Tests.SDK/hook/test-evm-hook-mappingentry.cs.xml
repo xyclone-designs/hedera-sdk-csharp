@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest">
+    <summary>TODO: Describe EvmHookMappingEntryTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.OfKeyBuildsEntryAndCopiesArrays">
+    <summary>TODO: Describe OfKeyBuildsEntryAndCopiesArrays.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.WithPreimageBuildsEntryAndCopiesArrays">
+    <summary>TODO: Describe WithPreimageBuildsEntryAndCopiesArrays.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.BuildersRejectNullInputs">
+    <summary>TODO: Describe BuildersRejectNullInputs.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.ProtobufRoundTripForKeyAndPreimage">
+    <summary>TODO: Describe ProtobufRoundTripForKeyAndPreimage.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.FromProtobufWithoutKeyThrows">
+    <summary>TODO: Describe FromProtobufWithoutKeyThrows.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.EvmHookMappingEntryTest.EqualsHashCodeAndToString">
+    <summary>TODO: Describe EqualsHashCodeAndToString.</summary>
+  </member>
+</docs>

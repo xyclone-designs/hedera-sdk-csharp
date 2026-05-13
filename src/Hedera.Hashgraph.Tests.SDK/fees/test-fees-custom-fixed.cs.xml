@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest">
+    <summary>TODO: Describe CustomFixedFeeTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.DeepCloneSubclass">
+    <summary>TODO: Describe DeepCloneSubclass.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.GetSetAmount">
+    <summary>TODO: Describe GetSetAmount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.GetSetDenominatingToken">
+    <summary>TODO: Describe GetSetDenominatingToken.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.CustomFixedFeeTest.SetSentinelValueToken">
+    <summary>TODO: Describe SetSentinelValueToken.</summary>
+  </member>
+</docs>

@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ReceiptQueryIntegrationTest">
+    <summary>TODO: Describe ReceiptQueryIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ReceiptQueryIntegrationTest.GetCostSmallMaxTransactionRecord">
+    <summary>TODO: Describe GetCostSmallMaxTransactionRecord.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ReceiptQueryIntegrationTest.GetCostInsufficientTxFeeTransactionRecord">
+    <summary>TODO: Describe GetCostInsufficientTxFeeTransactionRecord.</summary>
+  </member>
+</docs>

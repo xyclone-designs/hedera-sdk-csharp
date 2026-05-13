@@ -1,0 +1,29 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest">
+    <summary>TODO: Describe TokenIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdFromString">
+    <summary>TODO: Describe UnitTokenIdFromString.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdChecksumFromString">
+    <summary>TODO: Describe UnitTokenIdChecksumFromString.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdChecksumToString">
+    <summary>TODO: Describe UnitTokenIdChecksumToString.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdFromStringEVM">
+    <summary>TODO: Describe UnitTokenIdFromStringEVM.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.UnitTokenIdProtobuf">
+    <summary>TODO: Describe UnitTokenIdProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdFromEvmAddressIncorrectAddress">
+    <summary>TODO: Describe TestTokenIdFromEvmAddressIncorrectAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdFromEvmAddress">
+    <summary>TODO: Describe TestTokenIdFromEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenIdTest.TestTokenIdToEvmAddress">
+    <summary>TODO: Describe TestTokenIdToEvmAddress.</summary>
+  </member>
+</docs>

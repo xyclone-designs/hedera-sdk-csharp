@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest">
+    <summary>TODO: Describe FileAppendIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendToFile">
+    <summary>TODO: Describe CanAppendToFile.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFile">
+    <summary>TODO: Describe CanAppendLargeContentsToFile.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanAppendLargeContentsToFileDespiteExpiration">
+    <summary>TODO: Describe CanAppendLargeContentsToFileDespiteExpiration.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileAppendIntegrationTest.CanFileAppendSignForMultipleNodes">
+    <summary>TODO: Describe CanFileAppendSignForMultipleNodes.</summary>
+  </member>
+</docs>

@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Keys.PrivateKeyTest">
+    <summary>TODO: Describe PrivateKeyTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.PrivateKeyTest.Ecdsa">
+    <summary>TODO: Describe Ecdsa.</summary>
+  </member>
+</docs>

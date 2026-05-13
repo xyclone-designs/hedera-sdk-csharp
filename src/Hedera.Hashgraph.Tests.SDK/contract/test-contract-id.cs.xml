@@ -1,0 +1,47 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest">
+    <summary>TODO: Describe ContractIdTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.ToFromBytes">
+    <summary>TODO: Describe ToFromBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressIncorrectSizeTooShort">
+    <summary>TODO: Describe FromEvmAddressIncorrectSizeTooShort.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressIncorrectSizeTooLong">
+    <summary>TODO: Describe FromEvmAddressIncorrectSizeTooLong.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressIncorrectSizeWith0xPrefix">
+    <summary>TODO: Describe FromEvmAddressIncorrectSizeWith0xPrefix.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressCorrectSize">
+    <summary>TODO: Describe FromEvmAddressCorrectSize.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressNormalAddress">
+    <summary>TODO: Describe FromEvmAddressNormalAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressWithDifferentShardAndRealm">
+    <summary>TODO: Describe FromEvmAddressWithDifferentShardAndRealm.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressLongZeroAddress">
+    <summary>TODO: Describe FromEvmAddressLongZeroAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.FromEvmAddressLongZeroAddressWithShardAndRealm">
+    <summary>TODO: Describe FromEvmAddressLongZeroAddressWithShardAndRealm.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.ToEvmAddressNormalContractId">
+    <summary>TODO: Describe ToEvmAddressNormalContractId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.ToEvmAddressWithDifferentShardAndRealm">
+    <summary>TODO: Describe ToEvmAddressWithDifferentShardAndRealm.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.ToEvmAddressLongZeroAddress">
+    <summary>TODO: Describe ToEvmAddressLongZeroAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.ToEvmAddressNormalEvmAddress">
+    <summary>TODO: Describe ToEvmAddressNormalEvmAddress.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractIdTest.ToEvmAddressNormalEvmAddressWithShardAndRealm">
+    <summary>TODO: Describe ToEvmAddressNormalEvmAddressWithShardAndRealm.</summary>
+  </member>
+</docs>

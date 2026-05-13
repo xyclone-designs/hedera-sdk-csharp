@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest">
+    <summary>TODO: Describe TokenMintTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ShouldBytesMetadata">
+    <summary>TODO: Describe ShouldBytesMetadata.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.ConstructTokenMintTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructTokenMintTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetTokenId">
+    <summary>TODO: Describe GetSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetTokenIdFrozen">
+    <summary>TODO: Describe GetSetTokenIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetAmount">
+    <summary>TODO: Describe GetSetAmount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetAmountFrozen">
+    <summary>TODO: Describe GetSetAmountFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetMetadata">
+    <summary>TODO: Describe GetSetMetadata.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.GetSetMetadataFrozen">
+    <summary>TODO: Describe GetSetMetadataFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Token.TokenMintTransactionTest.AddMetadata">
+    <summary>TODO: Describe AddMetadata.</summary>
+  </member>
+</docs>

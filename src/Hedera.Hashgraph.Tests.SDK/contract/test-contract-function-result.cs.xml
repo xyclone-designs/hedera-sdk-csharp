@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest">
+    <summary>TODO: Describe ContractFunctionResultTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest.ProvidesResultsCorrectly">
+    <summary>TODO: Describe ProvidesResultsCorrectly.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Contract.ContractFunctionResultTest.CanGetStringArrayResult">
+    <summary>TODO: Describe CanGetStringArrayResult.</summary>
+  </member>
+</docs>

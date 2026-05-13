@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest">
+    <summary>TODO: Describe HookExtensionPointTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest.RoundTripAllEnumValues">
+    <summary>TODO: Describe RoundTripAllEnumValues.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Hook.HookExtensionPointTest.ProtoValuesAreStable">
+    <summary>TODO: Describe ProtoValuesAreStable.</summary>
+  </member>
+</docs>

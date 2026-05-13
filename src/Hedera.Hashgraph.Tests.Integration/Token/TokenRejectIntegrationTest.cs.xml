@@ -1,0 +1,47 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest">
+    <summary>TODO: Describe TokenRejectIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFungibleToken">
+    <summary>TODO: Describe CanExecuteTokenRejectTransactionForFungibleToken.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForNft">
+    <summary>TODO: Describe CanExecuteTokenRejectTransactionForNft.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftInOneTx">
+    <summary>TODO: Describe CanExecuteTokenRejectTransactionForFtAndNftInOneTx.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftWhenTreasuryReceiverSigRequiredIsEnabled">
+    <summary>TODO: Describe CanExecuteTokenRejectTransactionForFtAndNftWhenTreasuryReceiverSigRequiredIsEnabled.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsFrozen">
+    <summary>TODO: Describe CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsPaused">
+    <summary>TODO: Describe CanExecuteTokenRejectTransactionForFtAndNftWhenTokenIsPaused.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CanRemoveAllowanceWhenExecutingTokenRejectForFtAndNft">
+    <summary>TODO: Describe CanRemoveAllowanceWhenExecutingTokenRejectForFtAndNft.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectNftWhenUsingAddOrSetTokenId">
+    <summary>TODO: Describe CannotRejectNftWhenUsingAddOrSetTokenId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenExecutingTokenRejectAndDuplicatingTokenReference">
+    <summary>TODO: Describe CannotRejectTokenWhenExecutingTokenRejectAndDuplicatingTokenReference.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenOwnerHasEmptyBalance">
+    <summary>TODO: Describe CannotRejectTokenWhenOwnerHasEmptyBalance.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenTreasuryRejects">
+    <summary>TODO: Describe CannotRejectTokenWhenTreasuryRejects.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWithInvalidSignature">
+    <summary>TODO: Describe CannotRejectTokenWithInvalidSignature.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenTokenOrNFTIdIsNotSet">
+    <summary>TODO: Describe CannotRejectTokenWhenTokenOrNFTIdIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenRejectIntegrationTest.CannotRejectTokenWhenTokenReferenceListSizeExceeded">
+    <summary>TODO: Describe CannotRejectTokenWhenTokenReferenceListSizeExceeded.</summary>
+  </member>
+</docs>

@@ -1,0 +1,11 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TopicDeleteIntegrationTest">
+    <summary>TODO: Describe TopicDeleteIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicDeleteIntegrationTest.CanDeleteTopic">
+    <summary>TODO: Describe CanDeleteTopic.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TopicDeleteIntegrationTest.CannotDeleteImmutableTopic">
+    <summary>TODO: Describe CannotDeleteImmutableTopic.</summary>
+  </member>
+</docs>

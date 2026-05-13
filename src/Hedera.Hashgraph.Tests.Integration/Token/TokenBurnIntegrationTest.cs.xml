@@ -1,0 +1,23 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest">
+    <summary>TODO: Describe TokenBurnIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokens">
+    <summary>TODO: Describe CanBurnTokens.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenTokenIDIsNotSet">
+    <summary>TODO: Describe CannotBurnTokensWhenTokenIDIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnTokensWhenAmountIsNotSet">
+    <summary>TODO: Describe CanBurnTokensWhenAmountIsNotSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction">
+    <summary>TODO: Describe CannotBurnTokensWhenSupplyKeyDoesNotSignTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CanBurnNfts">
+    <summary>TODO: Describe CanBurnNfts.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenBurnIntegrationTest.CannotBurnNftsWhenNftIsNotOwned">
+    <summary>TODO: Describe CannotBurnNftsWhenNftIsNotOwned.</summary>
+  </member>
+</docs>

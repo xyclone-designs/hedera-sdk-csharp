@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ContractNonceInfoIntegrationTest">
+    <summary>TODO: Describe ContractNonceInfoIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ContractNonceInfoIntegrationTest.CanIncrementNonceThroughContractConstructor">
+    <summary>TODO: Describe CanIncrementNonceThroughContractConstructor.</summary>
+  </member>
+</docs>

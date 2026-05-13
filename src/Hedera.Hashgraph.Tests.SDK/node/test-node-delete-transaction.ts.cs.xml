@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest">
+    <summary>TODO: Describe NodeDeleteTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldBytes">
+    <summary>TODO: Describe ShouldBytes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldBytesNoSetters">
+    <summary>TODO: Describe ShouldBytesNoSetters.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.FromScheduledTransaction">
+    <summary>TODO: Describe FromScheduledTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ConstructNodeDeleteTransactionFromTransactionBodyProtobuf">
+    <summary>TODO: Describe ConstructNodeDeleteTransactionFromTransactionBodyProtobuf.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.GetSetNodeId">
+    <summary>TODO: Describe GetSetNodeId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.GetSetNodeIdFrozen">
+    <summary>TODO: Describe GetSetNodeIdFrozen.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldFreezeSuccessfullyWhenNodeIdIsSet">
+    <summary>TODO: Describe ShouldFreezeSuccessfullyWhenNodeIdIsSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldThrowErrorWhenFreezingWithoutSettingNodeId">
+    <summary>TODO: Describe ShouldThrowErrorWhenFreezingWithoutSettingNodeId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldThrowErrorWhenFreezingWithZeroNodeId">
+    <summary>TODO: Describe ShouldThrowErrorWhenFreezingWithZeroNodeId.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet">
+    <summary>TODO: Describe ShouldFreezeSuccessfullyWithActualClientWhenNodeIdIsSet.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt">
+    <summary>TODO: Describe ShouldThrowErrorWhenGettingNodeIdWithoutSettingIt.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Node.NodeDeleteTransactionTest.ShouldAllowSettingNodeIdToZero">
+    <summary>TODO: Describe ShouldAllowSettingNodeIdToZero.</summary>
+  </member>
+</docs>

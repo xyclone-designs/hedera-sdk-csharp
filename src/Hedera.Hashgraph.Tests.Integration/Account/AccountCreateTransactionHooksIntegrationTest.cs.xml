@@ -1,0 +1,17 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest">
+    <summary>TODO: Describe AccountCreateTransactionHooksIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithBasicLambdaHookSucceeds">
+    <summary>TODO: Describe AccountCreateWithBasicLambdaHookSucceeds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithLambdaHookAndStorageUpdatesSucceeds">
+    <summary>TODO: Describe AccountCreateWithLambdaHookAndStorageUpdatesSucceeds.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithDuplicateHookIdsFailsPrecheck">
+    <summary>TODO: Describe AccountCreateWithDuplicateHookIdsFailsPrecheck.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountCreateTransactionHooksIntegrationTest.AccountCreateWithLambdaHookAndAdminKeySucceeds">
+    <summary>TODO: Describe AccountCreateWithLambdaHookAndAdminKeySucceeds.</summary>
+  </member>
+</docs>

@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest">
+    <summary>TODO: Describe FileCreateIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest.CanCreateFile">
+    <summary>TODO: Describe CanCreateFile.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest.CanCreateFileWithNoContents">
+    <summary>TODO: Describe CanCreateFileWithNoContents.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.FileCreateIntegrationTest.CanCreateFileWithNoKeys">
+    <summary>TODO: Describe CanCreateFileWithNoKeys.</summary>
+  </member>
+</docs>

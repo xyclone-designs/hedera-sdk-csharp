@@ -1,0 +1,32 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest">
+    <summary>TODO: Describe TokenAutomaticAssociationIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations">
+    <summary>TODO: Describe CanTransferFungibleTokensToAccountsWithLimitedMaxAutoAssociations.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithLimitedMaxAutoAssociations">
+    <summary>TODO: Describe CanTransferNftsToAccountsWithLimitedMaxAutoAssociations.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanSetUnlimitedMaxAutoAssociationsForAccount">
+    <summary>TODO: Describe CanSetUnlimitedMaxAutoAssociationsForAccount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations">
+    <summary>TODO: Describe CanTransferFungibleTokensToAccountsWithUnlimitedMaxAutoAssociations.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations">
+    <summary>TODO: Describe CanTransferFungibleTokensWithDecimalsToAccountsWithUnlimitedMaxAutoAssociations.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations">
+    <summary>TODO: Describe CanTransferFungibleTokensOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations">
+    <summary>TODO: Describe CanTransferNftsToAccountsWithUnlimitedMaxAutoAssociations.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations">
+    <summary>TODO: Describe CanTransferNftsOnBehalfOfOwnerToAccountWithUnlimitedMaxAutoAssociations.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.TokenAutomaticAssociationIntegrationTest.CannotSetInvalidMaxAutoAssociationsValues">
+    <summary>TODO: Describe CannotSetInvalidMaxAutoAssociationsValues.</summary>
+  </member>
+</docs>

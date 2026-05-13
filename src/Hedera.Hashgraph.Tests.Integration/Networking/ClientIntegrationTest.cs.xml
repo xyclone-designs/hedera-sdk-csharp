@@ -1,0 +1,41 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest">
+    <summary>TODO: Describe ClientIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.FailsWhenNoNodesAreMatching">
+    <summary>TODO: Describe FailsWhenNoNodesAreMatching.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.CanSkipNodes">
+    <summary>TODO: Describe CanSkipNodes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestReplaceNodes">
+    <summary>TODO: Describe TestReplaceNodes.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TransactionIdNetworkIsVerified">
+    <summary>TODO: Describe TransactionIdNetworkIsVerified.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestMaxNodesPerTransaction">
+    <summary>TODO: Describe TestMaxNodesPerTransaction.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.Ping">
+    <summary>TODO: Describe Ping.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAll">
+    <summary>TODO: Describe PingAll.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAllBadNetwork">
+    <summary>TODO: Describe PingAllBadNetwork.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAsync">
+    <summary>TODO: Describe PingAsync.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.PingAllAsync">
+    <summary>TODO: Describe PingAllAsync.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestClientInitWithMirrorNetwork">
+    <summary>TODO: Describe TestClientInitWithMirrorNetwork.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.ClientIntegrationTest.TestClientInitWithMirrorNetworkAnCustomRealmAndShard">
+    <summary>TODO: Describe TestClientInitWithMirrorNetworkAnCustomRealmAndShard.</summary>
+  </member>
+</docs>

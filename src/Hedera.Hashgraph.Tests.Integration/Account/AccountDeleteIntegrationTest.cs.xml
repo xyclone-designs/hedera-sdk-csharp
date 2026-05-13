@@ -1,0 +1,14 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest">
+    <summary>TODO: Describe AccountDeleteIntegrationTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CanDeleteAccount">
+    <summary>TODO: Describe CanDeleteAccount.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CannotCreateAccountWithNoKey">
+    <summary>TODO: Describe CannotCreateAccountWithNoKey.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.SDK.Tests.Integration.AccountDeleteIntegrationTest.CannotDeleteAccountThatHasNotSignedTransaction">
+    <summary>TODO: Describe CannotDeleteAccountThatHasNotSignedTransaction.</summary>
+  </member>
+</docs>

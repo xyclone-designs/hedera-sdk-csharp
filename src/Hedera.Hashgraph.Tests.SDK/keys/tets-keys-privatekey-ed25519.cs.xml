@@ -1,0 +1,79 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest">
+    <summary>TODO: Describe Ed25519PrivateKeyTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyGenerates">
+    <summary>TODO: Describe KeyGenerates.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization">
+    <summary>TODO: Describe KeySerialization.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization2">
+    <summary>TODO: Describe KeySerialization2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeySerialization3">
+    <summary>TODO: Describe KeySerialization3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification">
+    <summary>TODO: Describe KeyStringification.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification2">
+    <summary>TODO: Describe KeyStringification2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyStringification3">
+    <summary>TODO: Describe KeyStringification3.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ExternalKeyDeserialize(System.String)">
+    <summary>TODO: Describe ExternalKeyDeserialize.</summary>
+    <param name="keyStr">TODO</param>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyToString">
+    <summary>TODO: Describe KeyToString.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromPem">
+    <summary>TODO: Describe KeyFromPem.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromMnemonic">
+    <summary>TODO: Describe KeyFromMnemonic.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ValidateLegacyMnemonic">
+    <summary>TODO: Describe ValidateLegacyMnemonic.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.DeriveKeyIndex0">
+    <summary>TODO: Describe DeriveKeyIndex0.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromGeneratedMnemonic24">
+    <summary>TODO: Describe KeyFromGeneratedMnemonic24.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromGeneratedMnemonic12">
+    <summary>TODO: Describe KeyFromGeneratedMnemonic12.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyFromEncryptedPem">
+    <summary>TODO: Describe KeyFromEncryptedPem.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ErrorKeyFromEncryptedPemNoPassphrase">
+    <summary>TODO: Describe ErrorKeyFromEncryptedPemNoPassphrase.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.ReproducibleSignature(System.String)">
+    <summary>TODO: Describe ReproducibleSignature.</summary>
+    <param name="keyStr">TODO</param>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyIsECDSA">
+    <summary>TODO: Describe KeyIsECDSA.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.KeyIsNotEd25519">
+    <summary>TODO: Describe KeyIsNotEd25519.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.Slip10TestVector1">
+    <summary>TODO: Describe Slip10TestVector1.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.Slip10TestVector2">
+    <summary>TODO: Describe Slip10TestVector2.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.PEMImportTestVectors">
+    <summary>TODO: Describe PEMImportTestVectors.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Keys.Ed25519PrivateKeyTest.DERImportTestVectors">
+    <summary>TODO: Describe DERImportTestVectors.</summary>
+  </member>
+</docs>

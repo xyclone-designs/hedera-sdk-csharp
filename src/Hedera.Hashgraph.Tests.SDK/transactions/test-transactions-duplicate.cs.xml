@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Transactions.DuplicateTransactionTest">
+    <summary>TODO: Describe DuplicateTransactionTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Transactions.DuplicateTransactionTest.GenerateTransactionIds">
+    <summary>TODO: Describe GenerateTransactionIds.</summary>
+  </member>
+</docs>

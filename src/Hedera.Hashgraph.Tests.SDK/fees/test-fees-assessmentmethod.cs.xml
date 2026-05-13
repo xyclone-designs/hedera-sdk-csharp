@@ -1,0 +1,8 @@
+<docs>
+  <member name="T:Hedera.Hashgraph.Tests.SDK.Fees.FeeAssessmentMethodTest">
+    <summary>TODO: Describe FeeAssessmentMethodTest.</summary>
+  </member>
+  <member name="M:Hedera.Hashgraph.Tests.SDK.Fees.FeeAssessmentMethodTest.FeeAssessmentMethodToString">
+    <summary>TODO: Describe FeeAssessmentMethodToString.</summary>
+  </member>
+</docs>
